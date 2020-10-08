@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.3.1287(git:cef185d2)</span>
+   &#160;<span id="projectnumber">2.3.1287(git:867c9d74)</span>
    </div>
   </td>
  </tr>
@@ -163,17 +163,17 @@ $(document).ready(function(){initNavTree('radiation__field_8cc_source.html','');
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="radiation__field_8h.html#a127ee512ff9ec3800491f45f7a15c07c">  107</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="radiation__field_8cc.html#a127ee512ff9ec3800491f45f7a15c07c">sorted_index_of_ppath_field</a>(<a class="code" href="classArray.html">ArrayOfArrayOfIndex</a>&amp; sorted_index,</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                 <a class="code" href="classArray.html">ArrayOfVector</a>&amp; cosza,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                 <span class="keyword">const</span> <a class="code" href="classArray.html">ArrayOfPpath</a>&amp; ppath_field) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                 <span class="keyword">const</span> <a class="code" href="classArray.html">ArrayOfPpath</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#a6a1893e4c7d1e06d29e7283e313f6c46">ppath_field</a>) {</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keyword">extern</span> <span class="keyword">const</span> <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> <a class="code" href="constants_8cc.html#ac705b70c1bdd2b02d631e9d9e8bbaed4">DEG2RAD</a>;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nalt = 0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; path : ppath_field)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; path : <a class="code" href="namespaceARTS_1_1Var.html#a6a1893e4c7d1e06d29e7283e313f6c46">ppath_field</a>)</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; gp : path.gp_p) nalt = <a class="code" href="legacy__continua_8cc.html#affe776513b24d84b39af8ab0930fef7f">std::max</a>(nalt, <a class="code" href="radiation__field_8cc.html#a6fea255038d5488a922c2dd556e6cadb">grid_index_from_gp</a>(gp));</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  nalt += 1;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="comment">// Get the data, which is of unknown length</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <a class="code" href="classArray.html">Array&lt;ArrayOfNumeric&gt;</a> zeniths_array(nalt, <a class="code" href="array_8h.html#ac13a4a9460d6a78b6401cbea160289d0">ArrayOfNumeric</a>(0));</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; path : ppath_field) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; path : <a class="code" href="namespaceARTS_1_1Var.html#a6a1893e4c7d1e06d29e7283e313f6c46">ppath_field</a>) {</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> ip = 0; ip &lt; path.np; ip++) {</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> ind = <a class="code" href="radiation__field_8cc.html#a6fea255038d5488a922c2dd556e6cadb">grid_index_from_gp</a>(path.gp_p[ip]);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      zeniths_array[ind].push_back(path.los(ip, 0));</div>
@@ -224,11 +224,12 @@ $(document).ready(function(){initNavTree('radiation__field_8cc_source.html','');
 <div class="ttc" id="aradiation__field_8cc_html_a3d6a0631acb1c0438a5e10e58842b344"><div class="ttname"><a href="radiation__field_8cc.html#a3d6a0631acb1c0438a5e10e58842b344">error_in_integrate</a></div><div class="ttdeci">void error_in_integrate(const String &amp;error_msg, const Numeric &amp;value_that_should_be_unity)</div><div class="ttdoc">Throws an error if integration values are bad.</div><div class="ttdef"><b>Definition:</b> <a href="radiation__field_8cc_source.html#l00030">radiation_field.cc:30</a></div></div>
 <div class="ttc" id="asorting_8h_html"><div class="ttname"><a href="sorting_8h.html">sorting.h</a></div><div class="ttdoc">Contains sorting routines.</div></div>
 <div class="ttc" id="aradiation__field_8cc_html_a1b6a4f7c1d1aa5933b718dcbd8adbe4b"><div class="ttname"><a href="radiation__field_8cc.html#a1b6a4f7c1d1aa5933b718dcbd8adbe4b">integrate_zenith</a></div><div class="ttdeci">Numeric integrate_zenith(const VectorView j, const Vector &amp;cosza, const Array&lt; Index &gt; &amp;sorted_index)</div><div class="ttdoc">Convolve source function with 1D sphere and integrate.</div><div class="ttdef"><b>Definition:</b> <a href="radiation__field_8cc_source.html#l00087">radiation_field.cc:87</a></div></div>
+<div class="ttc" id="anamespaceARTS_1_1Var_html_a6a1893e4c7d1e06d29e7283e313f6c46"><div class="ttname"><a href="namespaceARTS_1_1Var.html#a6a1893e4c7d1e06d29e7283e313f6c46">ARTS::Var::ppath_field</a></div><div class="ttdeci">WorkspaceArrayOfPpath ppath_field(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l05156">autoarts.h:5156</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="radiation__field_8cc.html">radiation_field.cc</a></li>
-    <li class="footer">Generated on Thu Oct 8 2020 09:07:28 for ARTS by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Thu Oct 8 2020 11:15:25 for ARTS by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

@@ -1,5 +1,4 @@
 var namespaceARTS =
 [
-    [ "Agenda", "namespaceARTS_1_1Agenda.html", null ],
-    [ "Continua", "namespaceARTS_1_1Continua.html", null ]
+    [ "Var", "namespaceARTS_1_1Var.html", "namespaceARTS_1_1Var" ]
 ];

@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.3.1287(git:cef185d2)</span>
+   &#160;<span id="projectnumber">2.3.1287(git:867c9d74)</span>
    </div>
   </td>
  </tr>
@@ -89,11 +89,11 @@ $(document).ready(function(){initNavTree('test__omp_8cc_source.html',''); initRe
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nloop = 2000;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nf = 115;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> np = 50;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> stokes_dim = 1;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a> = 1;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> ppath_abs(nf, stokes_dim, stokes_dim, np, 0.);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> trans_cumulat(nf, stokes_dim, stokes_dim, np, 0.);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> trans_partial(nf, stokes_dim, stokes_dim, np, 0.);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> ppath_abs(nf, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, np, 0.);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> trans_cumulat(nf, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, np, 0.);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <a class="code" href="classTensor4.html">Tensor4</a> trans_partial(nf, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, np, 0.);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classVector.html">Vector</a> scalar_tau(nf, 0.);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <a class="code" href="classVector.html">Vector</a> lstep(np, 1.);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
@@ -114,18 +114,18 @@ $(document).ready(function(){initNavTree('test__omp_8cc_source.html',''); initRe
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> iv = 0; iv &lt; nf; iv++) {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">// Transmission due to absorption</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classMatrix.html">Matrix</a> ext_mat(stokes_dim, stokes_dim);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> is1 = 0; is1 &lt; stokes_dim; is1++) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;          <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> is2 = 0; is2 &lt; stokes_dim; is2++) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            ext_mat(is1, is2) = 0.5 * (ppath_abs(iv, is1, is2, ip - 1) +</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="namespaceARTS_1_1Var.html#ab2d8c99f8f3bdf46f55370f743204bb9">ext_mat</a>(<a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>, <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> is1 = 0; is1 &lt; <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>; is1++) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;          <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> is2 = 0; is2 &lt; <a class="code" href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">stokes_dim</a>; is2++) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="namespaceARTS_1_1Var.html#ab2d8c99f8f3bdf46f55370f743204bb9">ext_mat</a>(is1, is2) = 0.5 * (ppath_abs(iv, is1, is2, ip - 1) +</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                       ppath_abs(iv, is1, is2, ip));</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;          }</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        scalar_tau[iv] += lstep[ip - 1] * ext_mat(0, 0);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        scalar_tau[iv] += lstep[ip - 1] * <a class="code" href="namespaceARTS_1_1Var.html#ab2d8c99f8f3bdf46f55370f743204bb9">ext_mat</a>(0, 0);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        extmat_case[ip - 1][iv] = 0;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="rte_8cc.html#a80a73b5b11eeb5ab2d8061f7f6b1186c">ext2trans</a>(trans_partial(iv, <a class="code" href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a>, <a class="code" href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a>, ip - 1),</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                  extmat_case[ip - 1][iv],</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                  ext_mat,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                  <a class="code" href="namespaceARTS_1_1Var.html#ab2d8c99f8f3bdf46f55370f743204bb9">ext_mat</a>,</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                  lstep[ip - 1]);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// Cumulative transmission</span></div>
@@ -141,12 +141,14 @@ $(document).ready(function(){initNavTree('test__omp_8cc_source.html',''); initRe
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassMatrix_html"><div class="ttname"><a href="classMatrix.html">Matrix</a></div><div class="ttdoc">The Matrix class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l01193">matpackI.h:1193</a></div></div>
+<div class="ttc" id="anamespaceARTS_1_1Var_html_a741a235e1167f1eeca0da24b21b2536a"><div class="ttname"><a href="namespaceARTS_1_1Var.html#a741a235e1167f1eeca0da24b21b2536a">ARTS::Var::stokes_dim</a></div><div class="ttdeci">WorkspaceIndex stokes_dim(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l06648">autoarts.h:6648</a></div></div>
 <div class="ttc" id="amatpackI_8cc_html_a90b23039dd2b40cea42532da6f731144"><div class="ttname"><a href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a></div><div class="ttdeci">const Joker joker</div></div>
 <div class="ttc" id="acomplex_8cc_html_af3eb1b16b77bc13f6fab8b340499e7bf"><div class="ttname"><a href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a></div><div class="ttdeci">void mult(ComplexVectorView y, const ConstComplexMatrixView &amp;M, const ConstComplexVectorView &amp;x)</div><div class="ttdoc">Matrix-Vector Multiplication.</div><div class="ttdef"><b>Definition:</b> <a href="complex_8cc_source.html#l01579">complex.cc:1579</a></div></div>
 <div class="ttc" id="aclassTensor4_html"><div class="ttname"><a href="classTensor4.html">Tensor4</a></div><div class="ttdoc">The Tensor4 class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIV_8h_source.html#l00421">matpackIV.h:421</a></div></div>
 <div class="ttc" id="amatpackIV_8h_html"><div class="ttname"><a href="matpackIV_8h.html">matpackIV.h</a></div></div>
 <div class="ttc" id="aclassArray_html"><div class="ttname"><a href="classArray.html">Array&lt; ArrayOfIndex &gt;</a></div></div>
 <div class="ttc" id="atest__omp_8cc_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="test__omp_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="test__omp_8cc_source.html#l00023">test_omp.cc:23</a></div></div>
+<div class="ttc" id="anamespaceARTS_1_1Var_html_ab2d8c99f8f3bdf46f55370f743204bb9"><div class="ttname"><a href="namespaceARTS_1_1Var.html#ab2d8c99f8f3bdf46f55370f743204bb9">ARTS::Var::ext_mat</a></div><div class="ttdeci">WorkspacePropagationMatrix ext_mat(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l03388">autoarts.h:3388</a></div></div>
 <div class="ttc" id="arte_8h_html"><div class="ttname"><a href="rte_8h.html">rte.h</a></div><div class="ttdoc">Declaration of functions in rte.cc.</div></div>
 <div class="ttc" id="arte_8cc_html_a80a73b5b11eeb5ab2d8061f7f6b1186c"><div class="ttname"><a href="rte_8cc.html#a80a73b5b11eeb5ab2d8061f7f6b1186c">ext2trans</a></div><div class="ttdeci">void ext2trans(MatrixView trans_mat, Index &amp;icase, ConstMatrixView ext_mat, const Numeric &amp;lstep)</div><div class="ttdoc">Converts an extinction matrix to a transmission matrix.</div><div class="ttdef"><b>Definition:</b> <a href="rte_8cc_source.html#l00800">rte.cc:800</a></div></div>
 <div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
@@ -156,7 +158,7 @@ $(document).ready(function(){initNavTree('test__omp_8cc_source.html',''); initRe
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="test__omp_8cc.html">test_omp.cc</a></li>
-    <li class="footer">Generated on Thu Oct 8 2020 09:07:29 for ARTS by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Thu Oct 8 2020 11:15:25 for ARTS by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

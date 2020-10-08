@@ -26,6 +26,7 @@ var files_dup =
     [ "auto_md.cc", "auto__md_8cc.html", "auto__md_8cc" ],
     [ "auto_md.h", "auto__md_8h.html", "auto__md_8h" ],
     [ "auto_version.h", "auto__version_8h.html", "auto__version_8h" ],
+    [ "autoarts.h", "autoarts_8h.html", "autoarts_8h" ],
     [ "bifstream.cc", "bifstream_8cc.html", "bifstream_8cc" ],
     [ "bifstream.h", "bifstream_8h.html", "bifstream_8h" ],
     [ "binio.cc", "binio_8cc.html", "binio_8cc" ],
