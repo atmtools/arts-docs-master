@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DoitGetIncoming - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;DoitGetIncoming</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method DoitGetIncoming</h2>
+<h3>Description</h3>
+<pre>
+Calculates incoming radiation field of the cloudbox by repeated
+radiative transfer calculations.
+
+The method performs monochromatic pencil beam calculations for
+all grid positions on the cloudbox boundary, and all directions
+given by scattering angle grids (*scat_za/aa_grid*). Found radiances
+are stored in <a href="../variables/cloudbox_field.html">cloudbox_field</a> which can be used as boundary
+conditions when scattering inside the cloud box is solved by the
+<a href="DoitCalc.html">DoitCalc</a> method.
+
+Note that <a href="../variables/cloudbox_field.html">cloudbox_field</a> will always hold intensity in terms of
+radiances, regardless of the setting of <a href="../variables/iy_unit.html">iy_unit</a> (unit conversion
+is done within <a href="yCalc.html">yCalc</a> or <a href="iyCalc.html">iyCalc</a>, which will provide their output
+in terms of the specified <a href="../variables/iy_unit.html">iy_unit</a>; no explicit unit conversion by
+the user necessary.).
+
+</pre>
+
+<p><b>Authors: </b>Sreerekha T.R., Claudia Emde
+<h3>Synopsis</h3>
+<p><table><tr><td>DoitGetIncoming(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/doit_is_initialized.html">doit_is_initialized</a>, <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/nlte_field.html">nlte_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/aa_grid.html">aa_grid</a>, rigorous, maxratio )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/doit_is_initialized.html">doit_is_initialized</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to determine if <a href="DoitInit.html">DoitInit</a> was called.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_main_agenda.html">iy_main_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the single monochromatic pencil beam spectrum.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_field.html">nlte_field</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>The field of NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/aa_grid.html">aa_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Azimuthal angle grid.</td></tr>
+<tr><td>GIN</td><td class="right">rigorous</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Fail if incoming field is not safely interpolable.</td></tr>
+<tr><td>GIN</td><td class="right">maxratio</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 100)</td><td>Maximum allowed ratio of two radiances regarded as interpolable.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

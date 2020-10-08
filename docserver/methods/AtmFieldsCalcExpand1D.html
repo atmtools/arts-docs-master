@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AtmFieldsCalcExpand1D - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;AtmFieldsCalcExpand1D</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method AtmFieldsCalcExpand1D</h2>
+<h3>Description</h3>
+<pre>
+Interpolation of 1D raw atmospheric fields to create 2D or 3D
+homogeneous atmospheric fields.
+
+The method works as <a href="AtmFieldsCalc.html">AtmFieldsCalc</a>, but accepts only raw 1D
+atmospheres. The raw atmosphere is interpolated to <a href="../variables/p_grid.html">p_grid</a> and
+the obtained values are applied for all latitudes, and also
+longitudes for 3D, to create a homogeneous atmosphere.
+
+The method deals only with the atmospheric fields, and to create
+a true 2D or 3D version of a 1D case, a demand is also that the
+ellipsoid is set to be a sphere.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson, Claudia Emde, Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>AtmFieldsCalcExpand1D(&nbsp;</td><td><a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/nlte_field.html">nlte_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field_raw.html">t_field_raw</a>, <a href="../variables/z_field_raw.html">z_field_raw</a>, <a href="../variables/vmr_field_raw.html">vmr_field_raw</a>, <a href="../variables/nlte_field_raw.html">nlte_field_raw</a>, <a href="../variables/nlte_level_identifiers.html">nlte_level_identifiers</a>, <a href="../variables/nlte_vibrational_energies.html">nlte_vibrational_energies</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, interp_order, vmr_zeropadding, vmr_nonegative, nlte_when_negative )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/nlte_field.html">nlte_field</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>The field of NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field_raw.html">t_field_raw</a></td><td>(<a href="../groups/GriddedField3.html">GriddedField3</a>)</td><td>Raw data for atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field_raw.html">z_field_raw</a></td><td>(<a href="../groups/GriddedField3.html">GriddedField3</a>)</td><td>Raw data for geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field_raw.html">vmr_field_raw</a></td><td>(<a href="../groups/ArrayOfGriddedField3.html">ArrayOfGriddedField3</a>)</td><td>VMR data for the chosen gaseous species.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_field_raw.html">nlte_field_raw</a></td><td>(<a href="../groups/ArrayOfGriddedField3.html">ArrayOfGriddedField3</a>)</td><td>Raw data for NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_level_identifiers.html">nlte_level_identifiers</a></td><td>(<a href="../groups/ArrayOfQuantumIdentifier.html">ArrayOfQuantumIdentifier</a>)</td><td>An array of non-lte quantum identifiers for levels matching <a href="../variables/nlte_field_raw.html">nlte_field_raw</a> and on request <a href="../variables/nlte_vibrational_energies.html">nlte_vibrational_energies</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_vibrational_energies.html">nlte_vibrational_energies</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>An list of vibrational energies matching <a href="../variables/nlte_level_identifiers.html">nlte_level_identifiers</a> and <a href="../variables/nlte_field_raw.html">nlte_field_raw</a> or being 0.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>GIN</td><td class="right">interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Interpolation order (1=linear interpolation).</td></tr>
+<tr><td>GIN</td><td class="right">vmr_zeropadding</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Pad VMRs with zeroes to fit the pressure grid if necessary.</td></tr>
+<tr><td>GIN</td><td class="right">vmr_nonegative</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>If set to 1, negative VMRs are set to 0.</td></tr>
+<tr><td>GIN</td><td class="right">nlte_when_negative</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>-1: Skip step. 0: Negative is 0. Else: Negative is t.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

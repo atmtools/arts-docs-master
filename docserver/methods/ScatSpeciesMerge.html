@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ScatSpeciesMerge - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;ScatSpeciesMerge</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method ScatSpeciesMerge</h2>
+<h3>Description</h3>
+<pre>
+Merges single scattering data of all scattering elements into one
+element of bulk properties.
+
+Before entering the scattering solver, this method prepares the
+effective bulk single scattering properties of all scattering
+elements. Done by calculating the particle number density weighted
+sum of the single scattering properties of all scattering elements
+per pressure level. Accordingly, <a href="../variables/pnd_field.html">pnd_field</a> is resized to
+[np, np, 1, 1], where np is the number of pressure levels inside
+the cloudbox. The diagonal elements of the new <a href="../variables/pnd_field.html">pnd_field</a> are set
+to 1, all others to 0. <a href="../variables/scat_data.html">scat_data</a> is resized to np. Each new
+scattering element represents the weighted sum of all particles at
+one presssure level.
+
+The method also adapts <a href="../variables/scat_species.html">scat_species</a> and <a href="../variables/scat_meta.html">scat_meta</a> such that
+they remain consistent with <a href="../variables/pnd_field.html">pnd_field</a> and can pass
+<a href="cloudbox_checkedCalc.html">cloudbox_checkedCalc</a>.
+
+The method is suggested to be called directly after
+<a href="pnd_fieldCalcFromParticleBulkProps.html">pnd_fieldCalcFromParticleBulkProps</a> (but also after
+<a href="cloudbox_checkedCalc.html">cloudbox_checkedCalc</a>).
+Its purpose is to speed up the scattering calculations.
+
+This is an experimental method currently only working for limited
+cases. All scattering elements must be of the same ptype and must
+share the same <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, and <a href="../variables/aa_grid.html">aa_grid</a>. That is, the
+scattering matrix, extinction matrix, and absorption vector of all
+scattering elements must have the same dimensions. No interpolation
+(apart from temperature) is performed.
+
+This method can only be used with a 1D atmosphere.
+
+</pre>
+
+<p><b>Authors: </b>Oliver Lemke
+<h3>Synopsis</h3>
+<p><table><tr><td>ScatSpeciesMerge(&nbsp;</td><td><a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_meta.html">scat_meta</a>, <a href="../variables/scat_species.html">scat_species</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/z_surface.html">z_surface</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/scat_meta.html">scat_meta</a></td><td>(<a href="../groups/ArrayOfArrayOfScatteringMetaData.html">ArrayOfArrayOfScatteringMetaData</a>)</td><td>An Array of scattering meta data (<a href="../variables/scat_meta_single.html">scat_meta_single</a>).</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/scat_species.html">scat_species</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Array of Strings defining the scattering species to consider.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

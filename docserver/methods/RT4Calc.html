@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>RT4Calc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;RT4Calc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method RT4Calc</h2>
+<h3>Description</h3>
+<pre>
+Interface to the PolRadTran RT4 scattering solver (by F. Evans).
+
+RT4 provides the radiation field (<a href="../variables/cloudbox_field.html">cloudbox_field</a>) from a vector
+1D scattering solution assuming a plane-parallel atmosphere (flat
+Earth). It calculates up to two Stokes parameters (<a href="../variables/stokes_dim.html">stokes_dim</a>&lt;=2),
+i.e., all azimuthally randomly oriented particles are allowed (this
+also includes macroscopically isotropic particles). Refraction is
+not taken into account.
+
+The scattering solution is internally obtained over the full
+(plane-parallel) atmosphere, i.e. not confined to the cloudbox.
+However, the radiation field output is limited to the cloudbox.
+This allows to consider clearsky RT through a non-spherical
+atmosphere outside the cloudbox improving the RT solution for
+non-plane-parallel media compared to the plain RT4 output.
+
+*nstreams* is the number of polar angles taken into account
+internally in the scattering solution. That is, *nstreams*
+determines the angular resolution, hence the accuracy, of the
+scattering solution. The more anisotropic the bulk scattering
+matrix, the more streams are required. The computational burden
+increases approximately with the third power of *nstreams*.
+The default value (*nstreams*=16) was found to be sufficient for
+most microwave scattering calculations. It is likely insufficient
+for IR calculations involving ice clouds, though.
+
+Here, <a href="../variables/za_grid.html">za_grid</a> is NOT an input parameter, but output, and its
+size equals *nstreams* or *nstreams*+2 (Gauss-Legendre and Double
+Gauss quadratures in case *add_straight_angles*=1) (the reason is
+that the computational burden is high for additional angles,
+regardless whether they are quadrature angles or not; hence the
+quadrature angles supplemented with 0 and 180deg are considered to
+provide the best radiation field for a given effort).
+
+The *auto_inc_nstreams* feature can be used to increase the number
+of streams used internally in the scattering solution when found
+necessary.
+NOTE: this number-of-streams increase is only internally - the
+angular dimension of the output <a href="../variables/cloudbox_field.html">cloudbox_field</a> is fixed to the
+*nstreams* given as input to this WSM.
+
+Quadrature methods available are: 'L'obatto, 'G'auss-Legendre and
+'D'ouble Gauss quadrature.
+
+This WSM applies <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a> to derive reflection
+matrix and surface emission vector that are directly feed into
+RT4's core solver (instead of their RT4-internal calculation as
+used by <a href="RT4CalcWithRT4Surface.html">RT4CalcWithRT4Surface</a>).
+
+Known issues of ARTS implementation:
+- TOA incoming radiation is so far assumed as blackbody cosmic
+  background (temperature taken from the ARTS-internal constant).
+
+The keyword *pfct_method* allows to choose the method to extract the
+scattering matrix. 'interpolate' considers temperature dependence,
+others neglect it by chosing one specific temperature grid point
+from the single scattering data: 'low' choses the lowest T-point,
+'high' the highest T-point, and 'median' the median T-point. As
+different scattering elements can have different temperature grids,
+the actual temperature value used can differ between the scattering
+elements.
+Note that this keyword solely affects the scattering matrix;
+extinction matrix and absorption vector are always interpolated to
+the actual temperature.
+
+</pre>
+
+<p><b>Authors: </b>Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>RT4Calc(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/aa_grid.html">aa_grid</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/z_surface.html">z_surface</a>, nstreams, pfct_method, quad_type, add_straight_angles, pfct_aa_grid_size, auto_inc_nstreams, robust, za_interp_order, cos_za_interp, max_delta_tau )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/aa_grid.html">aa_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Azimuthal angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data_checked.html">scat_data_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../variables/scat_data.html">scat_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda providing radiative properties of the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>GIN</td><td class="right">nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 16)</td><td>Number of polar angle directions (streams) in RT4 solution (must be an even number).</td></tr>
+<tr><td>GIN</td><td class="right">pfct_method</td><td>(<a href="../groups/String.html">String</a>, Default: "median")</td><td>Flag which method to apply to derive phase function (for available options see above).</td></tr>
+<tr><td>GIN</td><td class="right">quad_type</td><td>(<a href="../groups/String.html">String</a>, Default: "D")</td><td>Flag which quadrature to apply in RT4 solution (for available options see above).</td></tr>
+<tr><td>GIN</td><td class="right">add_straight_angles</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag whether to include nadir and zenith as explicit directions (only effective for quad_type G and D).</td></tr>
+<tr><td>GIN</td><td class="right">pfct_aa_grid_size</td><td>(<a href="../groups/Index.html">Index</a>, Default: 19)</td><td>Number of azimuthal angle grid points to consider in Fourier series decomposition of scattering matrix (only applied for randomly oriented scattering elements)</td></tr>
+<tr><td>GIN</td><td class="right">auto_inc_nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to internally increase nstreams (individually per frequency) if norm of (bulk) scattering matrix is not preserved properly. If 0, no adaptation is done. Else <span class="brokendoclink">*auto_inc_nstreams*</span> gives the maximum number of streams to increase to. Note that the output <a href="../variables/cloudbox_field.html">cloudbox_field</a> remains with angular dimension of <span class="brokendoclink">*nstreams*</span>, only the internal solution is adapted (and then interpolated to the lower-resolution output angular grid).</td></tr>
+<tr><td>GIN</td><td class="right">robust</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>For <span class="brokendoclink">*auto_inc_nstreams*</span>&gt;0, flag whether to not fail even if scattering matrix norm is not preserved when maximum stream number is reached. Internal RT4 calculations is then performed with nstreams=<span class="brokendoclink">*auto_inc_nstreams*</span>.</td></tr>
+<tr><td>GIN</td><td class="right">za_interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>For <span class="brokendoclink">*auto_inc_nstreams*</span>&gt;0, polar angle interpolation order for interpolation from internal increased stream to originally requested nstreams-ifield.</td></tr>
+<tr><td>GIN</td><td class="right">cos_za_interp</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>For <span class="brokendoclink">*auto_inc_nstreams*</span>&gt;0, flag whether to do polar angle interpolation in cosine (='mu') space.</td></tr>
+<tr><td>GIN</td><td class="right">max_delta_tau</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 1e-6)</td><td>Maximum optical depth of infinitesimal layer (where single scattering approximation is assumed to apply).</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

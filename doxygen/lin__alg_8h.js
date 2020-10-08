@@ -1,0 +1,28 @@
+var lin__alg_8h =
+[
+    [ "cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen", "lin__alg_8h.html#a282e592341125e61e2a9c920b98fa526", null ],
+    [ "cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen", "lin__alg_8h.html#a26f1d0d8e612a8bb234f0a757db50c90", null ],
+    [ "cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit", "lin__alg_8h.html#af1f30f7693335164677bae2d2c73fcff", null ],
+    [ "cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit", "lin__alg_8h.html#a5497b86f7d35c95f9d93e4026ef346e1", null ],
+    [ "det", "lin__alg_8h.html#a7a6151466e07ce95a17746d33ba9dc36", null ],
+    [ "diagonalize", "lin__alg_8h.html#a6a8b500d5044defff553ce635615035f", null ],
+    [ "diagonalize", "lin__alg_8h.html#a42e90a3e2a5819eaf5a0ccae0924ddb6", null ],
+    [ "eig", "lin__alg_8h.html#aa65de2957eb87e6505f6fb2c681cfc29", null ],
+    [ "id_mat", "lin__alg_8h.html#a2348c3ad8be471b1dc917abd234124c6", null ],
+    [ "inv", "lin__alg_8h.html#a7de41460d8f4cf20fb244dd501c61d1a", null ],
+    [ "inv", "lin__alg_8h.html#a7d01390bbeabb08611876dd4b478c366", null ],
+    [ "linreg", "lin__alg_8h.html#a192d3b191a7275e8ff854a25ab264e24", null ],
+    [ "lsf", "lin__alg_8h.html#a51d7327111fd1acc09cdea42e57c2e55", null ],
+    [ "lubacksub", "lin__alg_8h.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f", null ],
+    [ "ludcmp", "lin__alg_8h.html#a592f048c49e5ddea66536968b6b9dc2d", null ],
+    [ "matrix_exp", "lin__alg_8h.html#a8be69b249e7c16c47776c7b29b4df639", null ],
+    [ "matrix_exp2", "lin__alg_8h.html#a0016b710c580921c4d6042fb499675c0", null ],
+    [ "matrix_exp2_4x4", "lin__alg_8h.html#ae36597866e4f9ce9ec74161db975ab0b", null ],
+    [ "matrix_exp_4x4", "lin__alg_8h.html#a066dcb9f77287e58c0389552870fb244", null ],
+    [ "matrix_exp_dmatrix_exp", "lin__alg_8h.html#a1e31c8d409fe4d1d80db93ffbf903004", null ],
+    [ "matrix_exp_dmatrix_exp", "lin__alg_8h.html#ac575af08f61577990ccc057059ece83f", null ],
+    [ "norm_inf", "lin__alg_8h.html#a3308a53897b3f22050d5765b0f98a5b1", null ],
+    [ "propmat4x4_to_transmat4x4", "lin__alg_8h.html#a14c1f004ffc5d5eb43f35bf2a25d572f", null ],
+    [ "solve", "lin__alg_8h.html#a2b0c01e5d3c9bc66578a658fb8c3cd8e", null ],
+    [ "special_matrix_exp_and_dmatrix_exp_dx_for_rt", "lin__alg_8h.html#a1c8bdb8df5beb129cc3bce6312ad01e0", null ]
+];

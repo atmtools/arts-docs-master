@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>abs_lookupSetupWide - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;abs_lookupSetupWide</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method abs_lookupSetupWide</h2>
+<h3>Description</h3>
+<pre>
+Set up input parameters for abs_lookupCalc for a wide range of
+atmospheric conditions.
+
+This method can be used to set up parameters for a lookup table that
+really covers all reasonable atmospheric conditions.
+
+Reference profiles of T and H2O will be constant, so that the
+different dimensions in the lookup table are actually "orthogonal",
+unlike the traditional case where we have pressure dependent reference
+profiles. This makes the table numerically somewhat more robust then
+the traditional ones, and it makes it straightforward to calculate the
+accuracy for the different interpolations with abs_lookupTestAccuracy.
+
+You can give min an max values for the atmospheric conditions. The
+default values are chosen such that they cover the value range over
+the complete Chevallier91L data set, and a bit more. The statistics
+of the Chevallier91L data are:
+
+min(p)   / max(p)   [Pa]:  1 / 104960
+min(T)   / max(T)   [K]:   158.21 / 320.39
+min(H2O) / max(H2O) [VMR]: -5.52e-07 / 0.049
+
+</pre>
+
+<p><b>Authors: </b>Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>abs_lookupSetupWide(&nbsp;</td><td><a href="../variables/abs_p.html">abs_p</a>, <a href="../variables/abs_t.html">abs_t</a>, <a href="../variables/abs_t_pert.html">abs_t_pert</a>, <a href="../variables/abs_vmrs.html">abs_vmrs</a>, <a href="../variables/abs_nls.html">abs_nls</a>, <a href="../variables/abs_nls_pert.html">abs_nls_pert</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/abs_p_interp_order.html">abs_p_interp_order</a>, <a href="../variables/abs_t_interp_order.html">abs_t_interp_order</a>, <a href="../variables/abs_nls_interp_order.html">abs_nls_interp_order</a>, p_min, p_max, p_step, t_min, t_max, h2o_min, h2o_max )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_p.html">abs_p</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>List of pressures to be used for the calculation of absorption coefficients.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_t.html">abs_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>List of temperatures to be used for the calculation of absorption coefficients.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_t_pert.html">abs_t_pert</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature perturbations for the absorption lookup table.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_vmrs.html">abs_vmrs</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The VMRs (unit: absolute number) on the abs_p grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_nls.html">abs_nls</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Nonlinear species for absorption lookup table generation.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_nls_pert.html">abs_nls_pert</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Fractional perturbations for the nonlinear species in the absorption lookup table.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_p_interp_order.html">abs_p_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between pressure levels.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_t_interp_order.html">abs_t_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between the temperature values given by <a href="../variables/abs_t_pert.html">abs_t_pert</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_nls_interp_order.html">abs_nls_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between the H2O values given by <a href="../variables/abs_nls_pert.html">abs_nls_pert</a>.</td></tr>
+<tr><td>GIN</td><td class="right">p_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.5)</td><td>Pressure grid minimum [Pa].</td></tr>
+<tr><td>GIN</td><td class="right">p_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 110000)</td><td>Pressure grid maximum [Pa].</td></tr>
+<tr><td>GIN</td><td class="right">p_step</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.05)</td><td>Pressure grid step in log10(p[Pa]) (base 10 logarithm).</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 100)</td><td>Temperature grid minimum [K].</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 400)</td><td>Temperature grid maximum [K].</td></tr>
+<tr><td>GIN</td><td class="right">h2o_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Humidity grid minimum [fractional].</td></tr>
+<tr><td>GIN</td><td class="right">h2o_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.05)</td><td>Humidity grid maximum [fractional].</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

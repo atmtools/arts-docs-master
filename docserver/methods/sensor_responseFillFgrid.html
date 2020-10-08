@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseFillFgrid - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseFillFgrid</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseFillFgrid</h2>
+<h3>Description</h3>
+<pre>
+Polynomial frequency interpolation of spectra.
+
+The sensor response methods treat the spectra to be piece-wise linear
+functions. This method is a workaround for making methods handling
+the spectra in a more elaborate way: it generates spectra on a more
+dense grid by polynomial interpolation. The interpolation is not
+done explicitly, it is incorporated into <a href="../variables/sensor_response.html">sensor_response</a>.
+
+This method should in general increase the calculation accuracy for
+a given <a href="../variables/f_grid.html">f_grid</a>. However, the selection of (original) grid points
+becomes more sensitive when using this method. A poor choice of grid
+points can result in a decreased accuracy, or generation of negative
+radiances. Test calculations indicated that the error easily can
+increase with this method close the edge of <a href="../variables/f_grid.html">f_grid</a>, and it could
+be wise to make <a href="../variables/f_grid.html">f_grid</a> a bit wider than actually necessary to avoid
+this effect
+
+The method shall be inserted before the antenna stage. That is, this
+method shall normally be called directly after <a href="sensor_responseInit.html">sensor_responseInit</a>.
+
+Between each neighbouring points of <a href="../variables/f_grid.html">f_grid</a>, this method adds
+*nfill* grid points. The polynomial order of the interpolation is
+*polyorder*.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseFillFgrid(&nbsp;</td><td><a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, polyorder, nfill )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>GIN</td><td class="right">polyorder</td><td>(<a href="../groups/Index.html">Index</a>, Default: 3)</td><td>Polynomial order of interpolation</td></tr>
+<tr><td>GIN</td><td class="right">nfill</td><td>(<a href="../groups/Index.html">Index</a>, Default: 2)</td><td>Number of points to insert in each gap of f_grid</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

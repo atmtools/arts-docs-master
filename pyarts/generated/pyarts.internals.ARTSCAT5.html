@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.internals.ARTSCAT5 &mdash; pyarts 2.3.1287 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyarts.internals.Rational" href="pyarts.internals.Rational.html" />
+    <link rel="prev" title="pyarts.internals.LineMixing" href="pyarts.internals.LineMixing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1287
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#arts-interface">ARTS Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#arts-xml-i-o">ARTS XML I/O</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../modules.html#arts-data-types">ARTS Data Types</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html">pyarts.catalogues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.covariancematrix">pyarts.covariancematrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.griddedfield">pyarts.griddedfield</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.internals">pyarts.internals</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyarts.internals.LineMixing.html">pyarts.internals.LineMixing</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pyarts.internals.ARTSCAT5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.internals.Rational.html">pyarts.internals.Rational</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.internals.PartitionFunctions.html">pyarts.internals.PartitionFunctions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.internals.PressureBroadening.html">pyarts.internals.PressureBroadening</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.retrieval">pyarts.retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.scattering">pyarts.scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.sensor">pyarts.sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts_datatypes.html#module-pyarts.xsec">pyarts.xsec</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="../pyarts_datatypes.html">pyarts.catalogues</a> &raquo;</li>
+        
+      <li>pyarts.internals.ARTSCAT5</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/pyarts.internals.ARTSCAT5.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyarts-internals-artscat5">
+<h1>pyarts.internals.ARTSCAT5<a class="headerlink" href="#pyarts-internals-artscat5" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyarts.internals.ARTSCAT5">
+<em class="property">class </em><code class="sig-prename descclassname">pyarts.internals.</code><code class="sig-name descname">ARTSCAT5</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">init_data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyarts/internals.html#ARTSCAT5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarts.internals.ARTSCAT5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to contain ARTSCAT entries that can be accessed and  manipulated</p>
+<p>Access this data as
+(N, I, F0, S0, T0, E0, A, GL, GU, PB, QN, LM)  = ARTSCAT5[line_nr],
+where N is the name of the species, I is the AFGL isotopological code,
+F0 is the central frequency, S0 is the line strength at temperature T0,
+E0 is the lower energy state, A is the einstein coefficient, GL is the
+lower population constant, GU is the upper population constant, PB
+is a dictionary of the pressurebroadening scheme, QN is a
+QuantumNumberRecord, and LM is a line-mixing dictionary.  The
+dictionaries have keys corresponding to the ARTSCAT tags.  line_nr is
+an index absolutely less than len(self)</p>
+<p>Note:  Must be ARTSCAT5 line type or this will leave the class data
+in disarray.</p>
+<p>Future tech debt 1: The reading of tagged data will fail if major tags
+ever match minor tags (ex. PB is major, N2 is minor for PB, if LM ever
+gets the PB minor tag, then the method below will fail).</p>
+<p>Future tech debt 2: To add version number and make the class general,
+ARTSCAT3 only have minor tag N2 for line mixing and ARTSCAT4 has AP.
+These tags are however implicit and not written.  A</p>
+<dl class="py method">
+<dt id="pyarts.internals.ARTSCAT5.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">init_data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyarts/internals.html#ARTSCAT5.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarts.internals.ARTSCAT5.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyarts.internals.ARTSCAT5.__init__" title="pyarts.internals.ARTSCAT5.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([init_data])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code>(other[, sort])</p></td>
+<td><p>Appends data to ARTSCAT5.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">as_ArrayOfLineRecord</span></code>([index])</p></td>
+<td><p>Turns ARTSCAT5 into ArrayOfLineRecord that can be stored to file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">changeForQN</span></code>([kind, qid, spec, afgl, qns, …])</p></td>
+<td><p>Change information of a line according to identifiers</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_section</span></code>([temperature, pressure, vmrs, …])</p></td>
+<td><p>Provides an estimation of the cross-section in the provided frequency range</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arts_str</span></code>(index)</p></td>
+<td><p>Returns the arts-xml catalog string for line at index</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">linefunctionsdata</span></code>(index)</p></td>
+<td><p>Return line function entries for line at index</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">linemixing</span></code>(index)</p></td>
+<td><p>Return line mixing entries for line at index</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lineshapemodifiers</span></code>(index)</p></td>
+<td><p>Return line mixing entries for line at index</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pressurebroadening</span></code>(index)</p></td>
+<td><p>Return pressure broadening entries for line at index</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantumnumbers</span></code>(index)</p></td>
+<td><p>Return quantum number entries for line at index</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove</span></code>([spec, afgl, upper_limit, …])</p></td>
+<td><p>Removes lines not within limits of kind</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_line</span></code>(index)</p></td>
+<td><p>Remove line at index from line record</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_testline</span></code>([i_know_what_i_am_doing])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code>([kind, ascending])</p></td>
+<td><p>Sorts the ARTSCAT5 data by kind.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_xml</span></code>(xmlwriter[, attr])</p></td>
+<td><p>Write an ARTSCAT5 object to an ARTS XML file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeemandata</span></code>(index)</p></td>
+<td><p>Return Zeeman entries for line at index</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">A</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">E0</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">F0</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iso</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">S0</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Species</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">T0</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">g0</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">g00</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyarts.internals.Rational.html" class="btn btn-neutral float-right" title="pyarts.internals.Rational" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pyarts.internals.LineMixing.html" class="btn btn-neutral float-left" title="pyarts.internals.LineMixing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

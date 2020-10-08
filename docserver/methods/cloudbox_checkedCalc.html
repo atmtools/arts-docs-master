@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cloudbox_checkedCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;cloudbox_checkedCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method cloudbox_checkedCalc</h2>
+<h3>Description</h3>
+<pre>
+Checks consistency and validity of the cloudbox governing variables.
+
+The following WSVs are treated: <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>,
+<a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_species.html">scat_species</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/particle_masses.html">particle_masses</a>
+<a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a> and wind_u/v/w_field.
+
+If any of these variables is changed, then this method shall be
+called again (no automatic check that this is fulfilled!).
+
+The main checks are if the cloudbox limits are OK with respect to
+the atmospheric dimensionality and the limits of the atmosphere,
+and that the scattering element variables <a href="../variables/pnd_field.html">pnd_field</a> and
+<a href="../variables/scat_data.html">scat_data</a> match in size.
+
+Further checks on <a href="../variables/scat_data.html">scat_data</a> are performed in <a href="scat_data_checkedCalc.html">scat_data_checkedCalc</a>
+
+<a href="../variables/scat_species.html">scat_species</a> and <a href="../variables/particle_masses.html">particle_masses</a> must either be empty or have a
+size that matches the other data. If non-empty, some check of these
+variables are performed.
+
+If any test fails, there is an error. Otherwise, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>
+is set to 1.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson, Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>cloudbox_checkedCalc(&nbsp;</td><td><a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/wind_u_field.html">wind_u_field</a>, <a href="../variables/wind_v_field.html">wind_v_field</a>, <a href="../variables/wind_w_field.html">wind_w_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/dpnd_field_dx.html">dpnd_field_dx</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_species.html">scat_species</a>, <a href="../variables/particle_masses.html">particle_masses</a>, <a href="../variables/abs_species.html">abs_species</a>, negative_pnd_ok )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/wind_u_field.html">wind_u_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Zonal component of the wind field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/wind_v_field.html">wind_v_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Meridional component of the magnetic field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/wind_w_field.html">wind_w_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Vertical wind component field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_field_dx.html">dpnd_field_dx</a></td><td>(<a href="../groups/ArrayOfTensor4.html">ArrayOfTensor4</a>)</td><td>Partial derivatives of <a href="../variables/pnd_field.html">pnd_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species.html">scat_species</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Array of Strings defining the scattering species to consider.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/particle_masses.html">particle_masses</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The mass of individual particles (or bulks).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>GIN</td><td class="right">negative_pnd_ok</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to accept pnd_field &lt; 0.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

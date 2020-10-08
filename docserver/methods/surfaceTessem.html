@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>surfaceTessem - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;surfaceTessem</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method surfaceTessem</h2>
+<h3>Description</h3>
+<pre>
+TESSEM sea surface microwave emissivity parametrization.
+
+This method computes surface emissivity and reflectivity matrices for
+ocean surfaces using the TESSEM emissivity model: Prigent, C., et al.
+Sea‐surface emissivity parametrization from microwaves to millimetre
+waves, QJRMS, 2017, 143.702: 596-605.
+
+The validity range of the parametrization of is 10 to 700 GHz, but for
+some extra flexibility frequencies between 5 and 900 GHz are accepted.
+The accepted temperaute range for <a href="../variables/surface_skin_t.html">surface_skin_t</a> is [260.0 K, 373.0 K]
+
+The model itself is represented by the neural networks in
+<a href="../variables/tessem_neth.html">tessem_neth</a> and <a href="../variables/tessem_netv.html">tessem_netv</a>.
+
+</pre>
+
+<p><b>Authors: </b>Simon Pfreundschuh
+<h3>Synopsis</h3>
+<p><table><tr><td>surfaceTessem(&nbsp;</td><td><a href="../variables/surface_los.html">surface_los</a>, <a href="../variables/surface_rmatrix.html">surface_rmatrix</a>, <a href="../variables/surface_emission.html">surface_emission</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/tessem_neth.html">tessem_neth</a>, <a href="../variables/tessem_netv.html">tessem_netv</a>, salinity, wind_speed )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_los.html">surface_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Downwelling radiation directions to consider in surface reflection.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_rmatrix.html">surface_rmatrix</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>The reflection coefficients for the directions given by <a href="../variables/surface_los.html">surface_los</a> to the direction of interest.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_emission.html">surface_emission</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The emission from the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/tessem_neth.html">tessem_neth</a></td><td>(<a href="../groups/TessemNN.html">TessemNN</a>)</td><td>TESSEM2 neural network parameters for horizontal polarization.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/tessem_netv.html">tessem_netv</a></td><td>(<a href="../groups/TessemNN.html">TessemNN</a>)</td><td>TESSEM2 neural network parameters for vertical polarization.</td></tr>
+<tr><td>GIN</td><td class="right">salinity</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.035)</td><td>Salinity, 0-1. That is, 3% is given as 0.03.</td></tr>
+<tr><td>GIN</td><td class="right">wind_speed</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Wind speed.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

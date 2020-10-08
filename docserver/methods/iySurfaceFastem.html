@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>iySurfaceFastem - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;iySurfaceFastem</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method iySurfaceFastem</h2>
+<h3>Description</h3>
+<pre>
+Usage of FASTEM for emissivity and reflectivity of water surfaces.
+
+This method allows usage of the FASTEM model inside
+<a href="../agendas/iy_surface_agenda.html">iy_surface_agenda</a>. The aim is to use FASTEM in the exact same
+way as done in RTTOV. For example, the transmittance for down-
+welling radiation is considered. RTTOV os just 1D. Here 2D and 3D
+are handled as the 1D case, the down-welling radiation is just
+calculated for the directuon matching specular reflection.
+
+The wind direction is given as the azimuth angle, counted
+clockwise from north (i.e. an easterly wind is at 90 deg).
+This matches the general definition of azimuth inside ARTS.
+For 1D and 2D, the wind direction must be adjusted to match the
+fact that the line-of-sight is locked to be at 0 deg (180 for 2D
+in the case of a negative zenith angle). For 3D, the true wind
+direction shall be used.
+
+FASTEM is called by <a href="FastemStandAlone.html">FastemStandAlone</a>. See that WSM for further
+comments on variables and limitations.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>iySurfaceFastem(&nbsp;</td><td><a href="../variables/iy.html">iy</a>, <a href="../variables/diy_dx.html">diy_dx</a>, <a href="../variables/iy_transmission.html">iy_transmission</a>, <a href="../variables/iy_id.html">iy_id</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/nlte_field.html">nlte_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/rte_pos2.html">rte_pos2</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, salinity, wind_speed, wind_direction, fastem_version )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy.html">iy</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Monochromatic pencil beam radiance spectrum.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/diy_dx.html">diy_dx</a></td><td>(<a href="../groups/ArrayOfTensor3.html">ArrayOfTensor3</a>)</td><td>Derivative of <a href="../variables/iy.html">iy</a> with respect to retrieval quantities.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_transmission.html">iy_transmission</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Transmission to be included in <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_id.html">iy_id</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Identification number of <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_field.html">nlte_field</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>The field of NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_pos2.html">rte_pos2</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A second geographical position to define the geometry for radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_main_agenda.html">iy_main_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the single monochromatic pencil beam spectrum.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>GIN</td><td class="right">salinity</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.035)</td><td>Salinity, 0-1. That is, 3% is given as 0.03.</td></tr>
+<tr><td>GIN</td><td class="right">wind_speed</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Wind speed.</td></tr>
+<tr><td>GIN</td><td class="right">wind_direction</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Wind direction. See further above.</td></tr>
+<tr><td>GIN</td><td class="right">fastem_version</td><td>(<a href="../groups/Index.html">Index</a>, Default: 6)</td><td>The version of FASTEM to use.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

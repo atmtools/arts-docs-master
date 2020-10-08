@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>scat_data_singleTmatrix - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;scat_data_singleTmatrix</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method scat_data_singleTmatrix</h2>
+<h3>Description</h3>
+<pre>
+A basic interface to Mishchenko's T-matrix code linked to ARTS.
+
+The method performs a T-matrix calculation for a single scattering
+element, i.e. a combination of particle shape, size, aspect ratio
+and orientation.
+
+Particle shape (*shape*) has two options:
+   "spheroidal" and "cylindrical"
+
+Particle size (*diameter_volume_equ*) is given as the equivalent
+volume sphere diameter. That is, the diameter obtained if all the
+particle's material is rearranged into a (solid) sphere.
+
+Particle aspect ratio ar (*aspect_ratio*) is a numeric value, defined
+according to Mishchenko's definition as ratio of horizontal axis a to
+vertical (rotational) axis b: ar=a/b. That is, oblates have ar&gt;1,
+prolates ar&lt;1.
+Perfect spheres (spheroidals with ar=1) can trigger numerical issues.
+To avoid these, we internally increase their aspect ratio by 1e-6,
+i.e. turning perfect spheres into very light oblates.
+
+Particle type (*ptype*) has two options:
+   "totally_random" and "azimuthally_random"
+For totally randomly oriented particles, *data_aa_grid* is not taken
+into account (but a Vector type container needs to be passed).
+
+For further information on how aspect ratio and the different shapes
+and orientations are defined, see the documentation of the T-matrix
+code found http://www.giss.nasa.gov/staff/mmishchenko/t_matrix.html
+
+Regarding *ndgs*, we refer to the this comment from the documentation:
+   "Parameter controlling the number of division points
+   in computing integrals over the particle surface.
+   For compact particles, the recommended value is 2.
+   For highly aspherical particles larger values (3, 4,...)
+   may be necessary to obtain convergence.
+   The code does not check convergence over this parameter.
+   Therefore, control comparisons of results obtained with
+   different NDGS-values are recommended."
+
+</pre>
+
+<p><b>Authors: </b>Johan Strandgren, Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>scat_data_singleTmatrix(&nbsp;</td><td><a href="../variables/scat_data_single.html">scat_data_single</a>, <a href="../variables/scat_meta_single.html">scat_meta_single</a>, <a href="../variables/complex_refr_index.html">complex_refr_index</a>, shape, diameter_volume_equ, aspect_ratio, mass, ptype, data_f_grid, data_t_grid, data_za_grid, data_aa_grid, precision, cri_source, ndgs, robust, quiet )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/scat_data_single.html">scat_data_single</a></td><td>(<a href="../groups/SingleScatteringData.html">SingleScatteringData</a>)</td><td>Structure for the single scattering data.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/scat_meta_single.html">scat_meta_single</a></td><td>(<a href="../groups/ScatteringMetaData.html">ScatteringMetaData</a>)</td><td>Structure for the scattering meta data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/complex_refr_index.html">complex_refr_index</a></td><td>(<a href="../groups/GriddedField3.html">GriddedField3</a>)</td><td>Complex refractive index (n) data.</td></tr>
+<tr><td>GIN</td><td class="right">shape</td><td>(<a href="../groups/String.html">String</a>)</td><td>Particle shape. Options listed above.</td></tr>
+<tr><td>GIN</td><td class="right">diameter_volume_equ</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Particle volume equivalent diameter [m]. See defintion above.</td></tr>
+<tr><td>GIN</td><td class="right">aspect_ratio</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Particle aspect ratio.</td></tr>
+<tr><td>GIN</td><td class="right">mass</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>Particle mass. This information is just included in the meta data, and does not affect the T-matrix calculations.</td></tr>
+<tr><td>GIN</td><td class="right">ptype</td><td>(<a href="../groups/String.html">String</a>)</td><td>Particle type/orientation. Options listed above.</td></tr>
+<tr><td>GIN</td><td class="right">data_f_grid</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Frequency grid of the scattering data to be calculated.</td></tr>
+<tr><td>GIN</td><td class="right">data_t_grid</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature grid of the scattering data to be calculated.</td></tr>
+<tr><td>GIN</td><td class="right">data_za_grid</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid of the scattering data to be calculated.</td></tr>
+<tr><td>GIN</td><td class="right">data_aa_grid</td><td>(<a href="../groups/Vector.html">Vector</a>, Default: [])</td><td>Azimuth angle grid of the scattering data to be calculated.</td></tr>
+<tr><td>GIN</td><td class="right">precision</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.001)</td><td>Accuracy of the computations.</td></tr>
+<tr><td>GIN</td><td class="right">cri_source</td><td>(<a href="../groups/String.html">String</a>, Default: "Set by user, unknown source.")</td><td>String describing the source of <a href="../variables/complex_refr_index.html">complex_refr_index</a>, for inclusion in meta data.</td></tr>
+<tr><td>GIN</td><td class="right">ndgs</td><td>(<a href="../groups/Index.html">Index</a>, Default: 2)</td><td>See above. So far only applied for random orientation.</td></tr>
+<tr><td>GIN</td><td class="right">robust</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Continue even if individual T-matrix calculations fail. Respective scattering element data will be NAN.</td></tr>
+<tr><td>GIN</td><td class="right">quiet</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Suppress print output from tmatrix fortran code.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

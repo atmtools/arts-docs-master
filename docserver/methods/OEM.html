@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OEM - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;OEM</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method OEM</h2>
+<h3>Description</h3>
+<pre>
+Inversion by the so called optimal estimation method (OEM).
+
+Work in progress ...
+
+The cost function to minimise, including a normalisation with lengthof <a href="../variables/y.html">y</a>, is:
+   cost = cost_y + cost_x
+where
+   cost_y = 1/m * [y-yf]' * covmat_se_inv * [y-yf]
+   cost_x = 1/m * [x-xa]' * covmat_sx_inv * [x-xa]
+
+ The current implementation provides 3 methods for the minimization of
+the cost functional: Linear, Gauss-Newton and Levenberg-Marquardt.
+The Gauss-Newton minimizer attempts to find a minimum solution by 
+fitting a quadratic function to the cost functional. The linear minimizer
+is a special case of the Gauss-Newton method, since for a linear forward
+model the exact solution of the minimization problem is obtained after
+the first step. The Levenberg-Marquardt method adaptively constrains the
+search region for the next iteration step by means of the so-called gamma-factor.
+This makes the method more suitable for strongly non-linear problems.
+If the gamma-factor is 0, Levenberg-Marquardt and Gauss-Newton method
+are identical. Each minimization method (li,gn,lm) has an indirect
+variant (li_cg,gn_cg,lm_cg), which uses the conjugate gradient solver
+for the linear system that has to be solved in each minimzation step.
+This of advantage for very large problems, that would otherwise require
+the computation of expensive matrix products.
+
+Description of the special input arguments:
+
+*method*
+  "li": A linear problem is assumed and a single iteration is performed.
+  "li_cg": A linear problem is assumed and solved using the CG solver.
+  "gn": Non-linear, with Gauss-Newton iteration scheme.
+  "gn_cg": Non-linear, with Gauss-Newton and conjugate gradient solver.
+  "lm": Non-linear, with Levenberg-Marquardt (LM) iteration scheme.
+  "lm_cg": Non-linear, with Levenberg-Marquardt (LM) iteration scheme and conjugate gradient solver.
+*max_start_cost*
+  No inversion is done if the cost matching the a priori state is above
+  this value. If set to a negative value, all values are accepted.
+  This argument also controls if the start cost is calculated. If
+  set to &lt;= 0, the start cost in <a href="../variables/oem_diagnostics.html">oem_diagnostics</a> is set to NaN
+  when using "li" and "gn".
+*x_norm*
+  A normalisation vector for <a href="../variables/x.html">x</a>. A normalisation of <a href="../variables/x.html">x</a> can be needed
+  due to limited numerical precision. If this vector is set to be empty
+  no normalisation is done (defualt case). Otherwise, this must be a
+  vector with same length as <a href="../variables/x.html">x</a>, just having values above zero.
+  Elementwise division between <a href="../variables/x.html">x</a> and *x_norm* (x./x_norm) shall give
+  a vector where all values are in the order of unity. Maybe the best
+  way to set *x_norm* is x_norm = sqrt( diag( Sx ) ).
+*max_iter*
+  Maximum number of iterations to perform. No effect for "li".
+*stop_dx*
+  Iteration stop criterion. The criterion used is the same as given
+  in Rodgers' "Inverse Methods for Atmospheric Sounding"
+*lm_ga_settings*
+  Settings controlling the gamma factor, part of the "LM" method.
+  This is a vector of length 6, having the elements (0-based index):
+    0: Start value.
+    1: Fractional decrease after succesfull iteration.
+    2: Fractional increase after unsuccessful iteration.
+    3: Maximum allowed value. If the value is passed, the inversion
+       is halted.
+    4: Lower treshold. If the threshold is passed, gamma is set to zero.
+       If gamma must be increased from zero, gamma is set to this value.
+    5: Gamma limit. This is an additional stop criterion. Convergence
+       is not considered until there has been one succesful iteration
+       having a gamma &lt;= this value.
+  The default setting triggers an error if "lm" is selected.
+*clear matrices*
+   With this flag set to 1, <a href="../variables/jacobian.html">jacobian</a> and <a href="../variables/dxdy.html">dxdy</a> are returned as empty
+   matrices.
+*display_progress*
+   Controls if there is any screen output. The overall report level
+   is ignored by this WSM.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>OEM(&nbsp;</td><td><a href="../variables/x.html">x</a>, <a href="../variables/yf.html">yf</a>, <a href="../variables/jacobian.html">jacobian</a>, <a href="../variables/dxdy.html">dxdy</a>, <a href="../variables/oem_diagnostics.html">oem_diagnostics</a>, <a href="../variables/lm_ga_history.html">lm_ga_history</a>, <a href="../variables/oem_errors.html">oem_errors</a>, <a href="../variables/xa.html">xa</a>, <a href="../variables/covmat_sx.html">covmat_sx</a>, <a href="../variables/y.html">y</a>, <a href="../variables/covmat_se.html">covmat_se</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../agendas/inversion_iterate_agenda.html">inversion_iterate_agenda</a>, method, max_start_cost, x_norm, max_iter, stop_dx, lm_ga_settings, clear_matrices, display_progress )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/x.html">x</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The state vector.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/yf.html">yf</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A fitted measurement vector.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/jacobian.html">jacobian</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The Jacobian matrix.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dxdy.html">dxdy</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Contribution function (or gain) matrix.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/oem_diagnostics.html">oem_diagnostics</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Basic diagnostics of an OEM type inversion.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/lm_ga_history.html">lm_ga_history</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The series of gamma values for a Marquardt-levenberg inversion.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/oem_errors.html">oem_errors</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Errors encountered during OEM execution.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/xa.html">xa</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The a priori state vector.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/covmat_sx.html">covmat_sx</a></td><td>(<a href="../groups/CovarianceMatrix.html">CovarianceMatrix</a>)</td><td>Covariance matrix of a priori distribution  This covariance matrix describes the Gaussian a priori distribution for an OEM retrieval.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/y.html">y</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The measurement vector.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/covmat_se.html">covmat_se</a></td><td>(<a href="../groups/CovarianceMatrix.html">CovarianceMatrix</a>)</td><td>Covariance matrix for observation uncertainties.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/inversion_iterate_agenda.html">inversion_iterate_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda recalculating spectra and Jacobian for iterative inversion methods.</td></tr>
+<tr><td>GIN</td><td class="right">method</td><td>(<a href="../groups/String.html">String</a>)</td><td>Iteration method. For this and all options below, see further above.</td></tr>
+<tr><td>GIN</td><td class="right">max_start_cost</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: Inf)</td><td>Maximum allowed value of cost function at start.</td></tr>
+<tr><td>GIN</td><td class="right">x_norm</td><td>(<a href="../groups/Vector.html">Vector</a>, Default: [])</td><td>Normalisation of Sx.</td></tr>
+<tr><td>GIN</td><td class="right">max_iter</td><td>(<a href="../groups/Index.html">Index</a>, Default: 10)</td><td>Maximum number of iterations.</td></tr>
+<tr><td>GIN</td><td class="right">stop_dx</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.01)</td><td>Stop criterion for iterative inversions.</td></tr>
+<tr><td>GIN</td><td class="right">lm_ga_settings</td><td>(<a href="../groups/Vector.html">Vector</a>, Default: [])</td><td>Settings associated with the ga factor of the LM method.</td></tr>
+<tr><td>GIN</td><td class="right">clear_matrices</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>An option to save memory.</td></tr>
+<tr><td>GIN</td><td class="right">display_progress</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to control if inversion diagnostics shall be printed on the screen.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

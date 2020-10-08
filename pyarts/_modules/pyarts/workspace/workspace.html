@@ -1,0 +1,762 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.workspace.workspace &mdash; pyarts 2.3.1287 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1287
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarts.workspace.workspace</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.workspace.workspace</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The workspace submodule.</span>
+
+<span class="sd">Contains the Workspace which implements the main functionality of the ARTS interface.</span>
+<span class="sd">Users should only have to use this class to interact with ARTS.</span>
+
+<span class="sd">Attributes:</span>
+<span class="sd">     imports(dict): Dictionary of parsed controlfiles. This is kept to ensure to avoid</span>
+<span class="sd">                    crashing of the ARTS runtime, when a file is parsed for the second time.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span>  <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">from</span>   <span class="nn">ast</span>      <span class="kn">import</span> <span class="n">iter_child_nodes</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span> <span class="n">NodeVisitor</span><span class="p">,</span> <span class="n">Call</span><span class="p">,</span> <span class="n">Attribute</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> \
+                       <span class="n">Expression</span><span class="p">,</span> <span class="n">Expr</span><span class="p">,</span> <span class="n">FunctionDef</span><span class="p">,</span> <span class="n">Starred</span><span class="p">,</span> <span class="n">Module</span><span class="p">,</span> <span class="n">expr</span>
+<span class="kn">from</span>   <span class="nn">inspect</span>  <span class="kn">import</span> <span class="n">getsource</span><span class="p">,</span> <span class="n">getclosurevars</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">copy</span>       <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">functools</span>  <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="p">(</span><span class="n">arts_api</span><span class="p">,</span> <span class="n">VariableValueStruct</span><span class="p">,</span> <span class="n">data_path_push</span><span class="p">,</span>
+                                <span class="n">data_path_pop</span><span class="p">,</span> <span class="n">include_path_push</span><span class="p">,</span>
+                                <span class="n">include_path_pop</span><span class="p">,</span> <span class="n">is_empty</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.methods</span>   <span class="kn">import</span> <span class="n">WorkspaceMethod</span><span class="p">,</span> <span class="n">workspace_methods</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.variables</span> <span class="kn">import</span> <span class="p">(</span><span class="n">WorkspaceVariable</span><span class="p">,</span> <span class="n">group_names</span><span class="p">,</span> <span class="n">group_ids</span><span class="p">,</span>
+                                      <span class="n">workspace_variables</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.agendas</span>   <span class="kn">import</span> <span class="n">Agenda</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace</span> <span class="kn">import</span> <span class="n">variables</span> <span class="k">as</span> <span class="n">V</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.output</span> <span class="kn">import</span> <span class="n">CoutCapture</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.utility</span> <span class="kn">import</span> <span class="n">unindent</span>
+
+<span class="n">imports</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># ARTS Agenda Macro</span>
+<span class="c1">################################################################################</span>
+
+<div class="viewcode-block" id="Include"><a class="viewcode-back" href="../../../generated/pyarts.workspace.Include.html#pyarts.workspace.Include">[docs]</a><span class="k">class</span> <span class="nc">Include</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Simple helper class to handle INCLUDE statements in agenda definitions.</span>
+
+<span class="sd">    Attributes:</span>
+
+<span class="sd">        agenda: The included controlfile or agenda as</span>
+<span class="sd">            arts.workspace.agenda.Agenda object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Include.__init__"><a class="viewcode-back" href="../../../generated/pyarts.workspace.Include.html#pyarts.workspace.Include.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agenda</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create include from argument.</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            agenda (str, Agenda): Argument to the INCLUDE statement. This can</span>
+<span class="sd">                either be a string or an Agenda object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">agenda</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">agenda</span> <span class="ow">in</span> <span class="n">imports</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">agenda</span> <span class="o">=</span> <span class="n">Agenda</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">agenda</span><span class="p">)</span>
+                <span class="n">imports</span><span class="p">[</span><span class="n">agenda</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agenda</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">agenda</span> <span class="o">=</span> <span class="n">imports</span><span class="p">[</span><span class="n">agenda</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">agenda</span><span class="p">)</span> <span class="o">==</span> <span class="n">Agenda</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agenda</span> <span class="o">=</span> <span class="n">agenda</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;agenda argument must be either a controlfile&quot;</span>
+            <span class="s2">&quot; name or a arts.workspace.agenda.Agenda object.&quot;</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="arts_agenda"><a class="viewcode-back" href="../../../generated/pyarts.workspace.arts_agenda.html#pyarts.workspace.arts_agenda">[docs]</a><span class="k">def</span> <span class="nf">arts_agenda</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse python method as ARTS agenda</span>
+
+<span class="sd">    This decorator can be used to define ARTS agendas using python function syntax.</span>
+<span class="sd">    The function should have one arguments which is assumed to be a Workspace instance.</span>
+<span class="sd">    All expressions inside the function must be calls to ARTS WSMs. The result is an</span>
+<span class="sd">    Agenda object that can be used to copied into a named ARTS agenda</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    &gt;&gt;&gt; @arts_agenda</span>
+<span class="sd">    &gt;&gt;&gt; def inversion_iterate_agenda(ws):</span>
+<span class="sd">    &gt;&gt;&gt;     ws.x2artsStandard()</span>
+<span class="sd">    &gt;&gt;&gt;     ws.atmfields_checkedCalc()</span>
+<span class="sd">    &gt;&gt;&gt;     ws.atmgeom_checkedCalc()</span>
+<span class="sd">    &gt;&gt;&gt;     ws.yCalc()</span>
+<span class="sd">    &gt;&gt;&gt;     ws.VectorAddVector(ws.yf, ws.y, ws.y_baseline)</span>
+<span class="sd">    &gt;&gt;&gt;     ws.jacobianAdjustAfterIteration()</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ws.Copy(ws.inversion_iterate_agenda, inversion_iterate_agenda)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">source</span> <span class="o">=</span> <span class="n">getsource</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">unindent</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">ast</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="n">func_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">func_ast</span><span class="p">)</span> <span class="o">==</span> <span class="n">FunctionDef</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;ARTS agenda definition can only decorate function definiitons.&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">arg_name</span> <span class="o">=</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">arg</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Agenda definition needs workspace arguments.&quot;</span><span class="p">)</span>
+
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">Workspace</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">arg_name</span> <span class="p">:</span> <span class="n">ws</span><span class="p">})</span>
+    <span class="c1"># Add resolved non-local variables from closure.</span>
+    <span class="n">nls</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">getclosurevars</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nls</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Helper functions</span>
+    <span class="c1">#</span>
+
+    <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">callback_make_fun</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function that creates a wrapper function around</span>
+<span class="sd">        python code to be executed withing an ARTS agenda.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">ptr</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">context</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span><span class="o">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span>
+                <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">m</span> <span class="p">,</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Exception in Python callback:\n&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span><span class="o">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">callback</span>
+
+    <span class="k">def</span> <span class="nf">eval_argument</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate argument of workspace method call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s2">&quot;lineno&quot;</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s2">&quot;lineno&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="p">),</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span>
+
+    <span class="c1"># Create agenda</span>
+    <span class="n">a_ptr</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">create_agenda</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="n">agenda</span> <span class="o">=</span> <span class="n">Agenda</span><span class="p">(</span><span class="n">a_ptr</span><span class="p">)</span>
+
+    <span class="n">illegal_statement_exception</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span>
+        <span class="s2">&quot;Agenda definitions may only contain calls to WSMs of the&quot;</span>
+        <span class="s2">&quot;workspace argument &quot;</span> <span class="o">+</span> <span class="n">arg_name</span> <span class="o">+</span> <span class="s2">&quot; or INCLUDE statements.&quot;</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Here the body of the function definition is traversed. Cases</span>
+    <span class="c1"># that are treated specieal are INCLUDE statements and calls</span>
+    <span class="c1"># of workspace methods. Remaining statements are accumulated</span>
+    <span class="c1"># in callback_body and then added to the agenda as a single callback.</span>
+    <span class="c1">#</span>
+
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Expr</span><span class="p">):</span>
+            <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">call</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="p">,</span> <span class="n">Call</span><span class="p">):</span>
+            <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Include statement</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="p">)</span> <span class="o">==</span> <span class="n">Name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s2">&quot;INCLUDE&quot;</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+                    <span class="n">include</span> <span class="o">=</span> <span class="n">Include</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+                        <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="n">arts_api</span><span class="o">.</span><span class="n">agenda_append</span><span class="p">(</span><span class="n">agenda</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">include</span><span class="o">.</span><span class="n">agenda</span><span class="o">.</span><span class="n">ptr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">att</span>  <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">att</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">arg_name</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Extract method name.</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">attr</span>
+
+            <span class="c1"># m is not a workspace method</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">workspace_methods</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># m is a workspace method.</span>
+            <span class="n">m</span>  <span class="o">=</span> <span class="n">workspace_methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">ws</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="c1"># Handle starred expression</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Starred</span><span class="p">:</span>
+                    <span class="n">bs</span> <span class="o">=</span> <span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bs</span><span class="p">:</span>
+                        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+
+            <span class="c1"># Extract keyword arguments</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span>
+                             <span class="n">context</span><span class="p">)</span>
+                    <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                                                 <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span>
+                                         <span class="n">context</span><span class="p">)</span>
+
+            <span class="c1"># Add function to agenda</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+                <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">agenda</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Check if there&#39;s callback code left to add to the agenda.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+        <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">return</span> <span class="n">agenda</span></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Workspace Method Wrapper Class</span>
+<span class="c1">################################################################################</span>
+<span class="k">class</span> <span class="nc">WSMCall</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper class for workspace methods. This is necessary to be able to print</span>
+<span class="sd">    the method doc as __repr__, which doesn&#39;t work for python function objects.</span>
+
+<span class="sd">    Attributes:</span>
+
+<span class="sd">        ws: The workspace object to which the method belongs.</span>
+<span class="sd">        m:  The WorkspaceMethod object</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ws</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span>  <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span>  <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ws</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># The Workspace Class</span>
+<span class="c1">################################################################################</span>
+<div class="viewcode-block" id="Workspace"><a class="viewcode-back" href="../../../generated/pyarts.workspace.Workspace.html#pyarts.workspace.Workspace">[docs]</a><span class="k">class</span> <span class="nc">Workspace</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Workspace class represents an ongoing ARTS simulation. Each Workspace object</span>
+<span class="sd">    holds its own ARTS workspace and can be used to execute ARTS workspace methods or</span>
+<span class="sd">    access workspace variables.</span>
+
+<span class="sd">    All workspace methods taken from workspace_methods in the methods module are added</span>
+<span class="sd">    as attributed on creation and are thus available as class methods.</span>
+
+<span class="sd">    Attributes:</span>
+
+<span class="sd">        ptr(ctypes.c_void_p): object pointing to the ArtsWorkspace instance of the</span>
+<span class="sd">            ARTS C API</span>
+<span class="sd">        _vars(dict): Dictionary holding local variables that have been created</span>
+<span class="sd">            interactively using the one of Create ARTS WSMs.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Workspace.__init__"><a class="viewcode-back" href="../../../generated/pyarts.workspace.Workspace.html#pyarts.workspace.Workspace.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">agenda_verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The init function just creates an instance of the ArtsWorkspace class of the</span>
+<span class="sd">        C API and sets the ptr attributed to the returned handle.</span>
+
+<span class="sd">        It also adds all workspace methods as attributes to the object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            verbosity (int): Verbosity level (0-3), 1 by default</span>
+<span class="sd">            agenda_verbosity (int): Verbosity level for agendas (0-3),</span>
+<span class="sd">                                    0 by default</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">create_workspace</span><span class="p">(</span><span class="n">verbosity</span><span class="p">,</span> <span class="n">agenda_verbosity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspace_size</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">get_number_of_variables</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">workspace_methods</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">workspace_methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">WSMCall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__verbosity_init__</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleans up the C API.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">arts_api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">arts_api</span><span class="o">.</span><span class="n">destroy_workspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;ARTS workspaces cannot be pickled.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__verbosity_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes verbosityInit WSM directly through the ARTS api to suppress</span>
+<span class="sd">        output.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wsm</span> <span class="o">=</span> <span class="n">workspace_methods</span><span class="p">[</span><span class="s2">&quot;verbosityInit&quot;</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">m_id</span><span class="p">,</span> <span class="n">args_out</span><span class="p">,</span> <span class="n">args_in</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span> <span class="o">=</span> <span class="n">wsm</span><span class="o">.</span><span class="n">_parse_output_input_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[],</span> <span class="p">{})</span>
+        <span class="n">arg_out_ptr</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">cast</span><span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_out</span><span class="p">))(</span><span class="o">*</span><span class="n">args_out</span><span class="p">),</span>
+                             <span class="n">c</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">))</span>
+        <span class="n">arg_in_ptr</span>  <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">cast</span><span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_in</span><span class="p">))(</span><span class="o">*</span><span class="n">args_in</span><span class="p">),</span>
+                            <span class="n">c</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">CoutCapture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">silent</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">e_ptr</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">execute_workspace_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">m_id</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_out</span><span class="p">),</span>
+                                                      <span class="n">arg_out_ptr</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_in</span><span class="p">),</span> <span class="n">arg_in_ptr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a workspace variable.</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            group: The group name of the variable to create.</span>
+<span class="sd">            name: The name of the variable to create. If None, the</span>
+<span class="sd">            ARTS API will assign a unique name.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+        <span class="n">group_id</span> <span class="o">=</span> <span class="n">group_ids</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="n">ws_id</span>    <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">v</span>        <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">ws_id</span><span class="p">)</span>
+        <span class="n">wsv</span>      <span class="o">=</span> <span class="n">WorkspaceVariable</span><span class="p">(</span><span class="n">ws_id</span><span class="p">,</span>
+                                     <span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>
+                                     <span class="n">group_names</span><span class="p">[</span><span class="n">group_id</span><span class="p">],</span>
+                                     <span class="s2">&quot;User defined variable.&quot;</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">wsv</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">wsv</span>
+        <span class="k">return</span> <span class="n">wsv</span>
+
+    <span class="k">def</span> <span class="nf">add_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">group</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This will try to copy a given python variable to the ARTS workspace and</span>
+<span class="sd">        return a WorkspaceVariable object representing this newly created</span>
+<span class="sd">        variable.</span>
+
+<span class="sd">        Types are natively supported by the C API are int, str, [str], [int], and</span>
+<span class="sd">        numpy.ndarrays. These will be copied directly into the newly created WSV.</span>
+
+<span class="sd">        In addition to that all arts types the can be stored to XML can</span>
+<span class="sd">        be set to a WSV, but in this case the communication will happen through</span>
+<span class="sd">        the file system (cf. WorkspaceVariable.from_arts).</span>
+
+<span class="sd">        The user should not have to call this method explicitly, but instead it</span>
+<span class="sd">        is used by the WorkspaceMethod call function to transfer python</span>
+<span class="sd">        variable arguments to the ARTS workspace.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            var: Python variable of type int, str, [str], [int] or np.ndarray</span>
+<span class="sd">            which should be copied to the workspace.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">==</span> <span class="n">WorkspaceVariable</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">var</span>
+
+        <span class="c1"># Create WSV in ARTS Workspace</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">WorkspaceVariable</span><span class="o">.</span><span class="n">get_group_id</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="n">group_names</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="n">wsv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_variable</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Set WSV value using the ARTS C API</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">wsv</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">wsv</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">wsv</span>
+        <span class="k">return</span> <span class="n">wsv</span>
+
+    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wsv</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This will set a WSV to the given value.</span>
+
+<span class="sd">        Natively supported types, i.e. any of int, str, [str], [int], numpy.ndarrays,</span>
+<span class="sd">        and scipy.sparse, will be copied directly into the newly created WSV.</span>
+
+<span class="sd">        In addition to that all arts types the can be stored to XML can</span>
+<span class="sd">        be set to a WSV, but in this case the communication will happen through</span>
+<span class="sd">        the file system (cf. :code:`WorkspaceVariable.from_arts`).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wsv: The :class:`WorkspaceVariable` to set.</span>
+<span class="sd">            value: The Python object representing the value to set :code:`wsv` to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_empty</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">set_variable_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">wsv</span><span class="o">.</span><span class="n">ws_id</span><span class="p">,</span> <span class="n">wsv</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+                                              <span class="n">VariableValueStruct</span><span class="o">.</span><span class="n">empty</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">err</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The following error occurred when trying to set the&quot;</span>
+                       <span class="s2">&quot; WSV </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wsv</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">decode</span><span class="p">()))</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="n">group_names</span><span class="p">[</span><span class="n">WorkspaceVariable</span><span class="o">.</span><span class="n">get_group_id</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="o">!=</span> <span class="n">wsv</span><span class="o">.</span><span class="n">group</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">converted</span> <span class="o">=</span> <span class="n">WorkspaceVariable</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">wsv</span><span class="o">.</span><span class="n">group</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">converted</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">converted</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot set workspace variable of type </span><span class="si">{}</span><span class="s2"> to &quot;</span>
+                                <span class="s2">&quot; value  &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wsv</span><span class="o">.</span><span class="n">group</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">converted</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">VariableValueStruct</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">ptr</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">set_variable_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">wsv</span><span class="o">.</span><span class="n">ws_id</span><span class="p">,</span> <span class="n">wsv</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">err</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The following error occurred when trying to set the&quot;</span>
+                       <span class="s2">&quot; WSV </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wsv</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">decode</span><span class="p">()))</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># If the type is not supported by the C API try to write the type to XML</span>
+        <span class="c1"># and read into ARTS workspace.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">wsv</span><span class="o">.</span><span class="n">from_arts</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not set variable since + &quot;</span>
+                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; is neither supported by &quot;</span>
+                                <span class="o">+</span> <span class="s2">&quot;the C API nor arts XML IO.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">,</span> <span class="o">**</span><span class="n">workspace_variables</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Lookup the given variable in the local variables and the ARTS workspace.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): Name of the attribute (variable)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the variable is not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">group_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">:</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">var</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">var</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">lookup_workspace_variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No workspace variable &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; found.&quot;</span><span class="p">)</span>
+            <span class="n">vs</span> <span class="o">=</span> <span class="n">arts_api</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">group_id</span>    <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">group</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get its symbolic representation</span>
+        <span class="n">wsv</span> <span class="o">=</span> <span class="n">WorkspaceVariable</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">group_names</span><span class="p">[</span><span class="n">group_id</span><span class="p">],</span> <span class="n">description</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wsv</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set workspace variable.</span>
+
+<span class="sd">        This will lookup the workspace variable name and try to set it to value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name(str):  Name of the attribute (variable)</span>
+<span class="sd">            value(obj): The value to set the workspace variable to.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the variable is not found or if value cannot uniquely converted to</span>
+<span class="sd">            a value of a workspace variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Handle empty list or None values.</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">arts_api</span><span class="o">.</span><span class="n">set_variable_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">ws_id</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">group_id</span><span class="p">,</span>
+                                        <span class="n">VariableValueStruct</span><span class="o">.</span><span class="n">empty</span><span class="p">())</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">execute_agenda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agenda</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Execute agenda on workspace.</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            agenda (arts.workspace.agenda.Agenda): Agenda object to execute.</span>
+
+<span class="sd">        Raises:</span>
+
+<span class="sd">            ValueError: If argument is not of type arts.workspace.agenda.Agenda</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">value_error</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Argument must be of type agenda.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">agenda</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Agenda</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">value_error</span>
+
+        <span class="n">include_path_push</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">data_path_push</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+
+        <span class="n">agenda</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">include_path_pop</span><span class="p">()</span>
+        <span class="n">data_path_pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">execute_controlfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Execute controlfile or agenda on workspace.</span>
+
+<span class="sd">        This method looks recursively for a controlfile with the given name in the current</span>
+<span class="sd">        directory and the arts include path. If such a file has been found it will be parsed</span>
+<span class="sd">        and executed on the workspace.</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            name(str): Name of the controlfile</span>
+
+<span class="sd">        Raises:</span>
+
+<span class="sd">            Exception: If parsing of the controlfile fails.</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">            The controlfile as parsed Agenda object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">imports</span><span class="p">:</span>
+            <span class="n">agenda</span> <span class="o">=</span> <span class="n">Agenda</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">imports</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">agenda</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">agenda</span> <span class="o">=</span> <span class="n">imports</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_agenda</span><span class="p">(</span><span class="n">agenda</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">agenda</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

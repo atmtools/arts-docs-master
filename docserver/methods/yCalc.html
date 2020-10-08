@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>yCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;yCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method yCalc</h2>
+<h3>Description</h3>
+<pre>
+Calculation of complete measurement vectors (y).
+
+The method performs radiative transfer calculations from a sensor
+perspective. Radiative transfer calculations are performed for
+monochromatic pencil beams, following <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a> and
+associated agendas. Obtained radiances are weighted together by
+<a href="../variables/sensor_response.html">sensor_response</a>, to include the characteristics of the sensor.
+The measurement vector obtained can contain anything from a single
+frequency value to a series of measurement scans (each consisting
+of a series of spectra), all depending on the settings. Spectra
+and jacobians are calculated in parallel.
+
+The frequency, polarisation etc. for each measurement value is
+given by <a href="../variables/y_f.html">y_f</a>, <a href="../variables/y_pol.html">y_pol</a>, <a href="../variables/y_pos.html">y_pos</a> and <a href="../variables/y_los.html">y_los</a>.
+
+The content of <a href="../variables/y_aux.html">y_aux</a> follows *iy_aux_vars. See the method selected
+for <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a> for allowed choices.
+
+The geo-positions (<a href="../variables/y_geo.html">y_geo</a>) are set based on <a href="../variables/sensor_response.html">sensor_response</a>. When
+an antenna pattern is considered, there are several pencil beams,
+and thus also several goe-positions, associated with each value of <a href="../variables/y.html">y</a>.
+The geo-position assigned to a value in <a href="../variables/y.html">y</a> is the <a href="../variables/geo_pos.html">geo_pos</a> of the pencil
+beam related to the highest value in <a href="../variables/sensor_response.html">sensor_response</a>. This means that
+<a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> must contain the bore-sight direction (0,0), if you
+want <a href="../variables/y_geo.html">y_geo</a> to exactly match the bore-sight direction.
+
+The Jacobian provided (<a href="../variables/jacobian.html">jacobian</a>) is adopted to selected retrieval
+units, but no transformations are applied. Transformations are
+included by calling <a href="jacobianAdjustAndTransform.html">jacobianAdjustAndTransform</a>.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>yCalc(&nbsp;</td><td><a href="../variables/y.html">y</a>, <a href="../variables/y_f.html">y_f</a>, <a href="../variables/y_pol.html">y_pol</a>, <a href="../variables/y_pos.html">y_pos</a>, <a href="../variables/y_los.html">y_los</a>, <a href="../variables/y_aux.html">y_aux</a>, <a href="../variables/y_geo.html">y_geo</a>, <a href="../variables/jacobian.html">jacobian</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/nlte_field.html">nlte_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/sensor_checked.html">sensor_checked</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, <a href="../variables/sensor_los.html">sensor_los</a>, <a href="../variables/transmitter_pos.html">transmitter_pos</a>, <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a>, <a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>, <a href="../agendas/geo_pos_agenda.html">geo_pos_agenda</a>, <a href="../agendas/jacobian_agenda.html">jacobian_agenda</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/iy_aux_vars.html">iy_aux_vars</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/y.html">y</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The measurement vector.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_f.html">y_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_pol.html">y_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_pos.html">y_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor positions associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_los.html">y_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The line-of-sights associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_aux.html">y_aux</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>Data auxilary to <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_geo.html">y_geo</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The geo-positioning associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/jacobian.html">jacobian</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_field.html">nlte_field</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>The field of NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data_checked.html">scat_data_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../variables/scat_data.html">scat_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_checked.html">sensor_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for sensor related variables.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_pos.html">sensor_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor position for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_los.html">sensor_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor line-of-sight (LOS) for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/transmitter_pos.html">transmitter_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Transmitter positions.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The set of angular pencil beam directions for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_main_agenda.html">iy_main_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the single monochromatic pencil beam spectrum.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/geo_pos_agenda.html">geo_pos_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda deriving the geo-position of a pencil beam calculation.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/jacobian_agenda.html">jacobian_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Pure numerical Jacobian calculation agenda.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_aux_vars.html">iy_aux_vars</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of quantities for <a href="../variables/iy_aux.html">iy_aux</a> and when applicable also <a href="../variables/y_aux.html">y_aux</a>.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

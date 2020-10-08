@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>atm_fields_compact - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../variables.html">Variables</a>&nbsp;>>&nbsp;atm_fields_compact</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="index.html">Variables</a>&nbsp;-&nbsp;<a href="../methods/index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Variable atm_fields_compact</h2>
+<pre>
+A compact set of atmospheric fields on a common set of grids.
+
+Data is supposed to contain basic atmsopheric fields for a RT
+calculation, i.e., temperature, altitude, and gas VMRs. It can
+furthermore contain fields describing scattering species like mass
+content, mass flux, number density of diverse scattering species.
+
+VMR fields are unitless, scattering species fields are supposed to be
+in SI units (i.e. kg/m3 for mass contents, kg/m2/s for mass flux,
+1/m3 for number densities).
+
+The data are stored in a <a href="../groups/GriddedField4.html">GriddedField4</a>.
+
+The first field in the matrix (i.e., first matrix column) has to be
+atmospheric pressure. Apart from this, the order of the fields is
+free. Field content (apart from pressure) is identified by their
+given field name tag. Furthermore, absorption species (e.g. VMR)
+fields and scattering species fields are related to <a href="abs_species.html">abs_species</a>
+and <a href="scat_species.html">scat_species</a> entries, respectively, by their field name tags.
+The tags must exhibit the following structure:
+
+0) species identifier:
+   Fields, supposed to be sorted into <a href="vmr_field.html">vmr_field</a>, must be headed the
+   tag 'abs_species'. Names of scattering species fields likewise must
+   be headed by the 'scat_species' tag. Temperature and altitude
+   fields do not hold any heading tag.
+1) species name:
+   The (core) name of the field: 'T' for temperature, 'z' for
+   altitude, the absorption species name (e.g. 'H2O, 'O3', etc.) for
+   absorption species, the scattering species name (e.g. 'IWC') for
+   scattering species. For scattering species, this part is matched
+   against the scattering species name part of the <a href="scat_species.html">scat_species</a>
+   tags.
+2) field type:
+   This has to be given for scattering species only, indicating the
+   type of the scattering species fields, i.e. 'mass_density',
+   'mass_flux', 'number_density', 'mean_mass'.
+Dashes ('-') serve as delimiter, separating the elements of each
+field name tag.
+
+Usage: Used inside batch calculations, to hold successive atmospheric
+       states from an <a href="../groups/ArrayOfGriddedField4.html">ArrayOfGriddedField4</a>.
+
+Dimensions: 
+   GriddedField4:
+      ArrayOfString field_names[N_fields]
+      Vector p_grid[N_p]
+      Vector lat_grid[N_lat]
+      Vector lon_grid[N_lon]
+      Tensor4 data[N_fields][N_p][N_lat][N_lon]
+
+</pre>
+
+<p><b>Group: </b><a href="../groups/GriddedField4.html">GriddedField4</a>
+<h3>Specific methods that can generate atm_fields_compact</h3>
+<ul>
+<li><a href="../methods/atm_fields_compactAddConstant.html">atm_fields_compactAddConstant</a>
+<li><a href="../methods/atm_fields_compactAddSpecies.html">atm_fields_compactAddSpecies</a>
+<li><a href="../methods/atm_fields_compactCleanup.html">atm_fields_compactCleanup</a>
+<li><a href="../methods/atm_fields_compactCreateFromField.html">atm_fields_compactCreateFromField</a>
+<li><a href="../methods/atm_fields_compactFromMatrix.html">atm_fields_compactFromMatrix</a>
+<li><a href="../methods/iyIndependentBeamApproximation.html">iyIndependentBeamApproximation</a>
+
+</ul>
+<h3>Generic and supergeneric methods that can generate atm_fields_compact</h3>
+<ul>
+<li><a href="../methods/GriddedField4Create.html">GriddedField4Create</a>
+<li><a href="../methods/Copy.html">Copy</a>
+<li><a href="../methods/Extract.html">Extract</a>
+<li><a href="../methods/GriddedFieldLatLonExpand.html">GriddedFieldLatLonExpand</a>
+<li><a href="../methods/GriddedFieldLatLonRegrid.html">GriddedFieldLatLonRegrid</a>
+<li><a href="../methods/GriddedFieldPRegrid.html">GriddedFieldPRegrid</a>
+<li><a href="../methods/ReadXML.html">ReadXML</a>
+<li><a href="../methods/ReadXMLIndexed.html">ReadXMLIndexed</a>
+<li><a href="../methods/Touch.html">Touch</a>
+
+</ul>
+<h3>Specific methods that require atm_fields_compact</h3>
+<ul>
+<li><a href="../methods/AtmFieldsAndParticleBulkPropFieldFromCompact.html">AtmFieldsAndParticleBulkPropFieldFromCompact</a>
+<li><a href="../methods/atm_fields_compactAddConstant.html">atm_fields_compactAddConstant</a>
+<li><a href="../methods/atm_fields_compactAddSpecies.html">atm_fields_compactAddSpecies</a>
+<li><a href="../methods/atm_fields_compactCleanup.html">atm_fields_compactCleanup</a>
+
+</ul>
+<h3>Generic and supergeneric methods that can use atm_fields_compact</h3>
+<ul>
+<li><a href="../methods/Append.html">Append</a>
+<li><a href="../methods/Copy.html">Copy</a>
+<li><a href="../methods/Delete.html">Delete</a>
+<li><a href="../methods/FieldFromGriddedField.html">FieldFromGriddedField</a>
+<li><a href="../methods/GriddedFieldGetName.html">GriddedFieldGetName</a>
+<li><a href="../methods/GriddedFieldLatLonExpand.html">GriddedFieldLatLonExpand</a>
+<li><a href="../methods/GriddedFieldLatLonRegrid.html">GriddedFieldLatLonRegrid</a>
+<li><a href="../methods/GriddedFieldPRegrid.html">GriddedFieldPRegrid</a>
+<li><a href="../methods/Ignore.html">Ignore</a>
+<li><a href="../methods/Print.html">Print</a>
+<li><a href="../methods/surface_scalar_reflectivityFromGriddedField4.html">surface_scalar_reflectivityFromGriddedField4</a>
+<li><a href="../methods/WriteXML.html">WriteXML</a>
+<li><a href="../methods/WriteXMLIndexed.html">WriteXMLIndexed</a>
+
+</ul>
+<h3>Agendas that can generate atm_fields_compact</h3>
+<ul>
+<li>none
+
+</ul>
+<h3>Agendas that require atm_fields_compact</h3>
+<ul>
+<li>none
+
+</ul>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

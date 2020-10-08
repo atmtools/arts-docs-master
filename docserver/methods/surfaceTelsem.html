@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>surfaceTelsem - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;surfaceTelsem</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method surfaceTelsem</h2>
+<h3>Description</h3>
+<pre>
+Compute surface emissivities using the TELSEM 2 model.
+
+This method uses second version of the TELSEM model for calculating
+land surface emissivities (F. Aires et al, "A Tool to Estimate 
+ Land‐Surface Emissivities at Microwave frequencies (TELSEM) for use
+ in numerical weather prediction" Quarterly Journal of the Royal
+Meteorological Society, vol. 137, (656), pp. 690-699, 2011.)
+This methods computes land surface emissivities for a given pencil beam
+using a given TELSEM2 atlas.
+The input must satisfy the following conditions, otherwise an error is thrown:
+ - The input frequencies (<a href="../variables/f_grid.html">f_grid</a>) must be within the range [5 GHz, 900 GHz]
+ - The skin temperature (<a href="../variables/surface_skin_t.html">surface_skin_t</a>) must be within the range
+   [180 K, 360 K]
+
+A TELSEM atlas contains only suface emissivities for locations that are
+classified as land. By default this WSM will throw an error if the
+pencil beam hits the surface at a position that is not contained in the
+given atlas.
+
+The above behavior can be avoided by setting *d_max* to a positive value.
+This enables nearest neighbor interpolation, which assigns the emissivities
+of the nearest found cell in the atlas to the given position. In this case,
+an error is only thrown if the distance of the found neighbor is higher
+than the provided value of *d_max.
+
+You can limit the final reflectivity applied by setting *r_min* and *r_max*.
+
+To extract a land-sea mask from a given telsem atlas see the WSM
+<a href="telsemSurfaceTypeLandSea.html">telsemSurfaceTypeLandSea</a>.
+
+</pre>
+
+<p><b>Authors: </b>Simon Pfreundschuh
+<h3>Synopsis</h3>
+<p><table><tr><td>surfaceTelsem(&nbsp;</td><td><a href="../variables/surface_los.html">surface_los</a>, <a href="../variables/surface_rmatrix.html">surface_rmatrix</a>, <a href="../variables/surface_emission.html">surface_emission</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lat_true.html">lat_true</a>, <a href="../variables/lon_true.html">lon_true</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, atlas, r_min, r_max, d_max )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_los.html">surface_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Downwelling radiation directions to consider in surface reflection.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_rmatrix.html">surface_rmatrix</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>The reflection coefficients for the directions given by <a href="../variables/surface_los.html">surface_los</a> to the direction of interest.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_emission.html">surface_emission</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The emission from the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_true.html">lat_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Latitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_true.html">lon_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Longitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>GIN</td><td class="right">atlas</td><td>(<a href="../groups/TelsemAtlas.html">TelsemAtlas</a>)</td><td>The Telsem atlas to use for the emissivity calculation.</td></tr>
+<tr><td>GIN</td><td class="right">r_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Minimum allowed value for reflectivity to apply.</td></tr>
+<tr><td>GIN</td><td class="right">r_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 1)</td><td>Maximum allowed value for reflectivity to apply.</td></tr>
+<tr><td>GIN</td><td class="right">d_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -1.0)</td><td>Maximum allowed distance in meters for nearest neighbor interpolation in meters. Set to a negative value or zero  to disable interpolation.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

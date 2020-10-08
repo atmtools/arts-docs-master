@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>iyLoopFrequencies - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;iyLoopFrequencies</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method iyLoopFrequencies</h2>
+<h3>Description</h3>
+<pre>
+Radiative transfer calculations one frequency at the time.
+
+The method loops the frequencies in <a href="../variables/f_grid.html">f_grid</a> and calls
+<a href="../agendas/iy_loop_freqs_agenda.html">iy_loop_freqs_agenda</a> for each individual value. This method is
+placed in <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>, and the actual radiative transfer
+ method is put in <a href="../agendas/iy_loop_freqs_agenda.html">iy_loop_freqs_agenda</a>.
+
+A common justification for using the method should be to consider
+dispersion. By using this method it is ensured that the propagation
+path for each individual frequency is calculated.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>iyLoopFrequencies(&nbsp;</td><td><a href="../variables/iy.html">iy</a>, <a href="../variables/iy_aux.html">iy_aux</a>, <a href="../variables/ppath.html">ppath</a>, <a href="../variables/diy_dx.html">diy_dx</a>, <a href="../variables/iy_aux_vars.html">iy_aux_vars</a>, <a href="../variables/iy_agenda_call1.html">iy_agenda_call1</a>, <a href="../variables/iy_transmission.html">iy_transmission</a>, <a href="../variables/rte_pos.html">rte_pos</a>, <a href="../variables/rte_los.html">rte_los</a>, <a href="../variables/rte_pos2.html">rte_pos2</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../agendas/iy_loop_freqs_agenda.html">iy_loop_freqs_agenda</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy.html">iy</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Monochromatic pencil beam radiance spectrum.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy_aux.html">iy_aux</a></td><td>(<a href="../groups/ArrayOfMatrix.html">ArrayOfMatrix</a>)</td><td>Data auxiliary to <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/ppath.html">ppath</a></td><td>(<a href="../groups/Ppath.html">Ppath</a>)</td><td>The propagation path for one line-of-sight.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/diy_dx.html">diy_dx</a></td><td>(<a href="../groups/ArrayOfTensor3.html">ArrayOfTensor3</a>)</td><td>Derivative of <a href="../variables/iy.html">iy</a> with respect to retrieval quantities.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_aux_vars.html">iy_aux_vars</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of quantities for <a href="../variables/iy_aux.html">iy_aux</a> and when applicable also <a href="../variables/y_aux.html">y_aux</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_agenda_call1.html">iy_agenda_call1</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to handle recursive calls of <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>  The agenda <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a> can be used recursively and this flag is used to tell the methods inside the agenda which is the primary  call.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_transmission.html">iy_transmission</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Transmission to be included in <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_pos.html">rte_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A geographical position for starting radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_los.html">rte_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A line-of-sight for (complete) radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_pos2.html">rte_pos2</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A second geographical position to define the geometry for radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_loop_freqs_agenda.html">iy_loop_freqs_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda dedicated to <a href="iyLoopFrequencies.html">iyLoopFrequencies</a>.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

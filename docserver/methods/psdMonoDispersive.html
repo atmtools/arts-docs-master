@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>psdMonoDispersive - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;psdMonoDispersive</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method psdMonoDispersive</h2>
+<h3>Description</h3>
+<pre>
+Mono-dispersive PSD, with number density given.
+
+This is a 1-parameter PSD, i.e. <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> shall have one
+column and <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a> shall contain a single string.
+The input data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> shall be number densities, in
+unit of [#/m3]. The naming used is <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a> is free
+but the same name must be used in <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a> and
+<a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>.
+
+The method checks that the scattering species indicated (by
+*species_index*) has a single element, and just inserts the provided
+number density in <a href="../variables/psd_data.html">psd_data</a>.
+
+If temperature is outside [*t_min*,*t_max*] psd=0 and dpsd=0 if
+picky=0, or an error is thrown if picky=1.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>psdMonoDispersive(&nbsp;</td><td><a href="../variables/psd_data.html">psd_data</a>, <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a>, <a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a>, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>, <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>, <a href="../variables/scat_meta.html">scat_meta</a>, species_index, t_min, t_max, picky )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/psd_data.html">psd_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Particle size distribution values for a set of points.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Partial derivates of <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The variable input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Naming of (existing or expected) data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of partial derivatives of <a href="../variables/pnd_data.html">pnd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_meta.html">scat_meta</a></td><td>(<a href="../groups/ArrayOfArrayOfScatteringMetaData.html">ArrayOfArrayOfScatteringMetaData</a>)</td><td>An Array of scattering meta data (<a href="../variables/scat_meta_single.html">scat_meta_single</a>).</td></tr>
+<tr><td>GIN</td><td class="right">species_index</td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The index of the scattering species of concern (0-based).</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Low temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>High temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">picky</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to be strict with parametrization value checks.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

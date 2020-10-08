@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>pnd_fieldCalcFromParticleBulkProps - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;pnd_fieldCalcFromParticleBulkProps</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method pnd_fieldCalcFromParticleBulkProps</h2>
+<h3>Description</h3>
+<pre>
+Converts particle bulk property data to <a href="../variables/pnd_field.html">pnd_field</a>.
+
+In short, the method combines <a href="../variables/scat_species.html">scat_species</a>, <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>,
+<a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a> and their associated variables to derive
+<a href="../variables/pnd_field.html">pnd_field</a>.
+
+The method does nothing if cloudbox is inactive.
+
+Otherwise, cloudbox limits must be set before calling the method,
+and <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a> is checked to have non-zero elements
+just inside the cloudbox.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson, Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>pnd_fieldCalcFromParticleBulkProps(&nbsp;</td><td><a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/dpnd_field_dx.html">dpnd_field_dx</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/scat_species.html">scat_species</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_meta.html">scat_meta</a>, <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>, <a href="../variables/pnd_agenda_array_input_names.html">pnd_agenda_array_input_names</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpnd_field_dx.html">dpnd_field_dx</a></td><td>(<a href="../groups/ArrayOfTensor4.html">ArrayOfTensor4</a>)</td><td>Partial derivatives of <a href="../variables/pnd_field.html">pnd_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species.html">scat_species</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Array of Strings defining the scattering species to consider.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_meta.html">scat_meta</a></td><td>(<a href="../groups/ArrayOfArrayOfScatteringMetaData.html">ArrayOfArrayOfScatteringMetaData</a>)</td><td>An Array of scattering meta data (<a href="../variables/scat_meta_single.html">scat_meta_single</a>).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Container for various data that describes scattering bulk properties.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Identification of the data in <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a></td><td>(<a href="../groups/ArrayOfAgenda.html">ArrayOfAgenda</a>)</td><td>Mapping of particle bulk properties to number density data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_array_input_names.html">pnd_agenda_array_input_names</a></td><td>(<a href="../groups/ArrayOfArrayOfString.html">ArrayOfArrayOfString</a>)</td><td>Naming of all input expected by <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

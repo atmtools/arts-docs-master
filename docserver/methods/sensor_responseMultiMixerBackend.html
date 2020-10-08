@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseMultiMixerBackend - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseMultiMixerBackend</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseMultiMixerBackend</h2>
+<h3>Description</h3>
+<pre>
+Handles mixer and backend parts for an instrument having multiple
+mixer chains.
+
+The WSMs <a href="sensor_responseMixer.html">sensor_responseMixer</a>, <a href="sensor_responseIF2RF.html">sensor_responseIF2RF</a> and
+<a href="sensor_responseBackend.html">sensor_responseBackend</a> are called for each mixer chain, and a
+complete <a href="../variables/sensor_response.html">sensor_response</a> is assembled. The instrument responses
+are described by <a href="../variables/lo_multi.html">lo_multi</a>, <a href="../variables/sideband_response_multi.html">sideband_response_multi</a>,
+<a href="../variables/sideband_mode_multi.html">sideband_mode_multi</a>, <a href="../variables/f_backend_multi.html">f_backend_multi</a> and
+<a href="../variables/backend_channel_response_multi.html">backend_channel_response_multi</a>. All these WSVs must have same
+vector or array length. As <a href="sensor_responseIF2RF.html">sensor_responseIF2RF</a> is called,
+<a href="../variables/f_backend_multi.html">f_backend_multi</a> must hold RF (not IF) and output frequencies
+will be in absolute frequency (RF).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseMultiMixerBackend(&nbsp;</td><td><a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/lo_multi.html">lo_multi</a>, <a href="../variables/sideband_response_multi.html">sideband_response_multi</a>, <a href="../variables/sideband_mode_multi.html">sideband_mode_multi</a>, <a href="../variables/f_backend_multi.html">f_backend_multi</a>, <a href="../variables/backend_channel_response_multi.html">backend_channel_response_multi</a>, <a href="../variables/sensor_norm.html">sensor_norm</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lo_multi.html">lo_multi</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Local oscillator frequencies.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sideband_response_multi.html">sideband_response_multi</a></td><td>(<a href="../groups/ArrayOfGriddedField1.html">ArrayOfGriddedField1</a>)</td><td>Description of multiple (mixer) sideband responses.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sideband_mode_multi.html">sideband_mode_multi</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Description of target sideband for a multiple LO receiver.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_backend_multi.html">f_backend_multi</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>As <a href="../variables/f_backend.html">f_backend</a> but describes an instrument with muliple mixer/receiver chains.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/backend_channel_response_multi.html">backend_channel_response_multi</a></td><td>(<a href="../groups/ArrayOfArrayOfGriddedField1.html">ArrayOfArrayOfGriddedField1</a>)</td><td>As <a href="../variables/backend_channel_response.html">backend_channel_response</a> but describes an instrument with muliple mixer/receiver chains.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_norm.html">sensor_norm</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag if sensor response should be normalised or not (0 or 1).</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

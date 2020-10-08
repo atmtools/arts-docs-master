@@ -1,0 +1,26 @@
+var disort_8cc =
+[
+    [ "MAX_WARNINGS", "disort_8cc.html#a34a73c0f28ef77032936d2065bafa375", null ],
+    [ "c_errmsg", "disort_8cc.html#a0de1d84fa9d3c1f5643133e4da0a1c22", null ],
+    [ "c_write_bad_var", "disort_8cc.html#a7848262b8576640118719698ce73a9a3", null ],
+    [ "c_write_too_small_dim", "disort_8cc.html#ae54cd340b84a8ac0ee69ecad7a7b264d", null ],
+    [ "check_disort_input", "disort_8cc.html#af6ffb1b49d4daeaa1b5f06b3e88bd7b4", null ],
+    [ "get_angs", "disort_8cc.html#a999b176761a10bebaa31fb4be6b07414", null ],
+    [ "get_disortsurf_props", "disort_8cc.html#a512db8800a16147dc343faa203e1d277", null ],
+    [ "get_dtauc_ssalb", "disort_8cc.html#a7e3794b08691f54fd3b7a5950001ba88", null ],
+    [ "get_gasoptprop", "disort_8cc.html#ab3bdb4ea7ce0349bbc72d3b01c129203", null ],
+    [ "get_paroptprop", "disort_8cc.html#acfddeb32053dc3db040ad30d577f540f", null ],
+    [ "get_parZ", "disort_8cc.html#a50759f98dad80a72969aee75351eb71b", null ],
+    [ "get_pfct", "disort_8cc.html#a2502911b679480f7e4c61820b59d033b", null ],
+    [ "get_pmom", "disort_8cc.html#aa3b2460bf3ccf554037d2baa00b97104", null ],
+    [ "init_ifield", "disort_8cc.html#a4d6ae3c91efb2953d44adbdd3da95243", null ],
+    [ "reduced_1datm", "disort_8cc.html#a2d138971572fed34c6e80da3f2defafc", null ],
+    [ "run_cdisort", "disort_8cc.html#a30c069de8f670d06928d5a6503e7c204", null ],
+    [ "surf_albedoCalc", "disort_8cc.html#a0763ca3d1c97428796206a3ccd734370", null ],
+    [ "COSMIC_BG_TEMP", "disort_8cc.html#a20c2ef7a32fd4bacbb08a193ab353891", null ],
+    [ "DEG2RAD", "disort_8cc.html#ac705b70c1bdd2b02d631e9d9e8bbaed4", null ],
+    [ "disort_verbosity", "disort_8cc.html#a97955d45d7f40ace8e1ff19e4f5a61a8", null ],
+    [ "PI", "disort_8cc.html#a9d0fb1720e9df57970c08cc4e3ee0bc0", null ],
+    [ "PLANCK_CONST", "disort_8cc.html#ad9059227f91d8cd58ddf8e9b2dcbb7f4", null ],
+    [ "SPEED_OF_LIGHT", "disort_8cc.html#aa5e69bbdf03c635c138519482cd20dfb", null ]
+];

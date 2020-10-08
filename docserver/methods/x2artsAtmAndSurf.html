@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>x2artsAtmAndSurf - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;x2artsAtmAndSurf</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method x2artsAtmAndSurf</h2>
+<h3>Description</h3>
+<pre>
+Maps <a href="../variables/x.html">x</a> to atmospheric and surface variables.
+
+Maps OEM's state vector, <a href="../variables/x.html">x</a>, to the matching ARTS variables. This
+method handles atmospheric and surface variables. If you retrieve
+other variables, make sure that you also call <a href="x2artsSensor.html">x2artsSensor</a> and/or
+<a href="x2artsSpectroscopy.html">x2artsSpectroscopy</a>.
+
+The following retrieval quantities are handled by this method:
+   Temperature
+   Absorption species
+   Scattering species
+   Winds
+   Surface variables
+
+Should only be used inside <a href="../agendas/inversion_iterate_agenda.html">inversion_iterate_agenda</a>.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>x2artsAtmAndSurf(&nbsp;</td><td><a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/wind_u_field.html">wind_u_field</a>, <a href="../variables/wind_v_field.html">wind_v_field</a>, <a href="../variables/wind_w_field.html">wind_w_field</a>, <a href="../variables/mag_u_field.html">mag_u_field</a>, <a href="../variables/mag_v_field.html">mag_v_field</a>, <a href="../variables/mag_w_field.html">mag_w_field</a>, <a href="../variables/surface_props_data.html">surface_props_data</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/x.html">x</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../variables/surface_props_names.html">surface_props_names</a>, <a href="../agendas/water_p_eq_agenda.html">water_p_eq_agenda</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Container for various data that describes scattering bulk properties.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/wind_u_field.html">wind_u_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Zonal component of the wind field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/wind_v_field.html">wind_v_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Meridional component of the magnetic field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/wind_w_field.html">wind_w_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Vertical wind component field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/mag_u_field.html">mag_u_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Zonal component of the magnetic field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/mag_v_field.html">mag_v_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Meridional component of the magnetic field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/mag_w_field.html">mag_w_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Vertical component of the magnetic field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/surface_props_data.html">surface_props_data</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Various surface properties.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/x.html">x</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The state vector.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Identification of the data in <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_props_names.html">surface_props_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Name on surface properties found in <a href="../variables/surface_props_data.html">surface_props_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/water_p_eq_agenda.html">water_p_eq_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda to calculate the saturation pressure of water.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseAntenna - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseAntenna</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseAntenna</h2>
+<h3>Description</h3>
+<pre>
+Includes response of the antenna.
+
+The function returns the sensor response matrix after the antenna
+characteristics have been included.
+
+The function handles "multi-beam" cases where the polarisation
+coordinate system is the same for all beams.
+
+See <a href="../variables/antenna_dim.html">antenna_dim</a>, <a href="../variables/antenna_dlos.html">antenna_dlos</a> and <a href="../variables/antenna_response.html">antenna_response</a> for
+details on how to specify the antenna response.
+
+The text below refers to <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> despite it is not an
+input to the method. The method instead uses <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>
+but the values in this WSV are likely coming from <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a>.
+
+One dimensional antenna patterns are handled as other response
+functions. That is, both antenna response and radiances are treated
+as piece-wise linear functions, and the pencil beam calculations must
+cover the full sensor response (i.e. <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> must be
+sufficiently broad).
+
+There exist different options for two dimensional (2D) antenna patterns,
+see below (if 2D, the GIN *option_2d* must be set, the default results
+in an error). A normalisation is always applied for 2D antennas (i.e.
+*sensor-norm* is ignored).
+
+"interp_response"For this option, each direction defined by <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> is
+considered to represent the same size in terms of solid beam angle,
+and the antenna pattern is interpolated to these directions. There is
+no check on how well <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> covers the antenna response.
+The response is treated to be zero outside the ranges of its  anular
+grids
+
+"gridded_dlos"This option is more similar to the 1D case. The radiances are treated
+as a bi-linear function, but the antenna response is treated as step-
+wise constant function (in contrast to 1D). For this option
+<a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a> must match a combination of zenith and azimuth
+grids, and this for a particular order. If the zenith and azimuth
+grids have 3 and 2 values, respectively, the order shall be:
+  [(za1,aa1); (za2,aa1); (za3,aa1); (za1,aa2); (za2,aa2); (za3,aa2) ]
+Both these grids must be strictly increasing and as for 1D must cover
+the antenna response completely.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson, Mattias Ekstrom
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseAntenna(&nbsp;</td><td><a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/antenna_dim.html">antenna_dim</a>, <a href="../variables/antenna_dlos.html">antenna_dlos</a>, <a href="../variables/antenna_response.html">antenna_response</a>, <a href="../variables/sensor_norm.html">sensor_norm</a>, option_2d )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/antenna_dim.html">antenna_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the antenna pattern (1-2).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/antenna_dlos.html">antenna_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative line-of-sight of each antenna pattern.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/antenna_response.html">antenna_response</a></td><td>(<a href="../groups/GriddedField4.html">GriddedField4</a>)</td><td>The antenna pattern/response.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_norm.html">sensor_norm</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag if sensor response should be normalised or not (0 or 1).</td></tr>
+<tr><td>GIN</td><td class="right">option_2d</td><td>(<a href="../groups/String.html">String</a>, Default: "-")</td><td>Calculation option for 2D antenna cases. See above for details.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

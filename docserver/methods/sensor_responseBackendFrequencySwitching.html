@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseBackendFrequencySwitching - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseBackendFrequencySwitching</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseBackendFrequencySwitching</h2>
+<h3>Description</h3>
+<pre>
+Frequency switching for a pure SSB reciever.
+
+This function can be used for simulation of frequency switching.
+That is, when the final spectrum is the difference of two spectra
+shifted in frequency. The switching is performed by the LO, but
+for a pure singel sideband reciever this is most easily simulated
+by instead shifting the backend, as done here.
+
+A strightforward frequency switching is modelled (no folding)
+The channel positions for the first measurement cycle are
+f_backend+df1, and for the second f_backend+df2. The first
+measurement cycle is given the negive weight. That is, the output
+is the spectrum for cycle2 minus the spectrum for cycle1.
+Output frequency grids are set to <a href="../variables/f_backend.html">f_backend</a>.
+
+Use <a href="sensor_responseFrequencySwitching.html">sensor_responseFrequencySwitching</a> for double sideband cases.
+
+The method has the same general functionality as, and can replace,
+<a href="sensor_responseBackend.html">sensor_responseBackend</a>.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseBackendFrequencySwitching(&nbsp;</td><td><a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/f_backend.html">f_backend</a>, <a href="../variables/backend_channel_response.html">backend_channel_response</a>, <a href="../variables/sensor_norm.html">sensor_norm</a>, df1, df2 )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_backend.html">f_backend</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency position of each backend (spectrometer) channel.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/backend_channel_response.html">backend_channel_response</a></td><td>(<a href="../groups/ArrayOfGriddedField1.html">ArrayOfGriddedField1</a>)</td><td>The response of each backend channel.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_norm.html">sensor_norm</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag if sensor response should be normalised or not (0 or 1).</td></tr>
+<tr><td>GIN</td><td class="right">df1</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Frequency throw for cycle1.</td></tr>
+<tr><td>GIN</td><td class="right">df2</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Frequency throw for cycle2.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

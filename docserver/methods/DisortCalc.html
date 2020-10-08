@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DisortCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;DisortCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method DisortCalc</h2>
+<h3>Description</h3>
+<pre>
+Interface to the DISORT scattering solver (by Stamnes et al.).
+
+DISCLAIMER: There is a couple of known issues with the current
+implementation (see below). Use this WSM with care and only if
+these limitations/requirements are fulfilled. Results might be
+erroneous otherwise.
+
+DISORT provides the radiation field (<a href="../variables/cloudbox_field.html">cloudbox_field</a>) from a scalar
+1D scattering solution assuming a plane-parallel atmosphere (flat
+Earth). Only totally randomly oriented particles are allowed.
+Refraction is not taken into account. Only Lambertian surface
+reflection is handled.
+
+*nstreams* is the number of polar angles taken into account
+internally in the scattering solution, <a href="../variables/za_grid.html">za_grid</a> is the
+polar angle grid on which <a href="../variables/cloudbox_field.html">cloudbox_field</a> is provided.
+*nstreams* determines the angular resolution, hence the accuracy,
+of the scattering solution. The more anisotropic the bulk scattering
+matrix, the more streams are required. The computational burden
+increases approximately linearly with *nstreams*. The default value
+(8) is sufficient for most microwave scattering calculations. It is
+likely insufficient for IR calculations involving ice clouds,
+though.
+
+Further, <a href="../variables/za_grid.html">za_grid</a> determines the resolution of the output
+radiation field. The size of <a href="../variables/za_grid.html">za_grid</a> has no practical
+impact on computation time in the case of Disort and higher
+resolution generally improves the interpolation results, hence
+larger <a href="../variables/za_grid.html">za_grid</a> are recommended. To ensure sufficient
+interpolation accuracy, we require a (hardcoded) minimum size of 38.
+
+Different sphericity levels are emulated here by embedding DISORT
+in different ways and using different output. The available options
+(from low to high sphericity level) are:
+- Cloudbox extends over whole atmosphere (e.g. by setting cloudbox
+  from <a href="cloudboxSetFullAtm.html">cloudboxSetFullAtm</a>).
+- Cloudbox extends over a limited part of the atmosphere only (e.g.
+  by setting cloudbox from <a href="cloudboxSetAutomatically.html">cloudboxSetAutomatically</a> or
+  <a href="cloudboxSetManually.html">cloudboxSetManually</a>). Internally, DISORT is run over the whole
+  atmosphere, but only the radiation field within the cloudbox is
+  passed on and used further in ARTS (e.g. by <a href="yCalc.html">yCalc</a>).
+
+Known issues of ARTS implementation:
+- Surface altitude is not an interface parameter. Surface is
+  implicitly assumed to be at the lowest atmospheric level.
+- Scattering angle grids of all scattering elements have to be
+  identical (except if *pfct_method* is 'interpolate').
+
+Keyword *pfct_method* allows to chose the method to extract phase
+function. 'interpolate' considers temperature dependence. Others
+neglect it by chosing one specific temperature grid point from the
+single scattering data: 'low' choses the lowest T-point, 'high' the
+highest T-point, and 'median' the median T-point. As different
+scattering elements can have different temperature grids, the actual
+temperature value used can differ between the scattering elements.
+Currently, other methods than 'interpolate' require all scattering
+elements to be given on identical scattering angle grids.
+Note that this keyword solely affects the phase function;
+extinction/absorption/scattering cross sections are always
+interpolated to the actual temperature.
+
+</pre>
+
+<p><b>Authors: </b>Claudia Emde, Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>DisortCalc(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>, nstreams, pfct_method, Npfct, quiet )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data_checked.html">scat_data_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../variables/scat_data.html">scat_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Surface reflectivity, assuming it can be described as a scalar value.</td></tr>
+<tr><td>GIN</td><td class="right">nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 8)</td><td>Number of polar angle directions (streams) in DISORT solution (must be an even number).</td></tr>
+<tr><td>GIN</td><td class="right">pfct_method</td><td>(<a href="../groups/String.html">String</a>, Default: "median")</td><td>Flag which method to apply to derive phase function.</td></tr>
+<tr><td>GIN</td><td class="right">Npfct</td><td>(<a href="../groups/Index.html">Index</a>, Default: 181)</td><td>Number of angular grid points to calculate bulk phase function on (and derive Legendre polnomials from). If &lt;0, the finest za_grid from scat_data will be used.</td></tr>
+<tr><td>GIN</td><td class="right">quiet</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Silence C Disort warnings.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>psdMilbrandtYau05 - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;psdMilbrandtYau05</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method psdMilbrandtYau05</h2>
+<h3>Description</h3>
+<pre>
+Calculates <a href="../variables/psd_data.html">psd_data</a> and  <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a> following Milbrandt and Yau (2005)
+two moment particle size distribution for cloud water, cloud ice,
+rain, snow, graupel and hail, which is used in the GEM model.
+
+WSM for use in <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a> for mapping <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>
+to <a href="../variables/pnd_field.html">pnd_field</a> using <a href="pnd_fieldCalcFromParticleBulkProps.html">pnd_fieldCalcFromParticleBulkProps</a>.
+Produces the particle size distribution values (dN/dD) and their
+derivates with respect to independent variables x by <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>
+over multiple particle sizes and atmospheric levels (or SWC/T
+combinations).
+
+<a href="../variables/psd_size_grid.html">psd_size_grid</a> is considered to be in terms of maximum diameter.
+WC is considered to be in terms of mass content (or mass density),
+ie. units of [kg/m3]. N_tot in terms of number density, ie. units of [1/m3] .
+Derivatives with respect to WC and N_tot are obtained analytically.
+
+Six particle size distributions for the different hydrometeors are handled,
+governed by setting of *hydrometeor_type*, where 
+    "cloud_water" selects cloud liquid water , 
+    "cloud_ice" selects cloud ice, 
+    "snow" selects snow, 
+    "rain" selects rain, 
+    "graupel" selects graupel, and 
+    "hail" selects hail, 
+
+Requirements:
+
+<a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a> must include :
+    ["X-mass_density", "X-number_density" ]. "X" is an arbitrary name
+The entries in  <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a> (ie. the allowed
+independent variablea ) can be "X-mass_density" and\or 
+"X-number_density".
+
+The validity range of WC is not limited. Negative WC will produce
+negative psd values following a distribution given by abs(WC), ie.
+abs(psd)=f(abs(WC)).
+
+If temperature is outside [*t_min*,*t_max*] psd=0 and dpsd=0 if
+picky=0, or an error is thrown if picky=1.
+
+</pre>
+
+<p><b>Authors: </b>Manfred Brath
+<h3>Synopsis</h3>
+<p><table><tr><td>psdMilbrandtYau05(&nbsp;</td><td><a href="../variables/psd_data.html">psd_data</a>, <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a>, <a href="../variables/psd_size_grid.html">psd_size_grid</a>, <a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a>, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>, <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>, hydrometeor_type, t_min, t_max, picky )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/psd_data.html">psd_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Particle size distribution values for a set of points.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Partial derivates of <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/psd_size_grid.html">psd_size_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The particle sizes associated with <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The variable input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Naming of (existing or expected) data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of partial derivatives of <a href="../variables/pnd_data.html">pnd_data</a>.</td></tr>
+<tr><td>GIN</td><td class="right">hydrometeor_type</td><td>(<a href="../groups/String.html">String</a>)</td><td>Hydrometeor type (see above description).</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Low temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 999)</td><td>High temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">picky</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to be strict with parametrization value checks.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

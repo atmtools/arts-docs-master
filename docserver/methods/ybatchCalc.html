@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ybatchCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;ybatchCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method ybatchCalc</h2>
+<h3>Description</h3>
+<pre>
+Performs batch calculations for the measurement vector y.
+
+We perform <a href="../variables/ybatch_n.html">ybatch_n</a> jobs, starting at index <a href="../variables/ybatch_start.html">ybatch_start</a>. (Zero
+based indexing, as usual.) The output array <a href="../variables/ybatch.html">ybatch</a> will have
+ybatch_n elements. Indices in the output array start
+with zero, independent of <a href="../variables/ybatch_start.html">ybatch_start</a>.
+
+The method performs the following:
+   1. Sets <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a>.
+   2. Performs a-d until
+      <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a> + <a href="../variables/ybatch_n.html">ybatch_n</a>.
+        a. Executes <a href="../agendas/ybatch_calc_agenda.html">ybatch_calc_agenda</a>.
+        b. If <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a>, resizes <a href="../variables/ybatch.html">ybatch</a>
+           based on <a href="../variables/ybatch_n.html">ybatch_n</a> and length of <a href="../variables/y.html">y</a>.
+        c. Copies <a href="../variables/y.html">y</a> to <a href="../variables/ybatch_index.html">ybatch_index</a> - <a href="../variables/ybatch_start.html">ybatch_start</a>
+           of <a href="../variables/ybatch.html">ybatch</a>.
+        d. Adds 1 to <a href="../variables/ybatch_index.html">ybatch_index</a>.
+
+Beside the <a href="../agendas/ybatch_calc_agenda.html">ybatch_calc_agenda</a>, the WSVs <a href="../variables/ybatch_start.html">ybatch_start</a>
+and <a href="../variables/ybatch_n.html">ybatch_n</a> must be set before calling this method.
+Further, <a href="../agendas/ybatch_calc_agenda.html">ybatch_calc_agenda</a> is expected to produce a
+spectrum and should accordingly include a call of <a href="yCalc.html">yCalc</a>
+(or asimilar method).
+
+The input variable <a href="../variables/ybatch_start.html">ybatch_start</a> is set to a default of zero in
+*general.arts*.
+
+An agenda that calculates spectra for different temperature profiles
+could look like this:
+
+   AgendaSet(ybatch_calc_agenda){
+      Extract(t_field,tensor4_1,ybatch_index)
+      yCalc
+   }
+
+Jacobians are also collected, and stored in output variable <a href="../variables/ybatch_jacobians.html">ybatch_jacobians</a>. 
+(This will be empty if yCalc produces empty Jacobians.)
+
+See the user guide for further practical examples.
+
+</pre>
+
+<p><b>Authors: </b>Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>ybatchCalc(&nbsp;</td><td><a href="../variables/ybatch.html">ybatch</a>, <a href="../variables/ybatch_aux.html">ybatch_aux</a>, <a href="../variables/ybatch_jacobians.html">ybatch_jacobians</a>, <a href="../variables/ybatch_start.html">ybatch_start</a>, <a href="../variables/ybatch_n.html">ybatch_n</a>, <a href="../agendas/ybatch_calc_agenda.html">ybatch_calc_agenda</a>, robust )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/ybatch.html">ybatch</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>Batch of spectra.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/ybatch_aux.html">ybatch_aux</a></td><td>(<a href="../groups/ArrayOfArrayOfVector.html">ArrayOfArrayOfVector</a>)</td><td>Data auxilary to <a href="../variables/ybatch.html">ybatch</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/ybatch_jacobians.html">ybatch_jacobians</a></td><td>(<a href="../groups/ArrayOfMatrix.html">ArrayOfMatrix</a>)</td><td>All the Jacobians associated with ybatch.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ybatch_start.html">ybatch_start</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Start index for <a href="ybatchCalc.html">ybatchCalc</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ybatch_n.html">ybatch_n</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Number of batch cases for <a href="ybatchCalc.html">ybatchCalc</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/ybatch_calc_agenda.html">ybatch_calc_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda defining the calculations to perform for each batch case.</td></tr>
+<tr><td>GIN</td><td class="right">robust</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>A flag with value 1 or 0. If set to one, the batch
+calculation will continue, even if individual jobs fail. In
+that case, a warning message is written to screen and file
+(out1 output stream), and the <a href="../variables/y.html">y</a> Vector entry for the
+failed job in <a href="../variables/ybatch.html">ybatch</a> is left empty.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

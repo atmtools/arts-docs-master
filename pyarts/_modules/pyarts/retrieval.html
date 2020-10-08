@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.retrieval &mdash; pyarts 2.3.1287 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1287
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarts.retrieval</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.retrieval</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation of RetrievalQuantity.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.utils.arts</span> <span class="kn">import</span> <span class="n">return_if_arts_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RetrievalQuantity&#39;</span><span class="p">,</span>
+           <span class="p">]</span>
+
+<div class="viewcode-block" id="RetrievalQuantity"><a class="viewcode-back" href="../../generated/pyarts.retrieval.RetrievalQuantity.html#pyarts.retrieval.RetrievalQuantity">[docs]</a><span class="k">class</span> <span class="nc">RetrievalQuantity</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represents a RetrievalQuantity object.</span>
+
+<span class="sd">    See online ARTS documentation for object details.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RetrievalQuantity.__init__"><a class="viewcode-back" href="../../generated/pyarts.retrieval.RetrievalQuantity.html#pyarts.retrieval.RetrievalQuantity.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maintag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subtag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subsubtag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">analytical</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perturbation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintag</span> <span class="o">=</span> <span class="n">maintag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subtag</span> <span class="o">=</span> <span class="n">subtag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subsubtag</span> <span class="o">=</span> <span class="n">subsubtag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analytical</span> <span class="o">=</span> <span class="n">analytical</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="n">perturbation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="n">grids</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maintag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;MainTag of retrieval species.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maintag</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">subtag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Subtag of retrieval species.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subtag</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">subsubtag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Subsubtag of retrieval species.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subsubtag</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieval mode.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">analytical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Flag to determine whether the retrieval was done analytically.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analytical</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">perturbation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Amplitude of the perturbation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perturbation</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pressure grid.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grids</span>
+
+    <span class="nd">@maintag</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">maintag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maintag</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maintag</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">maintag</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="nd">@subtag</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">subtag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subtag</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subtag</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">subtag</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="nd">@subsubtag</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">subsubtag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subsubtag</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subsubtag</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">subsubtag</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="nd">@analytical</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">analytical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analytical</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analytical</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">analytical</span><span class="p">,</span> <span class="s1">&#39;Index&#39;</span><span class="p">)</span>
+
+    <span class="nd">@perturbation</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">perturbation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perturbation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perturbation</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">perturbation</span><span class="p">,</span> <span class="s1">&#39;Numeric&#39;</span><span class="p">)</span>
+
+    <span class="nd">@grids</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grids</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grids</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">grids</span><span class="p">,</span> <span class="s1">&#39;ArrayOfVector&#39;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xmlelement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a RetrievalQuantity object from an existing file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">maintag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">subtag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">subsubtag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">analytical</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlwriter</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write a RetrievalQuantity object to an ARTS XML file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">open_tag</span><span class="p">(</span><span class="s2">&quot;RetrievalQuantity&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maintag</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;MainTag&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subtag</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Subtag&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsubtag</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SubSubtag&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mode&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">analytical</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Analytical&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Perturbation&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Grids&#39;</span><span class="p">})</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">close_tag</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

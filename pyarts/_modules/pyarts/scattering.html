@@ -1,0 +1,1282 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.scattering &mdash; pyarts 2.3.1287 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1287
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarts.scattering</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.scattering</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation of scattering related types such as SingleScatteringData and</span>
+<span class="sd">ScatteringMetaData.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SingleScatteringData&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;ScatteringMetaData&#39;</span><span class="p">,</span>
+           <span class="p">]</span>
+
+<span class="n">PARTICLE_TYPE_GENERAL</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">PARTICLE_TYPE_TOTALLY_RANDOM</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">PARTICLE_TYPE_AZIMUTHALLY_RANDOM</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="n">_old_ptype_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;general&quot;</span><span class="p">,</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="s2">&quot;macroscopically_isotropic&quot;</span><span class="p">,</span>
+    <span class="mi">30</span><span class="p">:</span> <span class="s2">&quot;horizontally_aligned&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_valid_ptypes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[],</span>
+    <span class="c1"># version 1</span>
+    <span class="p">[</span>
+        <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span>
+    <span class="p">],</span>
+    <span class="c1"># version 2</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;general&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;macroscopically_isotropic&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;horizontally_aligned&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="c1"># version 3</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;general&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;totally_random&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;azimuthally_random&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">dict_combine_with_default</span><span class="p">(</span><span class="n">in_dict</span><span class="p">,</span> <span class="n">default_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A useful function for dealing with dictionary function input.  Combines</span>
+<span class="sd">    parameters from in_dict with those from default_dict with the output</span>
+<span class="sd">    having default_dict values for keys not present in in_dict</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_dict (dict): Input dictionary.</span>
+<span class="sd">        default_dict (dict): Dictionary with default values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary with missing fields filled with default values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">in_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">default_dict</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">in_dict</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">in_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">out_dict</span>
+
+
+<div class="viewcode-block" id="SingleScatteringData"><a class="viewcode-back" href="../../generated/pyarts.scattering.SingleScatteringData.html#pyarts.scattering.SingleScatteringData">[docs]</a><span class="k">class</span> <span class="nc">SingleScatteringData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;The class representing the arts SingleScatteringData class.</span>
+
+<span class="sd">    The data members of this object are identical to the class of the same name</span>
+<span class="sd">    in ARTS; it includes all the single scattering properties required for</span>
+<span class="sd">    polarized radiative transfer calculations: the extinction matrix, the phase</span>
+<span class="sd">    matrix, and the absorption coefficient vector.  The angular, frequency, and</span>
+<span class="sd">    temperature grids for which these are defined are also included.  Another</span>
+<span class="sd">    data member - *ptype*, describes the orientational symmetry of the particle</span>
+<span class="sd">    ensemble, which determines the format of the single scattering properties.</span>
+<span class="sd">    The data structure of the ARTS SingleScatteringData class is described in</span>
+<span class="sd">    the ARTS User Guide.</span>
+
+<span class="sd">    The methods in the SingleScatteringData class enable the calculation of the</span>
+<span class="sd">    single scattering properties, and the output of the SingleScatteringData</span>
+<span class="sd">    structure in the ARTS XML format (see example file).  The low-level</span>
+<span class="sd">    calculations are performed in arts_scat.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ptype&#39;</span><span class="p">:</span> <span class="s1">&#39;totally_random&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="c1"># as defined in optproperties.h</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;SingleScatteringData created with arts.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;T_grid&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">250</span><span class="p">]),</span>
+                <span class="s1">&#39;za_grid&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                <span class="s1">&#39;aa_grid&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                <span class="p">}</span>
+
+<div class="viewcode-block" id="SingleScatteringData.__init__"><a class="viewcode-back" href="../../generated/pyarts.scattering.SingleScatteringData.html#pyarts.scattering.SingleScatteringData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aa_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the equality of SingleScatteringData.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">compare_ndarray</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">,</span> <span class="n">atol</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">array1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">array2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">array1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">array2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">ptype</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;f_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;T_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;za_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;aa_grid&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_ndarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span>
+                                       <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;abs_vec_data&#39;</span><span class="p">,</span> <span class="s1">&#39;ext_mat_data&#39;</span><span class="p">,</span> <span class="s1">&#39;pha_mat_data&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_ndarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span>
+                                       <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the non-equality of SingleScatteringData.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ptype : string</span>
+<span class="sd">            As for ARTS; see Arts User Guide</span>
+
+<span class="sd">        f_grid : 1-D np.array</span>
+<span class="sd">            np.array for frequency grid [Hz]</span>
+
+<span class="sd">        T_grid : 1-D np.array</span>
+<span class="sd">            np.array for temperature grid [K]</span>
+
+<span class="sd">        za_grid : 1-D np.array</span>
+<span class="sd">            np.array for zenith-angle grid [degree]</span>
+
+<span class="sd">        aa_grid : 1-D np.array</span>
+<span class="sd">            np.array for azimuth-angle grid [degree]</span>
+
+<span class="sd">        Some inputs have default values, see SingleScatteringData.defaults.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+
+        <span class="c1"># enable keyword arguments</span>
+        <span class="k">if</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="n">dict_combine_with_default</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span>
+
+        <span class="c1"># check parameters</span>
+        <span class="c1"># make sure grids are np np.arrays</span>
+        <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;za&#39;</span><span class="p">,</span> <span class="s1">&#39;aa&#39;</span><span class="p">]:</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">grid</span> <span class="o">+</span> <span class="s1">&#39;_grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">grid</span> <span class="o">+</span> <span class="s1">&#39;_grid&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Version needs to be set before ptype due to checks on</span>
+        <span class="c1"># ptype</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ptype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;str: Particle type&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span>
+
+    <span class="nd">@ptype</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ptype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ptype</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_old_ptype_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid ptype </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ptype</span><span class="p">))</span>
+                <span class="n">ptype</span> <span class="o">=</span> <span class="n">_old_ptype_mapping</span><span class="p">[</span><span class="n">ptype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Integer ptype not allowed for SSD version 2 and later&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid ptype </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ptype</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;str: Particle type&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="nd">@version</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Version number must be type int&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Version number must be in the range from 1 to 3&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xmlelement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a SingleScatteringData object from an xml.ElementTree.Element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="c1"># Non-azimuthally random data can be directly converted to version 3</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="s1">&#39;horizontally_aligned&#39;</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">ptype</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">version</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid ptype: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+
+        <span class="n">obj</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">za_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">aa_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">pha_mat_data</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">ext_mat_data</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">abs_vec_data</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">to_atmlab_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a copy of the SSD as a dictionary.</span>
+
+<span class="sd">        Returns a dictionary compatible with an atmlab structure.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing the grids and data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ptype&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span>
+             <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+             <span class="s1">&#39;f_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">,</span>
+             <span class="s1">&#39;T_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">,</span>
+             <span class="s1">&#39;za_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="p">,</span>
+             <span class="s1">&#39;aa_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">aa_grid</span><span class="p">,</span>
+             <span class="s1">&#39;pha_mat_data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="p">,</span>
+             <span class="s1">&#39;ext_mat_data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data</span><span class="p">,</span>
+             <span class="s1">&#39;abs_vec_data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data</span><span class="p">,</span>
+             <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlwriter</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write a SingleScatterinData object to an ARTS XML file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;SingleScatteringData version not supported.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">open_tag</span><span class="p">(</span><span class="s2">&quot;SingleScatteringData&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aa_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">close_tag</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;SingleScatteringData &quot;</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;ptype=</span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;f_grid&quot;</span><span class="p">,</span> <span class="s2">&quot;T_grid&quot;</span><span class="p">,</span> <span class="s2">&quot;za_grid&quot;</span><span class="p">,</span> <span class="s2">&quot;aa_grid&quot;</span><span class="p">):</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
+            <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%4e</span><span class="s2">..</span><span class="si">%4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">g</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">g</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=[]&quot;</span> <span class="o">%</span> <span class="n">nm</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&gt;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">S</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get subset of single-scattering-data</span>
+
+<span class="sd">        Must np.take four elements (f, T, za, aa).</span>
+<span class="sd">        Only implemented for randomly oriented particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="n">PARTICLE_TYPE_TOTALLY_RANDOM</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Slicing implemented only for&quot;</span>
+                               <span class="s2">&quot;ptype = </span><span class="si">%d</span><span class="s2">. Found ptype = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span>
+                               <span class="p">(</span><span class="n">PARTICLE_TYPE_TOTALLY_RANDOM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="c1"># to preserve the rank of the data, [n] -&gt; [n:n+1]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+                <span class="n">v2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">za</span><span class="p">,</span> <span class="n">aa</span> <span class="o">=</span> <span class="n">v2</span>
+        <span class="c1"># make a shallow copy (view of the same data)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">f_grid</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">T_grid</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">za_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">za_grid</span><span class="p">[</span><span class="n">za</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">aa_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">aa_grid</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">za</span><span class="p">,</span> <span class="n">aa</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">checksize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verifies size is consistent.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">aa_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Inconsistent sizes in SingleScatteringData.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;f_grid: </span><span class="si">%s</span><span class="s2">, T_grid: </span><span class="si">%s</span><span class="s2">, za_grid: </span><span class="si">%s</span><span class="s2">, aa_grid: </span><span class="si">%s</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;ext_mat: </span><span class="si">%s</span><span class="s2">, pha_mat: </span><span class="si">%s</span><span class="s2">, abs_vec: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">aa_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">assp2backcoef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function returns the radar backscattering coeffcient. This is</span>
+<span class="sd">        the phase function times 4pi, following the standard definition in the</span>
+<span class="sd">        radar community.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Backscattering coefficients, one value for each frequency and</span>
+<span class="sd">            temperature in S. [m2]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">back_coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">back_coef</span>
+
+    <span class="k">def</span> <span class="nf">assp2g</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;For a normalised phase function (p), g equals the 4pi integral of</span>
+<span class="sd">        p*cos(th), where th is the scattering angle. For pure isotropic</span>
+<span class="sd">        scattering g = 0, while pure forward scattering has g=1.</span>
+
+<span class="sd">        Warning, this function does not handle the extreme cases of</span>
+<span class="sd">        delta-function type of forward or backward scattering lobes. A g of</span>
+<span class="sd">        zero is returned for these cases.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Backscattering coefficients, one value for each frequency and</span>
+<span class="sd">            temperature in S. [m2]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">)))</span>
+        <span class="c1"># ARTS uses pure phase matrix values, and not a normalised phase</span>
+        <span class="c1"># function, and we need to include a normalisation.</span>
+
+        <span class="n">za_rad_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="p">])</span>
+
+        <span class="n">aziWeight</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">za_rad_grid</span><span class="p">))</span>
+        <span class="n">cosTerm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">za_rad_grid</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">)):</span>
+                <span class="n">phase_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">normFac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+                    <span class="n">phase_grid</span><span class="p">,</span> <span class="n">aziWeight</span><span class="p">),</span> <span class="n">za_rad_grid</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">normFac</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># If normFac is zero, this means that phase_grid==0 and</span>
+                    <span class="c1"># should indicate very small particles that have g=0.</span>
+                    <span class="n">g</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp_cosPhase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">cosTerm</span><span class="p">,</span> <span class="n">phase_grid</span><span class="p">)</span>
+
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">temp_cosPhase</span><span class="p">,</span> <span class="n">aziWeight</span><span class="p">),</span>
+                                    <span class="n">za_rad_grid</span><span class="p">)</span>
+
+                    <span class="n">g</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">normFac</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
+
+    <span class="k">def</span> <span class="nf">checkassp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verfies properties of SSP.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PyARTSError: If ptype is not macroscopically isotropic, or if first</span>
+<span class="sd">                and last value of za_grid does not equal exactly 0 and 180</span>
+<span class="sd">                respectively.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="s2">&quot;macroscopically_isotropic&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;So far just complete random orientation is handled.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;First value of za_grid must be 0.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">za_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">180</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Last value of za_grid must be 180.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpectralSingleScatteringData"><a class="viewcode-back" href="../../generated/pyarts.scattering.SpectralSingleScatteringData.html#pyarts.scattering.SpectralSingleScatteringData">[docs]</a><span class="k">class</span> <span class="nc">SpectralSingleScatteringData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;The class representing the arts SpectralSingleScatteringData class.</span>
+
+<span class="sd">    FIXME: Adjust doc to spectral</span>
+<span class="sd">    The data members of this object are identical to the class of the same name</span>
+<span class="sd">    in ARTS; it includes all the spectralsingle scattering properties required for</span>
+<span class="sd">    polarized radiative transfer calculations: the extinction matrix, the phase</span>
+<span class="sd">    matrix, and the absorption coefficient vector.  The angular, frequency, and</span>
+<span class="sd">    temperature grids for which these are defined are also included.  Another</span>
+<span class="sd">    data member - *ptype*, describes the orientational symmetry of the particle</span>
+<span class="sd">    ensemble, which determines the format of the single scattering properties.</span>
+<span class="sd">    The data structure of the ARTS SingleScatteringData class is described in</span>
+<span class="sd">    the ARTS User Guide.</span>
+
+<span class="sd">    The methods in the SingleScatteringData class enable the calculation of the</span>
+<span class="sd">    single scattering properties, and the output of the SingleScatteringData</span>
+<span class="sd">    structure in the ARTS XML format (see example file).  The low-level</span>
+<span class="sd">    calculations are performed in arts_scat.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ptype&#39;</span><span class="p">:</span> <span class="s1">&#39;totally_random&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="c1"># as defined in optproperties.h</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;SpectralSingleScatteringData created with arts.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;T_grid&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">250</span><span class="p">]),</span>
+                <span class="p">}</span>
+
+<div class="viewcode-block" id="SpectralSingleScatteringData.__init__"><a class="viewcode-back" href="../../generated/pyarts.scattering.SpectralSingleScatteringData.html#pyarts.scattering.SpectralSingleScatteringData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coeff_inc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coeff_sca</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_real</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_imag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_real</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_imag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_imag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_real</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_imag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_real</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_imag</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the equality of SpectralSingleScatteringData.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">compare_ndarray</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">,</span> <span class="n">atol</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">array1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">array2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">array1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">array2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">ptype</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;f_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;T_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;coeff_inc&#39;</span><span class="p">,</span> <span class="s1">&#39;coeff_sca&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_ndarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span>
+                                       <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;abs_vec_data_real&#39;</span><span class="p">,</span> <span class="s1">&#39;abs_vec_data_imag&#39;</span><span class="p">,</span> <span class="s1">&#39;ext_mat_data_real&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;ext_mat_data_imag&#39;</span><span class="p">,</span> <span class="s1">&#39;pha_mat_data_real&#39;</span><span class="p">,</span> <span class="s1">&#39;pha_mat_data_imag&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;forward_peak_data_real&#39;</span><span class="p">,</span> <span class="s1">&#39;backward_peak_data_imag&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_ndarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span>
+                                       <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">member</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the non-equality of SpectralSingleScatteringData.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ptype : string</span>
+<span class="sd">            As for ARTS; see Arts User Guide</span>
+
+<span class="sd">        f_grid : 1-D np.array</span>
+<span class="sd">            np.array for frequency grid [Hz]</span>
+
+<span class="sd">        T_grid : 1-D np.array</span>
+<span class="sd">            np.array for temperature grid [K]</span>
+
+<span class="sd">        coeff_inc : 2-D np.array</span>
+<span class="sd">            np.array for zenith-angle grid [degree]</span>
+
+<span class="sd">        coeff_sca : 2-D np.array</span>
+<span class="sd">            np.array for azimuth-angle grid [degree]</span>
+
+<span class="sd">        Some inputs have default values, see SpectralSingleScatteringData.defaults.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+
+        <span class="c1"># enable keyword arguments</span>
+        <span class="k">if</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="n">dict_combine_with_default</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span>
+
+        <span class="c1"># check parameters</span>
+        <span class="c1"># make sure grids are np np.arrays</span>
+        <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">]:</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">grid</span> <span class="o">+</span> <span class="s1">&#39;_grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">grid</span> <span class="o">+</span> <span class="s1">&#39;_grid&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Version needs to be set before ptype due to checks on</span>
+        <span class="c1"># ptype</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ptype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;str: Particle type&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span>
+
+    <span class="nd">@ptype</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ptype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ptype</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_old_ptype_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid ptype </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ptype</span><span class="p">))</span>
+                <span class="n">ptype</span> <span class="o">=</span> <span class="n">_old_ptype_mapping</span><span class="p">[</span><span class="n">ptype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Integer ptype not allowed for SSD version 2 and later&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid ptype </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ptype</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;str: Particle type&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="nd">@version</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Version number must be type int&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Version number must be in the range from 1 to 3&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xmlelement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a SpectralSingleScatteringData object from an xml.ElementTree.Element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="c1"># Non-azimuthally random data can be directly converted to version 3</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="s1">&#39;horizontally_aligned&#39;</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">_valid_ptypes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">ptype</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_valid_ptypes</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">version</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid ptype: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+
+        <span class="n">obj</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">coeff_inc</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">coeff_sca</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">pha_mat_data_real</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">pha_mat_data_imag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">ext_mat_data_real</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">ext_mat_data_imag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">abs_vec_data_real</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">abs_vec_data_imag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">forward_peak_data_real</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">forward_peak_data_imag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">backward_peak_data_real</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">backward_peak_data_imag</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">to_atmlab_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a copy of the SSSD as a dictionary.</span>
+
+<span class="sd">        Returns a dictionary compatible with an atmlab structure.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing the grids and data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ptype&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span>
+             <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+             <span class="s1">&#39;f_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">,</span>
+             <span class="s1">&#39;T_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">,</span>
+             <span class="s1">&#39;coeff_inc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff_inc</span><span class="p">,</span>
+             <span class="s1">&#39;coeff_sca&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff_sca</span><span class="p">,</span>
+             <span class="s1">&#39;pha_mat_data_real&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="p">,</span>
+             <span class="s1">&#39;pha_mat_data_imag&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_imag</span><span class="p">,</span>
+             <span class="s1">&#39;ext_mat_data_real&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_real</span><span class="p">,</span>
+             <span class="s1">&#39;ext_mat_data_imag&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_imag</span><span class="p">,</span>
+             <span class="s1">&#39;abs_vec_data_real&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_real</span><span class="p">,</span>
+             <span class="s1">&#39;abs_vec_data_imag&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_imag</span><span class="p">,</span>
+             <span class="s1">&#39;forward_peak_data_real&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_real</span><span class="p">,</span>
+             <span class="s1">&#39;forward_peak_data_imag&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_imag</span><span class="p">,</span>
+             <span class="s1">&#39;backward_peak_data_real&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_real</span><span class="p">,</span>
+             <span class="s1">&#39;backward_peak_data_imag&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_imag</span><span class="p">,</span>
+             <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlwriter</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write a SingleScatterinData object to an ARTS XML file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;SpectralSingleScatteringData version not supported.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">open_tag</span><span class="p">(</span><span class="s2">&quot;SpectralSingleScatteringData&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff_inc</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff_sca</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_imag</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_real</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_imag</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_real</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_imag</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_real</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward_peak_data_imag</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_real</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backward_peak_data_imag</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">close_tag</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;SpectralSingleScatteringData &quot;</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;ptype=</span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;f_grid&quot;</span><span class="p">,</span> <span class="s2">&quot;T_grid&quot;</span><span class="p">,</span> <span class="s2">&quot;coeff_inc&quot;</span><span class="p">,</span> <span class="s2">&quot;coeff_sca&quot;</span><span class="p">):</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
+            <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%4e</span><span class="s2">..</span><span class="si">%4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">g</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">g</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=[]&quot;</span> <span class="o">%</span> <span class="n">nm</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&gt;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">S</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get subset of spectral-single-scattering-data</span>
+
+<span class="sd">        Must np.take four elements (f, T, za, aa).</span>
+<span class="sd">        Only implemented for randomly oriented particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="n">PARTICLE_TYPE_TOTALLY_RANDOM</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Slicing implemented only for&quot;</span>
+                               <span class="s2">&quot;ptype = </span><span class="si">%d</span><span class="s2">. Found ptype = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span>
+                               <span class="p">(</span><span class="n">PARTICLE_TYPE_TOTALLY_RANDOM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">))</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="c1"># to preserve the rank of the data, [n] -&gt; [n:n+1]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+                <span class="n">v2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">clm_i</span><span class="p">,</span> <span class="n">clm_s</span> <span class="o">=</span> <span class="n">v2</span>
+        <span class="c1"># make a shallow copy (view of the same data)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">f_grid</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">T_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">T_grid</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">coeff_inc</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">coeff_inc</span><span class="p">[</span><span class="n">clm_i</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">coeff_sca</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">coeff_sca</span><span class="p">[</span><span class="n">clm_s</span><span class="p">]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data_real</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data_real</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data_real</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">clm_s</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data_real</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data_real</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">backward_peak_data_real</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">backward_peak_data_real</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">forward_peak_data_real</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">forward_peak_data_real</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data_imag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">ext_mat_data_imag</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data_imag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">pha_mat_data_imag</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">clm_s</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data_imag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">abs_vec_data_imag</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">backward_peak_data_imag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">backward_peak_data_imag</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">forward_peak_data_imag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">forward_peak_data_imag</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">checksize</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">checksize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verifies size is consistent.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># FIXME: Check only the real values??</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff_sca</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff_inc</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Inconsistent sizes in SingleScatteringData.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;f_grid: </span><span class="si">%s</span><span class="s2">, T_grid: </span><span class="si">%s</span><span class="s2">, coeff_inc: </span><span class="si">%s</span><span class="s2">, coeff_sca: </span><span class="si">%s</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;ext_mat: </span><span class="si">%s</span><span class="s2">, pha_mat: </span><span class="si">%s</span><span class="s2">, abs_vec: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_grid</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">coeff_sca</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff_inc</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">ext_mat_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pha_mat_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">abs_vec_data_real</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">assp2backcoef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function returns the radar backscattering coeffcient. This is</span>
+<span class="sd">        the phase function times 4pi, following the standard definition in the</span>
+<span class="sd">        radar community.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Backscattering coefficients, one value for each frequency and</span>
+<span class="sd">            temperature in S. [m2]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">assp2g</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;For a normalised phase function (p), g equals the 4pi integral of</span>
+<span class="sd">        p*cos(th), where th is the scattering angle. For pure isotropic</span>
+<span class="sd">        scattering g = 0, while pure forward scattering has g=1.</span>
+
+<span class="sd">        Warning, this function does not handle the extreme cases of</span>
+<span class="sd">        delta-function type of forward or backward scattering lobes. A g of</span>
+<span class="sd">        zero is returned for these cases.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Backscattering coefficients, one value for each frequency and</span>
+<span class="sd">            temperature in S. [m2]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">checkassp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verfies properties of SSP.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PyARTSError: If ptype is not macroscopically isotropic, or if first</span>
+<span class="sd">                and last value of za_grid does not equal exactly 0 and 180</span>
+<span class="sd">                respectively.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">!=</span> <span class="s2">&quot;macroscopically_isotropic&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;So far just complete random orientation is handled.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ScatteringMetaData"><a class="viewcode-back" href="../../generated/pyarts.scattering.ScatteringMetaData.html#pyarts.scattering.ScatteringMetaData">[docs]</a><span class="k">class</span> <span class="nc">ScatteringMetaData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represents a ScatteringMetaData object.</span>
+
+<span class="sd">    See online ARTS documentation for object details.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ScatteringMetaData.__init__"><a class="viewcode-back" href="../../generated/pyarts.scattering.ScatteringMetaData.html#pyarts.scattering.ScatteringMetaData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refr_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mass</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">diameter_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">diameter_volume_equ</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">diameter_area_equ_aerodynamical</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refr_index</span> <span class="o">=</span> <span class="n">refr_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameter_max</span> <span class="o">=</span> <span class="n">diameter_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameter_volume_equ</span> <span class="o">=</span> <span class="n">diameter_volume_equ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span> <span class="o">=</span> <span class="n">diameter_area_equ_aerodynamical</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the equality of ScatteringMetaData.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refr_index</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">refr_index</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_max</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">diameter_max</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_volume_equ</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">diameter_volume_equ</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span><span class="p">,</span>
+                          <span class="n">other</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the non-equality of ScatteringMetaData.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Free-form description of the scattering element, holding information</span>
+<span class="sd">        deemed of interest by the user but not covered by other structure</span>
+<span class="sd">        members (and not used within ARTS).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Free-form description of the source of the data, e.g., Mie, T-Matrix,</span>
+<span class="sd">        or DDA calculation or a database or a literature source.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">refr_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Free-form description of the underlying complex refractive index</span>
+<span class="sd">        data, e.g., a literature source.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refr_index</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The mass of the scattering element.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">diameter_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The maximum diameter (or dimension) of the scattering element,</span>
+<span class="sd">        defined by the circumferential sphere diameter of the element. Note</span>
+<span class="sd">        that this parameter is only used by some size distributions; it does</span>
+<span class="sd">        not have a proper meaning if the scattering element represents an</span>
+<span class="sd">        ensemble of differently sized particles.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_max</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">diameter_volume_equ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The volume equivalent sphere diameter of the scattering element,</span>
+<span class="sd">        i.e., the diameter of a sphere with the same volume. For nonspherical</span>
+<span class="sd">        particles, volume refers to the volume of the particle-forming</span>
+<span class="sd">        substance, not that of the circumferential sphere (which can be derived</span>
+<span class="sd">        from diameter_max). If the particle consists of a mixture of materials,</span>
+<span class="sd">        the substance encompasses the complete mixture. E.g., the substance of</span>
+<span class="sd">        &#39;soft&#39; ice particles includes both the ice and the air.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_volume_equ</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">diameter_area_equ_aerodynamical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The area equivalent sphere diameter of the scattering element, i.e.,</span>
+<span class="sd">        the diameter of a sphere with the same cross-sectional area. Here, area</span>
+<span class="sd">        refers to the aerodynamically relevant area, i.e., the cross-sectional</span>
+<span class="sd">        area perpendicular to the direction of fall. Similarly to volume in the</span>
+<span class="sd">        definition of diameter_volume_equ, for non-spherical and mixed-material</span>
+<span class="sd">        particles, area refers to the area covered by the substance mixture of</span>
+<span class="sd">        the particle.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_area_equ_aerodynamical</span>
+
+    <span class="nd">@description</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">description</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;description has to be str.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@source</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;source has to be str.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@refr_index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">refr_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refr_index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">refr_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_refr_index</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">refr_index</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_refr_index</span> <span class="o">=</span> <span class="n">refr_index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;refr_index has to be str.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@mass</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mass</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span> <span class="o">=</span> <span class="n">mass</span>
+
+    <span class="nd">@diameter_max</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">diameter_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter_max</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">diameter_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_max</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_max</span> <span class="o">=</span> <span class="n">diameter_max</span>
+
+    <span class="nd">@diameter_volume_equ</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">diameter_volume_equ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter_volume_equ</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">diameter_volume_equ</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_volume_equ</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_volume_equ</span> <span class="o">=</span> <span class="n">diameter_volume_equ</span>
+
+    <span class="nd">@diameter_area_equ_aerodynamical</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">diameter_area_equ_aerodynamical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter_area_equ_aerodynamical</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">diameter_area_equ_aerodynamical</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_area_equ_aerodynamical</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diameter_area_equ_aerodynamical</span> <span class="o">=</span> <span class="n">diameter_area_equ_aerodynamical</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;ScatteringMetaData &quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;description=</span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;source=</span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;refr_index=</span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">refr_index</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;mass=</span><span class="si">%4e</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;diameter_max=</span><span class="si">%4e</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter_max</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;diameter_volume_equ=</span><span class="si">%4e</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter_volume_equ</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;diameter_area_equ_aerodynamical=</span><span class="si">%4e</span><span class="s2"> &quot;</span>
+                <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xmlelement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a ScatteringMetaData object from an existing file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">version</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unsupported ScatteringMetaData version &#39;</span>
+                            <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">. Version must be 3.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">version</span><span class="p">))</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">refr_index</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">diameter_max</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">diameter_volume_equ</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">to_atmlab_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a copy of the SMD as a dictionary.</span>
+
+<span class="sd">        Returns a dictionary compatible with an atmlab structure.</span>
+
+<span class="sd">       Returns:</span>
+<span class="sd">           Dictionary containing the grids and data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+             <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+             <span class="s1">&#39;refr_index&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">refr_index</span><span class="p">,</span>
+             <span class="s1">&#39;mass&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">,</span>
+             <span class="s1">&#39;diameter_max&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter_max</span><span class="p">,</span>
+             <span class="s1">&#39;diameter_volume_equ&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter_volume_equ</span><span class="p">,</span>
+             <span class="s1">&#39;diameter_area_equ_aerodynamical&#39;</span><span class="p">:</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span><span class="p">,</span>
+             <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlwriter</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write a ScatteringMetaData object to an ARTS XML file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">open_tag</span><span class="p">(</span><span class="s2">&quot;ScatteringMetaData&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refr_index</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_max</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_volume_equ</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter_area_equ_aerodynamical</span><span class="p">)</span>
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">close_tag</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

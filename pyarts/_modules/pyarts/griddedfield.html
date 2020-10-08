@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.griddedfield &mdash; pyarts 2.3.1287 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1287
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarts.griddedfield</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.griddedfield</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="kn">import</span> <span class="nn">netCDF4</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.utils.arts</span> <span class="kn">import</span> <span class="n">return_if_arts_type</span><span class="p">,</span> <span class="n">get_arts_typename</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;GriddedField1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GriddedField2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GriddedField3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GriddedField4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GriddedField5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GriddedField6&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;griddedfield_from_netcdf&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;griddedfield_from_xarray&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">_GriddedField</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;:class:`GriddedField` implements the same-named ARTS dataype.</span>
+
+<span class="sd">    This class provides the facility of storing gridded data. For this purpose</span>
+<span class="sd">    the grid-axes as well as the data are stored. GriddedFields can be easily</span>
+<span class="sd">    written to XML-files as they define a clear datastructure.</span>
+
+<span class="sd">    :class:`GriddedField` should not be used directly. Use one of the derived</span>
+<span class="sd">    types such as :class:`GriddedField1` instead.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        For the special case of storing atmospheric profiles as GriddedField3</span>
+<span class="sd">        the latitude and longitude grids have to be initialised as empty</span>
+<span class="sd">        np.array.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Create and manipulate a :class:`GriddedField` object.</span>
+
+<span class="sd">        &gt;&gt;&gt; gf1 = GriddedField1()</span>
+<span class="sd">        &gt;&gt;&gt; gf1.grids = [np.arange(10)]</span>
+<span class="sd">        &gt;&gt;&gt; gf1.gridnames = [&quot;Indices&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; gf1.data = np.random.randn(10)</span>
+
+<span class="sd">        Inspect an existing :class:`GriddedField` object.</span>
+
+<span class="sd">        &gt;&gt;&gt; gf1.dimension</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; gf1.grids</span>
+<span class="sd">        [array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]</span>
+<span class="sd">        &gt;&gt;&gt; gf1.gridnames</span>
+<span class="sd">        [&#39;Indices&#39;]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gridnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">dataname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a GriddedField object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            dimension (int): Dimension of the GriddedField.</span>
+<span class="sd">            grids (list, tuple, np.ndarray): grids.</span>
+<span class="sd">            data (np.ndarray): data values.</span>
+<span class="sd">            gridnames (List[str]): clear names for all grids.</span>
+<span class="sd">            dataname (str): name of the data array.</span>
+<span class="sd">            name (str): name of the GriddedField.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dimension</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dimension must be a scalar greater 0&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dimension</span> <span class="o">=</span> <span class="n">dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">grids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">gridnames</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span> <span class="o">=</span> <span class="n">dataname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make the data array subscriptable directly.</span>
+
+<span class="sd">        ``gf[0, 1]`` is equivalent to ``gf.data[0, 1]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the equality of GriddedFields.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)):</span>
+            <span class="c1"># Check each attribute after another for readabilty.</span>
+            <span class="c1"># Return as soon as possible for performance.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">dataname</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">gridnames</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">dimension</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">grids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">grids</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">grids</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the non-equality of GriddedFields.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;GriddedField</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;GriddedField</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span>
+                                                    <span class="s2">&quot;Generic Field&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Grid &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataname</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># If representation fails, fall back to default.</span>
+            <span class="c1"># Known issues: Empty GriddedFields.</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;</span><span class="si">{0}</span><span class="s1"> at </span><span class="si">{1}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shape of the data array.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dimension of the GriddedField.</span>
+
+<span class="sd">        The dimension has to be defined when creating the GriddedField object.</span>
+<span class="sd">        For the convenience subclasses (e.g. GriddedField1) this is done</span>
+<span class="sd">        automatically.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dimension</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List of grids defining the GriddedField.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The number of grids has to match the GriddedField dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grids</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gridnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A list or tuple that includes a name for every grid.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The number of gridnames has to match the number of grids.</span>
+<span class="sd">            Gridnames are currently not used so it is not neccesarry</span>
+<span class="sd">            to set them.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gridnames</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The data matrix stored in the GriddedField.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The data array has to fit the grid dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Name of the GriddedField.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dataname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Name of the data array.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataname</span>
+
+    <span class="nd">@grids</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grids</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">grids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_grids</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">grids</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The array of grids must be type list or tuple.&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="n">grids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">get_arts_typename</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                    <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ArrayOfString&#39;</span><span class="p">,</span> <span class="s1">&#39;ArrayOfIndex&#39;</span><span class="p">,</span> <span class="s1">&#39;Vector&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_grids</span> <span class="o">=</span> <span class="n">grids</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s1">&#39;grids have to be ArrayOfString, ArrayOfIndex or Vector.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@gridnames</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">gridnames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridnames</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gridnames</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">gridnames</span><span class="p">,</span> <span class="s1">&#39;ArrayOfString&#39;</span><span class="p">)</span>
+
+    <span class="nd">@data</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">get_arts_typename</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+
+    <span class="nd">@dataname</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">dataname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dataname</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">dataname</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">return_if_arts_type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks the consistency of grids and data.</span>
+
+<span class="sd">        This functions check if the dimensions defined by the grids fit to the</span>
+<span class="sd">        dimension of the passed data.</span>
+<span class="sd">        Also check if the number of gridnames fits the number of grids.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This check is done automatically before storing and after loading</span>
+<span class="sd">            XML files.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if successful.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if number of grids does not fit</span>
+<span class="sd">                the GriddedField dimension.</span>
+<span class="sd">            Exception: if number of gridnames does not fit</span>
+<span class="sd">                the number of grids.</span>
+<span class="sd">            Exception: if data dimension does not fit the grid dimensions.</span>
+<span class="sd">            Warning: if a dimension is empty.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># define error messages</span>
+        <span class="n">grid_dim_error</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;The number of grids has to fit the dimension &#39;</span>
+                           <span class="s1">&#39;of the GriddedField.</span><span class="se">\n</span><span class="s1">The dimension is </span><span class="si">{0}</span><span class="s1"> &#39;</span>
+                           <span class="s1">&#39;but </span><span class="si">{1}</span><span class="s1"> grids were passed.&#39;</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">)))</span>
+
+        <span class="c1"># number of grids has to match the GriddedField dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">grid_dim_error</span><span class="p">)</span>
+
+        <span class="c1"># if grids are named, each grid has to be named</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span>
+
+        <span class="n">grid_name_error</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;The number of gridnames has to fit the &#39;</span>
+                            <span class="s1">&#39;dimension of the GriddedField.</span><span class="se">\n</span><span class="s1">The dimension&#39;</span>
+                            <span class="s1">&#39; is </span><span class="si">{0}</span><span class="s1"> but </span><span class="si">{1}</span><span class="s1"> gridnames were passed.&#39;</span><span class="p">)</span>
+                           <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">grid_name_error</span><span class="p">)</span>
+
+        <span class="c1"># grid and data dimension have to fit</span>
+        <span class="n">g_dim</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">g_dim</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">((</span><span class="s1">&#39;Dimension mismatch between data and grids. &#39;</span>
+                             <span class="s1">&#39;Grid dimension is </span><span class="si">{0}</span><span class="s1"> but data </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">g_dim</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">check_atm_fields_compact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_gridnames</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks the consistency of grids and data.</span>
+
+<span class="sd">        This functions check if the dimensions defined by the grids fit to the</span>
+<span class="sd">        dimension of the passed data.</span>
+<span class="sd">        Also check if the number of gridnames fits the number of grids.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The last three gridnames are expected to be &#39;Pressure&#39;, &#39;Latitude&#39;</span>
+<span class="sd">            and &#39;Longitude&#39;. This is more strict than the ARTS checks, but good</span>
+<span class="sd">            behavior.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if successful.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception:</span>
+<span class="sd">                - If not GriddedField4.</span>
+<span class="sd">                - If the pressure grid is not decreasing.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;atm_fields_compact have to be GriddedField4.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_gridnames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Second grid has to be &#39;Pressure&#39; not &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Latitude&#39;</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Third grid has to be &#39;Latitude&#39; not &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Fourth grid has to be &#39;Longitude&#39; not &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">get_arts_typename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;ArrayOfString&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;First grid has to be ArrayOfString.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Pressure grid has to be strictly decreasing.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a deepcopy of the GriddedField.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">extract_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a new GriddedField containing a slice of the current one.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            s (slice): Slice.</span>
+<span class="sd">            axis (int): Axis to slice along.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`arts.griddedfield._GriddedField`:</span>
+<span class="sd">                GriddedField containing sliced grids and data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">gf</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">s</span><span class="p">]</span>
+        <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span>
+        <span class="n">slices</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="n">gf</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slices</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">gf</span>
+
+    <span class="k">def</span> <span class="nf">refine_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_grid</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fun</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Interpolate GriddedField axis to a new grid.</span>
+
+<span class="sd">        This function replaces a grid of a GriddField and interpolates all</span>
+<span class="sd">        data to match the new coordinates. :func:`scipy.interpolate.interp1d`</span>
+<span class="sd">        is used for interpolation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            new_grid (ndarray): The coordinates of the interpolated values.</span>
+<span class="sd">            axis (int): Specifies the axis of data along which to interpolate.</span>
+<span class="sd">                Interpolation defaults to the first axis of the GriddedField.</span>
+<span class="sd">            fun (numpy.ufunc, or similar): Function to apply to grid before</span>
+<span class="sd">                interpolation.  Suggested values: np.array, np.log10, np.log</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Keyword arguments passed to :func:`scipy.interpolate.interp1d`.</span>
+
+<span class="sd">        Returns: :class:`arts.griddedfield.GriddedField`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                     <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_grid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">new_grid</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># if the intention is to create a useful TensorX</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_grid</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_grid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_dimension</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keep_dims</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return data from field with given fieldname.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">              This method only works, if the first grid</span>
+<span class="sd">              is an :arts:`ArrayOfString`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">              key (str): Name of the field to extract.</span>
+<span class="sd">              default: Default value, if ``key`` is not found.</span>
+<span class="sd">              keep_dims (bool): If ``False``, empty dimensions are squeezed</span>
+<span class="sd">                  before the extracted array is returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray: Extracted ndarray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The first grid has to be an ArrayOfString.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">get_arts_typename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;ArrayOfString&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;Method only works, if the first grid is an &quot;ArrayOfString&quot;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># If the GriddedField is empty or the given fieldname is not found,</span>
+        <span class="c1"># return the default value.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">default</span>
+
+        <span class="c1"># Find the index of given fieldname in the name grid and return the</span>
+        <span class="c1"># ndarray at that position.</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)]]</span>
+
+        <span class="c1"># Squeeze empty dimensions, if ``keep_dims`` is ``False``.</span>
+        <span class="k">return</span> <span class="n">field</span> <span class="k">if</span> <span class="n">keep_dims</span> <span class="k">else</span> <span class="n">field</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assign data to field with given fieldname.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">              This method only works, if the first grid</span>
+<span class="sd">              is an :arts:`ArrayOfString`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">              key (str): Name of the field to extract.</span>
+<span class="sd">              data (ndarray): Data array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">get_arts_typename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;ArrayOfString&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;Method only works, if the first grid is an &quot;ArrayOfString&quot;&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Scale data stored in field with given fieldname.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">              This method only works, if the first grid</span>
+<span class="sd">              is an :arts:`ArrayOfString`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">              key (str): Name of the field to scale.</span>
+<span class="sd">              factor (float or ndarray): Scale factor.</span>
+<span class="sd">              dtype (type): Data type used for typecasting. If the original</span>
+<span class="sd">                dtype of ``GriddedField.data`` is ``int``, the data array</span>
+<span class="sd">                gets typecasted to prevent messy behaviour when assigning</span>
+<span class="sd">                scaled values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="c1"># Typecast integer data arrays to prevent unwanted typecast when</span>
+            <span class="c1"># assigning scaled (float) variables back to the (integer) ndarray.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert GriddedField to dictionary.</span>
+
+<span class="sd">        Converts a GriddedField object into a classic Python dictionary. The</span>
+<span class="sd">        gridname is used as dictionary key. If the grid is unnamed the key is</span>
+<span class="sd">        generated automatically (&#39;grid1&#39;, &#39;grid2&#39;, ...). The data can be</span>
+<span class="sd">        accessed through the &#39;data&#39; key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing the grids and data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">grids</span><span class="p">,</span> <span class="n">gridnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span>
+
+        <span class="k">if</span> <span class="n">gridnames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">gridnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;grid</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gridnames</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">gridnames</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;grid</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">grid</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">grid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gridnames</span><span class="p">,</span> <span class="n">grids</span><span class="p">)}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataname</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">xarray</span>
+        <span class="sd">&quot;&quot;&quot;Convert GriddedField to xarray.DataArray object.</span>
+
+<span class="sd">        Convert a GriddedField object into a :func:`xarray.DataArray`</span>
+<span class="sd">        object.  The dataname is used as the DataArray name.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            xarray.DataArray object corresponding to gridded field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">da</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">!=</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">coor</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">coor</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coor</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">})</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;data_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span>
+        <span class="k">return</span> <span class="n">da</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_nc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create GriddedField from variable in netCDF files.</span>
+
+<span class="sd">        Extract a given variable from a netCDF file. The data and its</span>
+<span class="sd">        dimensions are returned as a :class:`GriddedField` object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            inputfile (str): Path to netCDF file.</span>
+<span class="sd">            variable (str): Variable key of variable to extract.</span>
+<span class="sd">            fill_value (float): Fill value for masked areas (default: np.nan).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GriddedField object of sufficient dimension.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: If the variable key can&#39;t be found in the netCDF file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">inputfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;netCDF file has no variable </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">variable</span><span class="p">))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
+
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="p">[</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">dim</span><span class="p">][:]</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">dimensions</span><span class="p">]</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">dim</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">dimensions</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[:],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:]</span><span class="o">.</span><span class="n">filled</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:]</span>
+
+        <span class="n">obj</span><span class="o">.</span><span class="n">check_dimension</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xmlelement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a GriddedField from an ARTS XML file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GriddedField. Dimension depends on data in file.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+        <span class="n">obj</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                         <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+                         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="c1"># Read data (and optional dataname).</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">xmlelement</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">dataname</span> <span class="o">=</span> <span class="n">xmlelement</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+        <span class="n">obj</span><span class="o">.</span><span class="n">check_dimension</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_xarray</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">da</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">xarray</span>
+        <span class="sd">&quot;&quot;&quot;Create GriddedField from a xarray.DataArray object.</span>
+
+<span class="sd">        The data and its dimensions are returned as a :class:`GriddedField` object.</span>
+<span class="sd">        The DataArray name is used as name for the gridded field. If the attribute</span>
+<span class="sd">        `data_name` is present, it is used as `dataname` on the :class:`GriddedField`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            da (xarray.DataArray): xarray.DataArray containing the dimensions and data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GriddedField object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="p">[</span><span class="n">da</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">dataname</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">check_dimension</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">to_atmlab_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a copy of the GriddedField as a dictionary.</span>
+
+<span class="sd">        Returns a dictionary compatible with an atmlab structure.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing the grids and data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;grids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grids</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;gridnames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;dataname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;dataname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlwriter</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save a GriddedField to an ARTS XML file.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_dimension</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">open_tag</span><span class="p">(</span><span class="s1">&#39;GriddedField</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">),</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">grid</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span><span class="p">):</span>
+            <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xmlwriter</span><span class="o">.</span><span class="n">write_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataname</span><span class="p">})</span>
+
+        <span class="n">xmlwriter</span><span class="o">.</span><span class="n">close_tag</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="GriddedField1"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField1.html#pyarts.griddedfield.GriddedField1">[docs]</a><span class="k">class</span> <span class="nc">GriddedField1</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField1`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField1.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField1.html#pyarts.griddedfield.GriddedField1.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GriddedField2"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField2.html#pyarts.griddedfield.GriddedField2">[docs]</a><span class="k">class</span> <span class="nc">GriddedField2</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField2`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField2.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField2.html#pyarts.griddedfield.GriddedField2.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GriddedField3"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField3.html#pyarts.griddedfield.GriddedField3">[docs]</a><span class="k">class</span> <span class="nc">GriddedField3</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField3`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField3.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField3.html#pyarts.griddedfield.GriddedField3.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField3</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GriddedField4"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField4.html#pyarts.griddedfield.GriddedField4">[docs]</a><span class="k">class</span> <span class="nc">GriddedField4</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField4`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField4.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField4.html#pyarts.griddedfield.GriddedField4.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GriddedField5"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField5.html#pyarts.griddedfield.GriddedField5">[docs]</a><span class="k">class</span> <span class="nc">GriddedField5</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField5`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField5.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField5.html#pyarts.griddedfield.GriddedField5.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GriddedField6"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField6.html#pyarts.griddedfield.GriddedField6">[docs]</a><span class="k">class</span> <span class="nc">GriddedField6</span><span class="p">(</span><span class="n">_GriddedField</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implements a :arts:`GriddedField6`.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GriddedField6.__init__"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.GriddedField6.html#pyarts.griddedfield.GriddedField6.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GriddedField6</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_griddedfield_from_ndim</span><span class="p">(</span><span class="n">ndim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Determine proper GriddedField type from number of dimensions.&quot;&quot;&quot;</span>
+    <span class="n">griddefield_dimension_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="n">GriddedField1</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="n">GriddedField2</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="n">GriddedField3</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="n">GriddedField4</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="n">GriddedField5</span><span class="p">,</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="n">GriddedField6</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">griddefield_dimension_map</span><span class="p">[</span><span class="n">ndim</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="griddedfield_from_netcdf"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.griddedfield_from_netcdf.html#pyarts.griddedfield.griddedfield_from_netcdf">[docs]</a><span class="k">def</span> <span class="nf">griddedfield_from_netcdf</span><span class="p">(</span><span class="n">ncfile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an ARTS ``GriddedField`` of appropriate dimension from netCDF.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        ncfile (str): Path to netCDF file.</span>
+<span class="sd">        **kwargs: Additional keyword arguments are passed</span>
+<span class="sd">            to the :func:`~GriddedField1.from_nc` method.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        : Appropriate ARTS GriddedField.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">ncfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">root</span><span class="p">:</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">_griddedfield_from_ndim</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_nc</span><span class="p">(</span><span class="n">ncfile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="griddedfield_from_xarray"><a class="viewcode-back" href="../../generated/pyarts.griddedfield.griddedfield_from_xarray.html#pyarts.griddedfield.griddedfield_from_xarray">[docs]</a><span class="k">def</span> <span class="nf">griddedfield_from_xarray</span><span class="p">(</span><span class="n">dataarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert :class:`xarray.DataArray` to ARTS ``GriddedField``.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        dataarray (:class:`xarray.DataArray`): :class:`~xarray.DataArray`</span>
+<span class="sd">            containing dimensions and data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        : Appropriate ARTS GriddedField.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_griddedfield_from_ndim</span><span class="p">(</span><span class="n">dataarray</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span><span class="o">.</span><span class="n">from_xarray</span><span class="p">(</span><span class="n">dataarray</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

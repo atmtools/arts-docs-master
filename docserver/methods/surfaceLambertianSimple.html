@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>surfaceLambertianSimple - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;surfaceLambertianSimple</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method surfaceLambertianSimple</h2>
+<h3>Description</h3>
+<pre>
+Creates variables to mimic a Lambertian surface.
+
+A Lambertian surface can be characterised solely by its
+reflectivity, here taken from <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>.
+
+The down-welling radiation field is estimated by making calculations
+for *lambertian_nza* directions. The range of zenith angles ([0,90])
+is divided in an equidistant manner for 1D. For 2D and 3D see below.
+The values for <a href="../variables/surface_rmatrix.html">surface_rmatrix</a> are assuming a constant radiance
+over each zenith angle range. See AUG.
+
+Default is to select the zenith angles for <a href="../variables/sensor_los.html">sensor_los</a> to be placed
+centrally in the grid ranges. For example, if *lambertian_nza* is set
+to 9, down-welling radiation will be calculated for zenith angles = 
+5, 15, ..., 85. The position of these angles can be shifted by
+*za_pos*. This variable specifies the fractional distance inside the
+ranges. For example, a *za_pos* of 0.7 (np still 9) gives the angles
+7, 17, ..., 87.
+
+Only upper-left diagonal element of the <a href="../variables/surface_rmatrix.html">surface_rmatrix</a> is
+non-zero. That is, the upwelling radiation is always unpolarised.
+
+Local thermodynamic equilibrium is assumed, which corresponds to
+that the reflection and emission coefficients "add up to 1".
+
+For 2D and 3D, the down-welling directions are placed along the
+the viewing direction, e.g. for 3D the azimuth angle is kept constant.
+In 2D and 3D surface topography can exist, and to avoid getting views
+going directly into the surface, angels are not distributed over 90 deg,
+but 90-abs(surface_normal[0]).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>surfaceLambertianSimple(&nbsp;</td><td><a href="../variables/surface_los.html">surface_los</a>, <a href="../variables/surface_rmatrix.html">surface_rmatrix</a>, <a href="../variables/surface_emission.html">surface_emission</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/surface_normal.html">surface_normal</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>, lambertian_nza, za_pos )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_los.html">surface_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Downwelling radiation directions to consider in surface reflection.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_rmatrix.html">surface_rmatrix</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>The reflection coefficients for the directions given by <a href="../variables/surface_los.html">surface_los</a> to the direction of interest.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_emission.html">surface_emission</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The emission from the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_normal.html">surface_normal</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The normal vector for a point at the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Surface reflectivity, assuming it can be described as a scalar value.</td></tr>
+<tr><td>GIN</td><td class="right">lambertian_nza</td><td>(<a href="../groups/Index.html">Index</a>, Default: 9)</td><td>Number of downwelling streams.</td></tr>
+<tr><td>GIN</td><td class="right">za_pos</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.5)</td><td>Position of angle in <a href="../variables/surface_los.html">surface_los</a> inside ranges of zenith angle grid. See above.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

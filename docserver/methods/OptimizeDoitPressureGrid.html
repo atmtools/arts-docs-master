@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OptimizeDoitPressureGrid - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;OptimizeDoitPressureGrid</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method OptimizeDoitPressureGrid</h2>
+<h3>Description</h3>
+<pre>
+Optimization of the pressure grid for RT calculation.
+The methods consists of three parts:
+1) Calculate the single scattering albedo and the scattering opticalthickness from the scattering and absorption species. 
+2) Enhance z_field according to the two thresholds sgl_alb_max and tau_scat_max.If the resulting cloudbox size is bigger than cloudbox_size_max, this step is 
+repeated with a higher threshold of tau_scat_max. 
+3) Interpolate all variables used in doit_mono_agenda to the new z_field 
+This method should be called inside
+<a href="../agendas/doit_mono_agenda.html">doit_mono_agenda</a>, right before <a href="cloudbox_field_monoIterate.html">cloudbox_field_monoIterate</a>. It can 
+only be used if <a href="ScatSpeciesMerge.html">ScatSpeciesMerge</a> has been called and if it is
+called, <a href="cloudbox_field_monoOptimizeReverse.html">cloudbox_field_monoOptimizeReverse</a> has to be
+called right after <a href="cloudbox_field_monoIterate.html">cloudbox_field_monoIterate</a> to interpolate
+<a href="../variables/cloudbox_field_mono.html">cloudbox_field_mono</a> back to the original size.
+Optimization currently only works with <a href="../variables/stokes_dim.html">stokes_dim</a> = 1 .
+
+</pre>
+
+<p><b>Authors: </b>Jakob Doerr
+<h3>Synopsis</h3>
+<p><table><tr><td>OptimizeDoitPressureGrid(&nbsp;</td><td><a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/scat_data_mono.html">scat_data_mono</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/cloudbox_field_mono.html">cloudbox_field_mono</a>, <a href="../variables/pha_mat_doit.html">pha_mat_doit</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid_orig.html">p_grid_orig</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/f_index.html">f_index</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, tau_scat_max, sgl_alb_max, cloudbox_size_max )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/scat_data_mono.html">scat_data_mono</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Monochromatic single scattering data.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/cloudbox_field_mono.html">cloudbox_field_mono</a></td><td>(<a href="../groups/Tensor6.html">Tensor6</a>)</td><td>Monochromatic radiation field inside the cloudbox.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/pha_mat_doit.html">pha_mat_doit</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>Ensemble averaged phase matrix for DOIT calculation.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/p_grid_orig.html">p_grid_orig</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The original pressure grid before optimization.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_index.html">f_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Frequency index.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>GIN</td><td class="right">tau_scat_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.1)</td><td>Maximum scattering optical thickness</td></tr>
+<tr><td>GIN</td><td class="right">sgl_alb_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.9)</td><td>Maximum single scattering albedo</td></tr>
+<tr><td>GIN</td><td class="right">cloudbox_size_max</td><td>(<a href="../groups/Index.html">Index</a>, Default: 200)</td><td>Maximum cloudbox size</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

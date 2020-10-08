@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>psdDelanoeEtAl14 - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;psdDelanoeEtAl14</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method psdDelanoeEtAl14</h2>
+<h3>Description</h3>
+<pre>
+Normalized PSD as proposed in Delanoë et al. ((2014)),
+
+Title and journal:
+'Normalized particle size distribution for remote sensing
+application', J. Geophys. Res. Atmos., 119, 4204–422.
+
+The PSD has two independent parameters *n0Star*, the intercept
+parameter, and *Dm*, the volume-weighted diameter.
+This implementation expects as input two out of the following
+three quantities: *iwc*, *n0Star*, *Dm*. In this case one of
+the input parameters *iwc*, *n0Star*, *Dm* must be set to -999.
+*It is also possible to provide only *iwc*, in which case an a
+priori assumption will be used to deduce *n0Star* from temperature.
+In this case both *n0Star* and *Dm* must be set to -999.0.
+
+This PSD is not defined for vanishing concentrations of
+scatterers as it requires normalization by *Dm*. It is up
+to the user to ensure that the value of *Dm* is sufficiently
+large. An error is thrown if *Dm* is zero or below the value
+provided by *dm_min*.
+
+</pre>
+
+<p><b>Authors: </b>Simon Pfreundschuh
+<h3>Synopsis</h3>
+<p><table><tr><td>psdDelanoeEtAl14(&nbsp;</td><td><a href="../variables/psd_data.html">psd_data</a>, <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a>, <a href="../variables/psd_size_grid.html">psd_size_grid</a>, <a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a>, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>, <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>, iwc, n0Star, Dm, rho, alpha, beta, t_min, t_max, dm_min, picky )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/psd_data.html">psd_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Particle size distribution values for a set of points.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Partial derivates of <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/psd_size_grid.html">psd_size_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The particle sizes associated with <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The variable input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Naming of (existing or expected) data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of partial derivatives of <a href="../variables/pnd_data.html">pnd_data</a>.</td></tr>
+<tr><td>GIN</td><td class="right">iwc</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>Ice water content</td></tr>
+<tr><td>GIN</td><td class="right">n0Star</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>Intercept parameter</td></tr>
+<tr><td>GIN</td><td class="right">Dm</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>Volume weighted diameter</td></tr>
+<tr><td>GIN</td><td class="right">rho</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 917.6)</td><td>Density of ice</td></tr>
+<tr><td>GIN</td><td class="right">alpha</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -0.237)</td><td><span class="brokendoclink">*alpha*</span> parameter of the shape function</td></tr>
+<tr><td>GIN</td><td class="right">beta</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 1.839)</td><td><span class="brokendoclink">*beta*</span> paramter of the shape function</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Low temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>High temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">dm_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -1.0)</td><td>Lower threshold for <span class="brokendoclink">*Dm*</span> below which an error is thrown.</td></tr>
+<tr><td>GIN</td><td class="right">picky</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to be strict with parametrization value checks.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

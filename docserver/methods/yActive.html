@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>yActive - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;yActive</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method yActive</h2>
+<h3>Description</h3>
+<pre>
+Replaces <a href="yCalc.html">yCalc</a> for radar/lidar calculations.
+
+The output format for <a href="../variables/iy.html">iy</a> when simulating radars and lidars differs
+from the standard one, and <a href="yCalc.html">yCalc</a> can not be used for such simulations.
+This method works largely as <a href="yCalc.html">yCalc</a>, but is tailored to handle the
+output from <a href="iyActiveSingleScat.html">iyActiveSingleScat</a>.
+
+The method requires additional information about the sensor,
+regarding its recieving properties. First of all, recieved
+polarisation states are taken from <a href="../variables/instrument_pol_array.html">instrument_pol_array</a>. Note
+that this WSV allows to define several measured polarisations
+for each transmitted signal. For example, it is possible to
+simulate transmission of V and measuring backsacttered V and H.
+
+Secondly, the range averaging is described by <a href="../variables/range_bins.html">range_bins</a>. These
+bins can either be specified in altitude or two-way travel time.
+In both case, the edges of the range bins shall be specified.
+All data (including auxiliary variables) are returned as the
+average inside the bins. If a bin is totally outside the model
+atmosphere, NaN is returned.
+
+The options for <a href="../variables/iy_unit.html">iy_unit</a> are:
+ "1"   : Backscatter coefficient. Unit is 1/(m*sr). At zero
+           attenuation, this equals the scattering matrix value for
+           the backward direction. See further AUG.
+ "Ze"  : Equivalent reflectivity. Unit is mm^6/m^3. Conversion
+           formula is given below.
+ "dBZe": 10*log10(Ze/Z0), where Z0 is 1 mm^6/m^3.
+
+The conversion from backscatter coefficient to Ze is:
+   Ze = 1e18 * lambda^4 / (k2 * pi^5) * sum(sigma),
+where sum(sigma) = 4 * pi * b, and b is the backscatter coefficient.
+
+The reference dielectric factor can either specified directly by
+the argument *k2*. For example, to mimic the CloudSat data, *k2*
+shall be set to 0.75 (citaion needed). If *k2* is set to be 
+negative (which is defualt), k2 is calculated as:
+   k2 = abs( (n^2-1)/(n^2+2) )^2,
+where n is the refractive index of liquid water at temperature
+*ze_tref* and the frequency of the radar, calculated by the MPM93
+parameterization.
+
+A lower limit for dBZe is applied (*dbze_min*). The main reason is to
+handle the fact dBZe is not defined for Ze=0, and dBZe is set to the
+clip value when Ze &lt; 10^(dbze_min/10).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>yActive(&nbsp;</td><td><a href="../variables/y.html">y</a>, <a href="../variables/y_f.html">y_f</a>, <a href="../variables/y_pol.html">y_pol</a>, <a href="../variables/y_pos.html">y_pos</a>, <a href="../variables/y_los.html">y_los</a>, <a href="../variables/y_aux.html">y_aux</a>, <a href="../variables/y_geo.html">y_geo</a>, <a href="../variables/jacobian.html">jacobian</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../variables/iy_aux_vars.html">iy_aux_vars</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/nlte_field.html">nlte_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, <a href="../variables/sensor_los.html">sensor_los</a>, <a href="../variables/sensor_checked.html">sensor_checked</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>, <a href="../agendas/geo_pos_agenda.html">geo_pos_agenda</a>, <a href="../variables/instrument_pol_array.html">instrument_pol_array</a>, <a href="../variables/range_bins.html">range_bins</a>, ze_tref, k2, dbze_min )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/y.html">y</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The measurement vector.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_f.html">y_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_pol.html">y_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_pos.html">y_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor positions associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_los.html">y_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The line-of-sights associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_aux.html">y_aux</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>Data auxilary to <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_geo.html">y_geo</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The geo-positioning associated with <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/jacobian.html">jacobian</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_aux_vars.html">iy_aux_vars</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of quantities for <a href="../variables/iy_aux.html">iy_aux</a> and when applicable also <a href="../variables/y_aux.html">y_aux</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/nlte_field.html">nlte_field</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>The field of NLTE temperatures and/or ratios.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_pos.html">sensor_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor position for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_los.html">sensor_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor line-of-sight (LOS) for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_checked.html">sensor_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for sensor related variables.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_main_agenda.html">iy_main_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the single monochromatic pencil beam spectrum.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/geo_pos_agenda.html">geo_pos_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda deriving the geo-position of a pencil beam calculation.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/instrument_pol_array.html">instrument_pol_array</a></td><td>(<a href="../groups/ArrayOfArrayOfIndex.html">ArrayOfArrayOfIndex</a>)</td><td>Multiple definition of instrument polarisation.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/range_bins.html">range_bins</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The range bins of an active instrument.</td></tr>
+<tr><td>GIN</td><td class="right">ze_tref</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 273.15)</td><td>Reference temperature for conversion to Ze.</td></tr>
+<tr><td>GIN</td><td class="right">k2</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -1)</td><td>Reference dielectric factor.</td></tr>
+<tr><td>GIN</td><td class="right">dbze_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -99)</td><td>Clip value for dBZe.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

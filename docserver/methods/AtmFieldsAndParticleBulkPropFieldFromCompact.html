@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AtmFieldsAndParticleBulkPropFieldFromCompact - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;AtmFieldsAndParticleBulkPropFieldFromCompact</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method AtmFieldsAndParticleBulkPropFieldFromCompact</h2>
+<h3>Description</h3>
+<pre>
+Extract pressure grid and atmospheric fields from
+<a href="../variables/atm_fields_compact.html">atm_fields_compact</a>.
+
+An atmospheric scenario includes the following data for each
+position (pressure, latitude, longitude) in the atmosphere:
+           1. temperature field
+           2. the corresponding altitude field
+           3. vmr fields for the gaseous species
+           4. scattering species fields
+
+This method splits up the data found in <a href="../variables/atm_fields_compact.html">atm_fields_compact</a> to
+p_grid, lat_grid, lon_grid, vmr_field, particle_bulkprop_field,
+and particle_bulkprop_names.
+See documentation of <a href="../variables/atm_fields_compact.html">atm_fields_compact</a> for a definition of the
+data.
+
+Compact states are characterized by having all atmospheric fields
+already given on identical grids. That is, no interpolation needs
+to be and is performed. Keyword *p_min* allows to remove atmospheric
+levels with pressures lower than the given value (default: no
+removal). This reduces computational burden and is useful when
+upper atmospheric contributions are negligible.
+
+Possible future extensions: Add a keyword parameter to refine the
+pressure grid if it is too coarse. Or a version that interpolates
+onto given grids, instead of using and returning the original grids.
+
+</pre>
+
+<p><b>Authors: </b>Jana Mendrok, Manfred Brath
+<h3>Synopsis</h3>
+<p><table><tr><td>AtmFieldsAndParticleBulkPropFieldFromCompact(&nbsp;</td><td><a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/atm_fields_compact.html">atm_fields_compact</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, delim, p_min, check_gridnames )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Container for various data that describes scattering bulk properties.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Identification of the data in <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atm_fields_compact.html">atm_fields_compact</a></td><td>(<a href="../groups/GriddedField4.html">GriddedField4</a>)</td><td>A compact set of atmospheric fields on a common set of grids.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>GIN</td><td class="right">delim</td><td>(<a href="../groups/String.html">String</a>, Default: "-")</td><td>Delimiter string of <a href="../variables/scat_species.html">scat_species</a> elements.</td></tr>
+<tr><td>GIN</td><td class="right">p_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Minimum-pressure level to consider (for TOA).</td></tr>
+<tr><td>GIN</td><td class="right">check_gridnames</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>A flag with value 1 or 0. If set to one, the gridnames of 
+ the <a href="../variables/atm_fields_compact.html">atm_fields_compact</a> are checked.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

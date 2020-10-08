@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responsePolarisation - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responsePolarisation</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responsePolarisation</h2>
+<h3>Description</h3>
+<pre>
+Extraction of non-default polarisation components.
+
+The default is to output the Stokes elements I, Q, U and V (up to
+<a href="../variables/stokes_dim.html">stokes_dim</a>). This method allows to change the "polarisation" of
+the output. Polarisation components to be extracted are selected by
+<a href="../variables/instrument_pol.html">instrument_pol</a>. This method can be applied at any step of the sensor
+matrix set-up.
+
+The method can only be applied on data for I, Q, U and V. The value
+of <a href="../variables/stokes_dim.html">stokes_dim</a> must be sufficiently large for the selected
+components. For example, I+45 requires that <a href="../variables/stokes_dim.html">stokes_dim</a> is at
+least 3. 
+
+See <a href="../variables/instrument_pol.html">instrument_pol</a> for coding of polarisation states.
+
+Note that the state of <a href="../variables/iy_unit.html">iy_unit</a> is considered. This WSV must give
+the actual unit of the data. This as, the extraction of components
+is slightly different if data are radiances or brightness
+temperatures.  In practise this means that <a href="../variables/iy_unit.html">iy_unit</a> (as to be
+applied inside <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>) must be set before calling this
+method.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responsePolarisation(&nbsp;</td><td><a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../variables/instrument_pol.html">instrument_pol</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/instrument_pol.html">instrument_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>Definition of the polarisation of an instrument.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

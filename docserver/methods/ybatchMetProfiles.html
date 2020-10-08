@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ybatchMetProfiles - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;ybatchMetProfiles</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method ybatchMetProfiles</h2>
+<h3>Description</h3>
+<pre>
+This method is used for simulating ARTS for metoffice model fields
+This method reads in <a href="../variables/met_amsu_data.html">met_amsu_data</a> which contains the
+lat-lon of the metoffice profile files as a Matrix. It then
+loops over the number of profiles and corresponding to each
+longitude create the appropriate profile basename. Then,
+corresponding to each basename we have temperature field, altitude
+field, humidity field, and particle number density field. The
+temperature field and altitude field are stored in the same dimensions
+as <a href="../variables/t_field_raw.html">t_field_raw</a> and <a href="../variables/z_field_raw.html">z_field_raw</a>. The oxygen and nitrogen VMRs are
+set to constant values of 0.209 and 0.782, respectively and are used
+along with humidity field to generate <a href="../variables/vmr_field_raw.html">vmr_field_raw</a>. 
+
+The three fields <a href="../variables/t_field_raw.html">t_field_raw</a>, <a href="../variables/z_field_raw.html">z_field_raw</a>, and <a href="../variables/vmr_field_raw.html">vmr_field_raw</a> are
+given as input to <a href="../agendas/met_profile_calc_agenda.html">met_profile_calc_agenda</a> which is called in this
+method. See documentation of WSM <a href="../agendas/met_profile_calc_agenda.html">met_profile_calc_agenda</a> for more
+information on this agenda. 
+
+The method also converts satellite zenith angle to appropriate
+<a href="../variables/sensor_los.html">sensor_los</a>. It also sets the <a href="../variables/p_grid.html">p_grid</a> and <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>
+from the profiles inside the function
+
+</pre>
+
+<p><b>Authors: </b>Sreerekha T.R.
+<h3>Synopsis</h3>
+<p><table><tr><td>ybatchMetProfiles(&nbsp;</td><td><a href="../variables/ybatch.html">ybatch</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../agendas/met_profile_calc_agenda.html">met_profile_calc_agenda</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/met_amsu_data.html">met_amsu_data</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/scat_data.html">scat_data</a>, nelem_p_grid, met_profile_path, met_profile_pnd_path )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/ybatch.html">ybatch</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>Batch of spectra.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/met_profile_calc_agenda.html">met_profile_calc_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda for metoffice profile calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/met_amsu_data.html">met_amsu_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The AMSU data set.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_pos.html">sensor_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor position for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/refellipsoid.html">refellipsoid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Reference ellipsoid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>GIN</td><td class="right">nelem_p_grid</td><td>(<a href="../groups/Index.html">Index</a>)</td><td>FIXME DOC</td></tr>
+<tr><td>GIN</td><td class="right">met_profile_path</td><td>(<a href="../groups/String.html">String</a>)</td><td>FIXME DOC</td></tr>
+<tr><td>GIN</td><td class="right">met_profile_pnd_path</td><td>(<a href="../groups/String.html">String</a>)</td><td>FIXME DOC</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

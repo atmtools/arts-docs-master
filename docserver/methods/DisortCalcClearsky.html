@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DisortCalcClearsky - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;DisortCalcClearsky</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method DisortCalcClearsky</h2>
+<h3>Description</h3>
+<pre>
+Interface to DISORT for running clear-sky cases.
+
+The method runs DISORT with <a href="../variables/pnd_field.html">pnd_field</a> set to zero.
+
+Note that this version returns <a href="../variables/spectral_radiance_field.html">spectral_radiance_field</a>, i.e.
+the solution for the full atmosphere. The standard <a href="DisortCalc.html">DisortCalc</a>
+only returns the field inside the cloudbox.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>DisortCalcClearsky(&nbsp;</td><td><a href="../variables/spectral_radiance_field.html">spectral_radiance_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>, nstreams, quiet )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/spectral_radiance_field.html">spectral_radiance_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>Spectral radiance field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Surface reflectivity, assuming it can be described as a scalar value.</td></tr>
+<tr><td>GIN</td><td class="right">nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 8)</td><td>Number of polar angle directions (streams) in DISORT solution (must be an even number).</td></tr>
+<tr><td>GIN</td><td class="right">quiet</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Silence C Disort warnings.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

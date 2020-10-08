@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ppath_stepRefractionBasic - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;ppath_stepRefractionBasic</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method ppath_stepRefractionBasic</h2>
+<h3>Description</h3>
+<pre>
+Calculates a propagation path step, considering refraction by a
+basic approach.
+
+Refraction is taken into account by probably the simplest approach
+possible. The path is treated to consist of piece-wise geometric
+steps. A geometric path step is calculated from each point by
+using the local line-of-sight. Snell's law for spherical symmetry
+is used for 1D to determine the zenith angle at the new point.
+For 2D and 3D, the zenith angle is calculated using the average
+gradient of the refractive index between the two points. For 3D,
+the azimuth angle is treated in the same way as the zenith one.
+
+The maximum length of each ray tracing step is given by the WSV
+<a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a>. The length will never exceed the given maximum,
+but it can be smaller. The ray tracing steps are only used to
+determine the path. Points to describe the path are included as
+for <a href="ppath_stepGeometric.html">ppath_stepGeometric</a>, this including the functionality of
+<a href="../variables/ppath_lmax.html">ppath_lmax</a>.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>ppath_stepRefractionBasic(&nbsp;</td><td><a href="../variables/ppath_step.html">ppath_step</a>, <a href="../agendas/refr_index_air_agenda.html">refr_index_air_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/ppath_lmax.html">ppath_lmax</a>, <a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/ppath_step.html">ppath_step</a></td><td>(<a href="../groups/Ppath.html">Ppath</a>)</td><td>A propagation path step.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/refr_index_air_agenda.html">refr_index_air_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the refractive index of air.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/refellipsoid.html">refellipsoid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Reference ellipsoid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ppath_lmax.html">ppath_lmax</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum length between points describing propagation paths.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum length of ray tracing steps when determining propagation paths.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

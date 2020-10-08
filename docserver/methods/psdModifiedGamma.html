@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>psdModifiedGamma - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;psdModifiedGamma</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method psdModifiedGamma</h2>
+<h3>Description</h3>
+<pre>
+Modified gamma distribution PSD using n0, mu, la and ga as parameters.
+
+The modified gamma distribution is a 4-parameter (n0, mu, la and ga)
+distribution [Petty & Huang, JAS, 2011)]:
+   n(x) = n0 * x^mu * exp( -la*x^ga )
+where x is particle size or mass.
+
+The parameters can be given in two ways, either by <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> or
+as GIN arguments. The first option allows the parameter to vary, while
+in the second case the parameter gets a constant value. If a parameter is
+part of <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, the corresponding GIN argument must be set
+to NaN (which is default). This means that the number of columns in
+<a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> and the number of non-NaN choices for n0, mu, la and
+ga must add up to four.
+
+Data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> are linked to the MGD parameters in term of
+order, the naming in <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a> is free. If all four
+parameteras are specified by <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, the data in the first
+column are taken as n0, the second column as mu etc. If a parameter is
+given as a GIN argument, the columns are just shifted with one position.
+For example, if mu and ga are specified as GIN arguments, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>
+shall have two columns, with n0-values in the first one and la-values in
+the second one.
+
+The GIN route is especially suitable for selecting special cases of MGD.
+For example, by setting mu=0 and ga=1, an exponential PSD is obtained:
+   n(x) = n0 * exp( -la*x )
+With mu=1 and ga=1, the gamma PSD is obtained:
+   n(x) = n0 * x^mu *exp( -la*x )
+There should be little overhead in using the method for exponential
+and gamma PSDs, there is an internal switch to dedicated expressions
+for those PSDs.
+
+Derivatives can only be obtained for parameters that are specified by
+<a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.
+
+If temperature is outside [*t_min*,*t_max*] psd=0 and dpsd=0 if
+picky=0, or an error is thrown if picky=1.
+
+These requirements apply to the MGD parameters:
+  la &gt; 0
+  ga &gt; 0
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>psdModifiedGamma(&nbsp;</td><td><a href="../variables/psd_data.html">psd_data</a>, <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a>, <a href="../variables/psd_size_grid.html">psd_size_grid</a>, <a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a>, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>, <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>, n0, mu, la, ga, t_min, t_max, picky )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/psd_data.html">psd_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Particle size distribution values for a set of points.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Partial derivates of <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/psd_size_grid.html">psd_size_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The particle sizes associated with <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The variable input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Naming of (existing or expected) data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of partial derivatives of <a href="../variables/pnd_data.html">pnd_data</a>.</td></tr>
+<tr><td>GIN</td><td class="right">n0</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>n0</td></tr>
+<tr><td>GIN</td><td class="right">mu</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>mu</td></tr>
+<tr><td>GIN</td><td class="right">la</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>la</td></tr>
+<tr><td>GIN</td><td class="right">ga</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: NaN)</td><td>ga</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Low temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>High temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">picky</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to be strict with parametrization value checks.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

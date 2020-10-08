@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>surface_reflectivityFromGriddedField6 - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;surface_reflectivityFromGriddedField6</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method surface_reflectivityFromGriddedField6</h2>
+<h3>Description</h3>
+<pre>
+Extracts surface reflectivities from a field of such data.
+
+This method allows to specify a field of surface reflectivity for
+automatic interpolation to points of interest. The position and
+direction for which the reflectivity shall be extracted are given
+by <a href="../variables/rtp_pos.html">rtp_pos</a> and <a href="../variables/rtp_los.html">rtp_los</a>. The reflectivity field is expected to
+be stored as:
+   GriddedField6:
+      Vector "Frequency"       [N_f]
+      Vector "Stokes element"  [N_s1]
+      Vector "Stokes_element"  [N_s2]
+      Vector "Incidence angle" [N_ia]
+      Vector "Latitude"        [N_lat]
+      Vector "Longitude"       [N_lon]
+      Tensor6 data[N_f][N_s1][N_s2][N_ia][N_lat][N_lon]
+
+Grids for incidence angle, latitude and longitude must have a
+length of &gt;= 2 (ie. no automatic expansion). If the frequency grid
+has length 1, this is taken as that the reflectivity is constant,
+following the definition of <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>.
+The data can cover higher Stokes dimensionalities than set by
+<a href="../variables/stokes_dim.html">stokes_dim</a>. Data for non-used Stokes elements are just cropped.
+The order between the two Stokes dimensions is the same as in
+<a href="../variables/surface_reflectivity.html">surface_reflectivity</a> and surface_rmatrix*.
+
+The interpolation is done in steps:
+   1: Linear interpolation for lat and lon (std. extrapolation).
+   2: Interpolation in incidence angle (std. extrapolation).
+      If the grid has a length of &gt;= 4, cubic interpolation is
+      applied. Otherwise linear interpolation.
+   3. Linear interpolation in frequency (if input data have more
+      than one frequency).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>surface_reflectivityFromGriddedField6(&nbsp;</td><td><a href="../variables/surface_reflectivity.html">surface_reflectivity</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lat_true.html">lat_true</a>, <a href="../variables/lon_true.html">lon_true</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, r_field )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_reflectivity.html">surface_reflectivity</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Surface reflectivity, for a given position and angle.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_true.html">lat_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Latitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_true.html">lon_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Longitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>GIN</td><td class="right">r_field</td><td>(<a href="../groups/GriddedField6.html">GriddedField6</a>)</td><td>A field of surface reflectivities</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

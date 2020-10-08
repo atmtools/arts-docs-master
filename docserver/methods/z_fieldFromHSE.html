@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>z_fieldFromHSE - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;z_fieldFromHSE</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method z_fieldFromHSE</h2>
+<h3>Description</h3>
+<pre>
+Force altitudes to fulfil hydrostatic equilibrium.
+
+The method applies hydrostatic equilibrium. A mixture of "dry
+air" and water vapour (if present as <a href="../variables/abs_species.html">abs_species</a> tag) is assumed.
+That is, the air is assumed to be well mixed and its weight, apart
+from the water vapour, is constant (<a href="../variables/molarmass_dry_air.html">molarmass_dry_air</a>). In
+addition, the effect of any particles (including liquid and ice
+particles) is neglected.
+
+The output is an update of <a href="../variables/z_field.html">z_field</a>. This variable is expected to
+contain approximative altitudes when calling the function. The
+altitude matching <a href="../variables/p_hse.html">p_hse</a> is kept constant. Other input altitudes can
+basically be arbitrary, but good estimates give quicker calculations.
+
+The calculations are repeated until the change in altitude is below
+<a href="../variables/z_hse_accuracy.html">z_hse_accuracy</a>. An iterative process is needed as gravity varies
+with altitude.
+
+For 1D and 2D, the geographical position is taken from <a href="../variables/lat_true.html">lat_true</a>
+and <a href="../variables/lon_true.html">lon_true</a>.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>z_fieldFromHSE(&nbsp;</td><td><a href="../variables/z_field.html">z_field</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/lat_true.html">lat_true</a>, <a href="../variables/lon_true.html">lon_true</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../agendas/g0_agenda.html">g0_agenda</a>, <a href="../variables/molarmass_dry_air.html">molarmass_dry_air</a>, <a href="../variables/p_hse.html">p_hse</a>, <a href="../variables/z_hse_accuracy.html">z_hse_accuracy</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_true.html">lat_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Latitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_true.html">lon_true</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Longitudinal geolocation for 1D and 2D data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/refellipsoid.html">refellipsoid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Reference ellipsoid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/g0_agenda.html">g0_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda providing the gravity constant.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/molarmass_dry_air.html">molarmass_dry_air</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>The average molar mass of dry air.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_hse.html">p_hse</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Reference pressure calculation of hydrostatic equilibrium.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_hse_accuracy.html">z_hse_accuracy</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Minimum accuracy for calculation of hydrostatic equilibrium.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>abs_speciesSet - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;abs_speciesSet</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method abs_speciesSet</h2>
+<h3>Description</h3>
+<pre>
+Set up a list of absorption species tag groups.
+
+Workspace variables like <a href="../variables/abs_species.html">abs_species</a> contain several tag
+groups. Each tag group contains one or more tags. This method converts
+descriptions of tag groups given in the keyword to the ARTS internal
+representation (an <a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>). A tag group selects
+spectral features which belong to the same species.
+
+A tag is defined in terms of the name of the species, isotopologue, and a
+range of frequencies. Species are named after the standard chemical
+names, e.g., "O3". Isotopologues are given by the last digit of the atomic
+weight, i.g., "O3-668" for the asymmetric ozone molecule including an
+oxygen 18 atom. Groups of transitions are specified by giving a lower
+and upper limit of a frequency range, e.g., "O3-666-500e9-501e9".
+
+To turn on Zeeman calculation for a species, "-Z" may be appended
+to its name: "O2-Z" or "O2-Z-66"
+
+To turn on line mixing calculation for a species, "-LM" may be appended
+to its name (or after the Zeeman tag): "O2-LM" or "O2-Z-LM-66"
+
+The symbol "*" acts as a wild card. Furthermore, frequency range or
+frequency range and isotopologue may be omitted.
+
+Finally, instead of the isotopologue the special letter "nl" may be given,
+e.g., "H2O-nl". This means that no absorption at all is associated
+with this tag. (It is not quite clear if this feature is useful for
+anything right now.)
+
+Example:
+
+   species = [ "O3-666-500e9-501e9, O3-686",
+               "O3",
+               "H2O-PWR98" ]
+
+   The first tag group selects all O3-666 lines between 500 and
+   501 GHz plus all O3-686 lines. 
+
+   The second tag group selects all remaining O3 transitions.
+
+   The third tag group selects H2O, with one of the complete
+   absorption models (Rosenkranz 98). No spectrocopic line catalogue
+   data will be used for that third tag group.
+
+   Note that order of tag groups in the species list matters. In our
+   example, changing the order of the first two tag group will give
+   different results: as "O3" already selects all O3 transitions,
+   no lines will remain to be selected by the
+   "O3-666-500e9-501e9, O3-686" tag.
+
+For CIA species the tag consists of the two involved species and
+a dataset index. CIA species can be defined for multiple regions
+The dataset index determines which region to use from the corresponding
+CIARecord in <a href="../variables/abs_cia_data.html">abs_cia_data</a>.
+
+Example
+
+species = [ "N2-CIA-N2-0, N2-CIA-N2-1" ]
+
+For Hitran cross section species the tag consists of the species and
+the tagtype HXSEC, e.g. CFC11-HXSEC. The data for the species must be
+available in the <a href="../variables/hitran_xsec_data.html">hitran_xsec_data</a> variable.
+<a href="../variables/abs_xsec_agenda_checked.html">abs_xsec_agenda_checked</a> and <a href="../variables/propmat_clearsky_agenda_checked.html">propmat_clearsky_agenda_checked</a>
+are set to be false.
+
+</pre>
+
+<p><b>Authors: </b>Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>abs_speciesSet(&nbsp;</td><td><a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/abs_xsec_agenda_checked.html">abs_xsec_agenda_checked</a>, <a href="../variables/propmat_clearsky_agenda_checked.html">propmat_clearsky_agenda_checked</a>, species )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_xsec_agenda_checked.html">abs_xsec_agenda_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../agendas/abs_xsec_agenda.html">abs_xsec_agenda</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/propmat_clearsky_agenda_checked.html">propmat_clearsky_agenda_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>.</td></tr>
+<tr><td>GIN</td><td class="right">species</td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Specify one String for each tag group that you want to
+create. Inside the String, separate the tags by commas
+(plus optional blanks).
+</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

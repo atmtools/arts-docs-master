@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>iyInterpCloudboxField - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;iyInterpCloudboxField</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method iyInterpCloudboxField</h2>
+<h3>Description</h3>
+<pre>
+Interpolates the intensity field of the cloud box.
+
+Determines the intensity field at the position and direction
+specified by <a href="../variables/rte_pos.html">rte_pos</a> and <a href="../variables/rte_los.html">rte_los</a>. The position can be both
+inside the cloud box or at its edge.
+
+The interpolation in the spatial dimensions is linear.
+
+For the zenith angle dimensions several options for controlling
+the interpolation are at hand. Default is linear interpolation.
+Higher order polynomial interpolation is activated by setting
+*za_interp_order* to a value &gt; 1. Default is to perform the
+interpolation separately for [0,90[ and ]90,180]. To handle
+90 degree or use the full range ([0,180]) as basis for the
+interpolation, set *za_restrict* to 0. You can select to use
+cos(za) as the independent variable (instead of za) by setting
+*cos_za_interp* to 1.
+
+For the azimuth dimension the interpolation order can be
+selected, in the same manner as for zenith.
+
+</pre>
+
+<p><b>Authors: </b>Claudia Emde, Patrick Eriksson, Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>iyInterpCloudboxField(&nbsp;</td><td><a href="../variables/iy.html">iy</a>, <a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/aa_grid.html">aa_grid</a>, <a href="../variables/f_grid.html">f_grid</a>, za_interp_order, za_restrict, cos_za_interp, za_extpolfac, aa_interp_order )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy.html">iy</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Monochromatic pencil beam radiance spectrum.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/aa_grid.html">aa_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Azimuthal angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>GIN</td><td class="right">za_interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Zenith angle interpolation order.</td></tr>
+<tr><td>GIN</td><td class="right">za_restrict</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag whether to restric zenith angle interpolation to one hemisphere.</td></tr>
+<tr><td>GIN</td><td class="right">cos_za_interp</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to do zenith angle interpolation in cosine space.</td></tr>
+<tr><td>GIN</td><td class="right">za_extpolfac</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.5)</td><td>Maximum allowed extrapolation range in zenith angle.</td></tr>
+<tr><td>GIN</td><td class="right">aa_interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Azimuth angle interpolation order.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>pha_mat_sptFromData - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;pha_mat_sptFromData</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method pha_mat_sptFromData</h2>
+<h3>Description</h3>
+<pre>
+Calculation of the phase matrix of the individual scattering elements.
+
+This function can be used in <a href="../agendas/pha_mat_spt_agenda.html">pha_mat_spt_agenda</a> as part of
+the calculation of the scattering integral.
+
+First, data at the requested frequency (given by <a href="../variables/f_grid.html">f_grid</a> and
+<a href="../variables/f_index.html">f_index</a>) and temperature (given by <a href="../variables/rtp_temperature.html">rtp_temperature</a>) is
+extracted. This is followed by a transformation from the database
+coordinate system to the laboratory coordinate system.
+
+Frequency extraction is always done by (linear) interpolation.
+Temperature is (linearly) interpolated when at least two
+temperature grid points are present in the <a href="../variables/scat_data.html">scat_data</a> and
+<a href="../variables/rtp_temperature.html">rtp_temperature</a> is positive. If only a single temperature point
+is available, data for this point is used without modification. In
+order to speed up calculations, temperature interpolation can be
+avoided by passing a <a href="../variables/rtp_temperature.html">rtp_temperature</a>&lt;0. In this case, a specific
+temperature grid from the <a href="../variables/scat_data.html">scat_data</a> grid is used without
+modification. The selection is as follows:
+  -10 &lt; *rtp_temperature * &lt;   0   T_grid[0]     lowest temperature
+  -20 &lt; *rtp_temperature * &lt; -10   T_grid[nT-1]  highest temperature
+        <a href="../variables/rtp_temperature.html">rtp_temperature</a>  &lt; -20   T_grid[nT/2]  median grid point
+
+</pre>
+
+<p><b>Authors: </b>Claudia Emde
+<h3>Synopsis</h3>
+<p><table><tr><td>pha_mat_sptFromData(&nbsp;</td><td><a href="../variables/pha_mat_spt.html">pha_mat_spt</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/aa_grid.html">aa_grid</a>, <a href="../variables/za_index.html">za_index</a>, <a href="../variables/aa_index.html">aa_index</a>, <a href="../variables/f_index.html">f_index</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/rtp_temperature.html">rtp_temperature</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/scat_p_index.html">scat_p_index</a>, <a href="../variables/scat_lat_index.html">scat_lat_index</a>, <a href="../variables/scat_lon_index.html">scat_lon_index</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/pha_mat_spt.html">pha_mat_spt</a></td><td>(<a href="../groups/Tensor5.html">Tensor5</a>)</td><td>Phase matrix for all individual scattering elements.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/aa_grid.html">aa_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Azimuthal angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/za_index.html">za_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Zenith angle index for scattering calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/aa_index.html">aa_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Azimuth angle index for scattering calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_index.html">f_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Frequency index.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_temperature.html">rtp_temperature</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Temperature at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_p_index.html">scat_p_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Pressure index for scattering calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_lat_index.html">scat_lat_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Latitude index for scattering calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_lon_index.html">scat_lon_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Longitude index for scattering calculations.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>iyMC - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;iyMC</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method iyMC</h2>
+<h3>Description</h3>
+<pre>
+Interface to Monte Carlo part for <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>.
+
+Basically an interface to <a href="MCGeneral.html">MCGeneral</a> for doing monochromatic
+pencil beam calculations. This functions allows Monte Carlo (MC)
+calculations for sets of frequencies and sensor pos/los in a single
+run. Sensor responses can be included in the standard manner
+(through <a href="yCalc.html">yCalc</a>).
+
+This function does not apply the MC approach when it comes
+to sensor properties. These properties are not considered when
+tracking photons, which is done in <a href="MCGeneral.html">MCGeneral</a> (but then only for
+the antenna pattern).
+
+Output unit options  (<a href="../variables/iy_unit.html">iy_unit</a>) exactly as for <a href="MCGeneral.html">MCGeneral</a>.
+
+The MC calculation errors are all assumed be uncorrelated and each
+have a normal distribution. These properties are of relevance when
+weighting the errors with the sensor repsonse matrix. The seed is
+reset for each call of <a href="MCGeneral.html">MCGeneral</a> to obtain uncorrelated errors.
+
+MC control arguments (mc_std_err, mc_max_time, mc_min_iter, mc_max_iter
+mc_taustep_limit) as for <a href="MCGeneral.html">MCGeneral</a>. The arguments are applied
+for each monochromatic pencil beam calculation individually.
+As for <a href="MCGeneral.html">MCGeneral</a>, the value of <a href="../variables/mc_error.html">mc_error</a> shall be adopted to
+<a href="../variables/iy_unit.html">iy_unit</a>.
+
+The following auxiliary data can be obtained:
+  "Error (uncorrelated)": Calculation error. Size: [nf,ns,1,1].
+    (The later part of the text string is required. It is used as
+    a flag to yCalc for how to apply the sensor data.)
+where
+  nf: Number of frequencies.
+  ns: Number of Stokes elements.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>iyMC(&nbsp;</td><td><a href="../variables/iy.html">iy</a>, <a href="../variables/iy_aux.html">iy_aux</a>, <a href="../variables/diy_dx.html">diy_dx</a>, <a href="../variables/iy_agenda_call1.html">iy_agenda_call1</a>, <a href="../variables/iy_transmission.html">iy_transmission</a>, <a href="../variables/rte_pos.html">rte_pos</a>, <a href="../variables/rte_los.html">rte_los</a>, <a href="../variables/iy_aux_vars.html">iy_aux_vars</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../agendas/iy_space_agenda.html">iy_space_agenda</a>, <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../agendas/ppath_step_agenda.html">ppath_step_agenda</a>, <a href="../variables/ppath_lmax.html">ppath_lmax</a>, <a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../variables/mc_std_err.html">mc_std_err</a>, <a href="../variables/mc_max_time.html">mc_max_time</a>, <a href="../variables/mc_max_iter.html">mc_max_iter</a>, <a href="../variables/mc_min_iter.html">mc_min_iter</a>, <a href="../variables/mc_taustep_limit.html">mc_taustep_limit</a>, t_interp_order )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy.html">iy</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Monochromatic pencil beam radiance spectrum.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/iy_aux.html">iy_aux</a></td><td>(<a href="../groups/ArrayOfMatrix.html">ArrayOfMatrix</a>)</td><td>Data auxiliary to <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/diy_dx.html">diy_dx</a></td><td>(<a href="../groups/ArrayOfTensor3.html">ArrayOfTensor3</a>)</td><td>Derivative of <a href="../variables/iy.html">iy</a> with respect to retrieval quantities.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_agenda_call1.html">iy_agenda_call1</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to handle recursive calls of <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a>  The agenda <a href="../agendas/iy_main_agenda.html">iy_main_agenda</a> can be used recursively and this flag is used to tell the methods inside the agenda which is the primary  call.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_transmission.html">iy_transmission</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Transmission to be included in <a href="../variables/iy.html">iy</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_pos.html">rte_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A geographical position for starting radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_los.html">rte_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A line-of-sight for (complete) radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_aux_vars.html">iy_aux_vars</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of quantities for <a href="../variables/iy_aux.html">iy_aux</a> and when applicable also <a href="../variables/y_aux.html">y_aux</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/refellipsoid.html">refellipsoid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Reference ellipsoid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/iy_space_agenda.html">iy_space_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda providing the downwelling radiation at the top of the atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda providing radiative properties of the surface.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/ppath_step_agenda.html">ppath_step_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating a propagation path step.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ppath_lmax.html">ppath_lmax</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum length between points describing propagation paths.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum length of ray tracing steps when determining propagation paths.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mc_std_err.html">mc_std_err</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Target precision (1 std.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mc_max_time.html">mc_max_time</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The maximum time allowed for Monte Carlo calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mc_max_iter.html">mc_max_iter</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The maximum number of iterations allowed for Monte Carlo calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mc_min_iter.html">mc_min_iter</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The minimum number of iterations allowed for Monte Carlo calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/mc_taustep_limit.html">mc_taustep_limit</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Defines an upper step length in terms of optical thickness for Monte Carlo calculations.</td></tr>
+<tr><td>GIN</td><td class="right">t_interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Interpolation order of temperature for scattering data (so far only applied in phase matrix, not in extinction and absorption.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

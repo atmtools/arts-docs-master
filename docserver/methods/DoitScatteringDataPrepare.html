@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DoitScatteringDataPrepare - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;DoitScatteringDataPrepare</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method DoitScatteringDataPrepare</h2>
+<h3>Description</h3>
+<pre>
+Prepares single scattering data for a DOIT scattering calculation.
+
+First the scattering data is interpolated in frequency using
+<a href="scat_data_monoCalc.html">scat_data_monoCalc</a>. Then the phase matrix data is
+transformed or interpolated from the raw data to the laboratory frame
+for all possible combinations of the angles contained in the angular
+grids which are set in <a href="DOAngularGridsSet.html">DOAngularGridsSet</a>. The resulting phase
+matrices are stored in <a href="../variables/pha_mat_sptDOITOpt.html">pha_mat_sptDOITOpt</a>.
+
+</pre>
+
+<p><b>Authors: </b>Claudia Emde
+<h3>Synopsis</h3>
+<p><table><tr><td>DoitScatteringDataPrepare(&nbsp;</td><td><a href="../variables/pha_mat_sptDOITOpt.html">pha_mat_sptDOITOpt</a>, <a href="../variables/scat_data_mono.html">scat_data_mono</a>, <a href="../variables/pha_mat_doit.html">pha_mat_doit</a>, <a href="../variables/aa_grid.html">aa_grid</a>, <a href="../variables/doit_za_grid_size.html">doit_za_grid_size</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/f_index.html">f_index</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../agendas/pha_mat_spt_agenda.html">pha_mat_spt_agenda</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/pha_mat_sptDOITOpt.html">pha_mat_sptDOITOpt</a></td><td>(<a href="../groups/ArrayOfTensor7.html">ArrayOfTensor7</a>)</td><td>Interpolated phase matrix.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/scat_data_mono.html">scat_data_mono</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Monochromatic single scattering data.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/pha_mat_doit.html">pha_mat_doit</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>Ensemble averaged phase matrix for DOIT calculation.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/aa_grid.html">aa_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Azimuthal angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/doit_za_grid_size.html">doit_za_grid_size</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Number of equidistant grid points of the zenith angle grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data_checked.html">scat_data_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../variables/scat_data.html">scat_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_index.html">f_index</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Frequency index.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_limits.html">cloudbox_limits</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The limits of the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_field.html">pnd_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Particle number density field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/pha_mat_spt_agenda.html">pha_mat_spt_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculates the phase matrix for individual scattering elements.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

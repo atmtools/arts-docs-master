@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseMetMM - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseMetMM</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseMetMM</h2>
+<h3>Description</h3>
+<pre>
+Sensor setup for meteorological millimeter instruments.
+
+This method is handy if you are simulating a passband-type instrument,
+consisting of a few discrete channels.
+
+For flexibility, the Met-MM system is seperated in two calculation
+steps. To fully use the system, create <a href="../variables/f_grid.html">f_grid</a> (and some associated
+variables) by <a href="f_gridMetMM.html">f_gridMetMM</a> before calling this method. However, it is
+possible to use this method with any <a href="../variables/f_grid.html">f_grid</a>, as long as matching
+<a href="../variables/f_backend.html">f_backend</a>, <a href="../variables/channel2fgrid_indexes.html">channel2fgrid_indexes</a> and <a href="../variables/channel2fgrid_weights.html">channel2fgrid_weights</a>
+are provided.
+
+Each scan sequence is treated as a measurement block. <a href="../variables/sensor_pos.html">sensor_pos</a> is
+set in the standard way. The number of rows in <a href="../variables/sensor_pos.html">sensor_pos</a> determines the
+number of scan sequences that will be simulated. On the other hand,
+<a href="../variables/sensor_los.html">sensor_los</a> is handled in a special way. All zenith angles must be set
+to 180 deg. For 3D, the given azimuth angles are taken as the direction
+of scanning, where the azimuth angle is defined with respect to North
+in standard manner. For example, if the scanning happens to move from
+SW to NE, the azimuth angle should be set to 45 deg. The angles of the
+scanning sequence are taken from <a href="../variables/antenna_dlos.html">antenna_dlos</a>. This WSV is here only
+allowed to have a single column, holding relative zenith angles. For
+3D, the azimuth angles in <a href="../variables/antenna_dlos.html">antenna_dlos</a> are hard-coded to zero. As
+zenith angles in <a href="../variables/sensor_los.html">sensor_los</a> are locked to 180 deg, <a href="../variables/antenna_dlos.html">antenna_dlos</a>
+effectively holds the nadir angles. These angles can be both positive or
+negative, where the recommended choice is to operate with negative
+to end up with final zenith angles between 0 and 180 deg.
+
+The method does not support 2D atmospheres (across-track scanning is
+inconsistent with 2D). For simpler switching between 1D and 3D,
+the argument *mirror_dza* is at hand. It can only be used for 3D.
+If set to true, the zenith angles in <a href="../variables/antenna_dlos.html">antenna_dlos</a> are mapped
+to also cover the other side of the swath and the simulations will
+cover both sides of the swath.
+
+</pre>
+
+<p><b>Authors: </b>Oliver Lemke, Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseMetMM(&nbsp;</td><td><a href="../variables/antenna_dim.html">antenna_dim</a>, <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a>, <a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/sensor_norm.html">sensor_norm</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/f_backend.html">f_backend</a>, <a href="../variables/channel2fgrid_indexes.html">channel2fgrid_indexes</a>, <a href="../variables/channel2fgrid_weights.html">channel2fgrid_weights</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../variables/antenna_dlos.html">antenna_dlos</a>, <a href="../variables/met_mm_polarisation.html">met_mm_polarisation</a>, <a href="../variables/met_mm_antenna.html">met_mm_antenna</a>, use_antenna, mirror_dza )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/antenna_dim.html">antenna_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the antenna pattern (1-2).</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The set of angular pencil beam directions for each measurement block.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_norm.html">sensor_norm</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag if sensor response should be normalised or not (0 or 1).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_backend.html">f_backend</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency position of each backend (spectrometer) channel.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/channel2fgrid_indexes.html">channel2fgrid_indexes</a></td><td>(<a href="../groups/ArrayOfArrayOfIndex.html">ArrayOfArrayOfIndex</a>)</td><td>Definition of backend frequency response, link to <a href="../variables/f_grid.html">f_grid</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/channel2fgrid_weights.html">channel2fgrid_weights</a></td><td>(<a href="../groups/ArrayOfVector.html">ArrayOfVector</a>)</td><td>Definition of backend frequency response, weighting of <a href="../variables/f_grid.html">f_grid</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/antenna_dlos.html">antenna_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative line-of-sight of each antenna pattern.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/met_mm_polarisation.html">met_mm_polarisation</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>The polarisation for meteorological millimeter instruments.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/met_mm_antenna.html">met_mm_antenna</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The antenna beam width for meteorological millimeter instruments.</td></tr>
+<tr><td>GIN</td><td class="right">use_antenna</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to enable (1) or disable (0) antenna.</td></tr>
+<tr><td>GIN</td><td class="right">mirror_dza</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to include second part of swath (only 3D, see above).</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

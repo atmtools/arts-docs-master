@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>sensor_responseGenericAMSU - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;sensor_responseGenericAMSU</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method sensor_responseGenericAMSU</h2>
+<h3>Description</h3>
+<pre>
+Simplified sensor setup for an AMSU-type instrument.
+
+This function is derived from 'sensor_responseSimpleAMSU' 
+but is more generalized since the number of passbands in each 
+can be in the range from 1 to 4 - in order to correctly simulate
+AMSU-A type sensors 
+
+This method allows quick and simple definition of AMSU-type
+sensors. Assumptions:
+
+1. Pencil beam antenna.
+2. 1-4 Passband/sidebands per channel.
+3. Sideband mode "upper"
+4. The channel response is rectangular.
+
+Under these assumptions the only inputs needed are the LO positions,
+the offsets from the LO, and the IF bandwidths. They are provided
+in sensor_description_amsu.
+
+</pre>
+
+<p><b>Authors: </b>Oscar Isoz
+<h3>Synopsis</h3>
+<p><table><tr><td>sensor_responseGenericAMSU(&nbsp;</td><td><a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/antenna_dim.html">antenna_dim</a>, <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a>, <a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/sensor_norm.html">sensor_norm</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/sensor_description_amsu.html">sensor_description_amsu</a>, spacing )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/antenna_dim.html">antenna_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the antenna pattern (1-2).</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The set of angular pencil beam directions for each measurement block.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/sensor_norm.html">sensor_norm</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag if sensor response should be normalised or not (0 or 1).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_description_amsu.html">sensor_description_amsu</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Sensor description for simple AMSU setup.</td></tr>
+<tr><td>GIN</td><td class="right">spacing</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: .1e9)</td><td>Desired grid spacing in Hz.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

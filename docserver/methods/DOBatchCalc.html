@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DOBatchCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;DOBatchCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method DOBatchCalc</h2>
+<h3>Description</h3>
+<pre>
+Performs batch calculations for radiation fields.
+
+We perform <a href="../variables/ybatch_n.html">ybatch_n</a> jobs, starting at index <a href="../variables/ybatch_start.html">ybatch_start</a>. (Zero
+based indexing, as usual.) The output arrays will have
+ybatch_n elements. Indices in the output array start
+with zero, independent of <a href="../variables/ybatch_start.html">ybatch_start</a>.
+
+WARNING, MEMORY INTENSIVE!!!: Since the outputs of this methods can
+be very large, make sure you only pass back output you need.
+Estimate the size of your output by looking at the dimensions
+beforehand. If you only want to pass back some fields, make sure to
+empty the others at the end of your <a href="../agendas/dobatch_calc_agenda.html">dobatch_calc_agenda</a>. E.g.:
+Tensor7SetConstant(cloudbox_field, 0, 0, 0, 0, 0, 0, 0, 0.)
+
+The method performs the following:
+   1. Sets <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a>.
+   2. Performs a-d until
+      <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a> + <a href="../variables/ybatch_n.html">ybatch_n</a>.
+        a. Executes <a href="../agendas/dobatch_calc_agenda.html">dobatch_calc_agenda</a>.
+        b. If <a href="../variables/ybatch_index.html">ybatch_index</a> = <a href="../variables/ybatch_start.html">ybatch_start</a>, resizes the output
+           arrays based on <a href="../variables/ybatch_n.html">ybatch_n</a>.
+        c. Copies calculated fields to <a href="../variables/ybatch_index.html">ybatch_index</a> - <a href="../variables/ybatch_start.html">ybatch_start</a>
+           of output arrays.
+        d. Adds 1 to <a href="../variables/ybatch_index.html">ybatch_index</a>.
+
+Beside the <a href="../agendas/dobatch_calc_agenda.html">dobatch_calc_agenda</a>, the WSVs <a href="../variables/ybatch_start.html">ybatch_start</a>
+and <a href="../variables/ybatch_n.html">ybatch_n</a> must be set before calling this method.
+
+The input variable <a href="../variables/ybatch_start.html">ybatch_start</a> is set to a default of zero in
+*general.arts*.
+
+</pre>
+
+<p><b>Authors: </b>Oliver Lemke
+<h3>Synopsis</h3>
+<p><table><tr><td>DOBatchCalc(&nbsp;</td><td><a href="../variables/dobatch_cloudbox_field.html">dobatch_cloudbox_field</a>, <a href="../variables/dobatch_radiance_field.html">dobatch_radiance_field</a>, <a href="../variables/dobatch_irradiance_field.html">dobatch_irradiance_field</a>, <a href="../variables/dobatch_spectral_irradiance_field.html">dobatch_spectral_irradiance_field</a>, <a href="../variables/ybatch_start.html">ybatch_start</a>, <a href="../variables/ybatch_n.html">ybatch_n</a>, <a href="../agendas/dobatch_calc_agenda.html">dobatch_calc_agenda</a>, robust )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/dobatch_cloudbox_field.html">dobatch_cloudbox_field</a></td><td>(<a href="../groups/ArrayOfTensor7.html">ArrayOfTensor7</a>)</td><td>Batch of radiation fields.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dobatch_radiance_field.html">dobatch_radiance_field</a></td><td>(<a href="../groups/ArrayOfTensor5.html">ArrayOfTensor5</a>)</td><td>Batch of radiance fields.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dobatch_irradiance_field.html">dobatch_irradiance_field</a></td><td>(<a href="../groups/ArrayOfTensor4.html">ArrayOfTensor4</a>)</td><td>Batch of irradiance fields.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dobatch_spectral_irradiance_field.html">dobatch_spectral_irradiance_field</a></td><td>(<a href="../groups/ArrayOfTensor5.html">ArrayOfTensor5</a>)</td><td>Batch of spectral irradiance fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ybatch_start.html">ybatch_start</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Start index for <a href="ybatchCalc.html">ybatchCalc</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ybatch_n.html">ybatch_n</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Number of batch cases for <a href="ybatchCalc.html">ybatchCalc</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/dobatch_calc_agenda.html">dobatch_calc_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda defining the calculations to perform for each batch case.</td></tr>
+<tr><td>GIN</td><td class="right">robust</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>A flag with value 1 or 0. If set to one, the batch
+calculation will continue, even if individual jobs fail. In
+that case, a warning message is written to screen and file
+(out1 output stream), and the output array entry for the
+failed job in the output fields is left empty.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

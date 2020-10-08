@@ -1,0 +1,365 @@
+var hierarchy =
+[
+    [ "Agenda", "classAgenda.html", null ],
+    [ "AgendaData", "structAgendaData.html", null ],
+    [ "oem::AgendaWrapper", "classoem_1_1AgendaWrapper.html", null ],
+    [ "oem::AgendaWrapperMPI", "classoem_1_1AgendaWrapperMPI.html", null ],
+    [ "AgRecord", "classAgRecord.html", null ],
+    [ "alist", "structalist.html", null ],
+    [ "Zeeman::AllPolarizationVectors", "structZeeman_1_1AllPolarizationVectors.html", null ],
+    [ "Any", "classAny.html", null ],
+    [ "Array< base >", "classArray.html", null ],
+    [ "Array< Array >", "classArray.html", null ],
+    [ "Array< Array< AuxData > >", "classArray.html", null ],
+    [ "Array< Array< AuxType > >", "classArray.html", null ],
+    [ "Array< Array< QuantumFieldDescription > >", "classArray.html", null ],
+    [ "Array< ArrayOfIndex >", "classArray.html", null ],
+    [ "Array< ArrayOfSpeciesTag >", "classArray.html", null ],
+    [ "Array< GriddedField2 >", "classArray.html", null ],
+    [ "Array< GridPos >", "classArray.html", null ],
+    [ "Array< GridPosPoly >", "classArray.html", null ],
+    [ "Array< GridType >", "classArray.html", null ],
+    [ "Array< Index >", "classArray.html", null ],
+    [ "Array< IsotopologueRecord >", "classArray.html", null ],
+    [ "Array< MRecord >", "classArray.html", null ],
+    [ "Array< QuantumFieldDescription >", "classArray.html", null ],
+    [ "Array< QuantumIdentifier >", "classArray.html", null ],
+    [ "Array< QuantumParserHITRAN2004::QuantumClassGroup >", "classArray.html", null ],
+    [ "Array< QuantumParserHITRAN2004::QuantumGroup >", "classArray.html", null ],
+    [ "Array< SpeciesTag >", "classArray.html", null ],
+    [ "Array< stack< Workspace::WsvStruct * > >", "classArray.html", null ],
+    [ "Array< String >", "classArray.html", null ],
+    [ "Array< Vector >", "classArray.html", null ],
+    [ "Array< WsvRecord >", "classArray.html", null ],
+    [ "Array< XMLAttribute >", "classArray.html", null ],
+    [ "oem::ArtsLog< type >", "classoem_1_1ArtsLog.html", null ],
+    [ "ArtsOut", "classArtsOut.html", [
+      [ "ArtsOut0", "classArtsOut0.html", null ],
+      [ "ArtsOut1", "classArtsOut1.html", null ],
+      [ "ArtsOut2", "classArtsOut2.html", null ],
+      [ "ArtsOut3", "classArtsOut3.html", null ]
+    ] ],
+    [ "ArtsParser", "classArtsParser.html", null ],
+    [ "ArtsXMLTag", "classArtsXMLTag.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Bands", "structlm__hitran__2017_1_1CommonBlock_1_1Bands.html", null ],
+    [ "basic_string", null, [
+      [ "my_basic_string< charT >", "classmy__basic__string.html", null ],
+      [ "my_basic_string< char >", "classmy__basic__string.html", null ]
+    ] ],
+    [ "lm_hitran_2017::CommonBlock::Bfittedp", "structlm__hitran__2017_1_1CommonBlock_1_1Bfittedp.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Bfittedq", "structlm__hitran__2017_1_1CommonBlock_1_1Bfittedq.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Bfittedr", "structlm__hitran__2017_1_1CommonBlock_1_1Bfittedr.html", null ],
+    [ "binary_function", null, [
+      [ "IndexComp< T >", "classIndexComp.html", null ]
+    ] ],
+    [ "binio", "classbinio.html", [
+      [ "binistream", "classbinistream.html", [
+        [ "bifstream", "classbifstream.html", null ],
+        [ "binstream", "classbinstream.html", null ]
+      ] ],
+      [ "binostream", "classbinostream.html", [
+        [ "binstream", "classbinstream.html", null ],
+        [ "bofstream", "classbofstream.html", null ]
+      ] ]
+    ] ],
+    [ "Block", "classBlock.html", null ],
+    [ "Callback", "classCallback.html", null ],
+    [ "CIARecord", "classCIARecord.html", null ],
+    [ "cilist", "structcilist.html", null ],
+    [ "cllist", "structcllist.html", null ],
+    [ "CmpArrayOfNumeric", "classCmpArrayOfNumeric.html", null ],
+    [ "lm_hitran_2017::CommonBlock", "structlm__hitran__2017_1_1CommonBlock.html", null ],
+    [ "complex_t", "structcomplex__t.html", null ],
+    [ "ComplexIterator1D", "classComplexIterator1D.html", null ],
+    [ "ComplexIterator2D", "classComplexIterator2D.html", null ],
+    [ "ConstComplexIterator1D", "classConstComplexIterator1D.html", null ],
+    [ "ConstComplexIterator2D", "classConstComplexIterator2D.html", null ],
+    [ "ConstComplexMatrixView", "classConstComplexMatrixView.html", [
+      [ "ComplexMatrixView", "classComplexMatrixView.html", [
+        [ "ComplexMatrix", "classComplexMatrix.html", null ]
+      ] ]
+    ] ],
+    [ "ConstComplexVectorView", "classConstComplexVectorView.html", [
+      [ "ComplexVectorView", "classComplexVectorView.html", [
+        [ "ComplexVector", "classComplexVector.html", null ]
+      ] ]
+    ] ],
+    [ "ConstIterator1D", "classConstIterator1D.html", null ],
+    [ "ConstIterator2D", "classConstIterator2D.html", null ],
+    [ "ConstIterator3D", "classConstIterator3D.html", null ],
+    [ "ConstIterator4D", "classConstIterator4D.html", null ],
+    [ "ConstIterator5D", "classConstIterator5D.html", null ],
+    [ "ConstIterator6D", "classConstIterator6D.html", null ],
+    [ "ConstIterator7D", "classConstIterator7D.html", null ],
+    [ "ConstMatrixView", "classConstMatrixView.html", [
+      [ "MatrixView", "classMatrixView.html", [
+        [ "Matrix", "classMatrix.html", null ]
+      ] ]
+    ] ],
+    [ "consts_1_", "structconsts__1__.html", null ],
+    [ "ConstTensor3View", "classConstTensor3View.html", [
+      [ "Tensor3View", "classTensor3View.html", [
+        [ "Tensor3", "classTensor3.html", null ]
+      ] ]
+    ] ],
+    [ "ConstTensor4View", "classConstTensor4View.html", [
+      [ "Tensor4View", "classTensor4View.html", [
+        [ "Tensor4", "classTensor4.html", null ]
+      ] ]
+    ] ],
+    [ "ConstTensor5View", "classConstTensor5View.html", [
+      [ "Tensor5View", "classTensor5View.html", [
+        [ "Tensor5", "classTensor5.html", null ]
+      ] ]
+    ] ],
+    [ "ConstTensor6View", "classConstTensor6View.html", [
+      [ "Tensor6View", "classTensor6View.html", [
+        [ "Tensor6", "classTensor6.html", null ]
+      ] ]
+    ] ],
+    [ "ConstTensor7View", "classConstTensor7View.html", [
+      [ "Tensor7View", "classTensor7View.html", [
+        [ "Tensor7", "classTensor7.html", null ]
+      ] ]
+    ] ],
+    [ "ConstVectorView", "classConstVectorView.html", [
+      [ "VectorView", "classVectorView.html", [
+        [ "Vector", "classVector.html", null ]
+      ] ]
+    ] ],
+    [ "lm_hitran_2017::ConvTPOut", "structlm__hitran__2017_1_1ConvTPOut.html", null ],
+    [ "CovarianceMatrix", "classCovarianceMatrix.html", null ],
+    [ "CovarianceMatrixBlockStruct", "structCovarianceMatrixBlockStruct.html", null ],
+    [ "Zeeman::Derived", "structZeeman_1_1Derived.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DiagnI", "structlm__hitran__2017_1_1CommonBlock_1_1DiagnI.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DiagnR", "structlm__hitran__2017_1_1CommonBlock_1_1DiagnR.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DipoRigid", "structlm__hitran__2017_1_1CommonBlock_1_1DipoRigid.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DipoTcm", "structlm__hitran__2017_1_1CommonBlock_1_1DipoTcm.html", null ],
+    [ "double_imanip", "classdouble__imanip.html", null ],
+    [ "double_istream", "classdouble__istream.html", null ],
+    [ "doublecomplex", "structdoublecomplex.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DTGAMAIR", "structlm__hitran__2017_1_1CommonBlock_1_1DTGAMAIR.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DTGAMCO2", "structlm__hitran__2017_1_1CommonBlock_1_1DTGAMCO2.html", null ],
+    [ "lm_hitran_2017::CommonBlock::DTGAMH2O", "structlm__hitran__2017_1_1CommonBlock_1_1DTGAMH2O.html", null ],
+    [ "energ_1_", "structenerg__1__.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Energy", "structlm__hitran__2017_1_1CommonBlock_1_1Energy.html", null ],
+    [ "EnergyLevelMap", "classEnergyLevelMap.html", null ],
+    [ "lm_hitran_2017::EqvLinesOut", "structlm__hitran__2017_1_1EqvLinesOut.html", null ],
+    [ "fh2oa_1_", "structfh2oa__1__.html", null ],
+    [ "fh2ob_1_", "structfh2ob__1__.html", null ],
+    [ "fh2ob_2_", "structfh2ob__2__.html", null ],
+    [ "Field3D< base >", "classField3D.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamSDVT0AIR", "structlm__hitran__2017_1_1CommonBlock_1_1GamSDVT0AIR.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamSDVT0CO2", "structlm__hitran__2017_1_1CommonBlock_1_1GamSDVT0CO2.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamSDVT0H2O", "structlm__hitran__2017_1_1CommonBlock_1_1GamSDVT0H2O.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamT", "structlm__hitran__2017_1_1CommonBlock_1_1GamT.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamVT0AIR", "structlm__hitran__2017_1_1CommonBlock_1_1GamVT0AIR.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamVT0CO2", "structlm__hitran__2017_1_1CommonBlock_1_1GamVT0CO2.html", null ],
+    [ "lm_hitran_2017::CommonBlock::GamVT0H2O", "structlm__hitran__2017_1_1CommonBlock_1_1GamVT0H2O.html", null ],
+    [ "GasAbsLookup", "classGasAbsLookup.html", null ],
+    [ "Method::Gin", "structMethod_1_1Gin.html", null ],
+    [ "Method::Gout", "structMethod_1_1Gout.html", null ],
+    [ "GriddedField", "classGriddedField.html", [
+      [ "GriddedField1", "classGriddedField1.html", null ],
+      [ "GriddedField2", "classGriddedField2.html", null ],
+      [ "GriddedField3", "classGriddedField3.html", null ],
+      [ "GriddedField4", "classGriddedField4.html", null ],
+      [ "GriddedField5", "classGriddedField5.html", null ],
+      [ "GriddedField6", "classGriddedField6.html", null ]
+    ] ],
+    [ "GridPos", "structGridPos.html", null ],
+    [ "GridPosPoly", "structGridPosPoly.html", null ],
+    [ "Group", "structGroup.html", null ],
+    [ "gsl_integration_glfixed_table", "structgsl__integration__glfixed__table.html", null ],
+    [ "gsl_poly_complex_workspace", "structgsl__poly__complex__workspace.html", null ],
+    [ "gsl_rng", "structgsl__rng.html", null ],
+    [ "gsl_rng_type", "structgsl__rng__type.html", null ],
+    [ "HitranRelaxationMatrixData", "structHitranRelaxationMatrixData.html", null ],
+    [ "icilist", "structicilist.html", null ],
+    [ "ifstream", null, [
+      [ "bifstream", "classbifstream.html", null ]
+    ] ],
+    [ "Method::In", "structMethod_1_1In.html", null ],
+    [ "inlist", "structinlist.html", null ],
+    [ "Linefunctions::InternalData", "classLinefunctions_1_1InternalData.html", null ],
+    [ "lapack_help::Inverse< T >", "structlapack__help_1_1Inverse.html", null ],
+    [ "ios", null, [
+      [ "gzstreambase", "classgzstreambase.html", [
+        [ "igzstream", "classigzstream.html", null ],
+        [ "ogzstream", "classogzstream.html", null ]
+      ] ]
+    ] ],
+    [ "IsotopologueRecord", "classIsotopologueRecord.html", null ],
+    [ "istream", null, [
+      [ "igzstream", "classigzstream.html", null ]
+    ] ],
+    [ "Iterator1D", "classIterator1D.html", null ],
+    [ "Iterator2D", "classIterator2D.html", null ],
+    [ "Iterator3D", "classIterator3D.html", null ],
+    [ "Iterator4D", "classIterator4D.html", null ],
+    [ "Iterator5D", "classIterator5D.html", null ],
+    [ "Iterator6D", "classIterator6D.html", null ],
+    [ "Iterator7D", "classIterator7D.html", null ],
+    [ "jacobianVMRcheck", "structjacobianVMRcheck.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Jfln", "structlm__hitran__2017_1_1CommonBlock_1_1Jfln.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Jiln", "structlm__hitran__2017_1_1CommonBlock_1_1Jiln.html", null ],
+    [ "Joker", "classJoker.html", null ],
+    [ "LazyScale< base >", "classLazyScale.html", null ],
+    [ "like_1_", "structlike__1__.html", null ],
+    [ "LinearModel", "classLinearModel.html", null ],
+    [ "Absorption::Lines", "classAbsorption_1_1Lines.html", null ],
+    [ "lm_hitran_2017::CommonBlock::LineSg", "structlm__hitran__2017_1_1CommonBlock_1_1LineSg.html", null ],
+    [ "MCAntenna", "classMCAntenna.html", null ],
+    [ "MdRecord", "classMdRecord.html", null ],
+    [ "Method", "structMethod.html", null ],
+    [ "MethodStruct", "structMethodStruct.html", null ],
+    [ "LineShape::Model", "classLineShape_1_1Model.html", null ],
+    [ "Zeeman::Model", "classZeeman_1_1Model.html", null ],
+    [ "LineShape::ModelParameters", "structLineShape_1_1ModelParameters.html", null ],
+    [ "MRecord", "classMRecord.html", null ],
+    [ "mt_state_t", "structmt__state__t.html", null ],
+    [ "Multitype", "unionMultitype.html", null ],
+    [ "n2part_1_", "structn2part__1__.html", null ],
+    [ "n2part_2_", "structn2part__2__.html", null ],
+    [ "ArtsParser::NamedArgument", "structArtsParser_1_1NamedArgument.html", null ],
+    [ "Namelist", "structNamelist.html", null ],
+    [ "NameMaps", "structNameMaps.html", null ],
+    [ "olist", "structolist.html", null ],
+    [ "oem::OptimizerLog< T >", "structoem_1_1OptimizerLog.html", null ],
+    [ "oem::OptimizerLog< invlib::GaussNewton< RealType, Solver > >", "structoem_1_1OptimizerLog_3_01invlib_1_1GaussNewton_3_01RealType_00_01Solver_01_4_01_4.html", null ],
+    [ "oem::OptimizerLog< invlib::LevenbergMarquardt< RealType, DampingMatrix, Solver > >", "structoem_1_1OptimizerLog_3_01invlib_1_1LevenbergMarquardt_3_01RealType_00_01DampingMatrix_00_01Solver_01_4_01_4.html", null ],
+    [ "option", "structoption.html", null ],
+    [ "ostream", null, [
+      [ "ogzstream", "classogzstream.html", null ]
+    ] ],
+    [ "Method::Out", "structMethod_1_1Out.html", null ],
+    [ "LineShape::Output", "structLineShape_1_1Output.html", null ],
+    [ "Output2", "structOutput2.html", null ],
+    [ "Output4", "structOutput4.html", null ],
+    [ "Parameters", "classParameters.html", null ],
+    [ "Zeeman::PolarizationVector", "classZeeman_1_1PolarizationVector.html", null ],
+    [ "lm_hitran_2017::CommonBlock::PopTrf", "structlm__hitran__2017_1_1CommonBlock_1_1PopTrf.html", null ],
+    [ "lm_hitran_2017::CommonBlock::PopuT", "structlm__hitran__2017_1_1CommonBlock_1_1PopuT.html", null ],
+    [ "Ppath", "structPpath.html", null ],
+    [ "PropagationMatrix", "classPropagationMatrix.html", [
+      [ "StokesVector", "classStokesVector.html", null ]
+    ] ],
+    [ "QuadraticModel", "classQuadraticModel.html", null ],
+    [ "QuantumParserHITRAN2004::QuantumClassGroup", "classQuantumParserHITRAN2004_1_1QuantumClassGroup.html", null ],
+    [ "QuantumFieldDescription", "classQuantumFieldDescription.html", null ],
+    [ "QuantumParserHITRAN2004::QuantumGroup", "structQuantumParserHITRAN2004_1_1QuantumGroup.html", null ],
+    [ "QuantumIdentifier", "classQuantumIdentifier.html", null ],
+    [ "QuantumNumbers", "classQuantumNumbers.html", null ],
+    [ "QuantumParserHITRAN2004", "classQuantumParserHITRAN2004.html", null ],
+    [ "RadiationVector", "classRadiationVector.html", null ],
+    [ "Rand< rand_type >", "classRand.html", null ],
+    [ "Rand< Index >", "classRand_3_01Index_01_4.html", null ],
+    [ "Range", "classRange.html", null ],
+    [ "Rational", "classRational.html", null ],
+    [ "RetrievalQuantity", "classRetrievalQuantity.html", null ],
+    [ "Rng", "classRng.html", null ],
+    [ "runtime_error", null, [
+      [ "ParseError", "classParseError.html", [
+        [ "Eot", "classEot.html", null ],
+        [ "IllegalLinebreak", "classIllegalLinebreak.html", null ],
+        [ "UnexpectedChar", "classUnexpectedChar.html", null ],
+        [ "UnknownMethod", "classUnknownMethod.html", null ],
+        [ "UnknownWsv", "classUnknownWsv.html", null ],
+        [ "WrongWsvGroup", "classWrongWsvGroup.html", null ],
+        [ "WsvAlreadyExists", "classWsvAlreadyExists.html", null ]
+      ] ]
+    ] ],
+    [ "s260a_1_", "structs260a__1__.html", null ],
+    [ "s260b_1_", "structs260b__1__.html", null ],
+    [ "s260b_2_", "structs260b__2__.html", null ],
+    [ "s_app3a_", "structs__app3a__.html", null ],
+    [ "s_app3b_", "structs__app3b__.html", null ],
+    [ "s_bbb_", "structs__bbb__.html", null ],
+    [ "s_bbc_", "structs__bbc__.html", null ],
+    [ "s_bf_", "structs__bf__.html", null ],
+    [ "s_blockin_", "structs__blockin__.html", null ],
+    [ "s_bou43_", "structs__bou43__.html", null ],
+    [ "s_consts_", "structs__consts__.html", null ],
+    [ "s_dimer_", "structs__dimer__.html", null ],
+    [ "s_energe_", "structs__energe__.html", null ],
+    [ "s_fh2oa_", "structs__fh2oa__.html", null ],
+    [ "s_fh2ob_", "structs__fh2ob__.html", null ],
+    [ "s_k1k0_", "structs__k1k0__.html", null ],
+    [ "s_like_", "structs__like__.html", null ],
+    [ "u_bba_::s_m_1", "structu__bba___1_1s__m__1.html", null ],
+    [ "u_bl3_::s_m_1", "structu__bl3___1_1s__m__1.html", null ],
+    [ "u_bbbb_::s_m_1", "structu__bbbb___1_1s__m__1.html", null ],
+    [ "u_bba_::s_m_2", "structu__bba___1_1s__m__2.html", null ],
+    [ "u_bl3_::s_m_2", "structu__bl3___1_1s__m__2.html", null ],
+    [ "u_bbbb_::s_m_2", "structu__bbbb___1_1s__m__2.html", null ],
+    [ "s_n2part_", "structs__n2part__.html", null ],
+    [ "s_rsilo_", "structs__rsilo__.html", null ],
+    [ "s_s260a_", "structs__s260a__.html", null ],
+    [ "s_s260b_", "structs__s260b__.html", null ],
+    [ "s_sh2oa_", "structs__sh2oa__.html", null ],
+    [ "s_sh2ob_", "structs__sh2ob__.html", null ],
+    [ "ScatteringMetaData", "structScatteringMetaData.html", null ],
+    [ "sh2oa_1_", "structsh2oa__1__.html", null ],
+    [ "sh2ob_1_", "structsh2ob__1__.html", null ],
+    [ "sh2ob_2_", "structsh2ob__2__.html", null ],
+    [ "lm_hitran_2017::CommonBlock::SHIFT", "structlm__hitran__2017_1_1CommonBlock_1_1SHIFT.html", null ],
+    [ "lm_hitran_2017::CommonBlock::SHIFT0", "structlm__hitran__2017_1_1CommonBlock_1_1SHIFT0.html", null ],
+    [ "Absorption::SingleLine", "classAbsorption_1_1SingleLine.html", null ],
+    [ "Absorption::SingleLineExternal", "structAbsorption_1_1SingleLineExternal.html", null ],
+    [ "SingleScatteringData", "structSingleScatteringData.html", null ],
+    [ "LineShape::SingleSpeciesModel", "classLineShape_1_1SingleSpeciesModel.html", null ],
+    [ "SLIData2", "classSLIData2.html", null ],
+    [ "SourceText", "classSourceText.html", null ],
+    [ "Sparse", "classSparse.html", null ],
+    [ "SpeciesAuxData", "classSpeciesAuxData.html", null ],
+    [ "SpeciesRecord", "classSpeciesRecord.html", null ],
+    [ "SpeciesTag", "classSpeciesTag.html", null ],
+    [ "SpecIsoMap", "classSpecIsoMap.html", null ],
+    [ "Zeeman::SplittingData", "structZeeman_1_1SplittingData.html", null ],
+    [ "Standard", null, [
+      [ "oem::NormalizingSolver< TransformationMatrixType, SolverType >", "classoem_1_1NormalizingSolver.html", null ]
+    ] ],
+    [ "streambuf", null, [
+      [ "gzstreambuf", "classgzstreambuf.html", null ]
+    ] ],
+    [ "TelsemAtlas", "classTelsemAtlas.html", null ],
+    [ "TessemNN", "structTessemNN.html", null ],
+    [ "Time", "classTime.html", null ],
+    [ "Timer", "classTimer.html", null ],
+    [ "Timings", "classTimings.html", null ],
+    [ "TokVal", "classTokVal.html", null ],
+    [ "TransmissionMatrix", "classTransmissionMatrix.html", null ],
+    [ "u_bba_", "unionu__bba__.html", null ],
+    [ "u_bbbb_", "unionu__bbbb__.html", null ],
+    [ "u_bl3_", "unionu__bl3__.html", null ],
+    [ "lm_hitran_2017::CommonBlock::UnusedBandParams", "structlm__hitran__2017_1_1CommonBlock_1_1UnusedBandParams.html", null ],
+    [ "Vardesc", "structVardesc.html", null ],
+    [ "VariableStruct", "structVariableStruct.html", null ],
+    [ "VariableValueStruct", "structVariableValueStruct.html", null ],
+    [ "Verbosity", "classVerbosity.html", null ],
+    [ "VersionStruct", "structVersionStruct.html", null ],
+    [ "TransmissionMatrix::Weights< N >", "structTransmissionMatrix_1_1Weights.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Wfittedp", "structlm__hitran__2017_1_1CommonBlock_1_1Wfittedp.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Wfittedq", "structlm__hitran__2017_1_1CommonBlock_1_1Wfittedq.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Wfittedr", "structlm__hitran__2017_1_1CommonBlock_1_1Wfittedr.html", null ],
+    [ "Wigner3JTriangleLimit", "structWigner3JTriangleLimit.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Wmatrix", "structlm__hitran__2017_1_1CommonBlock_1_1Wmatrix.html", null ],
+    [ "Workspace", "classWorkspace.html", [
+      [ "InteractiveWorkspace", "classInteractiveWorkspace.html", null ]
+    ] ],
+    [ "WorkspaceMemoryHandler", "classWorkspaceMemoryHandler.html", null ],
+    [ "WsvRecord", "classWsvRecord.html", null ],
+    [ "Workspace::WsvStruct", "structWorkspace_1_1WsvStruct.html", null ],
+    [ "XMLAttribute", "classXMLAttribute.html", null ],
+    [ "XsecRecord", "classXsecRecord.html", null ],
+    [ "lm_hitran_2017::CommonBlock::YLT", "structlm__hitran__2017_1_1CommonBlock_1_1YLT.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Zaa", "structlm__hitran__2017_1_1CommonBlock_1_1Zaa.html", null ],
+    [ "lm_hitran_2017::CommonBlock::Zss", "structlm__hitran__2017_1_1CommonBlock_1_1Zss.html", null ],
+    [ "ofstream", null, [
+      [ "bofstream", "classbofstream.html", null ]
+    ] ],
+    [ "runtime_error", null, [
+      [ "runtime_error_not_found", "classruntime__error__not__found.html", null ],
+      [ "runtime_error_not_unique", "classruntime__error__not__unique.html", null ]
+    ] ]
+];

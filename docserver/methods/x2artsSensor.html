@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>x2artsSensor - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;x2artsSensor</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method x2artsSensor</h2>
+<h3>Description</h3>
+<pre>
+Maps <a href="../variables/x.html">x</a> to sensor variables.
+
+Maps OEM's state vector, <a href="../variables/x.html">x</a>, to the matching ARTS variables. This
+method handles variables associated with the sensor. If you retrieve
+other variables, make sure that you also call <a href="x2artsAtmAndSurf.html">x2artsAtmAndSurf</a>
+ and/or <a href="x2artsSpectroscopy.html">x2artsSpectroscopy</a>.
+
+The following retrieval quantities are handled by this method:
+   Pointing
+   Frequency shift and stretch
+   Baseline fits
+
+Should only be used inside <a href="../agendas/inversion_iterate_agenda.html">inversion_iterate_agenda</a>.
+
+Elements in <a href="../variables/x.html">x</a> representing pointing corrections are mapped to
+<a href="../variables/sensor_los.html">sensor_los</a>. Elements representing frequency corrections are mapped
+to <a href="../variables/f_backend.html">f_backend</a>. Baseline variables are mapped to <a href="../variables/y_baseline.html">y_baseline</a>.
+
+The sensor response is recalculated if there is any non-zero frequency
+correction.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>x2artsSensor(&nbsp;</td><td><a href="../variables/sensor_los.html">sensor_los</a>, <a href="../variables/f_backend.html">f_backend</a>, <a href="../variables/y_baseline.html">y_baseline</a>, <a href="../variables/sensor_response.html">sensor_response</a>, <a href="../variables/sensor_response_f.html">sensor_response_f</a>, <a href="../variables/sensor_response_pol.html">sensor_response_pol</a>, <a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a>, <a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/x.html">x</a>, <a href="../agendas/sensor_response_agenda.html">sensor_response_agenda</a>, <a href="../variables/sensor_checked.html">sensor_checked</a>, <a href="../variables/sensor_time.html">sensor_time</a> )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_los.html">sensor_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor line-of-sight (LOS) for each measurement block.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/f_backend.html">f_backend</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency position of each backend (spectrometer) channel.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/y_baseline.html">y_baseline</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The baseline of <a href="../variables/y.html">y</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response.html">sensor_response</a></td><td>(<a href="../groups/Sparse.html">Sparse</a>)</td><td>The matrix modelling the total sensor response.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f.html">sensor_response_f</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequencies associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol.html">sensor_response_pol</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The polarisation states associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos.html">sensor_response_dlos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The relative zenith and azimuth angles associated with the output of <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/mblock_dlos_grid.html">mblock_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The set of angular pencil beam directions for each measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/x.html">x</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The state vector.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/sensor_response_agenda.html">sensor_response_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda providing the sensor response data for a measurement block.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_checked.html">sensor_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for sensor related variables.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_time.html">sensor_time</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The time for each measurement block.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

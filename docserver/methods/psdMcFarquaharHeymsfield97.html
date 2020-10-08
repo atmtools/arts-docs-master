@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>psdMcFarquaharHeymsfield97 - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;psdMcFarquaharHeymsfield97</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method psdMcFarquaharHeymsfield97</h2>
+<h3>Description</h3>
+<pre>
+McFarquahar and Heymsfield [1997] particle size distribution
+for cloud ice.
+
+This is a 1-parameter PSD, i.e. <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> shall have one
+column and <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a> shall contain a single string.
+The input data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a> shall be ice hydrometeor mass
+content in unit of [kg/m3]. The naming used is <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>
+is free but the same name must be used in <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a> and
+<a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>.
+
+<a href="../variables/psd_size_grid.html">psd_size_grid</a> shall contain size in terms of volume equivalent diameter.
+
+Derivatives are obtained by perturbation of 0.1%, but not less than
+1e-9 kg/m3.
+
+The validity range of mass content is not limited. Negative mass
+contents will produce negative psd values following a distribution
+given by abs(IWC), ie. abs(psd)=f(abs(IWC)).
+
+If temperature is outside [*t_min*,*t_max*] psd=0 and dpsd=0 if
+picky=0, or an error is thrown if picky=1.
+
+For temperatures below *t_min_psd*, the size distribution is
+calculated for T = *t_min_psd*. Likewise, for temperatures above
+*t_max_psd*, the distribution is derived for T = *t_max_psd*.
+
+Defaults of *t_min_psd* and *t_max_psd* were set considering that
+the parametrization has been derived from measurements over
+temperatures of -70C to -20C.
+The noisy option can not be used together with calculation of
+derivatives (ie. when <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a> is not empty).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson, Jana Mendrok
+<h3>Synopsis</h3>
+<p><table><tr><td>psdMcFarquaharHeymsfield97(&nbsp;</td><td><a href="../variables/psd_data.html">psd_data</a>, <a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a>, <a href="../variables/psd_size_grid.html">psd_size_grid</a>, <a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a>, <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>, <a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a>, <a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a>, <a href="../variables/scat_species_a.html">scat_species_a</a>, <a href="../variables/scat_species_b.html">scat_species_b</a>, t_min, t_max, t_min_psd, t_max_psd, picky, noisy )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/psd_data.html">psd_data</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Particle size distribution values for a set of points.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/dpsd_data_dx.html">dpsd_data_dx</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Partial derivates of <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/psd_size_grid.html">psd_size_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The particle sizes associated with <a href="../variables/psd_data.html">psd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_t.html">pnd_agenda_input_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The variable input to one element of <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_input_names.html">pnd_agenda_input_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Naming of (existing or expected) data in <a href="../variables/pnd_agenda_input.html">pnd_agenda_input</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dpnd_data_dx_names.html">dpnd_data_dx_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Selection of partial derivatives of <a href="../variables/pnd_data.html">pnd_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species_a.html">scat_species_a</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Mass-size relationship parameter, for one scattering species.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species_b.html">scat_species_b</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Mass-size relationship parameter, for one scattering species.</td></tr>
+<tr><td>GIN</td><td class="right">t_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Low temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 280.)</td><td>High temperature limit to calculate a psd.</td></tr>
+<tr><td>GIN</td><td class="right">t_min_psd</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 180)</td><td>Low temperature limit to use as paramtrization temperature.</td></tr>
+<tr><td>GIN</td><td class="right">t_max_psd</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 273.15)</td><td>High temperature limit to use as paramtrization temperature.</td></tr>
+<tr><td>GIN</td><td class="right">picky</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag whether to be strict with parametrization value checks.</td></tr>
+<tr><td>GIN</td><td class="right">noisy</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Distribution parameter perturbance flag</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

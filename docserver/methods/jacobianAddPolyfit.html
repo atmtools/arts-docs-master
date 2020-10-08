@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>jacobianAddPolyfit - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;jacobianAddPolyfit</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method jacobianAddPolyfit</h2>
+<h3>Description</h3>
+<pre>
+Includes polynomial baseline fit in the Jacobian.
+
+This method deals with retrieval of disturbances of the spectra
+that can be described by an additive term, a baseline off-set.
+
+The baseline off-set is here modelled as a polynomial. The
+polynomial spans the complete frequency range spanned by
+<a href="../variables/sensor_response_f_grid.html">sensor_response_f_grid</a> and the method should only of interest for
+cases with no frequency gap in the spectra. The default assumption
+is that the off-set differs between all spectra, but it can also be
+assumed that the off-set is common for all e.g. line-of-sights.
+
+If the simulation/retrieval deals with a single spectrum, the number
+of elements added to the state vector (<a href="../variables/x.html">x</a>) is poly_order+1. The
+coefficient for polynomial order 0 comes first etc. The same is true
+if *no_pol_variation*, *no_los_variation* and *no_mblock_variation*
+all are set to 1, even if several spectra are involved. Otherwise thenumber of elements added to <a href="../variables/x.html">x</a> depends on the number of spectra and
+the settings of *no_pol_variation*, *no_los_variation* and 
+*no_mblock_variation*. The coefficients of the different polynomial
+orders are treated as separate retrieval quantities. That is, the
+the elements associated with polynomial order 0 are grouped and form
+together a retrieval quantity. The coefficients for higher polynomial
+orders are treated in the same way.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>jacobianAddPolyfit(&nbsp;</td><td><a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../agendas/jacobian_agenda.html">jacobian_agenda</a>, <a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a>, <a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, poly_order, no_pol_variation, no_los_variation, no_mblock_variation )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../agendas/jacobian_agenda.html">jacobian_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Pure numerical Jacobian calculation agenda.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_pol_grid.html">sensor_response_pol_grid</a></td><td>(<a href="../groups/ArrayOfIndex.html">ArrayOfIndex</a>)</td><td>The "polarisation grid" associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_response_dlos_grid.html">sensor_response_dlos_grid</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The zenith and azimuth angles associated with <a href="../variables/sensor_response.html">sensor_response</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/sensor_pos.html">sensor_pos</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The sensor position for each measurement block.</td></tr>
+<tr><td>GIN</td><td class="right">poly_order</td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Polynomial order to use for the fit.</td></tr>
+<tr><td>GIN</td><td class="right">no_pol_variation</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Set to 1 if the baseline off-set is the same for all Stokes components.</td></tr>
+<tr><td>GIN</td><td class="right">no_los_variation</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Set to 1 if the baseline off-set is the same for all line-of-sights (inside each measurement block).</td></tr>
+<tr><td>GIN</td><td class="right">no_mblock_variation</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Set to 1 if the baseline off-set is the same for all measurement blocks.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

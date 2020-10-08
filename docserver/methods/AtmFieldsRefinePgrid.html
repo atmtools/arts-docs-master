@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AtmFieldsRefinePgrid - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;AtmFieldsRefinePgrid</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method AtmFieldsRefinePgrid</h2>
+<h3>Description</h3>
+<pre>
+Refines the pressure grid and regrids the clearsky atmospheric
+fields accordingly.
+
+This method is, e.g., used for absorption lookup table testing. It
+can also be used to refine the <a href="../variables/p_grid.html">p_grid</a> and atmospheric fields from
+compact state atmospheres.
+
+It adds additional vertical grid points to the atmospheric fields, by
+interpolating them in the usual ARTS way (linear in log pressure).
+
+How fine the new grid will be is determined by the keyword parameter
+p_step. The definition of p_step, and the default interpolation
+behavior, is consistent with <a href="abs_lookupSetup.html">abs_lookupSetup</a> and
+<a href="abs_lookupSetupBatch.html">abs_lookupSetupBatch</a> (new points are added between the original
+ones, so that the spacing is always below p_step.)
+
+Internally, <a href="AtmFieldsRefinePgrid.html">AtmFieldsRefinePgrid</a> applies <a href="p_gridRefine.html">p_gridRefine</a> and
+<a href="AtmFieldPRegrid.html">AtmFieldPRegrid</a> to the clearsky atmospheric fields (T, z, vmr).
+
+Atmospheric field related check WSV are reset to 0 (unchecked),
+i.e., the corresponding checkedCalc methods have to be performed
+(again) before <a href="yCalc.html">yCalc</a> or similar methods can be executed.
+
+</pre>
+
+<p><b>Authors: </b>Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>AtmFieldsRefinePgrid(&nbsp;</td><td><a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, p_step, interp_order )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>GIN</td><td class="right">p_step</td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum step in log(p[Pa]) (natural logarithm, as always). If
+the pressure grid is coarser than this, additional points
+are added until each log step is smaller than this.
+</td></tr>
+<tr><td>GIN</td><td class="right">interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Interpolation order.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>abs_lookupSetupBatch - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;abs_lookupSetupBatch</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method abs_lookupSetupBatch</h2>
+<h3>Description</h3>
+<pre>
+Set up input parameters for abs_lookupCalc for batch calculations.
+
+This method performs a similar task as <a href="abs_lookupSetup.html">abs_lookupSetup</a>, with the
+difference that the lookup table setup is not for a single
+atmospheric state, but for a whole batch of them, stored in
+<a href="../variables/batch_atm_fields_compact.html">batch_atm_fields_compact</a>.
+
+The method checks <a href="../variables/abs_species.html">abs_species</a> to decide which species require
+nonlinear treatment in the lookup table.
+
+The method also checks which range of pressures, temperatures, and
+VMRs occurs, and sets <a href="../variables/abs_p.html">abs_p</a>, <a href="../variables/abs_t.html">abs_t</a>, <a href="../variables/abs_t_pert.html">abs_t_pert</a>, and <a href="../variables/abs_vmrs.html">abs_vmrs</a>
+accordingly.
+
+If nonlinear species are present, <a href="../variables/abs_nls.html">abs_nls</a> and <a href="../variables/abs_nls_pert.html">abs_nls_pert</a> are also
+generated.
+
+Max and min values of H2O and temperature are adjusted to allow for
+numerical perturbations in Jacobian calculation.
+
+The input variables <a href="../variables/abs_nls_interp_order.html">abs_nls_interp_order</a> and <a href="../variables/abs_t_interp_order.html">abs_t_interp_order</a>
+are used to make sure that there are enough points in <a href="../variables/abs_nls_pert.html">abs_nls_pert</a>
+and <a href="../variables/abs_t_pert.html">abs_t_pert</a> for the chosen interpolation order.
+
+The method checks each given field using <a href="atmfields_checkedCalc.html">atmfields_checkedCalc</a>.
+If a field does not pass the check, a run-time error is thrown.
+To prevent this, the parameter *robust* can be set to one: Invalid 
+atmospheres are skipped, but the run continues. This matches the 
+robust behaviour of <a href="ybatchCalc.html">ybatchCalc</a>.
+
+See also:
+   <a href="abs_lookupSetup.html">abs_lookupSetup</a>
+
+</pre>
+
+<p><b>Authors: </b>Stefan Buehler
+<h3>Synopsis</h3>
+<p><table><tr><td>abs_lookupSetupBatch(&nbsp;</td><td><a href="../variables/abs_p.html">abs_p</a>, <a href="../variables/abs_t.html">abs_t</a>, <a href="../variables/abs_t_pert.html">abs_t_pert</a>, <a href="../variables/abs_vmrs.html">abs_vmrs</a>, <a href="../variables/abs_nls.html">abs_nls</a>, <a href="../variables/abs_nls_pert.html">abs_nls_pert</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/batch_atm_fields_compact.html">batch_atm_fields_compact</a>, <a href="../variables/abs_p_interp_order.html">abs_p_interp_order</a>, <a href="../variables/abs_t_interp_order.html">abs_t_interp_order</a>, <a href="../variables/abs_nls_interp_order.html">abs_nls_interp_order</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, p_step, t_step, h2o_step, extremes, robust, check_gridnames )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_p.html">abs_p</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>List of pressures to be used for the calculation of absorption coefficients.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_t.html">abs_t</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>List of temperatures to be used for the calculation of absorption coefficients.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_t_pert.html">abs_t_pert</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature perturbations for the absorption lookup table.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_vmrs.html">abs_vmrs</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The VMRs (unit: absolute number) on the abs_p grid.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_nls.html">abs_nls</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Nonlinear species for absorption lookup table generation.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/abs_nls_pert.html">abs_nls_pert</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Fractional perturbations for the nonlinear species in the absorption lookup table.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/batch_atm_fields_compact.html">batch_atm_fields_compact</a></td><td>(<a href="../groups/ArrayOfGriddedField4.html">ArrayOfGriddedField4</a>)</td><td>An array of compact atmospheric states.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_p_interp_order.html">abs_p_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between pressure levels.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_t_interp_order.html">abs_t_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between the temperature values given by <a href="../variables/abs_t_pert.html">abs_t_pert</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/abs_nls_interp_order.html">abs_nls_interp_order</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The interpolation order to use when interpolating absorption between the H2O values given by <a href="../variables/abs_nls_pert.html">abs_nls_pert</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>GIN</td><td class="right">p_step</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.05)</td><td>Grid step in log10(p[Pa]) (base 10 logarithm).</td></tr>
+<tr><td>GIN</td><td class="right">t_step</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 20)</td><td>The temperature variation grid step in Kelvin. The true step can become finer than this, if required by the interpolation order.</td></tr>
+<tr><td>GIN</td><td class="right">h2o_step</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 100)</td><td>The H2O variation grid step [fractional], if H2O variations are done (which is determined automatically, based on abs_species and the atmospheric dimension). As for T, the true step can turn out finer if required by the interpolation order.</td></tr>
+<tr><td>GIN</td><td class="right">extremes</td><td>(<a href="../groups/Vector.html">Vector</a>, Default: [])</td><td>You can give here explicit extreme values to add to abs_t_pert and abs_nls_pert. The order is [t_pert_min, t_pert_max, nls_pert_min, nls_pert_max].</td></tr>
+<tr><td>GIN</td><td class="right">robust</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>A flag with value 1 or 0. If set to one, the batch
+setup will continue, even if individual fields are invalid.
+This is consistent with the behaviour of <a href="ybatchCalc.html">ybatchCalc</a>.</td></tr>
+<tr><td>GIN</td><td class="right">check_gridnames</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>A flag with value 1 or 0. If set to one, the gridnames of 
+ every <a href="../variables/atm_fields_compact.html">atm_fields_compact</a> are checked.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.3.1287 (git: cef185d2)</div>
+
+</body>
+</html>
