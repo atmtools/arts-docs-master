@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.classes.TelsemAtlas &mdash; pyarts 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../classes.html">pyarts.classes</a> &raquo;</li>
+        
+      <li>pyarts.classes.TelsemAtlas</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.classes.TelsemAtlas</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sized</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">String</span><span class="p">,</span> <span class="n">Numeric</span><span class="p">,</span> <span class="n">Index</span><span class="p">,</span> <span class="n">ArrayOfIndex</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Tensor3</span> <span class="kn">import</span> <span class="n">Tensor3</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.ArrayBase</span> <span class="kn">import</span> <span class="n">array_base</span>
+
+
+<div class="viewcode-block" id="TelsemAtlas"><a class="viewcode-back" href="../../../generated/pyarts.classes.TelsemAtlas.html#pyarts.classes.TelsemAtlas">[docs]</a><span class="k">class</span> <span class="nc">TelsemAtlas</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS TelsemAtlas data</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        ndat:</span>
+<span class="sd">            Number of lines in the Atlas (Index)</span>
+
+<span class="sd">        nchan:</span>
+<span class="sd">            Number of channels in the Atlas (Index)</span>
+
+<span class="sd">        atlasname:</span>
+<span class="sd">            Name of the atlas (including version number) (String)</span>
+
+<span class="sd">        month:</span>
+<span class="sd">            Month of the Atlas (Index)</span>
+
+<span class="sd">        dlat:</span>
+<span class="sd">            Resolution of the Atlas (Numeric)</span>
+
+<span class="sd">        ncells:</span>
+<span class="sd">            Number of cells per lat band (ArrayOfIndex)</span>
+
+<span class="sd">        firstcells:</span>
+<span class="sd">            The first cell number of lat band (ArrayOfIndex)</span>
+
+<span class="sd">        emis:</span>
+<span class="sd">            Emissivities (Matrix)</span>
+
+<span class="sd">        emis_err:</span>
+<span class="sd">            Emissivity uncertainties (Matrix)</span>
+
+<span class="sd">        correl:</span>
+<span class="sd">            Emissivity correlations (Tensor3)</span>
+
+<span class="sd">        classes1:</span>
+<span class="sd">            Surface class (ArrayOfIndex)</span>
+
+<span class="sd">        classes2:</span>
+<span class="sd">            Surface class (ArrayOfIndex)</span>
+
+<span class="sd">        cellnums:</span>
+<span class="sd">            Cellnumber of each of the pixels in the atlas (ArrayOfIndex)</span>
+
+<span class="sd">        correspondance:</span>
+<span class="sd">            Derived from file data (ArrayOfIndex)</span>
+
+<span class="sd">        a0_k0:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a0_k1:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a0_k2:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a0_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a1_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a2_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        a3_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        b0_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        b1_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        b2_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        b3_eveh:</span>
+<span class="sd">           Regression coefficients (constexpr list of 30 Numeric)</span>
+
+<span class="sd">        rapport43_32:</span>
+<span class="sd">           Regression coefficients (constexpr list of 4 Numeric)</span>
+
+<span class="sd">        rapport54_43:</span>
+<span class="sd">           Regression coefficients (constexpr list of 4 Numeric)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TelsemAtlas.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.TelsemAtlas.html#pyarts.classes.TelsemAtlas.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createTelsemAtlas</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Only supports void initialization&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ndat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Number of lines in the Atlas (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getDataCountTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nchan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Number of channels in the Atlas (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getChannelCountTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">atlasname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Name of the atlas (including version number) (String) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getNameTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">month</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Month of the Atlas (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getMonthTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dlat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Resolution of the Atlas (Numeric) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Numeric</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getLatTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ncells</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Number of cells per lat band (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getCellsTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">firstcells</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The first cell number of lat band (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getFirstCellsTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">emis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Emissivities (Matrix) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getEmisTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">emis_err</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Emissivity uncertainties (Matrix) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getEmis_errTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">correl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Emissivity correlations (Tensor3) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Tensor3</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getCorrelationsTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">classes1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Surface class (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getClasses1TelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">classes2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Surface class (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getClasses2TelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cellnums</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Cellnumber of each of the pixels in the atlas (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getCellnumberTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">correspondance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Derived from file data (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getCorrespondanceTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a0_k0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA0_K0TelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a0_k1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA0_K1TelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a0_k2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA0_K2TelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a0_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA0_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a1_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA1_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a2_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA2_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a3_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getA3_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">b0_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getB0_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">b1_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getB1_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">b2_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getB2_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">b3_eveh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 30 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getB3_EVEHTelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rapport43_32</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 4 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT43_32TelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rapport54_43</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="sd">&quot;&quot;&quot; Regression coefficients (constexpr list of 4 Numeric) &quot;&quot;&quot;</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT54_43TelsemAtlas</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+    <span class="nd">@ndat</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ndat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndat</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@nchan</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">nchan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nchan</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@atlasname</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">atlasname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atlasname</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@month</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">month</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@dlat</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">dlat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dlat</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@ncells</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ncells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncells</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@firstcells</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">firstcells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firstcells</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@emis</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">emis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emis</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@emis_err</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">emis_err</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emis_err</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@correl</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">correl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@classes1</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">classes1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@classes2</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">classes2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes2</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@cellnums</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cellnums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellnums</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@correspondance</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">correspondance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correspondance</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;TelsemAtlas&quot;</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">printTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ARTS TelsemAtlas&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TelsemAtlas</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndat</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ndat</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nchan</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">nchan</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atlasname</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">atlasname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">month</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dlat</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">dlat</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ncells</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ncells</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">firstcells</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">firstcells</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emis</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">emis</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emis_err</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">emis_err</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">correl</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classes1</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">classes1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classes2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">classes2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cellnums</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">cellnums</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correspondance</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">correspondance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects TelsemAtlas&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">readxml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads the XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to valid class-file (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlreadTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">correct_read_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot read </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">savexml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Saves the class to XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to writable file (str)</span>
+
+<span class="sd">            type:</span>
+<span class="sd">                Filetype (str)</span>
+
+<span class="sd">            clobber:</span>
+<span class="sd">                Allow clobbering files? (any boolean)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveTelsemAtlas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="o">*</span><span class="n">correct_save_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">clobber</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot save </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TelsemAtlas</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">ndat</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ndat</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">nchan</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">nchan</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">atlasname</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">atlasname</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">dlat</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">dlat</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">ncells</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ncells</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">firstcells</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">firstcells</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">emis</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">emis</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">emis_err</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">emis_err</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">correl</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">correl</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">classes1</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">classes1</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">classes2</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">classes2</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">cellnums</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cellnums</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">correspondance</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">correspondance</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">TelsemAtlas</span><span class="p">))</span>
+
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getDataCountTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getDataCountTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getChannelCountTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getChannelCountTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getNameTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getNameTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getMonthTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getMonthTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getLatTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLatTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCellsTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCellsTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getFirstCellsTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getFirstCellsTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getEmisTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getEmisTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getEmis_errTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getEmis_errTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCorrelationsTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCorrelationsTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getClasses1TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getClasses1TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getClasses2TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getClasses2TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCellnumberTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCellnumberTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCorrespondanceTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCorrespondanceTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K0TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K0TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K1TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K1TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K2TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_K2TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA0_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA1_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA1_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA2_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA2_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getA3_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getA3_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getB0_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getB0_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getB1_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getB1_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getB2_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getB2_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getB3_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getB3_EVEHTelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT43_32TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT43_32TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT54_43TelsemAtlas</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getRAPPORT54_43TelsemAtlas</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

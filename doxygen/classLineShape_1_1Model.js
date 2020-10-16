@@ -8,7 +8,7 @@ var classLineShape_1_1Model =
     [ "Model", "classLineShape_1_1Model.html#aa38acd8b09717efe1aac5154e8d6de49", null ],
     [ "Data", "classLineShape_1_1Model.html#ab05c07d30121423c964f5b7c2dbe8ac5", null ],
     [ "Data", "classLineShape_1_1Model.html#a1477f704a71e319c34cc82d50100ebd2", null ],
-    [ "GetInternalDeriv", "classLineShape_1_1Model.html#a52fb33e542491e6caa5511ec98be4bd9", null ],
+    [ "GetInternalDeriv", "classLineShape_1_1Model.html#a8bde9a72de2d5618f515ba174ec51b55", null ],
     [ "GetParams", "classLineShape_1_1Model.html#abc57ac53bb589d5a224111bddb595eee", null ],
     [ "GetTemperatureDerivs", "classLineShape_1_1Model.html#a8d37dd5d66fc8b435c4307f4ac4ef13c", null ],
     [ "GetVMRDerivs", "classLineShape_1_1Model.html#a0ef972fa3661f57fef4d57266166bf7e", null ],

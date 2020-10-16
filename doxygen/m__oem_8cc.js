@@ -11,18 +11,5 @@ var m__oem_8cc =
     [ "x2artsSensor", "m__oem_8cc.html#a26f87c01fdae31d6faed50a5de56e842", null ],
     [ "x2artsSpectroscopy", "m__oem_8cc.html#a9403c9bc0894651c4e2c05e290a09e71", null ],
     [ "xaStandard", "m__oem_8cc.html#add83915b54822de09f07a51033279181", null ],
-    [ "xClip", "m__oem_8cc.html#aab9c69719cbeb8ae5a1b377f8fc14724", null ],
-    [ "ABSSPECIES_MAINTAG", "m__oem_8cc.html#a93756f70036f3bca89211d440552888b", null ],
-    [ "FREQUENCY_MAINTAG", "m__oem_8cc.html#a866985775933a02084aa048a30097c96", null ],
-    [ "FREQUENCY_SUBTAG_0", "m__oem_8cc.html#aa783fdad9a0f655761d8450012f45aed", null ],
-    [ "FREQUENCY_SUBTAG_1", "m__oem_8cc.html#afca90c77a96e4d0f5a3e98871405b065", null ],
-    [ "MAGFIELD_MAINTAG", "m__oem_8cc.html#af85e76464b5641ebaef393e4f56b1547", null ],
-    [ "POINTING_MAINTAG", "m__oem_8cc.html#a90b0d465b6633e557a9fa2e081cc8f92", null ],
-    [ "POINTING_SUBTAG_A", "m__oem_8cc.html#afcbc6a9f33febede8d2d9d7a9819b7ac", null ],
-    [ "POLYFIT_MAINTAG", "m__oem_8cc.html#a8a068db52d03a10e442240ec10b4cf03", null ],
-    [ "SCATSPECIES_MAINTAG", "m__oem_8cc.html#a572f7b83f46ed616a2958437b5e6d4f4", null ],
-    [ "SINEFIT_MAINTAG", "m__oem_8cc.html#abc79a06fa178625c12422b20a28265e3", null ],
-    [ "SURFACE_MAINTAG", "m__oem_8cc.html#a852fef45f2301dc351c222341e35b608", null ],
-    [ "TEMPERATURE_MAINTAG", "m__oem_8cc.html#a1dbb83493062e53b78fcdfc73b3205db", null ],
-    [ "WIND_MAINTAG", "m__oem_8cc.html#a6ddd22c913e70ac520680e58e28f88ff", null ]
+    [ "xClip", "m__oem_8cc.html#aab9c69719cbeb8ae5a1b377f8fc14724", null ]
 ];

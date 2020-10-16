@@ -4,6 +4,7 @@ var arts__api__classes_8cc =
     [ "BasicInterfaceCAPI", "arts__api__classes_8cc.html#a6bd5cad57e5c8ed25e9783b2a23fe9ee", null ],
     [ "EnumGetterSetterCAPI", "arts__api__classes_8cc.html#a901ba8401e7d584fe30dc05b6fb7e0c8", null ],
     [ "GetterSetterCAPI", "arts__api__classes_8cc.html#aadb852854421c800649ed58032a17943", null ],
+    [ "StringEnumGetterSetterCAPI", "arts__api__classes_8cc.html#a4b7bdce6c9442dc020fac3dc04fe1e61", null ],
     [ "VoidArrayCAPI", "arts__api__classes_8cc.html#a3511b3b817cc4bd7db000ff9b7b9c152", null ],
     [ "VoidArrayElemCAPI", "arts__api__classes_8cc.html#a6dee26784124dd15bea0f304f75fe204", null ],
     [ "VoidGetterCAPI", "arts__api__classes_8cc.html#a80eb48444d38274f825445fc404bbaaa", null ],

@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.classes.GriddedField2 &mdash; pyarts 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../classes.html">pyarts.classes</a> &raquo;</li>
+        
+      <li>pyarts.classes.GriddedField2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.classes.GriddedField2</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sized</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">ArrayOfString</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Vector</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.ArrayBase</span> <span class="kn">import</span> <span class="n">array_base</span>
+
+
+<div class="viewcode-block" id="GriddedField2"><a class="viewcode-back" href="../../../generated/pyarts.classes.GriddedField2.html#pyarts.classes.GriddedField2">[docs]</a><span class="k">class</span> <span class="nc">GriddedField2</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS GriddedField2 data</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        dim:</span>
+<span class="sd">            GriddedField dimension (const Index)</span>
+
+<span class="sd">        fieldname:</span>
+<span class="sd">            Name of field (String)</span>
+
+<span class="sd">        gridtypes:</span>
+<span class="sd">            List of gridtypes (const list of Index&gt;; 0: Numeric grid, 1: String grid)</span>
+
+<span class="sd">        shape:</span>
+<span class="sd">            Size of the grids (tuple)</span>
+
+<span class="sd">        gridnames:</span>
+<span class="sd">            List of grid names (list of String)</span>
+
+<span class="sd">        grids:</span>
+<span class="sd">            List of grids (list of Vector and ArrayOfString)</span>
+
+<span class="sd">        data:</span>
+<span class="sd">            The data (Matrix)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GriddedField2.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.GriddedField2.html#pyarts.classes.GriddedField2.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createGriddedField2</span><span class="p">())</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;GriddedField2&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">OK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">checksizeGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; GriddedField dimension (const Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">get_dimGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fieldname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Name of field (String) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">get_nameGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+
+    <span class="nd">@fieldname</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fieldname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">set_nameGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gridtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; List of gridtypes (list of Index&gt;; 0: Numeric grid, 1: String grid) &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_grid_typeIndexGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gridnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; List of grid names (list of String) &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_grid_nameGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@gridnames</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">gridnames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Sized</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">set_grid_nameGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects str input&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only accepts array-like input of length </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Size of the grids (tuple) &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_grid_sizeGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridtypes</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_numeric_gridGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ArrayOfString</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_string_gridGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@grids</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Sized</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Vector</span><span class="p">):</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">set_gridGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># Ugly use of pointer</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ArrayOfString</span><span class="p">):</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">set_gridGriddedField2</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># Ugly use of pointer</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects Vector and/or ArrayOfString input&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only accepts array-like input of length </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The data (Matrix) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">dataGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@data</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">printGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Class is in bad state&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ARTS GriddedField2&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">GriddedField2</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">fieldname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">gridnames</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">grids</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects GriddedField2&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">readxml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads the XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to valid class-file (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">correct_read_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot read </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">savexml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Saves the class to XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to writable file (str)</span>
+
+<span class="sd">            type:</span>
+<span class="sd">                Filetype (str)</span>
+
+<span class="sd">            clobber:</span>
+<span class="sd">                Allow clobbering files? (any boolean)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Class is in bad state&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGriddedField2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="o">*</span><span class="n">correct_save_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">clobber</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot save </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">GriddedField2</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fieldname</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">gridnames</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">gridnames</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">grids</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">grids</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">GriddedField2</span><span class="p">))</span>
+
+
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">ArrayOfGriddedField2</span><span class="p">))</span>
+
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_dimGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_dimGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_typeIndexGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_typeIndexGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_sizeGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_sizeGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_nameGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_nameGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">set_nameGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">set_nameGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_nameGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_grid_nameGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">set_grid_nameGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">set_grid_nameGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_numeric_gridGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_numeric_gridGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">get_string_gridGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">get_string_gridGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">set_gridGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">set_gridGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">dataGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">dataGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">checksizeGriddedField2</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">checksizeGriddedField2</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.classes.GasAbsLookup &mdash; pyarts 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../classes.html">pyarts.classes</a> &raquo;</li>
+        
+      <li>pyarts.classes.GasAbsLookup</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.classes.GasAbsLookup</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">ArrayOfIndex</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.GridPosPoly</span> <span class="kn">import</span> <span class="n">ArrayOfGridPosPoly</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesTag</span> <span class="kn">import</span> <span class="n">ArrayOfArrayOfSpeciesTag</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Tensor4</span> <span class="kn">import</span> <span class="n">Tensor4</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Vector</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
+
+
+<div class="viewcode-block" id="GasAbsLookup"><a class="viewcode-back" href="../../../generated/pyarts.classes.GasAbsLookup.html#pyarts.classes.GasAbsLookup">[docs]</a><span class="k">class</span> <span class="nc">GasAbsLookup</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS GasAbsLookup data</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        specs:</span>
+<span class="sd">            The species tags for which the table is valid (ArrayOfArrayOfSpeciesTag)</span>
+
+<span class="sd">        nonlinspecs:</span>
+<span class="sd">            The species tags with non-linear treatment (ArrayOfIndex)</span>
+
+<span class="sd">        f_grid:</span>
+<span class="sd">            The frequency grid [Hz] (Vector)</span>
+
+<span class="sd">        fgp_default:</span>
+<span class="sd">            Frequency grid positions (ArrayOfGridPosPoly)</span>
+
+<span class="sd">        p_grid:</span>
+<span class="sd">            The pressure grid for the table [Pa] (Vector)</span>
+
+<span class="sd">        log_p_grid:</span>
+<span class="sd">            The natural log of the pressure grid (Vector)</span>
+
+<span class="sd">        vmrs:</span>
+<span class="sd">            The reference VMR profiles (Matrix)</span>
+
+<span class="sd">        t_ref:</span>
+<span class="sd">            The reference temperature profile [K] (Vector)</span>
+
+<span class="sd">        t_pert:</span>
+<span class="sd">            The vector of temperature perturbations [K] (Vector)</span>
+
+<span class="sd">        nls_pert:</span>
+<span class="sd">            The vector of perturbations for the VMRs of the nonlinear species (Vector)</span>
+
+<span class="sd">        xsec:</span>
+<span class="sd">            Absorption cross sections (Tensor4)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GasAbsLookup.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.GasAbsLookup.html#pyarts.classes.GasAbsLookup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createGasAbsLookup</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Only supports void initialization&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">specs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The species tags for which the table is valid (ArrayOfArrayOfSpeciesTag) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfArrayOfSpeciesTag</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@specs</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">specs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nonlinspecs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The species tags with non-linear treatment (ArrayOfIndex) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfIndex</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getNonLinearSpeciesGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@nonlinspecs</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">nonlinspecs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nonlinspecs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">f_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The frequency grid [Hz] (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getFgridGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@f_grid</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">f_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fgp_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Frequency grid positions (ArrayOfGridPosPoly) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfGridPosPoly</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@fgp_default</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fgp_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">p_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The pressure grid for the table [Pa] (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getPgridGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@p_grid</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">p_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_grid</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">log_p_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The natural log of the pressure grid (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getLogPgridGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@log_p_grid</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">log_p_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_p_grid</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vmrs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The reference VMR profiles (Matrix) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getVMRsGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@vmrs</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">vmrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vmrs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">t_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The reference temperature profile [K] (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getTrefGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@t_ref</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">t_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_ref</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">t_pert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The vector of temperature perturbations [K] (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getTpertGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@t_pert</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">t_pert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_pert</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nls_pert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The vector of perturbations for the VMRs of the nonlinear species (Vector) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getNLSPertGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@nls_pert</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">nls_pert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nls_pert</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xsec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Absorption cross sections (Tensor4) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Tensor4</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getXsecGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@xsec</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">xsec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xsec</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;GasAbsLookup&quot;</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">printGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ARTS GasAbsLookup&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">GasAbsLookup</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">specs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">nonlinspecs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">f_grid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">fgp_default</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">p_grid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">log_p_grid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vmrs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">vmrs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t_ref</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">t_ref</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t_pert</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">t_pert</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nls_pert</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">nls_pert</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xsec</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">xsec</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects GasAbsLookup&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">readxml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads the XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to valid class-file (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">correct_read_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot read </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">savexml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Saves the class to XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to writable file (str)</span>
+
+<span class="sd">            type:</span>
+<span class="sd">                Filetype (str)</span>
+
+<span class="sd">            clobber:</span>
+<span class="sd">                Allow clobbering files? (any boolean)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="o">*</span><span class="n">correct_save_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">clobber</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot save </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">GasAbsLookup</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">specs</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">f_grid</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fgp_default</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">p_grid</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">vmrs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">vmrs</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_ref</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">t_ref</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_pert</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">t_pert</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">nls_pert</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">nls_pert</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">xsec</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">xsec</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xsec</span><span class="p">)</span></div>
+
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getNonLinearSpeciesGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getNonLinearSpeciesGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getFgridGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getFgridGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getPgridGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getPgridGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getLogPgridGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLogPgridGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getVMRsGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getVMRsGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getTrefGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getTrefGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getTpertGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getTpertGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getNLSPertGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getNLSPertGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getXsecGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getXsecGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -5,6 +5,7 @@ var namespaces_dup =
     [ "Constant", "namespaceConstant.html", null ],
     [ "Conversion", "namespaceConversion.html", null ],
     [ "global_data", "namespaceglobal__data.html", null ],
+    [ "Jacobian", "namespaceJacobian.html", null ],
     [ "lapack", "namespacelapack.html", null ],
     [ "lapack_help", "namespacelapack__help.html", null ],
     [ "linalg", "namespacelinalg.html", null ],

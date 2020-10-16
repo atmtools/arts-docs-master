@@ -4,7 +4,7 @@ var classRadiationVector =
     [ "RadiationVector", "classRadiationVector.html#a107d9858c165667fcdcaa039303e65ed", null ],
     [ "RadiationVector", "classRadiationVector.html#afd6f5f203afb9187677d858890b44476", null ],
     [ "add_avg", "classRadiationVector.html#a84386751fcfce431d1b9a6a94bc82485", null ],
-    [ "add_weighted", "classRadiationVector.html#a1d63a4160366807c87602a45d9dbcf68", null ],
+    [ "add_weighted", "classRadiationVector.html#a8593ff1b7d858595a1f607712ce31ecc", null ],
     [ "addDerivEmission", "classRadiationVector.html#ac7068253209cc3129a612b81cb3ede63", null ],
     [ "addDerivTransmission", "classRadiationVector.html#a99f8f57803d10902f01112307a390305", null ],
     [ "addMultiplied", "classRadiationVector.html#a5275d21fca4bc447b8be27238e5d7cf6", null ],

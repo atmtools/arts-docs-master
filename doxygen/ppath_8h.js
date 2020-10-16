@@ -5,12 +5,14 @@ var ppath_8h =
     [ "add_za_aa", "ppath_8h.html#a5cb6c06957a644740086899089c7c044", null ],
     [ "cart2zaaa", "ppath_8h.html#a7fdd926bccd78b76e7ba74735ab9d898", null ],
     [ "diff_za_aa", "ppath_8h.html#a2f07f89b4c0d9561ddcbf5d4202664c7", null ],
+    [ "enu2zaaa", "ppath_8h.html#a64f9a59a21c5778aaa410cd96b827c4a", null ],
     [ "error_if_limb_ppath", "ppath_8h.html#a2c60443d23dd348d86f70c76e34aeb08", null ],
     [ "find_tanpoint", "ppath_8h.html#a96c75c20a6cd4e56196f0d8bad3ad4a4", null ],
     [ "first_pos_before_altitude", "ppath_8h.html#a4327bc8d2d40d7900e38ea521dba86b1", null ],
     [ "geometrical_ppc", "ppath_8h.html#a5cb524abe665bc60dd1f01c9bf8ab1ad", null ],
     [ "geompath_l_at_r", "ppath_8h.html#ae51c042018764909a44faf5dbb89088f", null ],
     [ "geompath_lat_at_za", "ppath_8h.html#aabe7a504a26e360d144b9436ab99f710", null ],
+    [ "geompath_r_at_l", "ppath_8h.html#a297b5175136d53a3b7796477f4e1c458", null ],
     [ "geompath_za_at_r", "ppath_8h.html#a7bbf4b807128f8da264e90f36a54ec5c", null ],
     [ "is_los_downwards", "ppath_8h.html#a2021c25b585ff72c550b6e92bf7a1556", null ],
     [ "plevel_angletilt", "ppath_8h.html#ad02d63aa1b10cb24e34f883874f1846e", null ],
@@ -30,6 +32,7 @@ var ppath_8h =
     [ "ppath_what_background", "ppath_8h.html#a40b890b5abacf22b89e22e39feee79ec", null ],
     [ "resolve_lon", "ppath_8h.html#aa945ed9385e1f62fba26be61c1751caa", null ],
     [ "zaaa2cart", "ppath_8h.html#a273c5c91c107b20b624db4d10ea3161c", null ],
+    [ "zaaa2enu", "ppath_8h.html#a5eecfa2805f94dfda5f7b194a876e828", null ],
     [ "ANGTOL", "ppath_8h.html#abf5068655e34d585881f172b1d084964", null ],
     [ "POLELAT", "ppath_8h.html#a2d4b001e4a13c884e254758c503232db", null ]
 ];

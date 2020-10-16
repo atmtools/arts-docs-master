@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ppathFixedLstep - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;ppathFixedLstep</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method ppathFixedLstep</h2>
+<h3>Description</h3>
+<pre>
+Full propagation path calculation with fixed step length.
+
+Restrictions:
+1. An active cloudbox is not handled (causes an error).
+2. Observations of limb sounding type not handled. That is, zenith
+   angles between 90 and about 120 deg will cause an error.
+3. Unsuitable for downward observation from within the atmosphere.
+
+The method determines the lowest point of the propagation path and
+applies a fixed step length from that point. This point can be the
+surface intersection or the sensor position depending on observation
+geometry.
+
+There is no adjustment at the high altitude end, neither to the top
+of the atmosphere altitude nor the sensor's altitude.
+
+Default is to apply a step length of <a href="../variables/ppath_lmax.html">ppath_lmax</a> everywhere.
+By setting *za_scale* to 1, the step length is scaled with zenith
+angle and the steps are rather constant in altitude spacing.
+
+With *z_coarse* and *l_coarse* you can introduce another step length
+at higher altitudes. If *z_coarse* is &gt; 0, then *l_coarse* is applied
+above *z_coarse*, instead of <a href="../variables/ppath_lmax.html">ppath_lmax</a>. *za_scale* is considered
+also for *l_coarse*.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>ppathFixedLstep(&nbsp;</td><td><a href="../variables/ppath.html">ppath</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/rte_pos.html">rte_pos</a>, <a href="../variables/rte_los.html">rte_los</a>, <a href="../variables/ppath_lmax.html">ppath_lmax</a>, za_scale, z_coarse, l_coarse )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/ppath.html">ppath</a></td><td>(<a href="../groups/Ppath.html">Ppath</a>)</td><td>The propagation path for one line-of-sight.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/refellipsoid.html">refellipsoid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Reference ellipsoid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/cloudbox_on.html">cloudbox_on</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate the cloud box.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_pos.html">rte_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A geographical position for starting radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rte_los.html">rte_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>A line-of-sight for (complete) radiative transfer calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/ppath_lmax.html">ppath_lmax</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Maximum length between points describing propagation paths.</td></tr>
+<tr><td>GIN</td><td class="right">za_scale</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Scale step length with 1/abs(cos(za)).</td></tr>
+<tr><td>GIN</td><td class="right">z_coarse</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -1)</td><td>Altitude for switching to coarse step length</td></tr>
+<tr><td>GIN</td><td class="right">l_coarse</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 1e3)</td><td>Coarse step length.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 26cdfe5d)</div>
+
+</body>
+</html>

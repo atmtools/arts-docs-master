@@ -1,7 +1,6 @@
 var transmissionmatrix_8h =
 [
     [ "TransmissionMatrix", "classTransmissionMatrix.html", "classTransmissionMatrix" ],
-    [ "Weights", "structTransmissionMatrix_1_1Weights.html", "structTransmissionMatrix_1_1Weights" ],
     [ "RadiationVector", "classRadiationVector.html", "classRadiationVector" ],
     [ "ArrayOfArrayOfArrayOfRadiationVector", "transmissionmatrix_8h.html#a11adc6ed68f7b31e2609e2b4f784c396", null ],
     [ "ArrayOfArrayOfArrayOfTransmissionMatrix", "transmissionmatrix_8h.html#abc1551e1a568334f5cbd3edb67cd33f3", null ],

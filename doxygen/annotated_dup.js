@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "Absorption", "namespaceAbsorption.html", "namespaceAbsorption" ],
     [ "ARTS", "namespaceARTS.html", "namespaceARTS" ],
+    [ "Jacobian", "namespaceJacobian.html", "namespaceJacobian" ],
     [ "lapack_help", "namespacelapack__help.html", "namespacelapack__help" ],
     [ "Linefunctions", "namespaceLinefunctions.html", "namespaceLinefunctions" ],
     [ "LineShape", "namespaceLineShape.html", "namespaceLineShape" ],

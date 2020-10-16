@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarts.classes.AbsorptionLines &mdash; pyarts 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../classes.html">pyarts.classes</a> &raquo;</li>
+        
+      <li>pyarts.classes.AbsorptionLines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.classes.AbsorptionLines</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sized</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.classes.AbsorptionSingleLine</span> <span class="kn">import</span> <span class="n">AbsorptionSingleLine</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.LineShapeModel</span> <span class="kn">import</span> <span class="n">LineShapeModel</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.QuantumIdentifier</span> <span class="kn">import</span> <span class="n">QuantumIdentifier</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.QuantumNumbers</span> <span class="kn">import</span> <span class="n">QuantumNumbers</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.Rational</span> <span class="kn">import</span> <span class="n">Rational</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesTag</span> <span class="kn">import</span> <span class="n">ArrayOfSpeciesTag</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">Index</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.ArrayBase</span> <span class="kn">import</span> <span class="n">array_base</span>
+
+
+<div class="viewcode-block" id="AbsorptionLines"><a class="viewcode-back" href="../../../generated/pyarts.classes.AbsorptionLines.html#pyarts.classes.AbsorptionLines">[docs]</a><span class="k">class</span> <span class="nc">AbsorptionLines</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS AbsorptionLines data</span>
+
+<span class="sd">    Type variables can only be set from strings or by copy from another</span>
+<span class="sd">    AbsorptionLines-instance</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        selfbroadening:</span>
+<span class="sd">            Self broadening (bool)</span>
+
+<span class="sd">        bathbroadening:</span>
+<span class="sd">            Air broadening (bool)</span>
+
+<span class="sd">        cutoff:</span>
+<span class="sd">            Type of cutoff (get: Index; set: str)</span>
+
+<span class="sd">        mirroring:</span>
+<span class="sd">            Type of mirroring (get: Index; set: str)</span>
+
+<span class="sd">        population:</span>
+<span class="sd">            Type of population (get: Index; set: str)</span>
+
+<span class="sd">        normalization:</span>
+<span class="sd">            Type of normalization (get: Index; set: str)</span>
+
+<span class="sd">        lineshapetype:</span>
+<span class="sd">            Type of lineshapetype (get: Index; set: str)</span>
+
+<span class="sd">        t0:</span>
+<span class="sd">            Reference temperature (Numeric)</span>
+
+<span class="sd">        cutofffreq:</span>
+<span class="sd">            Cutoff frequency (Numeric)</span>
+
+<span class="sd">        linemixinglimit:</span>
+<span class="sd">            Line mixing pressure limit (Numeric)</span>
+
+<span class="sd">        quantumidentity:</span>
+<span class="sd">            Quantum identity (QuantumIdentifier)</span>
+
+<span class="sd">        sizelocalquantumnumbers:</span>
+<span class="sd">            Number of local quantum numbers (Index)</span>
+
+<span class="sd">        localquantumnumbers:</span>
+<span class="sd">            Local quantum numbers (list of Index)</span>
+
+<span class="sd">        sizebroadeningspecies:</span>
+<span class="sd">            Number of broadening species (Index)</span>
+
+<span class="sd">        broadeningspecies:</span>
+<span class="sd">            Broadening species (list of SpeciesTag)</span>
+
+<span class="sd">        sizelines:</span>
+<span class="sd">            Number of absorption lines (Index)</span>
+
+<span class="sd">        lines:</span>
+<span class="sd">            Absorption lines (list of AbsorptionSingleLine)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AbsorptionLines.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.AbsorptionLines.html#pyarts.classes.AbsorptionLines.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selfbroadening</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bathbroadening</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nlines</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">cutoff</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="n">mirroring</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="n">population</span><span class="o">=</span><span class="s2">&quot;LTE&quot;</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+                 <span class="n">lineshapetype</span><span class="o">=</span><span class="s2">&quot;VP&quot;</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">296</span><span class="p">,</span> <span class="n">cutofffreq</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">linemixinglimit</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">quantumidentity</span><span class="o">=</span><span class="n">QuantumIdentifier</span><span class="p">(),</span> <span class="n">localquantumnumbers</span><span class="o">=</span><span class="p">[],</span>
+                 <span class="n">broadeningspecies</span><span class="o">=</span><span class="n">ArrayOfSpeciesTag</span><span class="p">(),</span> <span class="n">lsm</span><span class="o">=</span><span class="n">LineShapeModel</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selfbroadening</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">selfbroadening</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createAbsorptionLines</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selfbroadening</span> <span class="o">=</span> <span class="n">selfbroadening</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bathbroadening</span> <span class="o">=</span> <span class="n">bathbroadening</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mirroring</span> <span class="o">=</span> <span class="n">mirroring</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="n">normalization</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lineshapetype</span> <span class="o">=</span> <span class="n">lineshapetype</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">t0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutofffreq</span> <span class="o">=</span> <span class="n">cutofffreq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linemixinglimit</span> <span class="o">=</span> <span class="n">linemixinglimit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">=</span> <span class="n">quantumidentity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">localquantumnumbers</span> <span class="o">=</span> <span class="n">localquantumnumbers</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">broadeningspecies</span> <span class="o">=</span> <span class="n">broadeningspecies</span>
+
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">AbsorptionSingleLine</span><span class="p">(</span><span class="n">lsm</span><span class="o">=</span><span class="n">lsm</span><span class="p">,</span> <span class="n">qupp</span><span class="o">=</span><span class="p">[</span><span class="n">Rational</span><span class="p">()]</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">qlow</span><span class="o">=</span><span class="p">[</span><span class="n">Rational</span><span class="p">()]</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sizelines</span> <span class="o">=</span> <span class="n">nlines</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">y</span><span class="p">:</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bad initialization of class&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">OK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns whether the class is OK or not &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">isAbsorptionLinesOK</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">species_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the name of the species &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="n">species</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesNameAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">species</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot access SpeciesName; class is not OK&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selfbroadening</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Self broadening (bool) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getSelfAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@selfbroadening</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">selfbroadening</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">setSelfAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bathbroadening</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Air broadening (bool) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getBathAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@bathbroadening</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bathbroadening</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">setBathAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Type of cutoff (get: Index; set: str) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getCutoffAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@cutoff</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexCutoffAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setCutoffAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mirroring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Type of mirroring (get: Index; set: str) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getMirroringAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@mirroring</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mirroring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexMirroringAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setMirroringAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">population</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Type of population (get: Index; set: str) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getPopulationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@population</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexPopulationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setPopulationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Type of normalization (get: Index; set: str) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getNormalizationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@normalization</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexPopulationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setNormalizationAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lineshapetype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Type of lineshapetype (get: Index; set: str) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getLineShapeTypeAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@lineshapetype</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lineshapetype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexLineShapeTypeAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setLineShapeTypeAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">t0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reference temperature (Numeric) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getT0AbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@t0</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">t0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">setT0AbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cutofffreq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Cutoff frequency (Numeric) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getCutoffFreqValueAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@cutofffreq</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cutofffreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">setCutoffFreqValueAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">linemixinglimit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Line mixing pressure limit (Numeric) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getLinemixingLimitAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@linemixinglimit</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">linemixinglimit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">setLinemixingLimitAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">quantumidentity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Quantum identity (QuantumIdentifier) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">QuantumIdentifier</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentityAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@quantumidentity</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">quantumidentity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sizelocalquantumnumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Number of local quantum numbers (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">sizeLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@sizelocalquantumnumbers</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">sizelocalquantumnumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">resizeLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid size&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">localquantumnumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Local quantum numbers (list of Index) &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@localquantumnumbers</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">localquantumnumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">localquantumnumbers</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">QuantumNumbers</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only accepts array-like input&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">broadeningspecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Broadening species (ArrayOfSpeciesTag) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfSpeciesTag</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@broadeningspecies</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">broadeningspecies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">broadeningspecies</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sizelines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Number of absorption lines (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">sizeAllLinesAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="nd">@sizelines</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">sizelines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">resizeAllLinesAbsorptionLines</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid size&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Absorption lines (list of AbsorptionSingleLine) &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelines</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AbsorptionSingleLine</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getelemAllLinesAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@lines</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sizelines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelines</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only accepts array-like input&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">printAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot print; class is not OK&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">printmeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS meta representation of the class</span>
+
+<span class="sd">        Will check if the class is OK or raise a ValueError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">printmetaAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot understand metadata; class is not OK&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ARTS AbsorptionLines&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; Name of the class as a string.  Required for arrayification &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;AbsorptionLines&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AbsorptionLines</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selfbroadening</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">selfbroadening</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bathbroadening</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">bathbroadening</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">cutoff</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mirroring</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">mirroring</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">population</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">normalization</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lineshapetype</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">lineshapetype</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">t0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutofffreq</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">cutofffreq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linemixinglimit</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">linemixinglimit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">quantumidentity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">localquantumnumbers</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">localquantumnumbers</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">broadeningspecies</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">broadeningspecies</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">lines</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects AbsorptionLines&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">readxml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads the XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to valid class-file (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlreadAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">correct_read_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot read </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">savexml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Saves the class to XML file</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">            file:</span>
+<span class="sd">                Filename to writable file (str)</span>
+
+<span class="sd">            type:</span>
+<span class="sd">                Filetype (str)</span>
+
+<span class="sd">            clobber:</span>
+<span class="sd">                Allow clobbering files? (any boolean)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot store; class is not OK&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="o">*</span><span class="n">correct_save_arguments</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">clobber</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot save </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AbsorptionLines</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">selfbroadening</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">selfbroadening</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">bathbroadening</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">bathbroadening</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cutoff</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">mirroring</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">mirroring</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">population</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">normalization</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">normalization</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">lineshapetype</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lineshapetype</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">t0</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutofffreq</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cutofffreq</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">linemixinglimit</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">linemixinglimit</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">localquantumnumbers</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">localquantumnumbers</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">broadeningspecies</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">broadeningspecies</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="c1"># Generate ArrayOfAbsorptionLines</span>
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">AbsorptionLines</span><span class="p">))</span>
+
+
+<span class="c1"># Generate ArrayOfArrayOfAbsorptionLines</span>
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">ArrayOfAbsorptionLines</span><span class="p">))</span>
+
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlreadAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printmetaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printmetaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSelfAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSelfAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setSelfAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setSelfAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getBathAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getBathAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setBathAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setBathAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCutoffAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCutoffAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setCutoffAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setCutoffAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexCutoffAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexCutoffAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getMirroringAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getMirroringAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setMirroringAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setMirroringAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexMirroringAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexMirroringAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexLineShapeTypeAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getPopulationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getPopulationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setPopulationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setPopulationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexPopulationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexPopulationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getNormalizationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getNormalizationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setNormalizationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setNormalizationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexNormalizationAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">string2indexPopulationAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getT0AbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getT0AbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setT0AbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setT0AbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getCutoffFreqValueAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getCutoffFreqValueAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setCutoffFreqValueAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setCutoffFreqValueAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getLinemixingLimitAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLinemixingLimitAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setLinemixingLimitAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setLinemixingLimitAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentityAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentityAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">sizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">sizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">resizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">resizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">sizeAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">sizeAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">resizeAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">resizeAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getelemAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getelemAllLinesAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">isAbsorptionLinesOK</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">isAbsorptionLinesOK</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesNameAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesNameAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright The Typhon and ARTS Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -13,5 +13,6 @@ var classQuantumNumbers =
     [ "Set", "classQuantumNumbers.html#ac32fca723a5d331df5955ad8e1723385", null ],
     [ "Set", "classQuantumNumbers.html#a3979e6ce4bc700ecb55ed3239c8d1d69", null ],
     [ "Set", "classQuantumNumbers.html#a903d5c0ee483167205c65a688f55be18", null ],
+    [ "toString", "classQuantumNumbers.html#aa377a7ae5c74f44ef32afd4f40106212", null ],
     [ "mqnumbers", "classQuantumNumbers.html#a6078811a0e15d7c5954bec2f2017e996", null ]
 ];

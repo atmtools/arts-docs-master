@@ -87,6 +87,7 @@ var menudata={children:[
 {text:"g",url:"namespacemembers_type.html#index_g"},
 {text:"h",url:"namespacemembers_type.html#index_h"},
 {text:"i",url:"namespacemembers_type.html#index_i"},
+{text:"j",url:"namespacemembers_type.html#index_j"},
 {text:"l",url:"namespacemembers_type.html#index_l"},
 {text:"m",url:"namespacemembers_type.html#index_m"},
 {text:"n",url:"namespacemembers_type.html#index_n"},
@@ -307,8 +308,7 @@ var menudata={children:[
 {text:"s",url:"globals_vars_s.html#index_s"},
 {text:"t",url:"globals_vars_t.html#index_t"},
 {text:"u",url:"globals_vars_u.html#index_u"},
-{text:"v",url:"globals_vars_v.html#index_v"},
-{text:"w",url:"globals_vars_w.html#index_w"}]},
+{text:"v",url:"globals_vars_v.html#index_v"}]},
 {text:"Typedefs",url:"globals_type.html",children:[
 {text:"a",url:"globals_type.html#index_a"},
 {text:"c",url:"globals_type.html#index_c"},
