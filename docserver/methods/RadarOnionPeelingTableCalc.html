@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>RadarOnionPeelingTableCalc - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;RadarOnionPeelingTableCalc</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method RadarOnionPeelingTableCalc</h2>
+<h3>Description</h3>
+<pre>
+Creates a radar inversion table.
+
+This method is tailored to make inversion tables that fit
+<a href="particle_bulkpropRadarOnionPeeling.html">particle_bulkpropRadarOnionPeeling</a>. See that method for
+format of the table.
+
+The method needs to be called twice to form a complete table,
+once for liquid and ice hydrometeors. The table can be empty at
+the first call.
+
+The input data (<a href="../variables/scat_data.html">scat_data</a> etc.) must match two scattering
+species and a single frequency (the one of the radar).
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>RadarOnionPeelingTableCalc(&nbsp;</td><td>invtable, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/scat_species.html">scat_species</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/scat_meta.html">scat_meta</a>, <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>, <a href="../variables/pnd_agenda_array_input_names.html">pnd_agenda_array_input_names</a>, i_species, dbze_grid, t_grid, wc_min, wc_max, ze_tref, k2 )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>GOUT</td><td class="right">invtable</td><td>(<a href="../groups/ArrayOfGriddedField3.html">ArrayOfGriddedField3</a>)</td><td></td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species.html">scat_species</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Array of Strings defining the scattering species to consider.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_meta.html">scat_meta</a></td><td>(<a href="../groups/ArrayOfArrayOfScatteringMetaData.html">ArrayOfArrayOfScatteringMetaData</a>)</td><td>An Array of scattering meta data (<a href="../variables/scat_meta_single.html">scat_meta_single</a>).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a></td><td>(<a href="../groups/ArrayOfAgenda.html">ArrayOfAgenda</a>)</td><td>Mapping of particle bulk properties to number density data.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/pnd_agenda_array_input_names.html">pnd_agenda_array_input_names</a></td><td>(<a href="../groups/ArrayOfArrayOfString.html">ArrayOfArrayOfString</a>)</td><td>Naming of all input expected by <a href="../agendas/pnd_agenda_array.html">pnd_agenda_array</a>.</td></tr>
+<tr><td>GIN</td><td class="right">i_species</td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Index of <a href="../variables/scat_species.html">scat_species</a> to do. Can be 0 or 1.</td></tr>
+<tr><td>GIN</td><td class="right">dbze_grid</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Grid of dBZe values to use for the table.</td></tr>
+<tr><td>GIN</td><td class="right">t_grid</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Temperature grid to use for the table.</td></tr>
+<tr><td>GIN</td><td class="right">wc_min</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 1e-8)</td><td>A water content value that gives a dBZe smaller than first value of <span class="brokendoclink">*dbze_grid*</span>.</td></tr>
+<tr><td>GIN</td><td class="right">wc_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 2e-2)</td><td>A water content value that gives a dBZe larger than last value of <span class="brokendoclink">*dbze_grid*</span>.</td></tr>
+<tr><td>GIN</td><td class="right">ze_tref</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 273.15)</td><td>Reference temperature for conversion to Ze. See further <a href="yRadar.html">yRadar</a>.</td></tr>
+<tr><td>GIN</td><td class="right">k2</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -1)</td><td>Reference dielectric factor. See further <a href="yRadar.html">yRadar</a>.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 5bdc8a37)</div>
+
+</body>
+</html>

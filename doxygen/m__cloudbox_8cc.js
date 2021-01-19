@@ -2,7 +2,7 @@ var m__cloudbox_8cc =
 [
     [ "cloudbox_fieldCrop", "m__cloudbox_8cc.html#a0dbee719f629ea73e797c086feb86c89", null ],
     [ "cloudboxOff", "m__cloudbox_8cc.html#ae829cf2ea5762efea73d34e1d646283a", null ],
-    [ "cloudboxSetAutomatically", "m__cloudbox_8cc.html#a3594df585d5b8f78664ff5633ea019e5", null ],
+    [ "cloudboxSetAutomatically", "m__cloudbox_8cc.html#a1a5a2c64903b3b36d5bfdce8f35cd1b3", null ],
     [ "cloudboxSetFullAtm", "m__cloudbox_8cc.html#a6542cb4d1cba6803692630faa1153d38", null ],
     [ "cloudboxSetManually", "m__cloudbox_8cc.html#a0f7da7d78ad08a5af4cb8a90a748bee9", null ],
     [ "cloudboxSetManuallyAltitude", "m__cloudbox_8cc.html#aa26e67d64a528a9b59de592c191ac576", null ],

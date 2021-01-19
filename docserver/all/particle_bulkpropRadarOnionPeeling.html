@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>particle_bulkpropRadarOnionPeeling - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;particle_bulkpropRadarOnionPeeling</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method particle_bulkpropRadarOnionPeeling</h2>
+<h3>Description</h3>
+<pre>
+Inverts radar reflectivities by in an onion peeling manner.
+
+The method assumes space-based measurements and invert one altitude
+at the time, based on a pre-calculated inversion table (*invtable*)
+and starting at the top of the atmosphere. If attenuation is
+completely ignored, the table is effectively used as a look-up table
+to map dBZe to hydrometeor values. The method considers attenuation
+by default, where extinction due to hydrometeors is taken from the
+table and the one due to <a href="../variables/abs_species.html">abs_species</a> is obtained by
+<a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>.
+
+The inversion table consists of two GriddedField3. The first field
+shall match liquid hydrometeors and is applied for temperatures above
+*t_phase*. The second field is applied for lower temperatures and
+shall thus correspond to ice hydrometeors.
+
+The size of each field is (2,ndb,nt). The two page dimensions match
+the hydrometeor property to retrieve and extinction, respectively.
+The table shall hold the 10-logarithm of the property, such as
+log10(IWC). ndb is the number of dBZe values in the table and nt
+the number of temperatures. The table is interpolated in temperature
+in a nearest neighbour fashion, while in a linear interpolation is
+applied in the dBZe dimension.
+
+The field of radar reflectivities (*dBZe*) shall cover the complete
+atmosphere and then match e.g. <a href="../variables/t_field.html">t_field</a> in size. The observation
+geometry is here specified by giving the incidence angle for each
+profile of dBZe values (by *incangles*). A flat Earth approximation
+is applied inside the method.
+
+All values below *dbze_noise* are treated as pure noise and
+<a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a> is set to zero for these positions.
+The comparison to *dbze_noise* is done with uncorrected values.
+
+Further, all values at altitudes below z_surface + h_clutter are
+assumed to be surface clutter and are rejected. If *fill_clutter*
+is set to 1, the retrieval just above the clutter zone is assumed
+valid also below and is copied to all altitudes below (also for
+altitudes below the surface).
+
+Significant radar echos (&gt;dbze_noise and above clutter zone) are
+assumed to match liquid hydrometeors for temperatures &gt;= *t_phase*
+and ice ones for lower temperatures.
+
+Default is to consider attenuation of both hydrometeors and absorption
+species. These two sources to attenuation can be ignored by setting
+*do_atten_hyd* and *do_atten_abs* to zero, respectively. To avoid
+"run away" in attenuation, a maximum value to attenuation correction
+can be set by *dbze_max_corr*.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>particle_bulkpropRadarOnionPeeling(&nbsp;</td><td><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/scat_species.html">scat_species</a>, invtable, incangles, dBZe, dbze_noise, h_clutter, fill_clutter, t_phase, do_atten_abs, do_atten_hyd, dbze_max_corr )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Container for various data that describes scattering bulk properties.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Identification of the data in <a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/t_field.html">t_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of atmospheric temperatures.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmfields_checked.html">atmfields_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for atmospheric grids and (physical) fields.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a></td><td>(<a href="../groups/Agenda.html">Agenda</a>)</td><td>Agenda calculating the absorption coefficient matrices.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/scat_species.html">scat_species</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Array of Strings defining the scattering species to consider.</td></tr>
+<tr><td>GIN</td><td class="right">invtable</td><td>(<a href="../groups/ArrayOfGriddedField3.html">ArrayOfGriddedField3</a>)</td><td>Inversion table, see above.</td></tr>
+<tr><td>GIN</td><td class="right">incangles</td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Incidence angles.</td></tr>
+<tr><td>GIN</td><td class="right">dBZe</td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Field of radar reflectivities, in dBZe.</td></tr>
+<tr><td>GIN</td><td class="right">dbze_noise</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -99)</td><td>Noise level. See above.</td></tr>
+<tr><td>GIN</td><td class="right">h_clutter</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Height of clutter zone.</td></tr>
+<tr><td>GIN</td><td class="right">fill_clutter</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to fill clutter zone, by copuyting retrieval just above it.</td></tr>
+<tr><td>GIN</td><td class="right">t_phase</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 273.15)</td><td>Phase boundary temperature. See above.</td></tr>
+<tr><td>GIN</td><td class="right">do_atten_abs</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to hydrometeors.</td></tr>
+<tr><td>GIN</td><td class="right">do_atten_hyd</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to absorption species.</td></tr>
+<tr><td>GIN</td><td class="right">dbze_max_corr</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 10)</td><td>Max allowed change of measured dBZe to approx. correct for attenuation.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 5bdc8a37)</div>
+
+</body>
+</html>

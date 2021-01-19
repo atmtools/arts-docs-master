@@ -1,6 +1,6 @@
 var rte_8h =
 [
-    [ "adapt_stepwise_partial_derivatives", "rte_8h.html#a869331bf4ae5a03ae1b5f3c684e18610", null ],
+    [ "adapt_stepwise_partial_derivatives", "rte_8h.html#a1c9ef4faf1b308ad73591706d138b130", null ],
     [ "adjust_los", "rte_8h.html#a575171c69ce06a82458db816fe6817d1", null ],
     [ "apply_iy_unit", "rte_8h.html#a82342977d9b6ca7b99a1fb8dd2fd546b", null ],
     [ "apply_iy_unit2", "rte_8h.html#ac29412101765cdcad820a88ba3fc374b", null ],
@@ -8,7 +8,6 @@ var rte_8h =
     [ "defocusing_general", "rte_8h.html#a34d779c23e0baa2b84a12e89b46ac3d0", null ],
     [ "defocusing_sat2sat", "rte_8h.html#a3569110b3bd722854e8c74f66d682401", null ],
     [ "dotprod_with_los", "rte_8h.html#a503628846269c3508d94586ef5737db0", null ],
-    [ "ext2trans", "rte_8h.html#a49a47395262affef65d6b53b6dc91c1a", null ],
     [ "get_iy", "rte_8h.html#adf12808edf084d4810751d718f19c501", null ],
     [ "get_iy_of_background", "rte_8h.html#ab4af5de8ed352e422f23beb60f76a931", null ],
     [ "get_ppath_atmvars", "rte_8h.html#a285e9c0738d22752782b878655ba2e4f", null ],
@@ -18,7 +17,7 @@ var rte_8h =
     [ "get_stepwise_blackbody_radiation", "rte_8h.html#afce9409c2e5b08f1bc43d28d394c7617", null ],
     [ "get_stepwise_clearsky_propmat", "rte_8h.html#abefe7d261f8442c98771b4fb6fdf2a0c", null ],
     [ "get_stepwise_effective_source", "rte_8h.html#a1e77464e3855c1ce387c0faaeee1a574", null ],
-    [ "get_stepwise_f_partials", "rte_8h.html#aa4b062cea0c5d940657c5f249142937f", null ],
+    [ "get_stepwise_f_partials", "rte_8h.html#abafc96cac33ca5021db08f324bb9beb4", null ],
     [ "get_stepwise_frequency_grid", "rte_8h.html#ab6216bdff6aa1d80d6ca90d37e5bcd20", null ],
     [ "get_stepwise_scattersky_propmat", "rte_8h.html#afe6a5e62576072d4d2756b016b90dbbf", null ],
     [ "get_stepwise_scattersky_source", "rte_8h.html#a25b6f40391482735c54ee78f98f5bbb0", null ],
@@ -28,8 +27,7 @@ var rte_8h =
     [ "iyb_calc", "rte_8h.html#ab990f38193123ec2fae58e9c7f94b248", null ],
     [ "mirror_los", "rte_8h.html#a555f53cb5c474955d53ed6d3affddb9d", null ],
     [ "pos2true_latlon", "rte_8h.html#aa73cf17ff8f66057952e7c7dcc23fe5b", null ],
-    [ "rtmethods_jacobian_finalisation", "rte_8h.html#a63a013306d68da7aacabbe89a9e0b914", null ],
-    [ "rtmethods_jacobian_init", "rte_8h.html#af4c2cbcf93ed654a8962b4e7978b63ff", null ],
+    [ "rtmethods_jacobian_finalisation", "rte_8h.html#a43b418f10c8505c21779ddf7a564798c", null ],
     [ "rtmethods_unit_conversion", "rte_8h.html#aa176a090bd2ebce5ce17a2bc2cb02a2d", null ],
     [ "yCalc_mblock_loop_body", "rte_8h.html#a3a56fd416d009f7fb8713c69654043a6", null ],
     [ "ze_cfac", "rte_8h.html#a15dd450928d2d680799563ee90585c83", null ]

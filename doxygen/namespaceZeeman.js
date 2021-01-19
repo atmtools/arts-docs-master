@@ -1,8 +1,36 @@
 var namespaceZeeman =
 [
-    [ "AllPolarizationVectors", "structZeeman_1_1AllPolarizationVectors.html", "structZeeman_1_1AllPolarizationVectors" ],
-    [ "Derived", "structZeeman_1_1Derived.html", "structZeeman_1_1Derived" ],
+    [ "SplittingData", "structZeeman_1_1SplittingData.html", "structZeeman_1_1SplittingData" ],
     [ "Model", "classZeeman_1_1Model.html", "classZeeman_1_1Model" ],
     [ "PolarizationVector", "classZeeman_1_1PolarizationVector.html", "classZeeman_1_1PolarizationVector" ],
-    [ "SplittingData", "structZeeman_1_1SplittingData.html", "structZeeman_1_1SplittingData" ]
+    [ "AllPolarizationVectors", "structZeeman_1_1AllPolarizationVectors.html", "structZeeman_1_1AllPolarizationVectors" ],
+    [ "Derived", "structZeeman_1_1Derived.html", "structZeeman_1_1Derived" ],
+    [ "Polarization", "namespaceZeeman.html#aa26c631af53271c262c1341356e7bff3", [
+      [ "SigmaMinus", "namespaceZeeman.html#aa26c631af53271c262c1341356e7bff3a1e59a97a714bdd5c9fadd04d5200ea93", null ],
+      [ "Pi", "namespaceZeeman.html#aa26c631af53271c262c1341356e7bff3a127125672f1e85d1e676d4394d24e066", null ],
+      [ "SigmaPlus", "namespaceZeeman.html#aa26c631af53271c262c1341356e7bff3ac85ff23c6295eb7675cf33b1aba3f65d", null ]
+    ] ],
+    [ "AllPolarization", "namespaceZeeman.html#ae8c661de9fd6d3681c70e65456736b77", null ],
+    [ "AllPolarization_deta", "namespaceZeeman.html#a96b59a04056f0a03e453b1ef20cb2001", null ],
+    [ "AllPolarization_dtheta", "namespaceZeeman.html#a9b314911099e23d5ba39f218fbda9797", null ],
+    [ "dM", "namespaceZeeman.html#a1125330405766d041c95e34568b2fe3d", null ],
+    [ "end", "namespaceZeeman.html#afd21c87c99c343559868405d885294f5", null ],
+    [ "FromGrids", "namespaceZeeman.html#a8d838e2350671563ac42471964476b0a", null ],
+    [ "FromPreDerived", "namespaceZeeman.html#a74a9f61e98a2ef10a9d2b287fbfc1bb5", null ],
+    [ "GetAdvancedModel", "namespaceZeeman.html#a17299588f3d4d5eee4026046010c4eff", null ],
+    [ "GetSimpleModel", "namespaceZeeman.html#a8e3fc34813947b494d581835dfa212ec", null ],
+    [ "GoodHundData", "namespaceZeeman.html#a39762feec8b59a80cabad1b5b0e7f989", null ],
+    [ "Ml", "namespaceZeeman.html#ae33a8a6cfb081b8bd434603840b20218", null ],
+    [ "Mu", "namespaceZeeman.html#af2cc4621bfa7bc7c7d1827f909c73299", null ],
+    [ "nelem", "namespaceZeeman.html#a6b8b6e5641ec7ba244795deba9265f18", null ],
+    [ "operator<<", "namespaceZeeman.html#aa0e6b18dd7c3b4e020d33a863eedf398", null ],
+    [ "operator<<", "namespaceZeeman.html#a09f1773f97d7b5ca0d6a6e9eba98ea59", null ],
+    [ "operator>>", "namespaceZeeman.html#a7fdc4dd590ef0f21946a9c0880b34b93", null ],
+    [ "operator>>", "namespaceZeeman.html#ad650d2db73f6cd978a0242db24357d25", null ],
+    [ "PolarizationFactor", "namespaceZeeman.html#a814ff8040c68996a75fd793316c1399f", null ],
+    [ "SelectPolarization", "namespaceZeeman.html#a536690920bb5b43560dfeb016d8be2b6", null ],
+    [ "SimpleG", "namespaceZeeman.html#abb199672adba52aed96db26c670648a8", null ],
+    [ "SimpleGCaseA", "namespaceZeeman.html#a7e094b4bb29dede451bd5e8085abba3e", null ],
+    [ "SimpleGCaseB", "namespaceZeeman.html#a34c8531c2eac7c6b4fd4df92b14e097d", null ],
+    [ "start", "namespaceZeeman.html#a5a24367cfa454aeb6730983395042ecf", null ]
 ];

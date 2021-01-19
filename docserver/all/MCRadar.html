@@ -22,7 +22,7 @@ The main output variable <a href="../variables/y.html">y</a> and <a href="../var
 radar reflectivity integrated over the antenna function, and the
 estimated error in this vector, respectively.
 
-Unlike with yActive, the range bins gives the boundaries of 
+Unlike with yRadar, the range bins gives the boundaries of 
 the range bins as either round-trip time or distance from radar.
 
 The WSV <a href="../variables/mc_y_tx.html">mc_y_tx</a> gives the polarization state of the 
@@ -38,15 +38,15 @@ The method will terminate once the max_iter criterium is met.
 If negative values are given for these parameters then it is
 ignored.
 
-Only "1" and "Ze" are allowed for <a href="../variables/iy_unit.html">iy_unit</a>. The value of
-<a href="../variables/mc_error.html">mc_error</a> follows the selection for <a href="../variables/iy_unit.html">iy_unit</a> (both for in- and
-output.
+Here "1" and "Ze" are the allowed options for <a href="../variables/iy_unit_radar.html">iy_unit_radar</a>.
+The value of <a href="../variables/mc_error.html">mc_error</a> follows the selection for <a href="../variables/iy_unit_radar.html">iy_unit_radar</a>
+(both for in- and output. See <a href="yRadar.html">yRadar</a> for details of the units.
 
 </pre>
 
 <p><b>Authors: </b>Ian S. Adams
 <h3>Synopsis</h3>
-<p><table><tr><td>MCRadar(&nbsp;</td><td><a href="../variables/y.html">y</a>, <a href="../variables/mc_error.html">mc_error</a>, <a href="../variables/mc_antenna.html">mc_antenna</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/f_index.html">f_index</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, <a href="../variables/sensor_los.html">sensor_los</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/ppath_lmax.html">ppath_lmax</a>, <a href="../agendas/ppath_step_agenda.html">ppath_step_agenda</a>, <a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/mc_y_tx.html">mc_y_tx</a>, <a href="../variables/range_bins.html">range_bins</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/iy_unit.html">iy_unit</a>, <a href="../variables/mc_max_scatorder.html">mc_max_scatorder</a>, <a href="../variables/mc_seed.html">mc_seed</a>, <a href="../variables/mc_max_iter.html">mc_max_iter</a>, ze_tref, k2, t_interp_order )</td></tr></table>
+<p><table><tr><td>MCRadar(&nbsp;</td><td><a href="../variables/y.html">y</a>, <a href="../variables/mc_error.html">mc_error</a>, <a href="../variables/mc_antenna.html">mc_antenna</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/f_index.html">f_index</a>, <a href="../variables/sensor_pos.html">sensor_pos</a>, <a href="../variables/sensor_los.html">sensor_los</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/ppath_lmax.html">ppath_lmax</a>, <a href="../agendas/ppath_step_agenda.html">ppath_step_agenda</a>, <a href="../variables/ppath_lraytrace.html">ppath_lraytrace</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/refellipsoid.html">refellipsoid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/mc_y_tx.html">mc_y_tx</a>, <a href="../variables/range_bins.html">range_bins</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/iy_unit_radar.html">iy_unit_radar</a>, <a href="../variables/mc_max_scatorder.html">mc_max_scatorder</a>, <a href="../variables/mc_seed.html">mc_seed</a>, <a href="../variables/mc_max_iter.html">mc_max_iter</a>, ze_tref, k2, t_interp_order )</td></tr></table>
 <h3>Variables</h3>
 <table>
 <tr><td>OUT</td><td class="right"><a href="../variables/y.html">y</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The measurement vector.</td></tr>
@@ -80,7 +80,7 @@ output.
 <tr><td>IN</td><td class="right"><a href="../variables/atmgeom_checked.html">atmgeom_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for the geometry of the model atmosphere.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/scat_data_checked.html">scat_data_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for <a href="../variables/scat_data.html">scat_data</a>.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/cloudbox_checked.html">cloudbox_checked</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>OK-flag for variables associated with the cloudbox.</td></tr>
-<tr><td>IN</td><td class="right"><a href="../variables/iy_unit.html">iy_unit</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Selection of output unit for some radiative transfer methods.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/iy_unit_radar.html">iy_unit_radar</a></td><td>(<a href="../groups/String.html">String</a>)</td><td>Unit for radar simulations.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/mc_max_scatorder.html">mc_max_scatorder</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The maximum scattering order allowed for Monte Carlo radar calculations.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/mc_seed.html">mc_seed</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The integer seed for the random number generator used by Monte Carlo methods.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/mc_max_iter.html">mc_max_iter</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The maximum number of iterations allowed for Monte Carlo calculations.</td></tr>
@@ -89,7 +89,7 @@ output.
 <tr><td>GIN</td><td class="right">t_interp_order</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Interpolation order of temperature for scattering data (so far only applied in phase matrix, not in extinction and absorption.</td></tr>
 </table>
 </div>
-<div class="footer">Page generated by arts-2.5.0 (git: b4212b5b)</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 5bdc8a37)</div>
 
 </body>
 </html>

@@ -1,6 +1,48 @@
 var namespacelm__hitran__2017 =
 [
+    [ "parameters", "namespacelm__hitran__2017_1_1parameters.html", null ],
     [ "CommonBlock", "structlm__hitran__2017_1_1CommonBlock.html", "structlm__hitran__2017_1_1CommonBlock" ],
     [ "ConvTPOut", "structlm__hitran__2017_1_1ConvTPOut.html", "structlm__hitran__2017_1_1ConvTPOut" ],
-    [ "EqvLinesOut", "structlm__hitran__2017_1_1EqvLinesOut.html", "structlm__hitran__2017_1_1EqvLinesOut" ]
+    [ "EqvLinesOut", "namespacelm__hitran__2017.html#ac60ea4e99570a534088b3d3727732c69", null ],
+    [ "calctype", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435", [
+      [ "FullVP", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435ae64eb7620f31c339d3fe5cc61f357e35", null ],
+      [ "FullRosenkranz", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435aafa3cffe2c6f2980c15296735156c069", null ],
+      [ "FullW", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435a1f982071e263f7d46729b183dcf1ed15", null ],
+      [ "SDVP", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435a55d162a139e80c5ee8354a42773b4773", null ],
+      [ "SDRosenkranz", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435aa75f79b393e308175427e00cd3dfe60b", null ],
+      [ "SDW", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435aafaeb98815cada2c721469eda3fef1ab", null ],
+      [ "NoneVP", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435a567ffbc842099c3b93718ef7de07df17", null ],
+      [ "NoneRosenkranz", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435a73b8b965c5839a1066a986e69da2e1d0", null ],
+      [ "NoneW", "namespacelm__hitran__2017.html#aafc7c08ee6a4bdcefc71aa8b6c7ff435a3c44b199b9cf47e308881e185af31bd5", null ]
+    ] ],
+    [ "ModeOfLineMixing", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684", [
+      [ "VP", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a06423afae472db15357a531aa46dee1e", null ],
+      [ "VP_Y", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a1eaefca7761ee8c533495e570e45266c", null ],
+      [ "SDVP", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a55d162a139e80c5ee8354a42773b4773", null ],
+      [ "SDVP_Y", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a6c41172afeab22ee8db517287a52718d", null ],
+      [ "FullW", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a1f982071e263f7d46729b183dcf1ed15", null ],
+      [ "VP_W", "namespacelm__hitran__2017.html#a61d2735fa5c3c83cbc092b7a3a302684a197d793914d6a124e97489fee743b6d3", null ]
+    ] ],
+    [ "atob", "namespacelm__hitran__2017.html#a72a2dff18c71ce2c0c7e2fb5c800adf3", null ],
+    [ "calcw", "namespacelm__hitran__2017.html#a31ab9ddf8719e98e006ffeaa097c1ce4", null ],
+    [ "calcw", "namespacelm__hitran__2017.html#a89b3dbcac85ae3ea62b25b964396b72e", null ],
+    [ "compabs", "namespacelm__hitran__2017.html#aaa9512b0d03500ea982fbe9d5b869d4e", null ],
+    [ "compabs", "namespacelm__hitran__2017.html#a105a100bd8f6e47a841a0b6807946490", null ],
+    [ "compute", "namespacelm__hitran__2017.html#a6d383fddda971485b0f5f149557d0267", null ],
+    [ "compute", "namespacelm__hitran__2017.html#a03c6bea0611b61f93a79f1a0f27174d5", null ],
+    [ "convtp", "namespacelm__hitran__2017.html#a902575f02f0b6cda6340f93805af8e1c", null ],
+    [ "convtp", "namespacelm__hitran__2017.html#a3bf9f2794b1ae38576d833cd028f9692", null ],
+    [ "detband", "namespacelm__hitran__2017.html#a5465a9c80e8c879717ddc735ca928ebb", null ],
+    [ "eqvlines", "namespacelm__hitran__2017.html#a0072c66353685d71b5b7fb867b8f1cb7", null ],
+    [ "eqvlines", "namespacelm__hitran__2017.html#ac63ec64e9bab6f74403f43def7d225fd", null ],
+    [ "qsdv", "namespacelm__hitran__2017.html#af397ddb677b56b827ac2fa6c47aa39c2", null ],
+    [ "qsdv_si", "namespacelm__hitran__2017.html#a2477286d2151f3c80f653f14d8b7a9da", null ],
+    [ "qt_co2", "namespacelm__hitran__2017.html#a44b65b81b21aafe3c39ae05d32ea99c6", null ],
+    [ "read", "namespacelm__hitran__2017.html#a18aa940e88d19d1b5a232c935504e583", null ],
+    [ "readlines", "namespacelm__hitran__2017.html#a962a9ed8dbc5139ca747400f683508ae", null ],
+    [ "readw", "namespacelm__hitran__2017.html#a4aaf677977c3b581cf4d05f4399aab1c", null ],
+    [ "toRationalSum", "namespacelm__hitran__2017.html#a724a8c1d3d4e8c9262e112a4854562b7", null ],
+    [ "typeFull", "namespacelm__hitran__2017.html#a3cd6d90b8a499fd7e70f66b3c3fe71e9", null ],
+    [ "typeLP", "namespacelm__hitran__2017.html#ae9dec8f8af4bc15720f98dca468b1389", null ],
+    [ "typeVP", "namespacelm__hitran__2017.html#a61076e5cf7440b9273021500c3daabdc", null ]
 ];

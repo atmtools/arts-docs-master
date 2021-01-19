@@ -410,24 +410,26 @@
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span>
         <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Index</span><span class="p">(</span><span class="n">QuantumNumbers</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">getLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
         <span class="k">return</span> <span class="n">x</span>
 
     <span class="nd">@localquantumnumbers</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">localquantumnumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">localquantumnumbers</span>
             <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelocalquantumnumbers</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">QuantumNumbers</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">lib</span><span class="o">.</span><span class="n">setLocalQuantaAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span>
+                                                  <span class="n">QuantumNumbers</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only accepts array-like input&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">broadeningspecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Broadening species (ArrayOfSpeciesTag) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">ArrayOfSpeciesTag</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">ArrayOfSpeciesTag</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span>
+                <span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
 
     <span class="nd">@broadeningspecies</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">broadeningspecies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
@@ -452,7 +454,8 @@
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizelines</span>
         <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AbsorptionSingleLine</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getelemAllLinesAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AbsorptionSingleLine</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">getelemAllLinesAbsorptionLines</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">))))</span>
         <span class="k">return</span> <span class="n">x</span>
 
     <span class="nd">@lines</span><span class="o">.</span><span class="n">setter</span>
@@ -675,8 +678,11 @@
 <span class="n">lib</span><span class="o">.</span><span class="n">resizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">resizeLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getelemLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setLocalQuantaAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
 
 <span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">getBroadeningSpeciesAbsorptionLines</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>

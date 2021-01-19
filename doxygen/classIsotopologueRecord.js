@@ -1,8 +1,5 @@
 var classIsotopologueRecord =
 [
-    [ "PF_FROMCOEFF", "classIsotopologueRecord.html#a48f067840ce818029afaa08827a72002a60a1c29a693eea2f668897208629ae3a", null ],
-    [ "PF_FROMTEMP", "classIsotopologueRecord.html#a48f067840ce818029afaa08827a72002af8e10c3287fdb81865a041f8de748601", null ],
-    [ "PF_NOTHING", "classIsotopologueRecord.html#a48f067840ce818029afaa08827a72002ae01606d45b14a249e45e586e9e480e70", null ],
     [ "IsotopologueRecord", "classIsotopologueRecord.html#abeac9a3e69865e4c39f1ae5170936bd6", null ],
     [ "IsotopologueRecord", "classIsotopologueRecord.html#a7daa128205eb1cfa5b7f80d034138c78", null ],
     [ "IsotopologueRecord", "classIsotopologueRecord.html#ad9e747e22add1691bed94a4ce79031fb", null ],

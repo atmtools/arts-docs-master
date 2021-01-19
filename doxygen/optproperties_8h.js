@@ -43,6 +43,5 @@ var optproperties_8h =
     [ "PType2FromString", "optproperties_8h.html#a052dc777874aa3d35c98579b10b64b77", null ],
     [ "PTypeFromString", "optproperties_8h.html#a8240506c29f16fa6d18b6789d9febad7", null ],
     [ "PTypeToString", "optproperties_8h.html#aecbf24b56daf8f98ecee25d816c10516", null ],
-    [ "scat_angle", "optproperties_8h.html#a5bc592cdeb57683eea2465e299b4131b", null ],
-    [ "ssd_tinterp_parameters", "optproperties_8h.html#a35b8f4c51641e9609dd45208965eee20", null ]
+    [ "scat_angle", "optproperties_8h.html#a5bc592cdeb57683eea2465e299b4131b", null ]
 ];

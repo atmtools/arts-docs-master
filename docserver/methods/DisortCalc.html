@@ -56,30 +56,11 @@ in different ways and using different output. The available options
   atmosphere, but only the radiation field within the cloudbox is
   passed on and used further in ARTS (e.g. by <a href="yCalc.html">yCalc</a>).
 
-Known issues of ARTS implementation:
-- Surface altitude is not an interface parameter. Surface is
-  implicitly assumed to be at the lowest atmospheric level.
-- Scattering angle grids of all scattering elements have to be
-  identical (except if *pfct_method* is 'interpolate').
-
-Keyword *pfct_method* allows to chose the method to extract phase
-function. 'interpolate' considers temperature dependence. Others
-neglect it by chosing one specific temperature grid point from the
-single scattering data: 'low' choses the lowest T-point, 'high' the
-highest T-point, and 'median' the median T-point. As different
-scattering elements can have different temperature grids, the actual
-temperature value used can differ between the scattering elements.
-Currently, other methods than 'interpolate' require all scattering
-elements to be given on identical scattering angle grids.
-Note that this keyword solely affects the phase function;
-extinction/absorption/scattering cross sections are always
-interpolated to the actual temperature.
-
 </pre>
 
 <p><b>Authors: </b>Claudia Emde, Jana Mendrok
 <h3>Synopsis</h3>
-<p><table><tr><td>DisortCalc(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>, nstreams, pfct_method, Npfct, quiet )</td></tr></table>
+<p><table><tr><td>DisortCalc(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/surface_skin_t.html">surface_skin_t</a>, <a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a>, nstreams, Npfct, quiet )</td></tr></table>
 <h3>Variables</h3>
 <table>
 <tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
@@ -104,12 +85,11 @@ interpolated to the actual temperature.
 <tr><td>IN</td><td class="right"><a href="../variables/surface_skin_t.html">surface_skin_t</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Surface skin temperature.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/surface_scalar_reflectivity.html">surface_scalar_reflectivity</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Surface reflectivity, assuming it can be described as a scalar value.</td></tr>
 <tr><td>GIN</td><td class="right">nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 8)</td><td>Number of polar angle directions (streams) in DISORT solution (must be an even number).</td></tr>
-<tr><td>GIN</td><td class="right">pfct_method</td><td>(<a href="../groups/String.html">String</a>, Default: "median")</td><td>Flag which method to apply to derive phase function.</td></tr>
-<tr><td>GIN</td><td class="right">Npfct</td><td>(<a href="../groups/Index.html">Index</a>, Default: 181)</td><td>Number of angular grid points to calculate bulk phase function on (and derive Legendre polnomials from). If &lt;0, the finest za_grid from scat_data will be used.</td></tr>
+<tr><td>GIN</td><td class="right">Npfct</td><td>(<a href="../groups/Index.html">Index</a>, Default: 181)</td><td>Number of angular grid points to calculate bulk phase function on (and derive Legendre polynomials from). If &lt;0, the finest za_grid from scat_data will be used.</td></tr>
 <tr><td>GIN</td><td class="right">quiet</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Silence C Disort warnings.</td></tr>
 </table>
 </div>
-<div class="footer">Page generated by arts-2.5.0 (git: b4212b5b)</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 5bdc8a37)</div>
 
 </body>
 </html>

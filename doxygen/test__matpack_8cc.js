@@ -50,6 +50,7 @@ var test__matpack_8cc =
     [ "test44", "test__matpack_8cc.html#a7ed87d0fa95f5096c71c63f76506cdde", null ],
     [ "test46", "test__matpack_8cc.html#a115e7f2d19535d608079a70dd4ad6e6e", null ],
     [ "test47", "test__matpack_8cc.html#aa71e73733b759a7df716ef4202d252fc", null ],
+    [ "test48", "test__matpack_8cc.html#a5553864ed84254feb45161a435ed2e2c", null ],
     [ "test5", "test__matpack_8cc.html#a8e1be3038bbc558f32a409f076126c33", null ],
     [ "test6", "test__matpack_8cc.html#a9725331980ffa46dc478f6728c4e57ce", null ],
     [ "test7", "test__matpack_8cc.html#a96b9ae95c46e7154e28dabd85b639483", null ],

@@ -9,6 +9,7 @@ var classVector =
     [ "Vector", "classVector.html#a5f04e343b7306ad11f8a82c89b486764", null ],
     [ "Vector", "classVector.html#a82aedf6cc85fcf212a1c9240aa9a1f65", null ],
     [ "Vector", "classVector.html#a83e40cd86bad4391b080c64d488aa088", null ],
+    [ "Vector", "classVector.html#a28e9d1e38022e3dd9162c7c3003a650f", null ],
     [ "~Vector", "classVector.html#a2eb3c49587a4f12cade7895ccb73f6a0", null ],
     [ "operator=", "classVector.html#a20ab31c3182b0b28b6e440e170e4558e", null ],
     [ "operator=", "classVector.html#ae48c467a9f65d60e2f7455aba4ca1239", null ],

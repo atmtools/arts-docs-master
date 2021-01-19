@@ -154,7 +154,7 @@
 <span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
 
 <span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">ArrayOfIndex</span>
-<span class="kn">from</span> <span class="nn">pyarts.classes.GridPosPoly</span> <span class="kn">import</span> <span class="n">ArrayOfGridPosPoly</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.LagrangeInterpolation</span> <span class="kn">import</span> <span class="n">ArrayOfLagrangeInterpolation</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.Matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesTag</span> <span class="kn">import</span> <span class="n">ArrayOfArrayOfSpeciesTag</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.Tensor4</span> <span class="kn">import</span> <span class="n">Tensor4</span>
@@ -175,8 +175,8 @@
 <span class="sd">        f_grid:</span>
 <span class="sd">            The frequency grid [Hz] (Vector)</span>
 
-<span class="sd">        fgp_default:</span>
-<span class="sd">            Frequency grid positions (ArrayOfGridPosPoly)</span>
+<span class="sd">        flag_default:</span>
+<span class="sd">            Frequency lagrange interpolation (ArrayOfLagrangeInterpolation)</span>
 
 <span class="sd">        p_grid:</span>
 <span class="sd">            The pressure grid for the table [Pa] (Vector)</span>
@@ -238,13 +238,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">fgp_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Frequency grid positions (ArrayOfGridPosPoly) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">ArrayOfGridPosPoly</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    <span class="k">def</span> <span class="nf">flag_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Frequency grid positions (ArrayOfLagrangeInterpolation) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfLagrangeInterpolation</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getFLAGDefaultGasAbsLookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
 
-    <span class="nd">@fgp_default</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">fgp_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="nd">@flag_default</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">flag_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flag_default</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">p_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -330,7 +330,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">specs</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">nonlinspecs</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">f_grid</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">fgp_default</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flag_default</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">flag_default</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">p_grid</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">log_p_grid</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">vmrs</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">vmrs</span>
@@ -372,7 +372,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">specs</span> <span class="ow">and</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">nonlinspecs</span> <span class="ow">and</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">f_grid</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">fgp_default</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fgp_default</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">flag_default</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">flag_default</span> <span class="ow">and</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">p_grid</span> <span class="ow">and</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">log_p_grid</span> <span class="ow">and</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">vmrs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">vmrs</span> <span class="ow">and</span> \
@@ -412,8 +412,8 @@
 <span class="n">lib</span><span class="o">.</span><span class="n">getFgridGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">getFgridGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getFGPDefaultGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getFLAGDefaultGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getFLAGDefaultGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
 <span class="n">lib</span><span class="o">.</span><span class="n">getPgridGasAbsLookup</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">getPgridGasAbsLookup</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>

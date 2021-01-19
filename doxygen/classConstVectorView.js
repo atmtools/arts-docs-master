@@ -18,6 +18,7 @@ var classConstVectorView =
     [ "operator=", "classConstVectorView.html#ae5618a946cddb8b0469e426b26186db6", null ],
     [ "operator[]", "classConstVectorView.html#a6fcfa9f7295e91b96642ed67253ffaa3", null ],
     [ "operator[]", "classConstVectorView.html#a59d2bc06f9d5784496f5b1da893275a7", null ],
+    [ "size", "classConstVectorView.html#ada5ccc226feaf0e687c0046e0e73f636", null ],
     [ "sum", "classConstVectorView.html#ac4719c3f6de2777370967cd0e9394ad8", null ],
     [ "ConstComplexVectorView", "classConstVectorView.html#a007a691dd7232fca2e100e03ca612a7e", null ],
     [ "ConstIterator2D", "classConstVectorView.html#a562a2e8191caa3cbe3ce44cecf082187", null ],

@@ -1,6 +1,6 @@
 var m__disort_8cc =
 [
-    [ "DisortCalc", "m__disort_8cc.html#aced2d979639fee69691b621da97e7d59", null ],
+    [ "DisortCalc", "m__disort_8cc.html#a2cd605f790b0161400f1203f4037b0a5", null ],
     [ "DisortCalcClearsky", "m__disort_8cc.html#a227761c4ffea8d9952fce51716b4b8ec", null ],
-    [ "DisortCalcWithARTSSurface", "m__disort_8cc.html#a7a841e71ad3d291c85edc7dc03211474", null ]
+    [ "DisortCalcWithARTSSurface", "m__disort_8cc.html#a9ca183578b68e6bf8191f6ee42241cc6", null ]
 ];

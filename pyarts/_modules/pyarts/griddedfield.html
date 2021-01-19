@@ -617,6 +617,28 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add offset to data stored in field with given fieldname.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">              This method only works, if the first grid</span>
+<span class="sd">              is an :arts:`ArrayOfString`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">              key (str): Name of the field to offset.</span>
+<span class="sd">              offset (float or ndarray): Offset.</span>
+<span class="sd">              dtype (type): Data type used for typecasting. If the original</span>
+<span class="sd">                dtype of ``GriddedField.data`` is ``int``, the data array</span>
+<span class="sd">                gets typecasted to prevent messy behaviour when assigning</span>
+<span class="sd">                scaled values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="c1"># Typecast integer data arrays to prevent unwanted typecast when</span>
+            <span class="c1"># assigning scaled (float) variables back to the (integer) ndarray.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert GriddedField to dictionary.</span>
 

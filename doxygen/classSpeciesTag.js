@@ -1,12 +1,5 @@
 var classSpeciesTag =
 [
-    [ "TYPE_PLAIN", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71badc21fbe9a0f68f754a4e01f4e4be8789", null ],
-    [ "TYPE_ZEEMAN", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71bae84de6a2aca679a2ed771b1bed380c5d", null ],
-    [ "TYPE_PREDEF", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71ba16ea8bb38c0232b1d03ad5c834c5c34b", null ],
-    [ "TYPE_CIA", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71ba9a0d7fd02e3f7c62f9b591a6a28b7c4f", null ],
-    [ "TYPE_FREE_ELECTRONS", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71baf2c336b47f219e224f0d67c69062f270", null ],
-    [ "TYPE_PARTICLES", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71bad8cc7a18bbedcc6ef98fefb26122f42b", null ],
-    [ "TYPE_HITRAN_XSEC", "classSpeciesTag.html#a22c1590283e52323b80fc5a89938f71bacca185eca1d05c617cb30de3c8cbfbce", null ],
     [ "SpeciesTag", "classSpeciesTag.html#a2a711e2275448d40ea7318327ffc6948", null ],
     [ "SpeciesTag", "classSpeciesTag.html#aa3231b0394f6628a5da98430ee63e043", null ],
     [ "BathSpecies", "classSpeciesTag.html#a11a80d1ffbd1088935fca15afc8b2fbf", null ],

@@ -16,7 +16,6 @@ var special__interp_8h =
     [ "interp_cloudfield_gp2itw", "special__interp_8h.html#ab02b35cbde23062cded230e6238dc30d", null ],
     [ "itw2p", "special__interp_8h.html#a95afed62264f9760294d6f5aeeccb074", null ],
     [ "p2gridpos", "special__interp_8h.html#a86527566c07209b1db576715d589ca81", null ],
-    [ "p2gridpos_poly", "special__interp_8h.html#a373f81630ebcb1043f035baa3c6d2699", null ],
     [ "regrid_atmfield_by_gp", "special__interp_8h.html#a32d7878280b388941d6e6d0d55f6c1b8", null ],
     [ "regrid_atmfield_by_gp_oem", "special__interp_8h.html#a64a2a1d67ec9372912a0e8b1d1bd2d7d", null ],
     [ "regrid_atmsurf_by_gp", "special__interp_8h.html#a65b77756ef285c45683c5280754f4070", null ],

@@ -5,6 +5,7 @@ var classmy__basic__string =
     [ "my_basic_string", "classmy__basic__string.html#a26bf41cc246a9d0c845b636459a96f21", null ],
     [ "my_basic_string", "classmy__basic__string.html#ab11f16fe6bde336ed7a289d5249b4186", null ],
     [ "my_basic_string", "classmy__basic__string.html#a8827f36f1adee06b50fffff7a8e09ef9", null ],
+    [ "my_basic_string", "classmy__basic__string.html#ab4f76ee716b88c4fb54dedc2f40d6dbb", null ],
     [ "insert_substr", "classmy__basic__string.html#a328eaf683afe2fcebf4832e1a25984ba", null ],
     [ "nelem", "classmy__basic__string.html#a3637b76008e2387e81318a7c50722a5d", null ],
     [ "operator[]", "classmy__basic__string.html#a0280550c9216b006dfdfd6d53b67b780", null ],

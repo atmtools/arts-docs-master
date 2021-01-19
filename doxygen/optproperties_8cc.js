@@ -35,7 +35,7 @@ var optproperties_8cc =
     [ "PTypeToString", "optproperties_8cc.html#aa1631dbec57c3c3ac879516d0e81eb75", null ],
     [ "PTypeToString", "optproperties_8cc.html#aecbf24b56daf8f98ecee25d816c10516", null ],
     [ "scat_angle", "optproperties_8cc.html#a5bc592cdeb57683eea2465e299b4131b", null ],
-    [ "ssd_tinterp_parameters", "optproperties_8cc.html#a35b8f4c51641e9609dd45208965eee20", null ],
+    [ "ssd_tinterp_parameters", "optproperties_8cc.html#a758763df2ff29576bb261e9d4365cdaa", null ],
     [ "DEG2RAD", "optproperties_8cc.html#ac705b70c1bdd2b02d631e9d9e8bbaed4", null ],
     [ "PI", "optproperties_8cc.html#a9d0fb1720e9df57970c08cc4e3ee0bc0", null ],
     [ "RAD2DEG", "optproperties_8cc.html#a719fe752707a69584d4e2566b60a8354", null ]

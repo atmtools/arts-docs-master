@@ -1,7 +1,6 @@
 var test__propagationmatrix_8cc =
 [
     [ "main", "test__propagationmatrix_8cc.html#a4a94296a6bcb1d67893cf4db36f92eb1", null ],
-    [ "test_ecs20", "test__propagationmatrix_8cc.html#a99c86487104a63beb9ef1876e9e93ca7", null ],
     [ "test_hitran2017", "test__propagationmatrix_8cc.html#a5ec20726f22111faab5e548a5e95ee7d", null ],
     [ "test_matrix_buildup", "test__propagationmatrix_8cc.html#a89f3f373e0f2c60bdea2c0257cf9f38d", null ],
     [ "test_mpm20", "test__propagationmatrix_8cc.html#aae359349e28fe9693206b7759df2512b", null ],

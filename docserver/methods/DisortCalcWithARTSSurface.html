@@ -14,13 +14,17 @@
 <h2>Workspace Method DisortCalcWithARTSSurface</h2>
 <h3>Description</h3>
 <pre>
-DISORT with surface.
+As <a href="DisortCalc.html">DisortCalc</a> but uses <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a>.
+
+The Lambertian surface reflection is set by calling
+<a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a> for a set of angles and taking an
+angular weighed mean value.
 
 </pre>
 
 <p><b>Authors: </b>Claudia Emde, Jana Mendrok
 <h3>Synopsis</h3>
-<p><table><tr><td>DisortCalcWithARTSSurface(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, nstreams, pfct_method, Npfct, quiet )</td></tr></table>
+<p><table><tr><td>DisortCalcWithARTSSurface(&nbsp;</td><td><a href="../variables/cloudbox_field.html">cloudbox_field</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/scat_data_checked.html">scat_data_checked</a>, <a href="../variables/cloudbox_checked.html">cloudbox_checked</a>, <a href="../variables/cloudbox_on.html">cloudbox_on</a>, <a href="../variables/cloudbox_limits.html">cloudbox_limits</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../agendas/surface_rtprop_agenda.html">surface_rtprop_agenda</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/pnd_field.html">pnd_field</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/scat_data.html">scat_data</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/za_grid.html">za_grid</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, nstreams, Npfct, quiet )</td></tr></table>
 <h3>Variables</h3>
 <table>
 <tr><td>OUT</td><td class="right"><a href="../variables/cloudbox_field.html">cloudbox_field</a></td><td>(<a href="../groups/Tensor7.html">Tensor7</a>)</td><td>The spectral radiance field inside the cloudbx.</td></tr>
@@ -38,17 +42,17 @@ DISORT with surface.
 <tr><td>IN</td><td class="right"><a href="../variables/z_field.html">z_field</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>The field of geometrical altitudes.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/vmr_field.html">vmr_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>VMR field.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/p_grid.html">p_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The pressure grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/z_surface.html">z_surface</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The surface altitude.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/scat_data.html">scat_data</a></td><td>(<a href="../groups/ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a>)</td><td>Array of single scattering data.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/za_grid.html">za_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Zenith angle grid.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
 <tr><td>GIN</td><td class="right">nstreams</td><td>(<a href="../groups/Index.html">Index</a>, Default: 8)</td><td>Number of polar angle directions (streams) in DISORT solution (must be an even number).</td></tr>
-<tr><td>GIN</td><td class="right">pfct_method</td><td>(<a href="../groups/String.html">String</a>, Default: "median")</td><td>Flag which method to apply to derive phase function.</td></tr>
-<tr><td>GIN</td><td class="right">Npfct</td><td>(<a href="../groups/Index.html">Index</a>, Default: 181)</td><td>Number of angular grid points to calculate bulk phase function on (and derive Legendre polnomials from). If &lt;0, the finest za_grid from scat_data will be used.</td></tr>
+<tr><td>GIN</td><td class="right">Npfct</td><td>(<a href="../groups/Index.html">Index</a>, Default: 181)</td><td>Number of angular grid points to calculate bulk phase function on (and derive Legendre polynomials from). If &lt;0, the finest za_grid from scat_data will be used.</td></tr>
 <tr><td>GIN</td><td class="right">quiet</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Silence C Disort warnings.</td></tr>
 </table>
 </div>
-<div class="footer">Page generated by arts-2.5.0 (git: b4212b5b)</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 5bdc8a37)</div>
 
 </body>
 </html>

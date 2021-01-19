@@ -21,8 +21,8 @@ var transmissionmatrix_8h =
       [ "Transmission", "transmissionmatrix_8h.html#a1947c06096240117db618f252cd68288aeb2d9ac048f63b514bd26677c6142d1f", null ],
       [ "LinearWeightedEmission", "transmissionmatrix_8h.html#a1947c06096240117db618f252cd68288a0afd9e1a4ba2b379587a2a92d917a4d1", null ]
     ] ],
-    [ "cumulative_backscatter", "transmissionmatrix_8h.html#a0f0f3e55643c28b95c7a54fb8fc8354c", null ],
-    [ "cumulative_backscatter_derivative", "transmissionmatrix_8h.html#a624b2b3212c3f047adc9ecc6c2efca37", null ],
+    [ "bulk_backscatter", "transmissionmatrix_8h.html#a14ffbd20c970cddf18cfe6c247df15ce", null ],
+    [ "bulk_backscatter_derivative", "transmissionmatrix_8h.html#a623d4c5b8fc5b1291d9762411cab1e9e", null ],
     [ "cumulative_transmission", "transmissionmatrix_8h.html#a57eca45abd82de6b67e4b9d7f12ebffa", null ],
     [ "operator*", "transmissionmatrix_8h.html#a0326fcd0b11a02cb4148196e6fa3759c", null ],
     [ "operator*", "transmissionmatrix_8h.html#a6585580e7aba3354c6a84eabb538a371", null ],
@@ -37,5 +37,5 @@ var transmissionmatrix_8h =
     [ "set_backscatter_radiation_vector", "transmissionmatrix_8h.html#a637f4d4cce6338aa007ccb5840e83921", null ],
     [ "stepwise_source", "transmissionmatrix_8h.html#a6ae85fe2ab25a0ffdc8926877396b014", null ],
     [ "stepwise_transmission", "transmissionmatrix_8h.html#ae994057a3084390d1e17b20f973eb467", null ],
-    [ "update_radiation_vector", "transmissionmatrix_8h.html#a28296154037c83a2838e2c6d7a3d2622", null ]
+    [ "update_radiation_vector", "transmissionmatrix_8h.html#ac3338b9245d8cde4cb32e1ec5e03e3c4", null ]
 ];

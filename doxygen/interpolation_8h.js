@@ -52,6 +52,5 @@ var interpolation_8h =
     [ "interpweights", "interpolation_8h.html#af612d8db23442f57077c1fcf54d64f86", null ],
     [ "interpweights", "interpolation_8h.html#afa900cc19953c6762bc3445629f4ff2d", null ],
     [ "is_gridpos_at_index_i", "interpolation_8h.html#a129543e35bb0092ff413277a59cb16dc", null ],
-    [ "operator<<", "interpolation_8h.html#ac99932c03c52691a7776164e2ac9b511", null ],
-    [ "polint", "interpolation_8h.html#a206529a7abbccc73d8e9c81f22165b04", null ]
+    [ "operator<<", "interpolation_8h.html#ac99932c03c52691a7776164e2ac9b511", null ]
 ];
