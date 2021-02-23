@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -97,7 +104,7 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classGasAbsLookup.html#a02c5318a4646340d48910eb09a5957a1">   49</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="nc__io__compound__types_8cc.html#a02c5318a4646340d48910eb09a5957a1">nca_read_from_file</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> ncid, <a class="code" href="classGasAbsLookup.html">GasAbsLookup</a>&amp; gal, <span class="keyword">const</span> <a class="code" href="classVerbosity.html">Verbosity</a>&amp;) {</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="nc__io_8cc.html#a87d86858cc6c07ecedf75a10734a9640">nca_get_data_ArrayOfArrayOfSpeciesTag</a>(ncid, <span class="stringliteral">&quot;species&quot;</span>, gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span> (!gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>())</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span> (!gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>())</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;No species found in lookup table file!&quot;</span>);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="nc__io_8cc.html#a8083ec913679979d20f70c0e597d8498">nca_get_data_ArrayOfIndex</a>(</div>
@@ -120,14 +127,14 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordtype">int</span> species_strings_varid;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">int</span> species_count_varid;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <a class="code" href="classArray.html">ArrayOfIndex</a> species_count(gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>());</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <a class="code" href="classArray.html">ArrayOfIndex</a> species_count(gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>());</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> species_max_strlen = 0;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordtype">char</span>* species_strings = NULL;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span> (gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>()) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span> (gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>()) {</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">long</span> species_total_nelems = 0;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nspecies = 0; nspecies &lt; gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>(); nspecies++) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nspecies_nelem = gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>[nspecies].<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nspecies = 0; nspecies &lt; gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>(); nspecies++) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nspecies_nelem = gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>[nspecies].<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>();</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      species_total_nelems += nspecies_nelem;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      species_count[nspecies] = nspecies_nelem;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
@@ -135,7 +142,7 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;           it != gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>[nspecies].end();</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;           it++)</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">if</span> (it-&gt;Name().nelem() &gt; species_max_strlen)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;          species_max_strlen = it-&gt;Name().<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;          species_max_strlen = it-&gt;Name().<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>();</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    species_max_strlen++;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
@@ -193,7 +200,7 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">// Write variables</span></div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <a class="code" href="nc__io_8cc.html#add572fcd1562b230154a5ea5f232cfc0">nca_put_var_ArrayOfIndex</a>(ncid, species_count_varid, species_count);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keywordflow">if</span> (gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">nelem</a>()) {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keywordflow">if</span> (gal.<a class="code" href="classGasAbsLookup.html#afca7e010cf1a8588ef9096bc35d2c021">species</a>.<a class="code" href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">nelem</a>()) {</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> ((retval =</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;             nc_put_var_text(ncid, species_strings_varid, species_strings)))</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <a class="code" href="nc__io_8cc.html#afbe9759011bb25c738a40399c60cccbd">nca_error</a>(retval, <span class="stringliteral">&quot;nc_put_var&quot;</span>);</div>
@@ -234,7 +241,7 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div class="ttc" id="aarts_8h_html"><div class="ttname"><a href="arts_8h.html">arts.h</a></div><div class="ttdoc">The global header file for ARTS.</div></div>
 <div class="ttc" id="aclassAgenda_html"><div class="ttname"><a href="classAgenda.html">Agenda</a></div><div class="ttdoc">The Agenda class.</div><div class="ttdef"><b>Definition:</b> <a href="agenda__class_8h_source.html#l00044">agenda_class.h:44</a></div></div>
 <div class="ttc" id="aclassArray_html"><div class="ttname"><a href="classArray.html">Array&lt; Index &gt;</a></div></div>
-<div class="ttc" id="aclassArray_html_a90ce1cf3f99646da9d0efd6e8a661369"><div class="ttname"><a href="classArray.html#a90ce1cf3f99646da9d0efd6e8a661369">Array::nelem</a></div><div class="ttdeci">Index nelem() const</div><div class="ttdoc">Number of elements.</div><div class="ttdef"><b>Definition:</b> <a href="array_8h_source.html#l00195">array.h:195</a></div></div>
+<div class="ttc" id="aclassArray_html_ac42eea7e26fa0bb8117f92cdf091eaa1"><div class="ttname"><a href="classArray.html#ac42eea7e26fa0bb8117f92cdf091eaa1">Array::nelem</a></div><div class="ttdeci">Index nelem() const ARTS_NOEXCEPT</div><div class="ttdoc">Number of elements.</div><div class="ttdef"><b>Definition:</b> <a href="array_8h_source.html#l00195">array.h:195</a></div></div>
 <div class="ttc" id="aclassGasAbsLookup_html"><div class="ttname"><a href="classGasAbsLookup.html">GasAbsLookup</a></div><div class="ttdoc">An absorption lookup table.</div><div class="ttdef"><b>Definition:</b> <a href="gas__abs__lookup_8h_source.html#l00045">gas_abs_lookup.h:45</a></div></div>
 <div class="ttc" id="aclassGasAbsLookup_html_a09bf4ca44fd842e4e5e247f00bcec19b"><div class="ttname"><a href="classGasAbsLookup.html#a09bf4ca44fd842e4e5e247f00bcec19b">GasAbsLookup::p_grid</a></div><div class="ttdeci">Vector p_grid</div><div class="ttdoc">The pressure grid for the table [Pa].</div><div class="ttdef"><b>Definition:</b> <a href="gas__abs__lookup_8h_source.html#l00223">gas_abs_lookup.h:223</a></div></div>
 <div class="ttc" id="aclassGasAbsLookup_html_a0cb27b69bef40319e1e183679155f678"><div class="ttname"><a href="classGasAbsLookup.html#a0cb27b69bef40319e1e183679155f678">GasAbsLookup::xsec</a></div><div class="ttdeci">Tensor4 xsec</div><div class="ttdoc">Absorption cross sections.</div><div class="ttdef"><b>Definition:</b> <a href="gas__abs__lookup_8h_source.html#l00309">gas_abs_lookup.h:309</a></div></div>
@@ -275,7 +282,7 @@ $(document).ready(function(){initNavTree('nc__io__compound__types_8cc_source.htm
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="nc__io__compound__types_8cc.html">nc_io_compound_types.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:59 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:16 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

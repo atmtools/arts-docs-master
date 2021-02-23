@@ -9,5 +9,8 @@ var artstime_8h =
     [ "operator<<", "artstime_8h.html#a0287b008277738b9882ed96467e8b4f8", null ],
     [ "operator<<", "artstime_8h.html#a4f0b8df8263775e6e2aaf7f5b1d217d3", null ],
     [ "operator>>", "artstime_8h.html#ac1315fcbe22ec134af68e7f6468344f6", null ],
-    [ "time_steps", "artstime_8h.html#a3158b0fada9710ac96dca7fa207ac1e6", null ]
+    [ "time_stepper_selection", "artstime_8h.html#a3a6054c7708ccd28f630f6109e18e48a", null ],
+    [ "time_steps", "artstime_8h.html#a1a815134b87476868b188879f61244fa", null ],
+    [ "time_vector", "artstime_8h.html#a44c8136c6a008578526233bf4ab6ae6e", null ],
+    [ "time_vector", "artstime_8h.html#a7f8ab947fa077ac31f90414893123c52", null ]
 ];

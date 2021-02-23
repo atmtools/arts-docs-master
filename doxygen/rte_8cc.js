@@ -16,7 +16,7 @@ var rte_8cc =
     [ "get_ppath_f", "rte_8cc.html#a479d8a031238eb16ac5ff71eb26540e2", null ],
     [ "get_rowindex_for_mblock", "rte_8cc.html#ae9a519cd9f0fb2458f16448e37b7e5b6", null ],
     [ "get_stepwise_blackbody_radiation", "rte_8cc.html#afce9409c2e5b08f1bc43d28d394c7617", null ],
-    [ "get_stepwise_clearsky_propmat", "rte_8cc.html#abefe7d261f8442c98771b4fb6fdf2a0c", null ],
+    [ "get_stepwise_clearsky_propmat", "rte_8cc.html#abf32dfa2cc5e3ec75e2efee5d0dbf7e3", null ],
     [ "get_stepwise_effective_source", "rte_8cc.html#a1e77464e3855c1ce387c0faaeee1a574", null ],
     [ "get_stepwise_f_partials", "rte_8cc.html#ae425cad9fdaf15b6b5e41eb804596581", null ],
     [ "get_stepwise_frequency_grid", "rte_8cc.html#ab6216bdff6aa1d80d6ca90d37e5bcd20", null ],

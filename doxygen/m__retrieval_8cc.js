@@ -41,7 +41,7 @@ var m__retrieval_8cc =
     [ "retrievalAddFreqShift", "m__retrieval_8cc.html#a29361f17770e33c7c7c149b05deec0ac", null ],
     [ "retrievalAddFreqStretch", "m__retrieval_8cc.html#ab7db5851d6246d0a2d2b61db7ed05f2d", null ],
     [ "retrievalAddMagField", "m__retrieval_8cc.html#a723fd313a92027e37b3f89ded543bcc6", null ],
-    [ "retrievalAddPointingZa", "m__retrieval_8cc.html#aff03b91d439d60c7e47a5d2ad5395614", null ],
+    [ "retrievalAddPointingZa", "m__retrieval_8cc.html#a685c07aa7ce37d24857ebc8650ee46f9", null ],
     [ "retrievalAddPolyfit", "m__retrieval_8cc.html#a49b41cb1099331542d54b3cef193ac94", null ],
     [ "retrievalAddScatSpecies", "m__retrieval_8cc.html#ae094d747d34335fa87ec8ea1aba8f40d", null ],
     [ "retrievalAddSinefit", "m__retrieval_8cc.html#a8b1ec9cc4c52f61cc78f5faade79e66c", null ],

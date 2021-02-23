@@ -15,6 +15,7 @@ var zeemandata_8h =
     [ "AllPolarization_deta", "zeemandata_8h.html#a96b59a04056f0a03e453b1ef20cb2001", null ],
     [ "AllPolarization_dtheta", "zeemandata_8h.html#a9b314911099e23d5ba39f218fbda9797", null ],
     [ "dM", "zeemandata_8h.html#a1125330405766d041c95e34568b2fe3d", null ],
+    [ "dsum", "zeemandata_8h.html#aaaefef6c598b9c612551eab0a1517b0d", null ],
     [ "end", "zeemandata_8h.html#afd21c87c99c343559868405d885294f5", null ],
     [ "FromGrids", "zeemandata_8h.html#a8d838e2350671563ac42471964476b0a", null ],
     [ "FromPreDerived", "zeemandata_8h.html#a74a9f61e98a2ef10a9d2b287fbfc1bb5", null ],
@@ -33,5 +34,6 @@ var zeemandata_8h =
     [ "SimpleG", "zeemandata_8h.html#abb199672adba52aed96db26c670648a8", null ],
     [ "SimpleGCaseA", "zeemandata_8h.html#a7e094b4bb29dede451bd5e8085abba3e", null ],
     [ "SimpleGCaseB", "zeemandata_8h.html#a34c8531c2eac7c6b4fd4df92b14e097d", null ],
-    [ "start", "zeemandata_8h.html#a5a24367cfa454aeb6730983395042ecf", null ]
+    [ "start", "zeemandata_8h.html#a5a24367cfa454aeb6730983395042ecf", null ],
+    [ "sum", "zeemandata_8h.html#ada86e29061b1eb5782e9162d41fa7bcb", null ]
 ];

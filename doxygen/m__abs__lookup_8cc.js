@@ -19,8 +19,8 @@ var m__abs__lookup_8cc =
     [ "f_gridFromGasAbsLookup", "m__abs__lookup_8cc.html#a470c5e826c195a8662317bbc5e9b7fb5", null ],
     [ "find_nonlinear_continua", "m__abs__lookup_8cc.html#a5f474278306fb5a3b443ecc07cc8babb", null ],
     [ "p_gridFromGasAbsLookup", "m__abs__lookup_8cc.html#ab75f7df6ca834f942c448658f2bdeba0", null ],
-    [ "propmat_clearsky_fieldCalc", "m__abs__lookup_8cc.html#a97d39fde94b654ccbd27ddcc99d2fc6c", null ],
-    [ "propmat_clearskyAddFromLookup", "m__abs__lookup_8cc.html#af15b31ef9165a4c465b5d97c1d20d2e1", null ],
+    [ "propmat_clearsky_fieldCalc", "m__abs__lookup_8cc.html#a8b6bf0d8d76e00c8438a7da4db66dbb5", null ],
+    [ "propmat_clearskyAddFromLookup", "m__abs__lookup_8cc.html#a814ef5f38861e33b4bee2636383a2de4", null ],
     [ "GFIELD4_FIELD_NAMES", "m__abs__lookup_8cc.html#a3c2d5e784adf54dc3ae8dec4204b82e1", null ],
     [ "GFIELD4_P_GRID", "m__abs__lookup_8cc.html#a0c77645e72dc80901060b391e92057a8", null ]
 ];

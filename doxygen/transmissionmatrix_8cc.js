@@ -17,6 +17,8 @@ var transmissionmatrix_8cc =
     [ "operator>>", "transmissionmatrix_8cc.html#a7cbc88df26e50efb1d2adedc3453aeb7", null ],
     [ "operator>>", "transmissionmatrix_8cc.html#a590e224e36b6ccc387c47369c90d2553", null ],
     [ "set_backscatter_radiation_vector", "transmissionmatrix_8cc.html#a637f4d4cce6338aa007ccb5840e83921", null ],
+    [ "source_vector", "transmissionmatrix_8cc.html#a2a3f35bb92e13f42e88cc9b1e122aff6", null ],
+    [ "source_vector", "transmissionmatrix_8cc.html#aee91a70bf63482fe714866fe74f68e8c", null ],
     [ "stepwise_source", "transmissionmatrix_8cc.html#a6ae85fe2ab25a0ffdc8926877396b014", null ],
     [ "stepwise_transmission", "transmissionmatrix_8cc.html#ae994057a3084390d1e17b20f973eb467", null ],
     [ "transmat", "transmissionmatrix_8cc.html#ac6087da00a5e7f7fce9e2792844331bd", null ],
@@ -25,9 +27,5 @@ var transmissionmatrix_8cc =
     [ "transmat3", "transmissionmatrix_8cc.html#a09b6db48468ceef44d12320f0b4c3aed", null ],
     [ "transmat4", "transmissionmatrix_8cc.html#a319ae82c9b15ffba1bc193743059a7a5", null ],
     [ "update_radiation_vector", "transmissionmatrix_8cc.html#a6f50887f08b78ee69ce4614f10670e65", null ],
-    [ "vector1", "transmissionmatrix_8cc.html#a726e87021a2561300968e98ffc4a6a5e", null ],
-    [ "vector2", "transmissionmatrix_8cc.html#a922b17a346b3aa760652a494b9c348cc", null ],
-    [ "vector3", "transmissionmatrix_8cc.html#a0b649ae2787be1942f149ca9294c192e", null ],
-    [ "vector4", "transmissionmatrix_8cc.html#ad534b8fd3c5f3d94b856f3c44a56e011", null ],
     [ "lower_is_considered_zero_for_sinc_likes", "transmissionmatrix_8cc.html#a190cae0ab25c50a6ff8a981e1adb7183", null ]
 ];

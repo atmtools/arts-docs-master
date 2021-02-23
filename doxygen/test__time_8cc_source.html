@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -83,7 +90,7 @@ $(document).ready(function(){initNavTree('test__time_8cc_source.html',''); initR
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="artstime_8h.html">artstime.h</a>&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="test__time_8cc.html#adde7594d3b4cf43a89b0701e2948f45e">   28</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="test__time_8cc.html#adde7594d3b4cf43a89b0701e2948f45e">test01</a>() {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keyword">auto</span> <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>=<a class="code" href="artstime_8h.html#a9abf966a40e7e1e971416b5feca9bb43">ArrayOfTime</a>(40000, <a class="code" href="namespaceARTS_1_1Group.html#a60e5e6c0ae7947e82bc84dde683faad9">Time</a>(4));</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keyword">auto</span> <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>=<a class="code" href="artstime_8h.html#a9abf966a40e7e1e971416b5feca9bb43">ArrayOfTime</a>(40000, <a class="code" href="classTime.html">Time</a>(4));</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="comment">// Set the steps 0.5 seconds appard</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i=0; i&lt;<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>.nelem(); i++)</div>
@@ -91,7 +98,7 @@ $(document).ready(function(){initNavTree('test__time_8cc_source.html',''); initR
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="comment">// Find every start of 5 seconds</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">auto</span> time_str = <span class="stringliteral">&quot;5 seconds&quot;</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">auto</span> limits = <a class="code" href="artstime_8cc.html#a3158b0fada9710ac96dca7fa207ac1e6">time_steps</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, time_str);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">auto</span> limits = <a class="code" href="artstime_8cc.html#a341be44cad693b43a6c6c8a64e9b3473">time_steps</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, <a class="code" href="artstime_8cc.html#a3a6054c7708ccd28f630f6109e18e48a">time_stepper_selection</a>(time_str));</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::cout &lt;&lt; <span class="stringliteral">&quot;The &quot;</span> &lt;&lt; time_str &lt;&lt; <span class="stringliteral">&quot; intervals are:\n&quot;</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i=0; i&lt;limits.nelem()-2; i++)</div>
@@ -103,14 +110,15 @@ $(document).ready(function(){initNavTree('test__time_8cc_source.html',''); initR
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="test__time_8cc.html#adde7594d3b4cf43a89b0701e2948f45e">test01</a>();</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="ttc" id="aartstime_8cc_html_a3158b0fada9710ac96dca7fa207ac1e6"><div class="ttname"><a href="artstime_8cc.html#a3158b0fada9710ac96dca7fa207ac1e6">time_steps</a></div><div class="ttdeci">ArrayOfIndex time_steps(const ArrayOfTime &amp;times, const String &amp;step)</div><div class="ttdoc">Finds the index matching demands in a list of times.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8cc_source.html#l00060">artstime.cc:60</a></div></div>
+<div class="ttc" id="aartstime_8cc_html_a341be44cad693b43a6c6c8a64e9b3473"><div class="ttname"><a href="artstime_8cc.html#a341be44cad693b43a6c6c8a64e9b3473">time_steps</a></div><div class="ttdeci">ArrayOfIndex time_steps(const ArrayOfTime &amp;times, const TimeStep &amp;DT)</div><div class="ttdoc">Finds the index matching demands in a list of times.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8cc_source.html#l00079">artstime.cc:79</a></div></div>
+<div class="ttc" id="aartstime_8cc_html_a3a6054c7708ccd28f630f6109e18e48a"><div class="ttname"><a href="artstime_8cc.html#a3a6054c7708ccd28f630f6109e18e48a">time_stepper_selection</a></div><div class="ttdeci">TimeStep time_stepper_selection(const String &amp;time_step)</div><div class="ttdoc">Returns a time step from valid string.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8cc_source.html#l00038">artstime.cc:38</a></div></div>
 <div class="ttc" id="aartstime_8h_html"><div class="ttname"><a href="artstime_8h.html">artstime.h</a></div><div class="ttdoc">Stuff related to time in ARTS.</div></div>
-<div class="ttc" id="aartstime_8h_html_a305908439f6ae155b512c040de4fb1e9"><div class="ttname"><a href="artstime_8h.html#a305908439f6ae155b512c040de4fb1e9">TimeStep</a></div><div class="ttdeci">std::chrono::duration&lt; Numeric &gt; TimeStep</div><div class="ttdoc">A duration of time, 1 full tick should be 1 second.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8h_source.html#l00037">artstime.h:37</a></div></div>
-<div class="ttc" id="aartstime_8h_html_a9abf966a40e7e1e971416b5feca9bb43"><div class="ttname"><a href="artstime_8h.html#a9abf966a40e7e1e971416b5feca9bb43">ArrayOfTime</a></div><div class="ttdeci">Array&lt; Time &gt; ArrayOfTime</div><div class="ttdoc">List of times.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8h_source.html#l00081">artstime.h:81</a></div></div>
-<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00495">m_absorptionlines.cc:495</a></div></div>
+<div class="ttc" id="aartstime_8h_html_a305908439f6ae155b512c040de4fb1e9"><div class="ttname"><a href="artstime_8h.html#a305908439f6ae155b512c040de4fb1e9">TimeStep</a></div><div class="ttdeci">std::chrono::duration&lt; Numeric &gt; TimeStep</div><div class="ttdoc">A duration of time, 1 full tick should be 1 second.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8h_source.html#l00038">artstime.h:38</a></div></div>
+<div class="ttc" id="aartstime_8h_html_a9abf966a40e7e1e971416b5feca9bb43"><div class="ttname"><a href="artstime_8h.html#a9abf966a40e7e1e971416b5feca9bb43">ArrayOfTime</a></div><div class="ttdeci">Array&lt; Time &gt; ArrayOfTime</div><div class="ttdoc">List of times.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8h_source.html#l00086">artstime.h:86</a></div></div>
+<div class="ttc" id="aclassTime_html"><div class="ttname"><a href="classTime.html">Time</a></div><div class="ttdoc">Class to handle time in ARTS.</div><div class="ttdef"><b>Definition:</b> <a href="artstime_8h_source.html#l00041">artstime.h:41</a></div></div>
+<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00479">m_absorptionlines.cc:479</a></div></div>
 <div class="ttc" id="amatpack_8h_html_ad9a8dbb27c0bbea7271d916036122f6a"><div class="ttname"><a href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a></div><div class="ttdeci">NUMERIC Numeric</div><div class="ttdoc">The type to use for all floating point numbers.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00033">matpack.h:33</a></div></div>
 <div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Group_html_a60e5e6c0ae7947e82bc84dde683faad9"><div class="ttname"><a href="namespaceARTS_1_1Group.html#a60e5e6c0ae7947e82bc84dde683faad9">ARTS::Group::Time</a></div><div class="ttdeci">Time Time</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l00110">autoarts.h:110</a></div></div>
 <div class="ttc" id="atest__time_8cc_html_adde7594d3b4cf43a89b0701e2948f45e"><div class="ttname"><a href="test__time_8cc.html#adde7594d3b4cf43a89b0701e2948f45e">test01</a></div><div class="ttdeci">void test01()</div><div class="ttdef"><b>Definition:</b> <a href="test__time_8cc_source.html#l00028">test_time.cc:28</a></div></div>
 <div class="ttc" id="atest__time_8cc_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="test__time_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="test__time_8cc_source.html#l00045">test_time.cc:45</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -119,7 +127,7 @@ $(document).ready(function(){initNavTree('test__time_8cc_source.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="test__time_8cc.html">test_time.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:59 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:17 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

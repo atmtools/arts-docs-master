@@ -10,8 +10,6 @@ var lineshapemodel_8cc =
     [ "x1", "lineshapemodel_8cc.html#a3818b7c50ae3cf2e9ae39316586a1aa4", null ],
     [ "x2", "lineshapemodel_8cc.html#ab24e1cc331c488f6a1623cde1564c644", null ],
     [ "x3", "lineshapemodel_8cc.html#a5bdef1e4ef34037b8882dcc778f83fe9", null ],
-    [ "AllLineShapeCoeffs", "lineshapemodel_8cc.html#aa161de681cf7dbcd8c360c2f94d8cedc", null ],
-    [ "AllLineShapeVars", "lineshapemodel_8cc.html#ad3a0876b6295b23c727250e5e5b73997", null ],
     [ "linemixingtag2variablesvector", "lineshapemodel_8cc.html#a772197c071aec9836a8540a9b5d6586b", null ],
     [ "lineshapetag2variablesvector", "lineshapemodel_8cc.html#ad50edb6ddf33cef7d39969e008d46a38", null ],
     [ "operator<<", "lineshapemodel_8cc.html#ac9c34ea4643b7468926c92d55aec9aa3", null ],

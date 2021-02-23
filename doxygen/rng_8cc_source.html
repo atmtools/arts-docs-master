@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -224,17 +231,17 @@ $(document).ready(function(){initNavTree('rng_8cc_source.html',''); initResizabl
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">int</span> kk;</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">for</span> (kk = 0; kk &lt; <a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - <a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a>; kk++) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> = (mt[kk] &amp; UPPER_MASK) | (mt[kk + 1] &amp; LOWER_MASK);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      mt[kk] = mt[kk + <a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a>] ^ (<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> y = (mt[kk] &amp; UPPER_MASK) | (mt[kk + 1] &amp; LOWER_MASK);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      mt[kk] = mt[kk + <a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a>] ^ (y &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(y);</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    }</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">for</span> (; kk &lt; <a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - 1; kk++) {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> = (mt[kk] &amp; UPPER_MASK) | (mt[kk + 1] &amp; LOWER_MASK);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      mt[kk] = mt[kk + (<a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a> - <a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a>)] ^ (<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> y = (mt[kk] &amp; UPPER_MASK) | (mt[kk + 1] &amp; LOWER_MASK);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      mt[kk] = mt[kk + (<a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a> - <a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a>)] ^ (y &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(y);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> = (mt[<a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - 1] &amp; UPPER_MASK) | (mt[0] &amp; LOWER_MASK);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      mt[<a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - 1] = mt[<a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a> - 1] ^ (<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a> &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> y = (mt[<a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - 1] &amp; UPPER_MASK) | (mt[0] &amp; LOWER_MASK);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      mt[<a class="code" href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a> - 1] = mt[<a class="code" href="rng_8cc.html#a52037c938e3c1b126c6277da5ca689d0">M</a> - 1] ^ (y &gt;&gt; 1) ^ <a class="code" href="rng_8cc.html#a15fc081127995a0fdd18501e620276c0">MAGIC</a>(y);</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    }</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    state-&gt;<a class="code" href="structmt__state__t.html#ade90d30b78324b4f1213a9d6536bb58d">mti</a> = 0;</div>
@@ -587,12 +594,11 @@ $(document).ready(function(){initNavTree('rng_8cc_source.html',''); initResizabl
 <div class="ttc" id="aclassRng_html_ae064cc00f1d1ec19b728dcf62967c524"><div class="ttname"><a href="classRng.html#ae064cc00f1d1ec19b728dcf62967c524">Rng::force_seed</a></div><div class="ttdeci">void force_seed(unsigned long int n)</div><div class="ttdoc">Seeds the Rng with the integer argument.</div><div class="ttdef"><b>Definition:</b> <a href="rng_8cc_source.html#l00089">rng.cc:89</a></div></div>
 <div class="ttc" id="aclassVerbosity_html"><div class="ttname"><a href="classVerbosity.html">Verbosity</a></div><div class="ttdef"><b>Definition:</b> <a href="messages_8h_source.html#l00049">messages.h:49</a></div></div>
 <div class="ttc" id="aconfig_8h_html_acbe25e5efbc6252455b6ff0219412181"><div class="ttname"><a href="config_8h.html#acbe25e5efbc6252455b6ff0219412181">_U_</a></div><div class="ttdeci">#define _U_</div><div class="ttdef"><b>Definition:</b> <a href="config_8h_source.html#l00183">config.h:183</a></div></div>
-<div class="ttc" id="alegacy__continua_8cc_html_a3d866bcc3e6368bb95201907177c539b"><div class="ttname"><a href="legacy__continua_8cc.html#a3d866bcc3e6368bb95201907177c539b">q</a></div><div class="ttdeci">#define q</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l21712">legacy_continua.cc:21712</a></div></div>
-<div class="ttc" id="am__absorptionlines_8cc_html_a912988c7ba3710b2d2a6a161a562d1b1"><div class="ttname"><a href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a></div><div class="ttdeci">const String const Numeric const Numeric const String const String const String const String const String const String const String const String const Numeric const Numeric const Verbosity &amp; verbosity</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00447">m_absorptionlines.cc:448</a></div></div>
-<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00495">m_absorptionlines.cc:495</a></div></div>
+<div class="ttc" id="alegacy__continua_8cc_html_a3d866bcc3e6368bb95201907177c539b"><div class="ttname"><a href="legacy__continua_8cc.html#a3d866bcc3e6368bb95201907177c539b">q</a></div><div class="ttdeci">#define q</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l21699">legacy_continua.cc:21699</a></div></div>
+<div class="ttc" id="am__absorptionlines_8cc_html_a912988c7ba3710b2d2a6a161a562d1b1"><div class="ttname"><a href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a></div><div class="ttdeci">const String const Numeric const Numeric const String const String const String const String const String const String const String const String const Numeric const Numeric const Verbosity &amp; verbosity</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00431">m_absorptionlines.cc:432</a></div></div>
+<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00479">m_absorptionlines.cc:479</a></div></div>
 <div class="ttc" id="amessages_8h_html"><div class="ttname"><a href="messages_8h.html">messages.h</a></div><div class="ttdoc">Declarations having to do with the four output streams.</div></div>
 <div class="ttc" id="amessages_8h_html_adc7365da9cfec3393d8a588531924ef4"><div class="ttname"><a href="messages_8h.html#adc7365da9cfec3393d8a588531924ef4">CREATE_OUT0</a></div><div class="ttdeci">#define CREATE_OUT0</div><div class="ttdef"><b>Definition:</b> <a href="messages_8h_source.html#l00204">messages.h:204</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_adb488742dfe7a156414f354acd168e75"><div class="ttname"><a href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">ARTS::Var::y</a></div><div class="ttdeci">Vector y(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l07401">autoarts.h:7401</a></div></div>
 <div class="ttc" id="arng_8cc_html_a0240ac851181b84ac374872dc5434ee4"><div class="ttname"><a href="rng_8cc.html#a0240ac851181b84ac374872dc5434ee4">N</a></div><div class="ttdeci">#define N</div><div class="ttdef"><b>Definition:</b> <a href="rng_8cc_source.html#l00164">rng.cc:164</a></div></div>
 <div class="ttc" id="arng_8cc_html_a0de9c61d01e1b7b4dc037a81e6bebcd4"><div class="ttname"><a href="rng_8cc.html#a0de9c61d01e1b7b4dc037a81e6bebcd4">gsl_stream_printf</a></div><div class="ttdeci">void gsl_stream_printf(const char *label, const char *file, int line, const char *reason)</div><div class="ttdef"><b>Definition:</b> <a href="rng_8cc_source.html#l00315">rng.cc:315</a></div></div>
 <div class="ttc" id="arng_8cc_html_a0e81b9f513128cd7f51e9708da6979d7"><div class="ttname"><a href="rng_8cc.html#a0e81b9f513128cd7f51e9708da6979d7">gsl_rng_print_state</a></div><div class="ttdeci">void gsl_rng_print_state(const gsl_rng *r)</div><div class="ttdef"><b>Definition:</b> <a href="rng_8cc_source.html#l00527">rng.cc:527</a></div></div>
@@ -654,7 +660,7 @@ $(document).ready(function(){initNavTree('rng_8cc_source.html',''); initResizabl
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="rng_8cc.html">rng.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:59 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:16 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

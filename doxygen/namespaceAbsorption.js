@@ -2,7 +2,7 @@ var namespaceAbsorption =
 [
     [ "LineMixing", "namespaceAbsorption_1_1LineMixing.html", "namespaceAbsorption_1_1LineMixing" ],
     [ "PredefinedModel", "namespaceAbsorption_1_1PredefinedModel.html", [
-      [ "makarov2020_o2_lines_mpm", "namespaceAbsorption_1_1PredefinedModel.html#afcbb9889da7ffbfe8eee3e6ad67891c9", null ]
+      [ "makarov2020_o2_lines_mpm", "namespaceAbsorption_1_1PredefinedModel.html#ad695f07c424af863987aaca23d3cb22b", null ]
     ] ],
     [ "SingleLine", "classAbsorption_1_1SingleLine.html", "classAbsorption_1_1SingleLine" ],
     [ "SingleLineExternal", "structAbsorption_1_1SingleLineExternal.html", "structAbsorption_1_1SingleLineExternal" ],
@@ -10,6 +10,7 @@ var namespaceAbsorption =
     [ "createEmptyCopy", "namespaceAbsorption.html#aa3734d803690e797962259d9a9b27846", null ],
     [ "cutofftype2metadatastring", "namespaceAbsorption.html#a337694afbb01aaf792a0bfaec313f24c", null ],
     [ "ENUMCLASS", "namespaceAbsorption.html#ab82a70d92dc443e648a20a5ee3975749", null ],
+    [ "ENUMCLASS", "namespaceAbsorption.html#a6597bedbf7657523ff5250c3af7dd524", null ],
     [ "ENUMCLASS", "namespaceAbsorption.html#a25ef729f234f2b83b94db35f4d7a4d0a", null ],
     [ "ENUMCLASS", "namespaceAbsorption.html#a58709d3064451c03f1329ea9f544c5a6", null ],
     [ "id_in_line", "namespaceAbsorption.html#a1554ecf51c40489e7f2a9f77a3314511", null ],

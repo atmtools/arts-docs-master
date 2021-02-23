@@ -26,8 +26,6 @@ var lineshapemodel_8h =
       [ "PB_AIR_AND_WATER_BROADENING", "lineshapemodel_8h.html#ac684e0546b20f417b91a1bd707e5fcc1a3f6e9caab6b96b41d3af7b991a514f09", null ],
       [ "PB_PLANETARY_BROADENING", "lineshapemodel_8h.html#ac684e0546b20f417b91a1bd707e5fcc1ac16f20b3fb164ed41bd50a417bd72170", null ]
     ] ],
-    [ "AllLineShapeCoeffs", "lineshapemodel_8h.html#aa161de681cf7dbcd8c360c2f94d8cedc", null ],
-    [ "AllLineShapeVars", "lineshapemodel_8h.html#ad3a0876b6295b23c727250e5e5b73997", null ],
     [ "differenceOutput", "lineshapemodel_8h.html#a1b74934193325dbd669ea6a5e2d80dfb", null ],
     [ "ENUMCLASS", "lineshapemodel_8h.html#aa19b9d3a76753aeb567b341bff3e7a29", null ],
     [ "from_artscat4", "lineshapemodel_8h.html#aaf67727539083aaf7a32b3d7a2cc1b3a", null ],

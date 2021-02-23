@@ -23,6 +23,7 @@ var classCovarianceMatrix =
     [ "nblocks", "classCovarianceMatrix.html#aee8d6c00663c8f69a088a1de405cf605", null ],
     [ "ncols", "classCovarianceMatrix.html#afe06c627a9cf3a83437936c5c25331e3", null ],
     [ "ndiagblocks", "classCovarianceMatrix.html#adf54d84f38afe1a61b4ab8790c9fce58", null ],
+    [ "ninvdiagblocks", "classCovarianceMatrix.html#af08e4bfe24d50b55e889e11bc2ed40cc", null ],
     [ "nrows", "classCovarianceMatrix.html#ad5a98396b594f668d2fe2e5b53907fec", null ],
     [ "operator Matrix", "classCovarianceMatrix.html#a249097a9ed8338a4297771f5517c673d", null ],
     [ "operator=", "classCovarianceMatrix.html#a070411fe42daa5184b948d82dd004bfa", null ],

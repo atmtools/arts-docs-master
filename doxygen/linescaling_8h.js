@@ -1,6 +1,6 @@
 var linescaling_8h =
 [
-    [ "absorption_nlte_ratio", "linescaling_8h.html#a6651d94c1c79e88c620527fedc47c060", null ],
+    [ "absorption_nlte_ratio", "linescaling_8h.html#a26a4ef256e4c0d554d2d0f6d06affe64", null ],
     [ "boltzman_factor", "linescaling_8h.html#a136f96a8a4f9d6c3936d43703302d636", null ],
     [ "boltzman_ratio", "linescaling_8h.html#a64bc2ecc08425b72e2a5d6355ed2fa1a", null ],
     [ "dabsorption_nlte_rate_dF0", "linescaling_8h.html#ab615b0d94a8313a5baf8764378713dd5", null ],
@@ -11,12 +11,12 @@ var linescaling_8h =
     [ "dboltzman_factordT", "linescaling_8h.html#a18439c85025ace28e50d26500066090f", null ],
     [ "dboltzman_ratio_dT", "linescaling_8h.html#a746c537f064ec9a55f83895f47ed175a", null ],
     [ "dboltzman_ratio_dT_div_boltzmann_ratio", "linescaling_8h.html#ab02b2429fe31010a5fba44b8091a178b", null ],
-    [ "dsingle_partition_function_dT", "linescaling_8h.html#ab1c36515f2ac17db16a8ebe996549474", null ],
+    [ "dsingle_partition_function_dT", "linescaling_8h.html#a2e6952f10015025dd7a22ef979e97a3e", null ],
     [ "dstimulated_emissiondF0", "linescaling_8h.html#a2d1f3c324a8086b6b310e476cbc4ac2f", null ],
     [ "dstimulated_emissiondT", "linescaling_8h.html#aaa251f1ba9836e0521f7f3ef97806914", null ],
     [ "dstimulated_relative_emission_dF0", "linescaling_8h.html#a8412d99dfcf6379f84a2350c371e9ea4", null ],
     [ "dstimulated_relative_emission_dT", "linescaling_8h.html#a11625c0ca9965f43039a4889a152c5fa", null ],
-    [ "single_partition_function", "linescaling_8h.html#ae5ebeecda7288b6935a6de67a213a00c", null ],
+    [ "single_partition_function", "linescaling_8h.html#a111b8f958ce4f3b495a0a88536d61f79", null ],
     [ "stimulated_emission", "linescaling_8h.html#a16a7ada6dba42dadd627b396720fb02a", null ],
     [ "stimulated_relative_emission", "linescaling_8h.html#a1ae35d3f91bd7cc2f4e6f477b32794ea", null ]
 ];

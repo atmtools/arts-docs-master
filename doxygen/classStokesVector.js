@@ -5,6 +5,7 @@ var classStokesVector =
     [ "StokesVector", "classStokesVector.html#a821ee1421719965983d6cf74498b4872", null ],
     [ "StokesVector", "classStokesVector.html#a8608f5fd884d801246f3c4e607a4e0ab", null ],
     [ "AddAverageAtPosition", "classStokesVector.html#af079731431b171a025ed49150baf7dff", null ],
+    [ "allZeroes", "classStokesVector.html#a2cc5a0d597ccde3fe6a065f1afa491af", null ],
     [ "IsPolarized", "classStokesVector.html#a0eaf7e25a5566b51bef7342aa136248d", null ],
     [ "IsUnpolarized", "classStokesVector.html#a906579138def4cf6e58ef0e43c4b4d4e", null ],
     [ "MultiplyAndAdd", "classStokesVector.html#ad4bd1707e662fff704fc82cc24b7bcaa", null ],

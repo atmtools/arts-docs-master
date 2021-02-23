@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -98,13 +105,13 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="test__linalg_8cc.html#a3cc28f09127310f99c2c7b01cc11b67e">   49</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="test__linalg_8cc.html#a3cc28f09127310f99c2c7b01cc11b67e">test_lusolve1D</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> a(1, 1);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(1, 1);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="classArray.html">ArrayOfIndex</a> indx(1);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> orig(1, 1);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> b(1, 1);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(1, 1);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">/* Assign test-matrix element. */</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  a(0, 0) = 3;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 0) = 3;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="comment">/* ------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">     Test the function ludcmp.</span></div>
@@ -112,24 +119,24 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n LU decomposition test \n&quot;</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;initial matrix: \n&quot;</span>;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; a(0, 0) &lt;&lt; endl;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 0) &lt;&lt; endl;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">/* input: Test-matrix a,</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">      output: Decomposed matrix b (includes upper and lower triangle, cp.</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">      Numerical Recipies)</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">      and index which gives information about pivoting. */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <a class="code" href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a>(b, indx, a);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <a class="code" href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a>(<a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, indx, <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n after decomposition: &quot;</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  cout &lt;&lt; b(0, 0) &lt;&lt; endl;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  cout &lt;&lt; <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(0, 0) &lt;&lt; endl;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment">/* Seperate b into the two triangular matrices. */</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(1, 1, 0.0);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> u(1, 1, 0.0);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(1, 1, 0.0);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> lu(1, 1, 0.0);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(0, 0) = 1.0;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  u(0, 0) = b(0, 0);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(0, 0) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(0, 0);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">/*-------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">    end of ludcmp test</span></div>
@@ -138,12 +145,12 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">    test backsubstitution routine lubacksub</span></div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">    -------------------------------------------------------------------*/</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <a class="code" href="classVector.html">Vector</a> c(1);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  c[0] = 6;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  cout &lt;&lt; indx[0] &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; c[0] &lt;&lt; endl;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>(1);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[0] = 6;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  cout &lt;&lt; indx[0] &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[0] &lt;&lt; endl;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>(1);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, b, c, indx);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>, indx);</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n solution vector x: &quot;</span>;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  cout &lt;&lt; <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>[0] &lt;&lt; endl;</div>
@@ -151,29 +158,29 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="test__linalg_8cc.html#aef1065fe37a685646c75f1ec38abc7b1">  106</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="test__linalg_8cc.html#aef1065fe37a685646c75f1ec38abc7b1">test_lusolve4D</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> a(4, 4);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(4, 4);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <a class="code" href="classArray.html">ArrayOfIndex</a> indx(4);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> orig(4, 4);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> b(4, 4);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(4, 4);</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="comment">/* Assign test-matrix elements. */</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  a(0, 0) = 1;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  a(0, 1) = 3;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  a(0, 2) = 5;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  a(0, 3) = 6;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  a(1, 0) = 2;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  a(1, 1) = 3;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  a(1, 2) = 4;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  a(1, 3) = 4;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  a(2, 0) = 1;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  a(2, 1) = 2;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  a(2, 2) = 5;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  a(2, 3) = 1;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  a(3, 0) = 7;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  a(3, 1) = 2;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  a(3, 2) = 4;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  a(3, 3) = 3;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 0) = 1;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 1) = 3;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 2) = 5;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(0, 3) = 6;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(1, 0) = 2;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(1, 1) = 3;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(1, 2) = 4;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(1, 3) = 4;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(2, 0) = 1;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(2, 1) = 2;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(2, 2) = 5;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(2, 3) = 1;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(3, 0) = 7;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(3, 1) = 2;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(3, 2) = 4;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(3, 3) = 3;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="comment">/* ------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">     Test the function ludcmp.</span></div>
@@ -183,7 +190,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;initial matrix: \n&quot;</span>;</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; a(i, j);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>(i, j);</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  }</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
@@ -191,24 +198,24 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">      output: Decomposed matrix b (includes upper and lower triangle, cp.</span></div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">      Numerical Recipies)</span></div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">      and index which gives information about pivoting. */</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <a class="code" href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a>(b, indx, a);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <a class="code" href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a>(<a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, indx, <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>);</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n after decomposition&quot;</span>;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; b(i, j);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(i, j);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  }</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="comment">/* Seperate b into the two triangular matrices. */</span></div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(4, 4, 0.0);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> u(4, 4, 0.0);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(4, 4, 0.0);</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> lu(4, 4, 0.0);</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(i, i) = 1.0;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(1, 0) = b(1, 0);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(2, <a class="code" href="classRange.html">Range</a>(0, 2)) = b(2, <a class="code" href="classRange.html">Range</a>(0, 2));</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(3, <a class="code" href="classRange.html">Range</a>(0, 3)) = b(3, <a class="code" href="classRange.html">Range</a>(0, 3));</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(1, 0) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(1, 0);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(2, <a class="code" href="classRange.html">Range</a>(0, 2)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(2, <a class="code" href="classRange.html">Range</a>(0, 2));</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>(3, <a class="code" href="classRange.html">Range</a>(0, 3)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(3, <a class="code" href="classRange.html">Range</a>(0, 3));</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n Matrix L&quot;</span>;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
@@ -217,20 +224,20 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  }</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  u(0, <a class="code" href="classRange.html">Range</a>(0, 4)) = b(0, <a class="code" href="classRange.html">Range</a>(0, 4));</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  u(1, <a class="code" href="classRange.html">Range</a>(1, 3)) = b(1, <a class="code" href="classRange.html">Range</a>(1, 3));</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  u(2, <a class="code" href="classRange.html">Range</a>(2, 2)) = b(2, <a class="code" href="classRange.html">Range</a>(2, 2));</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  u(3, <a class="code" href="classRange.html">Range</a>(3, 1)) = b(3, <a class="code" href="classRange.html">Range</a>(3, 1));</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(0, <a class="code" href="classRange.html">Range</a>(0, 4)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(0, <a class="code" href="classRange.html">Range</a>(0, 4));</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(1, <a class="code" href="classRange.html">Range</a>(1, 3)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(1, <a class="code" href="classRange.html">Range</a>(1, 3));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(2, <a class="code" href="classRange.html">Range</a>(2, 2)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(2, <a class="code" href="classRange.html">Range</a>(2, 2));</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(3, <a class="code" href="classRange.html">Range</a>(3, 1)) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(3, <a class="code" href="classRange.html">Range</a>(3, 1));</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n Matrix U&quot;</span>;</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; u(i, j);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; 4; j++) cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>(i, j);</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  }</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="comment">/* Test, if LU = a. */</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(lu, <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>, u);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(lu, <a class="code" href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">l</a>, <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>);</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n product L*U&quot;</span>;</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
@@ -247,21 +254,21 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">     test backsubstitution routine lubacksub</span></div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">     -------------------------------------------------------------------*/</span></div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <a class="code" href="classVector.html">Vector</a> c(4);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  c[0] = 2;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  c[1] = 5;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  c[2] = 6;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  c[3] = 7;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>(4);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[0] = 2;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[1] = 5;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[2] = 6;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[3] = 7;</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n  vector indx&quot;</span>;</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    cout &lt;&lt; indx[i] &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; c[i];</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    cout &lt;&lt; indx[i] &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>[i];</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  }</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  cout &lt;&lt; endl;</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>(4);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, b, c, indx);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>, indx);</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n solution vector x&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
@@ -271,11 +278,11 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  cout &lt;&lt; endl;</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n test solution LU*x&quot;</span>;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>(4);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(<a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>, a, <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <a class="code" href="classVector.html">Vector</a> y(4);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(y, <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>, <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>);</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; 4; i++) {</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    cout &lt;&lt; <a class="code" href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">y</a>[i];</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    cout &lt;&lt; y[i];</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  }</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;}</div>
@@ -286,11 +293,11 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> LU(dim, dim);</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>(dim);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>(dim);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <a class="code" href="classVector.html">Vector</a> b(dim);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <a class="code" href="classVector.html">Vector</a> <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>(dim);</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <a class="code" href="classArray.html">ArrayOfIndex</a> indx(dim);</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="comment">// initialize random seed</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="namespaceARTS_1_1Var.html#a06841937df54188f429cbe316e40f561">time</a>(0));</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)time(0));</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Testing linear system solution: n = &quot;</span> &lt;&lt; dim;</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;, ntests = &quot;</span> &lt;&lt; ntests &lt;&lt; endl;</div>
@@ -302,11 +309,11 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment">// is non-zero.</span></div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <a class="code" href="test__utils_8cc.html#a3d3c07a0acabb9bf2c65fd6248f1f421">random_fill_matrix_pos_def</a>(A, 10, <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="test__utils_8cc.html#aeb0ec5b79bb94c3385b38ae1972105a1">random_fill_vector</a>(<a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>, 10, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(b, A, <a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a>(<a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, A, <a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>);</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment">// Test ludcmp/lubacksub.</span></div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <a class="code" href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a>(LU, indx, A);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, LU, b, indx);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <a class="code" href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, LU, <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>, indx);</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> err = 0.0;</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    err = <a class="code" href="test__utils_8cc.html#aba32c19600f5a8906991e8f5b1e4d4f4">get_maximum_error</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, <a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>, <span class="keyword">true</span>);</div>
@@ -314,7 +321,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    cout &lt;&lt; setw(10) &lt;&lt; i &lt;&lt; setw(20) &lt;&lt; err;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="comment">// Test solve.</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="covariance__matrix_8cc.html#aa8a1164863690b8ff9ab7f439da5cbda">solve</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, A, b);</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="covariance__matrix_8cc.html#aa8a1164863690b8ff9ab7f439da5cbda">solve</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, A, <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>);</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    err = <a class="code" href="test__utils_8cc.html#aba32c19600f5a8906991e8f5b1e4d4f4">get_maximum_error</a>(<a class="code" href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a>, <a class="code" href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
@@ -340,7 +347,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <a class="code" href="classMatrix.html">Matrix</a> I(dim, dim);</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  <span class="comment">// initialize random seed</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="namespaceARTS_1_1Var.html#a06841937df54188f429cbe316e40f561">time</a>(0));</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)time(0));</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Testing matrix inversion: n = &quot;</span> &lt;&lt; dim;</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;, ntests = &quot;</span> &lt;&lt; ntests &lt;&lt; endl &lt;&lt; endl;</div>
@@ -456,7 +463,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;  <span class="keyword">const</span> <a class="code" href="classMatrix.html">Matrix</a> ZEROES(dim, dim, 0);</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;  <span class="comment">// initialize random seed</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="namespaceARTS_1_1Var.html#a06841937df54188f429cbe316e40f561">time</a>(0));</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)time(0));</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;  cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Testing diagonalize: n = &quot;</span> &lt;&lt; dim;</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;, ntests = &quot;</span> &lt;&lt; ntests &lt;&lt; endl;</div>
@@ -500,7 +507,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;  <span class="keyword">const</span> <a class="code" href="classComplexMatrix.html">ComplexMatrix</a> ZEROES(dim, dim, 0);</div>
 <div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;  <span class="comment">// initialize random seed</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="namespaceARTS_1_1Var.html#a06841937df54188f429cbe316e40f561">time</a>(0));</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;  srand((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)time(0));</div>
 <div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160; </div>
 <div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;  cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Testing diagonalize: n = &quot;</span> &lt;&lt; dim;</div>
 <div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;, ntests = &quot;</span> &lt;&lt; ntests &lt;&lt; endl;</div>
@@ -534,18 +541,18 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160; </div>
 <div class="line"><a name="l00528"></a><span class="lineno"><a class="line" href="test__linalg_8cc.html#a4733635db0340ac6ae07aa592e08dba3">  528</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="test__linalg_8cc.html#a4733635db0340ac6ae07aa592e08dba3">test_matrix_exp_propmat</a>(<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nruns, <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> ndiffs) {</div>
 <div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; nruns; i++) {</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;    <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> a = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), b = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;            c = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), d = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            u = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), <a class="code" href="m__absorptionlines_8cc.html#afbc6121e8eb985ac89cd78466f6039cd">v</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;    <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;            <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), <a class="code" href="propagationmatrix_8h.html#a2530554172d8629149ec56816eeaa947">d</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX), <a class="code" href="m__absorptionlines_8cc.html#afbc6121e8eb985ac89cd78466f6039cd">v</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX),</div>
 <div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;            <a class="code" href="linefunctions_8cc.html#a3b4555133ea360cd068890a3e3cefaf5">w</a> = ((<a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>)rand() / RAND_MAX);</div>
 <div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160; </div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    <a class="code" href="classMatrix.html">Matrix</a> A(4, 4), <a class="code" href="arts__api__classes_8cc.html#afa1d4d1245df45b0d97cf72f5a58120d">F0</a>(4, 4), F1(4, 4), F2(4, 4);</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160; </div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    A(0, 0) = A(1, 1) = A(2, 2) = A(3, 3) = a;</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    A(0, 1) = A(1, 0) = b;</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    A(0, 2) = A(2, 0) = c;</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    A(0, 3) = A(3, 0) = d;</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    A(1, 2) = u;</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    A(0, 0) = A(1, 1) = A(2, 2) = A(3, 3) = <a class="code" href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a>;</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    A(0, 1) = A(1, 0) = <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>;</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    A(0, 2) = A(2, 0) = <a class="code" href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a>;</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    A(0, 3) = A(3, 0) = <a class="code" href="propagationmatrix_8h.html#a2530554172d8629149ec56816eeaa947">d</a>;</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    A(1, 2) = <a class="code" href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a>;</div>
 <div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    A(2, 1) = -A(1, 2);</div>
 <div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    A(1, 3) = <a class="code" href="m__absorptionlines_8cc.html#afbc6121e8eb985ac89cd78466f6039cd">v</a>;</div>
 <div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    A(3, 1) = -A(1, 3);</div>
@@ -643,36 +650,39 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div class="ttc" id="aclassArray_html"><div class="ttname"><a href="classArray.html">Array&lt; Index &gt;</a></div></div>
 <div class="ttc" id="aclassComplexMatrix_html"><div class="ttname"><a href="classComplexMatrix.html">ComplexMatrix</a></div><div class="ttdoc">The ComplexMatrix class.</div><div class="ttdef"><b>Definition:</b> <a href="complex_8h_source.html#l00858">complex.h:858</a></div></div>
 <div class="ttc" id="aclassComplexVector_html"><div class="ttname"><a href="classComplexVector.html">ComplexVector</a></div><div class="ttdoc">The ComplexVector class.</div><div class="ttdef"><b>Definition:</b> <a href="complex_8h_source.html#l00573">complex.h:573</a></div></div>
-<div class="ttc" id="aclassMatrix_html"><div class="ttname"><a href="classMatrix.html">Matrix</a></div><div class="ttdoc">The Matrix class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l01209">matpackI.h:1209</a></div></div>
-<div class="ttc" id="aclassRange_html"><div class="ttname"><a href="classRange.html">Range</a></div><div class="ttdoc">The range class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00160">matpackI.h:160</a></div></div>
+<div class="ttc" id="aclassMatrix_html"><div class="ttname"><a href="classMatrix.html">Matrix</a></div><div class="ttdoc">The Matrix class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l01214">matpackI.h:1214</a></div></div>
+<div class="ttc" id="aclassRange_html"><div class="ttname"><a href="classRange.html">Range</a></div><div class="ttdoc">The range class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00165">matpackI.h:165</a></div></div>
 <div class="ttc" id="aclassTensor3_html"><div class="ttname"><a href="classTensor3.html">Tensor3</a></div><div class="ttdoc">The Tensor3 class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8h_source.html#l00339">matpackIII.h:339</a></div></div>
-<div class="ttc" id="aclassVector_html"><div class="ttname"><a href="classVector.html">Vector</a></div><div class="ttdoc">The Vector class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00863">matpackI.h:863</a></div></div>
-<div class="ttc" id="acomplex_8cc_html_a79a18b72864daf76c36f123c0ca626b4"><div class="ttname"><a href="complex_8cc.html#a79a18b72864daf76c36f123c0ca626b4">MapToEigen</a></div><div class="ttdeci">ComplexConstMatrixViewMap MapToEigen(const ConstComplexMatrixView &amp;A)</div><div class="ttdef"><b>Definition:</b> <a href="complex_8cc_source.html#l01659">complex.cc:1659</a></div></div>
-<div class="ttc" id="acomplex_8cc_html_af3eb1b16b77bc13f6fab8b340499e7bf"><div class="ttname"><a href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a></div><div class="ttdeci">void mult(ComplexVectorView y, const ConstComplexMatrixView &amp;M, const ConstComplexVectorView &amp;x)</div><div class="ttdoc">Matrix-Vector Multiplication.</div><div class="ttdef"><b>Definition:</b> <a href="complex_8cc_source.html#l01583">complex.cc:1583</a></div></div>
-<div class="ttc" id="acovariance__matrix_8cc_html_aa8a1164863690b8ff9ab7f439da5cbda"><div class="ttname"><a href="covariance__matrix_8cc.html#aa8a1164863690b8ff9ab7f439da5cbda">solve</a></div><div class="ttdeci">void solve(VectorView w, const CovarianceMatrix &amp;A, ConstVectorView v)</div><div class="ttdef"><b>Definition:</b> <a href="covariance__matrix_8cc_source.html#l00594">covariance_matrix.cc:594</a></div></div>
-<div class="ttc" id="alegacy__continua_8cc_html_a3aa069ac3980707dae1e0530f50d59e4"><div class="ttname"><a href="legacy__continua_8cc.html#a3aa069ac3980707dae1e0530f50d59e4">abs</a></div><div class="ttdeci">#define abs(x)</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l20626">legacy_continua.cc:20626</a></div></div>
-<div class="ttc" id="alegacy__continua_8cc_html_a3d866bcc3e6368bb95201907177c539b"><div class="ttname"><a href="legacy__continua_8cc.html#a3d866bcc3e6368bb95201907177c539b">q</a></div><div class="ttdeci">#define q</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l21712">legacy_continua.cc:21712</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_a0016b710c580921c4d6042fb499675c0"><div class="ttname"><a href="lin__alg_8cc.html#a0016b710c580921c4d6042fb499675c0">matrix_exp2</a></div><div class="ttdeci">void matrix_exp2(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00458">lin_alg.cc:458</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_a2348c3ad8be471b1dc917abd234124c6"><div class="ttname"><a href="lin__alg_8cc.html#a2348c3ad8be471b1dc917abd234124c6">id_mat</a></div><div class="ttdeci">void id_mat(MatrixView I)</div><div class="ttdoc">Identity Matrix.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l02240">lin_alg.cc:2240</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_a282e592341125e61e2a9c920b98fa526"><div class="ttname"><a href="lin__alg_8cc.html#a282e592341125e61e2a9c920b98fa526">cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen</a></div><div class="ttdeci">void cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00963">lin_alg.cc:963</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_a42e90a3e2a5819eaf5a0ccae0924ddb6"><div class="ttname"><a href="lin__alg_8cc.html#a42e90a3e2a5819eaf5a0ccae0924ddb6">diagonalize</a></div><div class="ttdeci">void diagonalize(MatrixView P, VectorView WR, VectorView WI, ConstMatrixView A)</div><div class="ttdoc">Matrix Diagonalization.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00245">lin_alg.cc:245</a></div></div>
+<div class="ttc" id="aclassVector_html"><div class="ttname"><a href="classVector.html">Vector</a></div><div class="ttdoc">The Vector class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00868">matpackI.h:868</a></div></div>
+<div class="ttc" id="acomplex_8cc_html_a79a18b72864daf76c36f123c0ca626b4"><div class="ttname"><a href="complex_8cc.html#a79a18b72864daf76c36f123c0ca626b4">MapToEigen</a></div><div class="ttdeci">ComplexConstMatrixViewMap MapToEigen(const ConstComplexMatrixView &amp;A)</div><div class="ttdef"><b>Definition:</b> <a href="complex_8cc_source.html#l01647">complex.cc:1647</a></div></div>
+<div class="ttc" id="acomplex_8cc_html_af3eb1b16b77bc13f6fab8b340499e7bf"><div class="ttname"><a href="complex_8cc.html#af3eb1b16b77bc13f6fab8b340499e7bf">mult</a></div><div class="ttdeci">void mult(ComplexVectorView y, const ConstComplexMatrixView &amp;M, const ConstComplexVectorView &amp;x)</div><div class="ttdoc">Matrix-Vector Multiplication.</div><div class="ttdef"><b>Definition:</b> <a href="complex_8cc_source.html#l01571">complex.cc:1571</a></div></div>
+<div class="ttc" id="acovariance__matrix_8cc_html_aa8a1164863690b8ff9ab7f439da5cbda"><div class="ttname"><a href="covariance__matrix_8cc.html#aa8a1164863690b8ff9ab7f439da5cbda">solve</a></div><div class="ttdeci">void solve(VectorView w, const CovarianceMatrix &amp;A, ConstVectorView v)</div><div class="ttdef"><b>Definition:</b> <a href="covariance__matrix_8cc_source.html#l00607">covariance_matrix.cc:607</a></div></div>
+<div class="ttc" id="alegacy__continua_8cc_html_a3aa069ac3980707dae1e0530f50d59e4"><div class="ttname"><a href="legacy__continua_8cc.html#a3aa069ac3980707dae1e0530f50d59e4">abs</a></div><div class="ttdeci">#define abs(x)</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l20613">legacy_continua.cc:20613</a></div></div>
+<div class="ttc" id="alegacy__continua_8cc_html_a3d866bcc3e6368bb95201907177c539b"><div class="ttname"><a href="legacy__continua_8cc.html#a3d866bcc3e6368bb95201907177c539b">q</a></div><div class="ttdeci">#define q</div><div class="ttdef"><b>Definition:</b> <a href="legacy__continua_8cc_source.html#l21699">legacy_continua.cc:21699</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_a0016b710c580921c4d6042fb499675c0"><div class="ttname"><a href="lin__alg_8cc.html#a0016b710c580921c4d6042fb499675c0">matrix_exp2</a></div><div class="ttdeci">void matrix_exp2(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00454">lin_alg.cc:454</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_a2348c3ad8be471b1dc917abd234124c6"><div class="ttname"><a href="lin__alg_8cc.html#a2348c3ad8be471b1dc917abd234124c6">id_mat</a></div><div class="ttdeci">void id_mat(MatrixView I)</div><div class="ttdoc">Identity Matrix.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l02235">lin_alg.cc:2235</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_a282e592341125e61e2a9c920b98fa526"><div class="ttname"><a href="lin__alg_8cc.html#a282e592341125e61e2a9c920b98fa526">cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen</a></div><div class="ttdeci">void cayley_hamilton_fitted_method_4x4_propmat_to_transmat__eigen(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00958">lin_alg.cc:958</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_a42e90a3e2a5819eaf5a0ccae0924ddb6"><div class="ttname"><a href="lin__alg_8cc.html#a42e90a3e2a5819eaf5a0ccae0924ddb6">diagonalize</a></div><div class="ttdeci">void diagonalize(MatrixView P, VectorView WR, VectorView WI, ConstMatrixView A)</div><div class="ttdoc">Matrix Diagonalization.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00241">lin_alg.cc:241</a></div></div>
 <div class="ttc" id="alin__alg_8cc_html_a4c4ded39ad5e6a9fd1f352d0906b8e2f"><div class="ttname"><a href="lin__alg_8cc.html#a4c4ded39ad5e6a9fd1f352d0906b8e2f">lubacksub</a></div><div class="ttdeci">void lubacksub(VectorView x, ConstMatrixView LU, ConstVectorView b, const ArrayOfIndex &amp;indx)</div><div class="ttdoc">LU backsubstitution.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00091">lin_alg.cc:91</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_a50e3ccbf18a6f354823ccd474f23a728"><div class="ttname"><a href="lin__alg_8cc.html#a50e3ccbf18a6f354823ccd474f23a728">matrix_exp</a></div><div class="ttdeci">void matrix_exp(MatrixView F, ConstMatrixView A, const Index &amp;q)</div><div class="ttdoc">General exponential of a Matrix.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00391">lin_alg.cc:391</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_a50e3ccbf18a6f354823ccd474f23a728"><div class="ttname"><a href="lin__alg_8cc.html#a50e3ccbf18a6f354823ccd474f23a728">matrix_exp</a></div><div class="ttdeci">void matrix_exp(MatrixView F, ConstMatrixView A, const Index &amp;q)</div><div class="ttdoc">General exponential of a Matrix.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00387">lin_alg.cc:387</a></div></div>
 <div class="ttc" id="alin__alg_8cc_html_a592f048c49e5ddea66536968b6b9dc2d"><div class="ttname"><a href="lin__alg_8cc.html#a592f048c49e5ddea66536968b6b9dc2d">ludcmp</a></div><div class="ttdeci">void ludcmp(Matrix &amp;LU, ArrayOfIndex &amp;indx, ConstMatrixView A)</div><div class="ttdoc">LU decomposition.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00056">lin_alg.cc:56</a></div></div>
 <div class="ttc" id="alin__alg_8cc_html_a7d01390bbeabb08611876dd4b478c366"><div class="ttname"><a href="lin__alg_8cc.html#a7d01390bbeabb08611876dd4b478c366">inv</a></div><div class="ttdeci">void inv(MatrixView Ainv, ConstMatrixView A)</div><div class="ttdoc">Matrix Inverse.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00167">lin_alg.cc:167</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_ac574b3d524c43e32d503f9af4f5cbeca"><div class="ttname"><a href="lin__alg_8cc.html#ac574b3d524c43e32d503f9af4f5cbeca">special_matrix_exp_and_dmatrix_exp_dx_for_rt</a></div><div class="ttdeci">void special_matrix_exp_and_dmatrix_exp_dx_for_rt(MatrixView F, Tensor3View dF_upp, Tensor3View dF_low, ConstMatrixView A, ConstTensor3View dA_upp, ConstTensor3View dA_low, const Index &amp;q)</div><div class="ttdoc">Special exponential of a Matrix with their derivatives.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00559">lin_alg.cc:559</a></div></div>
-<div class="ttc" id="alin__alg_8cc_html_af1f30f7693335164677bae2d2c73fcff"><div class="ttname"><a href="lin__alg_8cc.html#af1f30f7693335164677bae2d2c73fcff">cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit</a></div><div class="ttdeci">void cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00789">lin_alg.cc:789</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_ac574b3d524c43e32d503f9af4f5cbeca"><div class="ttname"><a href="lin__alg_8cc.html#ac574b3d524c43e32d503f9af4f5cbeca">special_matrix_exp_and_dmatrix_exp_dx_for_rt</a></div><div class="ttdeci">void special_matrix_exp_and_dmatrix_exp_dx_for_rt(MatrixView F, Tensor3View dF_upp, Tensor3View dF_low, ConstMatrixView A, ConstTensor3View dA_upp, ConstTensor3View dA_low, const Index &amp;q)</div><div class="ttdoc">Special exponential of a Matrix with their derivatives.</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00554">lin_alg.cc:554</a></div></div>
+<div class="ttc" id="alin__alg_8cc_html_af1f30f7693335164677bae2d2c73fcff"><div class="ttname"><a href="lin__alg_8cc.html#af1f30f7693335164677bae2d2c73fcff">cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit</a></div><div class="ttdeci">void cayley_hamilton_fitted_method_4x4_propmat_to_transmat__explicit(MatrixView F, ConstMatrixView A)</div><div class="ttdef"><b>Definition:</b> <a href="lin__alg_8cc_source.html#l00784">lin_alg.cc:784</a></div></div>
 <div class="ttc" id="alin__alg_8h_html"><div class="ttname"><a href="lin__alg_8h.html">lin_alg.h</a></div><div class="ttdoc">Linear algebra functions.</div></div>
 <div class="ttc" id="alinefunctions_8cc_html_a3b4555133ea360cd068890a3e3cefaf5"><div class="ttname"><a href="linefunctions_8cc.html#a3b4555133ea360cd068890a3e3cefaf5">w</a></div><div class="ttdeci">Complex w(Complex z) noexcept</div><div class="ttdoc">The Faddeeva function.</div><div class="ttdef"><b>Definition:</b> <a href="linefunctions_8cc_source.html#l00042">linefunctions.cc:42</a></div></div>
-<div class="ttc" id="alineshapemodel_8cc_html_a94ec8a7a5cf5c289d292aef5777c4c14"><div class="ttname"><a href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a></div><div class="ttdeci">#define x0</div><div class="ttdef"><b>Definition:</b> <a href="lineshapemodel_8cc_source.html#l00772">lineshapemodel.cc:772</a></div></div>
-<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00495">m_absorptionlines.cc:495</a></div></div>
+<div class="ttc" id="alineshapemodel_8cc_html_a94ec8a7a5cf5c289d292aef5777c4c14"><div class="ttname"><a href="lineshapemodel_8cc.html#a94ec8a7a5cf5c289d292aef5777c4c14">x0</a></div><div class="ttdeci">#define x0</div><div class="ttdef"><b>Definition:</b> <a href="lineshapemodel_8cc_source.html#l00736">lineshapemodel.cc:736</a></div></div>
+<div class="ttc" id="am__absorptionlines_8cc_html_ab73668665ed1903aab8905ff035a33c5"><div class="ttname"><a href="m__absorptionlines_8cc.html#ab73668665ed1903aab8905ff035a33c5">x</a></div><div class="ttdeci">auto x</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00479">m_absorptionlines.cc:479</a></div></div>
 <div class="ttc" id="am__absorptionlines_8cc_html_afbc6121e8eb985ac89cd78466f6039cd"><div class="ttname"><a href="m__absorptionlines_8cc.html#afbc6121e8eb985ac89cd78466f6039cd">v</a></div><div class="ttdeci">std::vector&lt; Absorption::SingleLineExternal &gt; v(0)</div></div>
 <div class="ttc" id="amatpackI_8cc_html_a90b23039dd2b40cea42532da6f731144"><div class="ttname"><a href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a></div><div class="ttdeci">const Joker joker</div></div>
 <div class="ttc" id="amatpack_8h_html_ad9a8dbb27c0bbea7271d916036122f6a"><div class="ttname"><a href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a></div><div class="ttdeci">NUMERIC Numeric</div><div class="ttdoc">The type to use for all floating point numbers.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00033">matpack.h:33</a></div></div>
 <div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_a06841937df54188f429cbe316e40f561"><div class="ttname"><a href="namespaceARTS_1_1Var.html#a06841937df54188f429cbe316e40f561">ARTS::Var::time</a></div><div class="ttdeci">Time time(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l07043">autoarts.h:7043</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_adb488742dfe7a156414f354acd168e75"><div class="ttname"><a href="namespaceARTS_1_1Var.html#adb488742dfe7a156414f354acd168e75">ARTS::Var::y</a></div><div class="ttdeci">Vector y(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l07401">autoarts.h:7401</a></div></div>
 <div class="ttc" id="anamespaceInterpolation_html_a53147baa7e7eccf2d8acb7f5aaf88ff0"><div class="ttname"><a href="namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0">Interpolation::l</a></div><div class="ttdeci">constexpr Numeric l(const Index p0, const Index n, const Numeric x, const SortedVectorType &amp;xi, const Index j, [[maybe_unused]] const std::pair&lt; Numeric, Numeric &gt; cycle={ -180, 180}) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="interpolation__lagrange_8h_source.html#l00421">interpolation_lagrange.h:421</a></div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_a1f9aca42e2010bb82488684dee1a66ea"><div class="ttname"><a href="propagationmatrix_8h.html#a1f9aca42e2010bb82488684dee1a66ea">u</a></div><div class="ttdeci">#define u</div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_a2530554172d8629149ec56816eeaa947"><div class="ttname"><a href="propagationmatrix_8h.html#a2530554172d8629149ec56816eeaa947">d</a></div><div class="ttdeci">#define d</div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_a8d3c3518d793541417a4845125da1ae1"><div class="ttname"><a href="propagationmatrix_8h.html#a8d3c3518d793541417a4845125da1ae1">a</a></div><div class="ttdeci">#define a</div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_aafc737ea9ef91f59cf9acd287fb8d085"><div class="ttname"><a href="propagationmatrix_8h.html#aafc737ea9ef91f59cf9acd287fb8d085">c</a></div><div class="ttdeci">#define c</div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_ab2d05693952610f937e5acb3c4a8fa1b"><div class="ttname"><a href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a></div><div class="ttdeci">#define b</div></div>
 <div class="ttc" id="atest__linalg_8cc_html_a04004275c1a984accc768fa741d9d032"><div class="ttname"><a href="test__linalg_8cc.html#a04004275c1a984accc768fa741d9d032">test_inv</a></div><div class="ttdeci">void test_inv(Index ntests, Index dim, bool verbose=false)</div><div class="ttdoc">Test matrix inversion.</div><div class="ttdef"><b>Definition:</b> <a href="test__linalg_8cc_source.html#l00319">test_linalg.cc:319</a></div></div>
 <div class="ttc" id="atest__linalg_8cc_html_a2c853fa2f0688e50cbace5c506e18175"><div class="ttname"><a href="test__linalg_8cc.html#a2c853fa2f0688e50cbace5c506e18175">test_matrix_exp3D</a></div><div class="ttdeci">void test_matrix_exp3D(void)</div><div class="ttdoc">Test for the matrix exponential function (3D matrix)</div><div class="ttdef"><b>Definition:</b> <a href="test__linalg_8cc_source.html#l00417">test_linalg.cc:417</a></div></div>
 <div class="ttc" id="atest__linalg_8cc_html_a3329977336996bf45ff6066cdb40c335"><div class="ttname"><a href="test__linalg_8cc.html#a3329977336996bf45ff6066cdb40c335">test_solve_linear_system</a></div><div class="ttdeci">void test_solve_linear_system(Index ntests, Index dim, bool verbose)</div><div class="ttdoc">Test ludcmp and lubacksub by solving a linear system of equations.</div><div class="ttdef"><b>Definition:</b> <a href="test__linalg_8cc_source.html#l00252">test_linalg.cc:252</a></div></div>
@@ -695,7 +705,7 @@ $(document).ready(function(){initNavTree('test__linalg_8cc_source.html',''); ini
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="test__linalg_8cc.html">test_linalg.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:59 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:17 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

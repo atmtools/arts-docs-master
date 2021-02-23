@@ -21,6 +21,7 @@ var gridded__fields_8h =
       [ "GRID_TYPE_NUMERIC", "gridded__fields_8h.html#a2323f67766c1d3ce0bbfafaa00c21a78a2d57aa4346e6c5364963d23115f9ebbc", null ],
       [ "GRID_TYPE_STRING", "gridded__fields_8h.html#a2323f67766c1d3ce0bbfafaa00c21a78a9cc19e2ef9d707435fe865b2ac558a91", null ]
     ] ],
+    [ "metaErrorData", "gridded__fields_8h.html#aec6be2e1a8442a06b890f5749f4daf85", null ],
     [ "operator<<", "gridded__fields_8h.html#a0bcca3e5f9be9842478625b4ac117836", null ],
     [ "operator<<", "gridded__fields_8h.html#a467fcb1ca295a746289a1fb26b1d1aaf", null ],
     [ "operator<<", "gridded__fields_8h.html#a3f5e904ee250daffc3b3606c498ee9fe", null ],

@@ -15,5 +15,5 @@ var absorption_8h =
     [ "species_name_from_species_index", "absorption_8h.html#a08fc2f701771c0375607192f6a4b4aa3", null ],
     [ "SpeciesDataOfBand", "absorption_8h.html#a68640b82587586e0e806f16a1d5ddac1", null ],
     [ "wavenumber_to_joule", "absorption_8h.html#afeffa3292c18fa3c14d46a5c2fdef9e5", null ],
-    [ "xsec_species", "absorption_8h.html#affc649df9d1d58549f338aee146982f8", null ]
+    [ "xsec_species", "absorption_8h.html#a4940730f3eb07182906f16397387f012", null ]
 ];

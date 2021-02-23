@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -105,15 +112,15 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="m__physics_8cc.html#af3e2ac3254eb519d62d0c803a25d2cc7">   56</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="m__physics_8cc.html#af3e2ac3254eb519d62d0c803a25d2cc7">MatrixCBR</a>(  <span class="comment">// WS Output:</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classMatrix.html">Matrix</a>&amp; m,</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// WS Input:</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; stokes_dim,</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// WS Generic Input:</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVector.html">Vector</a>&amp; f,</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVerbosity.html">Verbosity</a>&amp;) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#a213a97c28cd05116cab820e32d2f102f">nelem</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#abc0e78496ee1e676d67aae9ccbf96e4a">nelem</a>();</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;The given frequency vector is empty.&quot;</span>);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, stokes_dim);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  m = 0;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <a class="code" href="physics__funcs_8cc.html#a86032c91f173c122725f6f98cfe84cfc">planck</a>(m(<a class="code" href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a>, 0), f, <a class="code" href="m__physics_8cc.html#a20c2ef7a32fd4bacbb08a193ab353891">COSMIC_BG_TEMP</a>);</div>
@@ -123,20 +130,20 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="m__physics_8cc.html#a73f5978fa04c77d84fe02e74041217c1">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="m__physics_8cc.html#a73f5978fa04c77d84fe02e74041217c1">MatrixPlanck</a>(  <span class="comment">// WS Output:</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="classMatrix.html">Matrix</a>&amp; m,</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// WS Input:</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; stokes_dim,</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">// WS Generic Input:</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVector.html">Vector</a>&amp; f,</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a>&amp; t,</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVerbosity.html">Verbosity</a>&amp; <a class="code" href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a>) {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <a class="code" href="messages_8h.html#a810742828de7cbddeea7a4e1739cb41c">CREATE_OUT2</a>;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#a213a97c28cd05116cab820e32d2f102f">nelem</a>();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#abc0e78496ee1e676d67aae9ccbf96e4a">nelem</a>();</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;The given frequency vector is empty.&quot;</span>);</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  out2 &lt;&lt; <span class="stringliteral">&quot;  Setting blackbody radiation for a temperature of &quot;</span> &lt;&lt; t &lt;&lt; <span class="stringliteral">&quot; K.\n&quot;</span>;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, stokes_dim);</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  m = 0;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <a class="code" href="physics__funcs_8cc.html#a86032c91f173c122725f6f98cfe84cfc">planck</a>(m(<a class="code" href="matpackI_8cc.html#a90b23039dd2b40cea42532da6f731144">joker</a>, 0), f, t);</div>
@@ -146,19 +153,19 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="m__physics_8cc.html#a7f9b1a50788c41e44ff0be32e4b1a209">   97</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="m__physics_8cc.html#a7f9b1a50788c41e44ff0be32e4b1a209">MatrixUnitIntensity</a>(  <span class="comment">// WS Output:</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="classMatrix.html">Matrix</a>&amp; m,</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// WS Input:</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; stokes_dim,</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">// WS Generic Input:</span></div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVector.html">Vector</a>&amp; f,</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> <a class="code" href="classVerbosity.html">Verbosity</a>&amp; <a class="code" href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a>) {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <a class="code" href="messages_8h.html#a810742828de7cbddeea7a4e1739cb41c">CREATE_OUT2</a>;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#a213a97c28cd05116cab820e32d2f102f">nelem</a>();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n = f.<a class="code" href="classConstVectorView.html#abc0e78496ee1e676d67aae9ccbf96e4a">nelem</a>();</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;The given frequency vector is empty.&quot;</span>);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  out2 &lt;&lt; <span class="stringliteral">&quot;  Setting unpolarised radiation with an intensity of 1.\n&quot;</span>;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, <a class="code" href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">stokes_dim</a>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  m.<a class="code" href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">resize</a>(n, stokes_dim);</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  m = 0;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; n; i++) {</div>
@@ -167,27 +174,27 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">/* Workspace method: Doxygen documentation will be auto-generated */</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="m__physics_8cc.html#a2ab342bc083c87c02b342ff445c36423">  121</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="m__physics_8cc.html#a2ab342bc083c87c02b342ff445c36423">water_p_eq_fieldMK05</a>(<a class="code" href="classTensor3.html">Tensor3</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#a81ac3a5158641888adc6d7e842a3b269">water_p_eq_field</a>,</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                          <span class="keyword">const</span> <a class="code" href="classTensor3.html">Tensor3</a>&amp; <a class="code" href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">t_field</a>,</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="m__physics_8cc.html#a2ab342bc083c87c02b342ff445c36423">  121</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="m__physics_8cc.html#a2ab342bc083c87c02b342ff445c36423">water_p_eq_fieldMK05</a>(<a class="code" href="classTensor3.html">Tensor3</a>&amp; water_p_eq_field,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                          <span class="keyword">const</span> <a class="code" href="classTensor3.html">Tensor3</a>&amp; t_field,</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                          <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a>&amp; only_liquid,</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                          <span class="keyword">const</span> <a class="code" href="classVerbosity.html">Verbosity</a>&amp;) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n1 = <a class="code" href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">t_field</a>.npages();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n2 = <a class="code" href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">t_field</a>.nrows();</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n3 = <a class="code" href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">t_field</a>.ncols();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n1 = t_field.<a class="code" href="classConstTensor3View.html#a53a31407d24acd13b31e0ef5bc99c6ba">npages</a>();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n2 = t_field.<a class="code" href="classConstTensor3View.html#ad358a9960e229d605fcb0b209b77ebfe">nrows</a>();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> n3 = t_field.<a class="code" href="classConstTensor3View.html#aeffcc9cb963fc25435e4f96d49d6aadf">ncols</a>();</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <a class="code" href="namespaceARTS_1_1Var.html#a81ac3a5158641888adc6d7e842a3b269">water_p_eq_field</a>.resize(n1, n2, n3);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  water_p_eq_field.<a class="code" href="classTensor3.html#a042f54871b6db914701d3f77714880da">resize</a>(n1, n2, n3);</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> i = 0; i &lt; n1; i++) {</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> j = 0; j &lt; n2; j++) {</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> k = 0; k &lt; n3; k++) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">const</span> <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> t = <a class="code" href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">t_field</a>(i, j, k);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">const</span> <a class="code" href="matpack_8h.html#ad9a8dbb27c0bbea7271d916036122f6a">Numeric</a> t = t_field(i, j, k);</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">if</span> (t &gt; <a class="code" href="m__physics_8cc.html#a338adc4f392690278e61462462e03457">TEMP_0_C</a> || only_liquid) {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;          <a class="code" href="namespaceARTS_1_1Var.html#a81ac3a5158641888adc6d7e842a3b269">water_p_eq_field</a>(i, j, k) =</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;          water_p_eq_field(i, j, k) =</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;              exp(54.842763 - 6763.22 / t - 4.21 * log(t) + 0.000367 * t +</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                  tanh(0.0415 * (t - 218.8)) *</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                      (53.878 - 1331.22 / t - 9.44523 * log(t) + 0.014025 * t));</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;          <a class="code" href="namespaceARTS_1_1Var.html#a81ac3a5158641888adc6d7e842a3b269">water_p_eq_field</a>(i, j, k) =</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;          water_p_eq_field(i, j, k) =</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;              exp(9.550426 - 5723.265 / t + 3.53068 * log(t) - 0.00728332 * t);</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      }</div>
@@ -197,14 +204,18 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="ttc" id="aarts_8h_html"><div class="ttname"><a href="arts_8h.html">arts.h</a></div><div class="ttdoc">The global header file for ARTS.</div></div>
 <div class="ttc" id="aauto__md_8h_html"><div class="ttname"><a href="auto__md_8h.html">auto_md.h</a></div></div>
 <div class="ttc" id="acheck__input_8h_html"><div class="ttname"><a href="check__input_8h.html">check_input.h</a></div></div>
-<div class="ttc" id="aclassConstVectorView_html_a213a97c28cd05116cab820e32d2f102f"><div class="ttname"><a href="classConstVectorView.html#a213a97c28cd05116cab820e32d2f102f">ConstVectorView::nelem</a></div><div class="ttdeci">Index nelem() const</div><div class="ttdoc">Returns the number of elements.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8cc_source.html#l00051">matpackI.cc:51</a></div></div>
-<div class="ttc" id="aclassMatrix_html"><div class="ttname"><a href="classMatrix.html">Matrix</a></div><div class="ttdoc">The Matrix class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l01209">matpackI.h:1209</a></div></div>
-<div class="ttc" id="aclassMatrix_html_a0f56a42767afffcb25bdc9b11b9e3fce"><div class="ttname"><a href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">Matrix::resize</a></div><div class="ttdeci">void resize(Index r, Index c)</div><div class="ttdoc">Resize function.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8cc_source.html#l01058">matpackI.cc:1058</a></div></div>
+<div class="ttc" id="aclassConstTensor3View_html_a53a31407d24acd13b31e0ef5bc99c6ba"><div class="ttname"><a href="classConstTensor3View.html#a53a31407d24acd13b31e0ef5bc99c6ba">ConstTensor3View::npages</a></div><div class="ttdeci">Index npages() const</div><div class="ttdoc">Returns the number of pages.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8h_source.html#l00144">matpackIII.h:144</a></div></div>
+<div class="ttc" id="aclassConstTensor3View_html_ad358a9960e229d605fcb0b209b77ebfe"><div class="ttname"><a href="classConstTensor3View.html#ad358a9960e229d605fcb0b209b77ebfe">ConstTensor3View::nrows</a></div><div class="ttdeci">Index nrows() const</div><div class="ttdoc">Returns the number of rows.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8h_source.html#l00147">matpackIII.h:147</a></div></div>
+<div class="ttc" id="aclassConstTensor3View_html_aeffcc9cb963fc25435e4f96d49d6aadf"><div class="ttname"><a href="classConstTensor3View.html#aeffcc9cb963fc25435e4f96d49d6aadf">ConstTensor3View::ncols</a></div><div class="ttdeci">Index ncols() const</div><div class="ttdoc">Returns the number of columns.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8h_source.html#l00150">matpackIII.h:150</a></div></div>
+<div class="ttc" id="aclassConstVectorView_html_abc0e78496ee1e676d67aae9ccbf96e4a"><div class="ttname"><a href="classConstVectorView.html#abc0e78496ee1e676d67aae9ccbf96e4a">ConstVectorView::nelem</a></div><div class="ttdeci">Index nelem() const ARTS_NOEXCEPT</div><div class="ttdoc">Returns the number of elements.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8cc_source.html#l00051">matpackI.cc:51</a></div></div>
+<div class="ttc" id="aclassMatrix_html"><div class="ttname"><a href="classMatrix.html">Matrix</a></div><div class="ttdoc">The Matrix class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l01214">matpackI.h:1214</a></div></div>
+<div class="ttc" id="aclassMatrix_html_a0f56a42767afffcb25bdc9b11b9e3fce"><div class="ttname"><a href="classMatrix.html#a0f56a42767afffcb25bdc9b11b9e3fce">Matrix::resize</a></div><div class="ttdeci">void resize(Index r, Index c)</div><div class="ttdoc">Resize function.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8cc_source.html#l01052">matpackI.cc:1052</a></div></div>
 <div class="ttc" id="aclassTensor3_html"><div class="ttname"><a href="classTensor3.html">Tensor3</a></div><div class="ttdoc">The Tensor3 class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8h_source.html#l00339">matpackIII.h:339</a></div></div>
-<div class="ttc" id="aclassVector_html"><div class="ttname"><a href="classVector.html">Vector</a></div><div class="ttdoc">The Vector class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00863">matpackI.h:863</a></div></div>
+<div class="ttc" id="aclassTensor3_html_a042f54871b6db914701d3f77714880da"><div class="ttname"><a href="classTensor3.html#a042f54871b6db914701d3f77714880da">Tensor3::resize</a></div><div class="ttdeci">void resize(Index p, Index r, Index c)</div><div class="ttdoc">Resize function.</div><div class="ttdef"><b>Definition:</b> <a href="matpackIII_8cc_source.html#l00658">matpackIII.cc:658</a></div></div>
+<div class="ttc" id="aclassVector_html"><div class="ttname"><a href="classVector.html">Vector</a></div><div class="ttdoc">The Vector class.</div><div class="ttdef"><b>Definition:</b> <a href="matpackI_8h_source.html#l00868">matpackI.h:868</a></div></div>
 <div class="ttc" id="aclassVerbosity_html"><div class="ttname"><a href="classVerbosity.html">Verbosity</a></div><div class="ttdef"><b>Definition:</b> <a href="messages_8h_source.html#l00049">messages.h:49</a></div></div>
 <div class="ttc" id="alogic_8h_html"><div class="ttname"><a href="logic_8h.html">logic.h</a></div><div class="ttdoc">Header file for logic.cc.</div></div>
-<div class="ttc" id="am__absorptionlines_8cc_html_a912988c7ba3710b2d2a6a161a562d1b1"><div class="ttname"><a href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a></div><div class="ttdeci">const String const Numeric const Numeric const String const String const String const String const String const String const String const String const Numeric const Numeric const Verbosity &amp; verbosity</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00447">m_absorptionlines.cc:448</a></div></div>
+<div class="ttc" id="am__absorptionlines_8cc_html_a912988c7ba3710b2d2a6a161a562d1b1"><div class="ttname"><a href="m__absorptionlines_8cc.html#a912988c7ba3710b2d2a6a161a562d1b1">verbosity</a></div><div class="ttdeci">const String const Numeric const Numeric const String const String const String const String const String const String const String const String const Numeric const Numeric const Verbosity &amp; verbosity</div><div class="ttdef"><b>Definition:</b> <a href="m__absorptionlines_8cc_source.html#l00431">m_absorptionlines.cc:432</a></div></div>
 <div class="ttc" id="am__physics_8cc_html_a20c2ef7a32fd4bacbb08a193ab353891"><div class="ttname"><a href="m__physics_8cc.html#a20c2ef7a32fd4bacbb08a193ab353891">COSMIC_BG_TEMP</a></div><div class="ttdeci">const Numeric COSMIC_BG_TEMP</div></div>
 <div class="ttc" id="am__physics_8cc_html_a2ab342bc083c87c02b342ff445c36423"><div class="ttname"><a href="m__physics_8cc.html#a2ab342bc083c87c02b342ff445c36423">water_p_eq_fieldMK05</a></div><div class="ttdeci">void water_p_eq_fieldMK05(Tensor3 &amp;water_p_eq_field, const Tensor3 &amp;t_field, const Index &amp;only_liquid, const Verbosity &amp;)</div><div class="ttdoc">WORKSPACE METHOD: water_p_eq_fieldMK05.</div><div class="ttdef"><b>Definition:</b> <a href="m__physics_8cc_source.html#l00121">m_physics.cc:121</a></div></div>
 <div class="ttc" id="am__physics_8cc_html_a338adc4f392690278e61462462e03457"><div class="ttname"><a href="m__physics_8cc.html#a338adc4f392690278e61462462e03457">TEMP_0_C</a></div><div class="ttdeci">const Numeric TEMP_0_C</div></div>
@@ -217,10 +228,7 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
 <div class="ttc" id="amessages_8h_html"><div class="ttname"><a href="messages_8h.html">messages.h</a></div><div class="ttdoc">Declarations having to do with the four output streams.</div></div>
 <div class="ttc" id="amessages_8h_html_a810742828de7cbddeea7a4e1739cb41c"><div class="ttname"><a href="messages_8h.html#a810742828de7cbddeea7a4e1739cb41c">CREATE_OUT2</a></div><div class="ttdeci">#define CREATE_OUT2</div><div class="ttdef"><b>Definition:</b> <a href="messages_8h_source.html#l00206">messages.h:206</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_a2ba05dc4efda95929ea5151f10d0970e"><div class="ttname"><a href="namespaceARTS_1_1Var.html#a2ba05dc4efda95929ea5151f10d0970e">ARTS::Var::t_field</a></div><div class="ttdeci">Tensor3 t_field(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l06947">autoarts.h:6947</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_a81ac3a5158641888adc6d7e842a3b269"><div class="ttname"><a href="namespaceARTS_1_1Var.html#a81ac3a5158641888adc6d7e842a3b269">ARTS::Var::water_p_eq_field</a></div><div class="ttdeci">Tensor3 water_p_eq_field(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l07179">autoarts.h:7179</a></div></div>
-<div class="ttc" id="anamespaceARTS_1_1Var_html_ab4cd1404dc8af93d47ed934a938a9040"><div class="ttname"><a href="namespaceARTS_1_1Var.html#ab4cd1404dc8af93d47ed934a938a9040">ARTS::Var::stokes_dim</a></div><div class="ttdeci">Index stokes_dim(Workspace &amp;ws) noexcept</div><div class="ttdef"><b>Definition:</b> <a href="autoarts_8h_source.html#l06650">autoarts.h:6650</a></div></div>
-<div class="ttc" id="aphysics__funcs_8cc_html_a86032c91f173c122725f6f98cfe84cfc"><div class="ttname"><a href="physics__funcs_8cc.html#a86032c91f173c122725f6f98cfe84cfc">planck</a></div><div class="ttdeci">Numeric planck(const Numeric &amp;f, const Numeric &amp;t)</div><div class="ttdoc">planck</div><div class="ttdef"><b>Definition:</b> <a href="physics__funcs_8cc_source.html#l00221">physics_funcs.cc:221</a></div></div>
+<div class="ttc" id="aphysics__funcs_8cc_html_a86032c91f173c122725f6f98cfe84cfc"><div class="ttname"><a href="physics__funcs_8cc.html#a86032c91f173c122725f6f98cfe84cfc">planck</a></div><div class="ttdeci">Numeric planck(const Numeric &amp;f, const Numeric &amp;t)</div><div class="ttdoc">planck</div><div class="ttdef"><b>Definition:</b> <a href="physics__funcs_8cc_source.html#l00206">physics_funcs.cc:206</a></div></div>
 <div class="ttc" id="aphysics__funcs_8h_html"><div class="ttname"><a href="physics__funcs_8h.html">physics_funcs.h</a></div><div class="ttdoc">This file contains declerations of functions of physical character.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -228,7 +236,7 @@ $(document).ready(function(){initNavTree('m__physics_8cc_source.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="m__physics_8cc.html">m_physics.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:58 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:15 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

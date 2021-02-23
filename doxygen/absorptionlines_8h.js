@@ -9,6 +9,7 @@ var absorptionlines_8h =
     [ "ArrayOfArrayOfAbsorptionLines", "absorptionlines_8h.html#a0addbe38a5b3ce7e9a01e34dffbd96df", null ],
     [ "createEmptyCopy", "absorptionlines_8h.html#aa3734d803690e797962259d9a9b27846", null ],
     [ "ENUMCLASS", "absorptionlines_8h.html#ab82a70d92dc443e648a20a5ee3975749", null ],
+    [ "ENUMCLASS", "absorptionlines_8h.html#a6597bedbf7657523ff5250c3af7dd524", null ],
     [ "ENUMCLASS", "absorptionlines_8h.html#a25ef729f234f2b83b94db35f4d7a4d0a", null ],
     [ "ENUMCLASS", "absorptionlines_8h.html#a58709d3064451c03f1329ea9f544c5a6", null ],
     [ "id_in_line", "absorptionlines_8h.html#a1554ecf51c40489e7f2a9f77a3314511", null ],

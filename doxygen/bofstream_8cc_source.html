@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -113,17 +120,17 @@ $(document).ready(function(){initNavTree('bofstream_8cc_source.html',''); initRe
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">return</span> streamoff(this-&gt;tellp());</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classbofstream.html#a3ab4fefd3e7983f923b53792613c87eb">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classbofstream.html#a3ab4fefd3e7983f923b53792613c87eb">bofstream::putByte</a>(<a class="code" href="classbinio.html#ae5061f44efbf09de6640cbe8f4e84540">bofstream::Byte</a> b) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classbofstream.html#a3ab4fefd3e7983f923b53792613c87eb">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classbofstream.html#a3ab4fefd3e7983f923b53792613c87eb">bofstream::putByte</a>(<a class="code" href="classbinio.html#ae5061f44efbf09de6640cbe8f4e84540">bofstream::Byte</a> <a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>) {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span> (!this-&gt;good()) {</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classbinio.html#af2d2aa8f8b5a87284ec44522872a8521">err</a> |= <a class="code" href="classbinio.html#a1ad55790dc9b9859fd0d8c77276a1236ae84867fcfcafe255d16bb4c5cd051181">NotOpen</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;Cannot open binary file for writing&quot;</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="debug_8h.html#aa4a2cf411add2c626b9f5a0a36e65de2">ARTS_USER_ERROR</a> (<span class="stringliteral">&quot;Cannot open binary file for writing&quot;</span>);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  this-&gt;put(b);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  this-&gt;put(<a class="code" href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a>);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span> (this-&gt;bad()) {</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classbinio.html#af2d2aa8f8b5a87284ec44522872a8521">err</a> |= <a class="code" href="classbinio.html#a1ad55790dc9b9859fd0d8c77276a1236a93a5b0f4b221dac1bfaf126908c0c59a">Fatal</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;Writing to binary file failed&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="debug_8h.html#aa4a2cf411add2c626b9f5a0a36e65de2">ARTS_USER_ERROR</a> (<span class="stringliteral">&quot;Writing to binary file failed&quot;</span>);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
@@ -164,14 +171,16 @@ $(document).ready(function(){initNavTree('bofstream_8cc_source.html',''); initRe
 <div class="ttc" id="aclassbofstream_html_a393809e357d6b1c9a3f8cb18ce59f691"><div class="ttname"><a href="classbofstream.html#a393809e357d6b1c9a3f8cb18ce59f691">bofstream::pos</a></div><div class="ttdeci">streampos pos() override final</div><div class="ttdef"><b>Definition:</b> <a href="bofstream_8cc_source.html#l00053">bofstream.cc:53</a></div></div>
 <div class="ttc" id="aclassbofstream_html_a3ab4fefd3e7983f923b53792613c87eb"><div class="ttname"><a href="classbofstream.html#a3ab4fefd3e7983f923b53792613c87eb">bofstream::putByte</a></div><div class="ttdeci">void putByte(bofstream::Byte b) override final</div><div class="ttdef"><b>Definition:</b> <a href="bofstream_8cc_source.html#l00061">bofstream.cc:61</a></div></div>
 <div class="ttc" id="aclassbofstream_html_a5462f1c3652c38c827f9befbe884b545"><div class="ttname"><a href="classbofstream.html#a5462f1c3652c38c827f9befbe884b545">bofstream::seek</a></div><div class="ttdeci">void seek(long spos, Offset offs) override final</div><div class="ttdef"><b>Definition:</b> <a href="bofstream_8cc_source.html#l00034">bofstream.cc:34</a></div></div>
-<div class="ttc" id="anamespaceZeeman_html_afd21c87c99c343559868405d885294f5"><div class="ttname"><a href="namespaceZeeman.html#afd21c87c99c343559868405d885294f5">Zeeman::end</a></div><div class="ttdeci">constexpr Rational end(Rational Ju, Rational Jl, Polarization type) noexcept</div><div class="ttdoc">Gives the largest M for a polarization type of this transition.</div><div class="ttdef"><b>Definition:</b> <a href="zeemandata_8h_source.html#l00108">zeemandata.h:108</a></div></div>
+<div class="ttc" id="adebug_8h_html_aa4a2cf411add2c626b9f5a0a36e65de2"><div class="ttname"><a href="debug_8h.html#aa4a2cf411add2c626b9f5a0a36e65de2">ARTS_USER_ERROR</a></div><div class="ttdeci">#define ARTS_USER_ERROR(...)</div><div class="ttdef"><b>Definition:</b> <a href="debug_8h_source.html#l00150">debug.h:150</a></div></div>
+<div class="ttc" id="anamespaceZeeman_html_afd21c87c99c343559868405d885294f5"><div class="ttname"><a href="namespaceZeeman.html#afd21c87c99c343559868405d885294f5">Zeeman::end</a></div><div class="ttdeci">constexpr Rational end(Rational Ju, Rational Jl, Polarization type) noexcept</div><div class="ttdoc">Gives the largest M for a polarization type of this transition.</div><div class="ttdef"><b>Definition:</b> <a href="zeemandata_8h_source.html#l00109">zeemandata.h:109</a></div></div>
+<div class="ttc" id="apropagationmatrix_8h_html_ab2d05693952610f937e5acb3c4a8fa1b"><div class="ttname"><a href="propagationmatrix_8h.html#ab2d05693952610f937e5acb3c4a8fa1b">b</a></div><div class="ttdeci">#define b</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="bofstream_8cc.html">bofstream.cc</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:09:57 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:13 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

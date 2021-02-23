@@ -6,6 +6,7 @@ var classGriddedField1 =
     [ "checksize_strict", "classGriddedField1.html#a03c3d6d49c6e87dca2ddf4e999f2c23f", null ],
     [ "resize", "classGriddedField1.html#a8217f8d9031b03a69976f9fa4ae48130", null ],
     [ "resize", "classGriddedField1.html#a2e003627fe15bbdb890fc8e058503238", null ],
+    [ "metaErrorData", "classGriddedField1.html#a19fbc8330746c683240a822b95fab015", null ],
     [ "operator<<", "classGriddedField1.html#a467fcb1ca295a746289a1fb26b1d1aaf", null ],
     [ "data", "classGriddedField1.html#ab551a578964e87ec96404a0268098820", null ]
 ];

@@ -22,7 +22,7 @@ var optproperties_8cc =
     [ "opt_prop_Bulk", "optproperties_8cc.html#aa59db91406fdb4ac93ea3f9b06a65eb3", null ],
     [ "opt_prop_NScatElems", "optproperties_8cc.html#ab3d6aef5d3bc9d81734632f7e03fd9d2", null ],
     [ "opt_prop_ScatSpecBulk", "optproperties_8cc.html#a23d5c978ceeedc46937e06fd6466940e", null ],
-    [ "opt_prop_sum_propmat_clearsky", "optproperties_8cc.html#a94ebddfc64ea1d79a1c5e5965c1e10c1", null ],
+    [ "opt_prop_sum_propmat_clearsky", "optproperties_8cc.html#a537ad56b88234a730cbd0886448b4b57", null ],
     [ "ParticleSSDMethodFromString", "optproperties_8cc.html#aa6e063e76bdb4080ea56ccc352e32d42", null ],
     [ "pha_mat_1ScatElem", "optproperties_8cc.html#a53ea57ffd73a0f30d3d7e983d8e271f7", null ],
     [ "pha_mat_Bulk", "optproperties_8cc.html#a93ba6869705b1b59952a677ff5caddaf", null ],

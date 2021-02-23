@@ -8,7 +8,7 @@ var m__oem_8cc =
     [ "particle_bulkprop_fieldClip", "m__oem_8cc.html#a33a60400d2de3228584bdc1e7e30b23d", null ],
     [ "vmr_fieldClip", "m__oem_8cc.html#ad2efec79b9dc225325d7c3c29e51eee2", null ],
     [ "x2artsAtmAndSurf", "m__oem_8cc.html#a8a83c62d9d0a8d8dfa56b3faa5bac267", null ],
-    [ "x2artsSensor", "m__oem_8cc.html#a26f87c01fdae31d6faed50a5de56e842", null ],
+    [ "x2artsSensor", "m__oem_8cc.html#a556169221ea7a436f46918a18476fbc1", null ],
     [ "x2artsSpectroscopy", "m__oem_8cc.html#a9403c9bc0894651c4e2c05e290a09e71", null ],
     [ "xaStandard", "m__oem_8cc.html#add83915b54822de09f07a51033279181", null ],
     [ "xClip", "m__oem_8cc.html#aab9c69719cbeb8ae5a1b377f8fc14724", null ]

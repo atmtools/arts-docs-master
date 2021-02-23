@@ -13,6 +13,13 @@
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: 5bdc8a37)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 1e75f054)</span>
    </div>
   </td>
  </tr>
@@ -60,7 +67,8 @@ $(document).ready(function(){initNavTree('debug_8h.html',''); initResizable(); }
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">debug.h File Reference</div>  </div>
 </div><!--header-->
@@ -68,7 +76,11 @@ $(document).ready(function(){initNavTree('debug_8h.html',''); initResizable(); }
 
 <p>Helper macros for debugging.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<div class="textblock"><code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;tuple&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 </div>
 <p><a href="debug_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -84,6 +96,22 @@ Macros</h2></td></tr>
 <tr class="separator:af4f3d7c6b7cb5b229e297f13d967d8a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59c877ebcc7c7acb5228af825df4c419"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a59c877ebcc7c7acb5228af825df4c419">DEBUG_VAR_FLT</a>(p,  e)</td></tr>
 <tr class="separator:a59c877ebcc7c7acb5228af825df4c419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a88a4c84d499e5ecc1163c8c48a43ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a6a88a4c84d499e5ecc1163c8c48a43ae">ARTS_NOEXCEPT</a></td></tr>
+<tr class="separator:a6a88a4c84d499e5ecc1163c8c48a43ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83dc73d5b992c69aabaf42db064c579a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a83dc73d5b992c69aabaf42db064c579a">ARTS_ASSERT</a>(condition, ...)</td></tr>
+<tr class="separator:a83dc73d5b992c69aabaf42db064c579a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a430fece7178f541a211506898728e8f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a430fece7178f541a211506898728e8f6">ARTS_USER_NOEXCEPT</a></td></tr>
+<tr class="separator:a430fece7178f541a211506898728e8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38272fa0419e9cdb2fb6b8332d992d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#ab38272fa0419e9cdb2fb6b8332d992d1">ARTS_USER_ERROR_IF</a>(condition, ...)</td></tr>
+<tr class="separator:ab38272fa0419e9cdb2fb6b8332d992d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4a2cf411add2c626b9f5a0a36e65de2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#aa4a2cf411add2c626b9f5a0a36e65de2">ARTS_USER_ERROR</a>(...)</td></tr>
+<tr class="separator:aa4a2cf411add2c626b9f5a0a36e65de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab2b0a11fc75c56c87c69ac4f739f44ac"><td class="memTemplParams" colspan="2">template&lt;typename ... Args&gt; </td></tr>
+<tr class="memitem:ab2b0a11fc75c56c87c69ac4f739f44ac"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:ab2b0a11fc75c56c87c69ac4f739f44ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper macros for debugging. </p>
@@ -92,6 +120,164 @@ Macros</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a83dc73d5b992c69aabaf42db064c579a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83dc73d5b992c69aabaf42db064c579a">&#9670;&nbsp;</a></span>ARTS_ASSERT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARTS_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {     \</div>
+<div class="line">  if (not (condition)) {                  \</div>
+<div class="line">    throw std::runtime_error(             \</div>
+<div class="line">    <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(<span class="stringliteral">&quot;Failed Internal Assert: &quot;</span> \</div>
+<div class="line">        #condition <span class="stringliteral">&quot;\n&quot;</span> <span class="stringliteral">&quot;This is a bug! &quot;</span> \</div>
+<div class="line">        <span class="stringliteral">&quot;Bug is found at:\n\t&quot;</span> __FILE__   \</div>
+<div class="line">        <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;\nPlease contact&quot;</span> \</div>
+<div class="line">        <span class="stringliteral">&quot; ARTS developers so we can fix &quot;</span> \</div>
+<div class="line">        <span class="stringliteral">&quot;our error(s) via:\n\t&quot;</span>           \</div>
+<div class="line">        <span class="stringliteral">&quot;github.com/atmtools/arts\n&quot;</span>) +   \</div>
+<div class="line">    <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(__VA_ARGS__)               \</div>
+<div class="line">    );                                    \</div>
+<div class="line">  } }</div>
+<div class="ttc" id="adebug_8h_html_ab2b0a11fc75c56c87c69ac4f739f44ac"><div class="ttname"><a href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a></div><div class="ttdeci">std::string var_string(Args &amp;&amp;... args)</div><div class="ttdef"><b>Definition:</b> <a href="debug_8h_source.html#l00036">debug.h:36</a></div></div>
+</div><!-- fragment --><p>Condition should be true to pass internal check </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00083">83</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
+<a id="a6a88a4c84d499e5ecc1163c8c48a43ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a88a4c84d499e5ecc1163c8c48a43ae">&#9670;&nbsp;</a></span>ARTS_NOEXCEPT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARTS_NOEXCEPT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn off noexcept </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00080">80</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
+<a id="aa4a2cf411add2c626b9f5a0a36e65de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4a2cf411add2c626b9f5a0a36e65de2">&#9670;&nbsp;</a></span>ARTS_USER_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARTS_USER_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                \</div>
+<div class="line">  static_assert(std::tuple_size&lt;decltype(     \</div>
+<div class="line">    std::make_tuple(__VA_ARGS__))&gt;::value,    \</div>
+<div class="line">    <span class="stringliteral">&quot;Must have an error message in user-&quot;</span>     \</div>
+<div class="line">    <span class="stringliteral">&quot;facing code in &quot;</span> __FILE__);              \</div>
+<div class="line">    throw std::runtime_error(                 \</div>
+<div class="line">      <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(<span class="stringliteral">&quot;User Error:\n&quot;</span>              \</div>
+<div class="line">        <span class="stringliteral">&quot;Error is found at:\n\t&quot;</span> __FILE__     \</div>
+<div class="line">        <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;\nPlease follow &quot;</span>     \</div>
+<div class="line">        <span class="stringliteral">&quot;these instructions to correct your &quot;</span> \</div>
+<div class="line">        <span class="stringliteral">&quot;error:\n&quot;</span>) + <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(__VA_ARGS__) \</div>
+<div class="line">    );                                        \</div>
+<div class="line">  }</div>
+</div><!-- fragment --><p>An error has occured, will throw the error </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00150">150</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
+<a id="ab38272fa0419e9cdb2fb6b8332d992d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab38272fa0419e9cdb2fb6b8332d992d1">&#9670;&nbsp;</a></span>ARTS_USER_ERROR_IF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARTS_USER_ERROR_IF</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {  \</div>
+<div class="line">  static_assert(std::tuple_size&lt;decltype(     \</div>
+<div class="line">    std::make_tuple(__VA_ARGS__))&gt;::value,    \</div>
+<div class="line">    <span class="stringliteral">&quot;Must have an error message in user-&quot;</span>     \</div>
+<div class="line">    <span class="stringliteral">&quot;facing code in &quot;</span> __FILE__);              \</div>
+<div class="line">  if (condition) {                            \</div>
+<div class="line">    throw std::runtime_error(                 \</div>
+<div class="line">      <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(<span class="stringliteral">&quot;User Error: &quot;</span> #condition    \</div>
+<div class="line">        <span class="stringliteral">&quot;\nError is found at:\n\t&quot;</span> __FILE__   \</div>
+<div class="line">        <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;\nPlease follow &quot;</span>     \</div>
+<div class="line">        <span class="stringliteral">&quot;these instructions to correct your &quot;</span> \</div>
+<div class="line">        <span class="stringliteral">&quot;error:\n&quot;</span>) + <a class="code" href="debug_8h.html#ab2b0a11fc75c56c87c69ac4f739f44ac">var_string</a>(__VA_ARGS__) \</div>
+<div class="line">    );                                        \</div>
+<div class="line">  } }</div>
+</div><!-- fragment --><p>Condition should be false to pass external check </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00134">134</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
+<a id="a430fece7178f541a211506898728e8f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a430fece7178f541a211506898728e8f6">&#9670;&nbsp;</a></span>ARTS_USER_NOEXCEPT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARTS_USER_NOEXCEPT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn off noexcept for user-facing functions </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00131">131</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
 <a id="af784b969bd266d765cee5c708fdb9bb4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af784b969bd266d765cee5c708fdb9bb4">&#9670;&nbsp;</a></span>DEBUG_COUNTER</h2>
 
@@ -113,7 +299,7 @@ Macros</h2></td></tr>
 <div class="line">  }</div>
 <div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00040">40</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00056">56</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
 
 </div>
 </div>
@@ -133,7 +319,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00036">36</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00052">52</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
 
 </div>
 </div>
@@ -153,7 +339,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00047">47</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00063">63</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
 
 </div>
 </div>
@@ -173,7 +359,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00051">51</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00067">67</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
 
 </div>
 </div>
@@ -209,7 +395,33 @@ Macros</h2></td></tr>
 <div class="line">              &lt;&lt; std::setprecision(old_p);                            \</div>
 <div class="line">  }</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00055">55</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00071">71</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ab2b0a11fc75c56c87c69ac4f739f44ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b0a11fc75c56c87c69ac4f739f44ac">&#9670;&nbsp;</a></span>var_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string var_string </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Take all arguments and turn to string by their <a class="el" href="abs__species__tags_8cc.html#a69c7065d9ba04d0e2bbb618e33005da5" title="Output operator for SpeciesTag.">operator&lt;&lt;()</a> </p>
+
+<p class="definition">Definition at line <a class="el" href="debug_8h_source.html#l00036">36</a> of file <a class="el" href="debug_8h_source.html">debug.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="m__checked_8cc_source.html#l00366">atmgeom_checkedCalc()</a>, <a class="el" href="check__input_8cc_source.html#l01694">chk_griddedfield_gridname()</a>, <a class="el" href="check__input_8cc_source.html#l00906">chk_interpolation_grids()</a>, <a class="el" href="gridded__fields_8cc_source.html#l00087">GriddedField::get_numeric_grid()</a>, and <a class="el" href="gridded__fields_8cc_source.html#l00123">GriddedField::get_string_grid()</a>.</p>
 
 </div>
 </div>
@@ -219,7 +431,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="debug_8h.html">debug.h</a></li>
-    <li class="footer">Generated on Tue Jan 19 2021 10:10:00 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 23 2021 10:40:18 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
