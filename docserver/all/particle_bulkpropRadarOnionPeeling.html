@@ -65,15 +65,29 @@ and ice ones for lower temperatures.
 
 Default is to consider attenuation of both hydrometeors and absorption
 species. These two sources to attenuation can be ignored by setting
-*do_atten_hyd* and *do_atten_abs* to zero, respectively. To avoid
-"run away" in attenuation, a maximum value to attenuation correction
-can be set by *dbze_max_corr*.
+*do_atten_hyd* and *do_atten_abs* to zero, respectively.
+
+Default is to consider hydrometeor attenuation, but there could be
+two reasons to ignore it. It can cause a "run away" effect in the
+retrievals. Ignoring it can also compensate for impact of multiple
+scattering in space-based observations, as shown by: Matrosov and
+Battaglia, GRL, 2009. However, ignoring the hydrometeor attenuation
+totally gives a too high compensating effect and the GIN
+*atten_hyd_scaling* allows to test intermediate compensations. This
+GIN matches the GIN pext_scaling of <a href="iyRadarSingleScat.html">iyRadarSingleScat</a>, but they
+have different default values. The default in this method follows the
+results for CloudSat in Matrosov and Battaglia. Please note that
+*do_atten_hyd* must be true to apply *atten_hyd_scaling*.
+
+Even with *atten_hyd_scaling* below 1, there could be a run-away in
+the estimated attenuation, and *atten_hyd_max* stops this by setting
+a maximum value to the hydrometeor attenuation.
 
 </pre>
 
 <p><b>Authors: </b>Patrick Eriksson
 <h3>Synopsis</h3>
-<p><table><tr><td>particle_bulkpropRadarOnionPeeling(&nbsp;</td><td><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/scat_species.html">scat_species</a>, invtable, incangles, dBZe, dbze_noise, h_clutter, fill_clutter, t_phase, do_atten_abs, do_atten_hyd, dbze_max_corr, wc_max, wc_clip )</td></tr></table>
+<p><table><tr><td>particle_bulkpropRadarOnionPeeling(&nbsp;</td><td><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a>, <a href="../variables/particle_bulkprop_names.html">particle_bulkprop_names</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/p_grid.html">p_grid</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/t_field.html">t_field</a>, <a href="../variables/z_field.html">z_field</a>, <a href="../variables/vmr_field.html">vmr_field</a>, <a href="../variables/z_surface.html">z_surface</a>, <a href="../variables/atmfields_checked.html">atmfields_checked</a>, <a href="../variables/atmgeom_checked.html">atmgeom_checked</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../agendas/propmat_clearsky_agenda.html">propmat_clearsky_agenda</a>, <a href="../variables/scat_species.html">scat_species</a>, invtable, incangles, dBZe, dbze_noise, h_clutter, fill_clutter, t_phase, wc_max, wc_clip, do_atten_abs, do_atten_hyd, atten_hyd_scaling, atten_hyd_max )</td></tr></table>
 <h3>Variables</h3>
 <table>
 <tr><td>OUT</td><td class="right"><a href="../variables/particle_bulkprop_field.html">particle_bulkprop_field</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>Container for various data that describes scattering bulk properties.</td></tr>
@@ -95,17 +109,18 @@ can be set by *dbze_max_corr*.
 <tr><td>GIN</td><td class="right">incangles</td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Incidence angles.</td></tr>
 <tr><td>GIN</td><td class="right">dBZe</td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Field of radar reflectivities, in dBZe.</td></tr>
 <tr><td>GIN</td><td class="right">dbze_noise</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: -99)</td><td>Noise level. See above.</td></tr>
-<tr><td>GIN</td><td class="right">h_clutter</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>Height of clutter zone.</td></tr>
-<tr><td>GIN</td><td class="right">fill_clutter</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to fill clutter zone, by copuyting retrieval just above it.</td></tr>
+<tr><td>GIN</td><td class="right">h_clutter</td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Height of clutter zone. Either same size as <a href="../variables/z_surface.html">z_surface</a> or a single value. In the later case, that value is applied at all positions.</td></tr>
+<tr><td>GIN</td><td class="right">fill_clutter</td><td>(<a href="../groups/Index.html">Index</a>, Default: 0)</td><td>Flag to fill clutter zone, by copying retrieval just above it.</td></tr>
 <tr><td>GIN</td><td class="right">t_phase</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 273.15)</td><td>Phase boundary temperature. See above.</td></tr>
-<tr><td>GIN</td><td class="right">do_atten_abs</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to hydrometeors.</td></tr>
-<tr><td>GIN</td><td class="right">do_atten_hyd</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to absorption species.</td></tr>
-<tr><td>GIN</td><td class="right">dbze_max_corr</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 10)</td><td>Max allowed change of measured dBZe to approx. correct for attenuation.</td></tr>
 <tr><td>GIN</td><td class="right">wc_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 10e-3)</td><td>Max reasonable water content</td></tr>
 <tr><td>GIN</td><td class="right">wc_clip</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 5e-3)</td><td>Clip value for water content retrievals.</td></tr>
+<tr><td>GIN</td><td class="right">do_atten_abs</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to hydrometeors.</td></tr>
+<tr><td>GIN</td><td class="right">do_atten_hyd</td><td>(<a href="../groups/Index.html">Index</a>, Default: 1)</td><td>Flag to consider attenuation due to absorption species.</td></tr>
+<tr><td>GIN</td><td class="right">atten_hyd_scaling</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0.5)</td><td>Hydrometeor attenuation scaling factor.</td></tr>
+<tr><td>GIN</td><td class="right">atten_hyd_max</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 3)</td><td>Hydrometeor attenuation not allowed to pass this value [dB].</td></tr>
 </table>
 </div>
-<div class="footer">Page generated by arts-2.5.0 (git: 1e75f054)</div>
+<div class="footer">Page generated by arts-2.5.0 (git: f5ac6156)</div>
 
 </body>
 </html>

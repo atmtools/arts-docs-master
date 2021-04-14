@@ -15,8 +15,11 @@ var linescaling_8h =
     [ "dstimulated_emissiondF0", "linescaling_8h.html#a2d1f3c324a8086b6b310e476cbc4ac2f", null ],
     [ "dstimulated_emissiondT", "linescaling_8h.html#aaa251f1ba9836e0521f7f3ef97806914", null ],
     [ "dstimulated_relative_emission_dF0", "linescaling_8h.html#a8412d99dfcf6379f84a2350c371e9ea4", null ],
+    [ "dstimulated_relative_emission_dF0", "linescaling_8h.html#a52066241c0c1ac08039c96e6ee39ae97", null ],
     [ "dstimulated_relative_emission_dT", "linescaling_8h.html#a11625c0ca9965f43039a4889a152c5fa", null ],
+    [ "dstimulated_relative_emission_dT", "linescaling_8h.html#afb5a6802a6bddd7924b7251729a5d084", null ],
     [ "single_partition_function", "linescaling_8h.html#a111b8f958ce4f3b495a0a88536d61f79", null ],
     [ "stimulated_emission", "linescaling_8h.html#a16a7ada6dba42dadd627b396720fb02a", null ],
-    [ "stimulated_relative_emission", "linescaling_8h.html#a1ae35d3f91bd7cc2f4e6f477b32794ea", null ]
+    [ "stimulated_relative_emission", "linescaling_8h.html#a1ae35d3f91bd7cc2f4e6f477b32794ea", null ],
+    [ "stimulated_relative_emission", "linescaling_8h.html#a8d3495e4d65e6d69ded29885918258ce", null ]
 ];

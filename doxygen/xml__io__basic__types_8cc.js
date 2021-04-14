@@ -16,7 +16,7 @@ var xml__io__basic__types_8cc =
     [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#a96b0354e57865dfc1dac9acd487bb4ec", null ],
     [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#a5ad75d01dce41a21278eb95a36335f72", null ],
     [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#a6a375aa7f00ef568e3430a8c742a4df9", null ],
-    [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#ae3da866943da13adb8b5de1919173a5c", null ],
+    [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#ab83b7982db5a2f741f6f0a198faafedf", null ],
     [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#a0ef26f646fb63e230cbbeee935265c95", null ],
     [ "xml_read_from_stream", "xml__io__basic__types_8cc.html#a2d4329711b4093798269a422c358cda3", null ],
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#aa638a7a8e587b0502eaf5ffa745f4b6f", null ],
@@ -34,7 +34,7 @@ var xml__io__basic__types_8cc =
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#add982475a2bf471a409fedb65ef125d0", null ],
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#a789ffda0a89575873e537ee8cb1097c9", null ],
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#ac7a2ad4686d4f9413f5839376900d35a", null ],
-    [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#a5224b08ab72288a4dbd75dc887e4b880", null ],
+    [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#a3a93cfaea0044eb230ffec1735881573", null ],
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#a401b9ff617bb7e298934633fe778b53e", null ],
     [ "xml_write_to_stream", "xml__io__basic__types_8cc.html#a96f043b8ff77b2fc282cfdff00c22241", null ]
 ];

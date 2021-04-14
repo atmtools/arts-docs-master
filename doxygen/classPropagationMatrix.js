@@ -73,7 +73,6 @@ var classPropagationMatrix =
     [ "SetAtPosition", "classPropagationMatrix.html#a78a6999e1b1f91c9a7bca3ec30bf1d60", null ],
     [ "SetAtPosition", "classPropagationMatrix.html#a3bce15eeefa291fad20a23c615972615", null ],
     [ "SetFaraday", "classPropagationMatrix.html#a440c02aa287d4b6b2c3dca3590965223", null ],
-    [ "SetVectorType", "classPropagationMatrix.html#a4768d678fb4e5f7981f82ffdf532d500", null ],
     [ "SetZero", "classPropagationMatrix.html#a5a61300a4950b531250ded9c3bd5a837", null ],
     [ "StokesDimensions", "classPropagationMatrix.html#a61d2c30bd36e0227a1358819995453ba", null ],
     [ "maa", "classPropagationMatrix.html#ab8c768073a0875983780ed2d11a6f32f", null ],

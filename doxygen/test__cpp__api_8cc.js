@@ -15,8 +15,8 @@ var test__cpp__api_8cc =
     [ "ppath_agenda_plane_parallel", "test__cpp__api_8cc.html#a3e2bfcd4ae6c44ce327678bcb0f36fb8", null ],
     [ "ppath_step_agenda_geometric_path", "test__cpp__api_8cc.html#ad2cb470178f51b5cc8af6ab9a8db8d32", null ],
     [ "ppath_step_agenda_refracted_path", "test__cpp__api_8cc.html#a7bc503325520da84add63b6f71688d6c", null ],
-    [ "propmat_clearsky_agenda_on_the_fly", "test__cpp__api_8cc.html#a63f0a4ba2e71661c949e83af83d9e022", null ],
     [ "propmat_clearsky_agenda_on_the_fly_zeeman", "test__cpp__api_8cc.html#af3412deaf9bbb0cd8bc8dfc9128888bb", null ],
+    [ "propmat_clearsky_agenda_xsec_agenda", "test__cpp__api_8cc.html#a8561a4f275cee169b38f90bfd0d6b546", null ],
     [ "surface_rtprop_agenda_blackbody_from_atmosphere", "test__cpp__api_8cc.html#a6ff0f2b13a0d41cac14b02ed288f9891", null ],
     [ "surface_rtprop_agenda_blackbody_from_surface", "test__cpp__api_8cc.html#a6e896a1363675357c360d988d9e770a6", null ],
     [ "water_p_eq_agenda_default", "test__cpp__api_8cc.html#a27f11602d41c57d523e23f66b9e0a41a", null ]

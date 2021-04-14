@@ -25,6 +25,10 @@ var classLineShape_1_1SingleSpeciesModel =
     [ "Set", "classLineShape_1_1SingleSpeciesModel.html#ad3d3986eea6fdefbc4bfbfe4ce471fab", null ],
     [ "special_linemixing_aer", "classLineShape_1_1SingleSpeciesModel.html#af6ed02a846bbd0e039af87a4cf29c420", null ],
     [ "special_linemixing_aer_dT", "classLineShape_1_1SingleSpeciesModel.html#a751913c16ed934efe6ac9902c11a6c93", null ],
+    [ "special_linemixing_aer_dX0", "classLineShape_1_1SingleSpeciesModel.html#a4a609bf21a96a56126409ee56f5750cd", null ],
+    [ "special_linemixing_aer_dX1", "classLineShape_1_1SingleSpeciesModel.html#a70178aa12e0ae283e0e8b4f247d5593f", null ],
+    [ "special_linemixing_aer_dX2", "classLineShape_1_1SingleSpeciesModel.html#a3aa6896cb589649a30c839965601e7c1", null ],
+    [ "special_linemixing_aer_dX3", "classLineShape_1_1SingleSpeciesModel.html#a8b3114aefbddc809cb5482ab5243cc13", null ],
     [ "write", "classLineShape_1_1SingleSpeciesModel.html#a7f251817373e89bde5c0e7e12a26bcca", null ],
     [ "X", "classLineShape_1_1SingleSpeciesModel.html#a77c83e419fa21d2abd8a48c6c0e0b232", null ]
 ];

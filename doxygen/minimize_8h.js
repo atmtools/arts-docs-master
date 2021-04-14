@@ -1,5 +1,6 @@
 var minimize_8h =
 [
+    [ "Wave", "structMinimize_1_1Wave.html", "structMinimize_1_1Wave" ],
     [ "T4", "structMinimize_1_1T4.html", "structMinimize_1_1T4" ],
     [ "DPL", "structMinimize_1_1DPL.html", "structMinimize_1_1DPL" ],
     [ "curve_fit", "minimize_8h.html#ab35f3cd8afe859251afbfbb364f06983", null ],

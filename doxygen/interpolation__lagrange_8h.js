@@ -10,7 +10,6 @@ var interpolation__lagrange_8h =
     [ "MatrixOfMatrix", "interpolation__lagrange_8h.html#ac30c62fcf8561df038c30dcc6a73c351", null ],
     [ "Tensor3OfTensor3", "interpolation__lagrange_8h.html#af0d6e751677278cca872e4ab69e582b1", null ],
     [ "VectorOfVector", "interpolation__lagrange_8h.html#a850ea3df8b3ef4717a7c49df6edd1e42", null ],
-    [ "abs", "interpolation__lagrange_8h.html#a52a5124ce15204d5a933a864b6cc6e62", null ],
     [ "check_lagrange_interpolation", "interpolation__lagrange_8h.html#a82091f22b307fd4ae4d074c3ff10e84c", null ],
     [ "check_lagrange_interpolation", "interpolation__lagrange_8h.html#a0d9f30e77b1101de0118a63b6e425628", null ],
     [ "cycler", "interpolation__lagrange_8h.html#a04d5ee66376ac7223e72fc66da39ae83", null ],

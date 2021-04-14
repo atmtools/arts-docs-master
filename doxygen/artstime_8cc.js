@@ -1,6 +1,8 @@
 var artstime_8cc =
 [
+    [ "mean", "artstime_8cc.html#a00486d5b01325db46c1369fd1446e572", null ],
     [ "mean_time", "artstime_8cc.html#a7e0498e58d089305b4063ab0e3cb0091", null ],
+    [ "median", "artstime_8cc.html#a8d07386710e9183feef409a8879be96e", null ],
     [ "next_even", "artstime_8cc.html#acceeb960d2cb690a52a2fd913e5397e1", null ],
     [ "operator<<", "artstime_8cc.html#a0287b008277738b9882ed96467e8b4f8", null ],
     [ "operator>>", "artstime_8cc.html#ac1315fcbe22ec134af68e7f6468344f6", null ],

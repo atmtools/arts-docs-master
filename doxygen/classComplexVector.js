@@ -13,10 +13,12 @@ var classComplexVector =
     [ "ComplexVector", "classComplexVector.html#ac4d308fa9d92caa3bbc54a2e103b4b6f", null ],
     [ "ComplexVector", "classComplexVector.html#abe6bcb97442233c06ec6d733617fc68d", null ],
     [ "ComplexVector", "classComplexVector.html#acf4de390ad5364ad9e2898e9b8d90678", null ],
+    [ "ComplexVector", "classComplexVector.html#aa0c82a89b5ab36690138a3ec78353d34", null ],
     [ "~ComplexVector", "classComplexVector.html#a1c29787bce7c14eed541d056c5158f9f", null ],
     [ "operator=", "classComplexVector.html#a4bbdf8a855c1587648de2c52d00b3dc0", null ],
     [ "operator=", "classComplexVector.html#a3b351bb5967c193eed09692e992291ec", null ],
     [ "operator=", "classComplexVector.html#a8c1b4917481d8831fd7857211a25a486", null ],
     [ "resize", "classComplexVector.html#ab5942e962921dc8ee7641a0fc143216e", null ],
+    [ "size", "classComplexVector.html#a9e653b3e8400e7790b87e810c0ebc2b8", null ],
     [ "swap", "classComplexVector.html#afc46e40222b3f1a465fe7084435d844a", null ]
 ];

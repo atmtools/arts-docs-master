@@ -13,5 +13,6 @@ var classComplexMatrix =
     [ "operator=", "classComplexMatrix.html#ab4fa78b108093ed4635804a440eb6710", null ],
     [ "operator=", "classComplexMatrix.html#a5a6ff2c75cb39fd0a932c88b13f33216", null ],
     [ "resize", "classComplexMatrix.html#a3946b9eee20e635031659fe4effb888a", null ],
+    [ "size", "classComplexMatrix.html#afb877782d992b4ac57ae5a63c7b85697", null ],
     [ "swap", "classComplexMatrix.html#aeb1387d715b77735aa1c253ac091e2e4", null ]
 ];

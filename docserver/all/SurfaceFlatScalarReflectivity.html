@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>SurfaceFlatScalarReflectivity - ARTS built-in documentation server</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="navbar"><div class="breadcrumbs"><a href="../index.html">Home</a>&nbsp;>>&nbsp;<a href="../methods.html">Methods</a>&nbsp;>>&nbsp;SurfaceFlatScalarReflectivity</div>
+<div class="goto">Go to: <a href="../groups/index.html">Groups</a>&nbsp;-&nbsp;<a href="../variables/index.html">Variables</a>&nbsp;-&nbsp;<a href="index.html">Methods</a>&nbsp;-&nbsp;<a href="../agendas/index.html">Agendas</a></div></div>
+<div class="content">
+<h1>ARTS built-in documentation server</h1>
+<h2>Workspace Method SurfaceFlatScalarReflectivity</h2>
+<h3>Description</h3>
+<pre>
+Piecewise linear scalar surface reflectivity.
+
+This method is similar to <a href="surfaceFlatScalarReflectivity.html">surfaceFlatScalarReflectivity</a> but the
+reflectivities are specified differently and Jacobian calculations
+are supported. See <a href="SurfaceFastem.html">SurfaceFastem</a> for general remarks about
+methods of SurfaceSomething type.
+
+The method works with scalar reflectivies, i.e. it is assumed that
+the reflection at vertical and horizontal polarisation is identical.
+The scalar reflectivity is given at a number of frequencies,
+specified by the GIN *f_reflectivities*. The reflectivity at the
+first frequency is denoted as "Scalar reflectivity 0" etc. Between
+the frequencies in *f_reflectivities*, the reflectivity is treated
+to vary linearly. The reflectivity is assumed to be constant outside
+of *f_reflectivities*, and the end points in *f_reflectivities* can be
+both inside and outside of the range of <a href="../variables/f_grid.html">f_grid</a>. Setting
+*f_reflectivities* to have a single value, implies that the reflectivity
+is constant over <a href="../variables/f_grid.html">f_grid</a>.
+
+For this method, <a href="../variables/surface_props_data.html">surface_props_data</a> must contain these data:
+  "Skin temperature"
+  "Scalar reflectivity 0"
+  "Scalar reflectivity 1"
+  ...
+  "Scalar reflectivity N"
+where N is the length of *f_reflectivities*-1.
+
+</pre>
+
+<p><b>Authors: </b>Patrick Eriksson
+<h3>Synopsis</h3>
+<p><table><tr><td>SurfaceFlatScalarReflectivity(&nbsp;</td><td><a href="../variables/surface_los.html">surface_los</a>, <a href="../variables/surface_rmatrix.html">surface_rmatrix</a>, <a href="../variables/dsurface_rmatrix_dx.html">dsurface_rmatrix_dx</a>, <a href="../variables/surface_emission.html">surface_emission</a>, <a href="../variables/dsurface_emission_dx.html">dsurface_emission_dx</a>, <a href="../variables/stokes_dim.html">stokes_dim</a>, <a href="../variables/atmosphere_dim.html">atmosphere_dim</a>, <a href="../variables/lat_grid.html">lat_grid</a>, <a href="../variables/lon_grid.html">lon_grid</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/rtp_pos.html">rtp_pos</a>, <a href="../variables/rtp_los.html">rtp_los</a>, <a href="../variables/specular_los.html">specular_los</a>, <a href="../variables/surface_props_data.html">surface_props_data</a>, <a href="../variables/surface_props_names.html">surface_props_names</a>, <a href="../variables/dsurface_names.html">dsurface_names</a>, <a href="../variables/jacobian_do.html">jacobian_do</a>, f_reflectivities )</td></tr></table>
+<h3>Variables</h3>
+<table>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_los.html">surface_los</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>Downwelling radiation directions to consider in surface reflection.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_rmatrix.html">surface_rmatrix</a></td><td>(<a href="../groups/Tensor4.html">Tensor4</a>)</td><td>The reflection coefficients for the directions given by <a href="../variables/surface_los.html">surface_los</a> to the direction of interest.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/dsurface_rmatrix_dx.html">dsurface_rmatrix_dx</a></td><td>(<a href="../groups/ArrayOfTensor4.html">ArrayOfTensor4</a>)</td><td>The derivative of <a href="../variables/surface_rmatrix.html">surface_rmatrix</a> with respect to quantities listed in <a href="../variables/dsurface_names.html">dsurface_names</a>.</td></tr>
+<tr><td>OUT</td><td class="right"><a href="../variables/surface_emission.html">surface_emission</a></td><td>(<a href="../groups/Matrix.html">Matrix</a>)</td><td>The emission from the surface.</td></tr>
+<tr><td>OUT+IN</td><td class="right"><a href="../variables/dsurface_emission_dx.html">dsurface_emission_dx</a></td><td>(<a href="../groups/ArrayOfMatrix.html">ArrayOfMatrix</a>)</td><td>The derivative of <a href="../variables/surface_emission.html">surface_emission</a> with respect to quantities listed in <a href="../variables/dsurface_names.html">dsurface_names</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/stokes_dim.html">stokes_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The dimensionality of the Stokes vector (1-4).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/atmosphere_dim.html">atmosphere_dim</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>The atmospheric dimensionality (1-3).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lat_grid.html">lat_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The latitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/lon_grid.html">lon_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The longitude grid.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/f_grid.html">f_grid</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The frequency grid for monochromatic pencil beam calculations.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_pos.html">rtp_pos</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Position of a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/rtp_los.html">rtp_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Line-of-sight at a radiative transfer point.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/specular_los.html">specular_los</a></td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>The specular direction (for reflection by a flat surface).</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_props_data.html">surface_props_data</a></td><td>(<a href="../groups/Tensor3.html">Tensor3</a>)</td><td>Various surface properties.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/surface_props_names.html">surface_props_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Name on surface properties found in <a href="../variables/surface_props_data.html">surface_props_data</a>.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/dsurface_names.html">dsurface_names</a></td><td>(<a href="../groups/ArrayOfString.html">ArrayOfString</a>)</td><td>Name of surface retrieval quantities.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/jacobian_do.html">jacobian_do</a></td><td>(<a href="../groups/Index.html">Index</a>)</td><td>Flag to activate (clear-sky) Jacobian calculations.</td></tr>
+<tr><td>GIN</td><td class="right">f_reflectivities</td><td>(<a href="../groups/Vector.html">Vector</a>)</td><td>Frequency retrieval grid, see above.</td></tr>
+</table>
+</div>
+<div class="footer">Page generated by arts-2.5.0 (git: f5ac6156)</div>
+
+</body>
+</html>

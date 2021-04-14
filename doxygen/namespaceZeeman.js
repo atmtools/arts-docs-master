@@ -14,7 +14,7 @@ var namespaceZeeman =
     [ "AllPolarization_deta", "namespaceZeeman.html#a96b59a04056f0a03e453b1ef20cb2001", null ],
     [ "AllPolarization_dtheta", "namespaceZeeman.html#a9b314911099e23d5ba39f218fbda9797", null ],
     [ "dM", "namespaceZeeman.html#a1125330405766d041c95e34568b2fe3d", null ],
-    [ "dsum", "namespaceZeeman.html#aaaefef6c598b9c612551eab0a1517b0d", null ],
+    [ "dsum", "namespaceZeeman.html#ab0b3686dc74964470fd8ba668f81fa0e", null ],
     [ "end", "namespaceZeeman.html#afd21c87c99c343559868405d885294f5", null ],
     [ "FromGrids", "namespaceZeeman.html#a8d838e2350671563ac42471964476b0a", null ],
     [ "FromPreDerived", "namespaceZeeman.html#a74a9f61e98a2ef10a9d2b287fbfc1bb5", null ],
@@ -34,5 +34,5 @@ var namespaceZeeman =
     [ "SimpleGCaseA", "namespaceZeeman.html#a7e094b4bb29dede451bd5e8085abba3e", null ],
     [ "SimpleGCaseB", "namespaceZeeman.html#a34c8531c2eac7c6b4fd4df92b14e097d", null ],
     [ "start", "namespaceZeeman.html#a5a24367cfa454aeb6730983395042ecf", null ],
-    [ "sum", "namespaceZeeman.html#ada86e29061b1eb5782e9162d41fa7bcb", null ]
+    [ "sum", "namespaceZeeman.html#ac2760e60eebc12a14dd1afafa3d180d9", null ]
 ];

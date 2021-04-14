@@ -1,6 +1,7 @@
 var classZeeman_1_1Model =
 [
     [ "Model", "classZeeman_1_1Model.html#aced449ed390874abaa90eb600c8e9246", null ],
+    [ "Model", "classZeeman_1_1Model.html#a28344944f1db47ed09939baa918e323b", null ],
     [ "Model", "classZeeman_1_1Model.html#a206d915322e9715abdf4a874088140fe", null ],
     [ "empty", "classZeeman_1_1Model.html#a8cbfb34ada7d5c023255e3886176bf45", null ],
     [ "gl", "classZeeman_1_1Model.html#a8c29a6ba61560890dfb30476af842a8d", null ],

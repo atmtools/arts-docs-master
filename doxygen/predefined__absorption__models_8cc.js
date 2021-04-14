@@ -1,9 +1,8 @@
 var predefined__absorption__models_8cc =
 [
-    [ "init_mpm2020_lsm", "predefined__absorption__models_8cc.html#a5666ebb326c564a898eed518c6f2c79b", null ],
-    [ "init_mpm2020_qid", "predefined__absorption__models_8cc.html#acefa971eb76f424e22396fc58636c4b4", null ],
-    [ "init_mpm2020_qids", "predefined__absorption__models_8cc.html#ae5e726cf8782776706cf5d1a136c0391", null ],
-    [ "init_mpm2020_slsm", "predefined__absorption__models_8cc.html#a52ff17167f9711c1469211b57daef6f3", null ],
-    [ "necs2020", "predefined__absorption__models_8cc.html#af51dfcee7ef3d943fb018f775916a783", null ],
-    [ "nlines_mpm2020", "predefined__absorption__models_8cc.html#abadcdc8abcbeba7e2671cd07d6a48b92", null ]
+    [ "init_mpm2020_lsm", "predefined__absorption__models_8cc.html#a9c6eb8f16c9b80522f6c587d0b9d591e", null ],
+    [ "init_mpm2020_qid", "predefined__absorption__models_8cc.html#a7f3d706e9e90dd70471fc2bd6c0f4213", null ],
+    [ "init_mpm2020_qids", "predefined__absorption__models_8cc.html#a2ddb0c3761f1d1396619e09efc7cb67d", null ],
+    [ "init_mpm2020_slsm", "predefined__absorption__models_8cc.html#aeb082ca31c5c5ba84558a406946a803c", null ],
+    [ "nlines_mpm2020", "predefined__absorption__models_8cc.html#a5b0c36d6e6e192f46fe999472f9190c0", null ]
 ];

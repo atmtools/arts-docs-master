@@ -24,7 +24,6 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -154,6 +153,7 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sized</span>
 <span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
 
+<span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesTag</span> <span class="kn">import</span> <span class="n">ArrayOfSpeciesTag</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">Numeric</span><span class="p">,</span> <span class="n">String</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.QuantumIdentifier</span> <span class="kn">import</span> <span class="n">QuantumIdentifier</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
@@ -219,6 +219,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">specieslist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Identifier of the Jacobian line parameter (ArrayOfSpeciesTag) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArrayOfSpeciesTag</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesListJacobianTarget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@specieslist</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">specieslist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specieslist</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">string_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Identifier of the Jacobian line parameter (String) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getStringKeyJacobianTarget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+
+    <span class="nd">@string_key</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">string_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">string_key</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">perturbation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Perturbation for some calculations (Numeric) &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Numeric</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getPerturbationJacobianTarget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
@@ -249,6 +267,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">subtype</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">perturbation</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">quantumidentity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">string_key</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">string_key</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specieslist</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">specieslist</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects JacobianTarget&quot;</span><span class="p">)</span>
 
@@ -283,7 +303,9 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span>\
                 <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">subtype</span> <span class="ow">and</span> \
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">perturbation</span> <span class="ow">or</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isnan</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">perturbation</span><span class="p">)))</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">quantumidentity</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">quantumidentity</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">string_key</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">string_key</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">specieslist</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">specieslist</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
@@ -324,6 +346,12 @@
 
 <span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentityJacobianTarget</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentityJacobianTarget</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesListJacobianTarget</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesListJacobianTarget</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getStringKeyJacobianTarget</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getStringKeyJacobianTarget</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 </pre></div>
 
            </div>

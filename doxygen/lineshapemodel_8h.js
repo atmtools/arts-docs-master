@@ -32,6 +32,8 @@ var lineshapemodel_8h =
     [ "from_linefunctiondata", "lineshapemodel_8h.html#afd3bb646d01c51f5fb0b4ad73bd7e0d5", null ],
     [ "from_linemixingdata", "lineshapemodel_8h.html#ace4b6bc4d2a8562b90538170b2fce082", null ],
     [ "from_pressurebroadeningdata", "lineshapemodel_8h.html#adeb0f3557a6b5c82e3676bb28716eaf7", null ],
+    [ "hitran_model", "lineshapemodel_8h.html#a4ab032ecbfaa3becf5f28f210ec51016", null ],
+    [ "lblrtm_model", "lineshapemodel_8h.html#a1644d97831ae5bcc36083289421729d9", null ],
     [ "linemixingtag2variablesvector", "lineshapemodel_8h.html#a772197c071aec9836a8540a9b5d6586b", null ],
     [ "lineshapetag2variablesvector", "lineshapemodel_8h.html#ad50edb6ddf33cef7d39969e008d46a38", null ],
     [ "mass", "lineshapemodel_8h.html#a61c6c37c5f89b053bf1bf9afea451ce2", null ],

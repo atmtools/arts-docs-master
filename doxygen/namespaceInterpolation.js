@@ -1,8 +1,5 @@
 var namespaceInterpolation =
 [
-    [ "nonstd", "namespaceInterpolation_1_1nonstd.html", [
-      [ "abs", "namespaceInterpolation_1_1nonstd.html#a52a5124ce15204d5a933a864b6cc6e62", null ]
-    ] ],
     [ "Grid", "classInterpolation_1_1Grid.html", "classInterpolation_1_1Grid" ],
     [ "FixedGrid", "classInterpolation_1_1FixedGrid.html", "classInterpolation_1_1FixedGrid" ],
     [ "Lagrange", "structInterpolation_1_1Lagrange.html", "structInterpolation_1_1Lagrange" ],

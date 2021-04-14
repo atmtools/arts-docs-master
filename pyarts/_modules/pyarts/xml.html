@@ -24,7 +24,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -204,6 +203,13 @@
         <span class="n">xmlopen</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xmlopen</span> <span class="o">=</span> <span class="nb">open</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;savexml&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;ascii&quot;</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.gz&#39;</span><span class="p">):</span>
+            <span class="nb">format</span> <span class="o">=</span> <span class="s2">&quot;zascii&quot;</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">savexml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="k">with</span> <span class="n">xmlopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;binary&#39;</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.bin&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">binaryfp</span><span class="p">:</span>
@@ -255,12 +261,26 @@
         <span class="n">xmlopen</span> <span class="o">=</span> <span class="nb">open</span>
 
     <span class="n">binaryfilename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.bin&#39;</span>
-    <span class="k">with</span> <span class="n">xmlopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">binaryfilename</span><span class="p">):</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">binaryfilename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">,)</span> <span class="k">as</span> <span class="n">binaryfp</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">read</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">binaryfp</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">read</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span></div>
+    <span class="n">artstag</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">xmlopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">binaryfilename</span><span class="p">):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">binaryfilename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">,)</span> <span class="k">as</span> <span class="n">binaryfp</span><span class="p">:</span>
+                    <span class="n">root</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">binaryfp</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+                    <span class="n">artstag</span> <span class="o">=</span> <span class="n">root</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span>
+                    <span class="k">return</span> <span class="n">root</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+                <span class="n">artstag</span> <span class="o">=</span> <span class="n">root</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span>
+                <span class="k">return</span> <span class="n">root</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">pyarts.classes</span> <span class="k">as</span> <span class="nn">native_classes</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">native_classes</span><span class="p">,</span> <span class="n">artstag</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">native_classes</span><span class="p">,</span> <span class="n">artstag</span><span class="p">),</span> <span class="s2">&quot;readxml&quot;</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">native_classes</span><span class="p">,</span> <span class="n">artstag</span><span class="p">)()</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="k">raise</span></div>
 
 
 <div class="viewcode-block" id="load_directory"><a class="viewcode-back" href="../../generated/pyarts.xml.load_directory.html#pyarts.xml.load_directory">[docs]</a><span class="k">def</span> <span class="nf">load_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

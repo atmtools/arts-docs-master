@@ -14,12 +14,15 @@ var linescaling_8cc =
     [ "dstimulated_emissiondF0", "linescaling_8cc.html#a2d1f3c324a8086b6b310e476cbc4ac2f", null ],
     [ "dstimulated_emissiondT", "linescaling_8cc.html#aaa251f1ba9836e0521f7f3ef97806914", null ],
     [ "dstimulated_relative_emission_dF0", "linescaling_8cc.html#a8412d99dfcf6379f84a2350c371e9ea4", null ],
+    [ "dstimulated_relative_emission_dF0", "linescaling_8cc.html#a52066241c0c1ac08039c96e6ee39ae97", null ],
     [ "dstimulated_relative_emission_dT", "linescaling_8cc.html#a11625c0ca9965f43039a4889a152c5fa", null ],
+    [ "dstimulated_relative_emission_dT", "linescaling_8cc.html#afb5a6802a6bddd7924b7251729a5d084", null ],
     [ "single_partition_function", "linescaling_8cc.html#a111b8f958ce4f3b495a0a88536d61f79", null ],
     [ "SingleCalculatePartitionFctFromCoeff", "linescaling_8cc.html#a6155fc8d8aba33522eb0fae350ab509f", null ],
     [ "SingleCalculatePartitionFctFromCoeff_dT", "linescaling_8cc.html#a924b6f1d833dfc11f59eafe6f072c5a2", null ],
     [ "SingleCalculatePartitionFctFromData", "linescaling_8cc.html#aee4c536b4571664c20479b36a7fce6b0", null ],
     [ "SingleCalculatePartitionFctFromData_dT", "linescaling_8cc.html#acd92c06680ce6f507fa7a36f1be91b82", null ],
     [ "stimulated_emission", "linescaling_8cc.html#a16a7ada6dba42dadd627b396720fb02a", null ],
-    [ "stimulated_relative_emission", "linescaling_8cc.html#a1ae35d3f91bd7cc2f4e6f477b32794ea", null ]
+    [ "stimulated_relative_emission", "linescaling_8cc.html#a1ae35d3f91bd7cc2f4e6f477b32794ea", null ],
+    [ "stimulated_relative_emission", "linescaling_8cc.html#a8d3495e4d65e6d69ded29885918258ce", null ]
 ];

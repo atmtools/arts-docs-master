@@ -26,6 +26,7 @@ var propagationmatrix_8h =
     [ "compute_transmission_matrix_and_derivative", "propagationmatrix_8h.html#a9ce297c00b45bd4bc7444d3c6eb99150", null ],
     [ "compute_transmission_matrix_from_averaged_matrix_at_frequency", "propagationmatrix_8h.html#ae6dd24b00e7ed487f5f5f7081f12d987", null ],
     [ "inv_prop_matrix", "propagationmatrix_8h.html#ada4eafafdca233afa870db3b19fc442e", null ],
+    [ "need2stokes", "propagationmatrix_8h.html#a1307737a82b9f6e5aa228039aa2017c7", null ],
     [ "operator*", "propagationmatrix_8h.html#a810a553b54aaf34745b6c93cab60c615", null ],
     [ "operator*", "propagationmatrix_8h.html#a4d326cd19d4595b8b520a32ca4f001c7", null ],
     [ "operator<<", "propagationmatrix_8h.html#ab8eb6cd7c62f4681a97be87073d39805", null ],
@@ -35,5 +36,6 @@ var propagationmatrix_8h =
     [ "operator<<", "propagationmatrix_8h.html#abbce81eb89abdbb0d8a478840c280fd5", null ],
     [ "operator<<", "propagationmatrix_8h.html#a36b7619ca67cc83951d85ebca15c9859", null ],
     [ "prop_matrix", "propagationmatrix_8h.html#aeb47af4961c7a7e6090d6150caa47da0", null ],
-    [ "prop_matrix", "propagationmatrix_8h.html#a533a5f08e96c24721d4a288bd6b49719", null ]
+    [ "prop_matrix", "propagationmatrix_8h.html#a533a5f08e96c24721d4a288bd6b49719", null ],
+    [ "stokes2need", "propagationmatrix_8h.html#a92a8ba79a689443e7fd2a8cb98681cdf", null ]
 ];

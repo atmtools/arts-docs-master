@@ -1,0 +1,37 @@
+var structLineShape_1_1SpeedDependentVoigt =
+[
+    [ "CalcType", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfb", [
+      [ "Voigt", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfbab5f46d37dc922d0ef00f516d54ce762b", null ],
+      [ "LowXandHighY", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfba468f14f3cc33815c20bfffe4d5ea99eb", null ],
+      [ "LowYandLowX", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfba12a1618de9f808f850e1f9349f8be958", null ],
+      [ "LowYandHighX", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfba27115453e40d2dd4a8df4e8310185502", null ],
+      [ "Full", "structLineShape_1_1SpeedDependentVoigt.html#a05474d751a38fe6eb624fad9f3659cfbabbd47109890259c0127154db1af26c75", null ]
+    ] ],
+    [ "SpeedDependentVoigt", "structLineShape_1_1SpeedDependentVoigt.html#ab80bae7de721fb8bb700324a844acb30", null ],
+    [ "calc", "structLineShape_1_1SpeedDependentVoigt.html#a6e9934b09d32b41dbea5550587fa40f7", null ],
+    [ "dFdD0", "structLineShape_1_1SpeedDependentVoigt.html#a220915eaaa0904691f0a96f382d28626", null ],
+    [ "dFdD2", "structLineShape_1_1SpeedDependentVoigt.html#a0d6fe15730dcf989a5149407f185ead6", null ],
+    [ "dFdf", "structLineShape_1_1SpeedDependentVoigt.html#a8087dcab079c0b2ef877eaf928ade7e7", null ],
+    [ "dFdF0", "structLineShape_1_1SpeedDependentVoigt.html#a8453157b9b94c7393b74abc3a2577b78", null ],
+    [ "dFdG0", "structLineShape_1_1SpeedDependentVoigt.html#a942872be9846320cb22717fb7129d129", null ],
+    [ "dFdG2", "structLineShape_1_1SpeedDependentVoigt.html#a670149f895f19034672f706558a6f7f9", null ],
+    [ "dFdH", "structLineShape_1_1SpeedDependentVoigt.html#a527ff0361c05545056565b4c5f557528", null ],
+    [ "dFdT", "structLineShape_1_1SpeedDependentVoigt.html#a7c5a82347d29cecdea3421d37f2b53de", null ],
+    [ "dFdVMR", "structLineShape_1_1SpeedDependentVoigt.html#ac173a08f5ea6626b825e6b62af5fb430", null ],
+    [ "init", "structLineShape_1_1SpeedDependentVoigt.html#a8c808419dd66ad0964c91bacef69f4b5", null ],
+    [ "operator()", "structLineShape_1_1SpeedDependentVoigt.html#afb609688af220a077c9f15cc6dd85009", null ],
+    [ "update_calcs", "structLineShape_1_1SpeedDependentVoigt.html#a5f75b4161a45caef4b0f6df77d17140e", null ],
+    [ "calcs", "structLineShape_1_1SpeedDependentVoigt.html#aefe9ecc3e815890d71edba9a2b343197", null ],
+    [ "dw1", "structLineShape_1_1SpeedDependentVoigt.html#a3e208c2608696e5ecf12b7bb67ac5611", null ],
+    [ "dw2", "structLineShape_1_1SpeedDependentVoigt.html#a73b64965a62313abdf0ff1566f63043f", null ],
+    [ "dx", "structLineShape_1_1SpeedDependentVoigt.html#a136c050622aa3e534260abf59b3bc03a", null ],
+    [ "F", "structLineShape_1_1SpeedDependentVoigt.html#a4d3bffe51463e68ad46a19a4eea646b1", null ],
+    [ "invc2", "structLineShape_1_1SpeedDependentVoigt.html#af4f9be05bd8a02a3eb4e771f04015798", null ],
+    [ "invGD", "structLineShape_1_1SpeedDependentVoigt.html#ab6697802d30643dc73a490e305bcee89", null ],
+    [ "mF0", "structLineShape_1_1SpeedDependentVoigt.html#a9e5dda0970e648045996f04727d31e8f", null ],
+    [ "sq", "structLineShape_1_1SpeedDependentVoigt.html#a2932195eb1760a89220f4d013f200958", null ],
+    [ "sqrty", "structLineShape_1_1SpeedDependentVoigt.html#a8b597f6da89301024ea729b40784fd8e", null ],
+    [ "w1", "structLineShape_1_1SpeedDependentVoigt.html#ab363999a77bc236506b9faa802d1a265", null ],
+    [ "w2", "structLineShape_1_1SpeedDependentVoigt.html#ac4ecc1542ca11b2cf557ae90235bab31", null ],
+    [ "x", "structLineShape_1_1SpeedDependentVoigt.html#a177834a9be9fc4068e75580ffa4db864", null ]
+];
