@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyarts.classes.SpeciesIsotopeRecord &mdash; pyarts 2.5.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarts
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarts</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../classes.html">pyarts.classes</a> &raquo;</li>
+        
+      <li>pyarts.classes.SpeciesIsotopeRecord</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarts.classes.SpeciesIsotopeRecord</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.ArrayBase</span> <span class="kn">import</span> <span class="n">array_base</span>
+
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">class</span> <span class="nc">Species</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS species</span>
+<span class="sd">    </span>
+<span class="sd">    Properties:</span>
+<span class="sd">        short_name:</span>
+<span class="sd">            Short name of the species (str)</span>
+<span class="sd">        </span>
+<span class="sd">        full_name:</span>
+<span class="sd">            Full name of the species (str)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">short_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="n">delete</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">spec</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createSpecies</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">short_name</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span> <span class="o">=</span> <span class="n">spec</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span> <span class="o">=</span> <span class="n">spec</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesShortName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)),</span>
+                      <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="nd">@short_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesShortName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad name </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesLongName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)),</span>
+                      <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="nd">@full_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesLongName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad name </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">printSpecies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteSpecies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">short_name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Species</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">short_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects Species&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">short_name</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;Species&quot;</span>
+    
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createSpecies</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createSpecies</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteSpecies</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteSpecies</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printSpecies</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printSpecies</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesShortName</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesShortName</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesShortName</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_int</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesShortName</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesLongName</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesLongName</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesLongName</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_int</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesLongName</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+
+<span class="c1"># Generate ArrayOfSpecies</span>
+<span class="n">exec</span><span class="p">(</span><span class="n">array_base</span><span class="p">(</span><span class="n">Species</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="SpeciesIsotopeRecord"><a class="viewcode-back" href="../../../generated/pyarts.classes.SpeciesIsotopeRecord.html#pyarts.classes.SpeciesIsotopeRecord">[docs]</a><span class="k">class</span> <span class="nc">SpeciesIsotopeRecord</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS isotopologues</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        spec:</span>
+<span class="sd">            Species species (const Species)</span>
+
+<span class="sd">        isotname:</span>
+<span class="sd">            Species isotopologue (const String)</span>
+<span class="sd">            </span>
+<span class="sd">        mass:</span>
+<span class="sd">            Mass of isotope (const Numeric)</span>
+<span class="sd">            Requires that spec_ind &gt;= 0</span>
+<span class="sd">        </span>
+<span class="sd">        gi:</span>
+<span class="sd">            Degeneracy of isotope (const Index)</span>
+<span class="sd">            Requires that spec_ind &gt;= 0</span>
+<span class="sd">        </span>
+<span class="sd">        spec_ind:</span>
+<span class="sd">            Equivalent species index in ARTS (Index)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SpeciesIsotopeRecord.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.SpeciesIsotopeRecord.html#pyarts.classes.SpeciesIsotopeRecord.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">isotname</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">spec</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createSpeciesIsotopeRecord</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">isotname</span><span class="p">)</span></div>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_index</span><span class="p">(</span><span class="n">ind</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates a SpeciesIsotopeRecord from index &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">SpeciesIsotopeRecord</span><span class="p">(</span><span class="s2">&quot;H2O&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">ind</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Species species (const Species) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Species</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)),</span>
+                       <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">isotname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getIsotnameSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)),</span>
+                       <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Equivalent species index in ARTS (Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+    
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesIsotopeRecordToIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> out of bounds of [</span><span class="si">{</span><span class="mi">0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_len</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Mass of isotope (const Numeric) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getMassSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Degeneracy of isotope (const Index) &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getGSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">printSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteSpeciesIsotopeRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotname</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">index</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">index</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">max_len</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">nelemSpeciesIsotopeRecordDefined</span><span class="p">()</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_index</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">isot</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromNames</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+                                                         <span class="nb">str</span><span class="p">(</span><span class="n">isot</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span></div>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromNames</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromNames</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromData</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getIndexSpeciesIsotopeRecordFromData</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesIsotopeRecordToIndex</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_int</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesIsotopeRecordToIndex</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getIsotnameSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getIsotnameSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getMassSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_double</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getMassSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getGSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getGSpeciesIsotopeRecord</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">nelemSpeciesIsotopeRecordDefined</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">nelemSpeciesIsotopeRecordDefined</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright The Typhon and ARTS Developers.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

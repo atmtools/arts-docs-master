@@ -9,7 +9,6 @@ var test__linalg_8cc =
     [ "test_matrix_exp3D", "test__linalg_8cc.html#a2c853fa2f0688e50cbace5c506e18175", null ],
     [ "test_matrix_exp4D", "test__linalg_8cc.html#ac2d1121054dc8003a41a21d8a1e278aa", null ],
     [ "test_matrix_exp_propmat", "test__linalg_8cc.html#a4733635db0340ac6ae07aa592e08dba3", null ],
-    [ "test_minimize_wave", "test__linalg_8cc.html#a52f02890ae5d7ad3496514b03a24b083", null ],
     [ "test_real_diagonalize", "test__linalg_8cc.html#a356502ba54094aa9785fc21d6a6c6858", null ],
     [ "test_solve_linear_system", "test__linalg_8cc.html#a3329977336996bf45ff6066cdb40c335", null ]
 ];

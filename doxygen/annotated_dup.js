@@ -2,9 +2,11 @@ var annotated_dup =
 [
     [ "Absorption", "namespaceAbsorption.html", [
       [ "LineMixing", "namespaceAbsorption_1_1LineMixing.html", [
-        [ "RosenkranzAdaptation", "structAbsorption_1_1LineMixing_1_1RosenkranzAdaptation.html", "structAbsorption_1_1LineMixing_1_1RosenkranzAdaptation" ],
         [ "EquivalentLines", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html", "structAbsorption_1_1LineMixing_1_1EquivalentLines" ],
-        [ "PopulationAndDipole", "structAbsorption_1_1LineMixing_1_1PopulationAndDipole.html", "structAbsorption_1_1LineMixing_1_1PopulationAndDipole" ]
+        [ "PopulationAndDipole", "structAbsorption_1_1LineMixing_1_1PopulationAndDipole.html", "structAbsorption_1_1LineMixing_1_1PopulationAndDipole" ],
+        [ "SpeciesErrorCorrectedSuddenData", "structAbsorption_1_1LineMixing_1_1SpeciesErrorCorrectedSuddenData.html", "structAbsorption_1_1LineMixing_1_1SpeciesErrorCorrectedSuddenData" ],
+        [ "ErrorCorrectedSuddenData", "structAbsorption_1_1LineMixing_1_1ErrorCorrectedSuddenData.html", "structAbsorption_1_1LineMixing_1_1ErrorCorrectedSuddenData" ],
+        [ "MapOfErrorCorrectedSuddenData", "structAbsorption_1_1LineMixing_1_1MapOfErrorCorrectedSuddenData.html", "structAbsorption_1_1LineMixing_1_1MapOfErrorCorrectedSuddenData" ]
       ] ],
       [ "SingleLine", "classAbsorption_1_1SingleLine.html", "classAbsorption_1_1SingleLine" ],
       [ "SingleLineExternal", "structAbsorption_1_1SingleLineExternal.html", "structAbsorption_1_1SingleLineExternal" ],
@@ -50,6 +52,7 @@ var annotated_dup =
         [ "ArrayOfScatteringMetaData", "classARTS_1_1Var_1_1ArrayOfScatteringMetaData.html", "classARTS_1_1Var_1_1ArrayOfScatteringMetaData" ],
         [ "ArrayOfSingleScatteringData", "classARTS_1_1Var_1_1ArrayOfSingleScatteringData.html", "classARTS_1_1Var_1_1ArrayOfSingleScatteringData" ],
         [ "ArrayOfSparse", "classARTS_1_1Var_1_1ArrayOfSparse.html", "classARTS_1_1Var_1_1ArrayOfSparse" ],
+        [ "ArrayOfSpeciesTag", "classARTS_1_1Var_1_1ArrayOfSpeciesTag.html", "classARTS_1_1Var_1_1ArrayOfSpeciesTag" ],
         [ "ArrayOfStokesVector", "classARTS_1_1Var_1_1ArrayOfStokesVector.html", "classARTS_1_1Var_1_1ArrayOfStokesVector" ],
         [ "ArrayOfString", "classARTS_1_1Var_1_1ArrayOfString.html", "classARTS_1_1Var_1_1ArrayOfString" ],
         [ "ArrayOfTelsemAtlas", "classARTS_1_1Var_1_1ArrayOfTelsemAtlas.html", "classARTS_1_1Var_1_1ArrayOfTelsemAtlas" ],
@@ -77,6 +80,7 @@ var annotated_dup =
         [ "Index", "classARTS_1_1Var_1_1Index.html", "classARTS_1_1Var_1_1Index" ],
         [ "JacobianTarget", "classARTS_1_1Var_1_1JacobianTarget.html", "classARTS_1_1Var_1_1JacobianTarget" ],
         [ "MCAntenna", "classARTS_1_1Var_1_1MCAntenna.html", "classARTS_1_1Var_1_1MCAntenna" ],
+        [ "MapOfErrorCorrectedSuddenData", "classARTS_1_1Var_1_1MapOfErrorCorrectedSuddenData.html", "classARTS_1_1Var_1_1MapOfErrorCorrectedSuddenData" ],
         [ "Matrix", "classARTS_1_1Var_1_1Matrix.html", "classARTS_1_1Var_1_1Matrix" ],
         [ "Numeric", "classARTS_1_1Var_1_1Numeric.html", "classARTS_1_1Var_1_1Numeric" ],
         [ "Ppath", "classARTS_1_1Var_1_1Ppath.html", "classARTS_1_1Var_1_1Ppath" ],
@@ -87,7 +91,7 @@ var annotated_dup =
         [ "ScatteringMetaData", "classARTS_1_1Var_1_1ScatteringMetaData.html", "classARTS_1_1Var_1_1ScatteringMetaData" ],
         [ "SingleScatteringData", "classARTS_1_1Var_1_1SingleScatteringData.html", "classARTS_1_1Var_1_1SingleScatteringData" ],
         [ "Sparse", "classARTS_1_1Var_1_1Sparse.html", "classARTS_1_1Var_1_1Sparse" ],
-        [ "SpeciesAuxData", "classARTS_1_1Var_1_1SpeciesAuxData.html", "classARTS_1_1Var_1_1SpeciesAuxData" ],
+        [ "SpeciesIsotopologueRatios", "classARTS_1_1Var_1_1SpeciesIsotopologueRatios.html", "classARTS_1_1Var_1_1SpeciesIsotopologueRatios" ],
         [ "StokesVector", "classARTS_1_1Var_1_1StokesVector.html", "classARTS_1_1Var_1_1StokesVector" ],
         [ "String", "classARTS_1_1Var_1_1String.html", "classARTS_1_1Var_1_1String" ],
         [ "TelsemAtlas", "classARTS_1_1Var_1_1TelsemAtlas.html", "classARTS_1_1Var_1_1TelsemAtlas" ],
@@ -104,14 +108,19 @@ var annotated_dup =
         [ "Verbosity", "classARTS_1_1Var_1_1Verbosity.html", "classARTS_1_1Var_1_1Verbosity" ]
       ] ]
     ] ],
+    [ "IGRF", "namespaceIGRF.html", [
+      [ "MagneticField", "structIGRF_1_1MagneticField.html", "structIGRF_1_1MagneticField" ]
+    ] ],
     [ "Interpolation", "namespaceInterpolation.html", [
-      [ "Grid", "classInterpolation_1_1Grid.html", "classInterpolation_1_1Grid" ],
-      [ "FixedGrid", "classInterpolation_1_1FixedGrid.html", "classInterpolation_1_1FixedGrid" ],
       [ "Lagrange", "structInterpolation_1_1Lagrange.html", "structInterpolation_1_1Lagrange" ],
       [ "FixedLagrange", "structInterpolation_1_1FixedLagrange.html", "structInterpolation_1_1FixedLagrange" ]
     ] ],
     [ "lapack_help", "namespacelapack__help.html", [
       [ "Inverse", "structlapack__help_1_1Inverse.html", "structlapack__help_1_1Inverse" ]
+    ] ],
+    [ "Legendre", "namespaceLegendre.html", [
+      [ "ColatitudeConversion", "structLegendre_1_1ColatitudeConversion.html", "structLegendre_1_1ColatitudeConversion" ],
+      [ "SphericalField", "structLegendre_1_1SphericalField.html", "structLegendre_1_1SphericalField" ]
     ] ],
     [ "Linefunctions", "namespaceLinefunctions.html", [
       [ "InternalData", "classLinefunctions_1_1InternalData.html", "classLinefunctions_1_1InternalData" ]
@@ -133,6 +142,7 @@ var annotated_dup =
       [ "VanVleckHuber", "structLineShape_1_1VanVleckHuber.html", "structLineShape_1_1VanVleckHuber" ],
       [ "VanVleckWeisskopf", "structLineShape_1_1VanVleckWeisskopf.html", "structLineShape_1_1VanVleckWeisskopf" ],
       [ "RosenkranzQuadratic", "structLineShape_1_1RosenkranzQuadratic.html", "structLineShape_1_1RosenkranzQuadratic" ],
+      [ "SimpleFrequencyScaling", "structLineShape_1_1SimpleFrequencyScaling.html", "structLineShape_1_1SimpleFrequencyScaling" ],
       [ "Nostrength", "structLineShape_1_1Nostrength.html", null ],
       [ "LocalThermodynamicEquilibrium", "structLineShape_1_1LocalThermodynamicEquilibrium.html", "structLineShape_1_1LocalThermodynamicEquilibrium" ],
       [ "FullNonLocalThermodynamicEquilibrium", "structLineShape_1_1FullNonLocalThermodynamicEquilibrium.html", "structLineShape_1_1FullNonLocalThermodynamicEquilibrium" ],
@@ -144,10 +154,11 @@ var annotated_dup =
     ] ],
     [ "lm_hitran_2017", "namespacelm__hitran__2017.html", [
       [ "CommonBlock", "structlm__hitran__2017_1_1CommonBlock.html", "structlm__hitran__2017_1_1CommonBlock" ],
-      [ "ConvTPOut", "structlm__hitran__2017_1_1ConvTPOut.html", "structlm__hitran__2017_1_1ConvTPOut" ]
+      [ "ConvTPOut", "structlm__hitran__2017_1_1ConvTPOut.html", "structlm__hitran__2017_1_1ConvTPOut" ],
+      [ "Sorter", "structlm__hitran__2017_1_1Sorter.html", "structlm__hitran__2017_1_1Sorter" ]
     ] ],
     [ "Minimize", "namespaceMinimize.html", [
-      [ "Wave", "structMinimize_1_1Wave.html", "structMinimize_1_1Wave" ],
+      [ "Polynom", "structMinimize_1_1Polynom.html", "structMinimize_1_1Polynom" ],
       [ "T4", "structMinimize_1_1T4.html", "structMinimize_1_1T4" ],
       [ "DPL", "structMinimize_1_1DPL.html", "structMinimize_1_1DPL" ]
     ] ],
@@ -159,6 +170,13 @@ var annotated_dup =
       [ "ArtsLog", "classoem_1_1ArtsLog.html", "classoem_1_1ArtsLog" ],
       [ "AgendaWrapper", "classoem_1_1AgendaWrapper.html", "classoem_1_1AgendaWrapper" ],
       [ "AgendaWrapperMPI", "classoem_1_1AgendaWrapperMPI.html", "classoem_1_1AgendaWrapperMPI" ]
+    ] ],
+    [ "PartitionFunctions", "namespacePartitionFunctions.html", [
+      [ "Data", "structPartitionFunctions_1_1Data.html", "structPartitionFunctions_1_1Data" ]
+    ] ],
+    [ "Species", "namespaceSpecies.html", [
+      [ "IsotopeRecord", "structSpecies_1_1IsotopeRecord.html", "structSpecies_1_1IsotopeRecord" ],
+      [ "IsotopologueRatios", "structSpecies_1_1IsotopologueRatios.html", "structSpecies_1_1IsotopologueRatios" ]
     ] ],
     [ "Zeeman", "namespaceZeeman.html", [
       [ "SplittingData", "structZeeman_1_1SplittingData.html", "structZeeman_1_1SplittingData" ],
@@ -173,6 +191,7 @@ var annotated_dup =
     [ "alist", "structalist.html", "structalist" ],
     [ "Any", "classAny.html", null ],
     [ "Array", "classArray.html", "classArray" ],
+    [ "ArrayOfSpeciesTag", "classArrayOfSpeciesTag.html", "classArrayOfSpeciesTag" ],
     [ "ArtsOut", "classArtsOut.html", "classArtsOut" ],
     [ "ArtsOut0", "classArtsOut0.html", "classArtsOut0" ],
     [ "ArtsOut1", "classArtsOut1.html", "classArtsOut1" ],
@@ -230,7 +249,9 @@ var annotated_dup =
     [ "fh2ob_1_", "structfh2ob__1__.html", "structfh2ob__1__" ],
     [ "fh2ob_2_", "structfh2ob__2__.html", "structfh2ob__2__" ],
     [ "Field3D", "classField3D.html", "classField3D" ],
+    [ "FixedGrid", "classFixedGrid.html", "classFixedGrid" ],
     [ "GasAbsLookup", "classGasAbsLookup.html", "classGasAbsLookup" ],
+    [ "Grid", "classGrid.html", "classGrid" ],
     [ "GriddedField", "classGriddedField.html", "classGriddedField" ],
     [ "GriddedField1", "classGriddedField1.html", "classGriddedField1" ],
     [ "GriddedField2", "classGriddedField2.html", "classGriddedField2" ],
@@ -254,7 +275,6 @@ var annotated_dup =
     [ "inlist", "structinlist.html", "structinlist" ],
     [ "InteractiveWorkspace", "classInteractiveWorkspace.html", "classInteractiveWorkspace" ],
     [ "InternalData", "structInternalData.html", "structInternalData" ],
-    [ "IsotopologueRecord", "classIsotopologueRecord.html", "classIsotopologueRecord" ],
     [ "Iterator1D", "classIterator1D.html", "classIterator1D" ],
     [ "Iterator2D", "classIterator2D.html", "classIterator2D" ],
     [ "Iterator3D", "classIterator3D.html", "classIterator3D" ],
@@ -290,10 +310,10 @@ var annotated_dup =
     [ "Parameters", "classParameters.html", "classParameters" ],
     [ "ParseError", "classParseError.html", "classParseError" ],
     [ "Ppath", "structPpath.html", "structPpath" ],
+    [ "PrintData", "structPrintData.html", "structPrintData" ],
     [ "PropagationMatrix", "classPropagationMatrix.html", "classPropagationMatrix" ],
     [ "QuadraticModel", "classQuadraticModel.html", "classQuadraticModel" ],
     [ "QuantumFieldDescription", "classQuantumFieldDescription.html", "classQuantumFieldDescription" ],
-    [ "QuantumIdentifier", "classQuantumIdentifier.html", "classQuantumIdentifier" ],
     [ "QuantumNumbers", "classQuantumNumbers.html", "classQuantumNumbers" ],
     [ "QuantumParserHITRAN2004", "classQuantumParserHITRAN2004.html", "classQuantumParserHITRAN2004" ],
     [ "RadiationVector", "classRadiationVector.html", "classRadiationVector" ],
@@ -336,11 +356,6 @@ var annotated_dup =
     [ "SLIData2", "classSLIData2.html", "classSLIData2" ],
     [ "SourceText", "classSourceText.html", "classSourceText" ],
     [ "Sparse", "classSparse.html", "classSparse" ],
-    [ "SpeciesAuxData", "classSpeciesAuxData.html", "classSpeciesAuxData" ],
-    [ "SpeciesData", "structSpeciesData.html", "structSpeciesData" ],
-    [ "SpeciesRecord", "classSpeciesRecord.html", "classSpeciesRecord" ],
-    [ "SpeciesTag", "classSpeciesTag.html", "classSpeciesTag" ],
-    [ "SpecIsoMap", "classSpecIsoMap.html", "classSpecIsoMap" ],
     [ "StokesVector", "classStokesVector.html", "classStokesVector" ],
     [ "TelsemAtlas", "classTelsemAtlas.html", "classTelsemAtlas" ],
     [ "Tensor3", "classTensor3.html", "classTensor3" ],
@@ -378,5 +393,6 @@ var annotated_dup =
     [ "WsvAlreadyExists", "classWsvAlreadyExists.html", "classWsvAlreadyExists" ],
     [ "WsvRecord", "classWsvRecord.html", "classWsvRecord" ],
     [ "XMLAttribute", "classXMLAttribute.html", "classXMLAttribute" ],
+    [ "XMLTag", "classXMLTag.html", "classXMLTag" ],
     [ "XsecRecord", "classXsecRecord.html", "classXsecRecord" ]
 ];

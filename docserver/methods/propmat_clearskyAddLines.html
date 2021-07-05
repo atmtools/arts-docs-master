@@ -39,7 +39,7 @@ Please use <a href="sparse_f_gridFromFrequencyGrid.html">sparse_f_gridFromFreque
 
 <p><b>Authors: </b>Richard Larsson
 <h3>Synopsis</h3>
-<p><table><tr><td>propmat_clearskyAddLines(&nbsp;</td><td><a href="../variables/propmat_clearsky.html">propmat_clearsky</a>, <a href="../variables/nlte_source.html">nlte_source</a>, <a href="../variables/dpropmat_clearsky_dx.html">dpropmat_clearsky_dx</a>, <a href="../variables/dnlte_source_dx.html">dnlte_source_dx</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/abs_lines_per_species.html">abs_lines_per_species</a>, <a href="../variables/isotopologue_ratios.html">isotopologue_ratios</a>, <a href="../variables/partition_functions.html">partition_functions</a>, <a href="../variables/rtp_pressure.html">rtp_pressure</a>, <a href="../variables/rtp_temperature.html">rtp_temperature</a>, <a href="../variables/rtp_nlte.html">rtp_nlte</a>, <a href="../variables/rtp_vmr.html">rtp_vmr</a>, <a href="../variables/nlte_do.html">nlte_do</a>, <a href="../variables/lbl_checked.html">lbl_checked</a>, sparse_df, sparse_lim, speedup_option )</td></tr></table>
+<p><table><tr><td>propmat_clearskyAddLines(&nbsp;</td><td><a href="../variables/propmat_clearsky.html">propmat_clearsky</a>, <a href="../variables/nlte_source.html">nlte_source</a>, <a href="../variables/dpropmat_clearsky_dx.html">dpropmat_clearsky_dx</a>, <a href="../variables/dnlte_source_dx.html">dnlte_source_dx</a>, <a href="../variables/f_grid.html">f_grid</a>, <a href="../variables/abs_species.html">abs_species</a>, <a href="../variables/jacobian_quantities.html">jacobian_quantities</a>, <a href="../variables/abs_lines_per_species.html">abs_lines_per_species</a>, <a href="../variables/isotopologue_ratios.html">isotopologue_ratios</a>, <a href="../variables/rtp_pressure.html">rtp_pressure</a>, <a href="../variables/rtp_temperature.html">rtp_temperature</a>, <a href="../variables/rtp_nlte.html">rtp_nlte</a>, <a href="../variables/rtp_vmr.html">rtp_vmr</a>, <a href="../variables/nlte_do.html">nlte_do</a>, <a href="../variables/lbl_checked.html">lbl_checked</a>, sparse_df, sparse_lim, speedup_option, select_speciestags )</td></tr></table>
 <h3>Variables</h3>
 <table>
 <tr><td>OUT+IN</td><td class="right"><a href="../variables/propmat_clearsky.html">propmat_clearsky</a></td><td>(<a href="../groups/PropagationMatrix.html">PropagationMatrix</a>)</td><td>This contains the absorption coefficients for one point in the atmosphere (one set of pressure, temperature, magnetic field, and VMR values).</td></tr>
@@ -50,8 +50,7 @@ Please use <a href="sparse_f_gridFromFrequencyGrid.html">sparse_f_gridFromFreque
 <tr><td>IN</td><td class="right"><a href="../variables/abs_species.html">abs_species</a></td><td>(<a href="../groups/ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a>)</td><td>Tag groups for gas absorption.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/jacobian_quantities.html">jacobian_quantities</a></td><td>(<a href="../groups/ArrayOfRetrievalQuantity.html">ArrayOfRetrievalQuantity</a>)</td><td>The retrieval quantities in the Jacobian matrix.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/abs_lines_per_species.html">abs_lines_per_species</a></td><td>(<a href="../groups/ArrayOfArrayOfAbsorptionLines.html">ArrayOfArrayOfAbsorptionLines</a>)</td><td>A list of spectral line data for each tag.</td></tr>
-<tr><td>IN</td><td class="right"><a href="../variables/isotopologue_ratios.html">isotopologue_ratios</a></td><td>(<a href="../groups/SpeciesAuxData.html">SpeciesAuxData</a>)</td><td>Contains the isotopologue ratios.</td></tr>
-<tr><td>IN</td><td class="right"><a href="../variables/partition_functions.html">partition_functions</a></td><td>(<a href="../groups/SpeciesAuxData.html">SpeciesAuxData</a>)</td><td>Partition functions.</td></tr>
+<tr><td>IN</td><td class="right"><a href="../variables/isotopologue_ratios.html">isotopologue_ratios</a></td><td>(<a href="../groups/SpeciesIsotopologueRatios.html">SpeciesIsotopologueRatios</a>)</td><td>Contains the isotopologue ratios.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/rtp_pressure.html">rtp_pressure</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Pressure at a radiative transfer point.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/rtp_temperature.html">rtp_temperature</a></td><td>(<a href="../groups/Numeric.html">Numeric</a>)</td><td>Temperature at a radiative transfer point.</td></tr>
 <tr><td>IN</td><td class="right"><a href="../variables/rtp_nlte.html">rtp_nlte</a></td><td>(<a href="../groups/EnergyLevelMap.html">EnergyLevelMap</a>)</td><td>NLTE temperature/ratio at a radiative transfer point.</td></tr>
@@ -61,9 +60,10 @@ Please use <a href="sparse_f_gridFromFrequencyGrid.html">sparse_f_gridFromFreque
 <tr><td>GIN</td><td class="right">sparse_df</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>The grid sparse separation</td></tr>
 <tr><td>GIN</td><td class="right">sparse_lim</td><td>(<a href="../groups/Numeric.html">Numeric</a>, Default: 0)</td><td>The dense-to-sparse limit</td></tr>
 <tr><td>GIN</td><td class="right">speedup_option</td><td>(<a href="../groups/String.html">String</a>, Default: "None")</td><td>Speedup logic</td></tr>
+<tr><td>GIN</td><td class="right">select_speciestags</td><td>(<a href="../groups/ArrayOfSpeciesTag.html">ArrayOfSpeciesTag</a>, Default: )</td><td>Species selection (will only compute for the select species in <a href="../variables/abs_species.html">abs_species</a>)</td></tr>
 </table>
 </div>
-<div class="footer">Page generated by arts-2.5.0 (git: f5ac6156)</div>
+<div class="footer">Page generated by arts-2.5.0 (git: 260355e1)</div>
 
 </body>
 </html>

@@ -2,6 +2,9 @@ var namespaces_dup =
 [
     [ "Absorption", "namespaceAbsorption.html", "namespaceAbsorption" ],
     [ "ARTS", "namespaceARTS.html", "namespaceARTS" ],
+    [ "CompileTimeTests", "namespaceCompileTimeTests.html", [
+      [ "testIsotopologuesAllValid", "namespaceCompileTimeTests.html#a8fe5f40a20a6cdb9ef0a84483f99f9c7", null ]
+    ] ],
     [ "Constant", "namespaceConstant.html", [
       [ "pow2", "namespaceConstant.html#ad299e61e2a8e0deb848a2caf2e57d904", null ],
       [ "pow3", "namespaceConstant.html#a5f8d8894ab749da1eae8339d6285fe2b", null ],
@@ -52,26 +55,30 @@ var namespaces_dup =
       [ "md_data_raw", "namespaceglobal__data.html#a070ed2329a95198a827184b956bf6ed0", null ],
       [ "MdMap", "namespaceglobal__data.html#a3a1ced5b9d1a18b32b0a5c91ca69b7fd", null ],
       [ "MdRawMap", "namespaceglobal__data.html#ac20457216520351a683aa1ac89f1b723", null ],
-      [ "species_data", "namespaceglobal__data.html#a009dd2016507743cacae2f8ceec72cab", null ],
-      [ "SpeciesMap", "namespaceglobal__data.html#a363bb2d8d468ea3aa5d932da30bfeb97", null ],
       [ "workspace_memory_handler", "namespaceglobal__data.html#a1e839a8b937dfa4f0536812f1ba5751a", null ],
       [ "wsv_group_names", "namespaceglobal__data.html#af4dfcccb76ac6c54225a9d2e7c615034", null ],
       [ "WsvGroupMap", "namespaceglobal__data.html#a767c54df43615d979fa5f106a8cd3b08", null ]
     ] ],
     [ "Hitran", "namespaceHitran.html", [
-      [ "ENUMCLASS", "namespaceHitran.html#a5f3e3d48247b49c1218c46128d9047f3", null ],
-      [ "from_lookup", "namespaceHitran.html#a19b56cdd570de161af6c0763e8479316", null ],
+      [ "HitranMap", "namespaceHitran.html#a19ee2fd63b70e57347be36d6fe3d96e3", null ],
+      [ "OurHitranMap", "namespaceHitran.html#a87658c89d1b8cd4ec2b55334dd09db2f", null ],
+      [ "ENUMCLASS", "namespaceHitran.html#a77a21baa01cb24668c56d9a12a139dc3", null ],
       [ "from_mol_iso", "namespaceHitran.html#a068eb0fb70124de50997863a5748e5cb", null ],
-      [ "select_hitran_map", "namespaceHitran.html#a2fffdff739d71ac876d297c9ca60aa0b", null ],
-      [ "to_species_map", "namespaceHitran.html#a57ed0146599d3e38f8d298f0f6b6bd92", null ],
+      [ "id_from_lookup", "namespaceHitran.html#a6618824866ed9557bd7e61bfd2d71b39", null ],
+      [ "isotopologue_ratios", "namespaceHitran.html#aa29571beb51fdb41e3af493459d88f7f", null ],
+      [ "isotopologue_ratios_impl", "namespaceHitran.html#a4e37ef5e767eaee465100a59ba2d24bd", null ],
+      [ "ratio_from_lookup", "namespaceHitran.html#a2f159cf035633e5041c56941987425bb", null ],
+      [ "select_hitran_map", "namespaceHitran.html#a38cb4380ab31357a29df1473d719aabc", null ],
+      [ "to_species_map", "namespaceHitran.html#aaacc26a63b6a96a5f36a115a218fa6f4", null ],
       [ "isochar", "namespaceHitran.html#aefc82647b618ee87765af51e38d4f925", null ],
-      [ "latest_molparam_map", "namespaceHitran.html#a6cd5edc28064825b166dcde6bbecefcb", null ],
-      [ "pre2012co2change_molparam_map", "namespaceHitran.html#a986d7a18c66099b1b75df5e13b9bba03", null ],
+      [ "latest_molparam_map", "namespaceHitran.html#abee087456ef830a7cf156dbd3cdc274c", null ],
+      [ "pre2012co2change_molparam_map", "namespaceHitran.html#a5dedf0262890342fcfa9b7151fc72070", null ],
       [ "type", "namespaceHitran.html#acff36fdc78fe93f45864a7390265f0dd", null ]
     ] ],
+    [ "IGRF", "namespaceIGRF.html", "namespaceIGRF" ],
     [ "Interpolation", "namespaceInterpolation.html", "namespaceInterpolation" ],
     [ "Jacobian", "namespaceJacobian.html", [
-      [ "ENUMCLASS", "namespaceJacobian.html#a68803fe8b91971367f19b1892e94efe8", null ],
+      [ "ENUMCLASS", "namespaceJacobian.html#a36a9cbfe7b87a6acc673e8d9e8e5d8a0", null ],
       [ "ENUMCLASS", "namespaceJacobian.html#a268e47f5f4cb7ce7f03f158571e03d1c", null ],
       [ "ENUMCLASS", "namespaceJacobian.html#a576bf1df034530f5df5f5c15c7101fb5", null ],
       [ "operator<<", "namespaceJacobian.html#a3e8c57f28e62007494ac11b015855ad5", null ],
@@ -92,6 +99,9 @@ var namespaces_dup =
       [ "WindV", "namespaceJacobian.html#aebd2ad00f986316790dcc17e742de38a", null ],
       [ "WindW", "namespaceJacobian.html#ac8d55a42c516395c10095605c701b3cb", null ]
     ] ],
+    [ "Jpl", "namespaceJpl.html", [
+      [ "id_from_lookup", "namespaceJpl.html#afa5ca162a78cb2705c29e28728083e04", null ]
+    ] ],
     [ "lapack", "namespacelapack.html", [
       [ "dgeev_", "namespacelapack.html#a999295b15ef32e801a5e80c86c01d84f", null ],
       [ "dgesvx_", "namespacelapack.html#a9a59e06f7202982123c7265e5212112b", null ],
@@ -104,12 +114,17 @@ var namespaces_dup =
       [ "zgetri_", "namespacelapack.html#a0a4d8b277a99072bc2474e2211d30981", null ]
     ] ],
     [ "lapack_help", "namespacelapack__help.html", "namespacelapack__help" ],
+    [ "Legendre", "namespaceLegendre.html", "namespaceLegendre" ],
     [ "Linefunctions", "namespaceLinefunctions.html", "namespaceLinefunctions" ],
     [ "LineShape", "namespaceLineShape.html", "namespaceLineShape" ],
     [ "lm_hitran_2017", "namespacelm__hitran__2017.html", "namespacelm__hitran__2017" ],
     [ "Minimize", "namespaceMinimize.html", "namespaceMinimize" ],
     [ "nonstd", "namespacenonstd.html", [
-      [ "abs", "namespacenonstd.html#a6542da09816f1cc1e364e193ee075d9b", null ]
+      [ "abs", "namespacenonstd.html#a6542da09816f1cc1e364e193ee075d9b", null ],
+      [ "isdigit", "namespacenonstd.html#ab14a357e45dadfcea1af0a22767a403b", null ],
+      [ "isnan", "namespacenonstd.html#ad2b6dba05b5f093e87011d973fc29ec8", null ],
+      [ "isnan", "namespacenonstd.html#a1d505104ed6b0adf13535607f1eba6c1", null ],
+      [ "isnan", "namespacenonstd.html#a7d24abb35cead2bb6fd22e3b4921dd88", null ]
     ] ],
     [ "oem", "namespaceoem.html", "namespaceoem" ],
     [ "Options", "namespaceOptions.html", [
@@ -124,6 +139,11 @@ var namespaces_dup =
       [ "X1", "namespaceOptions.html#aab70844e09497eea6c280feeacf6fd35", null ],
       [ "X2", "namespaceOptions.html#ad58288418f62b1c08965ddbc090351a0", null ]
     ] ],
+    [ "PartitionFunctions", "namespacePartitionFunctions.html", "namespacePartitionFunctions" ],
+    [ "Quantum", "namespaceQuantum.html", [
+      [ "ENUMCLASS", "namespaceQuantum.html#af64640d7e17b0c0dba46bd29714106f0", null ]
+    ] ],
     [ "Raw", "namespaceRaw.html", "namespaceRaw" ],
+    [ "Species", "namespaceSpecies.html", "namespaceSpecies" ],
     [ "Zeeman", "namespaceZeeman.html", "namespaceZeeman" ]
 ];

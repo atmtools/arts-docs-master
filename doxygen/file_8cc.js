@@ -15,7 +15,6 @@ var file_8cc =
     [ "make_filename_unique", "file_8cc.html#a01cd281a6233059e2cb1e5e88020bcdb", null ],
     [ "open_input_file", "file_8cc.html#ad3623ea2a8602baa56c26afd9d9c003e", null ],
     [ "open_output_file", "file_8cc.html#a636a79dc01b38a194521fb801dc3a800", null ],
-    [ "operator>>", "file_8cc.html#af269c8a70076174ad3eafaeecac45c90", null ],
     [ "read_text_from_file", "file_8cc.html#af029a401dbd795b66b42f1c2877b3add", null ],
     [ "read_text_from_stream", "file_8cc.html#a820a3bb60ca70fbbaae42999f6557864", null ],
     [ "replace_all", "file_8cc.html#a18af7d471b4c26ab4b01ae676e086cb5", null ]

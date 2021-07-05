@@ -1,4 +1,4 @@
 var m__zeeman_8cc =
 [
-    [ "propmat_clearskyAddZeeman", "m__zeeman_8cc.html#aba346ec7e1a3610439880ec5d4753ed3", null ]
+    [ "propmat_clearskyAddZeeman", "m__zeeman_8cc.html#a4ad241fdd3c4ff0011357597eb7b72f3", null ]
 ];

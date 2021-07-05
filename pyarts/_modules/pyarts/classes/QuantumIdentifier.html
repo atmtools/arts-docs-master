@@ -1,26 +1,38 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>pyarts.classes.QuantumIdentifier &mdash; pyarts 2.5.0 documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -28,10 +40,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -74,6 +82,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -89,6 +98,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -123,11 +133,13 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -154,9 +166,72 @@
 <span class="kn">from</span> <span class="nn">pyarts.workspace.api</span> <span class="kn">import</span> <span class="n">arts_api</span> <span class="k">as</span> <span class="n">lib</span>
 
 <span class="kn">from</span> <span class="nn">pyarts.classes.QuantumNumbers</span> <span class="kn">import</span> <span class="n">QuantumNumbers</span>
-<span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesTag</span> <span class="kn">import</span> <span class="n">SpeciesTag</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.SpeciesIsotopeRecord</span> <span class="kn">import</span> <span class="n">SpeciesIsotopeRecord</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.io</span> <span class="kn">import</span> <span class="n">correct_save_arguments</span><span class="p">,</span> <span class="n">correct_read_arguments</span>
 <span class="kn">from</span> <span class="nn">pyarts.classes.ArrayBase</span> <span class="kn">import</span> <span class="n">array_base</span>
+<span class="kn">from</span> <span class="nn">pyarts.classes.BasicTypes</span> <span class="kn">import</span> <span class="n">Index</span><span class="p">,</span> <span class="n">String</span>
+
+
+<span class="k">class</span> <span class="nc">QuantumIdentifierType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; ARTS QuantumIdentifier type data</span>
+<span class="sd">    </span>
+<span class="sd">    Properties:</span>
+<span class="sd">        name:</span>
+<span class="sd">            Name of type (String)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createQuantumIdentifierType</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">data</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentifierTypeString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)),</span>
+                      <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setQuantumIdentifierTypeString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad QuantumIdentifierType: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">printQuantumIdentifierType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">deleteQuantumIdentifierType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QuantumIdentifierType</span><span class="p">)</span> <span class="k">else</span> <span class="n">other</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">s</span>
+    
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QuantumIdentifierType</span><span class="p">)</span> <span class="k">else</span> <span class="n">other</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">s</span>
+    
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="n">lib</span><span class="o">.</span><span class="n">createQuantumIdentifierType</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">createQuantumIdentifierType</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteQuantumIdentifierType</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">deleteQuantumIdentifierType</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">printQuantumIdentifierType</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">printQuantumIdentifierType</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentifierTypeString</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getQuantumIdentifierTypeString</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+<span class="n">lib</span><span class="o">.</span><span class="n">setQuantumIdentifierTypeString</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_int</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">setQuantumIdentifierTypeString</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="QuantumIdentifier"><a class="viewcode-back" href="../../../generated/pyarts.classes.QuantumIdentifier.html#pyarts.classes.QuantumIdentifier">[docs]</a><span class="k">class</span> <span class="nc">QuantumIdentifier</span><span class="p">:</span>
@@ -164,98 +239,83 @@
 
 <span class="sd">    Properties:</span>
 <span class="sd">        type:</span>
-<span class="sd">            Type of identifier (get: Index; set: Index or str)</span>
-
-<span class="sd">        spec:</span>
-<span class="sd">            Species of the identifier (Index)</span>
-
+<span class="sd">            The type of identifier (QuantumIdentifierType)</span>
+<span class="sd">            </span>
+<span class="sd">        spec_ind:</span>
+<span class="sd">            The index of the isotopologue (Index)</span>
+<span class="sd">        </span>
+<span class="sd">        upp:</span>
+<span class="sd">            The upper quantum numbers (QuantumNumbers)</span>
+<span class="sd">            </span>
+<span class="sd">        low:</span>
+<span class="sd">            The lower quantum numbers (QuantumNumbers)</span>
+<span class="sd">            </span>
+<span class="sd">        lvl:</span>
+<span class="sd">            The level quantum numbers (QuantumNumbers)</span>
+<span class="sd">            </span>
 <span class="sd">        isot:</span>
-<span class="sd">            Isotopologue of the identifier (Index)</span>
-
-<span class="sd">        lowerqn:</span>
-<span class="sd">            Lower state quantum numbers of the identifier (QuantumNumbers)</span>
-
-<span class="sd">        upperqn:</span>
-<span class="sd">            Upper state quantum numbers of the identifier (QuantumNumbers)</span>
-
-<span class="sd">        levelqn:</span>
-<span class="sd">            State quantum numbers of the identifier (QuantumNumbers)</span>
+<span class="sd">            The ARTS isotopologue (const SpeciesIsotopeRecord)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="QuantumIdentifier.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.QuantumIdentifier.html#pyarts.classes.QuantumIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">isot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qns1</span><span class="o">=</span><span class="n">QuantumNumbers</span><span class="p">(),</span> <span class="n">qns2</span><span class="o">=</span><span class="n">QuantumNumbers</span><span class="p">()):</span>
+<div class="viewcode-block" id="QuantumIdentifier.__init__"><a class="viewcode-back" href="../../../generated/pyarts.classes.QuantumIdentifier.html#pyarts.classes.QuantumIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="nb">type</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__data__</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">createQuantumIdentifier</span><span class="p">())</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">isot</span> <span class="o">=</span> <span class="n">isot</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">upperqn</span> <span class="o">=</span> <span class="n">qns1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lowerqn</span> <span class="o">=</span> <span class="n">qns2</span></div>
-
+            <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">fromstringQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad QuantumIdentifier: </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Type of identifier (get: Index; set: Index or str) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getTypeQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
-
+        <span class="k">return</span> <span class="n">QuantumIdentifierType</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">gettypeQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    
     <span class="nd">@type</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">string2indexTypeQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">lib</span><span class="o">.</span><span class="n">setTypeQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid type&quot;</span><span class="p">)</span>
-
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Species of the identifier (Index) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
-
-    <span class="nd">@spec</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">SpeciesTag</span><span class="o">.</span><span class="n">validSpecies</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid species&quot;</span><span class="p">)</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-
+    <span class="k">def</span> <span class="nf">spec_ind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getspec_indQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    
+    <span class="nd">@spec_ind</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">spec_ind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_ind</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;Transition&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad state, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> should be Transition&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getuppQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    
+    <span class="nd">@upp</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">upp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upp</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lvl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;EnergyLevel&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad state, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> should be EnergyLevel&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getuppQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    
+    <span class="nd">@lvl</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lvl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">low</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;Transition&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad state, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> should be Transition&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getlowQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
+    
+    <span class="nd">@low</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">low</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">isot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Isotopologue of the identifier (Index) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">getIsotopologueQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
-
-    <span class="nd">@isot</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">isot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">SpeciesTag</span><span class="o">.</span><span class="n">validIsotopologue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid isotopologue&quot;</span><span class="p">)</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">setIsotopologueQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">lowerqn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Lower state quantum numbers of the identifier (QuantumNumbers) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getLowerQuantumNumbersQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
-
-    <span class="nd">@lowerqn</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">lowerqn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lowerqn</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">upperqn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Upper state quantum numbers of the identifier (QuantumNumbers) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getUpperQuantumNumbersQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
-
-    <span class="nd">@upperqn</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">upperqn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">upperqn</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">levelqn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">QuantumNumbers</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">getEnergyLevelQuantumNumbersQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)))</span>
-
-    <span class="nd">@levelqn</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">levelqn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; State quantum numbers of the identifier (QuantumNumbers) &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">levelqn</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SpeciesIsotopeRecord</span><span class="o">.</span><span class="n">from_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_ind</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Print to cout the ARTS representation of the class &quot;&quot;&quot;</span>
@@ -264,19 +324,27 @@
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__delete__</span><span class="p">:</span>
             <span class="n">lib</span><span class="o">.</span><span class="n">deleteQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">)</span>
-
+    
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;ARTS QuantumIdentifier&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Transition&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2"> TR UP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">upp</span><span class="si">}</span><span class="s2"> LO </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;EnergyLevel&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2"> EN </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2"> ALL&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;NONE&quot;</span>
 
     <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Sets this class according to another python instance of itself &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QuantumIdentifier</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span>
-            <span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
-            <span class="n">lib</span><span class="o">.</span><span class="n">setIsotopologueQuantumIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data__</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">isot</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lowerqn</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">lowerqn</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">upperqn</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">upperqn</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">levelqn</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">levelqn</span>  <span class="c1"># repeat but for now keep...</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spec_ind</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">spec_ind</span>
+            <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;EnergyLevel&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lvl</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">lvl</span>
+            <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;Transtition&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">upp</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">upp</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">low</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expects QuantumIdentifier&quot;</span><span class="p">)</span>
 
@@ -311,14 +379,15 @@
             <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Cannot save </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QuantumIdentifier</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">spec</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">isot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">isot</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">lowerqn</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lowerqn</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">upperqn</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">upperqn</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">levelqn</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">levelqn</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QuantumIdentifier</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Transition&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">isot</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">upp</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">upp</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">low</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;EnergyLevel&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">isot</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">lvl</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvl</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">isot</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
@@ -342,55 +411,45 @@
 <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
 <span class="n">lib</span><span class="o">.</span><span class="n">xmlsaveQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">getTypeQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getTypeQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">gettypeQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">gettypeQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">setTypeQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">setTypeQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getspec_indQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getspec_indQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">string2indexTypeQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">string2indexTypeQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getuppQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getuppQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getSpeciesQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getlowQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">getlowQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
 
-<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">setSpeciesQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
-
-<span class="n">lib</span><span class="o">.</span><span class="n">getIsotopologueQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getIsotopologueQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
-
-<span class="n">lib</span><span class="o">.</span><span class="n">setIsotopologueQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">setIsotopologueQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span><span class="p">]</span>
-
-<span class="n">lib</span><span class="o">.</span><span class="n">getEnergyLevelQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getEnergyLevelQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
-
-<span class="n">lib</span><span class="o">.</span><span class="n">getLowerQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getLowerQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
-
-<span class="n">lib</span><span class="o">.</span><span class="n">getUpperQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span>
-<span class="n">lib</span><span class="o">.</span><span class="n">getUpperQuantumNumbersQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">fromstringQuantumIdentifier</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">c_long</span>
+<span class="n">lib</span><span class="o">.</span><span class="n">fromstringQuantumIdentifier</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
 </pre></div>
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright The Typhon and ARTS Developers
+        &#169; Copyright The Typhon and ARTS Developers.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -398,7 +457,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

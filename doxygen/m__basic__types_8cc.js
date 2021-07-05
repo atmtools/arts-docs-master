@@ -15,6 +15,7 @@ var m__basic__types_8cc =
     [ "ArrayOfIndexSet", "m__basic__types_8cc.html#a49db36884d4d3f17be8bef1984baa8f0", null ],
     [ "ArrayOfIndexSetConstant", "m__basic__types_8cc.html#a11ba3f651ac9e61c341d1422096056ef", null ],
     [ "ArrayOfQuantumIdentifierSet", "m__basic__types_8cc.html#ae7e41d9dce3ab82d5184d515761f0cab", null ],
+    [ "ArrayOfSpeciesTagSet", "m__basic__types_8cc.html#a245fee92c1af13d245f603f4b1936fdf", null ],
     [ "ArrayOfStringSet", "m__basic__types_8cc.html#a801c03189645ae7ffc0b9dc0d17aaf57", null ],
     [ "ArrayOfTimeNLinSpace", "m__basic__types_8cc.html#a2fa5d054c025ac2fbc6397b94684916c", null ],
     [ "ArrayOfTimeSetConstant", "m__basic__types_8cc.html#a30ed36a6a742c7fc14d34ff7e1904c94", null ],

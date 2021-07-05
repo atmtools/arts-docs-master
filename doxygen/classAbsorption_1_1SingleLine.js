@@ -30,7 +30,7 @@ var classAbsorption_1_1SingleLine =
     [ "LowerQuantumNumbers", "classAbsorption_1_1SingleLine.html#a30227bd22e5e1edb380598f893144e5a", null ],
     [ "read", "classAbsorption_1_1SingleLine.html#a3262c0148791af1cadc14d78e096b07c", null ],
     [ "SameQuantumNumbers", "classAbsorption_1_1SingleLine.html#aeeb49b482ea12acc878d2abad00f5083", null ],
-    [ "SetAutomaticZeeman", "classAbsorption_1_1SingleLine.html#aabd8042703e0785d10024088aedce0cf", null ],
+    [ "SetAutomaticZeeman", "classAbsorption_1_1SingleLine.html#aee575cac7ee12eeb4700ad7ecf06fedf", null ],
     [ "SetLineMixing2AER", "classAbsorption_1_1SingleLine.html#acdc86e4e032f94dc39fa6b75430f41e0", null ],
     [ "SetLineMixing2SecondOrderData", "classAbsorption_1_1SingleLine.html#adfbdb0d78eb573d34c86d75081264ac9", null ],
     [ "UpperQuantumElems", "classAbsorption_1_1SingleLine.html#a311ad4172d7200099282e451990b6d32", null ],

@@ -21,7 +21,7 @@ var complex_8h =
     [ "ComplexMatrixType", "complex_8h.html#aa157593b53edc0b134da144da2e76132", null ],
     [ "ComplexMatrixViewMap", "complex_8h.html#abc919f70be089e48a42de4d613be843c", null ],
     [ "ConstComplexMatrixViewMap", "complex_8h.html#aa6ddab9e2c06b16a83117544b664ec14", null ],
-    [ "_complex_operations_", "complex_8h.html#a4615ceede19a80d289db0f78463fedc8", null ],
+    [ "_complex_operations_", "complex_8h.html#aa73b88f00555c05ba65b598ef1ee968c", null ],
     [ "abs2", "complex_8h.html#aae5d40e9df825cc427027e0373d6cc91", null ],
     [ "conj", "complex_8h.html#aa2e7ae62e949014f0e0e7512131cb52c", null ],
     [ "copy", "complex_8h.html#ac5fa4f760d4419fe045e91a126801ebb", null ],
@@ -68,5 +68,6 @@ var complex_8h =
     [ "real_val", "complex_8h.html#af8d531e3a762ebeaf59e488aeaa25b68", null ],
     [ "real_val", "complex_8h.html#a4e195554f2db3f3fad319cde0c35febb", null ],
     [ "transpose", "complex_8h.html#a01c49c0be32f21cbe7dfd0ef418999a3", null ],
-    [ "transpose", "complex_8h.html#a3477def37916c46163c6d7d8f72a7509", null ]
+    [ "transpose", "complex_8h.html#a3477def37916c46163c6d7d8f72a7509", null ],
+    [ "joker", "complex_8h.html#a90b23039dd2b40cea42532da6f731144", null ]
 ];

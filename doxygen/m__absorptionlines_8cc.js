@@ -5,6 +5,8 @@ var m__absorptionlines_8cc =
     [ "abs_lines_per_speciesChangeBaseParameterForMatchingLines", "m__absorptionlines_8cc.html#a0b3a46d3f54551efd254434507c36e8e", null ],
     [ "abs_lines_per_speciesChangeBaseParameterForSpecies", "m__absorptionlines_8cc.html#af974544bc3900db02b9002faf1779590", null ],
     [ "abs_lines_per_speciesCompact", "m__absorptionlines_8cc.html#afef0b68a10a2b2a322a0520700f73723", null ],
+    [ "abs_lines_per_speciesMakeManualMirroring", "m__absorptionlines_8cc.html#a9cc680640e4d89e3a1d0f7b882e837f0", null ],
+    [ "abs_lines_per_speciesMakeManualMirroringSpecies", "m__absorptionlines_8cc.html#acb99a3e60042737c6228e4d41f48dff8", null ],
     [ "abs_lines_per_speciesReadSpeciesSplitCatalog", "m__absorptionlines_8cc.html#a5a23628fad997b475d8cba05dc8aabc5", null ],
     [ "abs_lines_per_speciesReadSplitCatalog", "m__absorptionlines_8cc.html#a261c2458200aa6410385e9bb6095058c", null ],
     [ "abs_lines_per_speciesSetBaseParameterForMatchingLevel", "m__absorptionlines_8cc.html#a99c2cce7862d856a7f7d42e785aa9ce8", null ],
@@ -51,6 +53,7 @@ var m__absorptionlines_8cc =
     [ "abs_linesDeleteLinesWithUndefinedLocalQuanta", "m__absorptionlines_8cc.html#a5cf2d6327ab49878c728871bb6fa8284", null ],
     [ "abs_linesDeleteWithLines", "m__absorptionlines_8cc.html#a7ad6cfcfd653c2a24e533b9b2d3edbc7", null ],
     [ "abs_linesKeepBand", "m__absorptionlines_8cc.html#a35c0d3ae8c2c9da35b85b1c6215d9e71", null ],
+    [ "abs_linesMakeManualMirroring", "m__absorptionlines_8cc.html#a6c356c454991e16a9ccc4ab6a4e6ad1f", null ],
     [ "abs_linesPrintDefinedQuantumNumbers", "m__absorptionlines_8cc.html#ae5edf0e8a0bab6f03e410fb12736d0a6", null ],
     [ "abs_linesReadSpeciesSplitCatalog", "m__absorptionlines_8cc.html#afc484d4e3e086201c3da47f1af6f9054", null ],
     [ "abs_linesRemoveBand", "m__absorptionlines_8cc.html#a6f29a8c1964adfbfb2a08dfc1ce29b1a", null ],
@@ -89,7 +92,6 @@ var m__absorptionlines_8cc =
     [ "ReadHITRAN", "m__absorptionlines_8cc.html#aae7f0079c1b02df1d68f573809b06e73", null ],
     [ "ReadJPL", "m__absorptionlines_8cc.html#a62e80a1e62c50048d4f788de02ced199", null ],
     [ "ReadLBLRTM", "m__absorptionlines_8cc.html#aa65c066fe871aa6385f483e757a2c453", null ],
-    [ "ReadMytran2", "m__absorptionlines_8cc.html#a5ea032ead3a6734d6887906ba602b379", null ],
     [ "ReadSplitARTSCAT", "m__absorptionlines_8cc.html#a7e98f14aa4ab57b14806c037d9b47c62", null ],
     [ "string2vecqn", "m__absorptionlines_8cc.html#a401b7f0ad37a3fb620973af729fbc890", null ]
 ];

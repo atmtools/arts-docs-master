@@ -10,6 +10,7 @@ var lineshape_8h =
     [ "VanVleckHuber", "structLineShape_1_1VanVleckHuber.html", "structLineShape_1_1VanVleckHuber" ],
     [ "VanVleckWeisskopf", "structLineShape_1_1VanVleckWeisskopf.html", "structLineShape_1_1VanVleckWeisskopf" ],
     [ "RosenkranzQuadratic", "structLineShape_1_1RosenkranzQuadratic.html", "structLineShape_1_1RosenkranzQuadratic" ],
+    [ "SimpleFrequencyScaling", "structLineShape_1_1SimpleFrequencyScaling.html", "structLineShape_1_1SimpleFrequencyScaling" ],
     [ "Nostrength", "structLineShape_1_1Nostrength.html", null ],
     [ "LocalThermodynamicEquilibrium", "structLineShape_1_1LocalThermodynamicEquilibrium.html", "structLineShape_1_1LocalThermodynamicEquilibrium" ],
     [ "FullNonLocalThermodynamicEquilibrium", "structLineShape_1_1FullNonLocalThermodynamicEquilibrium.html", "structLineShape_1_1FullNonLocalThermodynamicEquilibrium" ],
@@ -17,8 +18,8 @@ var lineshape_8h =
     [ "ComputeData", "structLineShape_1_1ComputeData.html", "structLineShape_1_1ComputeData" ],
     [ "Calculator", "lineshape_8h.html#ad157675910bcb55f4a2932711bea8786", null ],
     [ "IntensityCalculator", "lineshape_8h.html#ad53bf68151d2d8d0e869697025b4369c", null ],
-    [ "Normalizer", "lineshape_8h.html#a04a5a063ffbb7f58076cd6c654301585", null ],
-    [ "compute", "lineshape_8h.html#aa94dc8389625d48900999ad25da3a154", null ],
+    [ "Normalizer", "lineshape_8h.html#a54b1840794d06773ad4c9d19252d113f", null ],
+    [ "compute", "lineshape_8h.html#a0a24ab2bc6c5df8fdc41d01c63c10cfe", null ],
     [ "good_linear_sparse_f_grid", "lineshape_8h.html#aa9e9b39dd7ef8a51ec5ca3416885a2a4", null ],
     [ "linear_sparse_f_grid", "lineshape_8h.html#aeee73a0e78bf3f96d3a514e14c634f15", null ],
     [ "triple_sparse_f_grid", "lineshape_8h.html#aeb778153ced44176a50874e2e90a4986", null ]

@@ -6,6 +6,8 @@ var structAbsorption_1_1LineMixing_1_1EquivalentLines =
     [ "EquivalentLines", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#adbac132f35b03216009f2b4726f4c198", null ],
     [ "operator=", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#a3c38ebc93f194a745f1f566a1d80a8ab", null ],
     [ "operator=", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#a719227f37a3536e443b6f860ebe8de45", null ],
+    [ "sort_by_frequency", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#a5033419501d243c03b20a433fe934d0f", null ],
+    [ "operator<<", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#a9007e73cf892ee6b3eecd60fa99cedd5", null ],
     [ "str", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#a1666dd160b38237db329a70e87f36bd7", null ],
     [ "val", "structAbsorption_1_1LineMixing_1_1EquivalentLines.html#ad465d74ae5a2c1b03e6543e3f96de9e8", null ]
 ];

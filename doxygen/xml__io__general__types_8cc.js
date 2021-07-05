@@ -1,0 +1,26 @@
+var xml__io__general__types_8cc =
+[
+    [ "xml_parse_from_stream", "xml__io__general__types_8cc.html#abddc3604705e0c212b6d2c31feadd355", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a8f5d2fd2c58f2ce954b3a6786420120a", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a705094a26e2b26543a7bfa9cd0e420d8", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#ac63fa52e5297cb60d35012054bfcd6f4", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a164a762e83483d73f418fbe4feff2123", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a6c591cedc5c073a4a08c1a9fc7b72df9", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a5702eefd19e5cb365c2a35f37e537059", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#adb7a2125083c9d9d57a29ff526a607bc", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a96b0354e57865dfc1dac9acd487bb4ec", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a5ad75d01dce41a21278eb95a36335f72", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a6a375aa7f00ef568e3430a8c742a4df9", null ],
+    [ "xml_read_from_stream", "xml__io__general__types_8cc.html#a2d4329711b4093798269a422c358cda3", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a0aafcfdd4691a3178dbf222d966938f4", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#aab5ab16cb87af90b2bc7cea9e31d1221", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a1b99a794b483fada9707501a782e10d9", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a4e4180b6a98588c3931bb85b74668ce8", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a9e43a6a93a9376864aff693f30dcd079", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a92a759929e1e64c55746cf596b6feca3", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a912f5d3a3faaa509eedc9614e21aaafc", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#add982475a2bf471a409fedb65ef125d0", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a789ffda0a89575873e537ee8cb1097c9", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#ac7a2ad4686d4f9413f5839376900d35a", null ],
+    [ "xml_write_to_stream", "xml__io__general__types_8cc.html#a96f043b8ff77b2fc282cfdff00c22241", null ]
+];

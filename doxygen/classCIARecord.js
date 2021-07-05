@@ -12,10 +12,10 @@ var classCIARecord =
     [ "MoleculeName", "classCIARecord.html#ae2802106189473f78b94521d75b1a89a", null ],
     [ "ReadFromCIA", "classCIARecord.html#a7499f0d694e0c6e256f516a51707ed3f", null ],
     [ "SetMoleculeName", "classCIARecord.html#a802e260c0e4b55da899249e66e2585eb", null ],
-    [ "SetSpecies", "classCIARecord.html#ac9ec6658d7ab823a52cbc0a732129295", null ],
-    [ "Species", "classCIARecord.html#af4c57a54193eae51fc79c19e94d6a125", null ],
+    [ "SetSpecies", "classCIARecord.html#a368178a5de860d55658f467412201c2b", null ],
+    [ "Species", "classCIARecord.html#a661a6532ace382c9fa865f5f15973278", null ],
     [ "TemperatureGrid", "classCIARecord.html#af6de8ac94374120f66d8471349d8bf5f", null ],
     [ "xml_read_from_stream", "classCIARecord.html#a092308a7390f3afeeb7055d17f7407e1", null ],
     [ "mdata", "classCIARecord.html#a3eaf56f057b411528a0ae874aa755250", null ],
-    [ "mspecies", "classCIARecord.html#a5e617ae0d2997326bd9623bae9923317", null ]
+    [ "mspecies", "classCIARecord.html#a77dc69f27446879fde102ab914a55fc7", null ]
 ];

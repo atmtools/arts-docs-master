@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ARTS
-   &#160;<span id="projectnumber">2.5.0 (git: f5ac6156)</span>
+   &#160;<span id="projectnumber">2.5.0 (git: 260355e1)</span>
    </div>
   </td>
  </tr>
@@ -74,41 +74,35 @@ $(document).ready(function(){initNavTree('test__hitran_8cc_source.html',''); ini
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hitran__species_8h.html">hitran_species.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="test__hitran_8cc.html#a54aa02568c64f3aed5acffe2ffbdc9ee">    4</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="test__hitran_8cc.html#a54aa02568c64f3aed5acffe2ffbdc9ee">test001</a>() {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  <a class="code" href="arts_8h.html#aa2b80dc70a22aa8baff3f7bf20aea24d">define_species_data</a>();</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  <a class="code" href="arts_8h.html#aea572e081fd9b63a5e7fcf234ec11a44">define_species_map</a>();</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#ab9f8407c73f54b5720764b91706cfdfc">Index</a> nmols = 100;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  std::array&lt;char, 12&gt; isos = {<span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span>, <span class="charliteral">&#39;6&#39;</span>, <span class="charliteral">&#39;7&#39;</span>, <span class="charliteral">&#39;8&#39;</span>, <span class="charliteral">&#39;9&#39;</span>, <span class="charliteral">&#39;0&#39;</span>, <span class="charliteral">&#39;A&#39;</span>, <span class="charliteral">&#39;B&#39;</span>};</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="keyword">const</span> <a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> nmols = 100;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  std::array&lt;char, 12&gt; isos = {<span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span>, <span class="charliteral">&#39;6&#39;</span>, <span class="charliteral">&#39;7&#39;</span>, <span class="charliteral">&#39;8&#39;</span>, <span class="charliteral">&#39;9&#39;</span>, <span class="charliteral">&#39;0&#39;</span>, <span class="charliteral">&#39;A&#39;</span>, <span class="charliteral">&#39;B&#39;</span>};</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a> mol = 0; mol &lt; nmols; mol++) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> <a class="code" href="partition__function__data_8cc.html#a0617b447ed1866508e296f0a2435a6b3">iso</a> : isos) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;      <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="namespaceHitran.html#a19b56cdd570de161af6c0763e8479316">Hitran::from_lookup</a>(mol, <a class="code" href="partition__function__data_8cc.html#a0617b447ed1866508e296f0a2435a6b3">iso</a>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      } <span class="keywordflow">catch</span>(std::runtime_error&amp; e) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        std::cout &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;\n\n&quot;</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">   22</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>() {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="test__hitran_8cc.html#a54aa02568c64f3aed5acffe2ffbdc9ee">test001</a>();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="ttc" id="aarts_8h_html_aa2b80dc70a22aa8baff3f7bf20aea24d"><div class="ttname"><a href="arts_8h.html#aa2b80dc70a22aa8baff3f7bf20aea24d">define_species_data</a></div><div class="ttdeci">void define_species_data()</div><div class="ttdef"><b>Definition:</b> <a href="species__data_8cc_source.html#l00158">species_data.cc:158</a></div></div>
-<div class="ttc" id="aarts_8h_html_aea572e081fd9b63a5e7fcf234ec11a44"><div class="ttname"><a href="arts_8h.html#aea572e081fd9b63a5e7fcf234ec11a44">define_species_map</a></div><div class="ttdeci">void define_species_map()</div><div class="ttdef"><b>Definition:</b> <a href="species__data_8cc_source.html#l01093">species_data.cc:1093</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="keywordflow">for</span> (<a class="code" href="matpack_8h.html#ab9f8407c73f54b5720764b91706cfdfc">Index</a> mol = 0; mol &lt; nmols; mol++) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> iso : isos) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;      <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <a class="code" href="namespaceHitran.html#a6618824866ed9557bd7e61bfd2d71b39">Hitran::id_from_lookup</a>(mol, iso, Hitran::Type::Newest);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;      } <span class="keywordflow">catch</span>(std::runtime_error&amp; e) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        std::cout &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;\n\n&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;      }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  }</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">   19</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>() {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <a class="code" href="test__hitran_8cc.html#a54aa02568c64f3aed5acffe2ffbdc9ee">test001</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
 <div class="ttc" id="ahitran__species_8h_html"><div class="ttname"><a href="hitran__species_8h.html">hitran_species.h</a></div></div>
-<div class="ttc" id="amatpack_8h_html_aedca4b4670b166565b5b40c700d65a7c"><div class="ttname"><a href="matpack_8h.html#aedca4b4670b166565b5b40c700d65a7c">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
-<div class="ttc" id="anamespaceHitran_html_a19b56cdd570de161af6c0763e8479316"><div class="ttname"><a href="namespaceHitran.html#a19b56cdd570de161af6c0763e8479316">Hitran::from_lookup</a></div><div class="ttdeci">QuantumIdentifier from_lookup(Index mol, char isochar, Type type)</div><div class="ttdef"><b>Definition:</b> <a href="hitran__species_8cc_source.html#l00565">hitran_species.cc:565</a></div></div>
-<div class="ttc" id="apartition__function__data_8cc_html_a0617b447ed1866508e296f0a2435a6b3"><div class="ttname"><a href="partition__function__data_8cc.html#a0617b447ed1866508e296f0a2435a6b3">iso</a></div><div class="ttdeci">void iso(Array&lt; IsotopologueRecord &gt;::iterator &amp;ii, String name, const ArrayOfNumeric &amp;coeff, const ArrayOfNumeric &amp;temp_range, const Index &amp;coefftype)</div><div class="ttdoc">Initialize isotopologue and move iterator to next one.</div><div class="ttdef"><b>Definition:</b> <a href="partition__function__data_8cc_source.html#l01797">partition_function_data.cc:1797</a></div></div>
+<div class="ttc" id="amatpack_8h_html_ab9f8407c73f54b5720764b91706cfdfc"><div class="ttname"><a href="matpack_8h.html#ab9f8407c73f54b5720764b91706cfdfc">Index</a></div><div class="ttdeci">INDEX Index</div><div class="ttdoc">The type to use for all integer numbers and indices.</div><div class="ttdef"><b>Definition:</b> <a href="matpack_8h_source.html#l00039">matpack.h:39</a></div></div>
+<div class="ttc" id="anamespaceHitran_html_a6618824866ed9557bd7e61bfd2d71b39"><div class="ttname"><a href="namespaceHitran.html#a6618824866ed9557bd7e61bfd2d71b39">Hitran::id_from_lookup</a></div><div class="ttdeci">QuantumIdentifier id_from_lookup(Index mol, char isochar, Type type)</div><div class="ttdef"><b>Definition:</b> <a href="hitran__species_8cc_source.html#l00570">hitran_species.cc:570</a></div></div>
 <div class="ttc" id="atest__hitran_8cc_html_a54aa02568c64f3aed5acffe2ffbdc9ee"><div class="ttname"><a href="test__hitran_8cc.html#a54aa02568c64f3aed5acffe2ffbdc9ee">test001</a></div><div class="ttdeci">void test001()</div><div class="ttdef"><b>Definition:</b> <a href="test__hitran_8cc_source.html#l00004">test_hitran.cc:4</a></div></div>
-<div class="ttc" id="atest__hitran_8cc_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="test__hitran_8cc_source.html#l00022">test_hitran.cc:22</a></div></div>
+<div class="ttc" id="atest__hitran_8cc_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="test__hitran_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="test__hitran_8cc_source.html#l00019">test_hitran.cc:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="test__hitran_8cc.html">test_hitran.cc</a></li>
-    <li class="footer">Generated on Wed Apr 14 2021 12:44:45 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Mon Jul 5 2021 15:32:33 for ARTS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

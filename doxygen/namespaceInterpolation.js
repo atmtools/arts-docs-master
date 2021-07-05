@@ -1,7 +1,5 @@
 var namespaceInterpolation =
 [
-    [ "Grid", "classInterpolation_1_1Grid.html", "classInterpolation_1_1Grid" ],
-    [ "FixedGrid", "classInterpolation_1_1FixedGrid.html", "classInterpolation_1_1FixedGrid" ],
     [ "Lagrange", "structInterpolation_1_1Lagrange.html", "structInterpolation_1_1Lagrange" ],
     [ "FixedLagrange", "structInterpolation_1_1FixedLagrange.html", "structInterpolation_1_1FixedLagrange" ],
     [ "check_lagrange_interpolation", "namespaceInterpolation.html#a82091f22b307fd4ae4d074c3ff10e84c", null ],
@@ -41,10 +39,8 @@ var namespaceInterpolation =
     [ "ENUMCLASS", "namespaceInterpolation.html#ac711cbdbcd3159f5b2afd7e86121f6c5", null ],
     [ "FixedLagrangeVector", "namespaceInterpolation.html#a4b9758cf72fcd3fb6d46e943c8e66075", null ],
     [ "full_cycle", "namespaceInterpolation.html#abd15a98486745d3583ec920f630ae067", null ],
-    [ "gridsize_from_index", "namespaceInterpolation.html#ac9cc0532b2a43cc954a361a954aea801", null ],
     [ "IMAX", "namespaceInterpolation.html#ac83faea7723e46e074d13d9659362594", null ],
     [ "IMIN", "namespaceInterpolation.html#a3077aac11cccd7108a1f65405be753c9", null ],
-    [ "index_from_gridsize", "namespaceInterpolation.html#ab3d6ff0c49d1771c979a71e39fc8098f", null ],
     [ "interp", "namespaceInterpolation.html#a00bfc165085baaae8bd208c39b194e04", null ],
     [ "interp", "namespaceInterpolation.html#a10b4df655b63370302e73da6ba6abdad", null ],
     [ "interp", "namespaceInterpolation.html#ad003ba41e8d15449c280da9297335fa2", null ],
@@ -91,8 +87,6 @@ var namespaceInterpolation =
     [ "l", "namespaceInterpolation.html#a53147baa7e7eccf2d8acb7f5aaf88ff0", null ],
     [ "LagrangeVector", "namespaceInterpolation.html#af7fe18fe9271aba9250be3944e1b3ef5", null ],
     [ "min_cyclic", "namespaceInterpolation.html#abfbe662553c817c37d864c580af33ad2", null ],
-    [ "mul", "namespaceInterpolation.html#afdec7809c5ba6b7b9b3df10ab2afd24b", null ],
-    [ "mul", "namespaceInterpolation.html#a91d6d471d355dff26ff66d54e0d0c102", null ],
     [ "pos_finder", "namespaceInterpolation.html#a064e363ec98b9a00d988c96a229a930c", null ],
     [ "reinterp", "namespaceInterpolation.html#a084710a3e9754edb26a1124e4f1dfc5d", null ],
     [ "reinterp", "namespaceInterpolation.html#a91cbed65a3bf7b220c066bf82bbfd0fe", null ],

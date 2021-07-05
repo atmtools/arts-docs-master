@@ -1,8 +1,6 @@
 var xml__io__array__types_8cc =
 [
-    [ "xml_parse_from_stream", "xml__io__array__types_8cc.html#ab1a84350541424d2903df6ee61009482", null ],
-    [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a4fd102509b04cd1af4fb5d8433dafb12", null ],
-    [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a53c8db1cb29c3d5d05762647443bfd78", null ],
+    [ "xml_parse_from_stream", "xml__io__array__types_8cc.html#ad125295928547e492193662e1b59b78c", null ],
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a83378ebf0bfe8adea370d209cabe5053", null ],
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#aade7808ec5a874d536e40e97e7f4ccd9", null ],
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a9df63736a8ec0cb1a07c686e4e413c7e", null ],
@@ -56,8 +54,6 @@ var xml__io__array__types_8cc =
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a8c50f23620201378ed8b1c6614287b4a", null ],
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a4b373c2066fced171dfe9b5fa956a698", null ],
     [ "xml_read_from_stream", "xml__io__array__types_8cc.html#a8462f9732b9b920f216dfce4aaa04417", null ],
-    [ "xml_write_to_stream", "xml__io__array__types_8cc.html#a43a3fcc5b4d99c5546188d4a1677443d", null ],
-    [ "xml_write_to_stream", "xml__io__array__types_8cc.html#a438883185c553add9e7ceaf27423620f", null ],
     [ "xml_write_to_stream", "xml__io__array__types_8cc.html#aea9f0cd4aea4b0238d4d87bff20a94cc", null ],
     [ "xml_write_to_stream", "xml__io__array__types_8cc.html#a191ff94217de976aca0de5bb1c846a00", null ],
     [ "xml_write_to_stream", "xml__io__array__types_8cc.html#a2caa090d62be1f96ea04cbe84a2a133c", null ],

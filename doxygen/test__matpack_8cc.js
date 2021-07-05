@@ -60,5 +60,5 @@ var test__matpack_8cc =
     [ "test_empty", "test__matpack_8cc.html#af88306657e771672d4b023196dbabc41", null ],
     [ "test_matrix_multiplication", "test__matpack_8cc.html#a621d4c1e7124a966857a405965f2ff90", null ],
     [ "test_matrix_vector_multiplication", "test__matpack_8cc.html#a4993e97455b2c9884562a7144a6d477a", null ],
-    [ "test_numeric2rational", "test__matpack_8cc.html#add7e1be7251e9b9aa7d2036bf161088b", null ]
+    [ "test_numeric2rational", "test__matpack_8cc.html#ac6a3155682b85e6b50b68abe3ecc224a", null ]
 ];

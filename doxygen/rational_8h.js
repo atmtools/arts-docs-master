@@ -14,7 +14,6 @@ var rational_8h =
     [ "operator!=", "rational_8h.html#a200ae7885ba4a74a463e4cb97d2ae113", null ],
     [ "operator!=", "rational_8h.html#a6ff21276ebc6fb569f3f567054874ba2", null ],
     [ "operator\"\"_2", "rational_8h.html#a492e1ce90869dcb54f2c16b97027e444", null ],
-    [ "operator\"\"_rat", "rational_8h.html#a60cdca8038bb546bbf62fcd371c1cf8b", null ],
     [ "operator%", "rational_8h.html#ac0ab7fe55f340774515b0cd6fa6db389", null ],
     [ "operator%", "rational_8h.html#a2a4aa28f82ce6aadc3ef588435cba8b3", null ],
     [ "operator%", "rational_8h.html#a9e552dee4e5b95bb82ce4cd6ba9130eb", null ],
