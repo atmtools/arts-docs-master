@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <link href="../_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jacobian_agenda &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="jacobian_do" href="pyarts.workspace.Workspace.jacobian_do.html" />
+    <link rel="prev" title="jacobian" href="pyarts.workspace.Workspace.jacobian.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workspace.html">The Workspace</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../pyarts.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts.html">pyarts.arts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts_ext.html">pyarts.arts_ext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.cat.html">pyarts.cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.common.html">pyarts.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.environment.html">pyarts.environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.hitran.html">pyarts.hitran</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.parser.html">pyarts.parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.sensor.html">pyarts.sensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.utils.html">pyarts.utils</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pyarts.workspace.html">pyarts.workspace</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../pyarts.workspace.html#key-functionality">Key functionality</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.arts_agenda.html">arts_agenda</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pyarts.workspace.Workspace.html">Workspace</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.workspace">pyarts.workspace.workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.utility">pyarts.workspace.utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.global_data">pyarts.workspace.global_data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.xml.html">pyarts.xml</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../pyarts.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../pyarts.workspace.html">pyarts.workspace</a></li>
+          <li class="breadcrumb-item"><a href="pyarts.workspace.Workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">jacobian_agenda</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/stubs/pyarts.workspace.Workspace.jacobian_agenda.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jacobian-agenda">
+<h1>jacobian_agenda<a class="headerlink" href="#jacobian-agenda" title="Link to this heading"></a></h1>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyarts.workspace.Workspace.jacobian_agenda">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Workspace.</span></span><span class="sig-name descname"><span class="pre">jacobian_agenda</span></span><a class="headerlink" href="#pyarts.workspace.Workspace.jacobian_agenda" title="Link to this definition"></a></dt>
+<dd><p>Pure numerical Jacobian calculations.</p>
+<p>Parts of the Jacobian matrix can be determined by (semi-)analytical
+expressions, while other parts are calculated in a pure numerical
+manner (by perturbations). This agenda describes the calculations to
+be performed in the later case.</p>
+<p>This agenda is normally not set directly by the user, but is created
+by calling the the jacobianAdd set of methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>jacobian</strong> (<a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><em>Matrix</em></a>) – The Jacobian matrix. See <a class="reference internal" href="pyarts.workspace.Workspace.jacobian.html#pyarts.workspace.Workspace.jacobian" title="pyarts.workspace.Workspace.jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian</span></code></a> <strong>[INOUT]</strong></p></li>
+<li><p><strong>mblock_index</strong> (<a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><em>Index</em></a>) – Measurement block index. . See <a class="reference internal" href="pyarts.workspace.Workspace.mblock_index.html#pyarts.workspace.Workspace.mblock_index" title="pyarts.workspace.Workspace.mblock_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mblock_index</span></code></a> <strong>[IN]</strong></p></li>
+<li><p><strong>iyb</strong> (<a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><em>Vector</em></a>) – Monochromatic pencil beam data for one measurement block. See <a class="reference internal" href="pyarts.workspace.Workspace.iyb.html#pyarts.workspace.Workspace.iyb" title="pyarts.workspace.Workspace.iyb"><code class="xref py py-attr docutils literal notranslate"><span class="pre">iyb</span></code></a> <strong>[IN]</strong></p></li>
+<li><p><strong>yb</strong> (<a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><em>Vector</em></a>) – The measurement vector for a single measurement block. See <a class="reference internal" href="pyarts.workspace.Workspace.yb.html#pyarts.workspace.Workspace.yb" title="pyarts.workspace.Workspace.yb"><code class="xref py py-attr docutils literal notranslate"><span class="pre">yb</span></code></a> <strong>[IN]</strong></p></li>
+</ul>
+</dd>
+</dl>
+<section id="workspace-methods-that-can-generate-jacobian-agenda">
+<h2>Workspace methods that can generate jacobian_agenda<a class="headerlink" href="#workspace-methods-that-can-generate-jacobian-agenda" title="Link to this heading"></a></h2>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.abs_speciesAdd2.html#pyarts.workspace.Workspace.abs_speciesAdd2" title="pyarts.workspace.Workspace.abs_speciesAdd2"><code class="xref py py-func docutils literal notranslate"><span class="pre">abs_speciesAdd2()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddAbsSpecies.html#pyarts.workspace.Workspace.jacobianAddAbsSpecies" title="pyarts.workspace.Workspace.jacobianAddAbsSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddAbsSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter.html#pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter" title="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddBasicCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters.html#pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters" title="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddBasicCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddFreqShift.html#pyarts.workspace.Workspace.jacobianAddFreqShift" title="pyarts.workspace.Workspace.jacobianAddFreqShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddFreqShift()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddFreqStretch.html#pyarts.workspace.Workspace.jacobianAddFreqStretch" title="pyarts.workspace.Workspace.jacobianAddFreqStretch"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddFreqStretch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddMagField.html#pyarts.workspace.Workspace.jacobianAddMagField" title="pyarts.workspace.Workspace.jacobianAddMagField"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddMagField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddNLTE.html#pyarts.workspace.Workspace.jacobianAddNLTE" title="pyarts.workspace.Workspace.jacobianAddNLTE"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddNLTE()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddNLTEs.html#pyarts.workspace.Workspace.jacobianAddNLTEs" title="pyarts.workspace.Workspace.jacobianAddNLTEs"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddNLTEs()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddPointingZa.html#pyarts.workspace.Workspace.jacobianAddPointingZa" title="pyarts.workspace.Workspace.jacobianAddPointingZa"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddPointingZa()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddPolyfit.html#pyarts.workspace.Workspace.jacobianAddPolyfit" title="pyarts.workspace.Workspace.jacobianAddPolyfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddPolyfit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddScatSpecies.html#pyarts.workspace.Workspace.jacobianAddScatSpecies" title="pyarts.workspace.Workspace.jacobianAddScatSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddScatSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter.html#pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter" title="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddShapeCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters.html#pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters" title="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddShapeCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSinefit.html#pyarts.workspace.Workspace.jacobianAddSinefit" title="pyarts.workspace.Workspace.jacobianAddSinefit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSinefit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSpecialSpecies.html#pyarts.workspace.Workspace.jacobianAddSpecialSpecies" title="pyarts.workspace.Workspace.jacobianAddSpecialSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSpecialSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSurfaceQuantity.html#pyarts.workspace.Workspace.jacobianAddSurfaceQuantity" title="pyarts.workspace.Workspace.jacobianAddSurfaceQuantity"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSurfaceQuantity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddTemperature.html#pyarts.workspace.Workspace.jacobianAddTemperature" title="pyarts.workspace.Workspace.jacobianAddTemperature"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddTemperature()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddWind.html#pyarts.workspace.Workspace.jacobianAddWind" title="pyarts.workspace.Workspace.jacobianAddWind"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddWind()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianClose.html#pyarts.workspace.Workspace.jacobianClose" title="pyarts.workspace.Workspace.jacobianClose"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianClose()</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianInit.html#pyarts.workspace.Workspace.jacobianInit" title="pyarts.workspace.Workspace.jacobianInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianOff.html#pyarts.workspace.Workspace.jacobianOff" title="pyarts.workspace.Workspace.jacobianOff"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianOff()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_agendaSet.html#pyarts.workspace.Workspace.jacobian_agendaSet" title="pyarts.workspace.Workspace.jacobian_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_agendaSet()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddAbsSpecies.html#pyarts.workspace.Workspace.retrievalAddAbsSpecies" title="pyarts.workspace.Workspace.retrievalAddAbsSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddAbsSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddCatalogParameter.html#pyarts.workspace.Workspace.retrievalAddCatalogParameter" title="pyarts.workspace.Workspace.retrievalAddCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddCatalogParameters.html#pyarts.workspace.Workspace.retrievalAddCatalogParameters" title="pyarts.workspace.Workspace.retrievalAddCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddFreqShift.html#pyarts.workspace.Workspace.retrievalAddFreqShift" title="pyarts.workspace.Workspace.retrievalAddFreqShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddFreqShift()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddFreqStretch.html#pyarts.workspace.Workspace.retrievalAddFreqStretch" title="pyarts.workspace.Workspace.retrievalAddFreqStretch"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddFreqStretch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddMagField.html#pyarts.workspace.Workspace.retrievalAddMagField" title="pyarts.workspace.Workspace.retrievalAddMagField"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddMagField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddPointingZa.html#pyarts.workspace.Workspace.retrievalAddPointingZa" title="pyarts.workspace.Workspace.retrievalAddPointingZa"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddPointingZa()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddPolyfit.html#pyarts.workspace.Workspace.retrievalAddPolyfit" title="pyarts.workspace.Workspace.retrievalAddPolyfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddPolyfit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddScatSpecies.html#pyarts.workspace.Workspace.retrievalAddScatSpecies" title="pyarts.workspace.Workspace.retrievalAddScatSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddScatSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSinefit.html#pyarts.workspace.Workspace.retrievalAddSinefit" title="pyarts.workspace.Workspace.retrievalAddSinefit"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSinefit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSpecialSpecies.html#pyarts.workspace.Workspace.retrievalAddSpecialSpecies" title="pyarts.workspace.Workspace.retrievalAddSpecialSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSpecialSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSurfaceQuantity.html#pyarts.workspace.Workspace.retrievalAddSurfaceQuantity" title="pyarts.workspace.Workspace.retrievalAddSurfaceQuantity"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSurfaceQuantity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddTemperature.html#pyarts.workspace.Workspace.retrievalAddTemperature" title="pyarts.workspace.Workspace.retrievalAddTemperature"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddTemperature()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddWind.html#pyarts.workspace.Workspace.retrievalAddWind" title="pyarts.workspace.Workspace.retrievalAddWind"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddWind()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalDefClose.html#pyarts.workspace.Workspace.retrievalDefClose" title="pyarts.workspace.Workspace.retrievalDefClose"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalDefClose()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalDefInit.html#pyarts.workspace.Workspace.retrievalDefInit" title="pyarts.workspace.Workspace.retrievalDefInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalDefInit()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="workspace-methods-that-require-jacobian-agenda">
+<h2>Workspace methods that require jacobian_agenda<a class="headerlink" href="#workspace-methods-that-require-jacobian-agenda" title="Link to this heading"></a></h2>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddAbsSpecies.html#pyarts.workspace.Workspace.jacobianAddAbsSpecies" title="pyarts.workspace.Workspace.jacobianAddAbsSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddAbsSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter.html#pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter" title="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddBasicCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters.html#pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters" title="pyarts.workspace.Workspace.jacobianAddBasicCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddBasicCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddFreqShift.html#pyarts.workspace.Workspace.jacobianAddFreqShift" title="pyarts.workspace.Workspace.jacobianAddFreqShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddFreqShift()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddFreqStretch.html#pyarts.workspace.Workspace.jacobianAddFreqStretch" title="pyarts.workspace.Workspace.jacobianAddFreqStretch"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddFreqStretch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddMagField.html#pyarts.workspace.Workspace.jacobianAddMagField" title="pyarts.workspace.Workspace.jacobianAddMagField"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddMagField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddNLTE.html#pyarts.workspace.Workspace.jacobianAddNLTE" title="pyarts.workspace.Workspace.jacobianAddNLTE"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddNLTE()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddNLTEs.html#pyarts.workspace.Workspace.jacobianAddNLTEs" title="pyarts.workspace.Workspace.jacobianAddNLTEs"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddNLTEs()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddPointingZa.html#pyarts.workspace.Workspace.jacobianAddPointingZa" title="pyarts.workspace.Workspace.jacobianAddPointingZa"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddPointingZa()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddPolyfit.html#pyarts.workspace.Workspace.jacobianAddPolyfit" title="pyarts.workspace.Workspace.jacobianAddPolyfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddPolyfit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddScatSpecies.html#pyarts.workspace.Workspace.jacobianAddScatSpecies" title="pyarts.workspace.Workspace.jacobianAddScatSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddScatSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter.html#pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter" title="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddShapeCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters.html#pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters" title="pyarts.workspace.Workspace.jacobianAddShapeCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddShapeCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSinefit.html#pyarts.workspace.Workspace.jacobianAddSinefit" title="pyarts.workspace.Workspace.jacobianAddSinefit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSinefit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSpecialSpecies.html#pyarts.workspace.Workspace.jacobianAddSpecialSpecies" title="pyarts.workspace.Workspace.jacobianAddSpecialSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSpecialSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddSurfaceQuantity.html#pyarts.workspace.Workspace.jacobianAddSurfaceQuantity" title="pyarts.workspace.Workspace.jacobianAddSurfaceQuantity"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddSurfaceQuantity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddTemperature.html#pyarts.workspace.Workspace.jacobianAddTemperature" title="pyarts.workspace.Workspace.jacobianAddTemperature"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddTemperature()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianAddWind.html#pyarts.workspace.Workspace.jacobianAddWind" title="pyarts.workspace.Workspace.jacobianAddWind"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianAddWind()</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianClose.html#pyarts.workspace.Workspace.jacobianClose" title="pyarts.workspace.Workspace.jacobianClose"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianClose()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddAbsSpecies.html#pyarts.workspace.Workspace.retrievalAddAbsSpecies" title="pyarts.workspace.Workspace.retrievalAddAbsSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddAbsSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddCatalogParameter.html#pyarts.workspace.Workspace.retrievalAddCatalogParameter" title="pyarts.workspace.Workspace.retrievalAddCatalogParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddCatalogParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddCatalogParameters.html#pyarts.workspace.Workspace.retrievalAddCatalogParameters" title="pyarts.workspace.Workspace.retrievalAddCatalogParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddCatalogParameters()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddFreqShift.html#pyarts.workspace.Workspace.retrievalAddFreqShift" title="pyarts.workspace.Workspace.retrievalAddFreqShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddFreqShift()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddFreqStretch.html#pyarts.workspace.Workspace.retrievalAddFreqStretch" title="pyarts.workspace.Workspace.retrievalAddFreqStretch"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddFreqStretch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddMagField.html#pyarts.workspace.Workspace.retrievalAddMagField" title="pyarts.workspace.Workspace.retrievalAddMagField"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddMagField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddPointingZa.html#pyarts.workspace.Workspace.retrievalAddPointingZa" title="pyarts.workspace.Workspace.retrievalAddPointingZa"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddPointingZa()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddPolyfit.html#pyarts.workspace.Workspace.retrievalAddPolyfit" title="pyarts.workspace.Workspace.retrievalAddPolyfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddPolyfit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddScatSpecies.html#pyarts.workspace.Workspace.retrievalAddScatSpecies" title="pyarts.workspace.Workspace.retrievalAddScatSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddScatSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSinefit.html#pyarts.workspace.Workspace.retrievalAddSinefit" title="pyarts.workspace.Workspace.retrievalAddSinefit"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSinefit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSpecialSpecies.html#pyarts.workspace.Workspace.retrievalAddSpecialSpecies" title="pyarts.workspace.Workspace.retrievalAddSpecialSpecies"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSpecialSpecies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddSurfaceQuantity.html#pyarts.workspace.Workspace.retrievalAddSurfaceQuantity" title="pyarts.workspace.Workspace.retrievalAddSurfaceQuantity"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddSurfaceQuantity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddTemperature.html#pyarts.workspace.Workspace.retrievalAddTemperature" title="pyarts.workspace.Workspace.retrievalAddTemperature"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddTemperature()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalAddWind.html#pyarts.workspace.Workspace.retrievalAddWind" title="pyarts.workspace.Workspace.retrievalAddWind"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalAddWind()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.retrievalDefClose.html#pyarts.workspace.Workspace.retrievalDefClose" title="pyarts.workspace.Workspace.retrievalDefClose"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrievalDefClose()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yCalc.html#pyarts.workspace.Workspace.yCalc" title="pyarts.workspace.Workspace.yCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">yCalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yCalcAppend.html#pyarts.workspace.Workspace.yCalcAppend" title="pyarts.workspace.Workspace.yCalcAppend"><code class="xref py py-func docutils literal notranslate"><span class="pre">yCalcAppend()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="generic-workspace-methods-that-can-generate-or-use-jacobian-agenda">
+<h2>Generic workspace methods that can generate or use jacobian_agenda<a class="headerlink" href="#generic-workspace-methods-that-can-generate-or-use-jacobian-agenda" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> and/or <a class="reference internal" href="pyarts.arts.Any.html#pyarts.arts.Any" title="pyarts.arts.Any"><code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.WorkspaceVariable.html#pyarts.arts.WorkspaceVariable" title="pyarts.arts.WorkspaceVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkspaceVariable</span></code></a> - holds type <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a></p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyarts.workspace.Workspace.jacobian.html" class="btn btn-neutral float-left" title="jacobian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.jacobian_do.html" class="btn btn-neutral float-right" title="jacobian_do" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

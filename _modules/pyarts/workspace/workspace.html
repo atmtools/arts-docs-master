@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.workspace.workspace &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.workspace.workspace</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.workspace.workspace</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">Call</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Expression</span><span class="p">,</span> <span class="n">Expr</span><span class="p">,</span> <span class="n">FunctionDef</span><span class="p">,</span> \
+    <span class="n">Starred</span><span class="p">,</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getsource</span><span class="p">,</span> <span class="n">getclosurevars</span><span class="p">,</span> <span class="n">ismodule</span><span class="p">,</span> <span class="n">isclass</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">import</span> <span class="nn">pyarts.arts</span> <span class="k">as</span> <span class="nn">cxx</span>
+<span class="kn">from</span> <span class="nn">pyarts.workspace.utility</span> <span class="kn">import</span> <span class="n">unindent</span> <span class="k">as</span> <span class="n">unindent</span>
+
+
+<span class="c1"># Set the default basename of Arts</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;__main__&quot;</span><span class="p">]</span><span class="o">.</span><span class="vm">__file__</span>
+    <span class="n">basename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+    <span class="n">cxx</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">out_basename</span> <span class="o">=</span> <span class="n">basename</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="n">_InternalWorkspace</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_Workspace&quot;</span><span class="p">)</span>
+<span class="n">Agenda</span> <span class="o">=</span> <span class="n">cxx</span><span class="o">.</span><span class="n">Agenda</span>
+
+
+<div class="viewcode-block" id="DelayedAgenda">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.DelayedAgenda.html#pyarts.workspace.DelayedAgenda">[docs]</a>
+<span class="k">class</span> <span class="nc">DelayedAgenda</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Helper class to delay the parsing of an Agenda until a workspace exist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="DelayedAgenda.__init__">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.DelayedAgenda.__init__.html#pyarts.workspace.DelayedAgenda.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">[[</span><span class="o">*</span><span class="n">args</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="DelayedAgenda.append_agenda_methods">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.DelayedAgenda.append_agenda_methods.html#pyarts.workspace.DelayedAgenda.append_agenda_methods">[docs]</a>
+    <span class="k">def</span> <span class="nf">append_agenda_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">cxx</span><span class="o">.</span><span class="n">Agenda</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">append_agenda_methods</span><span class="p">(</span><span class="n">continue_parser_function</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span>
+        <span class="k">return</span> <span class="n">a</span></div>
+
+
+
+<div class="viewcode-block" id="Include">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.Include.html#pyarts.workspace.Include">[docs]</a>
+<span class="k">def</span> <span class="nf">Include</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Parse and execute the .arts file at path onto the current workspace ws</span>
+<span class="sd">    </span>
+<span class="sd">    The Arts parser is invoked on the file at path.  The methods and commands</span>
+<span class="sd">    of this file are executed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Agenda</span><span class="p">):</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Agenda</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="arts_agenda">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.arts_agenda.html#pyarts.workspace.arts_agenda">[docs]</a>
+<span class="k">def</span> <span class="nf">arts_agenda</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">set_agenda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator to parse a Python method as ARTS agenda</span>
+
+<span class="sd">    This decorator can be used to define ARTS agendas using python function</span>
+<span class="sd">    syntax. The function should have one arguments which is assumed to be a</span>
+<span class="sd">    :class:`Workspace` instance. All expressions inside the function must be calls to</span>
+<span class="sd">    ARTS WSMs. The function definition results in an Agenda object that can</span>
+<span class="sd">    be copied into an ARTS agenda.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        ws = pyarts.workspace.Workspace()</span>
+
+<span class="sd">        @pyarts.workspace.arts_agenda(ws=ws)</span>
+<span class="sd">        def iy_main_agenda_clearsky(ws):</span>
+<span class="sd">            ws.ppathCalc()</span>
+<span class="sd">            ws.iyClearsky()</span>
+<span class="sd">            ws.VectorSet(ws.geo_pos, [])</span>
+
+<span class="sd">        ws.iy_main_agenda = iy_main_agenda_clearsky</span>
+
+<span class="sd">    Or, by passing `set_agenda=True`, write the agenda directly to the workspace</span>
+<span class="sd">    (allowing initiating automatic checking if the agenda is a defined</span>
+<span class="sd">    workspace agenda)::</span>
+
+<span class="sd">        ws = pyarts.workspace.Workspace()</span>
+
+<span class="sd">        @pyarts.workspace.arts_agenda(ws=ws, set_agenda=True)</span>
+<span class="sd">        def iy_main_agenda(ws):</span>
+<span class="sd">            ws.ppathCalc()</span>
+<span class="sd">            ws.iyClearsky()</span>
+<span class="sd">            ws.VectorSet(ws.geo_pos, [])</span>
+
+<span class="sd">    When the decorator is used with the `allow_callbacks` keyword argument</span>
+<span class="sd">    set to True, arbitrary Python code can be executed within the callback.</span>
+<span class="sd">    Note, however, that ARTS ignores exceptions occurring within the</span>
+<span class="sd">    callback, so care must be taken that potentially silenced errors</span>
+<span class="sd">    don&#39;t interfere with simulation results.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">       Using `allow_callbacks=True` breaks the Agenda input-output control.</span>
+<span class="sd">       It is therefore considered undefined behavior if you manipulate</span>
+<span class="sd">       workspace variables that are neither in- nor output of the Agenda using</span>
+<span class="sd">       callbacks.  *Do this at your own risk*.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        ws = pyarts.workspace.Workspace()</span>
+
+<span class="sd">        @pyarts.workspace.arts_agenda(ws=ws, allow_callbacks=True)</span>
+<span class="sd">        def python_agenda(ws):</span>
+<span class="sd">            print(&quot;Python says &#39;hi&#39;.&quot;)</span>
+
+<span class="sd">    A special `INCLUDE(path)` directive can be part of the function definitions</span>
+<span class="sd">    to use the Arts parser of .arts files to be invoked on the file.</span>
+<span class="sd">    All methods and invokations that are part of the .arts file are</span>
+<span class="sd">    appended in place to the agenda</span>
+
+<span class="sd">    To predefine an agenda before a workspace is created, for instance for use with</span>
+<span class="sd">    multiple workspaces later, use the :class:`DelayedAgenda` class.</span>
+<span class="sd">    A :class:`DelayedAgenda` is created by omitting the ws keyword argument::</span>
+
+<span class="sd">        @pyarts.workspace.arts_agenda</span>
+<span class="sd">        def iy_main_agenda_clearsky(ws):</span>
+<span class="sd">            ws.ppathCalc()</span>
+<span class="sd">            ws.iyClearsky()</span>
+<span class="sd">            ws.VectorSet(ws.geo_pos, [])</span>
+
+<span class="sd">        ws = pyarts.workspace.Workspace()</span>
+<span class="sd">        ws.iy_main_agenda = iy_main_agenda_clearsky</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">agenda_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parse_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="o">=</span><span class="n">allow_callbacks</span><span class="p">,</span> <span class="n">set_agenda</span><span class="o">=</span><span class="n">set_agenda</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">agenda_decorator</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">parse_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="parse_function">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.parse_function.html#pyarts.workspace.parse_function">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arts</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="p">,</span> <span class="n">set_agenda</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse python method as ARTS agenda</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        func: The function object to parse.</span>
+<span class="sd">        allow_callbacks: Whether to allow callbacks in the agenda.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        An &#39;Agenda&#39; object containing the code in the given function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">source</span> <span class="o">=</span> <span class="n">getsource</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">unindent</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">ast</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">)</span>
+    <span class="n">dellist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">ismodule</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="ow">and</span>
+            <span class="ow">not</span> <span class="n">isclass</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="ow">and</span>
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">Callable</span><span class="p">)):</span>
+            <span class="n">dellist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dellist</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">context</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="n">nls</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">getclosurevars</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nls</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">arts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DelayedAgenda</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">ast</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="p">,</span> <span class="n">set_agenda</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">continue_parser_function</span><span class="p">(</span><span class="n">arts</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">ast</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="p">,</span> <span class="n">set_agenda</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="continue_parser_function">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.workspace.continue_parser_function.html#pyarts.workspace.continue_parser_function">[docs]</a>
+<span class="k">def</span> <span class="nf">continue_parser_function</span><span class="p">(</span><span class="n">arts</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">ast</span><span class="p">,</span> <span class="n">allow_callbacks</span><span class="p">,</span> <span class="n">set_agenda</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arts</span><span class="p">,</span> <span class="n">_InternalWorkspace</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expects Workspace, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">arts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">func_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func_ast</span><span class="p">,</span> <span class="n">FunctionDef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;ARTS agenda definition can only decorate function definitions.&quot;</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">arg_name</span> <span class="o">=</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">arg</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Agenda definition needs workspace arguments.&quot;</span><span class="p">)</span>
+    
+    <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">arg_name</span> <span class="p">:</span> <span class="n">arts</span><span class="p">})</span>
+    
+    <span class="c1">#</span>
+    <span class="c1"># Helper functions</span>
+    <span class="c1">#</span>
+    <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">callback_make_fun</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function that creates a wrapper function around</span>
+<span class="sd">        python code to be executed withing an ARTS agenda.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+            <span class="c1"># https://bugs.python.org/issue35894#msg334808</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">ws</span><span class="p">):</span>
+            <span class="c1"># FIXME: Is mutex required here?</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>  <span class="c1"># FIXME:  This is required, of course</span>
+            <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">m</span> <span class="p">,</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>  <span class="c1"># FIXME: But is this required or thrown away?</span>
+        <span class="k">return</span> <span class="n">callback</span>
+
+    <span class="k">def</span> <span class="nf">eval_argument</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate argument of workspace method call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s2">&quot;lineno&quot;</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s2">&quot;lineno&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="p">),</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">unparse</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;the local Python variable `</span><span class="si">{</span><span class="n">unparse</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="si">}</span><span class="s2">`&quot;</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="s2">&quot;a local Python variable&quot;</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;You seem to want to pass </span><span class="si">{</span><span class="n">errstr</span><span class="si">}</span><span class="s2"> into a WSM.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;This breaks scoping rules. You can only pass literals into WSMs.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="n">illegal_statement_exception</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Pure ARTS agenda definitions may only contain calls to WSMs of</span>
+<span class="s2">the workspace argument &#39;</span><span class="si">{arg_name}</span><span class="s2">&#39; or INCLUDE statements.</span>
+<span class="s2">If you want to allow Python callbacks you need to use</span>
+<span class="s2">the &#39;@arts_agenda&#39; decorator with the &#39;allow_callbacks&#39;</span>
+<span class="s2">keyword argument set to &#39;True&#39;.</span>
+
+<span class="s2">WARNING: This will break the Agenda input-output control.</span>
+<span class="s2">To ensure proper scoping, you need to explicitly `ws.Touch`</span>
+<span class="s2">every WSV you modify. That includes output variables from WSMs</span>
+<span class="s2">you might call. Everything else is undefined behaviour. ;-)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">workspace_methods</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cxx</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">get_md_data</span><span class="p">()]</span>
+    <span class="n">agenda</span> <span class="o">=</span> <span class="n">Agenda</span><span class="p">(</span><span class="n">arts</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Expr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">allow_callbacks</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">illegal_statement_exception</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">call</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="p">,</span> <span class="n">Call</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="p">,</span> <span class="n">Str</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="n">allow_callbacks</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">illegal_statement_exception</span>
+        
+        <span class="c1"># Include statement</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="p">)</span> <span class="o">==</span> <span class="n">Name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="s2">&quot;INCLUDE&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">allow_callbacks</span><span class="p">:</span>
+                    <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">illegal_statement_exception</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+                    <span class="n">include_agenda</span> <span class="o">=</span>  <span class="n">Agenda</span><span class="p">(</span><span class="n">arts</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback_method</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+                        <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="n">agenda</span><span class="o">.</span><span class="n">append_agenda_methods</span><span class="p">(</span><span class="n">include_agenda</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">att</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">att</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">arg_name</span><span class="p">:</span>
+                <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Extract method name.</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">attr</span>
+            <span class="c1"># m is not a workspace method</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">workspace_methods</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">allow_callbacks</span><span class="p">:</span>
+                    <span class="n">callback_body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not a know ARTS WSM.&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="c1"># Handle starred expression</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Starred</span><span class="p">:</span>
+                    <span class="n">bs</span> <span class="o">=</span> <span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bs</span><span class="p">:</span>
+                        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_argument</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+
+            <span class="c1"># Extract keyword arguments</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">call</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span>
+                             <span class="n">context</span><span class="p">)</span>
+                    <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">Expression</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                                                 <span class="s2">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">),</span>
+                                         <span class="n">context</span><span class="p">)</span>
+
+            <span class="c1"># Add function to agenda</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback_method</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+                <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="n">agenda</span><span class="o">.</span><span class="n">add_workspace_method</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Check if there&#39;s callback code left to add to the agenda.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callback_body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">agenda</span><span class="o">.</span><span class="n">add_callback_method</span><span class="p">(</span><span class="n">callback_make_fun</span><span class="p">(</span><span class="n">callback_body</span><span class="p">))</span>
+        <span class="n">callback_body</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">agenda</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">set_agenda</span><span class="p">:</span> <span class="nb">setattr</span><span class="p">(</span><span class="n">arts</span><span class="p">,</span> <span class="n">func_ast</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">agenda</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">agenda</span></div>
+
+
+
+<span class="n">_group_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cxx.</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cxx</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">get_wsv_groups</span><span class="p">())]</span>
+
+
+<div class="viewcode-block" id="Workspace">
+<a class="viewcode-back" href="../../../stubs/pyarts.workspace.Workspace.html#pyarts.workspace.Workspace">[docs]</a>
+<span class="k">class</span> <span class="nc">Workspace</span><span class="p">(</span><span class="n">_InternalWorkspace</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A wrapper for the C++ workspace object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_hasattr_check_</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_getattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;Workspace&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hasattr_check_</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedAgenda</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_getattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">initialize_if_not</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_getattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_getattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_group_types</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_setattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedAgenda</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_setattr_unchecked_</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;Workspace&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;__class__&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;You cannot delete __class__&quot;</span><span class="p">)</span>
+
+        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">delete_level</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__copy__</span><span class="p">()</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Workspace</span><span class="p">()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__deepcopy__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Workspace</span><span class="p">()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Workspace&quot;</span><span class="p">:</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()}</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;Workspace&quot;</span><span class="p">])</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

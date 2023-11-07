@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.utils.common &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.utils.common</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.utils.common</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Miscellaneous convenience functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="p">(</span><span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;deprecated&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;unique&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_append&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_prepend&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_remove&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="deprecated">
+<a class="viewcode-back" href="../../../stubs/pyarts.utils.common.deprecated.html#pyarts.utils.common.deprecated">[docs]</a>
+<span class="k">def</span> <span class="nf">deprecated</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator which can be used to mark functions as deprecated.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Calling ``foo()`` will raise a ``DeprecationWarning``.</span>
+
+<span class="sd">        &gt;&gt;&gt; @deprecated</span>
+<span class="sd">        ... def deprecated_function():</span>
+<span class="sd">        ...     pass</span>
+
+<span class="sd">        Display message with additional information:</span>
+
+<span class="sd">        &gt;&gt;&gt; @deprecated(message=&#39;Additional information message.&#39;)</span>
+<span class="sd">        ... def deprecated_function():</span>
+<span class="sd">        ...     pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Return partial when no arguments are passed.</span>
+    <span class="c1"># This allows a plain call of the decorator.</span>
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">deprecated</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="n">new_name</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># Build warning message (with optional information).</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Call to deprecated function `</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">`.&#39;</span>
+
+    <span class="k">if</span> <span class="n">new_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Use `</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s1">` instead.&#39;</span>
+
+    <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="c1"># Wrapper that prints the warning before calling the deprecated function.</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="c1"># Lines added to the docstring need to be indented with four spaces as this</span>
+    <span class="c1"># is technically the case for all lines except the first one.</span>
+    <span class="c1"># If this is not done, the Sphinx build will produce wrong results as the</span>
+    <span class="c1"># relative indentation of the added lines and the original docstring does</span>
+    <span class="c1"># not match.</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">    .. warning::</span><span class="se">\n</span><span class="s1">       Function is deprecated&#39;</span>
+                        <span class="s1">&#39; and will be removed in a future version.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">new_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Use :func:`</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s1">` instead.&#39;</span>
+
+    <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">       </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+
+<div class="viewcode-block" id="unique">
+<a class="viewcode-back" href="../../../stubs/pyarts.utils.common.unique.html#pyarts.utils.common.unique">[docs]</a>
+<span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicates from list whilst keeping the original order</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        If you do not care about keeping the order, use this code:</span>
+<span class="sd">        &gt;&gt;&gt;&gt; list(set([0, 5, 1, 2, 0, 3, 1,]))</span>
+<span class="sd">        [0, 1, 2, 3, 5]</span>
+
+<span class="sd">    This code is taken from https://stackoverflow.com/a/480227.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        seq: A sequence (list, etc.) of elements.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list with unique items with original order.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt;&gt; unique([0, 5, 1, 2, 0, 3, 1,])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">seen_add</span> <span class="o">=</span> <span class="n">seen</span><span class="o">.</span><span class="n">add</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seq</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">or</span> <span class="n">seen_add</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span></div>
+
+
+
+<div class="viewcode-block" id="path_append">
+<a class="viewcode-back" href="../../../stubs/pyarts.utils.common.path_append.html#pyarts.utils.common.path_append">[docs]</a>
+<span class="k">def</span> <span class="nf">path_append</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a directory to environment path variable.</span>
+
+<span class="sd">    Append entries to colon-separated variables (e.g. the system path).</span>
+<span class="sd">    If the entry is already in the list, it is moved to the end.</span>
+<span class="sd">    A path variable is set, if not existing at function call.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        dirname (str): Directory to add to the path.</span>
+<span class="sd">        path (str): Name of the path variable to append to.</span>
+<span class="sd">            Defaults to the system path &#39;PATH&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">dir_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">dir_list</span><span class="p">:</span>
+            <span class="n">dir_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+        <span class="n">dir_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_list</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">dirname</span></div>
+
+
+
+<div class="viewcode-block" id="path_prepend">
+<a class="viewcode-back" href="../../../stubs/pyarts.utils.common.path_prepend.html#pyarts.utils.common.path_prepend">[docs]</a>
+<span class="k">def</span> <span class="nf">path_prepend</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepend a directory to environment path variable.</span>
+
+<span class="sd">    Append entries to colon-separated variables (e.g. the system path).</span>
+<span class="sd">    If the entry is already in the list, it is moved to the end.</span>
+<span class="sd">    A path variable is set, if not existing at function call.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        dirname (str): Directory to add to the path.</span>
+<span class="sd">        path (str): Name of the path variable to append to.</span>
+<span class="sd">            Defaults to the system path &#39;PATH&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">dir_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">dir_list</span><span class="p">:</span>
+            <span class="n">dir_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+        <span class="n">dir_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dirname</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_list</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">dirname</span></div>
+
+
+
+<div class="viewcode-block" id="path_remove">
+<a class="viewcode-back" href="../../../stubs/pyarts.utils.common.path_remove.html#pyarts.utils.common.path_remove">[docs]</a>
+<span class="k">def</span> <span class="nf">path_remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a directory from environment path variable.</span>
+
+<span class="sd">    Remove entries from colon-separated variables (e.g. the system path).</span>
+<span class="sd">    If the path variable is not set, nothing is done.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        dirname (str): Directory to add to the path.</span>
+<span class="sd">        path (str): Name of the path variable to append to.</span>
+<span class="sd">            Defaults to the system path &#39;PATH&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">dir_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+        <span class="n">dir_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_list</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

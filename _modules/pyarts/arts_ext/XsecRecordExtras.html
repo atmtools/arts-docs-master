@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.arts_ext.XsecRecordExtras &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.arts_ext.XsecRecordExtras</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.arts_ext.XsecRecordExtras</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span>
+
+<span class="kn">import</span> <span class="nn">pyarts.arts</span> <span class="k">as</span> <span class="nn">cxx</span>
+
+
+<div class="viewcode-block" id="to_xarray">
+<a class="viewcode-back" href="../../../stubs/pyarts.arts_ext.XsecRecordExtras.to_xarray.html#pyarts.arts_ext.XsecRecordExtras.to_xarray">[docs]</a>
+<span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert XsecRecord to xarray dataset&quot;&quot;&quot;</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;creation_date&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())}</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;coeffs&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;coeffs&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">{</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Coefficients p00, p10, p01, p20&quot;</span>
+        <span class="p">}),</span>
+        <span class="s2">&quot;bands&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;bands&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitcoeffs</span><span class="p">)),</span> <span class="p">{</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Band indices&quot;</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+
+    <span class="n">data_vars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">data_vars</span><span class="p">[</span><span class="s2">&quot;fitminpressures&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bands&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitminpressures</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Mininum pressures from fit&quot;</span>
+    <span class="p">})</span>
+    <span class="n">data_vars</span><span class="p">[</span><span class="s2">&quot;fitmaxpressures&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bands&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitmaxpressures</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum pressures from fit&quot;</span>
+    <span class="p">})</span>
+    <span class="n">data_vars</span><span class="p">[</span><span class="s2">&quot;fitmintemperatures&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bands&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitmintemperatures</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Minimum temperatures from fit&quot;</span>
+    <span class="p">})</span>
+    <span class="n">data_vars</span><span class="p">[</span><span class="s2">&quot;fitmaxtemperatures&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bands&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitmaxtemperatures</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum temperatures from fit&quot;</span>
+    <span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitcoeffs</span><span class="p">):</span>
+        <span class="n">coords</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_fgrid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_fgrid&quot;</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">{</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Frequency grid for band </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">})</span>
+        <span class="n">data_vars</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_coeffs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_fgrid&quot;</span><span class="p">,</span> <span class="s2">&quot;coeffs&quot;</span><span class="p">],</span> <span class="n">band</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Fit coefficients for band </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">})</span>
+
+    <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">)</span>
+    <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+
+    <span class="k">return</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_xarray">
+<a class="viewcode-back" href="../../../stubs/pyarts.arts_ext.XsecRecordExtras.from_xarray.html#pyarts.arts_ext.XsecRecordExtras.from_xarray">[docs]</a>
+<span class="k">def</span> <span class="nf">from_xarray</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set XsecRecord from xarray dataset&quot;&quot;&quot;</span>
+    <span class="n">xr</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+    <span class="n">coeff_grid</span> <span class="o">=</span> <span class="n">cxx</span><span class="o">.</span><span class="n">ArrayOfString</span><span class="p">([</span><span class="s2">&quot;p00&quot;</span><span class="p">,</span> <span class="s2">&quot;p10&quot;</span><span class="p">,</span> <span class="s2">&quot;p01&quot;</span><span class="p">,</span> <span class="s2">&quot;p20&quot;</span><span class="p">])</span>
+    <span class="n">gfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">species</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">fitminpressures</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;fitminpressures&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">fitmaxpressures</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;fitmaxpressures&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">fitmintemperatures</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;fitmintemperatures&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">fitmaxtemperatures</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;fitmaxtemperatures&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;bands&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">cxx</span><span class="o">.</span><span class="n">GriddedField2</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">gridname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;frequency grid [Hz]&quot;</span><span class="p">,</span> <span class="s2">&quot;fit coefficients [m]&quot;</span><span class="p">]):</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">set_grid_name</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">gridname</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_grid</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_fgrid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_grid</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">coeff_grid</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;band</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_coeffs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">gfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">fitcoeffs</span> <span class="o">=</span> <span class="n">cxx</span><span class="o">.</span><span class="n">ArrayOfGriddedField2</span><span class="p">(</span><span class="n">gfs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xr</span></div>
+
+
+
+<div class="viewcode-block" id="to_netcdf">
+<a class="viewcode-back" href="../../../stubs/pyarts.arts_ext.XsecRecordExtras.to_netcdf.html#pyarts.arts_ext.XsecRecordExtras.to_netcdf">[docs]</a>
+<span class="k">def</span> <span class="nf">to_netcdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save XsecRecord to NetCDF file&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_netcdf">
+<a class="viewcode-back" href="../../../stubs/pyarts.arts_ext.XsecRecordExtras.from_netcdf.html#pyarts.arts_ext.XsecRecordExtras.from_netcdf">[docs]</a>
+<span class="k">def</span> <span class="nf">from_netcdf</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read XsecRecord from NetCDF file&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_xarray</span><span class="p">(</span><span class="n">xarray</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">xsecrecord__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">cxx</span><span class="o">.</span><span class="n">XsecRecord</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">version</span> <span class="ow">and</span> \
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">species</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitminpressures</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fitminpressures</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitmaxpressures</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fitmaxpressures</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitmintemperatures</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fitmintemperatures</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitmaxtemperatures</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fitmaxtemperatures</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitcoeffs</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">fitcoeffs</span><span class="p">)]):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_detailsXsecRecord&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span> <span class="o">=</span> <span class="n">to_xarray</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_detailsXsecRecord&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">from_xarray</span> <span class="o">=</span> <span class="n">from_xarray</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_detailsXsecRecord&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_netcdf</span> <span class="o">=</span> <span class="n">to_netcdf</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_detailsXsecRecord&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">from_netcdf</span> <span class="o">=</span> <span class="n">from_netcdf</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">cxx</span><span class="p">,</span> <span class="s2">&quot;_detailsXsecRecord&quot;</span><span class="p">)</span><span class="o">.</span><span class="fm">__eq__</span> <span class="o">=</span> <span class="n">xsecrecord__eq__</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <link href="../_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stokes_dim &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="stokes_rotation" href="pyarts.workspace.Workspace.stokes_rotation.html" />
+    <link rel="prev" title="spt_calc_agenda" href="pyarts.workspace.Workspace.spt_calc_agenda.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workspace.html">The Workspace</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../pyarts.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts.html">pyarts.arts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts_ext.html">pyarts.arts_ext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.cat.html">pyarts.cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.common.html">pyarts.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.environment.html">pyarts.environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.hitran.html">pyarts.hitran</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.parser.html">pyarts.parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.sensor.html">pyarts.sensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.utils.html">pyarts.utils</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pyarts.workspace.html">pyarts.workspace</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../pyarts.workspace.html#key-functionality">Key functionality</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.arts_agenda.html">arts_agenda</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pyarts.workspace.Workspace.html">Workspace</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.workspace">pyarts.workspace.workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.utility">pyarts.workspace.utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pyarts.workspace.html#module-pyarts.workspace.global_data">pyarts.workspace.global_data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyarts.xml.html">pyarts.xml</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../pyarts.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../pyarts.workspace.html">pyarts.workspace</a></li>
+          <li class="breadcrumb-item"><a href="pyarts.workspace.Workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">stokes_dim</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/stubs/pyarts.workspace.Workspace.stokes_dim.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stokes-dim">
+<h1>stokes_dim<a class="headerlink" href="#stokes-dim" title="Link to this heading"></a></h1>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyarts.workspace.Workspace.stokes_dim">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Workspace.</span></span><span class="sig-name descname"><span class="pre">stokes_dim</span></span><a class="headerlink" href="#pyarts.workspace.Workspace.stokes_dim" title="Link to this definition"></a></dt>
+<dd><p>The dimensionality of the Stokes vector (1-4).</p>
+<p>Usage:      Set by the user.</p>
+<section id="workspace-methods-that-require-stokes-dim">
+<h2>Workspace methods that require stokes_dim<a class="headerlink" href="#workspace-methods-that-require-stokes-dim" title="Link to this heading"></a></h2>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.DoitGetIncoming.html#pyarts.workspace.Workspace.DoitGetIncoming" title="pyarts.workspace.Workspace.DoitGetIncoming"><code class="xref py py-func docutils literal notranslate"><span class="pre">DoitGetIncoming()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.DoitGetIncoming1DAtm.html#pyarts.workspace.Workspace.DoitGetIncoming1DAtm" title="pyarts.workspace.Workspace.DoitGetIncoming1DAtm"><code class="xref py py-func docutils literal notranslate"><span class="pre">DoitGetIncoming1DAtm()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.DoitInit.html#pyarts.workspace.Workspace.DoitInit" title="pyarts.workspace.Workspace.DoitInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">DoitInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.DoitScatteringDataPrepare.html#pyarts.workspace.Workspace.DoitScatteringDataPrepare" title="pyarts.workspace.Workspace.DoitScatteringDataPrepare"><code class="xref py py-func docutils literal notranslate"><span class="pre">DoitScatteringDataPrepare()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.MCGeneral.html#pyarts.workspace.Workspace.MCGeneral" title="pyarts.workspace.Workspace.MCGeneral"><code class="xref py py-func docutils literal notranslate"><span class="pre">MCGeneral()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.MCRadar.html#pyarts.workspace.Workspace.MCRadar" title="pyarts.workspace.Workspace.MCRadar"><code class="xref py py-func docutils literal notranslate"><span class="pre">MCRadar()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.MatrixCBR.html#pyarts.workspace.Workspace.MatrixCBR" title="pyarts.workspace.Workspace.MatrixCBR"><code class="xref py py-func docutils literal notranslate"><span class="pre">MatrixCBR()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.MatrixPlanck.html#pyarts.workspace.Workspace.MatrixPlanck" title="pyarts.workspace.Workspace.MatrixPlanck"><code class="xref py py-func docutils literal notranslate"><span class="pre">MatrixPlanck()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.MatrixUnitIntensity.html#pyarts.workspace.Workspace.MatrixUnitIntensity" title="pyarts.workspace.Workspace.MatrixUnitIntensity"><code class="xref py py-func docutils literal notranslate"><span class="pre">MatrixUnitIntensity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.RT4Calc.html#pyarts.workspace.Workspace.RT4Calc" title="pyarts.workspace.Workspace.RT4Calc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RT4Calc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.RT4CalcWithRT4Surface.html#pyarts.workspace.Workspace.RT4CalcWithRT4Surface" title="pyarts.workspace.Workspace.RT4CalcWithRT4Surface"><code class="xref py py-func docutils literal notranslate"><span class="pre">RT4CalcWithRT4Surface()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.SurfaceBlackbody.html#pyarts.workspace.Workspace.SurfaceBlackbody" title="pyarts.workspace.Workspace.SurfaceBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">SurfaceBlackbody()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.SurfaceFastem.html#pyarts.workspace.Workspace.SurfaceFastem" title="pyarts.workspace.Workspace.SurfaceFastem"><code class="xref py py-func docutils literal notranslate"><span class="pre">SurfaceFastem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.SurfaceFlatScalarReflectivity.html#pyarts.workspace.Workspace.SurfaceFlatScalarReflectivity" title="pyarts.workspace.Workspace.SurfaceFlatScalarReflectivity"><code class="xref py py-func docutils literal notranslate"><span class="pre">SurfaceFlatScalarReflectivity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.SurfaceTessem.html#pyarts.workspace.Workspace.SurfaceTessem" title="pyarts.workspace.Workspace.SurfaceTessem"><code class="xref py py-func docutils literal notranslate"><span class="pre">SurfaceTessem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_fieldDisort.html#pyarts.workspace.Workspace.cloudbox_fieldDisort" title="pyarts.workspace.Workspace.cloudbox_fieldDisort"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_fieldDisort()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_fieldDisortWithARTSSurface.html#pyarts.workspace.Workspace.cloudbox_fieldDisortWithARTSSurface" title="pyarts.workspace.Workspace.cloudbox_fieldDisortWithARTSSurface"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_fieldDisortWithARTSSurface()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_fieldSetConst.html#pyarts.workspace.Workspace.cloudbox_fieldSetConst" title="pyarts.workspace.Workspace.cloudbox_fieldSetConst"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_fieldSetConst()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_fieldSetConstPerFreq.html#pyarts.workspace.Workspace.cloudbox_fieldSetConstPerFreq" title="pyarts.workspace.Workspace.cloudbox_fieldSetConstPerFreq"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_fieldSetConstPerFreq()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_fieldSetFromPrecalc.html#pyarts.workspace.Workspace.cloudbox_fieldSetFromPrecalc" title="pyarts.workspace.Workspace.cloudbox_fieldSetFromPrecalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_fieldSetFromPrecalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.cloudbox_field_monoSetConst.html#pyarts.workspace.Workspace.cloudbox_field_monoSetConst" title="pyarts.workspace.Workspace.cloudbox_field_monoSetConst"><code class="xref py py-func docutils literal notranslate"><span class="pre">cloudbox_field_monoSetConst()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.gas_scattering_coefAirSimple.html#pyarts.workspace.Workspace.gas_scattering_coefAirSimple" title="pyarts.workspace.Workspace.gas_scattering_coefAirSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">gas_scattering_coefAirSimple()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.gas_scattering_coefXsecConst.html#pyarts.workspace.Workspace.gas_scattering_coefXsecConst" title="pyarts.workspace.Workspace.gas_scattering_coefXsecConst"><code class="xref py py-func docutils literal notranslate"><span class="pre">gas_scattering_coefXsecConst()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.gas_scattering_matIsotropic.html#pyarts.workspace.Workspace.gas_scattering_matIsotropic" title="pyarts.workspace.Workspace.gas_scattering_matIsotropic"><code class="xref py py-func docutils literal notranslate"><span class="pre">gas_scattering_matIsotropic()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.gas_scattering_matRayleigh.html#pyarts.workspace.Workspace.gas_scattering_matRayleigh" title="pyarts.workspace.Workspace.gas_scattering_matRayleigh"><code class="xref py py-func docutils literal notranslate"><span class="pre">gas_scattering_matRayleigh()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyApplyUnit.html#pyarts.workspace.Workspace.iyApplyUnit" title="pyarts.workspace.Workspace.iyApplyUnit"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyApplyUnit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyClearsky.html#pyarts.workspace.Workspace.iyClearsky" title="pyarts.workspace.Workspace.iyClearsky"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyClearsky()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyEmissionHybrid.html#pyarts.workspace.Workspace.iyEmissionHybrid" title="pyarts.workspace.Workspace.iyEmissionHybrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyEmissionHybrid()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyEmissionStandard.html#pyarts.workspace.Workspace.iyEmissionStandard" title="pyarts.workspace.Workspace.iyEmissionStandard"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyEmissionStandard()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyInterpCloudboxField.html#pyarts.workspace.Workspace.iyInterpCloudboxField" title="pyarts.workspace.Workspace.iyInterpCloudboxField"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyInterpCloudboxField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyLoopFrequencies.html#pyarts.workspace.Workspace.iyLoopFrequencies" title="pyarts.workspace.Workspace.iyLoopFrequencies"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyLoopFrequencies()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyMC.html#pyarts.workspace.Workspace.iyMC" title="pyarts.workspace.Workspace.iyMC"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyMC()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyRadarSingleScat.html#pyarts.workspace.Workspace.iyRadarSingleScat" title="pyarts.workspace.Workspace.iyRadarSingleScat"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyRadarSingleScat()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceFastem.html#pyarts.workspace.Workspace.iySurfaceFastem" title="pyarts.workspace.Workspace.iySurfaceFastem"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceFastem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceFlatReflectivity.html#pyarts.workspace.Workspace.iySurfaceFlatReflectivity" title="pyarts.workspace.Workspace.iySurfaceFlatReflectivity"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceFlatReflectivity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceFlatReflectivityDirect.html#pyarts.workspace.Workspace.iySurfaceFlatReflectivityDirect" title="pyarts.workspace.Workspace.iySurfaceFlatReflectivityDirect"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceFlatReflectivityDirect()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndex.html#pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndex" title="pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndex"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceFlatRefractiveIndex()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndexDirect.html#pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndexDirect" title="pyarts.workspace.Workspace.iySurfaceFlatRefractiveIndexDirect"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceFlatRefractiveIndexDirect()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceInit.html#pyarts.workspace.Workspace.iySurfaceInit" title="pyarts.workspace.Workspace.iySurfaceInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceLambertian.html#pyarts.workspace.Workspace.iySurfaceLambertian" title="pyarts.workspace.Workspace.iySurfaceLambertian"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceLambertian()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceLambertianDirect.html#pyarts.workspace.Workspace.iySurfaceLambertianDirect" title="pyarts.workspace.Workspace.iySurfaceLambertianDirect"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceLambertianDirect()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceRtpropAgenda.html#pyarts.workspace.Workspace.iySurfaceRtpropAgenda" title="pyarts.workspace.Workspace.iySurfaceRtpropAgenda"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceRtpropAgenda()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iySurfaceRtpropCalc.html#pyarts.workspace.Workspace.iySurfaceRtpropCalc" title="pyarts.workspace.Workspace.iySurfaceRtpropCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">iySurfaceRtpropCalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iyTransmissionStandard.html#pyarts.workspace.Workspace.iyTransmissionStandard" title="pyarts.workspace.Workspace.iyTransmissionStandard"><code class="xref py py-func docutils literal notranslate"><span class="pre">iyTransmissionStandard()</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iy_transmitterMultiplePol.html#pyarts.workspace.Workspace.iy_transmitterMultiplePol" title="pyarts.workspace.Workspace.iy_transmitterMultiplePol"><code class="xref py py-func docutils literal notranslate"><span class="pre">iy_transmitterMultiplePol()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.iy_transmitterSinglePol.html#pyarts.workspace.Workspace.iy_transmitterSinglePol" title="pyarts.workspace.Workspace.iy_transmitterSinglePol"><code class="xref py py-func docutils literal notranslate"><span class="pre">iy_transmitterSinglePol()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianCalcFreqShift.html#pyarts.workspace.Workspace.jacobianCalcFreqShift" title="pyarts.workspace.Workspace.jacobianCalcFreqShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianCalcFreqShift()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianCalcFreqStretch.html#pyarts.workspace.Workspace.jacobianCalcFreqStretch" title="pyarts.workspace.Workspace.jacobianCalcFreqStretch"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianCalcFreqStretch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianCalcPointingZaInterp.html#pyarts.workspace.Workspace.jacobianCalcPointingZaInterp" title="pyarts.workspace.Workspace.jacobianCalcPointingZaInterp"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianCalcPointingZaInterp()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobianCalcPointingZaRecalc.html#pyarts.workspace.Workspace.jacobianCalcPointingZaRecalc" title="pyarts.workspace.Workspace.jacobianCalcPointingZaRecalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobianCalcPointingZaRecalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyAddFaraday.html#pyarts.workspace.Workspace.propmat_clearskyAddFaraday" title="pyarts.workspace.Workspace.propmat_clearskyAddFaraday"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyAddFaraday()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyAddParticles.html#pyarts.workspace.Workspace.propmat_clearskyAddParticles" title="pyarts.workspace.Workspace.propmat_clearskyAddParticles"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyAddParticles()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyInit.html#pyarts.workspace.Workspace.propmat_clearskyInit" title="pyarts.workspace.Workspace.propmat_clearskyInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyZero.html#pyarts.workspace.Workspace.propmat_clearskyZero" title="pyarts.workspace.Workspace.propmat_clearskyZero"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyZero()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearsky_fieldCalc.html#pyarts.workspace.Workspace.propmat_clearsky_fieldCalc" title="pyarts.workspace.Workspace.propmat_clearsky_fieldCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearsky_fieldCalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensorOff.html#pyarts.workspace.Workspace.sensorOff" title="pyarts.workspace.Workspace.sensorOff"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensorOff()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_checkedCalc.html#pyarts.workspace.Workspace.sensor_checkedCalc" title="pyarts.workspace.Workspace.sensor_checkedCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_checkedCalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responseGenericAMSU.html#pyarts.workspace.Workspace.sensor_responseGenericAMSU" title="pyarts.workspace.Workspace.sensor_responseGenericAMSU"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responseGenericAMSU()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responseInit.html#pyarts.workspace.Workspace.sensor_responseInit" title="pyarts.workspace.Workspace.sensor_responseInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responseInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responseMetMM.html#pyarts.workspace.Workspace.sensor_responseMetMM" title="pyarts.workspace.Workspace.sensor_responseMetMM"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responseMetMM()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responsePolarisation.html#pyarts.workspace.Workspace.sensor_responsePolarisation" title="pyarts.workspace.Workspace.sensor_responsePolarisation"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responsePolarisation()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responseSimpleAMSU.html#pyarts.workspace.Workspace.sensor_responseSimpleAMSU" title="pyarts.workspace.Workspace.sensor_responseSimpleAMSU"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responseSimpleAMSU()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sensor_responseStokesRotation.html#pyarts.workspace.Workspace.sensor_responseStokesRotation" title="pyarts.workspace.Workspace.sensor_responseStokesRotation"><code class="xref py py-func docutils literal notranslate"><span class="pre">sensor_responseStokesRotation()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_irradiance_fieldDisort.html#pyarts.workspace.Workspace.spectral_irradiance_fieldDisort" title="pyarts.workspace.Workspace.spectral_irradiance_fieldDisort"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_irradiance_fieldDisort()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_fieldClearskyPlaneParallel.html#pyarts.workspace.Workspace.spectral_radiance_fieldClearskyPlaneParallel" title="pyarts.workspace.Workspace.spectral_radiance_fieldClearskyPlaneParallel"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_fieldClearskyPlaneParallel()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_fieldDisortClearsky.html#pyarts.workspace.Workspace.spectral_radiance_fieldDisortClearsky" title="pyarts.workspace.Workspace.spectral_radiance_fieldDisortClearsky"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_fieldDisortClearsky()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_fieldExpandCloudboxField.html#pyarts.workspace.Workspace.spectral_radiance_fieldExpandCloudboxField" title="pyarts.workspace.Workspace.spectral_radiance_fieldExpandCloudboxField"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_fieldExpandCloudboxField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sunsAddSingleBlackbody.html#pyarts.workspace.Workspace.sunsAddSingleBlackbody" title="pyarts.workspace.Workspace.sunsAddSingleBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunsAddSingleBlackbody()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sunsAddSingleFromGrid.html#pyarts.workspace.Workspace.sunsAddSingleFromGrid" title="pyarts.workspace.Workspace.sunsAddSingleFromGrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunsAddSingleFromGrid()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.sunsAddSingleFromGridAtLocation.html#pyarts.workspace.Workspace.sunsAddSingleFromGridAtLocation" title="pyarts.workspace.Workspace.sunsAddSingleFromGridAtLocation"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunsAddSingleFromGridAtLocation()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceBlackbody.html#pyarts.workspace.Workspace.surfaceBlackbody" title="pyarts.workspace.Workspace.surfaceBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceBlackbody()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceFastem.html#pyarts.workspace.Workspace.surfaceFastem" title="pyarts.workspace.Workspace.surfaceFastem"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceFastem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceFlatReflectivity.html#pyarts.workspace.Workspace.surfaceFlatReflectivity" title="pyarts.workspace.Workspace.surfaceFlatReflectivity"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceFlatReflectivity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceFlatRefractiveIndex.html#pyarts.workspace.Workspace.surfaceFlatRefractiveIndex" title="pyarts.workspace.Workspace.surfaceFlatRefractiveIndex"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceFlatRefractiveIndex()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceFlatRvRh.html#pyarts.workspace.Workspace.surfaceFlatRvRh" title="pyarts.workspace.Workspace.surfaceFlatRvRh"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceFlatRvRh()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceFlatScalarReflectivity.html#pyarts.workspace.Workspace.surfaceFlatScalarReflectivity" title="pyarts.workspace.Workspace.surfaceFlatScalarReflectivity"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceFlatScalarReflectivity()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceLambertianSimple.html#pyarts.workspace.Workspace.surfaceLambertianSimple" title="pyarts.workspace.Workspace.surfaceLambertianSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceLambertianSimple()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceMapToLinearPolarisation.html#pyarts.workspace.Workspace.surfaceMapToLinearPolarisation" title="pyarts.workspace.Workspace.surfaceMapToLinearPolarisation"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceMapToLinearPolarisation()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceTelsem.html#pyarts.workspace.Workspace.surfaceTelsem" title="pyarts.workspace.Workspace.surfaceTelsem"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceTelsem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surfaceTessem.html#pyarts.workspace.Workspace.surfaceTessem" title="pyarts.workspace.Workspace.surfaceTessem"><code class="xref py py-func docutils literal notranslate"><span class="pre">surfaceTessem()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surface_reflectivityFromGriddedField6.html#pyarts.workspace.Workspace.surface_reflectivityFromGriddedField6" title="pyarts.workspace.Workspace.surface_reflectivityFromGriddedField6"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_reflectivityFromGriddedField6()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surface_rtpropFromTypesAverage.html#pyarts.workspace.Workspace.surface_rtpropFromTypesAverage" title="pyarts.workspace.Workspace.surface_rtpropFromTypesAverage"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_rtpropFromTypesAverage()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.surface_scalar_reflectivityFromGriddedField4.html#pyarts.workspace.Workspace.surface_scalar_reflectivityFromGriddedField4" title="pyarts.workspace.Workspace.surface_scalar_reflectivityFromGriddedField4"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_scalar_reflectivityFromGriddedField4()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yApplySensorPol.html#pyarts.workspace.Workspace.yApplySensorPol" title="pyarts.workspace.Workspace.yApplySensorPol"><code class="xref py py-func docutils literal notranslate"><span class="pre">yApplySensorPol()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yCalc.html#pyarts.workspace.Workspace.yCalc" title="pyarts.workspace.Workspace.yCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">yCalc()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yCalcAppend.html#pyarts.workspace.Workspace.yCalcAppend" title="pyarts.workspace.Workspace.yCalcAppend"><code class="xref py py-func docutils literal notranslate"><span class="pre">yCalcAppend()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.yRadar.html#pyarts.workspace.Workspace.yRadar" title="pyarts.workspace.Workspace.yRadar"><code class="xref py py-func docutils literal notranslate"><span class="pre">yRadar()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ySimpleSpectrometer.html#pyarts.workspace.Workspace.ySimpleSpectrometer" title="pyarts.workspace.Workspace.ySimpleSpectrometer"><code class="xref py py-func docutils literal notranslate"><span class="pre">ySimpleSpectrometer()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="generic-workspace-methods-that-can-generate-or-use-stokes-dim">
+<h2>Generic workspace methods that can generate or use stokes_dim<a class="headerlink" href="#generic-workspace-methods-that-can-generate-or-use-stokes-dim" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> and/or <a class="reference internal" href="pyarts.arts.Any.html#pyarts.arts.Any" title="pyarts.arts.Any"><code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.WorkspaceVariable.html#pyarts.arts.WorkspaceVariable" title="pyarts.arts.WorkspaceVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkspaceVariable</span></code></a> - holds type <a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a></p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyarts.workspace.Workspace.spt_calc_agenda.html" class="btn btn-neutral float-left" title="spt_calc_agenda" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.stokes_rotation.html" class="btn btn-neutral float-right" title="stokes_rotation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

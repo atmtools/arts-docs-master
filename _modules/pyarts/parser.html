@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.parser &mdash; ARTS 2.5.11 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=b06e8534"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.5.11
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.parser</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.parser</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module implements a parse for ARTS controlfile. Its implemented</span>
+<span class="sd">using lark, which greatly simplifies the parsing. Functions are provided</span>
+<span class="sd">to transform the parsed controlfile to a Python script.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
+
+<span class="kn">from</span> <span class="nn">lark</span> <span class="kn">import</span> <span class="n">Lark</span><span class="p">,</span> <span class="n">Transformer</span><span class="p">,</span> <span class="n">Token</span>
+
+<span class="kn">import</span> <span class="nn">pyarts.workspace.global_data</span> <span class="k">as</span> <span class="nn">global_data</span>
+
+
+<span class="n">workspace_methods</span> <span class="o">=</span> <span class="n">global_data</span><span class="o">.</span><span class="n">get_raw_method_map</span><span class="p">()</span>
+<span class="n">workspace_variables</span> <span class="o">=</span> <span class="n">global_data</span><span class="o">.</span><span class="n">get_variables_map</span><span class="p">()</span>
+<span class="n">group_names</span> <span class="o">=</span>  <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">global_data</span><span class="o">.</span><span class="n">cxx</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">get_wsv_groups</span><span class="p">()]</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    controlfile : statement*</span>
+
+<span class="s2">    statement : agenda</span>
+<span class="s2">              | comment</span>
+<span class="s2">              | function</span>
+<span class="s2">              | include</span>
+<span class="s2">              | agenda_definition</span>
+<span class="s2">              | agenda_append</span>
+
+<span class="s2">    include : &quot;INCLUDE &quot; STRING</span>
+
+<span class="s2">    agenda : CNAME &quot;{&quot; statement* &quot;}&quot;</span>
+
+<span class="s2">    agenda_definition : &quot;AgendaSet&quot; &quot;(&quot; CNAME &quot;)&quot; &quot;{&quot; statement* &quot;}&quot;</span>
+
+<span class="s2">    agenda_append : &quot;ArrayOfAgendaAppend&quot; &quot;(&quot; CNAME &quot;)&quot; &quot;{&quot; statement* &quot;}&quot;</span>
+
+<span class="s2">    comment : /[ \t]*#.*\n/</span>
+
+<span class="s2">    function : CNAME (&quot;(&quot; arguments  &quot;)&quot;)? </span>
+
+<span class="s2">    arguments : named_arguments</span>
+<span class="s2">              | positional_arguments</span>
+
+<span class="s2">    named_arguments : [argument_pair (&quot;,&quot; argument_pair? )*]</span>
+
+<span class="s2">    argument_pair : comment* CNAME comment*  &quot;=&quot; comment* value comment*</span>
+
+<span class="s2">    positional_arguments: (comment* value comment* | comment+) ((&quot;,&quot; comment*  value)  | comment+)*</span>
+
+<span class="s2">    list : &quot;[&quot; ((comment* value comment*)? (comment* (&quot;,&quot; ) comment* value | comment+)*</span>
+<span class="s2">               | nested_list (&quot;;&quot; nested_list &quot;;&quot;? comment? | comment)+) &quot;]&quot;</span>
+
+<span class="s2">    nested_list : (comment* value comment*) (comment* (&quot;,&quot;) comment* value | comment)*</span>
+
+<span class="s2">    matrix : &quot;[&quot; ( | comment)? (comment? (&quot;,&quot; | &quot;;&quot;) comment? value | comment)* &quot;]&quot;</span>
+
+<span class="s2">    empty_list : &quot;[&quot; &quot;]&quot;</span>
+
+<span class="s2">    ?value : STRING</span>
+<span class="s2">           | SIGNED_FLOAT -&gt; number</span>
+<span class="s2">           | SIGNED_INT</span>
+<span class="s2">           | list</span>
+<span class="s2">           | CNAME</span>
+<span class="s2">           | comment</span>
+
+<span class="s2">    DOUBLE_QUOTED_STRING  : /&quot;[^&quot;]*&quot;/</span>
+<span class="s2">    SINGLE_QUOTED_STRING  : /&#39;[^&#39;]*&#39;/</span>
+<span class="s2">    STRING : (SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING)</span>
+
+<span class="si">%i</span><span class="s2">mport common.SIGNED_FLOAT</span>
+<span class="si">%i</span><span class="s2">mport common.SIGNED_INT</span>
+<span class="si">%i</span><span class="s2">mport common.CNAME</span>
+<span class="si">%i</span><span class="s2">mport common.WS</span>
+<span class="si">%i</span><span class="s2">mport common.WS_INLINE</span>
+<span class="si">%i</span><span class="s2">mport common.NEWLINE</span>
+<span class="si">%i</span><span class="s2">gnore WS</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">arts_parser</span> <span class="o">=</span> <span class="n">Lark</span><span class="p">(</span><span class="n">grammar</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s2">&quot;controlfile&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s2">&quot;earley&quot;</span><span class="p">)</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Python representation of syntax elements</span>
+<span class="c1">################################################################################</span>
+
+<span class="n">replace_array</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;array\(([^\)]*)\)&#39;</span><span class="p">)</span>
+<span class="n">replace_dtype</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;dtype=([^\s]+)&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function to write elements of a controlfile AST in</span>
+<span class="sd">    Python syntax. For classes defined below the to_python member</span>
+<span class="sd">    function is called. Arrays are printed so that they are parsed as</span>
+<span class="sd">    numpy arrays. Strings are escaped. Other objects (int, list of int)</span>
+<span class="sd">    are just converted to a string.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        obj: Element of controlfile AST to write in Python syntax</span>
+<span class="sd">        workspace: Variable name to use for workspace.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;to_python&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_python</span><span class="p">(</span><span class="n">workspace</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;[]&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">replace_array</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;np.array(\1)&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">replace_dtype</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;dtype=np.\1&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span>  <span class="n">s</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">WSMCall</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a call of a WSM.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the WSM that is called</span>
+<span class="sd">        args: Positional arguments of the WSM call</span>
+<span class="sd">        kwargs: Named arguments of the call</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">workspace_methods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not a known workspace method.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span> <span class="o">=</span> <span class="n">workspace_methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsm_outs</span> <span class="o">=</span> <span class="p">[</span><span class="n">global_data</span><span class="o">.</span><span class="n">get_variable_name</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">outs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gouts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsm_ins</span> <span class="o">=</span> <span class="p">[</span><span class="n">global_data</span><span class="o">.</span><span class="n">get_variable_name</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">ins</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">outs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_outs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gouts</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_ins</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gins</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;in&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_to_args</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">kwargs_to_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert function call from named arguments to positional arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_outs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">WSV</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gouts</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_ins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">WSV</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">global_data</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in_types</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in_default</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print WSM call in ARTS script.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;()</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">convert_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tries to infer type of argument based on types of input and</span>
+<span class="sd">        generic input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">WSV</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_ins</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">workspace_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">value_converted</span> <span class="o">=</span> <span class="n">global_data</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">group</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">value_converted</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value_converted</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsm_gins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in_types</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">group_names</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wsm</span><span class="o">.</span><span class="n">g_in_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+                <span class="n">value_converted</span> <span class="o">=</span> <span class="n">global_data</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">value_converted</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">value_converted</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span> <span class="o">=</span> <span class="s2">&quot;ws&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rewrite function call in Python.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">workspace</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;()</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;(&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;Create&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arg_names</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">WSV</span><span class="p">):</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_argument</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">):</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arg_names</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">WSV</span><span class="p">):</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_argument</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">WSV</span><span class="p">):</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_argument</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="n">to_python</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">WSV</span><span class="p">):</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_argument</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="n">to_python</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+
+<span class="k">class</span> <span class="nc">AgendaDefinition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An agenda defined in a controlfile.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the agenda</span>
+<span class="sd">        content: List of statements in the agenda</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda definition in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;AgendaSet(&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;) {</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda definition in Python syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;@arts_agenda(ws=</span><span class="si">{</span><span class="n">workspace</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">cs</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">indent</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">workspace</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">class</span> <span class="nc">AgendaAppend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Weird ARTS syntax feature to append agenda to array.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the agenda to append to</span>
+<span class="sd">        content: List of statements in the agenda</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda definition in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ArrayOfAgendaAppend&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;) {</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda definition in Python syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;@arts_agenda(ws=</span><span class="si">{</span><span class="n">workspace</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">cs</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">indent</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">workspace</span> <span class="o">+</span> <span class="s2">&quot;.Append(&quot;</span> <span class="o">+</span> <span class="n">workspace</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+              <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;)</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">class</span> <span class="nc">Comment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A comment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print comment in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print comment in Python syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Include</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A INCLUDE statement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print INCLUDE statement in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;INCLUDE &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print INCLUDE statement in Python syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ws.execute_controlfile(</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">class</span> <span class="nc">WSV</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A workspace variable.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the WSV</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">workspace_methods</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">camel_to_snake</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print WSV in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print WSV in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">workspace</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Agenda</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to represent the ARTS2 agenda which is the main</span>
+<span class="sd">    part of a controlfile.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the agenda</span>
+<span class="sd">        content: The statement within the agenda.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda in controlfile syntax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; {</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">}&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print agenda in Python syntax.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">import numpy as np</span>
+<span class="s2">import pyarts</span>
+<span class="s2">from pyarts.workspace import Workspace, arts_agenda</span>
+<span class="si">{}</span><span class="s2"> = Workspace(verbosity=0)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">class</span> <span class="nc">Controlfile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to represent a whole parse controlfile. Consists</span>
+<span class="sd">    of a number of comments and one Agenda object.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Name of the agenda</span>
+<span class="sd">        content: The statement within the agenda.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">to_python</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">class</span> <span class="nc">ArtsTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transformer to transformt lark AST into symbolic representation</span>
+<span class="sd">    of ARTS controlfile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Comment</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">SIGNED_INT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">include</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Include</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">STRING</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">c</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Comment</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">c</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Comment</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">nested_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">c</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Comment</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">WSMCall</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">WSMCall</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">WSMCall</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">positional_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">Token</span><span class="p">)</span> <span class="ow">and</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CNAME&quot;</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">WSV</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">cs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">cs</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Comment</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">cs</span>
+
+    <span class="k">def</span> <span class="nf">named_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">argument_pair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments pairs have a string on the left and a python</span>
+<span class="sd">        literal or a variable name on the right.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Comment</span><span class="p">)]</span>
+        <span class="n">pl</span><span class="p">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">pl</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pr</span><span class="p">,</span> <span class="n">Token</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pr</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CNAME&quot;</span><span class="p">:</span>
+            <span class="n">pr</span> <span class="o">=</span> <span class="n">WSV</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">controlfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Controlfile</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">agenda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Agenda</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="k">def</span> <span class="nf">agenda_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">AgendaDefinition</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="k">def</span> <span class="nf">agenda_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">AgendaAppend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Functions to convert ARTS controlfile to Python</span>
+<span class="c1">################################################################################</span>
+
+<div class="viewcode-block" id="convert_to_python">
+<a class="viewcode-back" href="../../stubs/pyarts.parser.convert_to_python.html#pyarts.parser.convert_to_python">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_to_python</span><span class="p">(</span><span class="n">controlfile</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">workspace</span> <span class="o">=</span> <span class="s2">&quot;ws&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">controlfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">arts_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">ArtsTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to_python</span><span class="p">(</span><span class="n">workspace</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?&lt;!^)(?=[A-Z])&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">camel_to_snake</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
