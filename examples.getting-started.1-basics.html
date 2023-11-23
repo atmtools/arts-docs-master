@@ -6,7 +6,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1. Basics &mdash; ARTS 2.5.12 documentation</title>
+  <title>1. Basics &mdash; ARTS 2.5.13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=87960f5e"></script>
+        <script src="_static/documentation_options.js?v=23ee8b47"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.5.12
+                2.5.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -268,7 +268,7 @@ of our constructors make pythonic sense</p>
 <span class="linenos">20</span><span class="sd">The folders that ARTS looks in are called search paths.  You can</span>
 <span class="linenos">21</span><span class="sd">print the search paths that ARTS uses by doing:</span>
 <span class="linenos">22</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">23</span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;ARTS search paths:&quot;</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="p">)</span>
+<span class="linenos">23</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ARTS search paths:&quot;</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="p">)</span>
 <span class="linenos">24</span>
 <span class="linenos">25</span>
 <span class="linenos">26</span><span class="sd">&quot;&quot;&quot;</span>
@@ -290,27 +290,33 @@ of our constructors make pythonic sense</p>
 <span class="linenos">42</span><span class="sd">It is always possible to add additional search paths from within python:</span>
 <span class="linenos">43</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">44</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;/my_data&quot;</span><span class="p">)</span>
-<span class="linenos">45</span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;ARTS search paths:&quot;</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="p">)</span>
+<span class="linenos">45</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ARTS search paths:&quot;</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="p">)</span>
 <span class="linenos">46</span>
-<span class="linenos">47</span>
-<span class="linenos">48</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">49</span><span class="sd">The following examples assumes that you have a copy of the arts-cat-data</span>
-<span class="linenos">50</span><span class="sd">and arts-xml-data repositories in the search paths.  If you do not have</span>
-<span class="linenos">51</span><span class="sd">these, you can download them from: https://www.radiativetransfer.org/tools/</span>
+<span class="linenos">47</span><span class="c1"># TESTING</span>
+<span class="linenos">48</span><span class="c1"># AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT</span>
+<span class="linenos">49</span><span class="c1"># THE CONTENT OF THE VARIABLES ARE GOOD.</span>
+<span class="linenos">50</span><span class="k">assert</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;/my_data&quot;</span><span class="p">)</span>
+<span class="linenos">51</span><span class="c1"># END TESTING</span>
 <span class="linenos">52</span>
-<span class="linenos">53</span><span class="sd">It demonstrates different ways that you can load data from a file into</span>
-<span class="linenos">54</span><span class="sd">the workspace.  There is no &quot;best&quot; way to do this, it depends on the</span>
-<span class="linenos">55</span><span class="sd">context, and what you find most readable.</span>
-<span class="linenos">56</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span><span class="c1"># Call the WorkspaceVariable member method &quot;readxml&quot; to load data from file</span>
-<span class="linenos">59</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="s2">&quot;lines/O2-66.xml&quot;</span><span class="p">)</span>
-<span class="linenos">60</span>
-<span class="linenos">61</span><span class="c1"># TESTING</span>
-<span class="linenos">62</span><span class="c1"># AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT</span>
-<span class="linenos">63</span><span class="c1"># THE CONTENT OF THE VARIABLES ARE GOOD.</span>
-<span class="linenos">64</span><span class="k">assert</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;/my_data&quot;</span><span class="p">)</span>
-<span class="linenos">65</span><span class="c1"># END TESTING</span>
+<span class="linenos">53</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">54</span><span class="sd">The following examples assume that you have a copy of the arts-cat-data</span>
+<span class="linenos">55</span><span class="sd">and arts-xml-data repositories in the search paths.</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span><span class="sd">The easiest way to get the correct catalogs for your current ARTS version is</span>
+<span class="linenos">58</span><span class="sd">by calling the `pyarts.cat.download.retrieve` function.</span>
+<span class="linenos">59</span><span class="sd">The function will not only download the catalogs, but also set the search path</span>
+<span class="linenos">60</span><span class="sd">to the download location (default is `~/.cache/arts/`).</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="sd">There are different ways to load data from a file into the workspace.</span>
+<span class="linenos">63</span><span class="sd">There is no &quot;best&quot; way to do this, it depends on the context, and what you find</span>
+<span class="linenos">64</span><span class="sd">most readable.</span>
+<span class="linenos">65</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">66</span>
+<span class="linenos">67</span><span class="c1"># Download ARTS catalogs matching the current pyarts version</span>
+<span class="linenos">68</span><span class="n">pyarts</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span><span class="c1"># Call the WorkspaceVariable member method &quot;readxml&quot; to load data from file</span>
+<span class="linenos">71</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="s2">&quot;lines/O2-66.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

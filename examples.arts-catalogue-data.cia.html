@@ -6,7 +6,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cia &mdash; ARTS 2.5.12 documentation</title>
+  <title>Cia &mdash; ARTS 2.5.13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=87960f5e"></script>
+        <script src="_static/documentation_options.js?v=23ee8b47"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.5.12
+                2.5.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -104,131 +104,127 @@
 <span class="linenos">  4</span><span class="sd">data from arts-cat-data into the workspace and do the required setups to</span>
 <span class="linenos">  5</span><span class="sd">perform a simple forward calculations using this data</span>
 <span class="linenos">  6</span>
-<span class="linenos">  7</span><span class="sd">Note that this example presumes that you have set the environment variable</span>
-<span class="linenos">  8</span><span class="sd">ARTS_DATA_PATH to contain a path to a local copy of both arts-cat-data and</span>
-<span class="linenos">  9</span><span class="sd">arts-xml-data before you import pyarts.  Please check that this is the case</span>
-<span class="linenos"> 10</span><span class="sd">if the example does not work for you.  You can easily check if this path is</span>
-<span class="linenos"> 11</span><span class="sd">set by adding the following two lines at the top of this pyarts-controlfile:</span>
+<span class="linenos">  7</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="linenos"> 10</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 11</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="linenos"> 12</span>
-<span class="linenos"> 13</span><span class="sd">```</span>
-<span class="linenos"> 14</span><span class="sd">import os</span>
-<span class="linenos"> 15</span><span class="sd">print(os.environ.get(&quot;ARTS_DATA_PATH&quot;))</span>
-<span class="linenos"> 16</span><span class="sd">```</span>
+<span class="linenos"> 13</span><span class="c1"># Initialize ARTS</span>
+<span class="linenos"> 14</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos"> 17</span>
-<span class="linenos"> 18</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 18</span><span class="sd">Download ARTS catalogs if they are not already present.</span>
 <span class="linenos"> 19</span>
-<span class="linenos"> 20</span><span class="kn">import</span> <span class="nn">pyarts</span>
-<span class="linenos"> 21</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="linenos"> 22</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="linenos"> 23</span>
-<span class="linenos"> 24</span><span class="c1"># Initialize ARTS</span>
-<span class="linenos"> 25</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-<span class="linenos"> 26</span>
-<span class="linenos"> 27</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 20</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 21</span><span class="n">pyarts</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="sd">Set ws.abs_species to the species tags that you wish to use.  CIA tags are</span>
+<span class="linenos"> 26</span><span class="sd">structured so that the main and secondary species are separated by the word</span>
+<span class="linenos"> 27</span><span class="sd">&quot;CIA&quot;</span>
 <span class="linenos"> 28</span>
-<span class="linenos"> 29</span><span class="sd">Set ws.abs_species to the species tags that you wish to use.  CIA tags are</span>
-<span class="linenos"> 30</span><span class="sd">structured so that the main and secondary species are separated by the word</span>
-<span class="linenos"> 31</span><span class="sd">&quot;CIA&quot;</span>
-<span class="linenos"> 32</span>
-<span class="linenos"> 33</span><span class="sd">This example sets up self CIA by molecular oxygen</span>
-<span class="linenos"> 34</span>
-<span class="linenos"> 35</span><span class="sd">CIA is not just self-induced but can occur between two different molecules.  In</span>
-<span class="linenos"> 36</span><span class="sd">this case you can change the tag to read something like &quot;O2-CIA-N2&quot;, though</span>
-<span class="linenos"> 37</span><span class="sd">you must ensure that there also exists another N2 species in your ws.abs_species</span>
-<span class="linenos"> 38</span><span class="sd">as this is the only way to pass the volume mixing ratio of the atmosphere into</span>
-<span class="linenos"> 39</span><span class="sd">ARTS</span>
-<span class="linenos"> 40</span>
-<span class="linenos"> 41</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 42</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-CIA-O2&quot;</span><span class="p">])</span>
-<span class="linenos"> 43</span>
-<span class="linenos"> 44</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 29</span><span class="sd">This example sets up self CIA by molecular oxygen</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="sd">CIA is not just self-induced but can occur between two different molecules.  In</span>
+<span class="linenos"> 32</span><span class="sd">this case you can change the tag to read something like &quot;O2-CIA-N2&quot;, though</span>
+<span class="linenos"> 33</span><span class="sd">you must ensure that there also exists another N2 species in your ws.abs_species</span>
+<span class="linenos"> 34</span><span class="sd">as this is the only way to pass the volume mixing ratio of the atmosphere into</span>
+<span class="linenos"> 35</span><span class="sd">ARTS</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 38</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-CIA-O2&quot;</span><span class="p">])</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="sd">Loads all CIA data from a given folder.  This command expects the file</span>
+<span class="linenos"> 43</span><span class="sd">&quot;cia/O2-CIA-O2.xml&quot; to be found either by relative local path or in the</span>
+<span class="linenos"> 44</span><span class="sd">user-defined search paths.</span>
 <span class="linenos"> 45</span>
-<span class="linenos"> 46</span><span class="sd">Loads all CIA data from a given folder.  This command expects the file</span>
-<span class="linenos"> 47</span><span class="sd">&quot;cia/O2-CIA-O2.xml&quot; to be found either by relative local path or in the</span>
-<span class="linenos"> 48</span><span class="sd">user-defined search paths.</span>
+<span class="linenos"> 46</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 47</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_cia_dataReadSpeciesSplitCatalog</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;cia/&quot;</span><span class="p">)</span>
+<span class="linenos"> 48</span>
 <span class="linenos"> 49</span>
 <span class="linenos"> 50</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 51</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_cia_dataReadSpeciesSplitCatalog</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;cia/&quot;</span><span class="p">)</span>
-<span class="linenos"> 52</span>
-<span class="linenos"> 53</span>
-<span class="linenos"> 54</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span><span class="sd">This example does not deal with line-by-line absorption at all.  We must still</span>
+<span class="linenos"> 53</span><span class="sd">ensure that the line-by-line catalog has the correct size and that it has been</span>
+<span class="linenos"> 54</span><span class="sd">set so that our automatic agenda routine can do its work</span>
 <span class="linenos"> 55</span>
-<span class="linenos"> 56</span><span class="sd">This example does not deal with line-by-line absorption at all.  We must still</span>
-<span class="linenos"> 57</span><span class="sd">ensure that the line-by-line catalog has the correct size and that it has been</span>
-<span class="linenos"> 58</span><span class="sd">set so that our automatic agenda routine can do its work</span>
-<span class="linenos"> 59</span>
-<span class="linenos"> 60</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 61</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesSetEmpty</span><span class="p">()</span>
-<span class="linenos"> 62</span>
-<span class="linenos"> 63</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 64</span>
-<span class="linenos"> 65</span><span class="sd">You should generally always call this after you are done setting up your</span>
-<span class="linenos"> 66</span><span class="sd">ws.abs_species and ws.abs_lines_per_species.  It will deal with the internal</span>
-<span class="linenos"> 67</span><span class="sd">ARTS setup for you.  Note that the flag use_abs_lookup=1 can be passed to this</span>
-<span class="linenos"> 68</span><span class="sd">method call to set up the agenda for USING the the lookup-table.  Without the</span>
-<span class="linenos"> 69</span><span class="sd">flag, ARTS should be configured correctly to either COMPUTE the lookup-table</span>
-<span class="linenos"> 70</span><span class="sd">or to compute the absorption on-the-fly</span>
+<span class="linenos"> 56</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 57</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesSetEmpty</span><span class="p">()</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 60</span>
+<span class="linenos"> 61</span><span class="sd">You should generally always call this after you are done setting up your</span>
+<span class="linenos"> 62</span><span class="sd">ws.abs_species and ws.abs_lines_per_species.  It will deal with the internal</span>
+<span class="linenos"> 63</span><span class="sd">ARTS setup for you.  Note that the flag use_abs_lookup=1 can be passed to this</span>
+<span class="linenos"> 64</span><span class="sd">method call to set up the agenda for USING the the lookup-table.  Without the</span>
+<span class="linenos"> 65</span><span class="sd">flag, ARTS should be configured correctly to either COMPUTE the lookup-table</span>
+<span class="linenos"> 66</span><span class="sd">or to compute the absorption on-the-fly</span>
+<span class="linenos"> 67</span>
+<span class="linenos"> 68</span><span class="sd">In this case, it turns out that the temparature extrapolation is not enough</span>
+<span class="linenos"> 69</span><span class="sd">for a tropical atmosphere scenario below, so we extend it a small bit.  Play</span>
+<span class="linenos"> 70</span><span class="sd">with this &quot;T_extrapolfac&quot; value to see the relevant error message</span>
 <span class="linenos"> 71</span>
-<span class="linenos"> 72</span><span class="sd">In this case, it turns out that the temparature extrapolation is not enough</span>
-<span class="linenos"> 73</span><span class="sd">for a tropical atmosphere scenario below, so we extend it a small bit.  Play</span>
-<span class="linenos"> 74</span><span class="sd">with this &quot;T_extrapolfac&quot; value to see the relevant error message</span>
-<span class="linenos"> 75</span>
-<span class="linenos"> 76</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 77</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">(</span><span class="n">T_extrapolfac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 72</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 73</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">(</span><span class="n">T_extrapolfac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span><span class="sd">Compute absorption</span>
 <span class="linenos"> 78</span>
-<span class="linenos"> 79</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 80</span>
-<span class="linenos"> 81</span><span class="sd">Compute absorption</span>
+<span class="linenos"> 79</span><span class="sd">Now we can use the propmat_clearsky_agenda to compute the absorption of O2-66.</span>
+<span class="linenos"> 80</span><span class="sd">We can also use this agenda in more complicated setups that might require</span>
+<span class="linenos"> 81</span><span class="sd">absorption calculations, but that is for other examples</span>
 <span class="linenos"> 82</span>
-<span class="linenos"> 83</span><span class="sd">Now we can use the propmat_clearsky_agenda to compute the absorption of O2-66.</span>
-<span class="linenos"> 84</span><span class="sd">We can also use this agenda in more complicated setups that might require</span>
-<span class="linenos"> 85</span><span class="sd">absorption calculations, but that is for other examples</span>
-<span class="linenos"> 86</span>
-<span class="linenos"> 87</span><span class="sd">To just execute the agenda we need to still define its both its inputs and the</span>
-<span class="linenos"> 88</span><span class="sd">inputs required to initialize the propagation matrix</span>
-<span class="linenos"> 89</span>
-<span class="linenos"> 90</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 91</span>
-<span class="linenos"> 92</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobian_quantities</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No derivatives</span>
-<span class="linenos"> 93</span><span class="n">ws</span><span class="o">.</span><span class="n">select_abs_species</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># All species</span>
-<span class="linenos"> 94</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">wavelen2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">6900e-9</span><span class="p">,</span> <span class="mf">5900e-9</span><span class="p">,</span> <span class="mi">1001</span><span class="p">))</span>
-<span class="linenos"> 95</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_mag</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No magnetic field</span>
-<span class="linenos"> 96</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_los</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No particular LOS</span>
-<span class="linenos"> 97</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_pressure</span> <span class="o">=</span> <span class="mf">1e5</span>  <span class="c1"># At 1 bar</span>
-<span class="linenos"> 98</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_temperature</span> <span class="o">=</span> <span class="mi">295</span>  <span class="c1"># At room temperature</span>
-<span class="linenos"> 99</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_nlte</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">EnergyLevelMap</span><span class="p">()</span>  <span class="c1"># No NLTE</span>
-<span class="linenos">100</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_vmr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.21</span><span class="p">]</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
-<span class="linenos">101</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Unpolarized</span>
-<span class="linenos">102</span>
-<span class="linenos">103</span><span class="c1"># Call the agenda with inputs above</span>
-<span class="linenos">104</span><span class="n">ws</span><span class="o">.</span><span class="n">AgendaExecute</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agenda</span><span class="p">)</span>
-<span class="linenos">105</span>
-<span class="linenos">106</span><span class="c1"># Plot the absorption of this example</span>
-<span class="linenos">107</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">108</span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-<span class="linenos">109</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-<span class="linenos">110</span>    <span class="mf">1e9</span> <span class="o">*</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2wavelen</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
-<span class="linenos">111</span>    <span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-<span class="linenos">112</span><span class="p">)</span>
-<span class="linenos">113</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Wavelength [nm]&quot;</span><span class="p">)</span>
-<span class="linenos">114</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
-<span class="linenos">115</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;O2-CIA-O2 absorption from examples/arts-cat-data/cia/cia.py&quot;</span><span class="p">)</span>
-<span class="linenos">116</span>
-<span class="linenos">117</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">118</span><span class="sd">That&#39;s it!  You are done and have reached the end of this example.  Everything</span>
-<span class="linenos">119</span><span class="sd">below here is just to ensure that ARTS does not break in the future.  It can</span>
-<span class="linenos">120</span><span class="sd">be safely ignored</span>
+<span class="linenos"> 83</span><span class="sd">To just execute the agenda we need to still define its both its inputs and the</span>
+<span class="linenos"> 84</span><span class="sd">inputs required to initialize the propagation matrix</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobian_quantities</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No derivatives</span>
+<span class="linenos"> 89</span><span class="n">ws</span><span class="o">.</span><span class="n">select_abs_species</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># All species</span>
+<span class="linenos"> 90</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">wavelen2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">6900e-9</span><span class="p">,</span> <span class="mf">5900e-9</span><span class="p">,</span> <span class="mi">1001</span><span class="p">))</span>
+<span class="linenos"> 91</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_mag</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No magnetic field</span>
+<span class="linenos"> 92</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_los</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># No particular LOS</span>
+<span class="linenos"> 93</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_pressure</span> <span class="o">=</span> <span class="mf">1e5</span>  <span class="c1"># At 1 bar</span>
+<span class="linenos"> 94</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_temperature</span> <span class="o">=</span> <span class="mi">295</span>  <span class="c1"># At room temperature</span>
+<span class="linenos"> 95</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_nlte</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">EnergyLevelMap</span><span class="p">()</span>  <span class="c1"># No NLTE</span>
+<span class="linenos"> 96</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_vmr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.21</span><span class="p">]</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
+<span class="linenos"> 97</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Unpolarized</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span><span class="c1"># Call the agenda with inputs above</span>
+<span class="linenos">100</span><span class="n">ws</span><span class="o">.</span><span class="n">AgendaExecute</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agenda</span><span class="p">)</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="c1"># Plot the absorption of this example</span>
+<span class="linenos">103</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">104</span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="linenos">105</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos">106</span>    <span class="mf">1e9</span> <span class="o">*</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2wavelen</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+<span class="linenos">107</span>    <span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+<span class="linenos">108</span><span class="p">)</span>
+<span class="linenos">109</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Wavelength [nm]&quot;</span><span class="p">)</span>
+<span class="linenos">110</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
+<span class="linenos">111</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;O2-CIA-O2 absorption from examples/arts-cat-data/cia/cia.py&quot;</span><span class="p">)</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">114</span><span class="sd">That&#39;s it!  You are done and have reached the end of this example.  Everything</span>
+<span class="linenos">115</span><span class="sd">below here is just to ensure that ARTS does not break in the future.  It can</span>
+<span class="linenos">116</span><span class="sd">be safely ignored</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">119</span><span class="c1"># Save test results</span>
+<span class="linenos">120</span><span class="c1"># ws.propmat_clearsky.value.data.savexml(&quot;cia_test_result.xml&quot;, type=&quot;ascii&quot;)</span>
 <span class="linenos">121</span>
-<span class="linenos">122</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">123</span><span class="c1"># Save test results</span>
-<span class="linenos">124</span><span class="c1"># ws.propmat_clearsky.value.data.savexml(&quot;cia_test_result.xml&quot;, type=&quot;ascii&quot;)</span>
-<span class="linenos">125</span>
-<span class="linenos">126</span><span class="c1"># test that we are still OK</span>
-<span class="linenos">127</span><span class="n">propmat_clearsky_agenda</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Tensor4</span><span class="p">()</span>
-<span class="linenos">128</span><span class="n">propmat_clearsky_agenda</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="s2">&quot;cia_test_result.xml&quot;</span><span class="p">)</span>
-<span class="linenos">129</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">130</span>    <span class="n">propmat_clearsky_agenda</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">data</span>
-<span class="linenos">131</span><span class="p">),</span> <span class="s2">&quot;O2 Absorption has changed&quot;</span>
+<span class="linenos">122</span><span class="c1"># test that we are still OK</span>
+<span class="linenos">123</span><span class="n">propmat_clearsky_agenda</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Tensor4</span><span class="p">()</span>
+<span class="linenos">124</span><span class="n">propmat_clearsky_agenda</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="s2">&quot;cia_test_result.xml&quot;</span><span class="p">)</span>
+<span class="linenos">125</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">126</span>    <span class="n">propmat_clearsky_agenda</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">data</span>
+<span class="linenos">127</span><span class="p">),</span> <span class="s2">&quot;O2 Absorption has changed&quot;</span>
 </pre></div>
 </div>
 </section>

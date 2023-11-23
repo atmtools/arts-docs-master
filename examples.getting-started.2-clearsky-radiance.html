@@ -6,7 +6,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2. Clearsky radiance &mdash; ARTS 2.5.12 documentation</title>
+  <title>2. Clearsky radiance &mdash; ARTS 2.5.13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=87960f5e"></script>
+        <script src="_static/documentation_options.js?v=23ee8b47"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.5.12
+                2.5.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -99,120 +99,128 @@
   <section id="clearsky-radiance">
 <h1>2. Clearsky radiance<a class="headerlink" href="#clearsky-radiance" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate" id="id1"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1"># Import the module</span>
-<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">pyarts</span>
-<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># This example uses numpy</span>
-<span class="linenos">  4</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="linenos">  5</span>
+<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="linenos">  4</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># This example uses numpy</span>
+<span class="linenos">  5</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="linenos">  6</span>
-<span class="linenos">  7</span><span class="c1"># Create a workspace</span>
-<span class="linenos">  8</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-<span class="linenos">  9</span>
-<span class="linenos"> 10</span><span class="c1"># The main agenda for computations of the radiative transfer</span>
-<span class="linenos"> 11</span><span class="c1"># follows a pure clears sky radiative transfer in this example.</span>
-<span class="linenos"> 12</span><span class="c1"># When the path tracing hits the surface, the surface emission</span>
-<span class="linenos"> 13</span><span class="c1"># is computed from the lowest atmospheric temperature,</span>
-<span class="linenos"> 14</span><span class="c1"># and when the path tracing hits the top of the atmosphere,</span>
-<span class="linenos"> 15</span><span class="c1"># the cosmic background is used as emission source.</span>
-<span class="linenos"> 16</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_main_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Emission&quot;</span><span class="p">)</span>
-<span class="linenos"> 17</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UseSurfaceRtprop&quot;</span><span class="p">)</span>
-<span class="linenos"> 18</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_rtprop_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody_SurfTFromt_field&quot;</span><span class="p">)</span>
-<span class="linenos"> 19</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;CosmicBackground&quot;</span><span class="p">)</span>
-<span class="linenos"> 20</span>
-<span class="linenos"> 21</span><span class="c1"># The path tracing is done step-by-step following a geometric path</span>
-<span class="linenos"> 22</span><span class="n">ws</span><span class="o">.</span><span class="n">ppath_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;FollowSensorLosPath&quot;</span><span class="p">)</span>
-<span class="linenos"> 23</span><span class="n">ws</span><span class="o">.</span><span class="n">ppath_step_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;GeometricPath&quot;</span><span class="p">)</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="c1"># Create a workspace</span>
+<span class="linenos">  9</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="c1"># Download ARTS catalogs if they are not already present.</span>
+<span class="linenos"> 12</span><span class="n">pyarts</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="c1"># The main agenda for computations of the radiative transfer</span>
+<span class="linenos"> 15</span><span class="c1"># follows a pure clears sky radiative transfer in this example.</span>
+<span class="linenos"> 16</span><span class="c1"># When the path tracing hits the surface, the surface emission</span>
+<span class="linenos"> 17</span><span class="c1"># is computed from the lowest atmospheric temperature,</span>
+<span class="linenos"> 18</span><span class="c1"># and when the path tracing hits the top of the atmosphere,</span>
+<span class="linenos"> 19</span><span class="c1"># the cosmic background is used as emission source.</span>
+<span class="linenos"> 20</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_main_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Emission&quot;</span><span class="p">)</span>
+<span class="linenos"> 21</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UseSurfaceRtprop&quot;</span><span class="p">)</span>
+<span class="linenos"> 22</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_rtprop_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody_SurfTFromt_field&quot;</span><span class="p">)</span>
+<span class="linenos"> 23</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;CosmicBackground&quot;</span><span class="p">)</span>
 <span class="linenos"> 24</span>
-<span class="linenos"> 25</span><span class="c1"># We might have to compute the Jacobian for the retrieval</span>
-<span class="linenos"> 26</span><span class="c1"># of relative humidity, so we need to set the agenda for</span>
-<span class="linenos"> 27</span><span class="c1"># that.</span>
-<span class="linenos"> 28</span><span class="n">ws</span><span class="o">.</span><span class="n">water_p_eq_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;MK05&quot;</span><span class="p">)</span>
-<span class="linenos"> 29</span>
-<span class="linenos"> 30</span><span class="c1"># The geometry of our planet, and several other properties, are</span>
-<span class="linenos"> 31</span><span class="c1"># set to those of Earth.</span>
-<span class="linenos"> 32</span><span class="n">ws</span><span class="o">.</span><span class="n">PlanetSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos"> 25</span><span class="c1"># The path tracing is done step-by-step following a geometric path</span>
+<span class="linenos"> 26</span><span class="n">ws</span><span class="o">.</span><span class="n">ppath_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;FollowSensorLosPath&quot;</span><span class="p">)</span>
+<span class="linenos"> 27</span><span class="n">ws</span><span class="o">.</span><span class="n">ppath_step_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;GeometricPath&quot;</span><span class="p">)</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1"># We might have to compute the Jacobian for the retrieval</span>
+<span class="linenos"> 30</span><span class="c1"># of relative humidity, so we need to set the agenda for</span>
+<span class="linenos"> 31</span><span class="c1"># that.</span>
+<span class="linenos"> 32</span><span class="n">ws</span><span class="o">.</span><span class="n">water_p_eq_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;MK05&quot;</span><span class="p">)</span>
 <span class="linenos"> 33</span>
-<span class="linenos"> 34</span><span class="c1"># Our output unit is Planc brightness temperature</span>
-<span class="linenos"> 35</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_unit</span> <span class="o">=</span> <span class="s2">&quot;PlanckBT&quot;</span>
-<span class="linenos"> 36</span>
-<span class="linenos"> 37</span><span class="c1"># We do not care about polarization in this example</span>
-<span class="linenos"> 38</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos"> 39</span>
-<span class="linenos"> 40</span><span class="c1"># The atmosphere is assumed 1-dimensional</span>
-<span class="linenos"> 41</span><span class="n">ws</span><span class="o">.</span><span class="n">atmosphere_dim</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos"> 42</span>
-<span class="linenos"> 43</span><span class="c1"># We have one sensor position in space, looking down, and one</span>
-<span class="linenos"> 44</span><span class="c1"># sensor position at the surface, looking up.</span>
-<span class="linenos"> 45</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_pos</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">300e3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="linenos"> 46</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_los</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="linenos"> 47</span>
-<span class="linenos"> 48</span><span class="c1"># The dimensions of the problem are defined by a 1-dimensional pressure grid</span>
-<span class="linenos"> 49</span><span class="n">ws</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">5.01</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos"> 50</span><span class="n">ws</span><span class="o">.</span><span class="n">lat_grid</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="linenos"> 51</span><span class="n">ws</span><span class="o">.</span><span class="n">lon_grid</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="linenos"> 52</span>
-<span class="linenos"> 53</span><span class="c1"># The surface is at 0-meters altitude</span>
-<span class="linenos"> 54</span><span class="n">ws</span><span class="o">.</span><span class="n">z_surface</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">]]</span>
-<span class="linenos"> 55</span>
-<span class="linenos"> 56</span><span class="c1"># Our sensor sees 10 frequency bins between 40 and 120 GHz</span>
-<span class="linenos"> 57</span><span class="n">NF</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="linenos"> 58</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="n">NF</span><span class="p">)</span>
+<span class="linenos"> 34</span><span class="c1"># The geometry of our planet, and several other properties, are</span>
+<span class="linenos"> 35</span><span class="c1"># set to those of Earth.</span>
+<span class="linenos"> 36</span><span class="n">ws</span><span class="o">.</span><span class="n">PlanetSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span><span class="c1"># Our output unit is Planc brightness temperature</span>
+<span class="linenos"> 39</span><span class="n">ws</span><span class="o">.</span><span class="n">iy_unit</span> <span class="o">=</span> <span class="s2">&quot;PlanckBT&quot;</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="c1"># We do not care about polarization in this example</span>
+<span class="linenos"> 42</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="c1"># The atmosphere is assumed 1-dimensional</span>
+<span class="linenos"> 45</span><span class="n">ws</span><span class="o">.</span><span class="n">atmosphere_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="c1"># We have one sensor position in space, looking down, and one</span>
+<span class="linenos"> 48</span><span class="c1"># sensor position at the surface, looking up.</span>
+<span class="linenos"> 49</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_pos</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">300e3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="linenos"> 50</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_los</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span><span class="c1"># The dimensions of the problem are defined by a 1-dimensional pressure grid</span>
+<span class="linenos"> 53</span><span class="n">ws</span><span class="o">.</span><span class="n">p_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">5.01</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 54</span><span class="n">ws</span><span class="o">.</span><span class="n">lat_grid</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 55</span><span class="n">ws</span><span class="o">.</span><span class="n">lon_grid</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="c1"># The surface is at 0-meters altitude</span>
+<span class="linenos"> 58</span><span class="n">ws</span><span class="o">.</span><span class="n">z_surface</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">]]</span>
 <span class="linenos"> 59</span>
-<span class="linenos"> 60</span><span class="c1"># The atmosphere consists of water, oxygen and nitrogen.</span>
-<span class="linenos"> 61</span><span class="c1"># We set these to be computed using predefined absorption</span>
-<span class="linenos"> 62</span><span class="c1"># models.</span>
-<span class="linenos"> 63</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-PWR98&quot;</span><span class="p">,</span> <span class="s2">&quot;O2-PWR98&quot;</span><span class="p">,</span> <span class="s2">&quot;N2-SelfContStandardType&quot;</span><span class="p">])</span>
-<span class="linenos"> 64</span>
-<span class="linenos"> 65</span><span class="c1"># We have no line-by-line calculations, so we mark the LBL catalog as empty</span>
-<span class="linenos"> 66</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesSetEmpty</span><span class="p">()</span>
-<span class="linenos"> 67</span>
-<span class="linenos"> 68</span><span class="c1"># We now have all the information required to compute the absorption agenda.</span>
-<span class="linenos"> 69</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">()</span>
-<span class="linenos"> 70</span>
-<span class="linenos"> 71</span><span class="c1"># We need an atmosphere.  This is taken from the arts-xml-data in</span>
-<span class="linenos"> 72</span><span class="c1"># raw format before being turned into the atmospheric fields that</span>
-<span class="linenos"> 73</span><span class="c1"># ARTS uses internally.</span>
-<span class="linenos"> 74</span><span class="n">ws</span><span class="o">.</span><span class="n">AtmRawRead</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/Fascod/tropical/tropical&quot;</span><span class="p">)</span>
-<span class="linenos"> 75</span><span class="n">ws</span><span class="o">.</span><span class="n">AtmFieldsCalc</span><span class="p">()</span>
-<span class="linenos"> 76</span>
-<span class="linenos"> 77</span><span class="c1"># These calculations do no partial derivatives, so we can turn it off</span>
-<span class="linenos"> 78</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobianOff</span><span class="p">()</span>
-<span class="linenos"> 79</span>
-<span class="linenos"> 80</span><span class="c1"># There is no scattering in this example, so we can turn it off</span>
-<span class="linenos"> 81</span><span class="n">ws</span><span class="o">.</span><span class="n">cloudboxOff</span><span class="p">()</span>
-<span class="linenos"> 82</span>
-<span class="linenos"> 83</span><span class="c1"># The concept of a sensor does not apply to this example, so we can turn it off</span>
-<span class="linenos"> 84</span><span class="n">ws</span><span class="o">.</span><span class="n">sensorOff</span><span class="p">()</span>
-<span class="linenos"> 85</span>
-<span class="linenos"> 86</span><span class="c1"># We check the atmospheric geometry, the atmospheric fields, the cloud box,</span>
-<span class="linenos"> 87</span><span class="c1"># and the sensor.</span>
-<span class="linenos"> 88</span><span class="n">ws</span><span class="o">.</span><span class="n">atmgeom_checkedCalc</span><span class="p">()</span>
-<span class="linenos"> 89</span><span class="n">ws</span><span class="o">.</span><span class="n">atmfields_checkedCalc</span><span class="p">()</span>
-<span class="linenos"> 90</span><span class="n">ws</span><span class="o">.</span><span class="n">cloudbox_checkedCalc</span><span class="p">()</span>
-<span class="linenos"> 91</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_checkedCalc</span><span class="p">()</span>
-<span class="linenos"> 92</span>
-<span class="linenos"> 93</span><span class="c1"># We perform the calculations</span>
-<span class="linenos"> 94</span><span class="n">ws</span><span class="o">.</span><span class="n">yCalc</span><span class="p">()</span>
-<span class="linenos"> 95</span>
-<span class="linenos"> 96</span><span class="c1"># Create a simple plot to look at the simulations.  Try increasing NF</span>
-<span class="linenos"> 97</span><span class="c1"># above to see more details</span>
-<span class="linenos"> 98</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NF</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="linenos"> 99</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
-<span class="linenos">100</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Brightness temperature [K]&quot;</span><span class="p">)</span>
-<span class="linenos">101</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Looking down&quot;</span><span class="p">,</span> <span class="s2">&quot;Looking up&quot;</span><span class="p">])</span>
-<span class="linenos">102</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Low resolution O$_2$ millimeter absorption band&quot;</span><span class="p">)</span>
-<span class="linenos">103</span>
-<span class="linenos">104</span><span class="c1"># TESTING</span>
-<span class="linenos">105</span><span class="c1"># AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT</span>
-<span class="linenos">106</span><span class="c1"># THE CONTENT OF THE VARIABLES ARE GOOD.</span>
-<span class="linenos">107</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">108</span>    <span class="n">ws</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-<span class="linenos">109</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">296.61207605</span><span class="p">,</span> <span class="mf">292.04188873</span><span class="p">,</span> <span class="mf">210.01486215</span><span class="p">,</span> <span class="mf">271.44447592</span><span class="p">,</span>
-<span class="linenos">110</span>              <span class="mf">293.06468686</span><span class="p">,</span> <span class="mf">294.18513535</span><span class="p">,</span> <span class="mf">293.97640914</span><span class="p">,</span> <span class="mf">293.24271601</span><span class="p">,</span>
-<span class="linenos">111</span>              <span class="mf">291.01085103</span><span class="p">,</span> <span class="mf">252.58148054</span><span class="p">,</span>  <span class="mf">44.8272092</span> <span class="p">,</span>  <span class="mf">88.45315869</span><span class="p">,</span>
-<span class="linenos">112</span>              <span class="mf">292.69787616</span><span class="p">,</span> <span class="mf">229.39778329</span><span class="p">,</span> <span class="mf">104.89723532</span><span class="p">,</span> <span class="mf">107.59101072</span><span class="p">,</span>
-<span class="linenos">113</span>              <span class="mf">120.4062287</span> <span class="p">,</span> <span class="mf">136.72275807</span><span class="p">,</span> <span class="mf">160.08765173</span><span class="p">,</span> <span class="mf">264.38696518</span><span class="p">])</span>
-<span class="linenos">114</span>    <span class="p">)</span>
-<span class="linenos">115</span><span class="c1"># END TESTING</span>
+<span class="linenos"> 60</span><span class="c1"># Our sensor sees 10 frequency bins between 40 and 120 GHz</span>
+<span class="linenos"> 61</span><span class="n">NF</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos"> 62</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="n">NF</span><span class="p">)</span>
+<span class="linenos"> 63</span>
+<span class="linenos"> 64</span><span class="c1"># The atmosphere consists of water, oxygen and nitrogen.</span>
+<span class="linenos"> 65</span><span class="c1"># We set these to be computed using predefined absorption</span>
+<span class="linenos"> 66</span><span class="c1"># models.</span>
+<span class="linenos"> 67</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-PWR98&quot;</span><span class="p">,</span> <span class="s2">&quot;O2-PWR98&quot;</span><span class="p">,</span> <span class="s2">&quot;N2-SelfContStandardType&quot;</span><span class="p">])</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="c1"># We have no line-by-line calculations, so we mark the LBL catalog as empty</span>
+<span class="linenos"> 70</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesSetEmpty</span><span class="p">()</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span><span class="c1"># We now have all the information required to compute the absorption agenda.</span>
+<span class="linenos"> 73</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">()</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="c1"># We need an atmosphere.  This is taken from the arts-xml-data in</span>
+<span class="linenos"> 76</span><span class="c1"># raw format before being turned into the atmospheric fields that</span>
+<span class="linenos"> 77</span><span class="c1"># ARTS uses internally.</span>
+<span class="linenos"> 78</span><span class="n">ws</span><span class="o">.</span><span class="n">AtmRawRead</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/Fascod/tropical/tropical&quot;</span><span class="p">)</span>
+<span class="linenos"> 79</span><span class="n">ws</span><span class="o">.</span><span class="n">AtmFieldsCalc</span><span class="p">()</span>
+<span class="linenos"> 80</span>
+<span class="linenos"> 81</span><span class="c1"># These calculations do no partial derivatives, so we can turn it off</span>
+<span class="linenos"> 82</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobianOff</span><span class="p">()</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="c1"># There is no scattering in this example, so we can turn it off</span>
+<span class="linenos"> 85</span><span class="n">ws</span><span class="o">.</span><span class="n">cloudboxOff</span><span class="p">()</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span><span class="c1"># The concept of a sensor does not apply to this example, so we can turn it off</span>
+<span class="linenos"> 88</span><span class="n">ws</span><span class="o">.</span><span class="n">sensorOff</span><span class="p">()</span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span><span class="c1"># We check the atmospheric geometry, the atmospheric fields, the cloud box,</span>
+<span class="linenos"> 91</span><span class="c1"># and the sensor.</span>
+<span class="linenos"> 92</span><span class="n">ws</span><span class="o">.</span><span class="n">atmgeom_checkedCalc</span><span class="p">()</span>
+<span class="linenos"> 93</span><span class="n">ws</span><span class="o">.</span><span class="n">atmfields_checkedCalc</span><span class="p">()</span>
+<span class="linenos"> 94</span><span class="n">ws</span><span class="o">.</span><span class="n">cloudbox_checkedCalc</span><span class="p">()</span>
+<span class="linenos"> 95</span><span class="n">ws</span><span class="o">.</span><span class="n">sensor_checkedCalc</span><span class="p">()</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="c1"># We perform the calculations</span>
+<span class="linenos"> 98</span><span class="n">ws</span><span class="o">.</span><span class="n">yCalc</span><span class="p">()</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="c1"># Create a simple plot to look at the simulations.  Try increasing NF</span>
+<span class="linenos">101</span><span class="c1"># above to see more details</span>
+<span class="linenos">102</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NF</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="linenos">103</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
+<span class="linenos">104</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Brightness temperature [K]&quot;</span><span class="p">)</span>
+<span class="linenos">105</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Looking down&quot;</span><span class="p">,</span> <span class="s2">&quot;Looking up&quot;</span><span class="p">])</span>
+<span class="linenos">106</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Low resolution O$_2$ millimeter absorption band&quot;</span><span class="p">)</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="c1"># WE SHOW THE PLOT ONLY IF THIS SCRIPT IS RUN OUTSIDE OUR TEST ENVIRONMENT.</span>
+<span class="linenos">109</span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ARTS_HEADLESS&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">110</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="linenos">111</span>
+<span class="linenos">112</span><span class="c1"># TESTING</span>
+<span class="linenos">113</span><span class="c1"># AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT</span>
+<span class="linenos">114</span><span class="c1"># THE CONTENT OF THE VARIABLES ARE GOOD.</span>
+<span class="linenos">115</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">116</span>    <span class="n">ws</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+<span class="linenos">117</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">296.61207605</span><span class="p">,</span> <span class="mf">292.04188873</span><span class="p">,</span> <span class="mf">210.01486215</span><span class="p">,</span> <span class="mf">271.44447592</span><span class="p">,</span>
+<span class="linenos">118</span>              <span class="mf">293.06468686</span><span class="p">,</span> <span class="mf">294.18513535</span><span class="p">,</span> <span class="mf">293.97640914</span><span class="p">,</span> <span class="mf">293.24271601</span><span class="p">,</span>
+<span class="linenos">119</span>              <span class="mf">291.01085103</span><span class="p">,</span> <span class="mf">252.58148054</span><span class="p">,</span>  <span class="mf">44.8272092</span> <span class="p">,</span>  <span class="mf">88.45315869</span><span class="p">,</span>
+<span class="linenos">120</span>              <span class="mf">292.69787616</span><span class="p">,</span> <span class="mf">229.39778329</span><span class="p">,</span> <span class="mf">104.89723532</span><span class="p">,</span> <span class="mf">107.59101072</span><span class="p">,</span>
+<span class="linenos">121</span>              <span class="mf">120.4062287</span> <span class="p">,</span> <span class="mf">136.72275807</span><span class="p">,</span> <span class="mf">160.08765173</span><span class="p">,</span> <span class="mf">264.38696518</span><span class="p">])</span>
+<span class="linenos">122</span>    <span class="p">)</span>
+<span class="linenos">123</span><span class="c1"># END TESTING</span>
 </pre></div>
 </div>
 </section>

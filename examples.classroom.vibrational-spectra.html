@@ -6,7 +6,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vibrational spectra &mdash; ARTS 2.5.12 documentation</title>
+  <title>Vibrational spectra &mdash; ARTS 2.5.13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=87960f5e"></script>
+        <script src="_static/documentation_options.js?v=23ee8b47"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.5.12
+                2.5.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -104,61 +104,64 @@
 <span class="linenos"> 4</span><span class="c1"># initialize ARTS</span>
 <span class="linenos"> 5</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
 <span class="linenos"> 6</span>
-<span class="linenos"> 7</span><span class="c1"># These are the same species as for the rotational spectra (see</span>
-<span class="linenos"> 8</span><span class="c1"># ../rotational-spectra/start_gui.py) but we also add water, carbon dioxide</span>
-<span class="linenos"> 9</span><span class="c1"># and methane since these are sometimes more interesting in the infrared.</span>
-<span class="linenos">10</span><span class="c1"># Gone are also the frequency limits, we will later use another speed-up</span>
-<span class="linenos">11</span><span class="c1"># technique to achieve faster copmpute times</span>
-<span class="linenos">12</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span>
-<span class="linenos">13</span>    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HCl&quot;</span><span class="p">,</span>
-<span class="linenos">14</span>             <span class="s2">&quot;ClO&quot;</span><span class="p">,</span>
-<span class="linenos">15</span>             <span class="s2">&quot;CO&quot;</span><span class="p">,</span>
-<span class="linenos">16</span>             <span class="s2">&quot;N2O&quot;</span><span class="p">,</span>
-<span class="linenos">17</span>             <span class="s2">&quot;O3&quot;</span><span class="p">,</span>
-<span class="linenos">18</span>             <span class="s2">&quot;H2O&quot;</span><span class="p">,</span>
-<span class="linenos">19</span>             <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
-<span class="linenos">20</span>             <span class="s2">&quot;CH4&quot;</span><span class="p">])</span>
-<span class="linenos">21</span>
-<span class="linenos">22</span><span class="c1"># Read the absorption lines.  These should be part of the arts-cata-data package</span>
-<span class="linenos">23</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesReadSpeciesSplitCatalog</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;lines/&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="c1"># Download ARTS catalogs if they are not already present.</span>
+<span class="linenos"> 8</span><span class="n">pyarts</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="c1"># These are the same species as for the rotational spectra (see</span>
+<span class="linenos">11</span><span class="c1"># ../rotational-spectra/start_gui.py) but we also add water, carbon dioxide</span>
+<span class="linenos">12</span><span class="c1"># and methane since these are sometimes more interesting in the infrared.</span>
+<span class="linenos">13</span><span class="c1"># Gone are also the frequency limits, we will later use another speed-up</span>
+<span class="linenos">14</span><span class="c1"># technique to achieve faster copmpute times</span>
+<span class="linenos">15</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span>
+<span class="linenos">16</span>    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HCl&quot;</span><span class="p">,</span>
+<span class="linenos">17</span>             <span class="s2">&quot;ClO&quot;</span><span class="p">,</span>
+<span class="linenos">18</span>             <span class="s2">&quot;CO&quot;</span><span class="p">,</span>
+<span class="linenos">19</span>             <span class="s2">&quot;N2O&quot;</span><span class="p">,</span>
+<span class="linenos">20</span>             <span class="s2">&quot;O3&quot;</span><span class="p">,</span>
+<span class="linenos">21</span>             <span class="s2">&quot;H2O&quot;</span><span class="p">,</span>
+<span class="linenos">22</span>             <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
+<span class="linenos">23</span>             <span class="s2">&quot;CH4&quot;</span><span class="p">])</span>
 <span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Speed-up technique of using a cutoff frequency</span>
-<span class="linenos">26</span><span class="c1"># This will apply a cutoff of each absorption line at a frequency of 750 GHz</span>
-<span class="linenos">27</span><span class="c1"># away from the pressure shifted line center.  The value at the cutoff frequency</span>
-<span class="linenos">28</span><span class="c1"># is subsequently used to remove the value from within the line center.</span>
-<span class="linenos">29</span><span class="c1"># the latter modification is in line with how water continua models deal with</span>
-<span class="linenos">30</span><span class="c1"># some of its unknown or just difficult to model absorption features, however</span>
-<span class="linenos">31</span><span class="c1"># we will not consider this absorption in the current example</span>
-<span class="linenos">32</span><span class="c1"># NOTE: Using a cutoff frequency across all species like this degrades the</span>
-<span class="linenos">33</span><span class="c1"># quality of the absorption calculations, which can be seen by changing the</span>
-<span class="linenos">34</span><span class="c1"># Y-scale of the absorption to logarithmic</span>
-<span class="linenos">35</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesCutoff</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;ByLine&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">750e9</span><span class="p">)</span>
-<span class="linenos">36</span>
-<span class="linenos">37</span><span class="c1"># Use an automatic agenda</span>
-<span class="linenos">38</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">()</span>
+<span class="linenos">25</span><span class="c1"># Read the absorption lines.  These should be part of the arts-cata-data package</span>
+<span class="linenos">26</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesReadSpeciesSplitCatalog</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;lines/&quot;</span><span class="p">)</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="c1"># Speed-up technique of using a cutoff frequency</span>
+<span class="linenos">29</span><span class="c1"># This will apply a cutoff of each absorption line at a frequency of 750 GHz</span>
+<span class="linenos">30</span><span class="c1"># away from the pressure shifted line center.  The value at the cutoff frequency</span>
+<span class="linenos">31</span><span class="c1"># is subsequently used to remove the value from within the line center.</span>
+<span class="linenos">32</span><span class="c1"># the latter modification is in line with how water continua models deal with</span>
+<span class="linenos">33</span><span class="c1"># some of its unknown or just difficult to model absorption features, however</span>
+<span class="linenos">34</span><span class="c1"># we will not consider this absorption in the current example</span>
+<span class="linenos">35</span><span class="c1"># NOTE: Using a cutoff frequency across all species like this degrades the</span>
+<span class="linenos">36</span><span class="c1"># quality of the absorption calculations, which can be seen by changing the</span>
+<span class="linenos">37</span><span class="c1"># Y-scale of the absorption to logarithmic</span>
+<span class="linenos">38</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_lines_per_speciesCutoff</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;ByLine&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">750e9</span><span class="p">)</span>
 <span class="linenos">39</span>
-<span class="linenos">40</span><span class="c1"># Arts setup (No NLTE, no polarization, and standard isotopologue ratios)</span>
-<span class="linenos">41</span><span class="n">ws</span><span class="o">.</span><span class="n">nlte_do</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="linenos">42</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos">43</span><span class="n">ws</span><span class="o">.</span><span class="n">isotopologue_ratiosInitFromBuiltin</span><span class="p">()</span>
-<span class="linenos">44</span>
-<span class="linenos">45</span><span class="c1"># Settings (Standard atmosphere midlatitude-summer)</span>
-<span class="linenos">46</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobian_quantities</span><span class="p">)</span>
-<span class="linenos">47</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">select_abs_species</span><span class="p">)</span>
-<span class="linenos">48</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_nlte</span><span class="p">)</span>
-<span class="linenos">49</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_mag</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10e-6</span><span class="p">,</span> <span class="mf">20e-6</span><span class="p">,</span> <span class="mf">40e-6</span><span class="p">]</span>
-<span class="linenos">50</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_los</span> <span class="o">=</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">45</span><span class="p">]</span>
-<span class="linenos">51</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_pressure</span> <span class="o">=</span> <span class="mi">110000</span>
-<span class="linenos">52</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_temperature</span> <span class="o">=</span> <span class="mf">2.942000e+02</span>
-<span class="linenos">53</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
-<span class="linenos">54</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_vmr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.000869e-09</span><span class="p">,</span> <span class="mf">1.000869e-14</span><span class="p">,</span> <span class="mf">2.850472e-06</span><span class="p">,</span> <span class="mf">1.501303e-07</span><span class="p">,</span>
-<span class="linenos">55</span>              <span class="mf">3.019448e-08</span><span class="p">,</span> <span class="mf">1.877431e-02</span><span class="p">,</span> <span class="mf">3.302947e-04</span><span class="p">,</span> <span class="mf">1.701397e-06</span><span class="p">]</span>
-<span class="linenos">56</span>
-<span class="linenos">57</span><span class="c1"># Check that the calculations are OK</span>
-<span class="linenos">58</span><span class="n">ws</span><span class="o">.</span><span class="n">lbl_checkedCalc</span><span class="p">()</span>
+<span class="linenos">40</span><span class="c1"># Use an automatic agenda</span>
+<span class="linenos">41</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaAuto</span><span class="p">()</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span><span class="c1"># Arts setup (No NLTE, no polarization, and standard isotopologue ratios)</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">nlte_do</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">45</span><span class="n">ws</span><span class="o">.</span><span class="n">stokes_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">46</span><span class="n">ws</span><span class="o">.</span><span class="n">isotopologue_ratiosInitFromBuiltin</span><span class="p">()</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="c1"># Settings (Standard atmosphere midlatitude-summer)</span>
+<span class="linenos">49</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobian_quantities</span><span class="p">)</span>
+<span class="linenos">50</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">select_abs_species</span><span class="p">)</span>
+<span class="linenos">51</span><span class="n">ws</span><span class="o">.</span><span class="n">Touch</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_nlte</span><span class="p">)</span>
+<span class="linenos">52</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_mag</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10e-6</span><span class="p">,</span> <span class="mf">20e-6</span><span class="p">,</span> <span class="mf">40e-6</span><span class="p">]</span>
+<span class="linenos">53</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_los</span> <span class="o">=</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">45</span><span class="p">]</span>
+<span class="linenos">54</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_pressure</span> <span class="o">=</span> <span class="mi">110000</span>
+<span class="linenos">55</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_temperature</span> <span class="o">=</span> <span class="mf">2.942000e+02</span>
+<span class="linenos">56</span><span class="n">ws</span><span class="o">.</span><span class="n">f_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="linenos">57</span><span class="n">ws</span><span class="o">.</span><span class="n">rtp_vmr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.000869e-09</span><span class="p">,</span> <span class="mf">1.000869e-14</span><span class="p">,</span> <span class="mf">2.850472e-06</span><span class="p">,</span> <span class="mf">1.501303e-07</span><span class="p">,</span>
+<span class="linenos">58</span>              <span class="mf">3.019448e-08</span><span class="p">,</span> <span class="mf">1.877431e-02</span><span class="p">,</span> <span class="mf">3.302947e-04</span><span class="p">,</span> <span class="mf">1.701397e-06</span><span class="p">]</span>
 <span class="linenos">59</span>
-<span class="linenos">60</span><span class="c1"># Start the explorer</span>
-<span class="linenos">61</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaGUI</span><span class="p">()</span>
+<span class="linenos">60</span><span class="c1"># Check that the calculations are OK</span>
+<span class="linenos">61</span><span class="n">ws</span><span class="o">.</span><span class="n">lbl_checkedCalc</span><span class="p">()</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="c1"># Start the explorer</span>
+<span class="linenos">64</span><span class="n">ws</span><span class="o">.</span><span class="n">propmat_clearsky_agendaGUI</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>

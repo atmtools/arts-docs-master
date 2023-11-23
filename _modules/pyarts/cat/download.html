@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyarts.cat.download &mdash; ARTS 2.5.12 documentation</title>
+  <title>pyarts.cat.download &mdash; ARTS 2.5.13 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=87960f5e"></script>
+        <script src="../../../_static/documentation_options.js?v=23ee8b47"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -35,7 +35,7 @@
               <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.5.12
+                2.5.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -114,9 +114,9 @@
 <span class="sd">    This function sets the ARTS data search path to the downloaded</span>
 <span class="sd">    data directories, so that ARTS can find the required data files.</span>
 
-<span class="sd">    If the environment variable ARTS_DATA_PATH is set, it is assumed that the</span>
-<span class="sd">    user wants to use their own catalog locations and this function does</span>
-<span class="sd">    nothing.</span>
+<span class="sd">    If the environment variable ARTS_DATA_PATH or ARTS_INCLUDE_PATH is set,</span>
+<span class="sd">    it is assumed that the user wants to use their own catalog locations</span>
+<span class="sd">    and this function does nothing.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        download_dir (str, optional):</span>
@@ -140,8 +140,15 @@
     <span class="n">artsxmldata</span> <span class="o">=</span> <span class="s2">&quot;arts-xml-data-&quot;</span> <span class="o">+</span> <span class="n">version</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_DATA_PATH&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping download, environment variable ARTS_DATA_PATH already set&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping download, environment variable ARTS_DATA_PATH already set.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_INCLUDE_PATH&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping download, environment variable ARTS_INCLUDE_PATH already set.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Version </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2"> is not a release version.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;Please check out the current catalogs with svn instead.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">retrieve_catalog</span><span class="p">(</span><span class="n">catname</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">catname</span><span class="p">)):</span>
@@ -152,7 +159,7 @@
 
     <span class="n">retrieve_catalog</span><span class="p">(</span><span class="n">artsxmldata</span><span class="p">)</span>
     <span class="n">retrieve_catalog</span><span class="p">(</span><span class="n">artscatdata</span><span class="p">)</span>
- 
+
     <span class="kn">from</span> <span class="nn">pyarts.arts</span> <span class="kn">import</span> <span class="nb">globals</span>
     <span class="nb">globals</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;.&quot;</span><span class="p">,</span>
