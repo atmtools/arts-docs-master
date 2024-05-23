@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyarts.xml &mdash; ARTS 2.6.0 documentation</title>
+  <title>pyarts.xml &mdash; ARTS 3.0.0dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -16,10 +16,13 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=ae39cb24"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -37,7 +40,7 @@
               <img src="../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.6.0
+                3.0.0dev1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -48,12 +51,13 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting.started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../workspace.html">The Workspace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pyarts.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
 </ul>
@@ -116,7 +120,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save a variable to an ARTS XML file.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        var: ARTS variable to be stored.</span>
+<span class="sd">        var: Variable to be stored.</span>
 <span class="sd">        filename (str): Name of output XML file.</span>
 <span class="sd">            If the name ends in .gz, the file is compressed on the fly.</span>
 <span class="sd">        precision (str): Format for output precision.</span>
@@ -129,7 +133,7 @@
 <span class="sd">        compressing files manually after writing them normally.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; x = pyarts.arts.Vector([1.,2.,3.])</span>
+<span class="sd">        &gt;&gt;&gt; x = numpy.array([1.,2.,3.])</span>
 <span class="sd">        &gt;&gt;&gt; pyarts.xml.save(x, &#39;myvector.xml&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -195,16 +199,16 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; pyarts.xml.load(&#39;tests/reference/matrix.xml&#39;)</span>
-<span class="sd">        0  1</span>
-<span class="sd">        2  3</span>
+<span class="sd">        array([[ 0.,  1.],</span>
+<span class="sd">               [ 2.,  3.]])</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">search_arts_path</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
         <span class="c1"># Use dict to remove duplicate paths from list and preserve order</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ARTS_INCLUDE_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span> <span class="o">+</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ARTS_DATA_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ARTS_INCLUDE_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ARTS_DATA_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">))</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">checkfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">checkfile</span><span class="p">)</span> <span class="ow">or</span> <span class="n">isfile</span><span class="p">(</span><span class="n">checkfile</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span><span class="p">):</span>
                 <span class="n">filename</span> <span class="o">=</span> <span class="n">checkfile</span>

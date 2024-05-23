@@ -10,6 +10,17 @@ Lines
     workspace and do the required setups to perform a simple forward calculations
     using this data
     
+    Note that this example presumes that you have set the environment variable
+    ARTS_DATA_PATH to contain a path to a local copy of both arts-cat-data and
+    arts-xml-data before you import pyarts.  Please check that this is the case
+    if the example does not work for you.  You can easily check if this path is
+    set by adding the following two lines at the top of this pyarts-controlfile:
+    
+    ```
+    import os
+    print(os.environ.get("ARTS_DATA_PATH"))
+    ```
+    
     """
     
     import pyarts
@@ -18,13 +29,6 @@ Lines
     
     # Initialize ARTS
     ws = pyarts.workspace.Workspace()
-    
-    """
-    
-    Download ARTS catalogs if they are not already present.
-    
-    """
-    pyarts.cat.download.retrieve()
     
     """
     
@@ -67,7 +71,7 @@ Lines
         write "O2-66,O2".
     
     """
-    ws.abs_speciesSet(species=["O2-66"])
+    ws.absorption_speciesSet(species=["O2-66"])
     
     """
     
@@ -109,16 +113,7 @@ Lines
         also has the len 2, but that all lines are now in the first entry.
     
     """
-    ws.abs_lines_per_speciesReadSpeciesSplitCatalog(basename="lines/")
-    
-    """
-    
-    With abs_species and abs_lines_per_species both defined, you can (and must)
-    confirm that the input is proper by setting lbl_checked to 1.  This is safely
-    done using:
-    
-    """
-    ws.lbl_checkedCalc()
+    ws.absorption_bandsReadSpeciesSplitCatalog(basename="lines/")
     
     """
     
@@ -130,13 +125,13 @@ Lines
     or to 2) compute the absorption on-the-fly
     
     """
-    ws.propmat_clearsky_agendaAuto()
+    ws.propagation_matrix_agendaAuto()
     
     """
     
     Compute absorption
     
-    Now we can use the propmat_clearsky_agenda to compute the absorption of O2-66.
+    Now we can use the propagation_matrix_agenda to compute the absorption of O2-66.
     We can also use this agenda in more complicated setups that might require
     absorption calculations, but that is for other examples
     
@@ -145,24 +140,21 @@ Lines
     
     """
     
-    ws.jacobian_quantities = []  # No derivatives
-    ws.select_abs_species = []  # All species
-    ws.f_grid = np.linspace(40e9, 120e9, 1001)  # Frequencies between 40 and 120 GHz
-    ws.rtp_mag = []  # No magnetic field
-    ws.rtp_los = []  # No particular LOS
-    ws.rtp_pressure = 1e5  # At 1 bar
-    ws.rtp_temperature = 295  # At room temperature
-    ws.rtp_nlte = pyarts.arts.EnergyLevelMap()  # No NLTE
-    ws.rtp_vmr = [0.21]  # At 21% atmospheric Oxygen
-    ws.stokes_dim = 1  # Unpolarized
+    ws.jacobian_targets = pyarts.arts.JacobianTargets()
+    ws.frequency_grid = np.linspace(40e9, 120e9, 1001)  # Frequencies between 40 and 120 GHz
+    ws.propagation_path_point  # No particular POSLOS
+    ws.atmospheric_pointInit()
+    ws.atmospheric_point.temperature = 295  # At room temperature
+    ws.atmospheric_point.pressure = 1e5  # At 1 bar
+    ws.atmospheric_point[ws.absorption_species[0]] = 0.21  # At 21% atmospheric Oxygen
     
     # Call the agenda with inputs above
-    ws.AgendaExecute(a=ws.propmat_clearsky_agenda)
+    ws.propagation_matrix_agendaExecute()
     
     # Plot the absorption of this example
     plt.figure(1)
     plt.clf()
-    plt.semilogy(ws.f_grid.value / 1e9, ws.propmat_clearsky.value.data.flatten())
+    plt.semilogy(ws.frequency_grid.value / 1e9, ws.propagation_matrix)
     plt.xlabel("Frequency [GHz]")
     plt.ylabel("Absorption [1/m]")
     plt.title("O2-66 absorption from examples/arts-cat-data/lines/lines.py")
@@ -174,12 +166,12 @@ Lines
     
     """
     # Save test results
-    # ws.propmat_clearsky.value.data.savexml("lines_test_result.xml", type="zascii")
+    # ws.propagation_matrix.savexml("lines_test_result.xml", type="ascii")
     
     # test that we are still OK
-    propmat_clearsky_agenda = pyarts.arts.Tensor4()
-    propmat_clearsky_agenda.readxml("lines_test_result.xml")
+    propagation_matrix_agenda = \
+        pyarts.arts.PropmatVector.fromxml("lines_test_result.xml")
     assert np.allclose(
-        propmat_clearsky_agenda, ws.propmat_clearsky.value.data
+        propagation_matrix_agenda, ws.propagation_matrix
     ), "O2 Absorption has changed"
     

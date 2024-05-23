@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Clearsky radiative transfer &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation" href="doc.html" />
+    <link rel="prev" title="1. Basics" href="examples.getting-started.1-basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting.started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="examples.getting-started.html">Getting started</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="examples.getting-started.1-basics.html">1. Basics</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">2. Clearsky radiative transfer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman">Zeeman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-sensor">Zeeman sensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-transmission">Zeeman transmission</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples.arts-catalogue-data.html">Arts catalogue data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.classroom.html">Classroom</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="getting.started.html">Getting started</a></li>
+      <li class="breadcrumb-item active">2. Clearsky radiative transfer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.getting-started.2-clearsky-radiative-transfer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="clearsky-radiative-transfer">
+<h1>2. Clearsky radiative transfer<a class="headerlink" href="#clearsky-radiative-transfer" title="Link to this heading"></a></h1>
+<section id="zeeman">
+<h2>Zeeman<a class="headerlink" href="#zeeman" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate" id="id1"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="c1"># %% Sampled frequency range</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="linenos">10</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="c1"># %% Species and line absorption</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="linenos">15</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequency</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">,</span> <span class="n">by_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">17</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="linenos">21</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="c1"># %% Grids and planet</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">26</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos">27</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+<span class="linenos">28</span>    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos">29</span><span class="p">)</span>
+<span class="linenos">30</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="c1"># %% Checks and settings</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_unit</span> <span class="o">=</span> <span class="s2">&quot;Tb&quot;</span>
+<span class="linenos">35</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
+<span class="linenos">36</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="c1"># %% Core calculations</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="linenos">41</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="linenos">42</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="mf">1000.</span><span class="p">)</span>
+<span class="linenos">43</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radianceClearskyEmission</span><span class="p">()</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="c1"># %% Show results</span>
+<span class="linenos">46</span>
+<span class="linenos">47</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">)</span>
+<span class="linenos">48</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="linenos">49</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
+<span class="linenos">50</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
+<span class="linenos">51</span>
+<span class="linenos">52</span><span class="c1"># %% Test</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">55</span>    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+<span class="linenos">56</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos">57</span>        <span class="p">[</span>
+<span class="linenos">58</span>            <span class="p">[</span><span class="mf">2.27786383e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.99350269e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.38513166e-04</span><span class="p">,</span> <span class="mf">5.61378144e-02</span><span class="p">],</span>
+<span class="linenos">59</span>            <span class="p">[</span><span class="mf">2.30865383e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.27976598e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.79061901e-04</span><span class="p">,</span> <span class="mf">6.94379197e-02</span><span class="p">],</span>
+<span class="linenos">60</span>            <span class="p">[</span><span class="mf">2.34808036e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.39244866e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.20203107e-03</span><span class="p">,</span> <span class="mf">9.20893766e-02</span><span class="p">],</span>
+<span class="linenos">61</span>            <span class="p">[</span><span class="mf">2.40362309e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.71072539e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.69107006e-03</span><span class="p">,</span> <span class="mf">1.38088979e-01</span><span class="p">],</span>
+<span class="linenos">62</span>            <span class="p">[</span><span class="mf">2.49783872e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.00989029e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.00100939e-02</span><span class="p">,</span> <span class="mf">2.65991699e-01</span><span class="p">],</span>
+<span class="linenos">63</span>            <span class="p">[</span><span class="mf">2.07223843e02</span><span class="p">,</span> <span class="mf">6.27903175e00</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.10085556e01</span><span class="p">,</span> <span class="mf">1.22487429e-05</span><span class="p">],</span>
+<span class="linenos">64</span>            <span class="p">[</span><span class="mf">2.49783340e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.01053458e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.00136877e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.66067280e-01</span><span class="p">],</span>
+<span class="linenos">65</span>            <span class="p">[</span><span class="mf">2.40361289e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.71259219e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.69291112e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.38163753e-01</span><span class="p">],</span>
+<span class="linenos">66</span>            <span class="p">[</span><span class="mf">2.34806566e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.40205116e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.20325640e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.21636026e-02</span><span class="p">],</span>
+<span class="linenos">67</span>            <span class="p">[</span><span class="mf">2.30863475e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.28598660e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.79985804e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.95121708e-02</span><span class="p">],</span>
+<span class="linenos">68</span>            <span class="p">[</span><span class="mf">2.27784043e02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.99804947e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.39260082e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.62120412e-02</span><span class="p">],</span>
+<span class="linenos">69</span>        <span class="p">]</span>
+<span class="linenos">70</span>    <span class="p">),</span>
+<span class="linenos">71</span><span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="zeeman-sensor">
+<h2>Zeeman sensor<a class="headerlink" href="#zeeman-sensor" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate" id="id2"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="c1"># %% Sampled frequency range</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="linenos"> 10</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="c1"># %% Species and line absorption</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="linenos"> 15</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos"> 16</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequency</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">,</span> <span class="n">by_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 17</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="linenos"> 18</span><span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="linenos"> 21</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span><span class="c1"># %% Grids and planet</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos"> 26</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos"> 27</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+<span class="linenos"> 28</span>    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos"> 29</span><span class="p">)</span>
+<span class="linenos"> 30</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="c1"># %% Checks and settings</span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_unit</span> <span class="o">=</span> <span class="s2">&quot;Tb&quot;</span>
+<span class="linenos"> 35</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
+<span class="linenos"> 36</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
+<span class="linenos"> 37</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_path_observer_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Geometric&quot;</span><span class="p">)</span>
+<span class="linenos"> 38</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_observer_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Emission&quot;</span><span class="p">)</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span><span class="c1"># %% Set up a sensor with Gaussian channel widths on individual frequency ranges</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 43</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="linenos"> 44</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vector_sensorGaussian</span><span class="p">(</span>
+<span class="linenos"> 45</span>    <span class="n">f0_fwhm_df</span><span class="o">=</span><span class="p">[[</span><span class="n">f</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">],</span>
+<span class="linenos"> 46</span>    <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+<span class="linenos"> 47</span>    <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span>
+<span class="linenos"> 48</span>    <span class="n">pol</span><span class="o">=</span><span class="s2">&quot;RC&quot;</span><span class="p">,</span>
+<span class="linenos"> 49</span><span class="p">)</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="c1"># %% Core calculations</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="n">result</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span><span class="p">()</span>
+<span class="linenos"> 54</span><span class="n">result_jac</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Matrix</span><span class="p">()</span>
+<span class="linenos"> 55</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vectorFromSensor</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result_jac</span><span class="p">)</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="c1"># %% Show results</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="linenos"> 60</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="linenos"> 61</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
+<span class="linenos"> 62</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 63</span>    <span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line with Gaussian channels on individual grids&quot;</span>
+<span class="linenos"> 64</span><span class="p">)</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="c1"># %% Test</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos"> 70</span>    <span class="n">result</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+<span class="linenos"> 71</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos"> 72</span>        <span class="p">[</span>
+<span class="linenos"> 73</span>            <span class="mf">227.84254707</span><span class="p">,</span>
+<span class="linenos"> 74</span>            <span class="mf">230.93486349</span><span class="p">,</span>
+<span class="linenos"> 75</span>            <span class="mf">234.90020182</span><span class="p">,</span>
+<span class="linenos"> 76</span>            <span class="mf">240.50057327</span><span class="p">,</span>
+<span class="linenos"> 77</span>            <span class="mf">250.05044696</span><span class="p">,</span>
+<span class="linenos"> 78</span>            <span class="mf">209.877013</span><span class="p">,</span>
+<span class="linenos"> 79</span>            <span class="mf">249.51782475</span><span class="p">,</span>
+<span class="linenos"> 80</span>            <span class="mf">240.22329289</span><span class="p">,</span>
+<span class="linenos"> 81</span>            <span class="mf">234.71447726</span><span class="p">,</span>
+<span class="linenos"> 82</span>            <span class="mf">230.79400404</span><span class="p">,</span>
+<span class="linenos"> 83</span>            <span class="mf">227.7278571</span><span class="p">,</span>
+<span class="linenos"> 84</span>        <span class="p">]</span>
+<span class="linenos"> 85</span>    <span class="p">),</span>
+<span class="linenos"> 86</span><span class="p">)</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span><span class="c1"># %% Set up a sensor with a fixed grid size</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 92</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="linenos"> 93</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vector_sensorGaussianFrequencyGrid</span><span class="p">(</span>
+<span class="linenos"> 94</span>    <span class="n">f0_fwhm</span><span class="o">=</span><span class="p">[[</span><span class="n">f</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">],</span>
+<span class="linenos"> 95</span>    <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+<span class="linenos"> 96</span>    <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span>
+<span class="linenos"> 97</span>    <span class="n">pol</span><span class="o">=</span><span class="s2">&quot;RC&quot;</span><span class="p">,</span>
+<span class="linenos"> 98</span><span class="p">)</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="c1"># %% Core calculations</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="n">result</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span><span class="p">()</span>
+<span class="linenos">103</span><span class="n">result_jac</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Matrix</span><span class="p">()</span>
+<span class="linenos">104</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vectorFromSensor</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result_jac</span><span class="p">)</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span><span class="c1"># %% Show results</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="linenos">109</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="linenos">110</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
+<span class="linenos">111</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">112</span>    <span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line with Gaussian channels on a single grid&quot;</span>
+<span class="linenos">113</span><span class="p">)</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span><span class="c1"># %% Test</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">119</span>    <span class="n">result</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+<span class="linenos">120</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos">121</span>        <span class="p">[</span>
+<span class="linenos">122</span>            <span class="mf">227.85700315</span><span class="p">,</span>
+<span class="linenos">123</span>            <span class="mf">230.93486339</span><span class="p">,</span>
+<span class="linenos">124</span>            <span class="mf">234.90020165</span><span class="p">,</span>
+<span class="linenos">125</span>            <span class="mf">240.50057288</span><span class="p">,</span>
+<span class="linenos">126</span>            <span class="mf">250.05044565</span><span class="p">,</span>
+<span class="linenos">127</span>            <span class="mf">209.854878</span><span class="p">,</span>
+<span class="linenos">128</span>            <span class="mf">249.51782351</span><span class="p">,</span>
+<span class="linenos">129</span>            <span class="mf">240.22329251</span><span class="p">,</span>
+<span class="linenos">130</span>            <span class="mf">234.71447709</span><span class="p">,</span>
+<span class="linenos">131</span>            <span class="mf">230.79400394</span><span class="p">,</span>
+<span class="linenos">132</span>            <span class="mf">227.74220588</span><span class="p">,</span>
+<span class="linenos">133</span>        <span class="p">]</span>
+<span class="linenos">134</span>    <span class="p">),</span>
+<span class="linenos">135</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="zeeman-transmission">
+<h2>Zeeman transmission<a class="headerlink" href="#zeeman-transmission" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate" id="id3"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="c1"># %% Sampled frequency range</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="linenos">10</span><span class="n">nf</span> <span class="o">=</span> <span class="mi">1001</span>
+<span class="linenos">11</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="n">nf</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># %% Species and line absorption</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="linenos">16</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos">17</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequency</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">,</span> <span class="n">by_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="linenos">19</span><span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="linenos">22</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="c1"># %% Grids and planet</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">27</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos">28</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+<span class="linenos">29</span>    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos">30</span><span class="p">)</span>
+<span class="linenos">31</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="c1"># %% Checks and settings</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_unit</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="linenos">36</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Transmission&quot;</span><span class="p">)</span>
+<span class="linenos">37</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Transmission&quot;</span><span class="p">)</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="c1"># %% Core calculations</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="linenos">42</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="linenos">43</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radianceClearskyTransmission</span><span class="p">()</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># %% Show results</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">)</span>
+<span class="linenos">49</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="linenos">50</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
+<span class="linenos">51</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span><span class="c1"># %% Test</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">56</span>    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+<span class="linenos">57</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos">58</span>        <span class="p">[</span>
+<span class="linenos">59</span>            <span class="p">[</span><span class="mf">3.41938759e-06</span><span class="p">,</span> <span class="mf">7.73629681e-12</span><span class="p">,</span> <span class="mf">1.48466689e-10</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.44007326e-08</span><span class="p">],</span>
+<span class="linenos">60</span>            <span class="p">[</span><span class="mf">1.68296779e-06</span><span class="p">,</span> <span class="mf">6.36563685e-12</span><span class="p">,</span> <span class="mf">1.12515548e-10</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.69027168e-08</span><span class="p">],</span>
+<span class="linenos">61</span>            <span class="p">[</span><span class="mf">6.84951553e-07</span><span class="p">,</span> <span class="mf">5.12567520e-12</span><span class="p">,</span> <span class="mf">7.99195217e-11</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.43179215e-08</span><span class="p">],</span>
+<span class="linenos">62</span>            <span class="p">[</span><span class="mf">1.98252387e-07</span><span class="p">,</span> <span class="mf">4.04809327e-12</span><span class="p">,</span> <span class="mf">5.08300685e-11</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.05374848e-09</span><span class="p">],</span>
+<span class="linenos">63</span>            <span class="p">[</span><span class="mf">2.54316071e-08</span><span class="p">,</span> <span class="mf">3.27476721e-12</span><span class="p">,</span> <span class="mf">2.52886453e-11</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.49105559e-09</span><span class="p">],</span>
+<span class="linenos">64</span>            <span class="p">[</span><span class="mf">3.22328343e-13</span><span class="p">,</span> <span class="mf">1.81363558e-13</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.57708670e-13</span><span class="p">,</span> <span class="mf">7.96334058e-18</span><span class="p">],</span>
+<span class="linenos">65</span>            <span class="p">[</span><span class="mf">2.54531426e-08</span><span class="p">,</span> <span class="mf">3.28073742e-12</span><span class="p">,</span> <span class="mf">2.53293549e-11</span><span class="p">,</span> <span class="mf">1.49570802e-09</span><span class="p">],</span>
+<span class="linenos">66</span>            <span class="p">[</span><span class="mf">1.98544497e-07</span><span class="p">,</span> <span class="mf">4.06121370e-12</span><span class="p">,</span> <span class="mf">5.09832834e-11</span><span class="p">,</span> <span class="mf">6.08600656e-09</span><span class="p">],</span>
+<span class="linenos">67</span>            <span class="p">[</span><span class="mf">6.86339664e-07</span><span class="p">,</span> <span class="mf">5.14925742e-12</span><span class="p">,</span> <span class="mf">8.02667321e-11</span><span class="p">,</span> <span class="mf">1.44210546e-08</span><span class="p">],</span>
+<span class="linenos">68</span>            <span class="p">[</span><span class="mf">1.68722782e-06</span><span class="p">,</span> <span class="mf">6.40330448e-12</span><span class="p">,</span> <span class="mf">1.13148512e-10</span><span class="p">,</span> <span class="mf">2.71412968e-08</span><span class="p">],</span>
+<span class="linenos">69</span>            <span class="p">[</span><span class="mf">3.42964480e-06</span><span class="p">,</span> <span class="mf">7.79200472e-12</span><span class="p">,</span> <span class="mf">1.49486896e-10</span><span class="p">,</span> <span class="mf">4.48616704e-08</span><span class="p">],</span>
+<span class="linenos">70</span>        <span class="p">]</span>
+<span class="linenos">71</span>    <span class="p">),</span>
+<span class="linenos">72</span><span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.getting-started.1-basics.html" class="btn btn-neutral float-left" title="1. Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="doc.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

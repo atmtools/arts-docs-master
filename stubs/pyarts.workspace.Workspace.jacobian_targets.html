@@ -6,7 +6,7 @@
     <link href="../_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>jacobian_targets &mdash; ARTS 2.6.0 documentation</title>
+  <title>jacobian_targets &mdash; ARTS 3.0.0dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -19,14 +19,15 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=ae39cb24"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="lat" href="pyarts.workspace.Workspace.lat.html" />
-    <link rel="prev" title="jacobian_quantities" href="pyarts.workspace.Workspace.jacobian_quantities.html" /> 
+    <link rel="next" title="measurement_vector_sensor" href="pyarts.workspace.Workspace.measurement_vector_sensor.html" />
+    <link rel="prev" title="gravity_operator" href="pyarts.workspace.Workspace.gravity_operator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +43,7 @@
               <img src="../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.6.0
+                3.0.0dev1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -53,18 +54,17 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting.started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workspace.html">The Workspace</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../pyarts.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.arts.html">pyarts.arts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts_ext.html">pyarts.arts_ext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.cat.html">pyarts.cat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.common.html">pyarts.common</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.environment.html">pyarts.environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.hitran.html">pyarts.hitran</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pyarts.parser.html">pyarts.parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.plots.html">pyarts.plots</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.sensor.html">pyarts.sensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.utils.html">pyarts.utils</a></li>
@@ -82,7 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.xml.html">pyarts.xml</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
 </ul>
@@ -119,18 +119,85 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="pyarts.workspace.Workspace.jacobian_targets">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Workspace.</span></span><span class="sig-name descname"><span class="pre">jacobian_targets</span></span><a class="headerlink" href="#pyarts.workspace.Workspace.jacobian_targets" title="Link to this definition"></a></dt>
-<dd><p>The partial derivatives that are computed for the Jacobian matrix.</p>
-<p>An array of jacobian targets for which the Jacobians are
-calculated.</p>
-<p>Usage: Input to absorption agendas.</p>
-<section id="generic-workspace-methods-that-can-generate-or-use-jacobian-targets">
-<h2>Generic workspace methods that can generate or use jacobian_targets<a class="headerlink" href="#generic-workspace-methods-that-can-generate-or-use-jacobian-targets" title="Link to this heading"></a></h2>
-<p>See <a class="reference internal" href="pyarts.arts.ArrayOfJacobianTarget.html#pyarts.arts.ArrayOfJacobianTarget" title="pyarts.arts.ArrayOfJacobianTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfJacobianTarget</span></code></a> and/or <a class="reference internal" href="pyarts.arts.Any.html#pyarts.arts.Any" title="pyarts.arts.Any"><code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.WorkspaceVariable.html#pyarts.arts.WorkspaceVariable" title="pyarts.arts.WorkspaceVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkspaceVariable</span></code></a> - holds type <a class="reference internal" href="pyarts.arts.ArrayOfJacobianTarget.html#pyarts.arts.ArrayOfJacobianTarget" title="pyarts.arts.ArrayOfJacobianTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfJacobianTarget</span></code></a></p>
-</dd>
-</dl>
+<dd><p><a class="reference internal" href="pyarts.arts.JacobianTargets.html#pyarts.arts.JacobianTargets" title="pyarts.arts.JacobianTargets"><code class="xref py py-class docutils literal notranslate"><span class="pre">JacobianTargets</span></code></a> A list of targets for the Jacobian Matrix calculations.</p>
+<section id="default-value">
+<h2>Default value<a class="headerlink" href="#default-value" title="Link to this heading"></a></h2>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>Jacobian targets:
+``</p>
+</section>
+<section id="related-workspace-methods">
+<h2>Related workspace methods<a class="headerlink" href="#related-workspace-methods" title="Link to this heading"></a></h2>
+<section id="input-to">
+<h3>Input to<a class="headerlink" href="#input-to" title="Link to this heading"></a></h3>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromSensor.html#pyarts.workspace.Workspace.measurement_vectorFromSensor" title="pyarts.workspace.Workspace.measurement_vectorFromSensor"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromSensor()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddCIA.html#pyarts.workspace.Workspace.propagation_matrixAddCIA" title="pyarts.workspace.Workspace.propagation_matrixAddCIA"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddCIA()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddFaraday.html#pyarts.workspace.Workspace.propagation_matrixAddFaraday" title="pyarts.workspace.Workspace.propagation_matrixAddFaraday"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddFaraday()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddFromLookup.html#pyarts.workspace.Workspace.propagation_matrixAddFromLookup" title="pyarts.workspace.Workspace.propagation_matrixAddFromLookup"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddFromLookup()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html#pyarts.workspace.Workspace.propagation_matrixAddLines" title="pyarts.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddPredefined.html#pyarts.workspace.Workspace.propagation_matrixAddPredefined" title="pyarts.workspace.Workspace.propagation_matrixAddPredefined"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddPredefined()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddXsecFit.html#pyarts.workspace.Workspace.propagation_matrixAddXsecFit" title="pyarts.workspace.Workspace.propagation_matrixAddXsecFit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddXsecFit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixInit.html#pyarts.workspace.Workspace.propagation_matrixInit" title="pyarts.workspace.Workspace.propagation_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixInit()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaExecute.html#pyarts.workspace.Workspace.propagation_matrix_agendaExecute" title="pyarts.workspace.Workspace.propagation_matrix_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaExecute()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath.html#pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath" title="pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_path_propagation_matrixFromPath()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_spectral_radiance_sourceFromPropmat.html#pyarts.workspace.Workspace.propagation_path_spectral_radiance_sourceFromPropmat" title="pyarts.workspace.Workspace.propagation_path_spectral_radiance_sourceFromPropmat"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_path_spectral_radiance_sourceFromPropmat()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_transmission_matrixFromPath.html#pyarts.workspace.Workspace.propagation_path_transmission_matrixFromPath" title="pyarts.workspace.Workspace.propagation_path_transmission_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_path_transmission_matrixFromPath()</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyBackgroundTransmission()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyEmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyEmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyEmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyEmission()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyTransmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyTransmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyTransmission()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceDefaultTransmission.html#pyarts.workspace.Workspace.spectral_radianceDefaultTransmission" title="pyarts.workspace.Workspace.spectral_radianceDefaultTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceDefaultTransmission()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceSurfaceBlackbody.html#pyarts.workspace.Workspace.spectral_radianceSurfaceBlackbody" title="pyarts.workspace.Workspace.spectral_radianceSurfaceBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceSurfaceBlackbody()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath.html#pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath" title="pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_backgroundAgendasAtEndOfPath()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation.html#pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation" title="pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianAddPathPropagation()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianEmpty.html#pyarts.workspace.Workspace.spectral_radiance_jacobianEmpty" title="pyarts.workspace.Workspace.spectral_radiance_jacobianEmpty"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianEmpty()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agendaExecute.html#pyarts.workspace.Workspace.spectral_radiance_observer_agendaExecute" title="pyarts.workspace.Workspace.spectral_radiance_observer_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_observer_agendaExecute()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaExecute.html#pyarts.workspace.Workspace.spectral_radiance_space_agendaExecute" title="pyarts.workspace.Workspace.spectral_radiance_space_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaExecute()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agendaExecute.html#pyarts.workspace.Workspace.spectral_radiance_surface_agendaExecute" title="pyarts.workspace.Workspace.spectral_radiance_surface_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_surface_agendaExecute()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="modified-by">
+<h3>Modified by<a class="headerlink" href="#modified-by" title="Link to this heading"></a></h3>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddLineParameter.html#pyarts.workspace.Workspace.jacobian_targetsAddLineParameter" title="pyarts.workspace.Workspace.jacobian_targetsAddLineParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddLineParameter()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddMagneticField.html#pyarts.workspace.Workspace.jacobian_targetsAddMagneticField" title="pyarts.workspace.Workspace.jacobian_targetsAddMagneticField"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddMagneticField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddPressure.html#pyarts.workspace.Workspace.jacobian_targetsAddPressure" title="pyarts.workspace.Workspace.jacobian_targetsAddPressure"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddPressure()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio.html#pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio" title="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddSpeciesIsotopologueRatio()</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesVMR.html#pyarts.workspace.Workspace.jacobian_targetsAddSpeciesVMR" title="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesVMR"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddSpeciesVMR()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddTemperature.html#pyarts.workspace.Workspace.jacobian_targetsAddTemperature" title="pyarts.workspace.Workspace.jacobian_targetsAddTemperature"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddTemperature()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddWindField.html#pyarts.workspace.Workspace.jacobian_targetsAddWindField" title="pyarts.workspace.Workspace.jacobian_targetsAddWindField"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsAddWindField()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsFinalize.html#pyarts.workspace.Workspace.jacobian_targetsFinalize" title="pyarts.workspace.Workspace.jacobian_targetsFinalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsFinalize()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="output-from">
+<h3>Output from<a class="headerlink" href="#output-from" title="Link to this heading"></a></h3>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsInit.html#pyarts.workspace.Workspace.jacobian_targetsInit" title="pyarts.workspace.Workspace.jacobian_targetsInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">jacobian_targetsInit()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+</section>
+<section id="related-workspace-variables">
+<h2>Related workspace variables<a class="headerlink" href="#related-workspace-variables" title="Link to this heading"></a></h2>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_spectral_radiance_jacobian.html#pyarts.workspace.Workspace.propagation_path_spectral_radiance_jacobian" title="pyarts.workspace.Workspace.propagation_path_spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_spectral_radiance_jacobian</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_spectral_radiance_source_jacobian.html#pyarts.workspace.Workspace.propagation_path_spectral_radiance_source_jacobian" title="pyarts.workspace.Workspace.propagation_path_spectral_radiance_source_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_spectral_radiance_source_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_transmission_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_path_transmission_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_path_transmission_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_transmission_matrix_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_background_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_background_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_background_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_background_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a></p></li>
+</ul>
+</td></tr></table>
 </section>
 </dd></dl>
 
@@ -140,8 +207,8 @@ calculated.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pyarts.workspace.Workspace.jacobian_quantities.html" class="btn btn-neutral float-left" title="jacobian_quantities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pyarts.workspace.Workspace.lat.html" class="btn btn-neutral float-right" title="lat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pyarts.workspace.Workspace.gravity_operator.html" class="btn btn-neutral float-left" title="gravity_operator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.measurement_vector_sensor.html" class="btn btn-neutral float-right" title="measurement_vector_sensor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

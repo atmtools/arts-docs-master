@@ -9,7 +9,6 @@ It will take you through the following concepts:
 3. Loading data from files
 4. Running methods using the workspace
 5. Create a custom Agenda
-6. Convert an existing ARTS controlfile
 
 1. Create a workspace
 ---------------------
@@ -31,7 +30,7 @@ all pyarts simulations.
     
     # That's it. You have created a Workspace. You can now use it to run
     # simulations. For example, you can run the ARTS Hello World example:
-    ws.Print("Hello, World!", 0)
+    print("Hello, World!\n", ws)
     
 2. Setting workspace variables
 ------------------------------
@@ -58,29 +57,14 @@ of our constructors make pythonic sense
     It is necessary to create an index object first, since the workspace
     variable must know the type.
     """
-    ws.example_index = pyarts.arts.Index(1)
-    print("Should contain 1:           ", ws.example_index)
+    ws.ind = pyarts.arts.Index(1)
+    print("Should contain 1:           ", ws.ind)
     
     """
     Once an index exist on the workspace, you can set it directly from int.
     """
-    ws.example_index = 2
-    print("Should contain 2:           ", ws.example_index)
-    
-    """
-    There are several predefined indices in ARTS.  For example, the ybatch_index.
-    You do not have to create an object for these as the type is already known.
-    """
-    ws.ybatch_index = 3
-    print("Should contain 3:           ", ws.ybatch_index)
-    
-    
-    """
-    Lastly, there exist a workspace method to set indices.  To-date, this is
-    the only way to set the value of indices inside an Agenda.
-    """
-    ws.IndexSet(ws.ybatch_index, 4)
-    print("Should contain 4:           ", ws.ybatch_index)
+    ws.ind = 2
+    print("Should contain 2:           ", ws.ind)
     
     
     """
@@ -89,44 +73,40 @@ of our constructors make pythonic sense
     from any python object that has a corresponding ARTS type.  For
     example, you can set a string from a python string, a matrix from a
     numpy array, etc.
-    
-    All of the variables below are initialization-time known workspace variables,
-    so there is no need to create the corresponding pyarts class instance first.
     """
     
     # Numeric
-    ws.g0 = 9.81  # from builtin float
-    print("Should contain 9.81:        ", ws.g0)
+    ws.num = pyarts.arts.Numeric(9.81)  # from builtin float
+    print("Should contain 9.81:        ", ws.num)
     
-    ws.g0 = 10   # from builtin int
-    print("Should contain 10:          ", ws.g0)
+    ws.num = 10   # from builtin int
+    print("Should contain 10:          ", ws.num)
     
-    ws.g0 = np.float64(9.81)  # from numpy float
-    print("Should contain 9.81, again: ", ws.g0)
+    ws.num = np.float64(9.81)  # from numpy float
+    print("Should contain 9.81, again: ", ws.num)
     
+    # Numeric
+    ws.str = pyarts.arts.String("hello")  # from builtin str
+    print("Should contain 'hello':     ", ws.str)
     
-    # String
-    ws.iy_unit = "dB"  # from builtin str
-    print("Should contain dB:          ", ws.iy_unit)
-    
-    ws.iy_unit = b'avc'  # from builtin bytes
-    print("Should contain avc:         ", ws.iy_unit)
+    ws.str = b"ARTS"  # from bytes
+    print("Should contain 'ARTS':      ", ws.str)
     
     
     # Vector
-    ws.f_grid = [1, 2, 3]  # from builtin list
-    print("Should contain 1 2 3:       ", ws.f_grid)
+    ws.vec = pyarts.arts.Vector([1, 2, 3])  # from builtin list
+    print("Should contain 1 2 3:       ", ws.vec)
     
-    ws.f_grid = np.array([4, 5, 6])  # from numpy array
-    print("Should contain 4 5 6:       ", ws.f_grid)
+    ws.vec = np.array([4, 5, 6])  # from numpy array
+    print("Should contain 4 5 6:       ", ws.vec)
     
     
     # Matrix
-    ws.iy = [[1, 2], [3, 4]]  # from builtin list
-    print("Should contain\n 1 2\n3 4:\n", ws.iy)
+    ws.mat = pyarts.arts.Matrix([[1, 2], [3, 4]])  # from builtin list
+    print("Should contain\n 1 2\n3 4:\n", ws.mat)
     
-    ws.iy = np.array([[5, 6], [7, 8]])  # from numpy array
-    print("Should contain\n 5 6\n7 8:\n", ws.iy)
+    ws.mat = np.array([[5, 6], [7, 8]])  # from numpy array
+    print("Should contain\n 5 6\n7 8:\n", ws.mat)
     
     """
     Many more types are supported.  Please look at the documentation of the
@@ -136,12 +116,10 @@ of our constructors make pythonic sense
     # TESTING
     # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
     # THE CONTENT OF THE VARIABLES ARE GOOD.
-    assert np.isclose(ws.example_index.value.value, 2)
-    assert np.isclose(ws.ybatch_index.value.value, 4)
-    assert np.isclose(ws.g0.value.value, 9.81)
-    assert ws.iy_unit.value == "avc"
-    assert np.allclose(ws.f_grid.value, [4, 5, 6])
-    assert np.allclose(ws.iy.value, [[5, 6], [7, 8]])
+    assert np.isclose(ws.ind, 2)
+    assert np.isclose(ws.num, 9.81)
+    assert np.allclose(ws.vec, [4, 5, 6])
+    assert np.allclose(ws.mat, [[5, 6], [7, 8]])
     # END TESTING
     
 3. Loading data from file
@@ -199,31 +177,26 @@ This example shows how to load data from a file into a workspace variable.
     pyarts.arts.globals.parameters.datapath.append("/my_data")
     print("ARTS search paths:", pyarts.arts.globals.parameters.datapath)
     
+    
+    """
+    The following examples assumes that you have a copy of the arts-cat-data
+    and arts-xml-data repositories in the search paths.  If you do not have
+    these, you can download them from: https://www.radiativetransfer.org/tools/
+    
+    It demonstrates different ways that you can load data from a file into
+    the workspace.  There is no "best" way to do this, it depends on the
+    context, and what you find most readable.
+    """
+    
+    # FIXME
+    # Call the WorkspaceVariable member method "readxml" to load data from file
+    # ws.abs_lines.readxml("lines/O2-66.xml")
+    
     # TESTING
     # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
     # THE CONTENT OF THE VARIABLES ARE GOOD.
     assert pyarts.arts.globals.parameters.datapath.index("/my_data")
     # END TESTING
-    
-    """
-    The following examples assume that you have a copy of the arts-cat-data
-    and arts-xml-data repositories in the search paths.
-    
-    The easiest way to get the correct catalogs for your current ARTS version is
-    by calling the `pyarts.cat.download.retrieve` function.
-    The function will not only download the catalogs, but also set the search path
-    to the download location (default is `~/.cache/arts/`).
-    
-    There are different ways to load data from a file into the workspace.
-    There is no "best" way to do this, it depends on the context, and what you find
-    most readable.
-    """
-    
-    # Download ARTS catalogs matching the current pyarts version
-    pyarts.cat.download.retrieve()
-    
-    # Call the WorkspaceVariable member method "readxml" to load data from file
-    ws.abs_lines.readxml("lines/O2-66.xml")
     
 4. Running a workspace method
 -----------------------------
@@ -248,51 +221,32 @@ explain some details.
     """
     example_index = pyarts.arts.Index(1)
     ws.example_index = example_index
-    ws.Print(example_index, 0)
-    ws.Print(ws.example_index, 0)
+    print(example_index)
+    print(ws.example_index)
     print(type(ws.example_index), type(example_index))
     
     """
-    You can call workspace methods with named or unnamed arguments or any combination
-    thereof that python accepts
+    You can call workspace methods with named or positional arguments or any
+    combination thereof that python accepts
     """
-    ws.iy_space_agendaSet(ws.iy_space_agenda, "CosmicBackground") # Unnamed
-    ws.iy_space_agendaSet(ws.iy_space_agenda, option="CosmicBackground") # Mixed
-    ws.iy_space_agendaSet(option="CosmicBackground", iy_space_agenda=ws.iy_space_agenda) # Named
-    
-    
-    """
-    All arguments that the method marks as output can be omitted.  The
-    following are equivalent:
-    """
-    ws.iy_space_agendaSet(ws.iy_space_agenda, option="CosmicBackground")
-    ws.iy_space_agendaSet(option="CosmicBackground") # Omitted iy_space_agenda
-    
-    """
-    All arguments that are marked as input must be provided.  An alternative
-    way to provide input arguments is to set the corresponding workspace
-    variable before calling the method.  The following are equivalent:
-    """
-    ws.z_surfaceConstantAltitude(lat_grid=[0, 1, 2], lon_grid=[3, 4, 5])
-    print("A 3-by-3 matrix of zeroes:\n", ws.z_surface)
-    ws.lat_grid = [0, 1, 2]
-    ws.lon_grid = [3, 4, 5]
-    ws.z_surfaceConstantAltitude()
-    print("A 3-by-3 matrix of zeroes:\n", ws.z_surface)
-    
-    """
-    Some methods take input arguments that do not have a corresponding
-    workspace variable.  These arguments may have a default value, or they
-    may be required.  The following is equivalent to the last call of z_surfaceConstantAltitude:
-    """
-    ws.z_surfaceConstantAltitude(altitude=0)
-    print("A 3-by-3 matrix of zeroes:\n", ws.z_surface)
-    
-    # TESTING
-    # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
-    # THE CONTENT OF THE VARIABLES ARE GOOD.
-    assert (ws.z_surface.value == 0).all()
-    # END TESTING
+    # 1)  Name some arguments
+    ws.spectral_radiance_space_agendaSet(
+        option="UniformCosmicBackground"
+    )
+    # 2)  Name some arguments, use positional for the others
+    ws.spectral_radiance_space_agendaSet(
+        ws.spectral_radiance_space_agenda,
+        option="UniformCosmicBackground",
+    )
+    # 3)  Name all arguments
+    ws.spectral_radiance_space_agendaSet(
+        spectral_radiance_space_agenda=ws.spectral_radiance_space_agenda,
+        option="UniformCosmicBackground",
+    )
+    # 4)  Use all positional arguments
+    ws.spectral_radiance_space_agendaSet(
+        ws.spectral_radiance_space_agenda, "UniformCosmicBackground"
+    )
     
 5. Create an agenda
 -------------------
@@ -314,7 +268,7 @@ This will explain how to create an agenda and set it on the workspace.
     """
     Agendas are a collection of functions that define the simulation
     of some core component.  For example, the iy_space_agenda defines
-    how the radiative transfer equation receives radiation from a 
+    how the radiative transfer equation receives radiation from a
     background of space --- commonly just the cosmic background radiation.
     
     These Agendas are defined from a set of common inputs and outputs.
@@ -328,128 +282,66 @@ This will explain how to create an agenda and set it on the workspace.
     this method call can do it for you, and it will probably do
     it faster and safer than any manual approach:
     """
-    ws.iy_space_agendaSet(option="CosmicBackground")
+    ws.spectral_radiance_space_agendaSet(
+        option="UniformCosmicBackground"
+    )
     
     """
     That said, we provide interpreted ways to create agendas manually.
     The cosmic background radiation agenda of the method call above
     can be created by the following, decorated code:
     """
+    
+    
     @pyarts.workspace.arts_agenda
     def cosmic_background(ws):
-        ws.MatrixCBR(output=ws.iy, f=ws.f_grid)
-        ws.Ignore(ws.rtp_pos)
-        ws.Ignore(ws.rtp_los)
-    ws.iy_space_agenda = cosmic_background
-    print("cosmic_background:", type(cosmic_background))
-    print("ws.iy_space_agenda:", type(ws.iy_space_agenda.value))
+        ws.spectral_radianceUniformCosmicBackground(
+            spectral_radiance=ws.spectral_radiance,
+            frequency_grid=ws.frequency_grid,
+        )
+        ws.spectral_radiance_jacobianEmpty()
+        ws.Ignore(ws.propagation_path_point)
+    
+    
+    ws.spectral_radiance_space_agenda = cosmic_background
+    print(cosmic_background)
+    print(ws.spectral_radiance_space_agenda)
+    
     
     """
     The local namespace of your python instance will now contain
-    the variable "cosmic_background".  This is of type DelayedAgenda.
+    the variable "cosmic_background".  This is of type Agenda but is unchecked.
     The assignment to "ws.iy_space_agenda" will cause the agenda to
-    be created and set on the workspace.  DelayedAgenda:s are useful
-    when you want to set up your agendas independently of the workspace.
+    be created, set, and checked on the current workspace.  This checking might
+    fail if, for instance, a required input or output is missing.
     
-    It is possible to create an actual Agenda object by naming the
-    workspace input as a named-argument to the decorator:
+    It is possible to create a checked agenda that lives on the both the python
+    and on the pyarts workspace by specifying which workspace it should be set
+    on as a named argument to the agenda decorator:
     """
+    
+    
     @pyarts.workspace.arts_agenda(ws=ws)
-    def cosmic_background_instant(ws):
-        ws.MatrixCBR(output=ws.iy, f=ws.f_grid)
-        ws.Ignore(ws.rtp_pos)
-        ws.Ignore(ws.rtp_los)
-    ws.iy_space_agenda = cosmic_background_instant
-    print("cosmic_background_instant:", type(cosmic_background_instant))
+    def spectral_radiance_space_agenda(ws):
+        ws.spectral_radianceUniformCosmicBackground()
+        ws.spectral_radiance_jacobianEmpty()
+        ws.Ignore(ws.propagation_path_point)
+    
+    
+    print(spectral_radiance_space_agenda)
+    print(ws.spectral_radiance_space_agenda)
     
     """
-    The "cosmic_background_instant" variable is now an Agenda instance and
-    can be used only with the named workspace instance.
-    
-    You can also just set the agenda to the workspace directly by providing
-    the "set_agenda=True" argument to the decorator:
-    """
-    @pyarts.workspace.arts_agenda(ws=ws, set_agenda=True)
-    def cosmic_background_set(ws):
-        ws.MatrixCBR(output=ws.iy, f=ws.f_grid)
-        ws.Ignore(ws.rtp_pos)
-        ws.Ignore(ws.rtp_los)
-    ws.iy_space_agenda = cosmic_background_set
-    print("ws.cosmic_background_set:", type(ws.cosmic_background_set.value))
-    
-    """
-    Now the type of the "cosmic_background_set" variable is actually a
-    WorkspaceVariable, it lives already on the workspace and it has
-    defined "ws.cosmic_background_set".  Note that this is not very
-    useful as Agenda:s must be named properly to work in Arts.  Their
-    names themselves carry a lot of meaning for the internal controlflow.
-    
-    
-    In fact, it is better to simply name the decorated function
-    "iy_space_agenda" as this will cause the agenda to be set on
-    the workspace automatically:
-    """
-    @pyarts.workspace.arts_agenda(ws=ws, set_agenda=True)
-    def iy_space_agenda(ws):
-        ws.MatrixCBR(output=ws.iy, f=ws.f_grid)
-        ws.Ignore(ws.rtp_pos)
-        ws.Ignore(ws.rtp_los)
-    
-    """
-    Finally, it is not possible by default to create an agenda that
-    calls pure python functions.  This is because the agenda must
-    know its inputs and outputs.  If you really want an agenda that
-    can call pure python functions, you can do it by providing the
-    "allow_callbacks=True" argument to the decorator:
-    """
-    @pyarts.workspace.arts_agenda(ws=ws, set_agenda=True, allow_callbacks=True)
-    def iy_space_agenda(ws):
-        print("Running iy_space_agenda")
-        ws.MatrixCBR(output=ws.iy, f=ws.f_grid)
-        ws.Ignore(ws.rtp_pos)
-        ws.Ignore(ws.rtp_los)
-    
-    """
-    Note that this is not recommended, as it is not possible to isolate inputs
-    from outputs when callbacks are involved.  This means that the agenda
-    above may leak any changes it does to the workspace to the outside world.
-    
-    The whole point of the Agenda system is to control the inputs and outputs
-    of the simulation, so it is not recommended to make use of this feature
-    as it is too powerful in scope.
+    Lastly, an advanced feature to skip typing ignores is to tell the property to
+    deal with this for you by fixing the agenda.  Note that this might give you bad
+    results if the agenda is ever changed in a future update of ARTS as the method
+    will simply append all new input.  Still, it is convenient:
     """
     
-6. Convert controlfile
-----------------------
-To take a legacy ARTS controlfile (``.arts`` file) as a starting point, you can use the ``arts_convert.py`` script to convert it to a Python script. The script is included with the conda package and should be available in your path. For example:
-
-.. code-block:: bash
-
-    arts_convert.py mycontrolfile.arts
-
-This will create a Python script called ``mycontrolfile.py`` which you can then edit and run.
-
-.. warning::
-    Before converting your controlfile, make sure it is compatible with the current version of ARTS. Otherwise, the conversion may fail.
-
-ARTS Controlfile:
-
-.. code-block:: ruby
-
-    Arts2 {
-        VectorNLinSpace( f_grid, 5, 320e9, 322e9 )
-    }
-
-Python conversion:
-
-.. code-block:: python
-    :name: 6. Convert controlfile
-    :linenos:
-
+    @pyarts.workspace.arts_agenda(ws=ws, fix=True)
+    def spectral_radiance_space_agenda(ws):
+        ws.spectral_radianceUniformCosmicBackground()
+        ws.spectral_radiance_jacobianEmpty()
     
-    import numpy as np
-    import pyarts
-    from pyarts.workspace import Workspace, arts_agenda
-    ws = Workspace(verbosity=0)
-    ws.VectorNLinSpace(ws.f_grid, 5, 320000000000.0, 322000000000.0)
+    print(spectral_radiance_space_agenda)
     

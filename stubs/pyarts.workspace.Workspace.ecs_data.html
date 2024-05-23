@@ -6,7 +6,7 @@
     <link href="../_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ecs_data &mdash; ARTS 2.6.0 documentation</title>
+  <title>ecs_data &mdash; ARTS 3.0.0dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -19,14 +19,15 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=ae39cb24"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ext_mat" href="pyarts.workspace.Workspace.ext_mat.html" />
-    <link rel="prev" title="dxdy" href="pyarts.workspace.Workspace.dxdy.html" /> 
+    <link rel="next" title="frequency_grid" href="pyarts.workspace.Workspace.frequency_grid.html" />
+    <link rel="prev" title="background_transmittance" href="pyarts.workspace.Workspace.background_transmittance.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +43,7 @@
               <img src="../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.6.0
+                3.0.0dev1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -53,18 +54,17 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting.started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workspace.html">The Workspace</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../pyarts.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.arts.html">pyarts.arts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pyarts.arts_ext.html">pyarts.arts_ext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.cat.html">pyarts.cat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.common.html">pyarts.common</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.environment.html">pyarts.environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.hitran.html">pyarts.hitran</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pyarts.parser.html">pyarts.parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.plots.html">pyarts.plots</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.sensor.html">pyarts.sensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.utils.html">pyarts.utils</a></li>
@@ -82,7 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.xml.html">pyarts.xml</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pdf_guides.html">PDF Guide Documents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
 </ul>
@@ -119,56 +119,39 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="pyarts.workspace.Workspace.ecs_data">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Workspace.</span></span><span class="sig-name descname"><span class="pre">ecs_data</span></span><a class="headerlink" href="#pyarts.workspace.Workspace.ecs_data" title="Link to this definition"></a></dt>
-<dd><p>Error corrected sudden data</p>
-<p>Dimensions: [num IDs] [num Species]</p>
-<dl class="simple">
-<dt>It is used for absorption bands with these population tags:</dt><dd><ul class="simple">
-<li><p>ByMakarovFullRelmat</p></li>
-<li><p>ByRovibLinearDipoleLineMixing</p></li>
+<dd><p><a class="reference internal" href="pyarts.arts.LinemixingEcsData.html#pyarts.arts.LinemixingEcsData" title="pyarts.arts.LinemixingEcsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinemixingEcsData</span></code></a> Error corrected sudden data</p>
+<p>Dimensions: [num Isotopologues] [num Species]</p>
+<p>Used in line-by-line calculations requiring ECS data.</p>
+<section id="default-value">
+<h2>Default value<a class="headerlink" href="#default-value" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyarts.arts.LinemixingEcsData()</span></code></p>
+</section>
+<section id="related-workspace-methods">
+<h2>Related workspace methods<a class="headerlink" href="#related-workspace-methods" title="Link to this heading"></a></h2>
+<section id="input-to">
+<h3>Input to<a class="headerlink" href="#input-to" title="Link to this heading"></a></h3>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html#pyarts.workspace.Workspace.propagation_matrixAddLines" title="pyarts.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a></p></li>
 </ul>
-</dd>
-</dl>
-<section id="workspace-methods-that-can-generate-ecs-data">
-<h2>Workspace methods that can generate ecs_data<a class="headerlink" href="#workspace-methods-that-can-generate-ecs-data" title="Link to this heading"></a></h2>
+</td></tr></table>
+</section>
+<section id="modified-by">
+<h3>Modified by<a class="headerlink" href="#modified-by" title="Link to this heading"></a></h3>
 <table class="hlist"><tr><td><ul class="simple">
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMakarov2020.html#pyarts.workspace.Workspace.ecs_dataAddMakarov2020" title="pyarts.workspace.Workspace.ecs_dataAddMakarov2020"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddMakarov2020()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMeanAir.html#pyarts.workspace.Workspace.ecs_dataAddMeanAir" title="pyarts.workspace.Workspace.ecs_dataAddMeanAir"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddMeanAir()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddRodrigues1997.html#pyarts.workspace.Workspace.ecs_dataAddRodrigues1997" title="pyarts.workspace.Workspace.ecs_dataAddRodrigues1997"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddRodrigues1997()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddSpeciesData.html#pyarts.workspace.Workspace.ecs_dataAddSpeciesData" title="pyarts.workspace.Workspace.ecs_dataAddSpeciesData"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddSpeciesData()</span></code></a></p></li>
-</ul>
-</td><td><ul class="simple">
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddTran2006.html#pyarts.workspace.Workspace.ecs_dataAddTran2006" title="pyarts.workspace.Workspace.ecs_dataAddTran2006"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddTran2006()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddTran2011.html#pyarts.workspace.Workspace.ecs_dataAddTran2011" title="pyarts.workspace.Workspace.ecs_dataAddTran2011"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddTran2011()</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="output-from">
+<h3>Output from<a class="headerlink" href="#output-from" title="Link to this heading"></a></h3>
+<table class="hlist"><tr><td><ul class="simple">
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataInit.html#pyarts.workspace.Workspace.ecs_dataInit" title="pyarts.workspace.Workspace.ecs_dataInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataInit()</span></code></a></p></li>
 </ul>
 </td></tr></table>
 </section>
-<section id="workspace-methods-that-require-ecs-data">
-<h2>Workspace methods that require ecs_data<a class="headerlink" href="#workspace-methods-that-require-ecs-data" title="Link to this heading"></a></h2>
-<table class="hlist"><tr><td><ul class="simple">
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.abs_linesAdaptOnTheFlyLineMixing.html#pyarts.workspace.Workspace.abs_linesAdaptOnTheFlyLineMixing" title="pyarts.workspace.Workspace.abs_linesAdaptOnTheFlyLineMixing"><code class="xref py py-func docutils literal notranslate"><span class="pre">abs_linesAdaptOnTheFlyLineMixing()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.abs_lines_per_speciesAdaptOnTheFlyLineMixing.html#pyarts.workspace.Workspace.abs_lines_per_speciesAdaptOnTheFlyLineMixing" title="pyarts.workspace.Workspace.abs_lines_per_speciesAdaptOnTheFlyLineMixing"><code class="xref py py-func docutils literal notranslate"><span class="pre">abs_lines_per_speciesAdaptOnTheFlyLineMixing()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMakarov2020.html#pyarts.workspace.Workspace.ecs_dataAddMakarov2020" title="pyarts.workspace.Workspace.ecs_dataAddMakarov2020"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddMakarov2020()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMeanAir.html#pyarts.workspace.Workspace.ecs_dataAddMeanAir" title="pyarts.workspace.Workspace.ecs_dataAddMeanAir"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddMeanAir()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddRodrigues1997.html#pyarts.workspace.Workspace.ecs_dataAddRodrigues1997" title="pyarts.workspace.Workspace.ecs_dataAddRodrigues1997"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddRodrigues1997()</span></code></a></p></li>
-</ul>
-</td><td><ul class="simple">
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddSpeciesData.html#pyarts.workspace.Workspace.ecs_dataAddSpeciesData" title="pyarts.workspace.Workspace.ecs_dataAddSpeciesData"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddSpeciesData()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddTran2006.html#pyarts.workspace.Workspace.ecs_dataAddTran2006" title="pyarts.workspace.Workspace.ecs_dataAddTran2006"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddTran2006()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddTran2011.html#pyarts.workspace.Workspace.ecs_dataAddTran2011" title="pyarts.workspace.Workspace.ecs_dataAddTran2011"><code class="xref py py-func docutils literal notranslate"><span class="pre">ecs_dataAddTran2011()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixing.html#pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixing" title="pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixing"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyAddOnTheFlyLineMixing()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixingWithZeeman.html#pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixingWithZeeman" title="pyarts.workspace.Workspace.propmat_clearskyAddOnTheFlyLineMixingWithZeeman"><code class="xref py py-func docutils literal notranslate"><span class="pre">propmat_clearskyAddOnTheFlyLineMixingWithZeeman()</span></code></a></p></li>
-</ul>
-</td></tr></table>
-</section>
-<section id="generic-workspace-methods-that-can-generate-or-use-ecs-data">
-<h2>Generic workspace methods that can generate or use ecs_data<a class="headerlink" href="#generic-workspace-methods-that-can-generate-or-use-ecs-data" title="Link to this heading"></a></h2>
-<p>See <a class="reference internal" href="pyarts.arts.MapOfErrorCorrectedSuddenData.html#pyarts.arts.MapOfErrorCorrectedSuddenData" title="pyarts.arts.MapOfErrorCorrectedSuddenData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapOfErrorCorrectedSuddenData</span></code></a> and/or <a class="reference internal" href="pyarts.arts.Any.html#pyarts.arts.Any" title="pyarts.arts.Any"><code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.WorkspaceVariable.html#pyarts.arts.WorkspaceVariable" title="pyarts.arts.WorkspaceVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkspaceVariable</span></code></a> - holds type <a class="reference internal" href="pyarts.arts.MapOfErrorCorrectedSuddenData.html#pyarts.arts.MapOfErrorCorrectedSuddenData" title="pyarts.arts.MapOfErrorCorrectedSuddenData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapOfErrorCorrectedSuddenData</span></code></a></p>
-</dd>
-</dl>
 </section>
 </dd></dl>
 
@@ -178,8 +161,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pyarts.workspace.Workspace.dxdy.html" class="btn btn-neutral float-left" title="dxdy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pyarts.workspace.Workspace.ext_mat.html" class="btn btn-neutral float-right" title="ext_mat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pyarts.workspace.Workspace.background_transmittance.html" class="btn btn-neutral float-left" title="background_transmittance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.frequency_grid.html" class="btn btn-neutral float-right" title="frequency_grid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
