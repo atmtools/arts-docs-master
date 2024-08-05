@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use of std::formatter&lt;T&gt; &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="ARTS Classes and Structs" href="develop.classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Use of std::formatter&lt;T&gt;</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-does-it-achieve">What does it achieve?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-is-it-implemented">How is it implemented?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-formatter-options-are-available">What formatter options are available?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-do-you-need-to-think-about-when-implementing-a-formatter">What do you need to think about when implementing a formatter?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="develop.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="develop.classes.html">ARTS Classes and Structs</a></li>
+      <li class="breadcrumb-item active">Use of std::formatter&lt;T&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/develop.classes.formatter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="use-of-std-formatter-t">
+<h1>Use of std::formatter&lt;T&gt;<a class="headerlink" href="#use-of-std-formatter-t" title="Link to this heading"></a></h1>
+<section id="what-does-it-achieve">
+<h2>What does it achieve?<a class="headerlink" href="#what-does-it-achieve" title="Link to this heading"></a></h2>
+<p>We use formatters to allow converting ARTS classes to strings in a consistent way.
+This has some main uses:</p>
+<ol class="arabic simple">
+<li><p>See the content of the types in python using <cite>__repr__</cite>, <cite>__str__</cite>, or <cite>print</cite>.
+Using formatters instead of stream operators is not just faster, but also
+more consistent.  And it allows us to specialize the formatting for each
+object using the python <cite>__format__</cite> interface to control some aspects of
+how the output looks.</p></li>
+<li><p>Calls to <cite>std::format</cite> inside the C++ code can be used to format strings
+in a consistent way.  This is especially useful for logging and debugging,
+and may even be used in the XML IO code when <cite>std::print</cite> is available.</p></li>
+</ol>
+</section>
+<section id="how-is-it-implemented">
+<h2>How is it implemented?<a class="headerlink" href="#how-is-it-implemented" title="Link to this heading"></a></h2>
+<p>Most ARTS classes should provide a <cite>std::formatter&lt;T&gt;</cite> specialization to allow
+formatting of the class using <cite>fmt::format</cite> and its ilks.
+The only exceptions are those groups that are marked as <cite>value_type</cite> in the
+workspace groups definition.</p>
+<p>This is done by
+specialization of the <cite>std::formatter&lt;T&gt;</cite> class template for the class in
+question. The following is an outline of meta-code
+for the specialization of this class that
+must exist for most ARTS classes:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-number">Listing 7 </span><span class="caption-text">Meta code for formatting ARTS classes to strings</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
+<span class="linenos"> 2</span><span class="k">struct</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">formatter</span><span class="o">&lt;</span><span class="n">ARTSTYPE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">MetaData</span><span class="p">...;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">();</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">);</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">FmtContext</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ARTSTYPE</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="linenos">12</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>This specialization must live on the top-level namespace (otherwise it does not work).</p>
+<p>The only two functions that are actually needed for the class to be
+formattable are <cite>format</cite> and <cite>parse</cite>.  The rest are helper functions and data that
+allow us to make the format across multiple ARTS classes compatible.
+The implementation of <cite>format</cite> is also specific to the class in question,
+so its potential implementations will not be discussed here in details,
+but examples and best-practices will be given.</p>
+<p>The <cite>MetaData</cite> is a placeholder for additional data that the class needs to store
+to be formatted.  For sake of sanity in the code, it is recommended that this data
+is either another <cite>std::formatter&lt;T&gt; fmt;</cite> or a <cite>format_tags tags;</cite> object, as explicitly named.
+Any other names or more options are discouraged as it will break cross-class compatibility.
+Only these two options are discussed here.</p>
+<p>If your class’s <cite>MetaData</cite> is <cite>std::formatter&lt;T&gt; fmt;</cite> then the following is the recommended implementation:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-number">Listing 8 </span><span class="caption-text">Meta code for formatting ARTS classes that inherit a formatter</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
+<span class="linenos"> 2</span><span class="k">struct</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">formatter</span><span class="o">&lt;</span><span class="n">ARTSTYPE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">formatter</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fmt</span><span class="p">;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="n">fmt</span><span class="p">.</span><span class="n">inner_fmt</span><span class="p">();}</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="n">fmt</span><span class="p">.</span><span class="n">inner_fmt</span><span class="p">();}</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">parse</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="n">fmt</span><span class="p">.</span><span class="n">inner_fmt</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="n">ctx</span><span class="p">);}</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">FmtContext</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ARTSTYPE</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="linenos">12</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>If your class’s <cite>MetaData</cite> is <cite>format_tags tags;</cite> then the following is the recommended implementation:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-number">Listing 9 </span><span class="caption-text">Meta code for formatting ARTS classes that owns a formatter</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
+<span class="linenos"> 2</span><span class="k">struct</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">formatter</span><span class="o">&lt;</span><span class="n">ARTSTYPE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">format_tags</span><span class="w"> </span><span class="n">tags</span><span class="p">;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;}</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inner_fmt</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;}</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">parse</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">format_parse_context</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">parse_format_tags</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="n">ctx</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">FmtContext</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ARTSTYPE</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="linenos">12</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>The above ensures that there exists at most one <cite>tags</cite> object for each class, and that
+the <cite>tags</cite> object is the only object that needs to be passed around to ensure compatibility.</p>
+</section>
+<section id="what-formatter-options-are-available">
+<h2>What formatter options are available?<a class="headerlink" href="#what-formatter-options-are-available" title="Link to this heading"></a></h2>
+<p>The following options are available for the <cite>format_tags</cite> object:</p>
+<ol class="arabic simple">
+<li><p><cite>bracket</cite>. Activated by the <cite>B</cite> character in the format string.</p></li>
+<li><p><cite>short_str</cite>. Activated by the <cite>s</cite> character in the format string.</p></li>
+<li><p><cite>comma</cite>. Activated by the <cite>,</cite> character in the format string.</p></li>
+<li><p><cite>names</cite>. Activated by the <cite>N</cite> character in the format string.</p></li>
+</ol>
+<p>The default formatting string given to <cite>__str__</cite> is <cite>{:NB,}</cite> and the default
+formatting string given to <cite>__repr__</cite> is <cite>{:sNB,}</cite>.</p>
+<p>What a type will do with these options is up to the type itself.</p>
+</section>
+<section id="what-do-you-need-to-think-about-when-implementing-a-formatter">
+<h2>What do you need to think about when implementing a formatter?<a class="headerlink" href="#what-do-you-need-to-think-about-when-implementing-a-formatter" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Calling the <cite>format_tags</cite> object’s <cite>format</cite> method is an efficient way
+to chain formatting calls together</p></li>
+</ol>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-number">Listing 10 </span><span class="caption-text">Example of chaining formatting calls</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">FmtContext</span><span class="o">&gt;</span>
+<span class="linenos">2</span><span class="n">FmtContext</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ARTSTYPE</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">FmtContext</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">3</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">sep</span><span class="p">();</span>
+<span class="linenos">4</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">m1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">m2</span><span class="p">);</span>
+<span class="linenos">5</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Whenever you format in a <cite>const char *</cite>, that is anything in C++ that is directly
+written <cite>“I am a const char *”</cite>, there will be a resulting <cite>‘0’</cite> character included
+in the formatted string.  This will cause problems if you intend to copy-paste the
+screen output, as the <cite>‘0’</cite> character will not be visible but there anyways.
+To avoid this, use <cite>std::string_view</cite> instead of <cite>const char *</cite> whenever possible.
+The easiest way to to this is simply to write <cite>“I am a string_view”sv</cite>, as the <cite>sv</cite>
+makes it a <cite>std::string_view</cite> and avoids copying the last <cite>‘0’</cite> character.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="develop.classes.html" class="btn btn-neutral float-left" title="ARTS Classes and Structs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

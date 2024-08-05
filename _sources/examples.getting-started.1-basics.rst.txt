@@ -188,14 +188,14 @@ This example shows how to load data from a file into a workspace variable.
     context, and what you find most readable.
     """
     
-    # FIXME
     # Call the WorkspaceVariable member method "readxml" to load data from file
-    # ws.abs_lines.readxml("lines/O2-66.xml")
+    ws.absorption_bands.readxml("lines/O2-66.xml")
     
     # TESTING
     # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
     # THE CONTENT OF THE VARIABLES ARE GOOD.
-    assert pyarts.arts.globals.parameters.datapath.index("/my_data")
+    assert len(ws.absorption_bands) > 0
+    assert "/my_data" in pyarts.arts.globals.parameters.datapath
     # END TESTING
     
 4. Running a workspace method
@@ -300,7 +300,7 @@ This will explain how to create an agenda and set it on the workspace.
             frequency_grid=ws.frequency_grid,
         )
         ws.spectral_radiance_jacobianEmpty()
-        ws.Ignore(ws.propagation_path_point)
+        ws.Ignore(ws.ray_path_point)
     
     
     ws.spectral_radiance_space_agenda = cosmic_background
@@ -325,7 +325,7 @@ This will explain how to create an agenda and set it on the workspace.
     def spectral_radiance_space_agenda(ws):
         ws.spectral_radianceUniformCosmicBackground()
         ws.spectral_radiance_jacobianEmpty()
-        ws.Ignore(ws.propagation_path_point)
+        ws.Ignore(ws.ray_path_point)
     
     
     print(spectral_radiance_space_agenda)

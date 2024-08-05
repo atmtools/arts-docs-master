@@ -26,8 +26,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="propagation_matrix_jacobian" href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html" />
-    <link rel="prev" title="propagation_matrix" href="pyarts.workspace.Workspace.propagation_matrix.html" /> 
+    <link rel="next" title="propagation_matrix_agendaAuto" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html" />
+    <link rel="prev" title="propagation_matrixInit" href="pyarts.workspace.Workspace.propagation_matrixInit.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,8 +56,8 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../getting.started.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workspace.html">The Workspace</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../pyarts.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.arts.html">pyarts.arts</a></li>
@@ -82,7 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../pyarts.xml.html">pyarts.xml</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop.html">For Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
 </ul>
@@ -130,7 +130,7 @@
 <li><p><strong>jacobian_targets</strong> (<a class="reference internal" href="pyarts.arts.JacobianTargets.html#pyarts.arts.JacobianTargets" title="pyarts.arts.JacobianTargets"><em>JacobianTargets</em></a>) – A list of targets for the Jacobian Matrix calculations. See <a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a> <strong>[IN]</strong></p></li>
 <li><p><strong>propagation_matrix_select_species</strong> (<a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><em>SpeciesEnum</em></a>) – A select species tag group from <a class="reference internal" href="pyarts.workspace.Workspace.absorption_species.html#pyarts.workspace.Workspace.absorption_species" title="pyarts.workspace.Workspace.absorption_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_species</span></code></a>. See <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_select_species.html#pyarts.workspace.Workspace.propagation_matrix_select_species" title="pyarts.workspace.Workspace.propagation_matrix_select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_select_species</span></code></a> <strong>[IN]</strong></p></li>
 <li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>AscendingGrid</em></a>) – The discrete frequency grid. See <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a> <strong>[IN]</strong></p></li>
-<li><p><strong>propagation_path_point</strong> (<a class="reference internal" href="pyarts.arts.PropagationPathPoint.html#pyarts.arts.PropagationPathPoint" title="pyarts.arts.PropagationPathPoint"><em>PropagationPathPoint</em></a>) – A single path point. See <a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_point.html#pyarts.workspace.Workspace.propagation_path_point" title="pyarts.workspace.Workspace.propagation_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_point</span></code></a> <strong>[IN]</strong></p></li>
+<li><p><strong>ray_path_point</strong> (<a class="reference internal" href="pyarts.arts.PropagationPathPoint.html#pyarts.arts.PropagationPathPoint" title="pyarts.arts.PropagationPathPoint"><em>PropagationPathPoint</em></a>) – A single path point. See <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html#pyarts.workspace.Workspace.ray_path_point" title="pyarts.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> <strong>[IN]</strong></p></li>
 <li><p><strong>atmospheric_point</strong> (<a class="reference internal" href="pyarts.arts.AtmPoint.html#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><em>AtmPoint</em></a>) – An atmospheric point in ARTS. See <a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_point.html#pyarts.workspace.Workspace.atmospheric_point" title="pyarts.workspace.Workspace.atmospheric_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_point</span></code></a> <strong>[IN]</strong></p></li>
 </ul>
 </dd>
@@ -142,11 +142,13 @@
 <table class="hlist"><tr><td><ul class="simple">
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaExecute.html#pyarts.workspace.Workspace.propagation_matrix_agendaExecute" title="pyarts.workspace.Workspace.propagation_matrix_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaExecute()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaGUI.html#pyarts.workspace.Workspace.propagation_matrix_agendaGUI" title="pyarts.workspace.Workspace.propagation_matrix_agendaGUI"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaGUI()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath.html#pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath" title="pyarts.workspace.Workspace.propagation_path_propagation_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_path_propagation_matrixFromPath()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath.html#pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath" title="pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_propagation_matrixFromPath()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh.html#pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh" title="pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh()</span></code></a></p></li>
 </ul>
 </td><td><ul class="simple">
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyBackgroundTransmission()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyEmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyEmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyEmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyEmission()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering.html#pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering" title="pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyRayleighScattering()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyTransmission.html#pyarts.workspace.Workspace.spectral_radianceClearskyTransmission" title="pyarts.workspace.Workspace.spectral_radianceClearskyTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyTransmission()</span></code></a></p></li>
 </ul>
 </td></tr></table>
@@ -165,15 +167,17 @@
 <table class="hlist"><tr><td><ul class="simple">
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering.html#pyarts.workspace.Workspace.propagation_matrix_scattering" title="pyarts.workspace.Workspace.propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_select_species.html#pyarts.workspace.Workspace.propagation_matrix_select_species" title="pyarts.workspace.Workspace.propagation_matrix_select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_select_species</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></li>
 </ul>
 </td><td><ul class="simple">
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix_jacobian</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix_source_vector_nonlte</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.propagation_path_propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_path_propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix.html#pyarts.workspace.Workspace.ray_path_propagation_matrix" title="pyarts.workspace.Workspace.ray_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_jacobian.html#pyarts.workspace.Workspace.ray_path_propagation_matrix_jacobian" title="pyarts.workspace.Workspace.ray_path_propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_jacobian</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering.html#pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering" title="pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_scattering</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_source_vector_nonlte</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></li>
 </ul>
 </td></tr></table>
 </section>
@@ -185,8 +189,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pyarts.workspace.Workspace.propagation_matrix.html" class="btn btn-neutral float-left" title="propagation_matrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html" class="btn btn-neutral float-right" title="propagation_matrix_jacobian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pyarts.workspace.Workspace.propagation_matrixInit.html" class="btn btn-neutral float-left" title="propagation_matrixInit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html" class="btn btn-neutral float-right" title="propagation_matrix_agendaAuto" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
