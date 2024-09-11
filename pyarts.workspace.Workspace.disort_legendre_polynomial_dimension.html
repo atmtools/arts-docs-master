@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>disort_legendre_polynomial_dimension &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="disort_negative_boundary_condition" href="pyarts.workspace.Workspace.disort_negative_boundary_condition.html" />
+    <link rel="prev" title="disort_legendre_coefficients" href="pyarts.workspace.Workspace.disort_legendre_coefficients.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyarts.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyarts.arts.html">pyarts.arts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.cat.html">pyarts.cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.common.html">pyarts.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.environment.html">pyarts.environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.sensor.html">pyarts.sensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.utils.html">pyarts.utils</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pyarts.workspace.html">pyarts.workspace</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pyarts.workspace.Workspace.html">Workspace</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace"><code class="docutils literal notranslate"><span class="pre">Workspace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.Ignore.html">Ignore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.OEM.html">OEM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ReadCatalogData.html">ReadCatalogData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ReadXML.html">ReadXML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ReadXMLIndexed.html">ReadXMLIndexed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddAtmosphere.html">RetrievalAddAtmosphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddMagneticField.html">RetrievalAddMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddPressure.html">RetrievalAddPressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddSpeciesIsotopologueRatio.html">RetrievalAddSpeciesIsotopologueRatio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddSpeciesVMR.html">RetrievalAddSpeciesVMR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddSurface.html">RetrievalAddSurface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddTemperature.html">RetrievalAddTemperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalAddWindField.html">RetrievalAddWindField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalFinalizeDiagonal.html">RetrievalFinalizeDiagonal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.RetrievalInit.html">RetrievalInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.SpectralFluxDisort.html">SpectralFluxDisort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.Touch.html">Touch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.UpdateModelStates.html">UpdateModelStates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.WignerInit.html">WignerInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.WignerUnload.html">WignerUnload</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.WriteBuiltinPartitionFunctionsXML.html">WriteBuiltinPartitionFunctionsXML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.WriteXML.html">WriteXML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.WriteXMLIndexed.html">WriteXMLIndexed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.abs_lines_per_speciesReadSpeciesSplitCatalog.html">abs_lines_per_speciesReadSpeciesSplitCatalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsFromAbsorbtionLines.html">absorption_bandsFromAbsorbtionLines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsFromModelState.html">absorption_bandsFromModelState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsKeepID.html">absorption_bandsKeepID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsReadSpeciesSplitCatalog.html">absorption_bandsReadSpeciesSplitCatalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsReadSplit.html">absorption_bandsReadSplit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsRemoveID.html">absorption_bandsRemoveID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsSaveSplit.html">absorption_bandsSaveSplit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsSelectFrequency.html">absorption_bandsSelectFrequency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bandsSetZeeman.html">absorption_bandsSetZeeman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_cia_dataAddCIARecord.html">absorption_cia_dataAddCIARecord</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA.html">absorption_cia_dataReadFromCIA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_cia_dataReadFromXML.html">absorption_cia_dataReadFromXML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_cia_dataReadSpeciesSplitCatalog.html">absorption_cia_dataReadSpeciesSplitCatalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_lookup_table_dataAdapt.html">absorption_lookup_table_dataAdapt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_lookup_table_dataInit.html">absorption_lookup_table_dataInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_predefined_model_dataAddWaterMTCKD400.html">absorption_predefined_model_dataAddWaterMTCKD400</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_predefined_model_dataInit.html">absorption_predefined_model_dataInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_predefined_model_dataReadSpeciesSplitCatalog.html">absorption_predefined_model_dataReadSpeciesSplitCatalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_speciesAdd.html">absorption_speciesAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_speciesDefineAll.html">absorption_speciesDefineAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_speciesDefineAllInScenario.html">absorption_speciesDefineAllInScenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_speciesInit.html">absorption_speciesInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_speciesSet.html">absorption_speciesSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_xsec_fit_dataReadSpeciesSplitCatalog.html">absorption_xsec_fit_dataReadSpeciesSplitCatalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atlasReadAscii.html">atlasReadAscii</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendAbsorptionData.html">atmospheric_fieldAppendAbsorptionData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendBaseData.html">atmospheric_fieldAppendBaseData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendCIASpeciesData.html">atmospheric_fieldAppendCIASpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendLineIsotopologueData.html">atmospheric_fieldAppendLineIsotopologueData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendLineLevelData.html">atmospheric_fieldAppendLineLevelData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendLineSpeciesData.html">atmospheric_fieldAppendLineSpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendLookupTableSpeciesData.html">atmospheric_fieldAppendLookupTableSpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendPredefSpeciesData.html">atmospheric_fieldAppendPredefSpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendTagsSpeciesData.html">atmospheric_fieldAppendTagsSpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldAppendXsecSpeciesData.html">atmospheric_fieldAppendXsecSpeciesData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldFromModelState.html">atmospheric_fieldFromModelState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldHydrostaticPressure.html">atmospheric_fieldHydrostaticPressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldIGRF.html">atmospheric_fieldIGRF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldInit.html">atmospheric_fieldInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldRead.html">atmospheric_fieldRead</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldRescalePopulationLevels.html">atmospheric_fieldRescalePopulationLevels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_pointInit.html">atmospheric_pointInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functionsLambertianConstant.html">disort_bidirectional_reflectance_distribution_functionsLambertianConstant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functionsTurnOff.html">disort_bidirectional_reflectance_distribution_functionsTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_fractional_scatteringTurnOff.html">disort_fractional_scatteringTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_legendre_coefficientsTurnOff.html">disort_legendre_coefficientsTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_negative_boundary_conditionSurfaceTemperature.html">disort_negative_boundary_conditionSurfaceTemperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_negative_boundary_conditionTurnOff.html">disort_negative_boundary_conditionTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_optical_thicknessesFromPath.html">disort_optical_thicknessesFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_positive_boundary_conditionCosmicBackgroundRadiation.html">disort_positive_boundary_conditionCosmicBackgroundRadiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_positive_boundary_conditionTurnOff.html">disort_positive_boundary_conditionTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_settings_agendaExecute.html">disort_settings_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_settings_agendaSet.html">disort_settings_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_single_scattering_albedoTurnOff.html">disort_single_scattering_albedoTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_sourceTurnOff.html">disort_solar_sourceTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_source_polynomialLinearInTau.html">disort_source_polynomialLinearInTau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_source_polynomialTurnOff.html">disort_source_polynomialTurnOff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc.html">disort_spectral_flux_fieldCalc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_flux_fieldClearsky.html">disort_spectral_flux_fieldClearsky</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda.html">disort_spectral_flux_fieldFromAgenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc.html">disort_spectral_radiance_fieldCalc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_radiance_fieldClearsky.html">disort_spectral_radiance_fieldClearsky</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda.html">disort_spectral_radiance_fieldFromAgenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMakarov2020.html">ecs_dataAddMakarov2020</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddMeanAir.html">ecs_dataAddMeanAir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddRodrigues1997.html">ecs_dataAddRodrigues1997</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataAddTran2011.html">ecs_dataAddTran2011</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_dataInit.html">ecs_dataInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.emissivitiesTelsemAtlasLookup.html">emissivitiesTelsemAtlasLookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.frequency_gridFromGasAbsLookup.html">frequency_gridFromGasAbsLookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.get.html">get</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.gravity_operatorCentralMass.html">gravity_operatorCentralMass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.has.html">has</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.init.html">init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.inversion_iterate_agendaExecute.html">inversion_iterate_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddAtmosphere.html">jacobian_targetsAddAtmosphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddMagneticField.html">jacobian_targetsAddMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddPressure.html">jacobian_targetsAddPressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio.html">jacobian_targetsAddSpeciesIsotopologueRatio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddSpeciesVMR.html">jacobian_targetsAddSpeciesVMR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddSurface.html">jacobian_targetsAddSurface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddTemperature.html">jacobian_targetsAddTemperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsAddWindField.html">jacobian_targetsAddWindField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsFinalize.html">jacobian_targetsFinalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targetsInit.html">jacobian_targetsInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_averaging_kernelCalc.html">measurement_averaging_kernelCalc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorGaussian.html">measurement_sensorGaussian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorGaussianFrequencyGrid.html">measurement_sensorGaussianFrequencyGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorSimple.html">measurement_sensorSimple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromOperatorPath.html">measurement_vectorFromOperatorPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromSensor.html">measurement_vectorFromSensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector_error_covariance_matrixConstant.html">measurement_vector_error_covariance_matrixConstant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix_observation_systemCalc.html">measurement_vector_error_covariance_matrix_observation_systemCalc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector_fittedFromMeasurement.html">measurement_vector_fittedFromMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_covariance_matrixAddSpeciesVMR.html">model_state_covariance_matrixAddSpeciesVMR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_covariance_matrixInit.html">model_state_covariance_matrixInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_covariance_matrix_smoothing_errorCalc.html">model_state_covariance_matrix_smoothing_errorCalc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorFromAtmosphere.html">model_state_vectorFromAtmosphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorFromBands.html">model_state_vectorFromBands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorFromData.html">model_state_vectorFromData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorFromSurface.html">model_state_vectorFromSurface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorSize.html">model_state_vectorSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vectorZero.html">model_state_vectorZero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector_aprioriFromData.html">model_state_vector_aprioriFromData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector_aprioriFromState.html">model_state_vector_aprioriFromState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddCIA.html">propagation_matrixAddCIA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddFaraday.html">propagation_matrixAddFaraday</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddFromLookup.html">propagation_matrixAddFromLookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html">propagation_matrixAddLines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddPredefined.html">propagation_matrixAddPredefined</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddXsecFit.html">propagation_matrixAddXsecFit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixInit.html">propagation_matrixInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html">propagation_matrix_agendaAuto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaExecute.html">propagation_matrix_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaSet.html">propagation_matrix_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple.html">propagation_matrix_scatteringAirSimple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scatteringInit.html">propagation_matrix_scatteringInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering_agendaExecute.html">propagation_matrix_scattering_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering_agendaSet.html">propagation_matrix_scattering_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometric.html">ray_pathGeometric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude.html">ray_pathGeometricTangentAltitude</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometricUplooking.html">ray_pathGeometricUplooking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath.html">ray_path_atmospheric_pointFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_frequency_gridFromPath.html">ray_path_frequency_gridFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agendaExecute.html">ray_path_observer_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agendaSet.html">ray_path_observer_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_pointBackground.html">ray_path_pointBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_pointForeground.html">ray_path_pointForeground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_pointLowestFromPath.html">ray_path_pointLowestFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrixAddScattering.html">ray_path_propagation_matrixAddScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath.html">ray_path_propagation_matrixFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromPath.html">ray_path_propagation_matrix_scatteringFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh.html">ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_sourceAddScattering.html">ray_path_spectral_radiance_sourceAddScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_sourceFromPropmat.html">ray_path_spectral_radiance_sourceFromPropmat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_suns_pathFromPathObserver.html">ray_path_suns_pathFromPathObserver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrixFromPath.html">ray_path_transmission_matrixFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulativeFromPath.html">ray_path_transmission_matrix_cumulativeFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_zeeman_magnetic_fieldFromPath.html">ray_path_zeeman_magnetic_fieldFromPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.set.html">set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sortedIndexOfBands.html">sortedIndexOfBands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceApplyUnit.html">spectral_radianceApplyUnit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceApplyUnitFromSpectralRadiance.html">spectral_radianceApplyUnitFromSpectralRadiance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission.html">spectral_radianceClearskyBackgroundTransmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyEmission.html">spectral_radianceClearskyEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering.html">spectral_radianceClearskyRayleighScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceClearskyTransmission.html">spectral_radianceClearskyTransmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceCumulativeEmission.html">spectral_radianceCumulativeEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceCumulativeTransmission.html">spectral_radianceCumulativeTransmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceDefaultTransmission.html">spectral_radianceDefaultTransmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceIntegrateDisort.html">spectral_radianceIntegrateDisort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceStepByStepEmission.html">spectral_radianceStepByStepEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceSunOrCosmicBackground.html">spectral_radianceSunOrCosmicBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceSunsOrCosmicBackground.html">spectral_radianceSunsOrCosmicBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceSurfaceBlackbody.html">spectral_radianceSurfaceBlackbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radianceUniformCosmicBackground.html">spectral_radianceUniformCosmicBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath.html">spectral_radiance_backgroundAgendasAtEndOfPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPath.html">spectral_radiance_fieldFromOperatorPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPlanarGeometric.html">spectral_radiance_fieldFromOperatorPlanarGeometric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation.html">spectral_radiance_jacobianAddPathPropagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianApplyUnit.html">spectral_radiance_jacobianApplyUnit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianEmpty.html">spectral_radiance_jacobianEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobianFromBackground.html">spectral_radiance_jacobianFromBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agendaExecute.html">spectral_radiance_observer_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agendaSet.html">spectral_radiance_observer_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_operatorClearsky1D.html">spectral_radiance_operatorClearsky1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaExecute.html">spectral_radiance_space_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet.html">spectral_radiance_space_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agendaExecute.html">spectral_radiance_surface_agendaExecute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agendaSet.html">spectral_radiance_surface_agendaSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sunBlackbody.html">sunBlackbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sun_pathFromObserverAgenda.html">sun_pathFromObserverAgenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sunsAddSun.html">sunsAddSun</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldEarth.html">surface_fieldEarth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldEuropa.html">surface_fieldEuropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldFromModelState.html">surface_fieldFromModelState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldGanymede.html">surface_fieldGanymede</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldInit.html">surface_fieldInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldIo.html">surface_fieldIo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldJupiter.html">surface_fieldJupiter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldMars.html">surface_fieldMars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldMoon.html">surface_fieldMoon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldSetPlanetEllipsoid.html">surface_fieldSetPlanetEllipsoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_fieldVenus.html">surface_fieldVenus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.swap.html">swap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.tessem_nnReadAscii.html">tessem_nnReadAscii</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationBack.html">transmission_matrix_backgroundFromPathPropagationBack</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationFront.html">transmission_matrix_backgroundFromPathPropagationFront</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.water_equivalent_pressure_operatorMK05.html">water_equivalent_pressure_operatorMK05</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_bands.html">absorption_bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_cia_data.html">absorption_cia_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_lookup_table_data.html">absorption_lookup_table_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_predefined_model_data.html">absorption_predefined_model_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_species.html">absorption_species</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.absorption_xsec_fit_data.html">absorption_xsec_fit_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_field.html">atmospheric_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_point.html">atmospheric_point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.covariance_matrix_diagonal_blocks.html">covariance_matrix_diagonal_blocks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functions.html">disort_bidirectional_reflectance_distribution_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_fourier_mode_dimension.html">disort_fourier_mode_dimension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_fractional_scattering.html">disort_fractional_scattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_legendre_coefficients.html">disort_legendre_coefficients</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">disort_legendre_polynomial_dimension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_negative_boundary_condition.html">disort_negative_boundary_condition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_optical_thicknesses.html">disort_optical_thicknesses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_positive_boundary_condition.html">disort_positive_boundary_condition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_angles.html">disort_quadrature_angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_dimension.html">disort_quadrature_dimension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_weights.html">disort_quadrature_weights</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_settings_agenda.html">disort_settings_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_single_scattering_albedo.html">disort_single_scattering_albedo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_azimuth_angle.html">disort_solar_azimuth_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_source.html">disort_solar_source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_zenith_angle.html">disort_solar_zenith_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_source_polynomial.html">disort_source_polynomial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_flux_field.html">disort_spectral_flux_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_radiance_field.html">disort_spectral_radiance_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ecs_data.html">ecs_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html">frequency_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.gravity_operator.html">gravity_operator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.inversion_iterate_agenda.html">inversion_iterate_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.inversion_iterate_agenda_counter.html">inversion_iterate_agenda_counter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.inversion_iterate_agenda_do_jacobian.html">inversion_iterate_agenda_do_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html">jacobian_targets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_averaging_kernel.html">measurement_averaging_kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_gain_matrix.html">measurement_gain_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_jacobian.html">measurement_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html">measurement_sensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector.html">measurement_vector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix.html">measurement_vector_error_covariance_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector_fitted.html">measurement_vector_fitted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_covariance_matrix.html">model_state_covariance_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html">model_state_vector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector_apriori.html">model_state_vector_apriori</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html">propagation_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agenda.html">propagation_matrix_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html">propagation_matrix_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering.html">propagation_matrix_scattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering_agenda.html">propagation_matrix_scattering_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_select_species.html">propagation_matrix_select_species</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte.html">propagation_matrix_source_vector_nonlte</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian.html">propagation_matrix_source_vector_nonlte_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html">ray_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_atmospheric_point.html">ray_path_atmospheric_point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_frequency_grid.html">ray_path_frequency_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html">ray_path_observer_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html">ray_path_point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix.html">ray_path_propagation_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_jacobian.html">ray_path_propagation_matrix_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering.html">ray_path_propagation_matrix_scattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte.html">ray_path_propagation_matrix_source_vector_nonlte</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian.html">ray_path_propagation_matrix_source_vector_nonlte_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_jacobian.html">ray_path_spectral_radiance_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_scattering.html">ray_path_spectral_radiance_scattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_source.html">ray_path_spectral_radiance_source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_source_jacobian.html">ray_path_spectral_radiance_source_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_suns_path.html">ray_path_suns_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix.html">ray_path_transmission_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative.html">ray_path_transmission_matrix_cumulative</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_jacobian.html">ray_path_transmission_matrix_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html">spectral_radiance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_background.html">spectral_radiance_background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_background_jacobian.html">spectral_radiance_background_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html">spectral_radiance_jacobian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agenda.html">spectral_radiance_observer_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_line_of_sight.html">spectral_radiance_observer_line_of_sight</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_position.html">spectral_radiance_observer_position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_operator.html">spectral_radiance_operator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agenda.html">spectral_radiance_space_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agenda.html">spectral_radiance_surface_agenda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_unit.html">spectral_radiance_unit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sun.html">sun</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.sun_path.html">sun_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.suns.html">suns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.surface_field.html">surface_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyarts.workspace.Workspace.transmission_matrix_background.html">transmission_matrix_background</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stubs/pyarts.workspace.arts_agenda.html">arts_agenda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.workspace.html#module-pyarts.workspace.utility">pyarts.workspace.utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.workspace.html#module-pyarts.workspace.global_data">pyarts.workspace.global_data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.xml.html">pyarts.xml</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pyarts.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="pyarts.workspace.html">pyarts.workspace</a></li>
+          <li class="breadcrumb-item"><a href="pyarts.workspace.Workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">disort_legendre_polynomial_dimension</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyarts.workspace.Workspace.disort_legendre_polynomial_dimension.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="disort-legendre-polynomial-dimension">
+<h1>disort_legendre_polynomial_dimension<a class="headerlink" href="#disort-legendre-polynomial-dimension" title="Link to this heading"></a></h1>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyarts.workspace.Workspace.disort_legendre_polynomial_dimension">
+<span class="sig-prename descclassname"><span class="pre">Workspace.</span></span><span class="sig-name descname"><span class="pre">disort_legendre_polynomial_dimension</span></span><a class="headerlink" href="#pyarts.workspace.Workspace.disort_legendre_polynomial_dimension" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> The number of input Legendre polynimials for Disort.</p>
+<p class="rubric">Related workspace variables</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functions.html#pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functions" title="pyarts.workspace.Workspace.disort_bidirectional_reflectance_distribution_functions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_bidirectional_reflectance_distribution_functions</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_fourier_mode_dimension.html#pyarts.workspace.Workspace.disort_fourier_mode_dimension" title="pyarts.workspace.Workspace.disort_fourier_mode_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_fourier_mode_dimension</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_fractional_scattering.html#pyarts.workspace.Workspace.disort_fractional_scattering" title="pyarts.workspace.Workspace.disort_fractional_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_fractional_scattering</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_legendre_coefficients.html#pyarts.workspace.Workspace.disort_legendre_coefficients" title="pyarts.workspace.Workspace.disort_legendre_coefficients"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_legendre_coefficients</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_negative_boundary_condition.html#pyarts.workspace.Workspace.disort_negative_boundary_condition" title="pyarts.workspace.Workspace.disort_negative_boundary_condition"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_negative_boundary_condition</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_optical_thicknesses.html#pyarts.workspace.Workspace.disort_optical_thicknesses" title="pyarts.workspace.Workspace.disort_optical_thicknesses"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_optical_thicknesses</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_positive_boundary_condition.html#pyarts.workspace.Workspace.disort_positive_boundary_condition" title="pyarts.workspace.Workspace.disort_positive_boundary_condition"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_positive_boundary_condition</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_angles.html#pyarts.workspace.Workspace.disort_quadrature_angles" title="pyarts.workspace.Workspace.disort_quadrature_angles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_angles</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_dimension.html#pyarts.workspace.Workspace.disort_quadrature_dimension" title="pyarts.workspace.Workspace.disort_quadrature_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_dimension</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_quadrature_weights.html#pyarts.workspace.Workspace.disort_quadrature_weights" title="pyarts.workspace.Workspace.disort_quadrature_weights"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_weights</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_single_scattering_albedo.html#pyarts.workspace.Workspace.disort_single_scattering_albedo" title="pyarts.workspace.Workspace.disort_single_scattering_albedo"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_single_scattering_albedo</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_azimuth_angle.html#pyarts.workspace.Workspace.disort_solar_azimuth_angle" title="pyarts.workspace.Workspace.disort_solar_azimuth_angle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_solar_azimuth_angle</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_source.html#pyarts.workspace.Workspace.disort_solar_source" title="pyarts.workspace.Workspace.disort_solar_source"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_solar_source</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_solar_zenith_angle.html#pyarts.workspace.Workspace.disort_solar_zenith_angle" title="pyarts.workspace.Workspace.disort_solar_zenith_angle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_solar_zenith_angle</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_source_polynomial.html#pyarts.workspace.Workspace.disort_source_polynomial" title="pyarts.workspace.Workspace.disort_source_polynomial"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_source_polynomial</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_flux_field.html#pyarts.workspace.Workspace.disort_spectral_flux_field" title="pyarts.workspace.Workspace.disort_spectral_flux_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_flux_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.disort_spectral_radiance_field.html#pyarts.workspace.Workspace.disort_spectral_radiance_field" title="pyarts.workspace.Workspace.disort_spectral_radiance_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_radiance_field</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyarts.workspace.Workspace.disort_legendre_coefficients.html" class="btn btn-neutral float-left" title="disort_legendre_coefficients" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.workspace.Workspace.disort_negative_boundary_condition.html" class="btn btn-neutral float-right" title="disort_negative_boundary_condition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

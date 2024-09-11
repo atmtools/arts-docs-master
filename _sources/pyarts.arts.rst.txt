@@ -1,559 +1,795 @@
 pyarts.arts
 ===========
 
+.. toctree::
+  :hidden:
+
+  pyarts.arts.constants
+  pyarts.arts.convert
+  pyarts.arts.disort
+  pyarts.arts.fwd
+  pyarts.arts.globals
+  pyarts.arts.hitran
+  pyarts.arts.interp
+  pyarts.arts.lbl
+  pyarts.arts.math
+  pyarts.arts.physics
+  pyarts.arts.predef
+  pyarts.arts.rtepack
+  pyarts.arts.AbsorptionBand
+  pyarts.arts.AbsorptionBandData
+  pyarts.arts.AbsorptionBandSortingOption
+  pyarts.arts.AbsorptionCutoffTypeOld
+  pyarts.arts.AbsorptionLine
+  pyarts.arts.AbsorptionLines
+  pyarts.arts.AbsorptionMirroringTypeOld
+  pyarts.arts.AbsorptionNormalizationTypeOld
+  pyarts.arts.AbsorptionPopulationTypeOld
+  pyarts.arts.AbsorptionSingleLine
+  pyarts.arts.Agenda
+  pyarts.arts.Any
+  pyarts.arts.ArrayOfAbsorptionBand
+  pyarts.arts.ArrayOfAbsorptionLines
+  pyarts.arts.ArrayOfAbsorptionSingleLine
+  pyarts.arts.ArrayOfAgenda
+  pyarts.arts.ArrayOfArrayOfAbsorptionLines
+  pyarts.arts.ArrayOfArrayOfArrayOfPropagationPathPoint
+  pyarts.arts.ArrayOfArrayOfGriddedField1
+  pyarts.arts.ArrayOfArrayOfGriddedField2
+  pyarts.arts.ArrayOfArrayOfGriddedField3
+  pyarts.arts.ArrayOfArrayOfIndex
+  pyarts.arts.ArrayOfArrayOfMatrix
+  pyarts.arts.ArrayOfArrayOfMuelmatMatrix
+  pyarts.arts.ArrayOfArrayOfMuelmatVector
+  pyarts.arts.ArrayOfArrayOfPropagationPathPoint
+  pyarts.arts.ArrayOfArrayOfPropmatMatrix
+  pyarts.arts.ArrayOfArrayOfPropmatVector
+  pyarts.arts.ArrayOfArrayOfScatteringMetaData
+  pyarts.arts.ArrayOfArrayOfSingleScatteringData
+  pyarts.arts.ArrayOfArrayOfSpeciesTag
+  pyarts.arts.ArrayOfArrayOfStokvecMatrix
+  pyarts.arts.ArrayOfArrayOfStokvecVector
+  pyarts.arts.ArrayOfArrayOfString
+  pyarts.arts.ArrayOfArrayOfTensor3
+  pyarts.arts.ArrayOfArrayOfTensor6
+  pyarts.arts.ArrayOfArrayOfTime
+  pyarts.arts.ArrayOfArrayOfVector
+  pyarts.arts.ArrayOfAscendingGrid
+  pyarts.arts.ArrayOfAtmPoint
+  pyarts.arts.ArrayOfAtmTargets
+  pyarts.arts.ArrayOfCIARecord
+  pyarts.arts.ArrayOfGriddedField1
+  pyarts.arts.ArrayOfGriddedField1Named
+  pyarts.arts.ArrayOfGriddedField2
+  pyarts.arts.ArrayOfGriddedField3
+  pyarts.arts.ArrayOfGriddedField4
+  pyarts.arts.ArrayOfIndex
+  pyarts.arts.ArrayOfLineTarget
+  pyarts.arts.ArrayOfMatrix
+  pyarts.arts.ArrayOfMuelmat
+  pyarts.arts.ArrayOfMuelmatMatrix
+  pyarts.arts.ArrayOfMuelmatTensor3
+  pyarts.arts.ArrayOfMuelmatVector
+  pyarts.arts.ArrayOfNamedGriddedField2
+  pyarts.arts.ArrayOfNumeric
+  pyarts.arts.ArrayOfPropagationPathPoint
+  pyarts.arts.ArrayOfPropmat
+  pyarts.arts.ArrayOfPropmatMatrix
+  pyarts.arts.ArrayOfPropmatVector
+  pyarts.arts.ArrayOfQuantumIdentifier
+  pyarts.arts.ArrayOfScatteringMetaData
+  pyarts.arts.ArrayOfSensorObsel
+  pyarts.arts.ArrayOfSingleScatteringData
+  pyarts.arts.ArrayOfSparse
+  pyarts.arts.ArrayOfSpeciesEnum
+  pyarts.arts.ArrayOfSpeciesIsotope
+  pyarts.arts.ArrayOfSpeciesTag
+  pyarts.arts.ArrayOfStokvec
+  pyarts.arts.ArrayOfStokvecMatrix
+  pyarts.arts.ArrayOfStokvecTensor3
+  pyarts.arts.ArrayOfStokvecVector
+  pyarts.arts.ArrayOfString
+  pyarts.arts.ArrayOfSun
+  pyarts.arts.ArrayOfSurfaceTarget
+  pyarts.arts.ArrayOfTelsemAtlas
+  pyarts.arts.ArrayOfTensor3
+  pyarts.arts.ArrayOfTensor4
+  pyarts.arts.ArrayOfTensor5
+  pyarts.arts.ArrayOfTensor6
+  pyarts.arts.ArrayOfTensor7
+  pyarts.arts.ArrayOfTime
+  pyarts.arts.ArrayOfVector
+  pyarts.arts.ArrayOfVector2
+  pyarts.arts.ArrayOfVector3
+  pyarts.arts.ArrayOfXsecRecord
+  pyarts.arts.AscendingGrid
+  pyarts.arts.AtmData
+  pyarts.arts.AtmField
+  pyarts.arts.AtmKey
+  pyarts.arts.AtmPoint
+  pyarts.arts.AtmTarget
+  pyarts.arts.Block
+  pyarts.arts.BlockMatrix
+  pyarts.arts.CIARecord
+  pyarts.arts.CallbackOperator
+  pyarts.arts.ComplexGriddedField2
+  pyarts.arts.ComplexMatrix
+  pyarts.arts.ComplexTensor3
+  pyarts.arts.ComplexVector
+  pyarts.arts.CovarianceMatrix
+  pyarts.arts.CxxWorkspace
+  pyarts.arts.DisortBDRF
+  pyarts.arts.DisortBDRFOperator
+  pyarts.arts.EarthEllipsoid
+  pyarts.arts.EuropaEllipsoid
+  pyarts.arts.FieldComponent
+  pyarts.arts.FileType
+  pyarts.arts.GanymedeEllipsoid
+  pyarts.arts.GasAbsLookup
+  pyarts.arts.GridType
+  pyarts.arts.GriddedField1
+  pyarts.arts.GriddedField1Named
+  pyarts.arts.GriddedField2
+  pyarts.arts.GriddedField3
+  pyarts.arts.GriddedField4
+  pyarts.arts.GriddedField5
+  pyarts.arts.GriddedField6
+  pyarts.arts.HitranType
+  pyarts.arts.HydrostaticPressureOption
+  pyarts.arts.Index
+  pyarts.arts.IndexVector
+  pyarts.arts.InterpolationExtrapolation
+  pyarts.arts.IoEllipsoid
+  pyarts.arts.IsoRatioOption
+  pyarts.arts.JacobianTargetType
+  pyarts.arts.JacobianTargets
+  pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap
+  pyarts.arts.JupiterEllipsoid
+  pyarts.arts.LineByLineCutoffType
+  pyarts.arts.LineByLineLineshape
+  pyarts.arts.LineByLineVariable
+  pyarts.arts.LineList
+  pyarts.arts.LineShapeModel
+  pyarts.arts.LineShapeModelCoefficient
+  pyarts.arts.LineShapeModelFIXMENAMEODR
+  pyarts.arts.LineShapeModelList
+  pyarts.arts.LineShapeModelParameters
+  pyarts.arts.LineShapeModelType
+  pyarts.arts.LineShapeModelVariable
+  pyarts.arts.LineShapeOutput
+  pyarts.arts.LineShapeSingleSpeciesModel
+  pyarts.arts.LineShapeSpeciesModel
+  pyarts.arts.LineShapeTemperatureModelOld
+  pyarts.arts.LineShapeTypeOld
+  pyarts.arts.LineShapeVariableOld
+  pyarts.arts.LineShapeVariableTemperatureModelList
+  pyarts.arts.LineTarget
+  pyarts.arts.LinemixingEcsData
+  pyarts.arts.MCAntenna
+  pyarts.arts.MagneticAngles
+  pyarts.arts.MarsEllipsoid
+  pyarts.arts.Matrix
+  pyarts.arts.MatrixOfDisortBDRF
+  pyarts.arts.Method
+  pyarts.arts.MissingFieldComponentError
+  pyarts.arts.MoonEllipsoid
+  pyarts.arts.Muelmat
+  pyarts.arts.MuelmatMatrix
+  pyarts.arts.MuelmatTensor3
+  pyarts.arts.MuelmatVector
+  pyarts.arts.NamedGriddedField2
+  pyarts.arts.NamedGriddedField3
+  pyarts.arts.Numeric
+  pyarts.arts.NumericBinaryOperator
+  pyarts.arts.NumericTernaryOperator
+  pyarts.arts.NumericUnaryOperator
+  pyarts.arts.ParticulatePropertyTag
+  pyarts.arts.PartitionFunctionsType
+  pyarts.arts.PathPositionType
+  pyarts.arts.PlanetOrMoonType
+  pyarts.arts.PolarizationChoice
+  pyarts.arts.PredefinedModelData
+  pyarts.arts.PropagationPathPoint
+  pyarts.arts.Propmat
+  pyarts.arts.PropmatMatrix
+  pyarts.arts.PropmatVector
+  pyarts.arts.QuantumIdentifier
+  pyarts.arts.QuantumNumberLocalState
+  pyarts.arts.QuantumNumberType
+  pyarts.arts.QuantumNumberValue
+  pyarts.arts.QuantumNumberValueList
+  pyarts.arts.Range
+  pyarts.arts.Rational
+  pyarts.arts.ScatteringMetaData
+  pyarts.arts.SensorObsel
+  pyarts.arts.SensorPosLos
+  pyarts.arts.SensorPosLosVector
+  pyarts.arts.SingleScatteringData
+  pyarts.arts.Sparse
+  pyarts.arts.SpeciesEnum
+  pyarts.arts.SpeciesIsotope
+  pyarts.arts.SpeciesIsotopologueRatios
+  pyarts.arts.SpeciesTag
+  pyarts.arts.SpeciesTagType
+  pyarts.arts.SpectralRadianceOperator
+  pyarts.arts.SpectralRadianceUnitType
+  pyarts.arts.Stokvec
+  pyarts.arts.StokvecGriddedField6
+  pyarts.arts.StokvecMatrix
+  pyarts.arts.StokvecTensor3
+  pyarts.arts.StokvecTensor4
+  pyarts.arts.StokvecTensor5
+  pyarts.arts.StokvecTensor6
+  pyarts.arts.StokvecVector
+  pyarts.arts.String
+  pyarts.arts.Sun
+  pyarts.arts.SurfData
+  pyarts.arts.SurfaceField
+  pyarts.arts.SurfaceKey
+  pyarts.arts.SurfacePoint
+  pyarts.arts.SurfacePropertyTag
+  pyarts.arts.SurfaceTarget
+  pyarts.arts.SurfaceTypeTag
+  pyarts.arts.TelsemAtlas
+  pyarts.arts.TemperatureModel
+  pyarts.arts.Tensor3
+  pyarts.arts.Tensor4
+  pyarts.arts.Tensor5
+  pyarts.arts.Tensor6
+  pyarts.arts.Tensor7
+  pyarts.arts.TessemNN
+  pyarts.arts.Time
+  pyarts.arts.TimeStepType
+  pyarts.arts.Vector
+  pyarts.arts.Vector2
+  pyarts.arts.Vector3
+  pyarts.arts.VenusEllipsoid
+  pyarts.arts.VibrationalEnergyLevels
+  pyarts.arts.WorkspaceVariable
+  pyarts.arts.XsecRecord
+  pyarts.arts.ZeemanLineModel
+  pyarts.arts.ZeemanModel
+  pyarts.arts.ZeemanPolarization
+  pyarts.arts.cppdisort
+  pyarts.arts.disort_settings_agendaPredefined
+  pyarts.arts.propagation_matrix_agendaPredefined
+  pyarts.arts.propagation_matrix_scattering_agendaPredefined
+  pyarts.arts.ray_path_observer_agendaPredefined
+  pyarts.arts.spectral_radiance_observer_agendaPredefined
+  pyarts.arts.spectral_radiance_space_agendaPredefined
+  pyarts.arts.spectral_radiance_surface_agendaPredefined
+  pyarts.arts.frequency_shift
+  pyarts.arts.igrf
+
 .. automodule:: pyarts.arts
 
-.. currentmodule:: pyarts.arts
 
-
-Classes
--------
-
-.. autosummary::
-   :toctree: stubs
-
-   AbsorptionBand
-   AbsorptionBandData
-   AbsorptionBandSortingOption
-   AbsorptionCutoffTypeOld
-   AbsorptionLine
-   AbsorptionLines
-   AbsorptionMirroringTypeOld
-   AbsorptionNormalizationTypeOld
-   AbsorptionPopulationTypeOld
-   AbsorptionSingleLine
-   Agenda
-   AntennaType
-   Any
-   ArrayOfAbsorptionBand
-   ArrayOfAbsorptionLines
-   ArrayOfAbsorptionSingleLine
-   ArrayOfAgenda
-   ArrayOfArrayOfAbsorptionLines
-   ArrayOfArrayOfArrayOfPropagationPathPoint
-   ArrayOfArrayOfGriddedField1
-   ArrayOfArrayOfGriddedField2
-   ArrayOfArrayOfGriddedField3
-   ArrayOfArrayOfIndex
-   ArrayOfArrayOfMatrix
-   ArrayOfArrayOfMuelmatMatrix
-   ArrayOfArrayOfMuelmatVector
-   ArrayOfArrayOfPropagationPathPoint
-   ArrayOfArrayOfPropmatMatrix
-   ArrayOfArrayOfPropmatVector
-   ArrayOfArrayOfScatteringMetaData
-   ArrayOfArrayOfSingleScatteringData
-   ArrayOfArrayOfSpeciesTag
-   ArrayOfArrayOfStokvecMatrix
-   ArrayOfArrayOfStokvecVector
-   ArrayOfArrayOfString
-   ArrayOfArrayOfTensor3
-   ArrayOfArrayOfTensor6
-   ArrayOfArrayOfTime
-   ArrayOfArrayOfVector
-   ArrayOfAscendingGrid
-   ArrayOfAtmPoint
-   ArrayOfCIARecord
-   ArrayOfGriddedField1
-   ArrayOfGriddedField1Named
-   ArrayOfGriddedField2
-   ArrayOfGriddedField3
-   ArrayOfGriddedField4
-   ArrayOfIndex
-   ArrayOfMatrix
-   ArrayOfMuelmatMatrix
-   ArrayOfMuelmatVector
-   ArrayOfNamedGriddedField2
-   ArrayOfNumeric
-   ArrayOfPropagationPathPoint
-   ArrayOfPropmatMatrix
-   ArrayOfPropmatVector
-   ArrayOfQuantumIdentifier
-   ArrayOfScatteringMetaData
-   ArrayOfSensorObsel
-   ArrayOfSingleScatteringData
-   ArrayOfSparse
-   ArrayOfSpeciesEnum
-   ArrayOfSpeciesIsotope
-   ArrayOfSpeciesTag
-   ArrayOfStokvecMatrix
-   ArrayOfStokvecVector
-   ArrayOfString
-   ArrayOfSun
-   ArrayOfTelsemAtlas
-   ArrayOfTensor3
-   ArrayOfTensor4
-   ArrayOfTensor5
-   ArrayOfTensor6
-   ArrayOfTensor7
-   ArrayOfTime
-   ArrayOfVector
-   ArrayOfVector2
-   ArrayOfVector3
-   ArrayOfXsecRecord
-   AscendingGrid
-   AtmData
-   AtmField
-   AtmKey
-   AtmPoint
-   Block
-   BlockMatrixType
-   CallbackOperator
-   CIARecord
-   ComplexGriddedField2
-   ComplexMatrix
-   ComplexTensor3
-   ComplexVector
-   CovarianceMatrix
-   cppdisort
-   EarthEllipsoid
-   EuropaEllipsoid
-   FieldComponent
-   FileType
-   GanymedeEllipsoid
-   GasAbsLookup
-   GriddedField1
-   GriddedField1Named
-   GriddedField2
-   GriddedField3
-   GriddedField4
-   GriddedField5
-   GriddedField6
-   GridType
-   GuiPropmatScaling
-   GuiTramatScaling
-   GuiVMR
-   GuiXScaling
-   HitranType
-   HydrostaticPressureOption
-   Index
-   IndexVector
-   InterpolationExtrapolation
-   IoEllipsoid
-   IsoRatioOption
-   JacobianTargets
-   JupiterEllipsoid
-   LineByLineCutoffType
-   LineByLineLineshape
-   LineByLineVariable
-   LineList
-   LinemixingEcsData
-   LineShapeModel
-   LineShapeModelCoefficient
-   LineShapeModelFIXMENAMEODR
-   LineShapeModelList
-   LineShapeModelParameters
-   LineShapeModelType
-   LineShapeModelVariable
-   LineShapeOutput
-   LineShapeSingleSpeciesModel
-   LineShapeSpeciesModel
-   LineShapeTemperatureModelOld
-   LineShapeTypeOld
-   LineShapeVariableOld
-   LineShapeVariableTemperatureModelList
-   MagneticAngles
-   MarsEllipsoid
-   Matrix
-   MCAntenna
-   Method
-   MissingFieldComponentError
-   MoonEllipsoid
-   Muelmat
-   MuelmatMatrix
-   MuelmatVector
-   NamedGriddedField2
-   NamedGriddedField3
-   Numeric
-   NumericTernaryOperator
-   NumericUnaryOperator
-   PartitionFunctionsType
-   PathPositionType
-   PlanetOrMoonType
-   PolarizationChoice
-   PredefinedModelData
-   propagation_matrix_agendaPredefined
-   propagation_matrix_scattering_agendaPredefined
-   PropagationPathPoint
-   Propmat
-   PropmatMatrix
-   PropmatVector
-   PType
-   QuantumIdentifier
-   QuantumNumberLocalState
-   QuantumNumberType
-   QuantumNumberValue
-   QuantumNumberValueList
-   Range
-   Rational
-   ray_path_observer_agendaPredefined
-   ScatteringMetaData
-   SensorObsel
-   SensorPosLos
-   SensorPosLosVector
-   SingleScatteringData
-   Sparse
-   SpeciesEnum
-   SpeciesIsotope
-   SpeciesIsotopologueRatios
-   SpeciesTag
-   SpeciesTagType
-   spectral_radiance_observer_agendaPredefined
-   spectral_radiance_space_agendaPredefined
-   spectral_radiance_surface_agendaPredefined
-   SpectralRadianceOperator
-   SpectralRadianceUnitType
-   Stokvec
-   StokvecGriddedField6
-   StokvecMatrix
-   StokvecTensor3
-   StokvecTensor4
-   StokvecTensor5
-   StokvecTensor6
-   StokvecVector
-   String
-   Sun
-   SurfaceField
-   SurfaceKey
-   SurfacePoint
-   SurfData
-   TelsemAtlas
-   TemperatureModel
-   Tensor3
-   Tensor4
-   Tensor5
-   Tensor6
-   Tensor7
-   TessemNN
-   Time
-   TimeStepType
-   Vector
-   Vector2
-   Vector3
-   VenusEllipsoid
-   VibrationalEnergyLevels
-   WorkspaceVariable
-   XsecRecord
-   ZeemanLineModel
-   ZeemanModel
-   ZeemanPolarization
-
-
-
-Functions
----------
-
-.. autosummary::
-   :toctree: stubs
-
-   frequency_shift
-   igrf
-
-
-
-pyarts.arts.constants
----------------------
-
-.. automodule:: pyarts.arts.constants
-
-.. currentmodule:: pyarts.arts.constants
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   c
-   doppler_broadening_const_squared
-   h
-   h_bar
-   k
-   pi
-
-
-
-pyarts.arts.convert
--------------------
-
-.. automodule:: pyarts.arts.convert
-
-.. currentmodule:: pyarts.arts.convert
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   freq2kaycm
-   freq2wavelen
-   hz_per_msquared2kaycm_per_cmsquared
-   hz_per_pa2kaycm_per_atm
-   joule2kaycm
-   kaycm2freq
-   kaycm2joule
-   kaycm_per_atm2hz_per_pa
-   kaycm_per_cmsquared2hz_per_msquared
-   pa2torr
-   torr2pa
-   wavelen2freq
-
-
-
-pyarts.arts.disort
-------------------
-
-.. automodule:: pyarts.arts.disort
-
-.. currentmodule:: pyarts.arts.disort
-
-
-Classes
-^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   ArrayOfBDRF
-   bdrf
-
-
-
-
-
-pyarts.arts.fwd
----------------
-
-.. automodule:: pyarts.arts.fwd
-
-.. currentmodule:: pyarts.arts.fwd
-
-
-
-
-
-
-pyarts.arts.globals
--------------------
-
-.. automodule:: pyarts.arts.globals
-
-.. currentmodule:: pyarts.arts.globals
-
-
-Classes
-^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   parameters
-   WorkspaceAgendaInternalRecord
-   WorkspaceGroupRecord
-   WorkspaceMethodInternalRecord
-   WorkspaceVariableRecord
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   all_isotopologues
-   omp_get_max_threads
-   omp_set_num_threads
-   workspace_agendas
-   workspace_groups
-   workspace_methods
-   workspace_variables
-
-
-
-pyarts.arts.hitran
-------------------
-
-.. automodule:: pyarts.arts.hitran
-
-.. currentmodule:: pyarts.arts.hitran
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   quantumidentity
-   ratio
-
-
-
-pyarts.arts.interp
-------------------
-
-.. automodule:: pyarts.arts.interp
-
-.. currentmodule:: pyarts.arts.interp
-
-
-Classes
-^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   ArrayOfLagrangeInterpolation
-   CyclicGrid0to360
-   CyclicGridPM180
-   PolyGrid
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   interp
-
-
-
-pyarts.arts.lbl
----------------
-
-.. automodule:: pyarts.arts.lbl
-
-.. currentmodule:: pyarts.arts.lbl
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   equivalent_lines
-   Q
-
-
-
-pyarts.arts.math
-----------------
-
-.. automodule:: pyarts.arts.math
-
-.. currentmodule:: pyarts.arts.math
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   dwigner3j
-   dwigner6j
-   leggauss
-   make_wigner_ready
-   pdleggauss
-   pleggauss
-   schmidt_legendre_polynomial
-   wigner3j
-   wigner6j
-
-
-
-pyarts.arts.physics
--------------------
-
-.. automodule:: pyarts.arts.physics
-
-.. currentmodule:: pyarts.arts.physics
-
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   number_density
-   planck
-
-
-
-pyarts.arts.predef
-------------------
-
-.. automodule:: pyarts.arts.predef
-
-.. currentmodule:: pyarts.arts.predef
-
-
-Classes
-^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   ModelName
-   MTCKD400WaterData
-
-
-
-Functions
-^^^^^^^^^
-
-.. autosummary::
-   :toctree: stubs
-
-   get_co2_ckdmt252
-   get_foreign_h2o_ckdmt320
-   get_foreign_h2o_ckdmt350
-   get_foreign_h2o_ckdmt400
-   get_h2o_foreign_standard
-   get_h2o_mpm89
-   get_h2o_pwr2021
-   get_h2o_pwr2022
-   get_h2o_pwr98
-   get_h2o_self_standard
-   get_n2_fun_ckdmt252
-   get_n2_mpm93
-   get_n2_pwr2021
-   get_n2_rot_ckdmt252
-   get_n2_standard
-   get_o2_cia_ckdmt100
-   get_o2_mpm89
-   get_o2_pwr2021
-   get_o2_pwr2022
-   get_o2_pwr98
-   get_o2_standard
-   get_o2_tre05
-   get_o2_v0v0_ckdmt100
-   get_o2_v1v0_ckdmt100
-   get_o2_vis_ckdmt252
-   get_self_h2o_ckdmt320
-   get_self_h2o_ckdmt350
-   get_self_h2o_ckdmt400
-   get_water_droplet_ell07
-
-
-
+.. rubric:: Modules
+
+
+.. list-table::
+
+  * - :py:mod:`~pyarts.arts.constants`
+    - Contain copies of constants of Arts internals
+  * - :py:mod:`~pyarts.arts.convert`
+    - Contains several unit conversion functions used in Arts
+  * - :py:mod:`~pyarts.arts.disort`
+    - 
+  * - :py:mod:`~pyarts.arts.fwd`
+    - 
+  * - :py:mod:`~pyarts.arts.globals`
+    - Global settings and data
+  * - :py:mod:`~pyarts.arts.hitran`
+    - Helpers to interface with HITRAN
+  * - :py:mod:`~pyarts.arts.interp`
+    - Interpolation methods
+  * - :py:mod:`~pyarts.arts.lbl`
+    - Line-by-line helper functions
+  * - :py:mod:`~pyarts.arts.math`
+    - Contains select mathematics from Arts internal functions
+  * - :py:mod:`~pyarts.arts.physics`
+    - Contains simple physics functions in arts
+  * - :py:mod:`~pyarts.arts.predef`
+    - Contains predefined absorption models
+  * - :py:mod:`~pyarts.arts.rtepack`
+    - 
+
+.. rubric:: Classes
+
+
+.. list-table::
+
+  * - :class:`~pyarts.arts.AbsorptionBand`
+    - Contains all information about bands of related absorption lines
+  * - :class:`~pyarts.arts.AbsorptionBandData`
+    - Data for an absorption band
+  * - :class:`~pyarts.arts.AbsorptionBandSortingOption`
+    - Group name: "AbsorptionBandSortingOption"
+  * - :class:`~pyarts.arts.AbsorptionCutoffTypeOld`
+    - Group name: "AbsorptionCutoffTypeOld"
+  * - :class:`~pyarts.arts.AbsorptionLine`
+    - Data for an absorption line
+  * - :class:`~pyarts.arts.AbsorptionLines`
+    - Contains line-by-line absorption information for a number of related absorption lines
+  * - :class:`~pyarts.arts.AbsorptionMirroringTypeOld`
+    - Group name: "AbsorptionMirroringTypeOld"
+  * - :class:`~pyarts.arts.AbsorptionNormalizationTypeOld`
+    - Group name: "AbsorptionNormalizationTypeOld"
+  * - :class:`~pyarts.arts.AbsorptionPopulationTypeOld`
+    - Group name: "AbsorptionPopulationTypeOld"
+  * - :class:`~pyarts.arts.AbsorptionSingleLine`
+    - Single absorption line
+  * - :class:`~pyarts.arts.Agenda`
+    - Describes a set of function calls and variable definitions
+  * - :class:`~pyarts.arts.Any`
+    - Meta type for when methods can take any argument (avoid manual use)
+  * - :class:`~pyarts.arts.ArrayOfAbsorptionBand`
+    - A list of :class:`~pyarts.arts.AbsorptionBand`
+  * - :class:`~pyarts.arts.ArrayOfAbsorptionLines`
+    - A list of :class:`~pyarts.arts.AbsorptionLines`
+  * - :class:`~pyarts.arts.ArrayOfAbsorptionSingleLine`
+    - List of :class:`~pyarts.arts.AbsorptionSingleLine`
+  * - :class:`~pyarts.arts.ArrayOfAgenda`
+    - A list of :class:`~pyarts.arts.Agenda`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfAbsorptionLines`
+    - A list of :class:`~pyarts.arts.ArrayOfAbsorptionLines`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfArrayOfPropagationPathPoint`
+    - A list of :class:`~pyarts.arts.ArrayOfArrayOfPropagationPathPoint`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfGriddedField1`
+    - A list of :class:`~pyarts.arts.ArrayOfGriddedField1`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfGriddedField2`
+    - A list of :class:`~pyarts.arts.ArrayOfGriddedField2`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfGriddedField3`
+    - A list of :class:`~pyarts.arts.ArrayOfGriddedField3`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfIndex`
+    - A list of :class:`~pyarts.arts.ArrayOfIndex`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfMatrix`
+    - A list of :class:`~pyarts.arts.ArrayOfMatrix`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfMuelmatMatrix`
+    - A list of :class:`~pyarts.arts.ArrayOfMuelmatMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfMuelmatVector`
+    - A list of :class:`~pyarts.arts.ArrayOfMuelmatVector`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfPropagationPathPoint`
+    - A list of :class:`~pyarts.arts.ArrayOfPropagationPathPoint`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfPropmatMatrix`
+    - A list of :class:`~pyarts.arts.ArrayOfPropmatMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfPropmatVector`
+    - A list of :class:`~pyarts.arts.ArrayOfPropmatVector`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfScatteringMetaData`
+    - A list of :class:`~pyarts.arts.ArrayOfScatteringMetaData`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfSingleScatteringData`
+    - A list of :class:`~pyarts.arts.ArrayOfSingleScatteringData`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfSpeciesTag`
+    - A list of :class:`~pyarts.arts.ArrayOfSpeciesTag`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfStokvecMatrix`
+    - A list of :class:`~pyarts.arts.ArrayOfStokvecMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfStokvecVector`
+    - A list of :class:`~pyarts.arts.ArrayOfStokvecVector`.
+  * - :class:`~pyarts.arts.ArrayOfArrayOfString`
+    - A list of :class:`~pyarts.arts.ArrayOfString`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfTensor3`
+    - A list of :class:`~pyarts.arts.ArrayOfTensor3`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfTensor6`
+    - A list of :class:`~pyarts.arts.ArrayOfTensor6`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfTime`
+    - A list of :class:`~pyarts.arts.ArrayOfTime`
+  * - :class:`~pyarts.arts.ArrayOfArrayOfVector`
+    - A list of :class:`~pyarts.arts.ArrayOfVector`
+  * - :class:`~pyarts.arts.ArrayOfAscendingGrid`
+    - A list of :class:`~pyarts.arts.AscendingGrid`.
+  * - :class:`~pyarts.arts.ArrayOfAtmPoint`
+    - A list of :class:`~pyarts.arts.AtmPoint`
+  * - :class:`~pyarts.arts.ArrayOfAtmTargets`
+    - List of atmospheric targets
+  * - :class:`~pyarts.arts.ArrayOfCIARecord`
+    - A list of :class:`~pyarts.arts.CIARecord`
+  * - :class:`~pyarts.arts.ArrayOfGriddedField1`
+    - A list of :class:`~pyarts.arts.GriddedField1`
+  * - :class:`~pyarts.arts.ArrayOfGriddedField1Named`
+    - A list of :class:`~pyarts.arts.GriddedField1Named`
+  * - :class:`~pyarts.arts.ArrayOfGriddedField2`
+    - A list of :class:`~pyarts.arts.GriddedField2`
+  * - :class:`~pyarts.arts.ArrayOfGriddedField3`
+    - A list of :class:`~pyarts.arts.GriddedField3`
+  * - :class:`~pyarts.arts.ArrayOfGriddedField4`
+    - A list of :class:`~pyarts.arts.GriddedField4`
+  * - :class:`~pyarts.arts.ArrayOfIndex`
+    - A list of :class:`~pyarts.arts.Index`
+  * - :class:`~pyarts.arts.ArrayOfLineTarget`
+    - List of line targets
+  * - :class:`~pyarts.arts.ArrayOfMatrix`
+    - A list of :class:`~pyarts.arts.Matrix`
+  * - :class:`~pyarts.arts.ArrayOfMuelmat`
+    - A list of :class:`~pyarts.arts.Muelmat`
+  * - :class:`~pyarts.arts.ArrayOfMuelmatMatrix`
+    - A list of :class:`~pyarts.arts.MuelmatMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfMuelmatTensor3`
+    - A list of :class:`~pyarts.arts.MuelmatTensor3`.
+  * - :class:`~pyarts.arts.ArrayOfMuelmatVector`
+    - A list of :class:`~pyarts.arts.MuelmatVector`.
+  * - :class:`~pyarts.arts.ArrayOfNamedGriddedField2`
+    - A list of :class:`~pyarts.arts.NamedGriddedField2`
+  * - :class:`~pyarts.arts.ArrayOfNumeric`
+    - A list of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.ArrayOfPropagationPathPoint`
+    - A list of :class:`~pyarts.arts.PropagationPathPoint`.
+  * - :class:`~pyarts.arts.ArrayOfPropmat`
+    - A list of :class:`~pyarts.arts.Propmat`
+  * - :class:`~pyarts.arts.ArrayOfPropmatMatrix`
+    - A list of :class:`~pyarts.arts.PropmatMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfPropmatVector`
+    - A list of :class:`~pyarts.arts.PropmatVector`.
+  * - :class:`~pyarts.arts.ArrayOfQuantumIdentifier`
+    - A list of :class:`~pyarts.arts.QuantumIdentifier`
+  * - :class:`~pyarts.arts.ArrayOfScatteringMetaData`
+    - A list of :class:`~pyarts.arts.ScatteringMetaData`
+  * - :class:`~pyarts.arts.ArrayOfSensorObsel`
+    - List of :class:`~pyarts.arts.SensorObsel`.
+  * - :class:`~pyarts.arts.ArrayOfSingleScatteringData`
+    - A list of :class:`~pyarts.arts.SingleScatteringData`
+  * - :class:`~pyarts.arts.ArrayOfSparse`
+    - A list of :class:`~pyarts.arts.Sparse`
+  * - :class:`~pyarts.arts.ArrayOfSpeciesEnum`
+    - A list of :class:`~pyarts.arts.SpeciesEnum`
+  * - :class:`~pyarts.arts.ArrayOfSpeciesIsotope`
+    - List of :class:`~pyarts.arts.SpeciesIsotope`.
+  * - :class:`~pyarts.arts.ArrayOfSpeciesTag`
+    - A list of :class:`~pyarts.arts.SpeciesTag`
+  * - :class:`~pyarts.arts.ArrayOfStokvec`
+    - A list of :class:`~pyarts.arts.Stokvec`
+  * - :class:`~pyarts.arts.ArrayOfStokvecMatrix`
+    - A list of :class:`~pyarts.arts.StokvecMatrix`.
+  * - :class:`~pyarts.arts.ArrayOfStokvecTensor3`
+    - A list of :class:`~pyarts.arts.StokvecTensor3`.
+  * - :class:`~pyarts.arts.ArrayOfStokvecVector`
+    - A list of :class:`~pyarts.arts.StokvecVector`.
+  * - :class:`~pyarts.arts.ArrayOfString`
+    - A list of :class:`~pyarts.arts.String`
+  * - :class:`~pyarts.arts.ArrayOfSun`
+    - A list of :class:`~pyarts.arts.Sun`
+  * - :class:`~pyarts.arts.ArrayOfSurfaceTarget`
+    - List of surface targets
+  * - :class:`~pyarts.arts.ArrayOfTelsemAtlas`
+    - A list of :class:`~pyarts.arts.TelsemAtlas`
+  * - :class:`~pyarts.arts.ArrayOfTensor3`
+    - A list of :class:`~pyarts.arts.Tensor3`
+  * - :class:`~pyarts.arts.ArrayOfTensor4`
+    - A list of :class:`~pyarts.arts.Tensor4`
+  * - :class:`~pyarts.arts.ArrayOfTensor5`
+    - A list of :class:`~pyarts.arts.Tensor5`
+  * - :class:`~pyarts.arts.ArrayOfTensor6`
+    - A list of :class:`~pyarts.arts.Tensor6`
+  * - :class:`~pyarts.arts.ArrayOfTensor7`
+    - A list of :class:`~pyarts.arts.Tensor7`
+  * - :class:`~pyarts.arts.ArrayOfTime`
+    - A list of :class:`~pyarts.arts.Time`
+  * - :class:`~pyarts.arts.ArrayOfVector`
+    - A list of :class:`~pyarts.arts.Vector`
+  * - :class:`~pyarts.arts.ArrayOfVector2`
+    - A list of :class:`~pyarts.arts.Vector2`
+  * - :class:`~pyarts.arts.ArrayOfVector3`
+    - A list of :class:`~pyarts.arts.Vector3`
+  * - :class:`~pyarts.arts.ArrayOfXsecRecord`
+    - A list of cross-section records
+  * - :class:`~pyarts.arts.AscendingGrid`
+    - A sorted grid of always ascending values.
+  * - :class:`~pyarts.arts.AtmData`
+    - Atmospheric data
+  * - :class:`~pyarts.arts.AtmField`
+    - An atmospheric field
+  * - :class:`~pyarts.arts.AtmKey`
+    - Group name: "AtmKey"
+  * - :class:`~pyarts.arts.AtmPoint`
+    - An atmospheric point
+  * - :class:`~pyarts.arts.AtmTarget`
+    - Atmospheric target
+  * - :class:`~pyarts.arts.Block`
+    - A single block matrix
+  * - :class:`~pyarts.arts.BlockMatrix`
+    - A block matrix for the covariance matrix
+  * - :class:`~pyarts.arts.CIARecord`
+    - Contains information to compute collision induced absorption for a pair of species
+  * - :class:`~pyarts.arts.CallbackOperator`
+    - Used to inject custom code into :class:`~pyarts.arts.Agenda`
+  * - :class:`~pyarts.arts.ComplexGriddedField2`
+    - A 2 dimensional gridded set of complex data
+  * - :class:`~pyarts.arts.ComplexMatrix`
+    - A complex matrix
+  * - :class:`~pyarts.arts.ComplexTensor3`
+    - A complex tensor3
+  * - :class:`~pyarts.arts.ComplexVector`
+    - A complex vector
+  * - :class:`~pyarts.arts.CovarianceMatrix`
+    - A covariance matrix
+  * - :class:`~pyarts.arts.CxxWorkspace`
+    - The core ARTS Workspace
+  * - :class:`~pyarts.arts.DisortBDRF`
+    - A bidirectional reflectance function
+  * - :class:`~pyarts.arts.DisortBDRFOperator`
+    - A BDRF operator for DISORT
+  * - :class:`~pyarts.arts.EarthEllipsoid`
+    - Group name: "EarthEllipsoid"
+  * - :class:`~pyarts.arts.EuropaEllipsoid`
+    - Group name: "EuropaEllipsoid"
+  * - :class:`~pyarts.arts.FieldComponent`
+    - Group name: "FieldComponent"
+  * - :class:`~pyarts.arts.FileType`
+    - Group name: "FileType"
+  * - :class:`~pyarts.arts.GanymedeEllipsoid`
+    - Group name: "GanymedeEllipsoid"
+  * - :class:`~pyarts.arts.GasAbsLookup`
+    - An absorption lookup table
+  * - :class:`~pyarts.arts.GridType`
+    - Group name: "GridType"
+  * - :class:`~pyarts.arts.GriddedField1`
+    - A 1 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField1Named`
+    - A 3 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField2`
+    - A 2 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField3`
+    - A 3 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField4`
+    - A 4 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField5`
+    - A 5 dimensional gridded set  of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.GriddedField6`
+    - A 6 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.HitranType`
+    - Group name: "HitranType"
+  * - :class:`~pyarts.arts.HydrostaticPressureOption`
+    - Group name: "HydrostaticPressureOption"
+  * - :class:`~pyarts.arts.Index`
+    - A 64 bit signed integer type
+  * - :class:`~pyarts.arts.IndexVector`
+    - A vector of indices
+  * - :class:`~pyarts.arts.InterpolationExtrapolation`
+    - Group name: "InterpolationExtrapolation"
+  * - :class:`~pyarts.arts.IoEllipsoid`
+    - Group name: "IoEllipsoid"
+  * - :class:`~pyarts.arts.IsoRatioOption`
+    - Group name: "IsoRatioOption"
+  * - :class:`~pyarts.arts.JacobianTargetType`
+    - A type of target for use in Jacobian Matrix calculations
+  * - :class:`~pyarts.arts.JacobianTargets`
+    - A list of targets for use in Jacobian Matrix calculations
+  * - :class:`~pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap`
+    - A map target types to matrix and inverse matrix pairs of :class:`~pyarts.arts.BlockMatrix`
+  * - :class:`~pyarts.arts.JupiterEllipsoid`
+    - Group name: "JupiterEllipsoid"
+  * - :class:`~pyarts.arts.LineByLineCutoffType`
+    - Group name: "LineByLineCutoffType"
+  * - :class:`~pyarts.arts.LineByLineLineshape`
+    - Group name: "LineByLineLineshape"
+  * - :class:`~pyarts.arts.LineByLineVariable`
+    - Group name: "LineByLineVariable"
+  * - :class:`~pyarts.arts.LineList`
+    - A list of absorption lines
+  * - :class:`~pyarts.arts.LineShapeModel`
+    - Multi-species line shape model
+  * - :class:`~pyarts.arts.LineShapeModelCoefficient`
+    - Group name: "LineShapeModelCoefficient"
+  * - :class:`~pyarts.arts.LineShapeModelFIXMENAMEODR`
+    - Line shape model
+  * - :class:`~pyarts.arts.LineShapeModelList`
+    - A list of line shape models
+  * - :class:`~pyarts.arts.LineShapeModelParameters`
+    - A temperature model calculator
+  * - :class:`~pyarts.arts.LineShapeModelType`
+    - Group name: "LineShapeModelType"
+  * - :class:`~pyarts.arts.LineShapeModelVariable`
+    - Group name: "LineShapeModelVariable"
+  * - :class:`~pyarts.arts.LineShapeOutput`
+    - Derived line shape parameters
+  * - :class:`~pyarts.arts.LineShapeSingleSpeciesModel`
+    - Single species line shape model
+  * - :class:`~pyarts.arts.LineShapeSpeciesModel`
+    - Line shape model for a species
+  * - :class:`~pyarts.arts.LineShapeTemperatureModelOld`
+    - Group name: "LineShapeTemperatureModelOld"
+  * - :class:`~pyarts.arts.LineShapeTypeOld`
+    - Group name: "LineShapeTypeOld"
+  * - :class:`~pyarts.arts.LineShapeVariableOld`
+    - Group name: "LineShapeVariableOld"
+  * - :class:`~pyarts.arts.LineShapeVariableTemperatureModelList`
+    - A list of line shape models with temperature coefficients
+  * - :class:`~pyarts.arts.LineTarget`
+    - Line target
+  * - :class:`~pyarts.arts.LinemixingEcsData`
+    - A map of line mixing data
+  * - :class:`~pyarts.arts.MCAntenna`
+    - An antenna object used by ``MCGeneral``
+  * - :class:`~pyarts.arts.MagneticAngles`
+    - Magnetic angles for the Zeeman effect, note that the numbers are in radians.
+  * - :class:`~pyarts.arts.MarsEllipsoid`
+    - Group name: "MarsEllipsoid"
+  * - :class:`~pyarts.arts.Matrix`
+    - A 2 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.MatrixOfDisortBDRF`
+    - A 2 dimensional array of :class:`~pyarts.arts.DisortBDRF`
+  * - :class:`~pyarts.arts.Method`
+    - The method class of ARTS
+  * - :class:`~pyarts.arts.MissingFieldComponentError`
+    - Group name: "MissingFieldComponentError"
+  * - :class:`~pyarts.arts.MoonEllipsoid`
+    - Group name: "MoonEllipsoid"
+  * - :class:`~pyarts.arts.Muelmat`
+    - A single Mueller 4x4 matrix.
+  * - :class:`~pyarts.arts.MuelmatMatrix`
+    - A matrix of :class:`~pyarts.arts.Muelmat`.
+  * - :class:`~pyarts.arts.MuelmatTensor3`
+    - A :class:`~pyarts.arts.Tensor3` of :class:`~pyarts.arts.Muelmat`.
+  * - :class:`~pyarts.arts.MuelmatVector`
+    - A vector of :class:`~pyarts.arts.Muelmat`.
+  * - :class:`~pyarts.arts.NamedGriddedField2`
+    - A 3 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.NamedGriddedField3`
+    - A 4 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.Numeric`
+    - IEEE 754 binary64 floating point number
+  * - :class:`~pyarts.arts.NumericBinaryOperator`
+    - A simple functional type.
+  * - :class:`~pyarts.arts.NumericTernaryOperator`
+    - A simple functional type.
+  * - :class:`~pyarts.arts.NumericUnaryOperator`
+    - A simple functional type.
+  * - :class:`~pyarts.arts.ParticulatePropertyTag`
+    - An particulate property key
+  * - :class:`~pyarts.arts.PartitionFunctionsType`
+    - Group name: "PartitionFunctionsType"
+  * - :class:`~pyarts.arts.PathPositionType`
+    - Group name: "PathPositionType"
+  * - :class:`~pyarts.arts.PlanetOrMoonType`
+    - Group name: "PlanetOrMoonType"
+  * - :class:`~pyarts.arts.PolarizationChoice`
+    - Group name: "PolarizationChoice"
+  * - :class:`~pyarts.arts.PredefinedModelData`
+    - Contains any data required for a predefined model
+  * - :class:`~pyarts.arts.PropagationPathPoint`
+    - A simple path-point of a propagation path
+  * - :class:`~pyarts.arts.Propmat`
+    - A single propagation matrix.
+  * - :class:`~pyarts.arts.PropmatMatrix`
+    - A matrix of :class:`~pyarts.arts.Propmat`.
+  * - :class:`~pyarts.arts.PropmatVector`
+    - A vector of :class:`~pyarts.arts.Propmat`.
+  * - :class:`~pyarts.arts.QuantumIdentifier`
+    - An ID for an absorption species state
+  * - :class:`~pyarts.arts.QuantumNumberLocalState`
+    - A local state of quantum numbers
+  * - :class:`~pyarts.arts.QuantumNumberType`
+    - Group name: "QuantumNumberType"
+  * - :class:`~pyarts.arts.QuantumNumberValue`
+    - A single quantum number with a value
+  * - :class:`~pyarts.arts.QuantumNumberValueList`
+    - A list of unique :class:`~pyarts.arts.QuantumNumberValue`
+  * - :class:`~pyarts.arts.Range`
+    - A range, used to select parts of a matpack type
+  * - :class:`~pyarts.arts.Rational`
+    - Holds a rational number as two :class:`~pyarts.arts.Index` n / d
+  * - :class:`~pyarts.arts.ScatteringMetaData`
+    - Holds meta data about the scattering
+  * - :class:`~pyarts.arts.SensorObsel`
+    - A single observation element.
+  * - :class:`~pyarts.arts.SensorPosLos`
+    - A position and line-of-sight of a sensor.
+  * - :class:`~pyarts.arts.SensorPosLosVector`
+    - Vector of :class:`~pyarts.arts.SensorPosLos`.
+  * - :class:`~pyarts.arts.SingleScatteringData`
+    - Holds single scattering data
+  * - :class:`~pyarts.arts.Sparse`
+    - A sparse version of :class:`~pyarts.arts.Matrix`
+  * - :class:`~pyarts.arts.SpeciesEnum`
+    - Group name: "SpeciesEnum"
+  * - :class:`~pyarts.arts.SpeciesIsotope`
+    - Contains descriptions about an isotope.
+  * - :class:`~pyarts.arts.SpeciesIsotopologueRatios`
+    - Isotopologue ratios for a species
+  * - :class:`~pyarts.arts.SpeciesTag`
+    - A tagged absorption species
+  * - :class:`~pyarts.arts.SpeciesTagType`
+    - Group name: "SpeciesTagType"
+  * - :class:`~pyarts.arts.SpectralRadianceOperator`
+    - An operator for getting the :attr:`~pyarts.workspace.Workspace.spectral_radiance`
+  * - :class:`~pyarts.arts.SpectralRadianceUnitType`
+    - Group name: "SpectralRadianceUnitType"
+  * - :class:`~pyarts.arts.Stokvec`
+    - A single Stokes vector (of length 4).
+  * - :class:`~pyarts.arts.StokvecGriddedField6`
+    - A 6-dimensional gridof :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecMatrix`
+    - A matrix of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecTensor3`
+    - A :class:`~pyarts.arts.Tensor3` but of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecTensor4`
+    - A :class:`~pyarts.arts.Tensor4` but of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecTensor5`
+    - A :class:`~pyarts.arts.Tensor5` but of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecTensor6`
+    - A :class:`~pyarts.arts.Tensor6` but of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.StokvecVector`
+    - A vector of :class:`~pyarts.arts.Stokvec`.
+  * - :class:`~pyarts.arts.String`
+    - Basic string type
+  * - :class:`~pyarts.arts.Sun`
+    - A single sun.
+  * - :class:`~pyarts.arts.SurfData`
+    - Surface data
+  * - :class:`~pyarts.arts.SurfaceField`
+    - A surface field that keeps relevant surface parameters
+  * - :class:`~pyarts.arts.SurfaceKey`
+    - Group name: "SurfaceKey"
+  * - :class:`~pyarts.arts.SurfacePoint`
+    - A surface point.
+  * - :class:`~pyarts.arts.SurfacePropertyTag`
+    - A surface property
+  * - :class:`~pyarts.arts.SurfaceTarget`
+    - Surface target
+  * - :class:`~pyarts.arts.SurfaceTypeTag`
+    - A surface type
+  * - :class:`~pyarts.arts.TelsemAtlas`
+    - A telsem atlas
+  * - :class:`~pyarts.arts.TemperatureModel`
+    - Temperature model
+  * - :class:`~pyarts.arts.Tensor3`
+    - A 3 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.Tensor4`
+    - A 4 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.Tensor5`
+    - A 5 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.Tensor6`
+    - A 6 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.Tensor7`
+    - A 7 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.TessemNN`
+    - Data required by TESSEM to calculate surface emissivity
+  * - :class:`~pyarts.arts.Time`
+    - Represents a time stamp
+  * - :class:`~pyarts.arts.TimeStepType`
+    - Group name: "TimeStepType"
+  * - :class:`~pyarts.arts.Vector`
+    - A 1 dimensional array of :class:`~pyarts.arts.Numeric`
+  * - :class:`~pyarts.arts.Vector2`
+    - A fixed-size 2D version of :class:`~pyarts.arts.Vector`.
+  * - :class:`~pyarts.arts.Vector3`
+    - A fixed-size 3D version of :class:`~pyarts.arts.Vector`.
+  * - :class:`~pyarts.arts.VenusEllipsoid`
+    - Group name: "VenusEllipsoid"
+  * - :class:`~pyarts.arts.VibrationalEnergyLevels`
+    - A map of vibrational energy levels for NLTE calculations
+  * - :class:`~pyarts.arts.WorkspaceVariable`
+    - A workspace variable
+  * - :class:`~pyarts.arts.XsecRecord`
+    - A single cross-section record
+  * - :class:`~pyarts.arts.ZeemanLineModel`
+    - Zeeman model
+  * - :class:`~pyarts.arts.ZeemanModel`
+    - A Zeeman model
+  * - :class:`~pyarts.arts.ZeemanPolarization`
+    - Options for ZeemanPolarization
+  * - :class:`~pyarts.arts.cppdisort`
+    - A DISORT object
+  * - :class:`~pyarts.arts.disort_settings_agendaPredefined`
+    - Group name: "disort_settings_agendaPredefined"
+  * - :class:`~pyarts.arts.propagation_matrix_agendaPredefined`
+    - Group name: "propagation_matrix_agendaPredefined"
+  * - :class:`~pyarts.arts.propagation_matrix_scattering_agendaPredefined`
+    - Group name: "propagation_matrix_scattering_agendaPredefined"
+  * - :class:`~pyarts.arts.ray_path_observer_agendaPredefined`
+    - Group name: "ray_path_observer_agendaPredefined"
+  * - :class:`~pyarts.arts.spectral_radiance_observer_agendaPredefined`
+    - Group name: "spectral_radiance_observer_agendaPredefined"
+  * - :class:`~pyarts.arts.spectral_radiance_space_agendaPredefined`
+    - Group name: "spectral_radiance_space_agendaPredefined"
+  * - :class:`~pyarts.arts.spectral_radiance_surface_agendaPredefined`
+    - Group name: "spectral_radiance_surface_agendaPredefined"
+
+.. rubric:: Functions
+
+
+.. list-table:: 
+
+  * - :func:`~pyarts.arts.frequency_shift`
+    - Get the frequency shifted frequency grid at a point in the atmosphere
+  * - :func:`~pyarts.arts.igrf`
+    - Compute the magnetic field according to IGRF

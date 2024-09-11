@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Errors inside the C++ code &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="Use of std::formatter&lt;T&gt;" href="develop.classes.formatter.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Errors inside the C++ code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-of-macros-in-debug-h">Use of macros in <cite>debug.h</cite></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-does-it-achieve">What does it achieve?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-is-it-implemented">How is it implemented?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arts-assert">ARTS_ASSERT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arts-user-error">ARTS_USER_ERROR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arts-user-error-if">ARTS_USER_ERROR_IF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arts-method-error-catch">ARTS_METHOD_ERROR_CATCH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#guide-to-a-valid-use-of-the-formatting-string">Guide to a valid use of the formatting string</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="develop.html">For Developers</a></li>
+      <li class="breadcrumb-item active">Errors inside the C++ code</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/develop.error.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="errors-inside-the-c-code">
+<h1>Errors inside the C++ code<a class="headerlink" href="#errors-inside-the-c-code" title="Link to this heading"></a></h1>
+<section id="use-of-macros-in-debug-h">
+<h2>Use of macros in <cite>debug.h</cite><a class="headerlink" href="#use-of-macros-in-debug-h" title="Link to this heading"></a></h2>
+<section id="what-does-it-achieve">
+<h3>What does it achieve?<a class="headerlink" href="#what-does-it-achieve" title="Link to this heading"></a></h3>
+<p>We need to log and throw at errors.  This is done using the macros in <cite>debug.h</cite>.</p>
+<p>These macros give consistent output that allows 1) easy debugging and 2) clear
+messages about the problems to the user.</p>
+</section>
+<section id="how-is-it-implemented">
+<h3>How is it implemented?<a class="headerlink" href="#how-is-it-implemented" title="Link to this heading"></a></h3>
+<p>The macros are defined in <cite>debug.h</cite> and are used throughout the ARTS code.</p>
+<p>There are the macros that are important in there.</p>
+<ol class="arabic simple">
+<li><p>ARTS_ASSERT</p></li>
+<li><p>ARTS_USER_ERROR</p></li>
+<li><p>ARTS_USER_ERROR_IF</p></li>
+<li><p>ARTS_METHOD_ERROR_CATCH</p></li>
+</ol>
+<p>All of these use the <cite>std::format</cite> library to format the error message.</p>
+<p>All of these adds relevant line numbers and file names to the error message.
+If the compiler was modern enough, even the function signature is added.</p>
+</section>
+<section id="arts-assert">
+<h3>ARTS_ASSERT<a class="headerlink" href="#arts-assert" title="Link to this heading"></a></h3>
+<p>This is used for errors caused by the programmer.</p>
+<p>It is only available when debug flags are set.
+The error message will be thrown as an exception of the <cite>std::logic_error</cite> type.</p>
+<p>Upon setting <cite>-DARTS_ASSERT_USE_C</cite>, the macro will use the C <cite>assert</cite> function.
+This will cause the program to abort if the condition is not met.
+The error message will not be printed in this mode.</p>
+<p>Example usage:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ARTS_ASSERT</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is a test message, {} is not {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="arts-user-error">
+<h3>ARTS_USER_ERROR<a class="headerlink" href="#arts-user-error" title="Link to this heading"></a></h3>
+<p>This is used for unconditional errors caused by the user.</p>
+<p>This gives an error message for user errors.  It is always available.
+The error message will be thrown as an exception of the <cite>std::runtime_error</cite> type.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ARTS_USER_ERROR</span><span class="p">(</span><span class="s">&quot;This is a test message, {} is not {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="arts-user-error-if">
+<h3>ARTS_USER_ERROR_IF<a class="headerlink" href="#arts-user-error-if" title="Link to this heading"></a></h3>
+<p>This is used for conditional errors caused by the user.</p>
+<p>This gives a conditional error for user errors.  It is always available.
+The error message will be thrown as an exception of the <cite>std::runtime_error</cite> type.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ARTS_USER_ERROR</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="s">&quot;This is a test message, {} is not {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="arts-method-error-catch">
+<h3>ARTS_METHOD_ERROR_CATCH<a class="headerlink" href="#arts-method-error-catch" title="Link to this heading"></a></h3>
+<p>This is used in a function try-catch block.  It gives the method name.</p>
+<p>This gives an error message for method errors.  It is always available.</p>
+<p>The error message will be thrown as an exception of the <cite>std::runtime_error</cite> type.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">func</span><span class="p">(...)</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span><span class="w"> </span><span class="n">ARTS_METHOD_ERROR_CATCH</span>
+</pre></div>
+</div>
+</section>
+<section id="guide-to-a-valid-use-of-the-formatting-string">
+<h3>Guide to a valid use of the formatting string<a class="headerlink" href="#guide-to-a-valid-use-of-the-formatting-string" title="Link to this heading"></a></h3>
+<p>The formatting string should be a valid format string for the <cite>std::format</cite> function.
+This means that you need to use <cite>{}</cite> for each the arguments that you want to insert.
+You may add extra formatting options to the <cite>{}</cite>, these depends on the type you are formatting.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;I have {} apple(s), {} orange(s), and {} argument(s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="c1">// Should give the string: &quot;I have 1 apple(s), 2 orange(s), and 3 argument(s)&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="develop.classes.formatter.html" class="btn btn-neutral float-left" title="Use of std::formatter&lt;T&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

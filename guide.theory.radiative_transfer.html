@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radiative Transfer &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Guide" href="guide.user.html" />
+    <link rel="prev" title="Absorption" href="guide.theory.absorption.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="guide.html">Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="guide.theory.html">Theory Guide</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="guide.theory.absorption.html">Absorption</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Radiative Transfer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a-single-step">A single step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-steps">Multiple steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partial-derivatives">Partial derivatives</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide.user.html">User Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="guide.html">Guide</a></li>
+          <li class="breadcrumb-item"><a href="guide.theory.html">Theory Guide</a></li>
+      <li class="breadcrumb-item active">Radiative Transfer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/guide.theory.radiative_transfer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="radiative-transfer">
+<span id="sec-radiative-transfer"></span><h1>Radiative Transfer<a class="headerlink" href="#radiative-transfer" title="Link to this heading"></a></h1>
+<p>The step-by-step equation of ARTS radiative transfer calculation is described in this section.
+The key variables to look out for are <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a> and <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a>.</p>
+<section id="a-single-step">
+<h2>A single step<a class="headerlink" href="#a-single-step" title="Link to this heading"></a></h2>
+<p>A single step of the radiative transfer calculation in ARTS solvers assume to follow from</p>
+<div class="math notranslate nohighlight">
+\[I_{1} = J_{0} + T_{0} \left(I_{0} - J_{0}\right)\]</div>
+<p>where
+<span class="math notranslate nohighlight">\(I_{1}\)</span> is the spectral radiance after the step,
+<span class="math notranslate nohighlight">\(I_{0}\)</span> is the spectral radiance before the step,
+<span class="math notranslate nohighlight">\(J_{0}\)</span> is the spectral radiance source at the step, and
+<span class="math notranslate nohighlight">\(T_{0}\)</span> is the transmittance through the current step.</p>
+<p>To get more of an intuitive understanding of this equation,
+a “step” could be considered as a single layer of the atmosphere.
+Imagine that the radiation is coming into the layer at some level is <span class="math notranslate nohighlight">\(I_{0}\)</span>,
+and that the radiation is leaving at another level is <span class="math notranslate nohighlight">\(I_{1}\)</span>.  The radiation that is leaving
+is the sum of the radiation that is coming in, and the transmitted incoming radiation
+differences to the local source of the radiation <span class="math notranslate nohighlight">\(T_{0} \left(I_{0} - J_{0}\right)\)</span>,
+and the radiation that is emitted by the layer itself <span class="math notranslate nohighlight">\(J_{0}\)</span></p>
+<p>The way to compute <span class="math notranslate nohighlight">\(J_{0}\)</span> and <span class="math notranslate nohighlight">\(T_{0}\)</span> is not discussed here.
+What is important is that they are computed based on the state of the model
+in the surrounding levels of the model.  Noting that the radiation coming into the layer
+may also have been reflected and can thus depend on all model states, we can write this as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}J_{0} &amp;=&amp; J(x_0, x_1) \\
+T_{0} &amp;=&amp; T(x_0, x_1) \\
+I_{0} &amp;=&amp; I_0(\vec{x})\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_0\)</span>, <span class="math notranslate nohighlight">\(x_1\)</span> the levels above and below the layer, and <span class="math notranslate nohighlight">\(\vec{x}\)</span> is the state of the model everywhere.
+Note that both <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span> are covered by <span class="math notranslate nohighlight">\(\vec{x}\)</span>.  This will matter when we compute the Jacobian.</p>
+</section>
+<section id="multiple-steps">
+<h2>Multiple steps<a class="headerlink" href="#multiple-steps" title="Link to this heading"></a></h2>
+<p>We are not always interested in the radiation at level 1, but quite often in the radiation
+at the end of the atmospheric path.  This, and the radiation at intermittent levels, can be computed
+as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}I_{2}   &amp;=&amp; J_{1} + T_{1} \left(I_{1} - J_{1}\right) \\
+I_{3}   &amp;=&amp; J_{2} + T_{2} \left(I_{2} - J_{2}\right) \\
+I_{4}   &amp;=&amp; J_{3} + T_{3} \left(I_{3} - J_{3}\right) \\
+I_{5}   &amp;=&amp; J_{4} + T_{4} \left(I_{4} - J_{4}\right) \\
+&amp;\cdots&amp; \\
+I_{N} &amp;=&amp; J_{N-1} + T_{N-1} \left(I_{N-1} - J_{N-1}\right)\end{split}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depends on values at levels <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>,
+even though these have been omitted for brevity.
+There are here <span class="math notranslate nohighlight">\(N-1\)</span> steps or layers, and <span class="math notranslate nohighlight">\(N\)</span> levels.  Note that these steps are
+non-commutative, since the step through a layer polarizes the radiation.</p>
+<p>If we expand these expressions and collect them by transmittance, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}I_1 &amp;=&amp; J_{0}   &amp;+&amp;                   T_{0} \left(I_{0} - J_{0}\right)  \\
+I_2 &amp;=&amp; J_{1}   &amp;+&amp;             T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp;             T_{1} \left(J_{0} - J_{1}\right)  \\
+I_3 &amp;=&amp; J_{2}   &amp;+&amp;       T_{2} T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp;       T_{2} T_{1} \left(J_{0} - J_{1}\right) &amp;+&amp;       T_{2} \left(J_{1} - J_{2}\right)  \\
+I_4 &amp;=&amp; J_{3}   &amp;+&amp; T_{3} T_{2} T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp; T_{3} T_{2} T_{1} \left(J_{0} - J_{1}\right) &amp;+&amp; T_{3} T_{2} \left(J_{1} - J_{2}\right) &amp;+&amp; T_{3} \left(J_{2} - J_{3}\right) \\
+&amp;\cdots&amp; \\
+I_N &amp;=&amp; J_{N-1} &amp;+&amp; T_{N-1}T_{N-2} \cdots T_1T_0 \left(I_{0} - J_{0}\right) &amp;+&amp; \cdots                                       &amp;+&amp; \cdots                                 &amp;+&amp; T_{N-1} \left(J_{N-2} - J_{N-1}\right)\end{split}\]</div>
+<p>which we can rewrite as a simple sum of terms:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\vec{I} = \vec{J}' + \left[
+\begin{array}{rrcrr}
+  T_0                          &amp; 0                            &amp; \cdots &amp; 0              &amp; 0 \\
+  T_1T_0                       &amp; T_1                          &amp; \cdots &amp; 0              &amp; 0 \\
+  \cdots                       &amp; \cdots                       &amp; \cdots &amp; 0              &amp; 0 \\
+  T_{N-2}T_{N-3} \cdots T_1T_0 &amp; T_{N-2}T_{N-3} \cdots T_2T_1 &amp; \cdots &amp; T_{N-2}        &amp; 0 \\
+  T_{N-1}T_{N-2} \cdots T_1T_0 &amp; T_{N-1}T_{N-2} \cdots T_2T_1 &amp; \cdots &amp; T_{N-1}T_{N-2} &amp; T_{N-1}
+\end{array}
+\right] \left[
+\begin{array}{lcl}
+  I_0 &amp;-&amp; J_0         \\
+  J_0 &amp;-&amp; J_1         \\
+  &amp;\cdots&amp;            \\
+  J_{N-3} &amp;-&amp; J_{N-2} \\
+  J_{N-2} &amp;-&amp; J_{N-1}
+\end{array} \right]\end{split}\]</div>
+<p>and so on.  Here, <span class="math notranslate nohighlight">\(\vec{J}'\)</span> is the source vector but we use a prime-tick because it is
+0-indexed whereas <span class="math notranslate nohighlight">\(\vec{I}\)</span> is 1-indexed.</p>
+<p>In practice, it is often more convenient to just use
+the step-by-step equations, but the matrix above
+may help offer important insights about potential optimizations in the future.</p>
+</section>
+<section id="partial-derivatives">
+<h2>Partial derivatives<a class="headerlink" href="#partial-derivatives" title="Link to this heading"></a></h2>
+<p>The Jacobian after the last step is important for the retrieval of the state of the atmosphere.
+This can be computed following</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial I_{N}}{\partial\vec{x}} =
+\frac{\partial J_{N-1}}{\partial\vec{x}} +
+\frac{\partial T_{N-1}}{\partial\vec{x}} \left(I_{N-1} - J_{N-1} \right) +
+T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\vec{x}} - \frac{\partial J_{N-1}}{\partial\vec{x}}\right)\]</div>
+<p>As we know that the solution can be written as a sum of terms, we can expand the last term as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{llrl}
+  \frac{\partial I_N}{\partial \vec{x}} &amp;= T_{N-1}T_{N-2} \cdots T_1T_0\frac{\partial I_0}{\partial \vec{x}} + \frac{\partial J_{N-1}}{\partial \vec{x}}&amp; \\
+          &amp;+&amp; \left[
+  \begin{array}{rrcrr}
+    \frac{\partial T_{N-1}T_{N-2} \cdots T_1T_0}{\partial \vec{x}} &amp;
+    \frac{\partial T_{N-1}T_{N-2} \cdots T_2T_1}{\partial \vec{x}} &amp;
+    \cdots &amp;
+    \frac{\partial T_{N-1}T_{N-2}}{\partial \vec{x}} &amp;
+    \frac{\partial T_{N-1}}{\partial \vec{x}}
+  \end{array}
+   \right] &amp;\left[
+  \begin{array}{lcl}
+    I_0 &amp;-&amp; J_0         \\
+    J_0 &amp;-&amp; J_1         \\
+    &amp;\cdots&amp;            \\
+    J_{N-3} &amp;-&amp; J_{N-2} \\
+    J_{N-2} &amp;-&amp; J_{N-1}
+  \end{array} \right] \\
+  &amp;+&amp;  \left[
+  \begin{array}{rrcrr}
+    T_{N-1}T_{N-2} \cdots T_1T_0 &amp; T_{N-1}T_{N-2} \cdots T_2T_1 &amp; \cdots &amp; T_{N-1}T_{N-2} &amp; T_{N-1}
+  \end{array}
+  \right] &amp;\left[
+  \begin{array}{lcl}
+    &amp;-&amp; \frac{\partial J_0 }{\partial \vec{x}}        \\
+    \frac{\partial J_0}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_1}{\partial \vec{x}}         \\
+    &amp;\cdots&amp;            \\
+    \frac{\partial J_{N-3}}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_{N-2}}{\partial \vec{x}} \\
+    \frac{\partial J_{N-2}}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_{N-1}}{\partial \vec{x}}
+  \end{array} \right]
+\end{array}\end{split}\]</div>
+<p>Remember we already defined that that
+<span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depends on values at levels <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
+These are part of <span class="math notranslate nohighlight">\(\vec{x}\)</span> only via mapping, <span class="math notranslate nohighlight">\(\vec{x}\)</span> covers both <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
+Thus, the <span class="math notranslate nohighlight">\(\frac{\partial I_{0}}{\partial\vec{x}}\)</span>-term has been lifted from the above expression,
+as the other terms may be computed on a separate grid before being mapped back to <span class="math notranslate nohighlight">\(\vec{x}\)</span>.
+This mapping is not discussed here in details.  Introducing an alternative notation to make the expressions below
+more compact,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Pi_{n}^{m} = \left\{
+\begin{array}{ll}
+  \prod_{i=n}^m T_i = T_n T_{n-1} \cdots T_{m+1} T_m &amp; n \geq m \\
+  1 &amp; n &lt; m
+\end{array}\right.\end{split}\]</div>
+<p>where it is imporant to note that all <span class="math notranslate nohighlight">\(T_i\)</span> are only functions of <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.</p>
+<p>For sake of keeping the expressions short, we add <span class="math notranslate nohighlight">\(T_N=1\)</span> and assume <span class="math notranslate nohighlight">\(N&gt;&gt;0\)</span> below.
+We can extract the two dot products and expand them to see what the Jacobian looks like.
+For the source partial derivatives:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{llll}
+  \frac{\partial I_N^{(1)}}{\partial x_0} &amp;=&amp; &amp;&amp;
+  \left(\Pi_N^1 - \Pi_N^0\right) &amp;\frac{\partial J_0}{\partial x_0}
+  \\
+  \frac{\partial I_N^{(1)}}{\partial x_1} &amp;=&amp;
+  \left(\Pi_N^1 - \Pi_N^0\right) &amp;\frac{\partial J_0}{\partial x_1} &amp;+&amp;
+  \left(\Pi_N^2 - \Pi_N^1\right) &amp;\frac{\partial J_1}{\partial x_1}
+  \\
+  \frac{\partial I_N^{(1)}}{\partial x_2} &amp;=&amp;
+  \left(\Pi_N^2 - \Pi_N^1\right) &amp;\frac{\partial J_1}{\partial x_2} &amp;+&amp;
+  \left(\Pi_N^3 - \Pi_N^2\right) &amp;\frac{\partial J_2}{\partial x_2}
+  \\
+  \cdots
+  \\
+  \frac{\partial I_N^{(1)}}{\partial x_{N-2}} &amp;=&amp;
+  \left(\Pi_N^{N-2} - \Pi_N^{N-3}\right) &amp;\frac{\partial J_{N-3}}{\partial x_{N-2}} &amp;+&amp;
+  \left(\Pi_N^{N-1} - \Pi_N^{N-2}\right) &amp;\frac{\partial J_{N-2}}{\partial x_{N-2}}
+  \\
+  \frac{\partial I_N^{(1)}}{\partial x_{N-1}} &amp;=&amp;
+  \left(\Pi_N^{N-1} - \Pi_N^{N-2}\right) &amp;\frac{\partial J_{N-2}}{\partial x_{N-1}} &amp;-&amp;
+  \Pi_N^{N-1}&amp;\frac{\partial J_{N-1}}{\partial x_{N-1}}
+\end{array}\end{split}\]</div>
+<p>and for the transmittance partial derivatives:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rrrrrrrrrrrrrrrrrr}
+  \frac{\partial I_N^{(2)}}{\partial x_0} &amp;=&amp;
+  \Pi_{N}^{1} &amp;\Bigl[&amp; \frac{\partial T_{0}}{\partial x_{0}} \left(I_0 - J_0\right) &amp;\Bigr]
+  \\
+  \frac{\partial I_N^{(2)}}{\partial x_1} &amp;=&amp;
+  \Pi_{N}^{2}
+  &amp;\Bigl[&amp;
+  \left(\frac{\partial T_1}{\partial x_1}T_{0} + T_{1}\frac{\partial T_{0}}{\partial x_{1}}\right) \left(I_0 - J_0\right) &amp;+&amp;
+  \frac{\partial T_{1}}{\partial x_{1}} \left(J_0 - J_1\right)&amp;\Bigr]
+  \\
+  \cdots
+  \\
+  \frac{\partial I_N^{(2)}}{\partial x_{N-1}} &amp;=&amp;
+  T_{N}
+  &amp;\Bigl[&amp;
+  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{0} \left(I_0 - J_0\right) &amp;+&amp;
+  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{1} \left(J_0 - J_1\right) &amp;+&amp;
+  \cdots &amp;+&amp;
+  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{N-2} \left(J_{N-3} - J_{N-2}\right) &amp;+&amp;
+  \frac{\partial T_{N-1}}{\partial x_{N-1}} \left(J_{N-2} - J_{N-1}\right)&amp;\Bigr]
+\end{array}\end{split}\]</div>
+<p>The expression in the grid of <span class="math notranslate nohighlight">\(\vec{x}\)</span> is then the following:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial I_{N}}{\partial \vec{x}} =
+\Pi_N^0\frac{\partial I_0}{\partial \vec{x}} +
+f
+\left(
+\frac{\partial I_N^{(1)}}{\partial \vec{x}_i} +
+\frac{\partial I_N^{(2)}}{\partial \vec{x}_i} +
+\frac{\partial J_{N-1}}{\partial \vec{x}_i}
+\right)\]</div>
+<p>where the last term is 0 for all but <span class="math notranslate nohighlight">\(i=N\)</span> and <span class="math notranslate nohighlight">\(i=N-1\)</span>
+and where the function <span class="math notranslate nohighlight">\(f\)</span> is defined as
+the map from <span class="math notranslate nohighlight">\(\vec{x}_i\rightarrow\vec{x}\)</span>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guide.theory.absorption.html" class="btn btn-neutral float-left" title="Absorption" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="guide.user.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
