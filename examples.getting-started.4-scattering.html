@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Scattering calculations &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Arts catalogue data" href="examples.arts-catalogue-data.html" />
+    <link rel="prev" title="3. Disort" href="examples.getting-started.3-disort.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="examples.getting-started.html">Getting started</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="examples.getting-started.1-basics.html">1. Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.getting-started.2-clearsky-radiative-transfer.html">2. Clearsky radiative transfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.getting-started.3-disort.html">3. Disort</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">4. Scattering calculations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Set-up-a-1D-atmosphere">Set up a 1D atmosphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Add-a-field-of-scattering-species-properties">Add a field of scattering species properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples.arts-catalogue-data.html">Arts catalogue data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.recipes.html">Recipes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="examples.getting-started.html">Getting started</a></li>
+      <li class="breadcrumb-item active">4. Scattering calculations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.getting-started.4-scattering.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="4.-Scattering-calculations">
+<h1>4. Scattering calculations<a class="headerlink" href="#4.-Scattering-calculations" title="Link to this heading"></a></h1>
+<p>This example demonstrates the basic principles of performing scattering calcualtions with ARTS. Populations of particles that scatter radiation are referred to as <em>scattering species</em>. In essence, a scattering species defines a mapping from one or several fields of <em>scattering species properties</em> to <em>scattering properties</em> which form the input to the actual scattering calculation.</p>
+<section id="Set-up-a-1D-atmosphere">
+<h2>Set up a 1D atmosphere<a class="headerlink" href="#Set-up-a-1D-atmosphere" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import numpy as np</span>
+<span class="c1"># import pyarts</span>
+
+<span class="c1"># ws = pyarts.workspace.Workspace()</span>
+<span class="c1"># ws.PlanetSet(option = &quot;Earth&quot;)</span>
+<span class="c1"># ws.atm_fieldInit(toa=100e3)</span>
+<span class="c1"># ws.atm_fieldAddGriddedData(</span>
+<span class="c1">#     key=pyarts.arts.String(&quot;t&quot;),</span>
+<span class="c1">#     data=pyarts.arts.GriddedField3.fromxml(&quot;planets/Earth/afgl/tropical/t.xml&quot;)</span>
+<span class="c1"># )</span>
+<span class="c1"># ws.atm_fieldAddGriddedData(</span>
+<span class="c1">#     key=pyarts.arts.String(&quot;p&quot;),</span>
+<span class="c1">#     data=pyarts.arts.GriddedField3.fromxml(&quot;planets/Earth/afgl/tropical/p.xml&quot;)</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Add-a-field-of-scattering-species-properties">
+<h2>Add a field of scattering species properties<a class="headerlink" href="#Add-a-field-of-scattering-species-properties" title="Link to this heading"></a></h2>
+<p>In order to perform a simulation with ice particles, it is necessary to first define the <em>scattering species property</em> that represents the properties of the scattering species in the atmosphere. Below we define the <strong>mass density</strong> of <strong>ice</strong> as the scattering species property we use to describe the distribution of ice hydrometeors in the atmosphere.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ice_mass_density = pyarts.arts.ScatteringSpeciesProperty(&quot;ice&quot;, pyarts.arts.ParticulateProperty(&quot;MassDensity&quot;))</span>
+</pre></div>
+</div>
+</div>
+<p>We then define a GriddedField3 representing the ice mass density profile in the atmosphere and add it to <code class="docutils literal notranslate"><span class="pre">atm_field</span></code> of the workspace.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># grids = ws.atm_field[&quot;t&quot;].data.grids</span>
+<span class="c1"># z = grids[0]</span>
+<span class="c1"># ice_mass_density_profile = np.zeros_like(z)</span>
+<span class="c1"># ice_mass_density_profile[(z &gt; 10e3) * (z &lt; 15e3)] = 1e-4</span>
+<span class="c1"># ice_mass_density_profile = pyarts.arts.GriddedField3(data=ice_mass_density_profile[..., None, None], grids=grids)</span>
+<span class="c1"># ws.atm_field[ice_mass_density] = ice_mass_density_profile</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># plt.plot(ice_mass_density_profile[:, 0, 0] * 1e3, z/ 1e3)</span>
+<span class="c1"># plt.ylim([0, 40])</span>
+<span class="c1"># plt.ylabel(&quot;Altitude [km]&quot;)</span>
+<span class="c1"># plt.xlabel(&quot;Ice water content [g m$^{-3}$]&quot;)</span>
+</pre></div>
+</div>
+</div>
+<section id="Particle-size-distributions">
+<h3>Particle size distributions<a class="headerlink" href="#Particle-size-distributions" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># psd_abel12 = pyarts.arts.MGDSingleMoment(ice_mass_density, 0.22, 2.2, 0.0, 1.0, 180.0, 270.0, False)</span>
+<span class="c1"># psd_wang16 = pyarts.arts.MGDSingleMoment(ice_mass_density, &quot;Wang16&quot;, 180.0, 270.0, False)</span>
+<span class="c1"># psd_field19 = pyarts.arts.MGDSingleMoment(ice_mass_density, &quot;Field19&quot;, 180.0, 270.0, False)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># atm_point = ws.atm_field.at([12e3], [0.0], [0.0])</span>
+<span class="c1"># sizes = np.logspace(-6, -2, 41)</span>
+<span class="c1"># scat_species_a = 479.9830</span>
+<span class="c1"># scat_species_b = 3.0</span>
+
+<span class="c1"># y_abel12 = psd_abel12.evaluate(atm_point[0], sizes, scat_species_a, scat_species_b)</span>
+<span class="c1"># y_wang16 = psd_wang16.evaluate(atm_point[0], sizes, scat_species_a, scat_species_b)</span>
+<span class="c1"># y_field19 = psd_field19.evaluate(atm_point[0], sizes, scat_species_a, scat_species_b)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plt.plot(sizes, y_abel12, label=&quot;Abel 12&quot;)</span>
+<span class="c1"># plt.plot(sizes, y_wang16, label=&quot;Wang 16&quot;)</span>
+<span class="c1"># plt.plot(sizes, y_field19, label=&quot;Field 19&quot;)</span>
+<span class="c1"># plt.xscale(&quot;log&quot;)</span>
+<span class="c1"># plt.yscale(&quot;log&quot;)</span>
+<span class="c1"># plt.xlabel(&quot;Particle size [m]&quot;)</span>
+<span class="c1"># plt.ylabel(&quot;Particle number density [m$^{-4}$]&quot;)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.getting-started.3-disort.html" class="btn btn-neutral float-left" title="3. Disort" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.arts-catalogue-data.html" class="btn btn-neutral float-right" title="Arts catalogue data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

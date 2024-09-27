@@ -78,6 +78,7 @@ pyarts.arts
   pyarts.arts.ArrayOfPropmatVector
   pyarts.arts.ArrayOfQuantumIdentifier
   pyarts.arts.ArrayOfScatteringMetaData
+  pyarts.arts.ArrayOfScatteringSpecies
   pyarts.arts.ArrayOfSensorObsel
   pyarts.arts.ArrayOfSingleScatteringData
   pyarts.arts.ArrayOfSparse
@@ -115,11 +116,13 @@ pyarts.arts
   pyarts.arts.ComplexGriddedField2
   pyarts.arts.ComplexMatrix
   pyarts.arts.ComplexTensor3
+  pyarts.arts.ComplexTensor4
   pyarts.arts.ComplexVector
   pyarts.arts.CovarianceMatrix
   pyarts.arts.CxxWorkspace
   pyarts.arts.DisortBDRF
   pyarts.arts.DisortBDRFOperator
+  pyarts.arts.DisortSettings
   pyarts.arts.EarthEllipsoid
   pyarts.arts.EuropaEllipsoid
   pyarts.arts.FieldComponent
@@ -134,6 +137,7 @@ pyarts.arts
   pyarts.arts.GriddedField4
   pyarts.arts.GriddedField5
   pyarts.arts.GriddedField6
+  pyarts.arts.HenyeyGreenstein
   pyarts.arts.HitranType
   pyarts.arts.HydrostaticPressureOption
   pyarts.arts.Index
@@ -166,6 +170,7 @@ pyarts.arts
   pyarts.arts.LineTarget
   pyarts.arts.LinemixingEcsData
   pyarts.arts.MCAntenna
+  pyarts.arts.MGDSingleMoment
   pyarts.arts.MagneticAngles
   pyarts.arts.MarsEllipsoid
   pyarts.arts.Matrix
@@ -183,9 +188,18 @@ pyarts.arts
   pyarts.arts.NumericBinaryOperator
   pyarts.arts.NumericTernaryOperator
   pyarts.arts.NumericUnaryOperator
-  pyarts.arts.ParticulatePropertyTag
+  pyarts.arts.ParticleHabit
+  pyarts.arts.ParticulateProperty
   pyarts.arts.PartitionFunctionsType
   pyarts.arts.PathPositionType
+  pyarts.arts.PhaseMatrixDataTROGridded1
+  pyarts.arts.PhaseMatrixDataTROGridded2
+  pyarts.arts.PhaseMatrixDataTROGridded3
+  pyarts.arts.PhaseMatrixDataTROGridded4
+  pyarts.arts.PhaseMatrixDataTROSpectral1
+  pyarts.arts.PhaseMatrixDataTROSpectral2
+  pyarts.arts.PhaseMatrixDataTROSpectral3
+  pyarts.arts.PhaseMatrixDataTROSpectral4
   pyarts.arts.PlanetOrMoonType
   pyarts.arts.PolarizationChoice
   pyarts.arts.PredefinedModelData
@@ -200,7 +214,9 @@ pyarts.arts
   pyarts.arts.QuantumNumberValueList
   pyarts.arts.Range
   pyarts.arts.Rational
+  pyarts.arts.ScatteringHabit
   pyarts.arts.ScatteringMetaData
+  pyarts.arts.ScatteringSpeciesProperty
   pyarts.arts.SensorObsel
   pyarts.arts.SensorPosLos
   pyarts.arts.SensorPosLosVector
@@ -423,6 +439,8 @@ pyarts.arts
     - A list of :class:`~pyarts.arts.QuantumIdentifier`
   * - :class:`~pyarts.arts.ArrayOfScatteringMetaData`
     - A list of :class:`~pyarts.arts.ScatteringMetaData`
+  * - :class:`~pyarts.arts.ArrayOfScatteringSpecies`
+    - Represents species of scattering paritlces in the atmosphere.
   * - :class:`~pyarts.arts.ArrayOfSensorObsel`
     - List of :class:`~pyarts.arts.SensorObsel`.
   * - :class:`~pyarts.arts.ArrayOfSingleScatteringData`
@@ -497,6 +515,8 @@ pyarts.arts
     - A complex matrix
   * - :class:`~pyarts.arts.ComplexTensor3`
     - A complex tensor3
+  * - :class:`~pyarts.arts.ComplexTensor4`
+    - 
   * - :class:`~pyarts.arts.ComplexVector`
     - A complex vector
   * - :class:`~pyarts.arts.CovarianceMatrix`
@@ -507,6 +527,8 @@ pyarts.arts
     - A bidirectional reflectance function
   * - :class:`~pyarts.arts.DisortBDRFOperator`
     - A BDRF operator for DISORT
+  * - :class:`~pyarts.arts.DisortSettings`
+    - The settings required to run Disort.
   * - :class:`~pyarts.arts.EarthEllipsoid`
     - Group name: "EarthEllipsoid"
   * - :class:`~pyarts.arts.EuropaEllipsoid`
@@ -535,6 +557,8 @@ pyarts.arts
     - A 5 dimensional gridded set  of :class:`~pyarts.arts.Numeric` data
   * - :class:`~pyarts.arts.GriddedField6`
     - A 6 dimensional gridded set of :class:`~pyarts.arts.Numeric` data
+  * - :class:`~pyarts.arts.HenyeyGreenstein`
+    - 
   * - :class:`~pyarts.arts.HitranType`
     - Group name: "HitranType"
   * - :class:`~pyarts.arts.HydrostaticPressureOption`
@@ -599,6 +623,8 @@ pyarts.arts
     - A map of line mixing data
   * - :class:`~pyarts.arts.MCAntenna`
     - An antenna object used by ``MCGeneral``
+  * - :class:`~pyarts.arts.MGDSingleMoment`
+    - 
   * - :class:`~pyarts.arts.MagneticAngles`
     - Magnetic angles for the Zeeman effect, note that the numbers are in radians.
   * - :class:`~pyarts.arts.MarsEllipsoid`
@@ -633,12 +659,30 @@ pyarts.arts
     - A simple functional type.
   * - :class:`~pyarts.arts.NumericUnaryOperator`
     - A simple functional type.
-  * - :class:`~pyarts.arts.ParticulatePropertyTag`
-    - An particulate property key
+  * - :class:`~pyarts.arts.ParticleHabit`
+    - 
+  * - :class:`~pyarts.arts.ParticulateProperty`
+    - Group name: "ParticulateProperty"
   * - :class:`~pyarts.arts.PartitionFunctionsType`
     - Group name: "PartitionFunctionsType"
   * - :class:`~pyarts.arts.PathPositionType`
     - Group name: "PathPositionType"
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROGridded1`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROGridded2`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROGridded3`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROGridded4`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROSpectral1`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROSpectral2`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROSpectral3`
+    - 
+  * - :class:`~pyarts.arts.PhaseMatrixDataTROSpectral4`
+    - 
   * - :class:`~pyarts.arts.PlanetOrMoonType`
     - Group name: "PlanetOrMoonType"
   * - :class:`~pyarts.arts.PolarizationChoice`
@@ -667,8 +711,12 @@ pyarts.arts
     - A range, used to select parts of a matpack type
   * - :class:`~pyarts.arts.Rational`
     - Holds a rational number as two :class:`~pyarts.arts.Index` n / d
+  * - :class:`~pyarts.arts.ScatteringHabit`
+    - 
   * - :class:`~pyarts.arts.ScatteringMetaData`
     - Holds meta data about the scattering
+  * - :class:`~pyarts.arts.ScatteringSpeciesProperty`
+    - 
   * - :class:`~pyarts.arts.SensorObsel`
     - A single observation element.
   * - :class:`~pyarts.arts.SensorPosLos`
