@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.plots.ppvar_atm &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.plots.ppvar_atm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.plots.ppvar_atm</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue May  9 09:06:26 2023</span>
+
+<span class="sd">@author: richard</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="all_keys">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.all_keys">[docs]</a>
+<span class="k">def</span> <span class="nf">all_keys</span><span class="p">(</span><span class="n">atm</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">atm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">atm</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span></div>
+
+
+
+<div class="viewcode-block" id="select_keys">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.select_keys">[docs]</a>
+<span class="k">def</span> <span class="nf">select_keys</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">all_keys</span><span class="p">(</span><span class="n">atm</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">keys</span></div>
+
+
+
+<div class="viewcode-block" id="select_atm">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.select_atm">[docs]</a>
+<span class="k">def</span> <span class="nf">select_atm</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">select_keys</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">atm</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span> \
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">atm</span><span class="p">)</span> <span class="k">else</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Info">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.Info">[docs]</a>
+<span class="k">class</span> <span class="nc">Info</span><span class="p">:</span>
+<div class="viewcode-block" id="Info.__init__">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.Info.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xscale</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">xfactor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xscale</span> <span class="o">=</span> <span class="n">xscale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xfactor</span> <span class="o">=</span> <span class="n">xfactor</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="plt_info">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.plt_info">[docs]</a>
+<span class="k">def</span> <span class="nf">plt_info</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">select_keys</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+    
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ArrayOfSpeciesTag</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;VMR </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> [-]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">t</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Temperature [K]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;Pressure [Pa]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_u</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Magnetic u-component [µT]&quot;</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_v</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Magnetic v-component [µT]&quot;</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_w</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Magnetic w-component [µT]&quot;</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_u</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Wind u-component [m/s]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_v</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Wind v-component [m/s]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_w</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Info</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;Wind w-component [m/s]&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Unknown key type&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Unknown key type&quot;</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="ppvar_atm">
+<a class="viewcode-back" href="../../../pyarts.plots.html#pyarts.plots.ppvar_atm">[docs]</a>
+<span class="k">def</span> <span class="nf">ppvar_atm</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[],</span> <span class="n">info</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">path</span><span class="o">.</span><span class="n">pos</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">select_atm</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="n">info</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">else</span> <span class="n">plt_info</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">xfactor</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">xscale</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">xlabel</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [m]&quot;</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

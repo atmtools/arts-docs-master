@@ -7,7 +7,6 @@ pyarts.arts
   pyarts.arts.constants
   pyarts.arts.convert
   pyarts.arts.disort
-  pyarts.arts.fwd
   pyarts.arts.globals
   pyarts.arts.hitran
   pyarts.arts.interp
@@ -16,6 +15,7 @@ pyarts.arts
   pyarts.arts.physics
   pyarts.arts.predef
   pyarts.arts.rtepack
+  pyarts.arts.zeeman
   pyarts.arts.AbsorptionBand
   pyarts.arts.AbsorptionBandData
   pyarts.arts.AbsorptionBandSortingOption
@@ -171,7 +171,6 @@ pyarts.arts
   pyarts.arts.LinemixingEcsData
   pyarts.arts.MCAntenna
   pyarts.arts.MGDSingleMoment
-  pyarts.arts.MagneticAngles
   pyarts.arts.MarsEllipsoid
   pyarts.arts.Matrix
   pyarts.arts.MatrixOfDisortBDRF
@@ -276,6 +275,7 @@ pyarts.arts
   pyarts.arts.spectral_radiance_surface_agendaPredefined
   pyarts.arts.frequency_shift
   pyarts.arts.igrf
+  pyarts.arts.stringify_keys
 
 .. automodule:: pyarts.arts
 
@@ -290,9 +290,7 @@ pyarts.arts
   * - :py:mod:`~pyarts.arts.convert`
     - Contains several unit conversion functions used in Arts
   * - :py:mod:`~pyarts.arts.disort`
-    - 
-  * - :py:mod:`~pyarts.arts.fwd`
-    - 
+    - DISORT solver internal types
   * - :py:mod:`~pyarts.arts.globals`
     - Global settings and data
   * - :py:mod:`~pyarts.arts.hitran`
@@ -308,7 +306,9 @@ pyarts.arts
   * - :py:mod:`~pyarts.arts.predef`
     - Contains predefined absorption models
   * - :py:mod:`~pyarts.arts.rtepack`
-    - 
+    - Interface to some of the core RTE functionality
+  * - :py:mod:`~pyarts.arts.zeeman`
+    - Zeeman effect calculations
 
 .. rubric:: Classes
 
@@ -625,8 +625,6 @@ pyarts.arts
     - An antenna object used by ``MCGeneral``
   * - :class:`~pyarts.arts.MGDSingleMoment`
     - 
-  * - :class:`~pyarts.arts.MagneticAngles`
-    - Magnetic angles for the Zeeman effect, note that the numbers are in radians.
   * - :class:`~pyarts.arts.MarsEllipsoid`
     - Group name: "MarsEllipsoid"
   * - :class:`~pyarts.arts.Matrix`
@@ -838,6 +836,8 @@ pyarts.arts
 .. list-table:: 
 
   * - :func:`~pyarts.arts.frequency_shift`
-    - Get the frequency shifted frequency grid at a point in the atmosphere
+    - Overloaded function.
   * - :func:`~pyarts.arts.igrf`
     - Compute the magnetic field according to IGRF
+  * - :func:`~pyarts.arts.stringify_keys`
+    - Overloaded function.

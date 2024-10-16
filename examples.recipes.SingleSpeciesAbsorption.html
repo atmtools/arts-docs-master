@@ -6,10 +6,11 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SingleSpeciesAbsorption &mdash; ARTS 3.0.0dev1 documentation</title>
+  <title>Absorption by a single species &mdash; ARTS 3.0.0dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
 
   
@@ -23,12 +24,14 @@
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Guide" href="guide.html" />
-    <link rel="prev" title="FastFlux1D" href="examples.recipes.FastFlux1D.html" /> 
+    <link rel="next" title="Spectral atmospheric flux operator" href="examples.recipes.SpectralAtmosphericFlux.html" />
+    <link rel="prev" title="Atmospheric flux operator" href="examples.recipes.AtmosphericFlux.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -61,8 +64,18 @@
 <li class="toctree-l2"><a class="reference internal" href="examples.getting-started.html">Getting started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.arts-catalogue-data.html">Arts catalogue data</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.recipes.html">Recipes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="examples.recipes.FastFlux1D.html">FastFlux1D</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SingleSpeciesAbsorption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.recipes.AtmosphericFlux.html">Atmospheric flux operator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Absorption by a single species</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Select-absorption-species">Select absorption species</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Activate-the-recipe-for-this-species">Activate the recipe for this species</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Select-a-single-temperature,-a-VMR-value,-and-a-range-of-pressures">Select a single temperature, a VMR value, and a range of pressures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Select-frequency-range">Select frequency range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Use-the-recipe-and-convert-the-results-to-cross-sections">Use the recipe and convert the results to cross-sections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-the-results">Plot the results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Integration-test-by-ensuring-some-statistics-look-good">Integration test by ensuring some statistics look good</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples.recipes.SpectralAtmosphericFlux.html">Spectral atmospheric flux operator</a></li>
 </ul>
 </li>
 </ul>
@@ -91,9 +104,9 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
           <li class="breadcrumb-item"><a href="examples.recipes.html">Recipes</a></li>
-      <li class="breadcrumb-item active">SingleSpeciesAbsorption</li>
+      <li class="breadcrumb-item active">Absorption by a single species</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/examples.recipes.SingleSpeciesAbsorption.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/examples.recipes.SingleSpeciesAbsorption.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -101,61 +114,141 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="singlespeciesabsorption">
-<h1>SingleSpeciesAbsorption<a class="headerlink" href="#singlespeciesabsorption" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">pyarts</span>
-<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="c1"># %% Select a strong absorption line for one species</span>
-<span class="linenos"> 6</span><span class="n">species</span> <span class="o">=</span> <span class="s2">&quot;O2-66&quot;</span>  <span class="c1"># Main isotope of O2</span>
-<span class="linenos"> 7</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>  <span class="c1"># Lowest energy absorption line</span>
-<span class="linenos"> 8</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">500e6</span><span class="p">,</span> <span class="mf">500e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>  <span class="c1"># Some range around it</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># %% Activate the recipe for this species</span>
-<span class="linenos">11</span><span class="n">absorption</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">recipe</span><span class="o">.</span><span class="n">SingleSpeciesAbsorption</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">)</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="c1"># Single temperature, some range of pressures</span>
-<span class="linenos">14</span><span class="n">atm</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmPoint</span><span class="p">()</span>
-<span class="linenos">15</span><span class="n">atm</span><span class="o">.</span><span class="n">set_species_vmr</span><span class="p">(</span><span class="s2">&quot;O2&quot;</span><span class="p">,</span> <span class="mf">0.2095</span><span class="p">)</span>
-<span class="linenos">16</span><span class="n">atm</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">273</span>
-<span class="linenos">17</span><span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="linenos">18</span>
-<span class="linenos">19</span><span class="c1"># %% Use the recipe and convert the results to cross-sections</span>
-<span class="linenos">20</span><span class="n">xsec</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="linenos">21</span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
-<span class="linenos">22</span>    <span class="n">atm</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="n">p</span>
-<span class="linenos">23</span>    <span class="n">xsec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">absorption</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">atm</span><span class="p">)</span> <span class="o">/</span> <span class="n">atm</span><span class="o">.</span><span class="n">number_density</span><span class="p">(</span><span class="n">species</span><span class="p">))</span>
-<span class="linenos">24</span><span class="n">xsec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xsec</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># %% Plot the results</span>
-<span class="linenos">27</span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">((</span><span class="n">f</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">xsec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="linenos">28</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
-<span class="linenos">29</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross-section [$m^2$]&quot;</span><span class="p">)</span>
-<span class="linenos">30</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Cross-section of O$_2$ 16-16&quot;</span><span class="p">)</span>
-<span class="linenos">31</span><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mf">1e-3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xsec</span><span class="p">))</span>
-<span class="linenos">32</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-<span class="linenos">33</span>    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;P: $10^</span><span class="si">{</span><span class="s1">&#39;{&#39;</span><span class="si">}{</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="si">}{</span><span class="s1">&#39;}&#39;</span><span class="si">}</span><span class="s2">$&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">],</span>
-<span class="linenos">34</span>    <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-<span class="linenos">35</span>    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span>
-<span class="linenos">36</span><span class="p">)</span>
-<span class="linenos">37</span>
-<span class="linenos">38</span><span class="c1"># %% Integration test by ensuring some statistics look good</span>
-<span class="linenos">39</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">6.7940695853245560e-28</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">40</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">5.4406909239279050e-24</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">41</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">1.3361953365612772e-24</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">42</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">2.5383142016771395e-26</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">43</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">8.2386317491421410e-35</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+  <section id="Absorption-by-a-single-species">
+<h1>Absorption by a single species<a class="headerlink" href="#Absorption-by-a-single-species" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<section id="Select-absorption-species">
+<h2>Select absorption species<a class="headerlink" href="#Select-absorption-species" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">species</span> <span class="o">=</span> <span class="s2">&quot;O2-66&quot;</span>  <span class="c1"># Main isotope of O2</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Activate-the-recipe-for-this-species">
+<h2>Activate the recipe for this species<a class="headerlink" href="#Activate-the-recipe-for-this-species" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="pyarts.recipe.html#pyarts.recipe.SingleSpeciesAbsorption"><span class="std std-ref">SingleSpeciesAbsorption</span></a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">absorption</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">recipe</span><span class="o">.</span><span class="n">SingleSpeciesAbsorption</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Select-a-single-temperature,-a-VMR-value,-and-a-range-of-pressures">
+<h2>Select a single temperature, a VMR value, and a range of pressures<a class="headerlink" href="#Select-a-single-temperature,-a-VMR-value,-and-a-range-of-pressures" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atm</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmPoint</span><span class="p">()</span>
+<span class="n">atm</span><span class="o">.</span><span class="n">set_species_vmr</span><span class="p">(</span><span class="s2">&quot;O2&quot;</span><span class="p">,</span> <span class="mf">0.2095</span><span class="p">)</span>
+<span class="n">atm</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">273</span>
+<span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Select-frequency-range">
+<h2>Select frequency range<a class="headerlink" href="#Select-frequency-range" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>  <span class="c1"># Lowest energy absorption line</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">500e6</span><span class="p">,</span> <span class="mf">500e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>  <span class="c1"># Some range around it</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Use-the-recipe-and-convert-the-results-to-cross-sections">
+<h2>Use the recipe and convert the results to cross-sections<a class="headerlink" href="#Use-the-recipe-and-convert-the-results-to-cross-sections" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xsec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+    <span class="n">atm</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">xsec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">absorption</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">atm</span><span class="p">)</span> <span class="o">/</span> <span class="n">atm</span><span class="o">.</span><span class="n">number_density</span><span class="p">(</span><span class="n">species</span><span class="p">))</span>
+<span class="n">xsec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xsec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plot-the-results">
+<h2>Plot the results<a class="headerlink" href="#Plot-the-results" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">((</span><span class="n">f</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">xsec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross-section [$m^2$]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Cross-section of O$_2$ 16-16&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mf">1e-3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xsec</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;P: $10^</span><span class="si">{</span><span class="s1">&#39;{&#39;</span><span class="si">}{</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="si">}{</span><span class="s1">&#39;}&#39;</span><span class="si">}</span><span class="s2">$&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">],</span>
+    <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f0229572240&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/examples.recipes.SingleSpeciesAbsorption_13_1.png" src="_images/examples.recipes.SingleSpeciesAbsorption_13_1.png" />
+</div>
+</div>
+</section>
+<section id="Integration-test-by-ensuring-some-statistics-look-good">
+<h2>Integration test by ensuring some statistics look good<a class="headerlink" href="#Integration-test-by-ensuring-some-statistics-look-good" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">6.7940695853245560e-28</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">5.4406909239279050e-24</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">1.3361953365612772e-24</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">2.5383142016771395e-26</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">8.2386317491421410e-35</span> <span class="o">/</span> <span class="n">xsec</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples.recipes.FastFlux1D.html" class="btn btn-neutral float-left" title="FastFlux1D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="guide.html" class="btn btn-neutral float-right" title="Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="examples.recipes.AtmosphericFlux.html" class="btn btn-neutral float-left" title="Atmospheric flux operator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.recipes.SpectralAtmosphericFlux.html" class="btn btn-neutral float-right" title="Spectral atmospheric flux operator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

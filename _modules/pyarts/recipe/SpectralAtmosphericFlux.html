@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.recipe.SpectralAtmosphericFlux &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts.recipe.SpectralAtmosphericFlux</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts.recipe.SpectralAtmosphericFlux</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pyarts</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Flux</span><span class="p">:</span>
+    <span class="n">up</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">diffuse_down</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">direct_down</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffuse_down</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct_down</span>
+
+
+<div class="viewcode-block" id="SpectralAtmosphericFlux">
+<a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.SpectralAtmosphericFlux">[docs]</a>
+<span class="k">class</span> <span class="nc">SpectralAtmosphericFlux</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Disort clearsky flux operator using the Czarnecki-scheme.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SpectralAtmosphericFlux.__init__">
+<a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.SpectralAtmosphericFlux.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">visible_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">thermal_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">atmospheric_altitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">50e3</span><span class="p">,</span>
+        <span class="n">surface_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span><span class="p">,</span>
+        <span class="n">max_level_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">NQuad</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="n">atm_latitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">atm_longitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">solar_latitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">solar_longitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-161&quot;</span><span class="p">,</span> <span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="s2">&quot;N2-44&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2-626&quot;</span><span class="p">,</span> <span class="s2">&quot;O3-XFIT&quot;</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the total flux for a given atmospheric profile and surface temperature</span>
+
+<span class="sd">        The operator allows you to change the</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            visible_surface_reflectivity (float, optional): The surface reflectivity constant for Disort in visible. Defaults to 0.3.</span>
+<span class="sd">            thermal_surface_reflectivity (float, optional): The surface reflectivity constant for Disort in thermal. Defaults to 0.05.</span>
+<span class="sd">            atmospheric_altitude (float, optional): The top-of-the-atmosphere altitude [m]. Defaults to 50e3.</span>
+<span class="sd">            surface_temperature (float, optional): The surface temperature [K]. Defaults to 300.0.</span>
+<span class="sd">            max_level_step (float, optional): The maximum thickness of layers [m]. Defaults to 1e3.</span>
+<span class="sd">            NQuad (int, optional): The number of quadratures used by Disort. Defaults to 16.</span>
+<span class="sd">            atm_latitude (float, optional): Latitude of profile [degrees]. Defaults to 0.0.</span>
+<span class="sd">            atm_longitude (float, optional): Longitude of profile [degrees]. Defaults to 0.0.</span>
+<span class="sd">            solar_latitude (float, optional): Latitude of sun [degrees]. Defaults to 0.0.</span>
+<span class="sd">            solar_longitude (float, optional): Longitude of sun [degrees]. Defaults to 0.0.</span>
+<span class="sd">            species (list, optional): The list of absorption species. Defaults to [ &quot;H2O-161&quot;, &quot;O2-66&quot;, &quot;N2-44&quot;, &quot;CO2-626&quot;, &quot;O3-XFIT&quot;, ].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span> <span class="o">=</span> <span class="n">visible_surface_reflectivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thermal_surface_reflectivity</span> <span class="o">=</span> <span class="n">thermal_surface_reflectivity</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_quadrature_dimension</span> <span class="o">=</span> <span class="n">NQuad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_fourier_mode_dimension</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_legendre_polynomial_dimension</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">:</span>
+            <span class="n">band</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
+            <span class="n">band</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="mf">750e9</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surface_temperature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequency</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">by_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+            <span class="n">toa</span><span class="o">=</span><span class="n">atmospheric_altitude</span><span class="p">,</span>
+            <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span>
+            <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
+            <span class="n">latitude</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
+            <span class="n">longitude</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
+            <span class="n">max_step</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_pointFromPath</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sun</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField2</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span>
+            <span class="s2">&quot;star/Sun/solar_spectrum_QUIET.xml&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solar_latitude</span> <span class="o">=</span> <span class="n">solar_latitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solar_longitude</span> <span class="o">=</span> <span class="n">solar_longitude</span></div>
+
+
+<div class="viewcode-block" id="SpectralAtmosphericFlux.get_atmosphere">
+<a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.SpectralAtmosphericFlux.get_atmosphere">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_atmosphere</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nlte</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ssprops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">isots</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the atmospheric field as a dictionary of python types.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            core (bool, optional): See :meth:`ArrayOfAtmPoint.to_dict`. Defaults to True.</span>
+<span class="sd">            specs (bool, optional): See :meth:`ArrayOfAtmPoint.to_dict`. Defaults to True.</span>
+<span class="sd">            nlte (bool, optional): See :meth:`ArrayOfAtmPoint.to_dict`. Defaults to False.</span>
+<span class="sd">            ssprops (bool, optional): See :meth:`ArrayOfAtmPoint.to_dict`. Defaults to False.</span>
+<span class="sd">            isots (bool, optional): See :meth:`ArrayOfAtmPoint.to_dict`. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Atmospheric field dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">stringify_keys</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_point</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span>
+                <span class="n">core</span><span class="o">=</span><span class="n">core</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="n">specs</span><span class="p">,</span> <span class="n">nlte</span><span class="o">=</span><span class="n">nlte</span><span class="p">,</span> <span class="n">ssprops</span><span class="o">=</span><span class="n">ssprops</span><span class="p">,</span> <span class="n">isots</span><span class="o">=</span><span class="n">isots</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpectralAtmosphericFlux.__call__">
+<a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.SpectralAtmosphericFlux.__call__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">frequency_grid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span><span class="p">,</span>
+        <span class="n">atmospheric_profile</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">surface_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total flux profile</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frequency_grid (pyarts.arts.AscendingGrid): The frequency grid</span>
+<span class="sd">            atmospheric_profile (dict, optional): The atmospheric profile. Defaults to {}.</span>
+<span class="sd">            surface_temperature (float, optional): The surface temperature. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Flux, numpy.ndarray: Flux profile and average layer altitudes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">surface_temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surface_temperature</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_point</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">atmospheric_profile</span><span class="p">)</span>
+
+        <span class="c1"># Visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">frequency_grid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">sunFromGrid</span><span class="p">(</span>
+            <span class="n">sun_spectrum_raw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sun</span><span class="p">,</span>
+            <span class="n">latitude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">solar_latitude</span><span class="p">,</span>
+            <span class="n">longitude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">solar_longitude</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_frequency_gridFromPath</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_propagation_matrixFromPath</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsInit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsOpticalThicknessFromPath</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsLayerThermalEmissionLinearInTau</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceEmissionByTemperature</span><span class="p">(</span>
+            <span class="n">ray_path_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsCosmicMicrowaveBackgroundRadiation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceLambertian</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSingleScatteringAlbedo</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoFractionalScattering</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoLegendre</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSetSun</span><span class="p">(</span><span class="n">ray_path_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldCalc</span><span class="p">()</span>
+
+        <span class="c1"># Shape is f x 3 x np, we want 3 x f x np</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">Flux</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ijk-&gt;jik&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">)),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

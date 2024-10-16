@@ -23,6 +23,8 @@
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -65,7 +67,6 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.constants.html">pyarts.arts.constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.convert.html">pyarts.arts.convert</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.disort.html">pyarts.arts.disort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.fwd.html">pyarts.arts.fwd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.globals.html">pyarts.arts.globals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.hitran.html">pyarts.arts.hitran</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.interp.html">pyarts.arts.interp</a></li>
@@ -74,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.physics.html">pyarts.arts.physics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.predef.html">pyarts.arts.predef</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.rtepack.html">pyarts.arts.rtepack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.zeeman.html">pyarts.arts.zeeman</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBand.html">AbsorptionBand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBandData.html">AbsorptionBandData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBandSortingOption.html">AbsorptionBandSortingOption</a></li>
@@ -232,7 +234,6 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.LinemixingEcsData.html">LinemixingEcsData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MCAntenna.html">MCAntenna</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MGDSingleMoment.html">MGDSingleMoment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MagneticAngles.html">MagneticAngles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MarsEllipsoid.html">MarsEllipsoid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MatrixOfDisortBDRF.html">MatrixOfDisortBDRF</a></li>
@@ -337,6 +338,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.spectral_radiance_surface_agendaPredefined.html">spectral_radiance_surface_agendaPredefined</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.frequency_shift.html">pyarts.arts.frequency_shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.igrf.html">pyarts.arts.igrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.stringify_keys.html">pyarts.arts.stringify_keys</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.cat.html">pyarts.cat</a></li>
@@ -344,6 +346,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pyarts.environment.html">pyarts.environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.recipe.html">pyarts.recipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.sensor.html">pyarts.sensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.utils.html">pyarts.utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.workspace.html">pyarts.workspace</a></li>
@@ -417,7 +420,7 @@
 </tr>
 <tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.number_density" title="pyarts.arts.AtmPoint.number_density"><code class="xref py py-func docutils literal notranslate"><span class="pre">number_density()</span></code></a></p></td>
-<td><p>Get the number density of a species</p></td>
+<td><p>Get the number density [1 / m <sup>3</sup>] of a species or of a species isotopologue.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.readxml" title="pyarts.arts.AtmPoint.readxml"><code class="xref py py-func docutils literal notranslate"><span class="pre">readxml()</span></code></a></p></td>
@@ -443,59 +446,71 @@
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.species_vmr" title="pyarts.arts.AtmPoint.species_vmr"><code class="xref py py-func docutils literal notranslate"><span class="pre">species_vmr()</span></code></a></p></td>
 <td><p>Get the VMR of the species</p></td>
 </tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.to_dict" title="pyarts.arts.AtmPoint.to_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code></a></p></td>
+<td><p>Convert an atmospheric point to a dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p>Method</p></td>
+<td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.update" title="pyarts.arts.AtmPoint.update"><code class="xref py py-func docutils literal notranslate"><span class="pre">update()</span></code></a></p></td>
+<td><p>Update the atmospheric point with dictionary values.</p></td>
+</tr>
 <tr class="row-odd"><td><p>Static Method</p></td>
+<td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.from_dict" title="pyarts.arts.AtmPoint.from_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">from_dict()</span></code></a></p></td>
+<td><p>Create an atmospheric point from a dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p>Static Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.fromxml" title="pyarts.arts.AtmPoint.fromxml"><code class="xref py py-func docutils literal notranslate"><span class="pre">fromxml()</span></code></a></p></td>
 <td><p>Create variable from file</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.mag" title="pyarts.arts.AtmPoint.mag"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mag</span></code></a></p></td>
 <td><p>Magnetic field [T]</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.pressure" title="pyarts.arts.AtmPoint.pressure"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pressure</span></code></a></p></td>
 <td><p>Pressure [Pa]</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.temperature" title="pyarts.arts.AtmPoint.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a></p></td>
 <td><p>Temperature [K]</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.wind" title="pyarts.arts.AtmPoint.wind"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wind</span></code></a></p></td>
 <td><p>Wind field [m/s]</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__eq__" title="pyarts.arts.AtmPoint.__eq__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__eq__()</span></code></a></p></td>
 <td><p>Return self==value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__ge__" title="pyarts.arts.AtmPoint.__ge__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ge__()</span></code></a></p></td>
 <td><p>Return self&gt;=value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__getitem__" title="pyarts.arts.AtmPoint.__getitem__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__getitem__()</span></code></a></p></td>
 <td><p>Overloaded function.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__gt__" title="pyarts.arts.AtmPoint.__gt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__gt__()</span></code></a></p></td>
 <td><p>Return self&gt;value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__hash__" title="pyarts.arts.AtmPoint.__hash__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__hash__()</span></code></a></p></td>
 <td><p>Return hash(self).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__le__" title="pyarts.arts.AtmPoint.__le__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__le__()</span></code></a></p></td>
 <td><p>Return self&lt;=value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__lt__" title="pyarts.arts.AtmPoint.__lt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__lt__()</span></code></a></p></td>
 <td><p>Return self&lt;value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__ne__" title="pyarts.arts.AtmPoint.__ne__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ne__()</span></code></a></p></td>
 <td><p>Return self!=value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.AtmPoint.__setitem__" title="pyarts.arts.AtmPoint.__setitem__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__setitem__()</span></code></a></p></td>
 <td><p>Overloaded function.</p></td>
 </tr>
@@ -542,8 +557,20 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.AtmPoint.number_density">
-<span class="sig-name descname"><span class="pre">number_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.number_density" title="Link to this definition"></a></dt>
-<dd><p>Get the number density of a species</p>
+<span class="sig-name descname"><span class="pre">number_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.number_density" title="Link to this definition"></a></dt>
+<dd><p>Get the number density [1 / m <sup>3</sup>] of a species or of a species isotopologue.</p>
+<p>The number density is computed as:</p>
+<div class="math notranslate nohighlight">
+\[n_d = \frac{xp}{kT}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the VMR of the species if <code class="docutils literal notranslate"><span class="pre">spec</span></code> is a <a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a> (in code: <code class="docutils literal notranslate"><span class="pre">self[spec]</span></code>) or the VMR of the
+species isotopolgue if <code class="docutils literal notranslate"><span class="pre">spec</span></code> is a <a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotope</span></code></a> (in code: <code class="docutils literal notranslate"><span class="pre">self[spec]</span> <span class="pre">*</span> <span class="pre">self[spec.spec]</span></code>).  <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(T\)</span> are the
+pressure [Pa] and temperature [K] of the atmospheric point, respectively.  <span class="math notranslate nohighlight">\(k\)</span> is the
+Boltzmann constant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spec</strong> (<a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><em>SpeciesEnum</em></a><em> | </em><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><em>SpeciesIsotope</em></a>) – The species or isotopologue that is considered.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -569,7 +596,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The path to which the file is written. Note that several of the options might modify the name or write more files</p></li>
-<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Type of file to save (ascii. zascii, or binary)</p></li>
+<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Type of file to save.  See <a class="reference internal" href="pyarts.arts.FileType.html#pyarts.arts.FileType" title="pyarts.arts.FileType"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileType</span></code></a> for options.</p></li>
 <li><p><strong>clobber</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Overwrite existing files or add new file with modified name?</p></li>
 </ul>
 </dd>
@@ -604,7 +631,62 @@
 <dd><p>Get the VMR of the species</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.arts.AtmPoint.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">core</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlte</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssprops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Convert an atmospheric point to a dictionary.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The function <a class="reference internal" href="pyarts.arts.stringify_keys.html#pyarts.arts.stringify_keys" title="pyarts.arts.stringify_keys"><code class="xref py py-func docutils literal notranslate"><span class="pre">stringify_keys()</span></code></a> may be used to convert the dictionary keys to strings.
+This allows for easier manipulation of the data of the dictionary.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the core atmospheric data will be included (i.e., temperature, pressure, etc).  Default is True.</p></li>
+<li><p><strong>specs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the species VMR data will be included.  Default is True.</p></li>
+<li><p><strong>isots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the isotopologue ratio data will be included.  Default is True.</p></li>
+<li><p><strong>nlte</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the NLTE data will be included.  Default is True.</p></li>
+<li><p><strong>ssprops</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the scattering species properties data will be included.  Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.arts.AtmPoint.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.11)"><span class="pre">collections.abc.Mapping</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.update" title="Link to this definition"></a></dt>
+<dd><p>Update the atmospheric point with dictionary values.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Each key-type of the dictionary is constructible from a <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.  So using a dictionary with string keys is possible.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dictionary of atmospheric keys and corresponding data.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Static Methods</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.arts.AtmPoint.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.11)"><span class="pre">collections.abc.Mapping</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.IsoRatioOption.html#pyarts.arts.IsoRatioOption" title="pyarts.arts.IsoRatioOption"><span class="pre">pyarts.arts.IsoRatioOption</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Builtin'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><span class="pre">pyarts.arts.AtmPoint</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Create an atmospheric point from a dictionary.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Each key-type of the dictionary is constructible from a <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.  So using a dictionary with string keys is possible.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dictionary of atmospheric keys and corresponding data.</p></li>
+<li><p><strong>iso</strong> (<a class="reference internal" href="pyarts.arts.IsoRatioOption.html#pyarts.arts.IsoRatioOption" title="pyarts.arts.IsoRatioOption"><em>IsoRatioOption</em></a><em>, </em><em>optional</em>) – The isotopologue ratio option to use.  Default is “Builtin”. Use “None” to create point without isotopologue ratios.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.AtmPoint.fromxml">
 <span class="sig-name descname"><span class="pre">fromxml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><span class="pre">pyarts.arts.AtmPoint</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.fromxml" title="Link to this definition"></a></dt>
@@ -660,36 +742,18 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.AtmPoint.__getitem__">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.__getitem__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.__getitem__" title="Link to this definition"></a></dt>
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSpeciesTag.html#pyarts.arts.ArrayOfSpeciesTag" title="pyarts.arts.ArrayOfSpeciesTag"><span class="pre">pyarts.arts.ArrayOfSpeciesTag</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSpeciesTag.html#pyarts.arts.ArrayOfSpeciesTag" title="pyarts.arts.ArrayOfSpeciesTag"><span class="pre">pyarts.arts.ArrayOfSpeciesTag</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">arg:</span> <span class="pre">pyarts.arts.AtmKey,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">key:</span> <span class="pre">pyarts.arts.AtmKey</span> <span class="pre">|</span> <span class="pre">pyarts.arts.SpeciesEnum</span> <span class="pre">|</span> <span class="pre">pyarts.arts.SpeciesIsotope</span> <span class="pre">|</span> <span class="pre">pyarts.arts.QuantumIdentifier</span> <span class="pre">|</span> <span class="pre">pyarts.arts.ScatteringSpeciesProperty)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
 </ol>
 <p>Get the value of a key</p>
 <ol class="arabic simple" start="2">
-<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">arg:</span> <span class="pre">pyarts.arts.QuantumIdentifier,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">key:</span> <span class="pre">pyarts.arts.ArrayOfSpeciesTag)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
 </ol>
-<p>Get the value of a key</p>
-<ol class="arabic simple" start="3">
-<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">arg:</span> <span class="pre">pyarts.arts.SpeciesEnum,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
-</ol>
-<p>Get the value of a key</p>
-<ol class="arabic simple" start="4">
-<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">arg:</span> <span class="pre">pyarts.arts.SpeciesIsotope,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
-</ol>
-<p>Get the value of a key</p>
-<ol class="arabic simple" start="5">
-<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__(self,</span> <span class="pre">arg:</span> <span class="pre">pyarts.arts.ArrayOfSpeciesTag,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
-</ol>
-<p>Get the value of a key</p>
+<p>Set the value of a key</p>
 </dd></dl>
 
 <dl class="py method">
@@ -724,40 +788,16 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.AtmPoint.__setitem__">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.__setitem__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmKey.html#pyarts.arts.AtmKey" title="pyarts.arts.AtmKey"><span class="pre">pyarts.arts.AtmKey</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.AtmPoint.__setitem__" title="Link to this definition"></a></dt>
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.QuantumIdentifier.html#pyarts.arts.QuantumIdentifier" title="pyarts.arts.QuantumIdentifier"><span class="pre">pyarts.arts.QuantumIdentifier</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><span class="pre">pyarts.arts.SpeciesEnum</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpeciesIsotope.html#pyarts.arts.SpeciesIsotope" title="pyarts.arts.SpeciesIsotope"><span class="pre">pyarts.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSpeciesTag.html#pyarts.arts.ArrayOfSpeciesTag" title="pyarts.arts.ArrayOfSpeciesTag"><span class="pre">pyarts.arts.ArrayOfSpeciesTag</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html#pyarts.arts.ScatteringSpeciesProperty" title="pyarts.arts.ScatteringSpeciesProperty"><span class="pre">pyarts.arts.ScatteringSpeciesProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSpeciesTag.html#pyarts.arts.ArrayOfSpeciesTag" title="pyarts.arts.ArrayOfSpeciesTag"><span class="pre">pyarts.arts.ArrayOfSpeciesTag</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.AtmKey,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">key:</span> <span class="pre">pyarts.arts.AtmKey</span> <span class="pre">|</span> <span class="pre">pyarts.arts.SpeciesEnum</span> <span class="pre">|</span> <span class="pre">pyarts.arts.SpeciesIsotope</span> <span class="pre">|</span> <span class="pre">pyarts.arts.QuantumIdentifier</span> <span class="pre">|</span> <span class="pre">pyarts.arts.ScatteringSpeciesProperty,</span> <span class="pre">val:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
 </ol>
 <p>Set the value of a key</p>
 <ol class="arabic simple" start="2">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.QuantumIdentifier,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
-</ol>
-<p>Set the value of a key</p>
-<ol class="arabic simple" start="3">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.SpeciesEnum,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
-</ol>
-<p>Set the value of a key</p>
-<ol class="arabic simple" start="4">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.SpeciesIsotope,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
-</ol>
-<p>Set the value of a key</p>
-<ol class="arabic simple" start="5">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.ArrayOfSpeciesTag,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
-</ol>
-<p>Set the value of a key</p>
-<ol class="arabic simple" start="6">
-<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">arg0:</span> <span class="pre">pyarts.arts.ScatteringSpeciesProperty,</span> <span class="pre">arg1:</span> <span class="pre">float,</span> <span class="pre">/)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__setitem__(self,</span> <span class="pre">key:</span> <span class="pre">pyarts.arts.ArrayOfSpeciesTag,</span> <span class="pre">val:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
 </ol>
 <p>Set the value of a key</p>
 </dd></dl>

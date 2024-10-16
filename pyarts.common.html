@@ -27,8 +27,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="run_arts" href="stubs/pyarts.common.run_arts.html" />
-    <link rel="prev" title="adapt_lines" href="stubs/pyarts.cat.linemixing.adapt_lines.html" /> 
+    <link rel="next" title="pyarts.environment" href="pyarts.environment.html" />
+    <link rel="prev" title="pyarts.cat.linemixing" href="stubs/pyarts.cat.linemixing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -64,12 +64,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pyarts.arts.html">pyarts.arts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.cat.html">pyarts.cat</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pyarts.common</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="stubs/pyarts.common.run_arts.html">run_arts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.common.run_arts"><code class="docutils literal notranslate"><span class="pre">run_arts()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.environment.html">pyarts.environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.recipe.html">pyarts.recipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.sensor.html">pyarts.sensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.utils.html">pyarts.utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.workspace.html">pyarts.workspace</a></li>
@@ -109,21 +110,47 @@
   <section id="module-pyarts.common">
 <span id="pyarts-common"></span><h1>pyarts.common<a class="headerlink" href="#module-pyarts.common" title="Link to this heading"></a></h1>
 <p>Common functions for the pyarts package.</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="stubs/pyarts.common.run_arts.html#pyarts.common.run_arts" title="pyarts.common.run_arts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_arts</span></code></a>([controlfile, arts, writetxt, ...])</p></td>
-<td><p>Start an ARTS Simulation.</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts.common.run_arts">
+<span class="sig-prename descclassname"><span class="pre">pyarts.common.</span></span><span class="sig-name descname"><span class="pre">run_arts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controlfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writetxt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/common.html#run_arts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.common.run_arts" title="Link to this definition"></a></dt>
+<dd><p>Start an ARTS Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>controlfile</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Path to the ARTS controlfile.</p></li>
+<li><p><strong>arts</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Path to the arts executable.</p></li>
+<li><p><strong>writetxt</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Write stdout and stderr to ASCII files.</p></li>
+<li><p><strong>ignore_error</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If set to True, erros during the ARTS run do not
+result in an exception (default is False).</p></li>
+<li><p><strong>**kwargs</strong> – Additional command line arguments passed as keyword.
+See <cite>arts –help</cite> for more details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Named tuple containing the fields stdout, stderr and retcode.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Run a simple ARTS job and set the output directory
+and the report level:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_arts</span><span class="p">(</span><span class="s1">&#39;foo.arts&#39;</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">reporting</span><span class="o">=</span><span class="s1">&#39;020&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If a keyword is set to True it is added as flag.
+Show the ARTS help message:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_arts</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="stubs/pyarts.cat.linemixing.adapt_lines.html" class="btn btn-neutral float-left" title="adapt_lines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="stubs/pyarts.common.run_arts.html" class="btn btn-neutral float-right" title="run_arts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="stubs/pyarts.cat.linemixing.html" class="btn btn-neutral float-left" title="pyarts.cat.linemixing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.environment.html" class="btn btn-neutral float-right" title="pyarts.environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

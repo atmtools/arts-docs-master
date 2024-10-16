@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts.recipe &mdash; ARTS 3.0.0dev1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd1727e5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyarts.sensor" href="pyarts.sensor.html" />
+    <link rel="prev" title="pyarts.plots" href="pyarts.plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.0.0dev1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyarts.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyarts.arts.html">pyarts.arts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.cat.html">pyarts.cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.common.html">pyarts.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.environment.html">pyarts.environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyarts.recipe</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.recipe.AtmosphericFlux"><code class="docutils literal notranslate"><span class="pre">AtmosphericFlux</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.AtmosphericFlux.__call__"><code class="docutils literal notranslate"><span class="pre">AtmosphericFlux.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.AtmosphericFlux.__init__"><code class="docutils literal notranslate"><span class="pre">AtmosphericFlux.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.AtmosphericFlux.get_atmosphere"><code class="docutils literal notranslate"><span class="pre">AtmosphericFlux.get_atmosphere()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.recipe.SingleSpeciesAbsorption"><code class="docutils literal notranslate"><span class="pre">SingleSpeciesAbsorption</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.SingleSpeciesAbsorption.__call__"><code class="docutils literal notranslate"><span class="pre">SingleSpeciesAbsorption.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.SingleSpeciesAbsorption.__init__"><code class="docutils literal notranslate"><span class="pre">SingleSpeciesAbsorption.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.recipe.SpectralAtmosphericFlux"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.SpectralAtmosphericFlux.__call__"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.SpectralAtmosphericFlux.__init__"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts.recipe.SpectralAtmosphericFlux.get_atmosphere"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.get_atmosphere()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.sensor.html">pyarts.sensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.utils.html">pyarts.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.workspace.html">pyarts.workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.xml.html">pyarts.xml</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pyarts.html">API Reference</a></li>
+      <li class="breadcrumb-item active">pyarts.recipe</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyarts.recipe.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pyarts.recipe">
+<span id="pyarts-recipe"></span><h1>pyarts.recipe<a class="headerlink" href="#module-pyarts.recipe" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyarts.recipe.AtmosphericFlux">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyarts.recipe.</span></span><span class="sig-name descname"><span class="pre">AtmosphericFlux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermal_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_level_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NQuad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['H2O-161',</span> <span class="pre">'O2-66',</span> <span class="pre">'N2-44',</span> <span class="pre">'CO2-626',</span> <span class="pre">'O3-XFIT']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/AtmosphericFlux.html#AtmosphericFlux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.AtmosphericFlux" title="Link to this definition"></a></dt>
+<dd><p>Creates a Disort clearsky flux operator using the Czarnecki-scheme.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.AtmosphericFlux.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atmospheric_profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/AtmosphericFlux.html#AtmosphericFlux.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.AtmosphericFlux.__call__" title="Link to this definition"></a></dt>
+<dd><p>Get the total flux profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atmospheric_profile</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – A dictionary of atmospheric data. Defaults to {}.</p></li>
+<li><p><strong>surface_temperature</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – A surface temperature. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The solar and thermal fluxes and the center altitudes of the layers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flux, Flux, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.AtmosphericFlux.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermal_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_level_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NQuad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['H2O-161',</span> <span class="pre">'O2-66',</span> <span class="pre">'N2-44',</span> <span class="pre">'CO2-626',</span> <span class="pre">'O3-XFIT']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/AtmosphericFlux.html#AtmosphericFlux.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.AtmosphericFlux.__init__" title="Link to this definition"></a></dt>
+<dd><p>Compute the total flux for a given atmospheric profile and surface temperature</p>
+<p>The operator allows you to change the</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>visible_surface_reflectivity</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface reflectivity constant for Disort in visible. Defaults to 0.3.</p></li>
+<li><p><strong>thermal_surface_reflectivity</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface reflectivity constant for Disort in thermal. Defaults to 0.05.</p></li>
+<li><p><strong>atmospheric_altitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The top-of-the-atmosphere altitude [m]. Defaults to 50e3.</p></li>
+<li><p><strong>surface_temperature</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface temperature [K]. Defaults to 300.0.</p></li>
+<li><p><strong>max_level_step</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The maximum thickness of layers [m]. Defaults to 1e3.</p></li>
+<li><p><strong>NQuad</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The number of quadratures used by Disort. Defaults to 16.</p></li>
+<li><p><strong>atm_latitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Latitude of profile [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>atm_longitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Longitude of profile [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>solar_latitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Latitude of sun [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>solar_longitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Longitude of sun [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>species</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>, </em><em>optional</em>) – The list of absorption species. Defaults to [ “H2O-161”, “O2-66”, “N2-44”, “CO2-626”, “O3-XFIT”, ].</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.AtmosphericFlux.get_atmosphere">
+<span class="sig-name descname"><span class="pre">get_atmosphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlte</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssprops</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/AtmosphericFlux.html#AtmosphericFlux.get_atmosphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.AtmosphericFlux.get_atmosphere" title="Link to this definition"></a></dt>
+<dd><p>Return the atmospheric field as a dictionary of python types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to True.</p></li>
+<li><p><strong>specs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to True.</p></li>
+<li><p><strong>nlte</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+<li><p><strong>ssprops</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+<li><p><strong>isots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Atmospheric field dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyarts.recipe.SingleSpeciesAbsorption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyarts.recipe.</span></span><span class="sig-name descname"><span class="pre">SingleSpeciesAbsorption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SingleSpeciesAbsorption.html#SingleSpeciesAbsorption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SingleSpeciesAbsorption" title="Link to this definition"></a></dt>
+<dd><p>Calculates absorption coefficients for a single absorbing species.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.SingleSpeciesAbsorption.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><span class="pre">AscendingGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmPoint.html#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><span class="pre">AtmPoint</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SingleSpeciesAbsorption.html#SingleSpeciesAbsorption.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SingleSpeciesAbsorption.__call__" title="Link to this definition"></a></dt>
+<dd><p>Call operator to return a propagation matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>AscendingGrid</em></a>) – A list of frequency points.</p></li>
+<li><p><strong>atmospheric_point</strong> (<a class="reference internal" href="pyarts.arts.AtmPoint.html#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><em>AtmPoint</em></a>) – The state of the atmosphere at the point of interest</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>numpy.ndarray</strong> – The propagation matrix at the frequency and point of interest
+Note that the first dimention is the size of the frequency
+grid and that the second dimension contains 7 variables, the
+first of which is unpolarized absorption.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>propagation_matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.SingleSpeciesAbsorption.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SingleSpeciesAbsorption.html#SingleSpeciesAbsorption.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SingleSpeciesAbsorption.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>species</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – See absorption_speciesSet for details.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyarts.recipe.SpectralAtmosphericFlux">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyarts.recipe.</span></span><span class="sig-name descname"><span class="pre">SpectralAtmosphericFlux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermal_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_level_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NQuad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['H2O-161',</span> <span class="pre">'O2-66',</span> <span class="pre">'N2-44',</span> <span class="pre">'CO2-626',</span> <span class="pre">'O3-XFIT']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SpectralAtmosphericFlux.html#SpectralAtmosphericFlux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SpectralAtmosphericFlux" title="Link to this definition"></a></dt>
+<dd><p>Creates a Disort clearsky flux operator using the Czarnecki-scheme.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.SpectralAtmosphericFlux.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><span class="pre">AscendingGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SpectralAtmosphericFlux.html#SpectralAtmosphericFlux.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SpectralAtmosphericFlux.__call__" title="Link to this definition"></a></dt>
+<dd><p>Get the total flux profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>pyarts.arts.AscendingGrid</em></a>) – The frequency grid</p></li>
+<li><p><strong>atmospheric_profile</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – The atmospheric profile. Defaults to {}.</p></li>
+<li><p><strong>surface_temperature</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface temperature. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flux profile and average layer altitudes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flux, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.SpectralAtmosphericFlux.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermal_surface_reflectivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_level_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NQuad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['H2O-161',</span> <span class="pre">'O2-66',</span> <span class="pre">'N2-44',</span> <span class="pre">'CO2-626',</span> <span class="pre">'O3-XFIT']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SpectralAtmosphericFlux.html#SpectralAtmosphericFlux.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SpectralAtmosphericFlux.__init__" title="Link to this definition"></a></dt>
+<dd><p>Compute the total flux for a given atmospheric profile and surface temperature</p>
+<p>The operator allows you to change the</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>visible_surface_reflectivity</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface reflectivity constant for Disort in visible. Defaults to 0.3.</p></li>
+<li><p><strong>thermal_surface_reflectivity</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface reflectivity constant for Disort in thermal. Defaults to 0.05.</p></li>
+<li><p><strong>atmospheric_altitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The top-of-the-atmosphere altitude [m]. Defaults to 50e3.</p></li>
+<li><p><strong>surface_temperature</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The surface temperature [K]. Defaults to 300.0.</p></li>
+<li><p><strong>max_level_step</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The maximum thickness of layers [m]. Defaults to 1e3.</p></li>
+<li><p><strong>NQuad</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The number of quadratures used by Disort. Defaults to 16.</p></li>
+<li><p><strong>atm_latitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Latitude of profile [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>atm_longitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Longitude of profile [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>solar_latitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Latitude of sun [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>solar_longitude</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Longitude of sun [degrees]. Defaults to 0.0.</p></li>
+<li><p><strong>species</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>, </em><em>optional</em>) – The list of absorption species. Defaults to [ “H2O-161”, “O2-66”, “N2-44”, “CO2-626”, “O3-XFIT”, ].</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.recipe.SpectralAtmosphericFlux.get_atmosphere">
+<span class="sig-name descname"><span class="pre">get_atmosphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlte</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssprops</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/recipe/SpectralAtmosphericFlux.html#SpectralAtmosphericFlux.get_atmosphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.recipe.SpectralAtmosphericFlux.get_atmosphere" title="Link to this definition"></a></dt>
+<dd><p>Return the atmospheric field as a dictionary of python types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to True.</p></li>
+<li><p><strong>specs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to True.</p></li>
+<li><p><strong>nlte</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+<li><p><strong>ssprops</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+<li><p><strong>isots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – See <code class="xref py py-meth docutils literal notranslate"><span class="pre">ArrayOfAtmPoint.to_dict()</span></code>. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Atmospheric field dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyarts.plots.html" class="btn btn-neutral float-left" title="pyarts.plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyarts.sensor.html" class="btn btn-neutral float-right" title="pyarts.sensor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

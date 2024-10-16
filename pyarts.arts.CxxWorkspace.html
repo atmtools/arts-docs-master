@@ -67,7 +67,6 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.constants.html">pyarts.arts.constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.convert.html">pyarts.arts.convert</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.disort.html">pyarts.arts.disort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.fwd.html">pyarts.arts.fwd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.globals.html">pyarts.arts.globals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.hitran.html">pyarts.arts.hitran</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.interp.html">pyarts.arts.interp</a></li>
@@ -76,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.physics.html">pyarts.arts.physics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.predef.html">pyarts.arts.predef</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.rtepack.html">pyarts.arts.rtepack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.zeeman.html">pyarts.arts.zeeman</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBand.html">AbsorptionBand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBandData.html">AbsorptionBandData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.AbsorptionBandSortingOption.html">AbsorptionBandSortingOption</a></li>
@@ -234,7 +234,6 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.LinemixingEcsData.html">LinemixingEcsData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MCAntenna.html">MCAntenna</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MGDSingleMoment.html">MGDSingleMoment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MagneticAngles.html">MagneticAngles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MarsEllipsoid.html">MarsEllipsoid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.MatrixOfDisortBDRF.html">MatrixOfDisortBDRF</a></li>
@@ -339,6 +338,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.spectral_radiance_surface_agendaPredefined.html">spectral_radiance_surface_agendaPredefined</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.frequency_shift.html">pyarts.arts.frequency_shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.igrf.html">pyarts.arts.igrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.stringify_keys.html">pyarts.arts.stringify_keys</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.cat.html">pyarts.cat</a></li>
@@ -346,6 +346,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pyarts.environment.html">pyarts.environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.plots.html">pyarts.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts.recipe.html">pyarts.recipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.sensor.html">pyarts.sensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.utils.html">pyarts.utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.workspace.html">pyarts.workspace</a></li>
@@ -801,750 +802,746 @@
 <td><p>Calculate the averaging kernel matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Method</p></td>
-<td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensorGaussian" title="pyarts.arts.CxxWorkspace.measurement_sensorGaussian"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorGaussian()</span></code></a></p></td>
-<td><p>Sets a sensor with a Gaussian channel opening on a computed frequency grid</p></td>
+<td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensorSimple" title="pyarts.arts.CxxWorkspace.measurement_sensorSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorSimple()</span></code></a></p></td>
+<td><p>Sets a sensor with a Gaussian channel opening around the frequency grid.</p></td>
 </tr>
 <tr class="row-even"><td><p>Method</p></td>
-<td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensorGaussianFrequencyGrid" title="pyarts.arts.CxxWorkspace.measurement_sensorGaussianFrequencyGrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorGaussianFrequencyGrid()</span></code></a></p></td>
-<td><p>Sets a sensor with a Gaussian channel opening on a fixed frequency grid</p></td>
+<td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensorSimpleGaussian" title="pyarts.arts.CxxWorkspace.measurement_sensorSimpleGaussian"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorSimpleGaussian()</span></code></a></p></td>
+<td><p>Sets a sensor with a Gaussian channel opening around the frequency grid.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Method</p></td>
-<td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensorSimple" title="pyarts.arts.CxxWorkspace.measurement_sensorSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorSimple()</span></code></a></p></td>
-<td><p>Sets a simple sensor</p></td>
-</tr>
-<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath" title="pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromOperatorPath()</span></code></a></p></td>
 <td><p>Sets measurement vector by looping over all sensor elements</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromSensor" title="pyarts.arts.CxxWorkspace.measurement_vectorFromSensor"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromSensor()</span></code></a></p></td>
 <td><p>Sets measurement vector by looping over all sensor elements</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrixConstant" title="pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrixConstant"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vector_error_covariance_matrixConstant()</span></code></a></p></td>
 <td><p>Sets a constant measurement vector error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrix_observation_systemCalc" title="pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrix_observation_systemCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vector_error_covariance_matrix_observation_systemCalc()</span></code></a></p></td>
 <td><p>Calculates the covariance matrix describing the error due to uncertainties</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector_fittedFromMeasurement" title="pyarts.arts.CxxWorkspace.measurement_vector_fittedFromMeasurement"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vector_fittedFromMeasurement()</span></code></a></p></td>
 <td><p>Sets the fitted measurement vector to the current measurement vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_covariance_matrixAddSpeciesVMR" title="pyarts.arts.CxxWorkspace.model_state_covariance_matrixAddSpeciesVMR"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_covariance_matrixAddSpeciesVMR()</span></code></a></p></td>
 <td><p>Set a species model state covariance matrix element.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_covariance_matrixInit" title="pyarts.arts.CxxWorkspace.model_state_covariance_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_covariance_matrixInit()</span></code></a></p></td>
 <td><p>Initialises the model state covariance matrix to the identity matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_covariance_matrix_smoothing_errorCalc" title="pyarts.arts.CxxWorkspace.model_state_covariance_matrix_smoothing_errorCalc"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_covariance_matrix_smoothing_errorCalc()</span></code></a></p></td>
 <td><p>Calculates the covariance matrix describing the error due to smoothing.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorFromAtmosphere" title="pyarts.arts.CxxWorkspace.model_state_vectorFromAtmosphere"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorFromAtmosphere()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a>’s atmospheric part.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorFromBands" title="pyarts.arts.CxxWorkspace.model_state_vectorFromBands"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorFromBands()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a>’s absorption line part.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorFromData" title="pyarts.arts.CxxWorkspace.model_state_vectorFromData"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorFromData()</span></code></a></p></td>
 <td><p>Get <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a> from available data</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorFromSurface" title="pyarts.arts.CxxWorkspace.model_state_vectorFromSurface"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorFromSurface()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a>’s surface part.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorSize" title="pyarts.arts.CxxWorkspace.model_state_vectorSize"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorSize()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a> to the size <a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a> demand.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vectorZero" title="pyarts.arts.CxxWorkspace.model_state_vectorZero"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vectorZero()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector.html#pyarts.workspace.Workspace.model_state_vector" title="pyarts.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a> to 0.0</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vector_aprioriFromData" title="pyarts.arts.CxxWorkspace.model_state_vector_aprioriFromData"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vector_aprioriFromData()</span></code></a></p></td>
 <td><p>Get <a class="reference internal" href="pyarts.workspace.Workspace.model_state_vector_apriori.html#pyarts.workspace.Workspace.model_state_vector_apriori" title="pyarts.workspace.Workspace.model_state_vector_apriori"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector_apriori</span></code></a> from available data</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vector_aprioriFromState" title="pyarts.arts.CxxWorkspace.model_state_vector_aprioriFromState"><code class="xref py py-func docutils literal notranslate"><span class="pre">model_state_vector_aprioriFromState()</span></code></a></p></td>
 <td><p>Sets the a priori state of the model state vector to the current state.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixAddCIA" title="pyarts.arts.CxxWorkspace.propagation_matrixAddCIA"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddCIA()</span></code></a></p></td>
 <td><p>Calculate absorption coefficients per tag group for HITRAN CIA continua.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixAddFaraday" title="pyarts.arts.CxxWorkspace.propagation_matrixAddFaraday"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddFaraday()</span></code></a></p></td>
 <td><p>Calculates absorption matrix describing Faraday rotation.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixAddLines" title="pyarts.arts.CxxWorkspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a></p></td>
 <td><p>Modern line-by-line calculations</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixAddPredefined" title="pyarts.arts.CxxWorkspace.propagation_matrixAddPredefined"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddPredefined()</span></code></a></p></td>
 <td><p>Adds all of the predefined models in <a class="reference internal" href="pyarts.workspace.Workspace.absorption_species.html#pyarts.workspace.Workspace.absorption_species" title="pyarts.workspace.Workspace.absorption_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_species</span></code></a> to the propagation_matrix</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixAddXsecFit" title="pyarts.arts.CxxWorkspace.propagation_matrixAddXsecFit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddXsecFit()</span></code></a></p></td>
 <td><p>Calculate absorption cross sections per tag group for HITRAN xsec species.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrixInit" title="pyarts.arts.CxxWorkspace.propagation_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixInit()</span></code></a></p></td>
 <td><p>Initialize <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a>, <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a>, and their derivatives to zeroes.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_agendaAuto" title="pyarts.arts.CxxWorkspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a></p></td>
 <td><p>Sets the <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agenda.html#pyarts.workspace.Workspace.propagation_matrix_agenda" title="pyarts.workspace.Workspace.propagation_matrix_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_agenda</span></code></a> automatically</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_agendaExecute" title="pyarts.arts.CxxWorkspace.propagation_matrix_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agenda.html#pyarts.workspace.Workspace.propagation_matrix_agenda" title="pyarts.workspace.Workspace.propagation_matrix_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_agendaSet" title="pyarts.arts.CxxWorkspace.propagation_matrix_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agenda.html#pyarts.workspace.Workspace.propagation_matrix_agenda" title="pyarts.workspace.Workspace.propagation_matrix_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_agenda</span></code></a> to a default value</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scatteringAirSimple" title="pyarts.arts.CxxWorkspace.propagation_matrix_scatteringAirSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_scatteringAirSimple()</span></code></a></p></td>
 <td><p>Add simple air to <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering.html#pyarts.workspace.Workspace.propagation_matrix_scattering" title="pyarts.workspace.Workspace.propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scatteringInit" title="pyarts.arts.CxxWorkspace.propagation_matrix_scatteringInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_scatteringInit()</span></code></a></p></td>
 <td><p>Initialize <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering.html#pyarts.workspace.Workspace.propagation_matrix_scattering" title="pyarts.workspace.Workspace.propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering</span></code></a> to zeroes.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaExecute" title="pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_scattering_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering_agenda.html#pyarts.workspace.Workspace.propagation_matrix_scattering_agenda" title="pyarts.workspace.Workspace.propagation_matrix_scattering_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaSet" title="pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_scattering_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_scattering_agenda.html#pyarts.workspace.Workspace.propagation_matrix_scattering_agenda" title="pyarts.workspace.Workspace.propagation_matrix_scattering_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering_agenda</span></code></a> to a default value</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_pathGeometric" title="pyarts.arts.CxxWorkspace.ray_pathGeometric"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometric()</span></code></a></p></td>
 <td><p>Get a geometric radiation path</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_pathGeometricDownlooking" title="pyarts.arts.CxxWorkspace.ray_pathGeometricDownlooking"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometricDownlooking()</span></code></a></p></td>
 <td><p>Wraps <a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometric.html#pyarts.workspace.Workspace.ray_pathGeometric" title="pyarts.workspace.Workspace.ray_pathGeometric"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometric()</span></code></a> for straight downlooking paths from the top-of-the-atmosphere altitude</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_pathGeometricTangentAltitude" title="pyarts.arts.CxxWorkspace.ray_pathGeometricTangentAltitude"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometricTangentAltitude()</span></code></a></p></td>
 <td><p>Get a geometric radiation path that crosses the tangent altitude</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_pathGeometricUplooking" title="pyarts.arts.CxxWorkspace.ray_pathGeometricUplooking"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometricUplooking()</span></code></a></p></td>
 <td><p>Wraps <a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometric.html#pyarts.workspace.Workspace.ray_pathGeometric" title="pyarts.workspace.Workspace.ray_pathGeometric"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_pathGeometric()</span></code></a> for straight uplooking paths from the surface altitude at the position</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_atmospheric_pointFromPath" title="pyarts.arts.CxxWorkspace.ray_path_atmospheric_pointFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_atmospheric_pointFromPath()</span></code></a></p></td>
 <td><p>Gets the atmospheric points along the path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_frequency_gridFromPath" title="pyarts.arts.CxxWorkspace.ray_path_frequency_gridFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_frequency_gridFromPath()</span></code></a></p></td>
 <td><p>Gets the frequency grid along the path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_observer_agendaExecute" title="pyarts.arts.CxxWorkspace.ray_path_observer_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_observer_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_observer_agendaSet" title="pyarts.arts.CxxWorkspace.ray_path_observer_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_observer_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_pointBackground" title="pyarts.arts.CxxWorkspace.ray_path_pointBackground"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_pointBackground()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html#pyarts.workspace.Workspace.ray_path_point" title="pyarts.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> to the expected background point of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_pointForeground" title="pyarts.arts.CxxWorkspace.ray_path_pointForeground"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_pointForeground()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html#pyarts.workspace.Workspace.ray_path_point" title="pyarts.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> to the expected foreground point of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_pointLowestFromPath" title="pyarts.arts.CxxWorkspace.ray_path_pointLowestFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_pointLowestFromPath()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html#pyarts.workspace.Workspace.ray_path_point" title="pyarts.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> to the lowest point of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrixAddScattering" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrixAddScattering"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_propagation_matrixAddScattering()</span></code></a></p></td>
 <td><p>Adds the scattering part of the propagation matrix to the rest along the path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrixFromPath" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_propagation_matrixFromPath()</span></code></a></p></td>
 <td><p>Gets the propagation matrix and non-LTE source term along the path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scatteringFromPath" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scatteringFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_scatteringFromPath()</span></code></a></p></td>
 <td><p>Gets the propagation matrix for scattering along the path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh()</span></code></a></p></td>
 <td><p>Add <a class="reference internal" href="pyarts.workspace.Workspace.suns.html#pyarts.workspace.Workspace.suns" title="pyarts.workspace.Workspace.suns"><code class="xref py py-attr docutils literal notranslate"><span class="pre">suns</span></code></a> to <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_spectral_radiance_source.html#pyarts.workspace.Workspace.ray_path_spectral_radiance_source" title="pyarts.workspace.Workspace.ray_path_spectral_radiance_source"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_source</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_sourceAddScattering" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_sourceAddScattering"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_sourceAddScattering()</span></code></a></p></td>
 <td><p>Adds the scattering part of the propagation matrix to the rest along the path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_sourceFromPropmat" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_sourceFromPropmat"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_sourceFromPropmat()</span></code></a></p></td>
 <td><p>Gets the source term along the path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_suns_pathFromPathObserver" title="pyarts.arts.CxxWorkspace.ray_path_suns_pathFromPathObserver"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_suns_pathFromPathObserver()</span></code></a></p></td>
 <td><p>Wraps <a class="reference internal" href="pyarts.workspace.Workspace.sun_pathFromObserverAgenda.html#pyarts.workspace.Workspace.sun_pathFromObserverAgenda" title="pyarts.workspace.Workspace.sun_pathFromObserverAgenda"><code class="xref py py-func docutils literal notranslate"><span class="pre">sun_pathFromObserverAgenda()</span></code></a> for all paths to all suns.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_transmission_matrixFromPath" title="pyarts.arts.CxxWorkspace.ray_path_transmission_matrixFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_transmission_matrixFromPath()</span></code></a></p></td>
 <td><p>Gets the transmission matrix in layers along the path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_cumulativeFromPath" title="pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_cumulativeFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_cumulativeFromPath()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative.html#pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative" title="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_cumulative</span></code></a> by forward iteration of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix.html#pyarts.workspace.Workspace.ray_path_transmission_matrix" title="pyarts.workspace.Workspace.ray_path_transmission_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_zeeman_magnetic_fieldFromPath" title="pyarts.arts.CxxWorkspace.ray_path_zeeman_magnetic_fieldFromPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">ray_path_zeeman_magnetic_fieldFromPath()</span></code></a></p></td>
 <td><p>Sets A path of Zeeman effec magnetic field properties.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.set" title="pyarts.arts.CxxWorkspace.set"><code class="xref py py-func docutils literal notranslate"><span class="pre">set()</span></code></a></p></td>
 <td><p>Set the variable to the new value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sortedIndexOfBands" title="pyarts.arts.CxxWorkspace.sortedIndexOfBands"><code class="xref py py-func docutils literal notranslate"><span class="pre">sortedIndexOfBands()</span></code></a></p></td>
 <td><p>Get the sorting of the bands by first quantum identifier then some <code class="docutils literal notranslate"><span class="pre">criteria</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceApplyUnit" title="pyarts.arts.CxxWorkspace.spectral_radianceApplyUnit"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceApplyUnit()</span></code></a></p></td>
 <td><p>Applies a unit to <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>, returning a new field</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceApplyUnitFromSpectralRadiance" title="pyarts.arts.CxxWorkspace.spectral_radianceApplyUnitFromSpectralRadiance"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceApplyUnitFromSpectralRadiance()</span></code></a></p></td>
 <td><p>Apply unit changes to spectral radiance and its Jacobian</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceClearskyBackgroundTransmission" title="pyarts.arts.CxxWorkspace.spectral_radianceClearskyBackgroundTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyBackgroundTransmission()</span></code></a></p></td>
 <td><p>Computes clearsky transmission of spectral radiances</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceClearskyEmission" title="pyarts.arts.CxxWorkspace.spectral_radianceClearskyEmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyEmission()</span></code></a></p></td>
 <td><p>Computes clearsky emission of spectral radiances</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceClearskyRayleighScattering" title="pyarts.arts.CxxWorkspace.spectral_radianceClearskyRayleighScattering"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyRayleighScattering()</span></code></a></p></td>
 <td><p>Computes clearsky emission of spectral radiances</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceClearskyTransmission" title="pyarts.arts.CxxWorkspace.spectral_radianceClearskyTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceClearskyTransmission()</span></code></a></p></td>
 <td><p>Computes clearsky transmission of spectral radiances</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceCumulativeEmission" title="pyarts.arts.CxxWorkspace.spectral_radianceCumulativeEmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceCumulativeEmission()</span></code></a></p></td>
 <td><p>Gets the spectral radiance from the path emission.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceCumulativeTransmission" title="pyarts.arts.CxxWorkspace.spectral_radianceCumulativeTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceCumulativeTransmission()</span></code></a></p></td>
 <td><p>Gets the spectral radiance from the path transmission.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceDefaultTransmission" title="pyarts.arts.CxxWorkspace.spectral_radianceDefaultTransmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceDefaultTransmission()</span></code></a></p></td>
 <td><p>Sets default <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a> and <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a> for transmission.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceIntegrateDisort" title="pyarts.arts.CxxWorkspace.spectral_radianceIntegrateDisort"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceIntegrateDisort()</span></code></a></p></td>
 <td><p>Integrate Disort spectral radiance.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceStepByStepEmission" title="pyarts.arts.CxxWorkspace.spectral_radianceStepByStepEmission"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceStepByStepEmission()</span></code></a></p></td>
 <td><p>Gets the spectral radiance from the path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceSunOrCosmicBackground" title="pyarts.arts.CxxWorkspace.spectral_radianceSunOrCosmicBackground"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceSunOrCosmicBackground()</span></code></a></p></td>
 <td><p>Get the spectral radiance of a sun or of the cosmic background if the sun is not hit.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceSunsOrCosmicBackground" title="pyarts.arts.CxxWorkspace.spectral_radianceSunsOrCosmicBackground"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceSunsOrCosmicBackground()</span></code></a></p></td>
 <td><p>Get the spectral radiance of a sun or of the cosmic background if no sun is hit.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceSurfaceBlackbody" title="pyarts.arts.CxxWorkspace.spectral_radianceSurfaceBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceSurfaceBlackbody()</span></code></a></p></td>
 <td><p>Set surface spectral radiance from Planck function of the surface temperature</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radianceUniformCosmicBackground" title="pyarts.arts.CxxWorkspace.spectral_radianceUniformCosmicBackground"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radianceUniformCosmicBackground()</span></code></a></p></td>
 <td><p>Background spectral radiance is from a uniform cosmic background temperature.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_backgroundAgendasAtEndOfPath" title="pyarts.arts.CxxWorkspace.spectral_radiance_backgroundAgendasAtEndOfPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_backgroundAgendasAtEndOfPath()</span></code></a></p></td>
 <td><p>Computes the background radiation.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_fieldFromOperatorPath" title="pyarts.arts.CxxWorkspace.spectral_radiance_fieldFromOperatorPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_fieldFromOperatorPath()</span></code></a></p></td>
 <td><p>Computes the spectral radiance field using <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_fieldFromOperatorPlanarGeometric" title="pyarts.arts.CxxWorkspace.spectral_radiance_fieldFromOperatorPlanarGeometric"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_fieldFromOperatorPlanarGeometric()</span></code></a></p></td>
 <td><p>Computes the spectral radiance field assuming planar geometric paths</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_jacobianAddPathPropagation" title="pyarts.arts.CxxWorkspace.spectral_radiance_jacobianAddPathPropagation"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianAddPathPropagation()</span></code></a></p></td>
 <td><p>Adds the propagation variables to <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_jacobianApplyUnit" title="pyarts.arts.CxxWorkspace.spectral_radiance_jacobianApplyUnit"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianApplyUnit()</span></code></a></p></td>
 <td><p>Applies a unit to <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>, returning a new field</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_jacobianEmpty" title="pyarts.arts.CxxWorkspace.spectral_radiance_jacobianEmpty"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianEmpty()</span></code></a></p></td>
 <td><p>Set the cosmic background radiation derivative to empty.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_jacobianFromBackground" title="pyarts.arts.CxxWorkspace.spectral_radiance_jacobianFromBackground"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_jacobianFromBackground()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_jacobian.html#pyarts.workspace.Workspace.spectral_radiance_jacobian" title="pyarts.workspace.Workspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a> from the background values</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_observer_agendaExecute" title="pyarts.arts.CxxWorkspace.spectral_radiance_observer_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_observer_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agenda.html#pyarts.workspace.Workspace.spectral_radiance_observer_agenda" title="pyarts.workspace.Workspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_observer_agendaSet" title="pyarts.arts.CxxWorkspace.spectral_radiance_observer_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_observer_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agenda.html#pyarts.workspace.Workspace.spectral_radiance_space_agenda" title="pyarts.workspace.Workspace.spectral_radiance_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_space_agenda</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_operatorClearsky1D" title="pyarts.arts.CxxWorkspace.spectral_radiance_operatorClearsky1D"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_operatorClearsky1D()</span></code></a></p></td>
 <td><p>Set up a 1D spectral radiance operator</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_space_agendaExecute" title="pyarts.arts.CxxWorkspace.spectral_radiance_space_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agenda.html#pyarts.workspace.Workspace.spectral_radiance_space_agenda" title="pyarts.workspace.Workspace.spectral_radiance_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_space_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_space_agendaSet" title="pyarts.arts.CxxWorkspace.spectral_radiance_space_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agenda.html#pyarts.workspace.Workspace.spectral_radiance_space_agenda" title="pyarts.workspace.Workspace.spectral_radiance_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_space_agenda</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaExecute" title="pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaExecute"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_surface_agendaExecute()</span></code></a></p></td>
 <td><p>Executes <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agenda.html#pyarts.workspace.Workspace.spectral_radiance_surface_agenda" title="pyarts.workspace.Workspace.spectral_radiance_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_surface_agenda</span></code></a>, see it for more details</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaSet" title="pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_surface_agendaSet()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_surface_agenda.html#pyarts.workspace.Workspace.spectral_radiance_surface_agenda" title="pyarts.workspace.Workspace.spectral_radiance_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_surface_agenda</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sunBlackbody" title="pyarts.arts.CxxWorkspace.sunBlackbody"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunBlackbody()</span></code></a></p></td>
 <td><p>Set <a class="reference internal" href="pyarts.workspace.Workspace.sun.html#pyarts.workspace.Workspace.sun" title="pyarts.workspace.Workspace.sun"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun</span></code></a> to blackbody.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sunFromGrid" title="pyarts.arts.CxxWorkspace.sunFromGrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunFromGrid()</span></code></a></p></td>
 <td><p>Extracts a sun spectrum from a field of such data.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sun_pathFromObserverAgenda" title="pyarts.arts.CxxWorkspace.sun_pathFromObserverAgenda"><code class="xref py py-func docutils literal notranslate"><span class="pre">sun_pathFromObserverAgenda()</span></code></a></p></td>
 <td><p>Find a path that hits the sun if possible</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sunsAddSun" title="pyarts.arts.CxxWorkspace.sunsAddSun"><code class="xref py py-func docutils literal notranslate"><span class="pre">sunsAddSun()</span></code></a></p></td>
 <td><p>Add <a class="reference internal" href="pyarts.workspace.Workspace.sun.html#pyarts.workspace.Workspace.sun" title="pyarts.workspace.Workspace.sun"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun</span></code></a> to <a class="reference internal" href="pyarts.workspace.Workspace.suns.html#pyarts.workspace.Workspace.suns" title="pyarts.workspace.Workspace.suns"><code class="xref py py-attr docutils literal notranslate"><span class="pre">suns</span></code></a>, only exist for composability.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldEarth" title="pyarts.arts.CxxWorkspace.surface_fieldEarth"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldEarth()</span></code></a></p></td>
 <td><p>Earth reference ellipsoids.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldEuropa" title="pyarts.arts.CxxWorkspace.surface_fieldEuropa"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldEuropa()</span></code></a></p></td>
 <td><p>Europa reference ellipsoids.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldFromModelState" title="pyarts.arts.CxxWorkspace.surface_fieldFromModelState"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldFromModelState()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.surface_field.html#pyarts.workspace.Workspace.surface_field" title="pyarts.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a> to the state of the model.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldGanymede" title="pyarts.arts.CxxWorkspace.surface_fieldGanymede"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldGanymede()</span></code></a></p></td>
 <td><p>Ganymede reference ellipsoids.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldInit" title="pyarts.arts.CxxWorkspace.surface_fieldInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldInit()</span></code></a></p></td>
 <td><p>Manual setting of the reference ellipsoid.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldIo" title="pyarts.arts.CxxWorkspace.surface_fieldIo"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldIo()</span></code></a></p></td>
 <td><p>Io reference ellipsoids.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldJupiter" title="pyarts.arts.CxxWorkspace.surface_fieldJupiter"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldJupiter()</span></code></a></p></td>
 <td><p>Jupiter reference ellipsoids.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldMars" title="pyarts.arts.CxxWorkspace.surface_fieldMars"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldMars()</span></code></a></p></td>
 <td><p>Mars reference ellipsoids.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldMoon" title="pyarts.arts.CxxWorkspace.surface_fieldMoon"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldMoon()</span></code></a></p></td>
 <td><p>Moon reference ellipsoids.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldSetPlanetEllipsoid" title="pyarts.arts.CxxWorkspace.surface_fieldSetPlanetEllipsoid"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldSetPlanetEllipsoid()</span></code></a></p></td>
 <td><p>Sets the planet base surface field</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_fieldVenus" title="pyarts.arts.CxxWorkspace.surface_fieldVenus"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_fieldVenus()</span></code></a></p></td>
 <td><p>Venus reference ellipsoids.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.swap" title="pyarts.arts.CxxWorkspace.swap"><code class="xref py py-func docutils literal notranslate"><span class="pre">swap()</span></code></a></p></td>
 <td><p>Swap the workspace for andother.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.transmission_matrix_backgroundFromPathPropagationBack" title="pyarts.arts.CxxWorkspace.transmission_matrix_backgroundFromPathPropagationBack"><code class="xref py py-func docutils literal notranslate"><span class="pre">transmission_matrix_backgroundFromPathPropagationBack()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.transmission_matrix_background.html#pyarts.workspace.Workspace.transmission_matrix_background" title="pyarts.workspace.Workspace.transmission_matrix_background"><code class="xref py py-attr docutils literal notranslate"><span class="pre">transmission_matrix_background</span></code></a> to back of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative.html#pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative" title="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_cumulative</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.transmission_matrix_backgroundFromPathPropagationFront" title="pyarts.arts.CxxWorkspace.transmission_matrix_backgroundFromPathPropagationFront"><code class="xref py py-func docutils literal notranslate"><span class="pre">transmission_matrix_backgroundFromPathPropagationFront()</span></code></a></p></td>
 <td><p>Sets <a class="reference internal" href="pyarts.workspace.Workspace.transmission_matrix_background.html#pyarts.workspace.Workspace.transmission_matrix_background" title="pyarts.workspace.Workspace.transmission_matrix_background"><code class="xref py py-attr docutils literal notranslate"><span class="pre">transmission_matrix_background</span></code></a> to front of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative.html#pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative" title="pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_cumulative</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.water_equivalent_pressure_operatorMK05" title="pyarts.arts.CxxWorkspace.water_equivalent_pressure_operatorMK05"><code class="xref py py-func docutils literal notranslate"><span class="pre">water_equivalent_pressure_operatorMK05()</span></code></a></p></td>
 <td><p>Calculate equivalent water pressure according to Murphy and Koop, 2005</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.absorption_bands" title="pyarts.arts.CxxWorkspace.absorption_bands"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_bands</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfAbsorptionBand.html#pyarts.arts.ArrayOfAbsorptionBand" title="pyarts.arts.ArrayOfAbsorptionBand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfAbsorptionBand</span></code></a> Bands of absorption lines for LBL calculations.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.absorption_cia_data" title="pyarts.arts.CxxWorkspace.absorption_cia_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_cia_data</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfCIARecord.html#pyarts.arts.ArrayOfCIARecord" title="pyarts.arts.ArrayOfCIARecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfCIARecord</span></code></a> HITRAN Collision Induced Absorption (CIA) Data.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.absorption_predefined_model_data" title="pyarts.arts.CxxWorkspace.absorption_predefined_model_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_predefined_model_data</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.PredefinedModelData.html#pyarts.arts.PredefinedModelData" title="pyarts.arts.PredefinedModelData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PredefinedModelData</span></code></a> This contains predefined model data.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.absorption_species" title="pyarts.arts.CxxWorkspace.absorption_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_species</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfArrayOfSpeciesTag.html#pyarts.arts.ArrayOfArrayOfSpeciesTag" title="pyarts.arts.ArrayOfArrayOfSpeciesTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfArrayOfSpeciesTag</span></code></a> Tag groups for gas absorption.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.absorption_xsec_fit_data" title="pyarts.arts.CxxWorkspace.absorption_xsec_fit_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_xsec_fit_data</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfXsecRecord.html#pyarts.arts.ArrayOfXsecRecord" title="pyarts.arts.ArrayOfXsecRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfXsecRecord</span></code></a> Fitting model coefficients for cross section species.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.atmospheric_field" title="pyarts.arts.CxxWorkspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmField</span></code></a> An atmospheric field in ARTS.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.atmospheric_point" title="pyarts.arts.CxxWorkspace.atmospheric_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_point</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.AtmPoint.html#pyarts.arts.AtmPoint" title="pyarts.arts.AtmPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmPoint</span></code></a> An atmospheric point in ARTS.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.covariance_matrix_diagonal_blocks" title="pyarts.arts.CxxWorkspace.covariance_matrix_diagonal_blocks"><code class="xref py py-attr docutils literal notranslate"><span class="pre">covariance_matrix_diagonal_blocks</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap.html#pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap" title="pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">JacobianTargetsDiagonalCovarianceMatrixMap</span></code></a> A helper map for setting the covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_fourier_mode_dimension" title="pyarts.arts.CxxWorkspace.disort_fourier_mode_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_fourier_mode_dimension</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> The number of Fourier modes for Disort.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_legendre_polynomial_dimension" title="pyarts.arts.CxxWorkspace.disort_legendre_polynomial_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_legendre_polynomial_dimension</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> The number of input Legendre polynimials for Disort.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_quadrature_angles" title="pyarts.arts.CxxWorkspace.disort_quadrature_angles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_angles</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> The quadrature angles for Disort.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_quadrature_dimension" title="pyarts.arts.CxxWorkspace.disort_quadrature_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_dimension</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> The quadrature size for Disort.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_quadrature_weights" title="pyarts.arts.CxxWorkspace.disort_quadrature_weights"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_weights</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> The quadrature weights for Disort.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_settings" title="pyarts.arts.CxxWorkspace.disort_settings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_settings</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.DisortSettings.html#pyarts.arts.DisortSettings" title="pyarts.arts.DisortSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DisortSettings</span></code></a> Contains the full settings of spectral Disort calculations.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_settings_agenda" title="pyarts.arts.CxxWorkspace.disort_settings_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_settings_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> An agenda for setting up Disort.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_spectral_flux_field" title="pyarts.arts.CxxWorkspace.disort_spectral_flux_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_flux_field</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Tensor3.html#pyarts.arts.Tensor3" title="pyarts.arts.Tensor3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor3</span></code></a> The spectral flux field from Disort.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.disort_spectral_radiance_field" title="pyarts.arts.CxxWorkspace.disort_spectral_radiance_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_radiance_field</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Tensor4.html#pyarts.arts.Tensor4" title="pyarts.arts.Tensor4"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor4</span></code></a> The spectral radiance field from Disort.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ecs_data" title="pyarts.arts.CxxWorkspace.ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ecs_data</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.LinemixingEcsData.html#pyarts.arts.LinemixingEcsData" title="pyarts.arts.LinemixingEcsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinemixingEcsData</span></code></a> Error corrected sudden data</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.frequency_grid" title="pyarts.arts.CxxWorkspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">AscendingGrid</span></code></a> The discrete frequency grid.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.gravity_operator" title="pyarts.arts.CxxWorkspace.gravity_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gravity_operator</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.NumericTernaryOperator.html#pyarts.arts.NumericTernaryOperator" title="pyarts.arts.NumericTernaryOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericTernaryOperator</span></code></a> The gravity operator.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.inversion_iterate_agenda" title="pyarts.arts.CxxWorkspace.inversion_iterate_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inversion_iterate_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Work in progress …</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.inversion_iterate_agenda_counter" title="pyarts.arts.CxxWorkspace.inversion_iterate_agenda_counter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inversion_iterate_agenda_counter</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> A counter for the inversion iterate agenda.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.inversion_iterate_agenda_do_jacobian" title="pyarts.arts.CxxWorkspace.inversion_iterate_agenda_do_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inversion_iterate_agenda_do_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">Index</span></code></a> A boolean for if Jacobian calculations should be done.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.jacobian_targets" title="pyarts.arts.CxxWorkspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.JacobianTargets.html#pyarts.arts.JacobianTargets" title="pyarts.arts.JacobianTargets"><code class="xref py py-class docutils literal notranslate"><span class="pre">JacobianTargets</span></code></a> A list of targets for the Jacobian Matrix calculations.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_averaging_kernel" title="pyarts.arts.CxxWorkspace.measurement_averaging_kernel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_averaging_kernel</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a> Averaging kernel matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_gain_matrix" title="pyarts.arts.CxxWorkspace.measurement_gain_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_gain_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a> Contribution function (or gain) matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_jacobian" title="pyarts.arts.CxxWorkspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a> The partial derivatives of the <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector.html#pyarts.workspace.Workspace.measurement_vector" title="pyarts.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_sensor" title="pyarts.arts.CxxWorkspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfSensorObsel</span></code></a> A list of sensor elements.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector" title="pyarts.arts.CxxWorkspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> The measurment vector for, e.g., a sensor.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrix" title="pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector_error_covariance_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.CovarianceMatrix.html#pyarts.arts.CovarianceMatrix" title="pyarts.arts.CovarianceMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">CovarianceMatrix</span></code></a> Covariance matrix for observation uncertainties.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.measurement_vector_fitted" title="pyarts.arts.CxxWorkspace.measurement_vector_fitted"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector_fitted</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> As <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector.html#pyarts.workspace.Workspace.measurement_vector" title="pyarts.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a>, but fitted to the model.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_covariance_matrix" title="pyarts.arts.CxxWorkspace.model_state_covariance_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_covariance_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.CovarianceMatrix.html#pyarts.arts.CovarianceMatrix" title="pyarts.arts.CovarianceMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">CovarianceMatrix</span></code></a> Covariance matrix of a priori distribution.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vector" title="pyarts.arts.CxxWorkspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> A state vector of the model.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.model_state_vector_apriori" title="pyarts.arts.CxxWorkspace.model_state_vector_apriori"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector_apriori</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> An apriori state vector of the model.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix" title="pyarts.arts.CxxWorkspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.PropmatVector.html#pyarts.arts.PropmatVector" title="pyarts.arts.PropmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropmatVector</span></code></a> This contains the propagation matrix for the current path point.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_agenda" title="pyarts.arts.CxxWorkspace.propagation_matrix_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Compute the propagation matrix, the non-LTE source vector, and their derivatives</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_jacobian" title="pyarts.arts.CxxWorkspace.propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.PropmatMatrix.html#pyarts.arts.PropmatMatrix" title="pyarts.arts.PropmatMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropmatMatrix</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scattering" title="pyarts.arts.CxxWorkspace.propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.PropmatVector.html#pyarts.arts.PropmatVector" title="pyarts.arts.PropmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropmatVector</span></code></a> This contains the propagation matrix for scattering for the current path point.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agenda" title="pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_scattering_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Compute the propagation matrix, the non-LTE source vector, and their derivatives</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_select_species" title="pyarts.arts.CxxWorkspace.propagation_matrix_select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_select_species</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.SpeciesEnum.html#pyarts.arts.SpeciesEnum" title="pyarts.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a> A select species tag group from <a class="reference internal" href="pyarts.workspace.Workspace.absorption_species.html#pyarts.workspace.Workspace.absorption_species" title="pyarts.workspace.Workspace.absorption_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_species</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte" title="pyarts.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecVector.html#pyarts.arts.StokvecVector" title="pyarts.arts.StokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecVector</span></code></a> The part of the source vector that is due to non-LTE.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecMatrix.html#pyarts.arts.StokvecMatrix" title="pyarts.arts.StokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecMatrix</span></code></a> Partial derivative of the <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a> with regards to <a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path" title="pyarts.arts.CxxWorkspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfPropagationPathPoint.html#pyarts.arts.ArrayOfPropagationPathPoint" title="pyarts.arts.ArrayOfPropagationPathPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfPropagationPathPoint</span></code></a> A list path points making up a propagation path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_atmospheric_point" title="pyarts.arts.CxxWorkspace.ray_path_atmospheric_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_atmospheric_point</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfAtmPoint.html#pyarts.arts.ArrayOfAtmPoint" title="pyarts.arts.ArrayOfAtmPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfAtmPoint</span></code></a> Atmospheric points along the propagation path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_frequency_grid" title="pyarts.arts.CxxWorkspace.ray_path_frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_frequency_grid</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfAscendingGrid.html#pyarts.arts.ArrayOfAscendingGrid" title="pyarts.arts.ArrayOfAscendingGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfAscendingGrid</span></code></a> Atmospheric frequency grids along the propagation path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_observer_agenda" title="pyarts.arts.CxxWorkspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Get the propagation path as it is obeserved.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_point" title="pyarts.arts.CxxWorkspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.PropagationPathPoint.html#pyarts.arts.PropagationPathPoint" title="pyarts.arts.PropagationPathPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropagationPathPoint</span></code></a> A single path point.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfPropmatVector.html#pyarts.arts.ArrayOfPropmatVector" title="pyarts.arts.ArrayOfPropmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfPropmatVector</span></code></a> Propagation matrices along the propagation path</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_jacobian" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfPropmatMatrix.html#pyarts.arts.ArrayOfPropmatMatrix" title="pyarts.arts.ArrayOfPropmatMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfPropmatMatrix</span></code></a> Propagation derivative matrices along the propagation path</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scattering" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_scattering</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfPropmatVector.html#pyarts.arts.ArrayOfPropmatVector" title="pyarts.arts.ArrayOfPropmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfPropmatVector</span></code></a> Propagation matrices along the propagation path for scattering</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_source_vector_nonlte" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_source_vector_nonlte</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecVector.html#pyarts.arts.ArrayOfStokvecVector" title="pyarts.arts.ArrayOfStokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecVector</span></code></a> Additional non-LTE along the propagation path</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix_source_vector_nonlte_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecMatrix.html#pyarts.arts.ArrayOfStokvecMatrix" title="pyarts.arts.ArrayOfStokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecMatrix</span></code></a> Additional non-LTE derivative along the propagation path</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_jacobian" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecMatrix.html#pyarts.arts.ArrayOfStokvecMatrix" title="pyarts.arts.ArrayOfStokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecMatrix</span></code></a> Spectral radiance derivative along the propagation path</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_scattering" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_scattering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_scattering</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecVector.html#pyarts.arts.ArrayOfStokvecVector" title="pyarts.arts.ArrayOfStokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecVector</span></code></a> Spectral radiance scattered into the propagation path</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_source" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_source"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_source</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecVector.html#pyarts.arts.ArrayOfStokvecVector" title="pyarts.arts.ArrayOfStokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecVector</span></code></a> Source vectors along the propagation path</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_source_jacobian" title="pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_source_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_spectral_radiance_source_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfStokvecMatrix.html#pyarts.arts.ArrayOfStokvecMatrix" title="pyarts.arts.ArrayOfStokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfStokvecMatrix</span></code></a> Source derivative vectors along the propagation path</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_suns_path" title="pyarts.arts.CxxWorkspace.ray_path_suns_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_suns_path</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfArrayOfArrayOfPropagationPathPoint.html#pyarts.arts.ArrayOfArrayOfArrayOfPropagationPathPoint" title="pyarts.arts.ArrayOfArrayOfArrayOfPropagationPathPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfArrayOfArrayOfPropagationPathPoint</span></code></a> A list of paths to the suns from the ray path.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_transmission_matrix" title="pyarts.arts.CxxWorkspace.ray_path_transmission_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfMuelmatVector.html#pyarts.arts.ArrayOfMuelmatVector" title="pyarts.arts.ArrayOfMuelmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfMuelmatVector</span></code></a> Transmission matrices along the propagation path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_cumulative" title="pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_cumulative"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_cumulative</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfMuelmatVector.html#pyarts.arts.ArrayOfMuelmatVector" title="pyarts.arts.ArrayOfMuelmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfMuelmatVector</span></code></a> Cumulative transmission matrices along the propagation path</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_jacobian" title="pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_transmission_matrix_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfMuelmatTensor3.html#pyarts.arts.ArrayOfMuelmatTensor3" title="pyarts.arts.ArrayOfMuelmatTensor3"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfMuelmatTensor3</span></code></a> Transmission derivative matrices along the propagation path.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance" title="pyarts.arts.CxxWorkspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecVector.html#pyarts.arts.StokvecVector" title="pyarts.arts.StokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecVector</span></code></a> A spectral radiance vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_background" title="pyarts.arts.CxxWorkspace.spectral_radiance_background"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_background</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecVector.html#pyarts.arts.StokvecVector" title="pyarts.arts.StokvecVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecVector</span></code></a> Spectral radiance from the background</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_background_jacobian" title="pyarts.arts.CxxWorkspace.spectral_radiance_background_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_background_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecMatrix.html#pyarts.arts.StokvecMatrix" title="pyarts.arts.StokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecMatrix</span></code></a> Spectral radiance derivative from the background</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_jacobian" title="pyarts.arts.CxxWorkspace.spectral_radiance_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_jacobian</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.StokvecMatrix.html#pyarts.arts.StokvecMatrix" title="pyarts.arts.StokvecMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">StokvecMatrix</span></code></a> Jacobian of <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a> with respect to <a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_observer_agenda" title="pyarts.arts.CxxWorkspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Spectral radiance as seen from the input position and environment</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_observer_line_of_sight" title="pyarts.arts.CxxWorkspace.spectral_radiance_observer_line_of_sight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_line_of_sight</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector2</span></code></a> The position of the observer of spectral radiance.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_observer_position" title="pyarts.arts.CxxWorkspace.spectral_radiance_observer_position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_position</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a> The position of an observer of spectral radiance.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_operator" title="pyarts.arts.CxxWorkspace.spectral_radiance_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_operator</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.SpectralRadianceOperator.html#pyarts.arts.SpectralRadianceOperator" title="pyarts.arts.SpectralRadianceOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralRadianceOperator</span></code></a> The spectral radiance operator.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_space_agenda" title="pyarts.arts.CxxWorkspace.spectral_radiance_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_space_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Spectral radiance as seen of space.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_surface_agenda" title="pyarts.arts.CxxWorkspace.spectral_radiance_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_surface_agenda</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> Spectral radiance as seen of the surface.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.spectral_radiance_unit" title="pyarts.arts.CxxWorkspace.spectral_radiance_unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.String.html#pyarts.arts.String" title="pyarts.arts.String"><code class="xref py py-class docutils literal notranslate"><span class="pre">String</span></code></a> The spectral radiance unit after conversion.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sun" title="pyarts.arts.CxxWorkspace.sun"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.Sun.html#pyarts.arts.Sun" title="pyarts.arts.Sun"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sun</span></code></a> A sun.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.sun_path" title="pyarts.arts.CxxWorkspace.sun_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun_path</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfPropagationPathPoint.html#pyarts.arts.ArrayOfPropagationPathPoint" title="pyarts.arts.ArrayOfPropagationPathPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfPropagationPathPoint</span></code></a> A path to a sun if it is visible.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.suns" title="pyarts.arts.CxxWorkspace.suns"><code class="xref py py-attr docutils literal notranslate"><span class="pre">suns</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.ArrayOfSun.html#pyarts.arts.ArrayOfSun" title="pyarts.arts.ArrayOfSun"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfSun</span></code></a> A list of <a class="reference internal" href="pyarts.arts.Sun.html#pyarts.arts.Sun" title="pyarts.arts.Sun"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sun</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p>Attribute</p></td>
+<tr class="row-odd"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.surface_field" title="pyarts.arts.CxxWorkspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.SurfaceField.html#pyarts.arts.SurfaceField" title="pyarts.arts.SurfaceField"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceField</span></code></a> The surface field describes the surface properties.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Attribute</p></td>
+<tr class="row-even"><td><p>Attribute</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.transmission_matrix_background" title="pyarts.arts.CxxWorkspace.transmission_matrix_background"><code class="xref py py-attr docutils literal notranslate"><span class="pre">transmission_matrix_background</span></code></a></p></td>
 <td><p><a class="reference internal" href="pyarts.arts.MuelmatVector.html#pyarts.arts.MuelmatVector" title="pyarts.arts.MuelmatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">MuelmatVector</span></code></a> Transmittance from the background</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__eq__" title="pyarts.arts.CxxWorkspace.__eq__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__eq__()</span></code></a></p></td>
 <td><p>Return self==value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__ge__" title="pyarts.arts.CxxWorkspace.__ge__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ge__()</span></code></a></p></td>
 <td><p>Return self&gt;=value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__gt__" title="pyarts.arts.CxxWorkspace.__gt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__gt__()</span></code></a></p></td>
 <td><p>Return self&gt;value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__hash__" title="pyarts.arts.CxxWorkspace.__hash__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__hash__()</span></code></a></p></td>
 <td><p>Return hash(self).</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__iter__" title="pyarts.arts.CxxWorkspace.__iter__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__iter__()</span></code></a></p></td>
 <td><p>Allows <cite>iter(self)</cite></p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__le__" title="pyarts.arts.CxxWorkspace.__le__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__le__()</span></code></a></p></td>
 <td><p>Return self&lt;=value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__lt__" title="pyarts.arts.CxxWorkspace.__lt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__lt__()</span></code></a></p></td>
 <td><p>Return self&lt;value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts.arts.CxxWorkspace.__ne__" title="pyarts.arts.CxxWorkspace.__ne__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ne__()</span></code></a></p></td>
 <td><p>Return self!=value.</p></td>
 </tr>
@@ -2832,7 +2829,7 @@ spherical harmonics and is only valid for a limited time period.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>atmospheric_field</strong> (<a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><em>AtmField</em></a><em>, </em><em>optional</em>) – An atmospheric field in ARTS. See <a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_field.html#pyarts.workspace.Workspace.atmospheric_field" title="pyarts.workspace.Workspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.atmospheric_field</span></code> <strong>[INOUT]</strong></p></li>
-<li><p><strong>time</strong> (<a class="reference internal" href="pyarts.arts.Time.html#pyarts.arts.Time" title="pyarts.arts.Time"><em>Time</em></a><em>, </em><em>optional</em>) – Time of data to use. Defaults to <code class="docutils literal notranslate"><span class="pre">2024-09-27</span> <span class="pre">06:50:40.702323487</span></code> <strong>[IN]</strong></p></li>
+<li><p><strong>time</strong> (<a class="reference internal" href="pyarts.arts.Time.html#pyarts.arts.Time" title="pyarts.arts.Time"><em>Time</em></a><em>, </em><em>optional</em>) – Time of data to use. Defaults to <code class="docutils literal notranslate"><span class="pre">2024-10-16</span> <span class="pre">13:03:30.515461747</span></code> <strong>[IN]</strong></p></li>
 </ul>
 </dd>
 </dl>
@@ -3659,75 +3656,37 @@ calculation in which the <a class="reference internal" href="pyarts.workspace.Wo
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_sensorGaussian">
-<span class="sig-name descname"><span class="pre">measurement_sensorGaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0_fwhm_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfVector3.html#pyarts.arts.ArrayOfVector3" title="pyarts.arts.ArrayOfVector3"><span class="pre">pyarts.arts.ArrayOfVector3</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><span class="pre">pyarts.arts.Numeric</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><span class="pre">pyarts.arts.Vector3</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">los</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><span class="pre">pyarts.arts.Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><span class="pre">pyarts.arts.Stokvec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_sensorGaussian" title="Link to this definition"></a></dt>
-<dd><p>Sets a sensor with a Gaussian channel opening on a computed frequency grid</p>
-<p>Each element has a frequency grid, a single polarization and a single pair of positions and line-of-sight.</p>
-<p>The Gaussian distribution by each element is defined by the <code class="docutils literal notranslate"><span class="pre">f0_fwmh_df</span></code> list of <a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a> values.
-In each <a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a>, the first value is the frequency center (<span class="math notranslate nohighlight">\(f_0\)</span>), the second value is the full width at half maximum (<span class="math notranslate nohighlight">\(\sigma\)</span>),
-and the last value is the frequency stepping between points (<span class="math notranslate nohighlight">\('Delta f\)</span>). All values must be positive.</p>
-<p>The number of points per channel is <span class="math notranslate nohighlight">\(1 + 2n\)</span> for the first <span class="math notranslate nohighlight">\(n\)</span> that ensures that <span class="math notranslate nohighlight">\(\exp\left(-0.5 \left[\frac{n\Delta f}{\sigma}\right]^2\right)\)</span> is less
-than <code class="docutils literal notranslate"><span class="pre">weight_cutoff</span></code>.  This keeps (<span class="math notranslate nohighlight">\(f_0\)</span>) in the resulting frequency grid.</p>
-<p>The resulting vector of sensor elements cannot be considered exhaustive in future calculations.</p>
-<p>Author(s): Richard Larsson</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>measurement_sensor</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><em>ArrayOfSensorObsel</em></a><em>, </em><em>optional</em>) – A list of sensor elements. See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.measurement_sensor</span></code> <strong>[OUT]</strong></p></li>
-<li><p><strong>f0_fwhm_df</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfVector3.html#pyarts.arts.ArrayOfVector3" title="pyarts.arts.ArrayOfVector3"><em>ArrayOfVector3</em></a>) – List of [f0, fwhm, df]. <strong>[IN]</strong></p></li>
-<li><p><strong>weight_cutoff</strong> (<a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><em>Numeric</em></a><em>, </em><em>optional</em>) – The weight cutoff. Defaults to <code class="docutils literal notranslate"><span class="pre">0.001</span></code> <strong>[IN]</strong></p></li>
-<li><p><strong>pos</strong> (<a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><em>Vector3</em></a>) – A position [alt, lat, lon]. <strong>[IN]</strong></p></li>
-<li><p><strong>los</strong> (<a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><em>Vector2</em></a>) – A line of sight [zenith, azimuth]. <strong>[IN]</strong></p></li>
-<li><p><strong>pol</strong> (<a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><em>Stokvec</em></a><em>, </em><em>optional</em>) – The polarization whos dot-product with the spectral radiance becomes the measurement. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code> <strong>[IN]</strong></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_sensorGaussianFrequencyGrid">
-<span class="sig-name descname"><span class="pre">measurement_sensorGaussianFrequencyGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><span class="pre">pyarts.arts.AscendingGrid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0_fwhm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfVector2.html#pyarts.arts.ArrayOfVector2" title="pyarts.arts.ArrayOfVector2"><span class="pre">pyarts.arts.ArrayOfVector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><span class="pre">pyarts.arts.Numeric</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><span class="pre">pyarts.arts.Vector3</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">los</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><span class="pre">pyarts.arts.Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><span class="pre">pyarts.arts.Stokvec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_sensorGaussianFrequencyGrid" title="Link to this definition"></a></dt>
-<dd><p>Sets a sensor with a Gaussian channel opening on a fixed frequency grid</p>
-<p>Each element has a frequency grid, a single polarization and a single pair of positions and line-of-sight.
-The frequency grid may only consist of elements that are in the input frequency grid.</p>
-<p>The Gaussian distribution by each element is defined by the <code class="docutils literal notranslate"><span class="pre">f0_fwhm</span></code> list of <a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector2</span></code></a> values.
-In each <a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector2</span></code></a>, the first value is the frequency center (<span class="math notranslate nohighlight">\(f_0\)</span>) and the second value is the full width at half maximum (<span class="math notranslate nohighlight">\(\sigma\)</span>).
-The frequency center must be positive.  The half maximum width must be non-negative, where a zero value means that the channel
-is just the dirac delta function at the frequency center, which then must be in <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>.</p>
-<p>The freqeuncy grid of each channel is cut when <span class="math notranslate nohighlight">\(\exp\left(-0.5 \left[\frac{f - f_0}{\sigma}\right]^2\right)\)</span>
-is less than the value of <code class="docutils literal notranslate"><span class="pre">weight_cutoff</span></code>.  Note that this means channels might end of with zero
-frequency points.</p>
-<p>The resulting vector of sensor elements can be considered exhaustive by future calculations if an only if
-the weight cutoff is non-positive and all half width half maximums are positive.
-Otherwise the vector is not exhaustive.</p>
-<p>Author(s): Richard Larsson</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>measurement_sensor</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><em>ArrayOfSensorObsel</em></a><em>, </em><em>optional</em>) – A list of sensor elements. See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.measurement_sensor</span></code> <strong>[OUT]</strong></p></li>
-<li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>AscendingGrid</em></a><em>, </em><em>optional</em>) – The discrete frequency grid. See <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.frequency_grid</span></code> <strong>[IN]</strong></p></li>
-<li><p><strong>f0_fwhm</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfVector2.html#pyarts.arts.ArrayOfVector2" title="pyarts.arts.ArrayOfVector2"><em>ArrayOfVector2</em></a>) – List of [f0, fwhm]. <strong>[IN]</strong></p></li>
-<li><p><strong>weight_cutoff</strong> (<a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><em>Numeric</em></a><em>, </em><em>optional</em>) – The weight cutoff. Defaults to <code class="docutils literal notranslate"><span class="pre">0.001</span></code> <strong>[IN]</strong></p></li>
-<li><p><strong>pos</strong> (<a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><em>Vector3</em></a>) – A position [alt, lat, lon]. <strong>[IN]</strong></p></li>
-<li><p><strong>los</strong> (<a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><em>Vector2</em></a>) – A line of sight [zenith, azimuth]. <strong>[IN]</strong></p></li>
-<li><p><strong>pol</strong> (<a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><em>Stokvec</em></a><em>, </em><em>optional</em>) – The polarization whos dot-product with the spectral radiance becomes the measurement. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code> <strong>[IN]</strong></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_sensorSimple">
 <span class="sig-name descname"><span class="pre">measurement_sensorSimple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><span class="pre">pyarts.arts.AscendingGrid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><span class="pre">pyarts.arts.Vector3</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">los</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><span class="pre">pyarts.arts.Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><span class="pre">pyarts.arts.Stokvec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_sensorSimple" title="Link to this definition"></a></dt>
-<dd><p>Sets a simple sensor</p>
-<p>Sets one measurement vector sensor element entry per frequency in <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>, a single polarization and a single pair of positions plus line-of-sight.</p>
-<p>The resulting vector of sensor elements is not to be considered exhaustive by future calculations.</p>
+<dd><p>Sets a sensor with a Gaussian channel opening around the frequency grid.</p>
+<p>All elements share position, line-of-sight, and frequency grid.</p>
 <p>Author(s): Richard Larsson</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>measurement_sensor</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><em>ArrayOfSensorObsel</em></a><em>, </em><em>optional</em>) – A list of sensor elements. See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.measurement_sensor</span></code> <strong>[OUT]</strong></p></li>
 <li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>AscendingGrid</em></a><em>, </em><em>optional</em>) – The discrete frequency grid. See <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.frequency_grid</span></code> <strong>[IN]</strong></p></li>
+<li><p><strong>pos</strong> (<a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><em>Vector3</em></a>) – A position [alt, lat, lon]. <strong>[IN]</strong></p></li>
+<li><p><strong>los</strong> (<a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><em>Vector2</em></a>) – A line of sight [zenith, azimuth]. <strong>[IN]</strong></p></li>
+<li><p><strong>pol</strong> (<a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><em>Stokvec</em></a><em>, </em><em>optional</em>) – The polarization whos dot-product with the spectral radiance becomes the measurement. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code> <strong>[IN]</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_sensorSimpleGaussian">
+<span class="sig-name descname"><span class="pre">measurement_sensorSimpleGaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><span class="pre">pyarts.arts.AscendingGrid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwhm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><span class="pre">pyarts.arts.Vector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><span class="pre">pyarts.arts.Numeric</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><span class="pre">pyarts.arts.Vector3</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">los</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><span class="pre">pyarts.arts.Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><span class="pre">pyarts.arts.Stokvec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_sensorSimpleGaussian" title="Link to this definition"></a></dt>
+<dd><p>Sets a sensor with a Gaussian channel opening around the frequency grid.</p>
+<p>All elements share position, line-of-sight, and frequency grid.</p>
+<p>Note that this means you only get “half” a Gaussian channel for the outermost channels.</p>
+<p>Author(s): Richard Larsson</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>measurement_sensor</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><em>ArrayOfSensorObsel</em></a><em>, </em><em>optional</em>) – A list of sensor elements. See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.measurement_sensor</span></code> <strong>[OUT]</strong></p></li>
+<li><p><strong>frequency_grid</strong> (<a class="reference internal" href="pyarts.arts.AscendingGrid.html#pyarts.arts.AscendingGrid" title="pyarts.arts.AscendingGrid"><em>AscendingGrid</em></a><em>, </em><em>optional</em>) – The discrete frequency grid. See <a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.frequency_grid</span></code> <strong>[IN]</strong></p></li>
+<li><p><strong>fwhm</strong> (<a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><em>Vector</em></a><em>, </em><a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><em>Numeric</em></a>) – The full-width half-maximum of the channel(s). <strong>[IN]</strong></p></li>
 <li><p><strong>pos</strong> (<a class="reference internal" href="pyarts.arts.Vector3.html#pyarts.arts.Vector3" title="pyarts.arts.Vector3"><em>Vector3</em></a>) – A position [alt, lat, lon]. <strong>[IN]</strong></p></li>
 <li><p><strong>los</strong> (<a class="reference internal" href="pyarts.arts.Vector2.html#pyarts.arts.Vector2" title="pyarts.arts.Vector2"><em>Vector2</em></a>) – A line of sight [zenith, azimuth]. <strong>[IN]</strong></p></li>
 <li><p><strong>pol</strong> (<a class="reference internal" href="pyarts.arts.Stokvec.html#pyarts.arts.Stokvec" title="pyarts.arts.Stokvec"><em>Stokvec</em></a><em>, </em><em>optional</em>) – The polarization whos dot-product with the spectral radiance becomes the measurement. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code> <strong>[IN]</strong></p></li>
@@ -3738,7 +3697,7 @@ Otherwise the vector is not exhaustive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath">
-<span class="sig-name descname"><span class="pre">measurement_vectorFromOperatorPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><span class="pre">pyarts.arts.Vector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpectralRadianceOperator.html#pyarts.arts.SpectralRadianceOperator" title="pyarts.arts.SpectralRadianceOperator"><span class="pre">pyarts.arts.SpectralRadianceOperator</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_path_observer_agenda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><span class="pre">pyarts.arts.Agenda</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exhaustive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><span class="pre">pyarts.arts.Index</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">measurement_vectorFromOperatorPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><span class="pre">pyarts.arts.Vector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SpectralRadianceOperator.html#pyarts.arts.SpectralRadianceOperator" title="pyarts.arts.SpectralRadianceOperator"><span class="pre">pyarts.arts.SpectralRadianceOperator</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_path_observer_agenda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><span class="pre">pyarts.arts.Agenda</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath" title="Link to this definition"></a></dt>
 <dd><p>Sets measurement vector by looping over all sensor elements</p>
 <p>The core calculations happens inside the <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_operator.html#pyarts.workspace.Workspace.spectral_radiance_operator" title="pyarts.workspace.Workspace.spectral_radiance_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_operator</span></code></a>.</p>
 <p>Author(s): Richard Larsson</p>
@@ -3749,7 +3708,6 @@ Otherwise the vector is not exhaustive.</p>
 <li><p><strong>measurement_sensor</strong> (<a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><em>ArrayOfSensorObsel</em></a><em>, </em><em>optional</em>) – A list of sensor elements. See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.measurement_sensor</span></code> <strong>[IN]</strong></p></li>
 <li><p><strong>spectral_radiance_operator</strong> (<a class="reference internal" href="pyarts.arts.SpectralRadianceOperator.html#pyarts.arts.SpectralRadianceOperator" title="pyarts.arts.SpectralRadianceOperator"><em>SpectralRadianceOperator</em></a><em>, </em><em>optional</em>) – The spectral radiance operator. See <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_operator.html#pyarts.workspace.Workspace.spectral_radiance_operator" title="pyarts.workspace.Workspace.spectral_radiance_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_operator</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.spectral_radiance_operator</span></code> <strong>[IN]</strong></p></li>
 <li><p><strong>ray_path_observer_agenda</strong> (<a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><em>Agenda</em></a><em>, </em><em>optional</em>) – Get the propagation path as it is obeserved. See <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.ray_path_observer_agenda</span></code> <strong>[IN]</strong></p></li>
-<li><p><strong>exhaustive</strong> (<a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><em>Index</em></a><em>, </em><em>optional</em>) – Boolean flag for whether or not the sensor elements are treated as exhaustive, i.e., all elements are understood to have the same frequency and pos-los grids. Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code> <strong>[IN]</strong></p></li>
 </ul>
 </dd>
 </dl>
@@ -3757,7 +3715,7 @@ Otherwise the vector is not exhaustive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts.arts.CxxWorkspace.measurement_vectorFromSensor">
-<span class="sig-name descname"><span class="pre">measurement_vectorFromSensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><span class="pre">pyarts.arts.Vector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_jacobian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><span class="pre">pyarts.arts.Matrix</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jacobian_targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.JacobianTargets.html#pyarts.arts.JacobianTargets" title="pyarts.arts.JacobianTargets"><span class="pre">pyarts.arts.JacobianTargets</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><span class="pre">pyarts.arts.AtmField</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SurfaceField.html#pyarts.arts.SurfaceField" title="pyarts.arts.SurfaceField"><span class="pre">pyarts.arts.SurfaceField</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.String.html#pyarts.arts.String" title="pyarts.arts.String"><span class="pre">pyarts.arts.String</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_observer_agenda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><span class="pre">pyarts.arts.Agenda</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exhaustive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><span class="pre">pyarts.arts.Index</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromSensor" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">measurement_vectorFromSensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><span class="pre">pyarts.arts.Vector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_jacobian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Matrix.html#pyarts.arts.Matrix" title="pyarts.arts.Matrix"><span class="pre">pyarts.arts.Matrix</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.ArrayOfSensorObsel.html#pyarts.arts.ArrayOfSensorObsel" title="pyarts.arts.ArrayOfSensorObsel"><span class="pre">pyarts.arts.ArrayOfSensorObsel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jacobian_targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.JacobianTargets.html#pyarts.arts.JacobianTargets" title="pyarts.arts.JacobianTargets"><span class="pre">pyarts.arts.JacobianTargets</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atmospheric_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><span class="pre">pyarts.arts.AtmField</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.SurfaceField.html#pyarts.arts.SurfaceField" title="pyarts.arts.SurfaceField"><span class="pre">pyarts.arts.SurfaceField</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.String.html#pyarts.arts.String" title="pyarts.arts.String"><span class="pre">pyarts.arts.String</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_radiance_observer_agenda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><span class="pre">pyarts.arts.Agenda</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts.arts.CxxWorkspace.measurement_vectorFromSensor" title="Link to this definition"></a></dt>
 <dd><p>Sets measurement vector by looping over all sensor elements</p>
 <p>The core calculations happens inside the <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agenda.html#pyarts.workspace.Workspace.spectral_radiance_observer_agenda" title="pyarts.workspace.Workspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a>.</p>
 <p>User choices of <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_unit.html#pyarts.workspace.Workspace.spectral_radiance_unit" title="pyarts.workspace.Workspace.spectral_radiance_unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code></a> does not adversely affect this method.</p>
@@ -3773,7 +3731,6 @@ Otherwise the vector is not exhaustive.</p>
 <li><p><strong>surface_field</strong> (<a class="reference internal" href="pyarts.arts.SurfaceField.html#pyarts.arts.SurfaceField" title="pyarts.arts.SurfaceField"><em>SurfaceField</em></a><em>, </em><em>optional</em>) – The surface field describes the surface properties. See <a class="reference internal" href="pyarts.workspace.Workspace.surface_field.html#pyarts.workspace.Workspace.surface_field" title="pyarts.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.surface_field</span></code> <strong>[IN]</strong></p></li>
 <li><p><strong>spectral_radiance_unit</strong> (<a class="reference internal" href="pyarts.arts.String.html#pyarts.arts.String" title="pyarts.arts.String"><em>String</em></a><em>, </em><em>optional</em>) – The spectral radiance unit after conversion. See <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_unit.html#pyarts.workspace.Workspace.spectral_radiance_unit" title="pyarts.workspace.Workspace.spectral_radiance_unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.spectral_radiance_unit</span></code> <strong>[IN]</strong></p></li>
 <li><p><strong>spectral_radiance_observer_agenda</strong> (<a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><em>Agenda</em></a><em>, </em><em>optional</em>) – Spectral radiance as seen from the input position and environment. See <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agenda.html#pyarts.workspace.Workspace.spectral_radiance_observer_agenda" title="pyarts.workspace.Workspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a>, defaults to <code class="docutils literal notranslate"><span class="pre">self.spectral_radiance_observer_agenda</span></code> <strong>[IN]</strong></p></li>
-<li><p><strong>exhaustive</strong> (<a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><em>Index</em></a><em>, </em><em>optional</em>) – Boolean flag for whether or not the sensor elements are treated as exhaustive, i.e., all elements are understood to have the same frequency and pos-los grids. Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code> <strong>[IN]</strong></p></li>
 </ul>
 </dd>
 </dl>
@@ -7277,9 +7234,8 @@ with respect to the <a class="reference internal" href="pyarts.workspace.Workspa
 </td></tr></table>
 <p class="rubric">Output from workspace methods</p>
 <table class="hlist"><tr><td><ul class="simple">
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorGaussian.html#pyarts.workspace.Workspace.measurement_sensorGaussian" title="pyarts.workspace.Workspace.measurement_sensorGaussian"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorGaussian()</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorGaussianFrequencyGrid.html#pyarts.workspace.Workspace.measurement_sensorGaussianFrequencyGrid" title="pyarts.workspace.Workspace.measurement_sensorGaussianFrequencyGrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorGaussianFrequencyGrid()</span></code></a></p></li>
 <li><p><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorSimple.html#pyarts.workspace.Workspace.measurement_sensorSimple" title="pyarts.workspace.Workspace.measurement_sensorSimple"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorSimple()</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensorSimpleGaussian.html#pyarts.workspace.Workspace.measurement_sensorSimpleGaussian" title="pyarts.workspace.Workspace.measurement_sensorSimpleGaussian"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_sensorSimpleGaussian()</span></code></a></p></li>
 </ul>
 </td></tr></table>
 <p class="rubric">Related workspace variables</p>
