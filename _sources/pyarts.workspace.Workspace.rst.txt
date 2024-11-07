@@ -91,6 +91,12 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.absorption_bandsKeepID`
       - Keeps first band of ID
     * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_bandsLineMixingAdaptation`
+      - Adapts select band to use ordered Line mixing coefficients.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_bandsReadHITRAN`
+      - Reads HITRAN data from a file.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_bandsReadSpeciesSplitCatalog`
       - Saves all bands fin :attr:`~pyarts.workspace.Workspace.absorption_bands` to a directory
     * - Method
@@ -120,6 +126,24 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_cia_dataReadSpeciesSplitCatalog`
       - Reads a species split CIA dataset.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tableCalc`
+      - Get :attr:`~pyarts.workspace.Workspace.absorption_lookup_table` from available data.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tableFromProfiles`
+      - Compute the lookup table for all species in :attr:`~pyarts.workspace.Workspace.absorption_bands`.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tableInit`
+      - Initialize an empty lookup table.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tablePrecompute`
+      - Precompute the lookup table for a single species, adding it to the map.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tablePrecomputeAll`
+      - Compute the lookup table for all species in :attr:`~pyarts.workspace.Workspace.absorption_bands`.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_lookup_tableSimpleWide`
+      - Set up a simple wide lookup table for all species in :attr:`~pyarts.workspace.Workspace.absorption_bands`.
     * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_predefined_model_dataAddWaterMTCKD400`
       - Sets the data for MT CKD 4.0 Water model
@@ -268,6 +292,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.ecs_dataInit`
       - Resets/initializes the ECS data.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.frequency_gridWindShift`
+      - Applies wind shift to the :attr:`~pyarts.workspace.Workspace.frequency_grid` for the local frequency grid.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.get`
       - Gets the value of the variable with the given name.
     * - Method
@@ -377,7 +404,10 @@ Workspace
       - Calculates absorption matrix describing Faraday rotation.
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrixAddLines`
-      - Modern line-by-line calculations
+      - Line-by-line calculations.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrixAddLookup`
+      - Lookup calculations
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrixAddPredefined`
       - Adds all of the predefined models in :attr:`~pyarts.workspace.Workspace.absorption_species` to the propagation_matrix
@@ -389,13 +419,16 @@ Workspace
       - Initialize :attr:`~pyarts.workspace.Workspace.propagation_matrix`, :attr:`~pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte`, and their derivatives to zeroes.
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaAuto`
-      - Sets the :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` automatically
+      - Sets the :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` automatically from absorption data and species tag meta information.
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaSet`
       - Sets :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` to a default value
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrix_jacobianWindFix`
+      - Fix for the wind field derivative.
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple`
       - Add simple air to :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering`.
@@ -420,6 +453,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_pathGeometricUplooking`
       - Wraps :func:`~pyarts.workspace.Workspace.ray_pathGeometric` for straight uplooking paths from the surface altitude at the position
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointExtendInPressure`
+      - Gets the atmospheric points along the path.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath`
       - Gets the atmospheric points along the path.
@@ -623,10 +659,13 @@ Workspace
       - Calculate equivalent water pressure according to Murphy and Koop, 2005
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_bands`
-      - :class:`~pyarts.arts.ArrayOfAbsorptionBand` Bands of absorption lines for LBL calculations.
+      - :class:`~pyarts.arts.AbsorptionBands` Bands of absorption lines for LBL calculations.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_cia_data`
       - :class:`~pyarts.arts.ArrayOfCIARecord` HITRAN Collision Induced Absorption (CIA) Data.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.absorption_lookup_table`
+      - :class:`~pyarts.arts.AbsorptionLookupTables` Absorption lookup table for scalar gas absorption coefficients.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_predefined_model_data`
       - :class:`~pyarts.arts.PredefinedModelData` This contains predefined model data.
@@ -677,7 +716,10 @@ Workspace
       - :class:`~pyarts.arts.LinemixingEcsData` Error corrected sudden data
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.frequency_grid`
-      - :class:`~pyarts.arts.AscendingGrid` The discrete frequency grid.
+      - :class:`~pyarts.arts.AscendingGrid` A single path point's frequency grid.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.frequency_grid_wind_shift_jacobian`
+      - :class:`~pyarts.arts.Vector3` The frequency grid wind shift Jacobian.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.gravity_operator`
       - :class:`~pyarts.arts.NumericTernaryOperator` The gravity operator.
@@ -755,7 +797,10 @@ Workspace
       - :class:`~pyarts.arts.ArrayOfAtmPoint` Atmospheric points along the propagation path.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_frequency_grid`
-      - :class:`~pyarts.arts.ArrayOfAscendingGrid` Atmospheric frequency grids along the propagation path.
+      - :class:`~pyarts.arts.ArrayOfAscendingGrid` All :attr:`~pyarts.workspace.Workspace.frequency_grid` along the propagation path.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.ray_path_frequency_grid_wind_shift_jacobian`
+      - :class:`~pyarts.arts.ArrayOfVector3` A list of :attr:`~pyarts.workspace.Workspace.frequency_grid_wind_shift_jacobian` for a ray path.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`
       - :class:`~pyarts.arts.Agenda` Get the propagation path as it is obeserved.
@@ -909,6 +954,8 @@ Workspace
   pyarts.workspace.Workspace.absorption_bandsFromAbsorbtionLines
   pyarts.workspace.Workspace.absorption_bandsFromModelState
   pyarts.workspace.Workspace.absorption_bandsKeepID
+  pyarts.workspace.Workspace.absorption_bandsLineMixingAdaptation
+  pyarts.workspace.Workspace.absorption_bandsReadHITRAN
   pyarts.workspace.Workspace.absorption_bandsReadSpeciesSplitCatalog
   pyarts.workspace.Workspace.absorption_bandsReadSplit
   pyarts.workspace.Workspace.absorption_bandsRemoveID
@@ -919,6 +966,12 @@ Workspace
   pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA
   pyarts.workspace.Workspace.absorption_cia_dataReadFromXML
   pyarts.workspace.Workspace.absorption_cia_dataReadSpeciesSplitCatalog
+  pyarts.workspace.Workspace.absorption_lookup_tableCalc
+  pyarts.workspace.Workspace.absorption_lookup_tableFromProfiles
+  pyarts.workspace.Workspace.absorption_lookup_tableInit
+  pyarts.workspace.Workspace.absorption_lookup_tablePrecompute
+  pyarts.workspace.Workspace.absorption_lookup_tablePrecomputeAll
+  pyarts.workspace.Workspace.absorption_lookup_tableSimpleWide
   pyarts.workspace.Workspace.absorption_predefined_model_dataAddWaterMTCKD400
   pyarts.workspace.Workspace.absorption_predefined_model_dataInit
   pyarts.workspace.Workspace.absorption_predefined_model_dataReadSpeciesSplitCatalog
@@ -968,6 +1021,7 @@ Workspace
   pyarts.workspace.Workspace.ecs_dataAddRodrigues1997
   pyarts.workspace.Workspace.ecs_dataAddTran2011
   pyarts.workspace.Workspace.ecs_dataInit
+  pyarts.workspace.Workspace.frequency_gridWindShift
   pyarts.workspace.Workspace.get
   pyarts.workspace.Workspace.gravity_operatorCentralMass
   pyarts.workspace.Workspace.has
@@ -1005,12 +1059,14 @@ Workspace
   pyarts.workspace.Workspace.propagation_matrixAddCIA
   pyarts.workspace.Workspace.propagation_matrixAddFaraday
   pyarts.workspace.Workspace.propagation_matrixAddLines
+  pyarts.workspace.Workspace.propagation_matrixAddLookup
   pyarts.workspace.Workspace.propagation_matrixAddPredefined
   pyarts.workspace.Workspace.propagation_matrixAddXsecFit
   pyarts.workspace.Workspace.propagation_matrixInit
   pyarts.workspace.Workspace.propagation_matrix_agendaAuto
   pyarts.workspace.Workspace.propagation_matrix_agendaExecute
   pyarts.workspace.Workspace.propagation_matrix_agendaSet
+  pyarts.workspace.Workspace.propagation_matrix_jacobianWindFix
   pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple
   pyarts.workspace.Workspace.propagation_matrix_scatteringInit
   pyarts.workspace.Workspace.propagation_matrix_scattering_agendaExecute
@@ -1019,6 +1075,7 @@ Workspace
   pyarts.workspace.Workspace.ray_pathGeometricDownlooking
   pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude
   pyarts.workspace.Workspace.ray_pathGeometricUplooking
+  pyarts.workspace.Workspace.ray_path_atmospheric_pointExtendInPressure
   pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath
   pyarts.workspace.Workspace.ray_path_frequency_gridFromPath
   pyarts.workspace.Workspace.ray_path_observer_agendaExecute
@@ -1088,6 +1145,7 @@ Workspace
   pyarts.workspace.Workspace.water_equivalent_pressure_operatorMK05
   pyarts.workspace.Workspace.absorption_bands
   pyarts.workspace.Workspace.absorption_cia_data
+  pyarts.workspace.Workspace.absorption_lookup_table
   pyarts.workspace.Workspace.absorption_predefined_model_data
   pyarts.workspace.Workspace.absorption_species
   pyarts.workspace.Workspace.absorption_xsec_fit_data
@@ -1105,6 +1163,7 @@ Workspace
   pyarts.workspace.Workspace.disort_spectral_radiance_field
   pyarts.workspace.Workspace.ecs_data
   pyarts.workspace.Workspace.frequency_grid
+  pyarts.workspace.Workspace.frequency_grid_wind_shift_jacobian
   pyarts.workspace.Workspace.gravity_operator
   pyarts.workspace.Workspace.inversion_iterate_agenda
   pyarts.workspace.Workspace.inversion_iterate_agenda_counter
@@ -1131,6 +1190,7 @@ Workspace
   pyarts.workspace.Workspace.ray_path
   pyarts.workspace.Workspace.ray_path_atmospheric_point
   pyarts.workspace.Workspace.ray_path_frequency_grid
+  pyarts.workspace.Workspace.ray_path_frequency_grid_wind_shift_jacobian
   pyarts.workspace.Workspace.ray_path_observer_agenda
   pyarts.workspace.Workspace.ray_path_point
   pyarts.workspace.Workspace.ray_path_propagation_matrix

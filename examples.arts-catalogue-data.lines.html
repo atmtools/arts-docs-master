@@ -8,16 +8,16 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lines &mdash; ARTS 3.0.0dev1 documentation</title>
+  <title>Lines &mdash; ARTS 3.0.0dev3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0ed3666c" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=bd1727e5"></script>
+      <script src="_static/documentation_options.js?v=2e972996"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -235,39 +235,54 @@
 <span class="linenos">135</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">136</span>
 <span class="linenos">137</span><span class="n">ws</span><span class="o">.</span><span class="n">jacobian_targets</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">JacobianTargets</span><span class="p">()</span>
-<span class="linenos">138</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># Frequencies between 40 and 120 GHz</span>
-<span class="linenos">139</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_point</span>  <span class="c1"># No particular POSLOS</span>
-<span class="linenos">140</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_pointInit</span><span class="p">()</span>
-<span class="linenos">141</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">295</span>  <span class="c1"># At room temperature</span>
-<span class="linenos">142</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="mf">1e5</span>  <span class="c1"># At 1 bar</span>
-<span class="linenos">143</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="p">[</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_species</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.21</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
-<span class="linenos">144</span>
-<span class="linenos">145</span><span class="c1"># Call the agenda with inputs above</span>
-<span class="linenos">146</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaExecute</span><span class="p">()</span>
-<span class="linenos">147</span>
-<span class="linenos">148</span><span class="c1"># Plot the absorption of this example</span>
-<span class="linenos">149</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">150</span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-<span class="linenos">151</span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">)</span>
-<span class="linenos">152</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
-<span class="linenos">153</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
-<span class="linenos">154</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;O2-66 absorption from examples/arts-cat-data/lines/lines.py&quot;</span><span class="p">)</span>
-<span class="linenos">155</span>
-<span class="linenos">156</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">157</span><span class="sd">That&#39;s it!  You are done and have reached the end of this example.  Everything</span>
-<span class="linenos">158</span><span class="sd">below here is just to ensure that ARTS does not break in the future.  It can</span>
-<span class="linenos">159</span><span class="sd">be safely ignored</span>
-<span class="linenos">160</span>
-<span class="linenos">161</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos">162</span><span class="c1"># Save test results</span>
-<span class="linenos">163</span><span class="c1"># ws.propagation_matrix.savexml(&quot;lines_test_result.xml&quot;, type=&quot;ascii&quot;)</span>
+<span class="linenos">138</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+<span class="linenos">139</span>    <span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="mi">11</span>
+<span class="linenos">140</span><span class="p">)</span>  <span class="c1"># Frequencies between 40 and 120 GHz</span>
+<span class="linenos">141</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_point</span>  <span class="c1"># No particular POSLOS</span>
+<span class="linenos">142</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_pointInit</span><span class="p">()</span>
+<span class="linenos">143</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">295</span>  <span class="c1"># At room temperature</span>
+<span class="linenos">144</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="mf">1e5</span>  <span class="c1"># At 1 bar</span>
+<span class="linenos">145</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="p">[</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_species</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">146</span>    <span class="mf">0.21</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
+<span class="linenos">147</span><span class="p">)</span>
+<span class="linenos">148</span>
+<span class="linenos">149</span><span class="c1"># Call the agenda with inputs above</span>
+<span class="linenos">150</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaExecute</span><span class="p">()</span>
+<span class="linenos">151</span>
+<span class="linenos">152</span><span class="c1"># Plot the absorption of this example</span>
+<span class="linenos">153</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">154</span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="linenos">155</span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">)</span>
+<span class="linenos">156</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
+<span class="linenos">157</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
+<span class="linenos">158</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;O2-66 absorption from examples/arts-cat-data/lines/lines.py&quot;</span><span class="p">)</span>
+<span class="linenos">159</span>
+<span class="linenos">160</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">161</span><span class="sd">That&#39;s it!  You are done and have reached the end of this example.  Everything</span>
+<span class="linenos">162</span><span class="sd">below here is just to ensure that ARTS does not break in the future.  It can</span>
+<span class="linenos">163</span><span class="sd">be safely ignored</span>
 <span class="linenos">164</span>
-<span class="linenos">165</span><span class="c1"># test that we are still OK</span>
-<span class="linenos">166</span><span class="n">propagation_matrix_agenda</span> <span class="o">=</span> \
-<span class="linenos">167</span>    <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">PropmatVector</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span><span class="s2">&quot;lines_test_result.xml&quot;</span><span class="p">)</span>
-<span class="linenos">168</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">169</span>    <span class="n">propagation_matrix_agenda</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span>
-<span class="linenos">170</span><span class="p">),</span> <span class="s2">&quot;O2 Absorption has changed&quot;</span>
+<span class="linenos">165</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">166</span><span class="c1"># Save test results</span>
+<span class="linenos">167</span><span class="c1"># ws.propagation_matrix.savexml(&quot;lines_test_result.xml&quot;, type=&quot;ascii&quot;)</span>
+<span class="linenos">168</span>
+<span class="linenos">169</span><span class="c1"># test that we are still OK</span>
+<span class="linenos">170</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">171</span>    <span class="p">[</span>
+<span class="linenos">172</span>        <span class="mf">8.92664373e-06</span><span class="p">,</span>
+<span class="linenos">173</span>        <span class="mf">2.88107577e-05</span><span class="p">,</span>
+<span class="linenos">174</span>        <span class="mf">1.55470464e-03</span><span class="p">,</span>
+<span class="linenos">175</span>        <span class="mf">1.55360514e-03</span><span class="p">,</span>
+<span class="linenos">176</span>        <span class="mf">5.57640699e-05</span><span class="p">,</span>
+<span class="linenos">177</span>        <span class="mf">2.51926728e-05</span><span class="p">,</span>
+<span class="linenos">178</span>        <span class="mf">1.72272988e-05</span><span class="p">,</span>
+<span class="linenos">179</span>        <span class="mf">1.43453057e-05</span><span class="p">,</span>
+<span class="linenos">180</span>        <span class="mf">1.46251762e-05</span><span class="p">,</span>
+<span class="linenos">181</span>        <span class="mf">2.71389841e-05</span><span class="p">,</span>
+<span class="linenos">182</span>        <span class="mf">1.97382384e-04</span><span class="p">,</span>
+<span class="linenos">183</span>    <span class="p">],</span>
+<span class="linenos">184</span>    <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="linenos">185</span><span class="p">),</span> <span class="s2">&quot;O2 Absorption has changed&quot;</span>
 </pre></div>
 </div>
 </section>
