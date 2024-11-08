@@ -11,6 +11,7 @@
   <title>Spectral atmospheric flux operator &mdash; ARTS 3.0.0dev3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
@@ -21,6 +22,8 @@
       <script src="_static/documentation_options.js?v=2e972996"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -165,7 +168,8 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">kays</span><span class="p">,</span> <span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">kays</span><span class="p">,</span> <span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
 <span class="n">cm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
@@ -187,7 +191,7 @@ Text(0.5, 1.0, &#39;Upgoing spectral irradiance&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/examples.recipes.SpectralAtmosphericFlux_9_1.png" src="_images/examples.recipes.SpectralAtmosphericFlux_9_1.png" />
+<img alt="_images/examples.recipes.SpectralAtmosphericFlux_9_1.svg" src="_images/examples.recipes.SpectralAtmosphericFlux_9_1.svg" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -196,7 +200,8 @@ Text(0.5, 1.0, &#39;Upgoing spectral irradiance&#39;)
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">kays</span><span class="p">,</span> <span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">kays</span><span class="p">,</span> <span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
 <span class="n">cm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
@@ -210,8 +215,8 @@ Text(0.5, 1.0, &#39;Upgoing spectral irradiance&#39;)
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/tmp/ipykernel_6961/2266432254.py:3: UserWarning: Log scale: values of z &lt;= 0 have been masked
-  plt.contourf(kays, alts/1e3, flux.down.T, 50, locator=ticker.LogLocator())
+/tmp/ipykernel_5380/2854396954.py:4: UserWarning: Log scale: values of z &lt;= 0 have been masked
+  plt.contourf(kays, alts/1e3, flux.down.T, 50, locator=ticker.LogLocator(), zorder=-1)
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -227,7 +232,7 @@ Text(0.5, 1.0, &#39;Downgoing spectral irradiance&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/examples.recipes.SpectralAtmosphericFlux_10_2.png" src="_images/examples.recipes.SpectralAtmosphericFlux_10_2.png" />
+<img alt="_images/examples.recipes.SpectralAtmosphericFlux_10_2.svg" src="_images/examples.recipes.SpectralAtmosphericFlux_10_2.svg" />
 </div>
 </div>
 </section>
