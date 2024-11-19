@@ -65,6 +65,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyarts.data.download"><code class="docutils literal notranslate"><span class="pre">download()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyarts.data.download_arts_cat_data"><code class="docutils literal notranslate"><span class="pre">download_arts_cat_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyarts.data.download_arts_xml_data"><code class="docutils literal notranslate"><span class="pre">download_arts_xml_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.data.to_absorption_species"><code class="docutils literal notranslate"><span class="pre">to_absorption_species()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.data.to_atmospheric_field"><code class="docutils literal notranslate"><span class="pre">to_atmospheric_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts.data.xarray_open_dataset"><code class="docutils literal notranslate"><span class="pre">xarray_open_dataset()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts.hitran.html">pyarts.hitran</a></li>
@@ -173,6 +176,73 @@ ggkIf not provided, the default is <cite>~/.cache/arts</cite>.</p></li>
 is the version of the currently installed pyarts package.</p></li>
 <li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to print info messages. Defaults to False.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts.data.to_absorption_species">
+<span class="sig-prename descclassname"><span class="pre">pyarts.data.</span></span><span class="sig-name descname"><span class="pre">to_absorption_species</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atm_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><span class="pre">AtmField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pyarts.arts.ArrayOfArrayOfSpeciesTag.html#pyarts.arts.ArrayOfArrayOfSpeciesTag" title="pyarts.arts.ArrayOfArrayOfSpeciesTag"><span class="pre">ArrayOfArrayOfSpeciesTag</span></a></span></span><a class="reference internal" href="_modules/pyarts/data.html#to_absorption_species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.data.to_absorption_species" title="Link to this definition"></a></dt>
+<dd><p>Scans the ARTS data path for species relevant to the given atmospheric field.</p>
+<p>The scan is done over files in an arts-cat-data like directory structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atm_field</strong> (<a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><em>pyarts.arts.AtmField</em></a>) – A relevant atmospheric field.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All found species tags.
+The intent is that this is enough information to use pyarts.workspace.Workspace.ReadCatalogData</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.ArrayOfArrayOfSpeciesTag.html#pyarts.arts.ArrayOfArrayOfSpeciesTag" title="pyarts.arts.ArrayOfArrayOfSpeciesTag">pyarts.arts.ArrayOfArrayOfSpeciesTag</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts.data.to_atmospheric_field">
+<span class="sig-prename descclassname"><span class="pre">pyarts.data.</span></span><span class="sig-name descname"><span class="pre">to_atmospheric_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.10.1.dev0)"><span class="pre">Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">remap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><span class="pre">AtmField</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><span class="pre">AtmField</span></a></span></span><a class="reference internal" href="_modules/pyarts/data.html#to_atmospheric_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.data.to_atmospheric_field" title="Link to this definition"></a></dt>
+<dd><p>Populates a ~pyarts.arts.AtmField from an xarray Dataset-like structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.10.1.dev0)"><em>xarray.Dataset</em></a>) – A dataset.  Coordinates should contain ‘alt’, ‘lat’, and ‘lon’.
+All other keys() should be assignable to the atm-field by name.</p></li>
+<li><p><strong>remap</strong> (<em>None</em><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – All names in this optional dict are renamed when accessing the dataset.
+For example, if the altitude-grid is called ‘Alt’ instead of ‘alt’, the
+dict should contain {…, ‘alt’: ‘Alt’, …}.</p></li>
+<li><p><strong>ignore</strong> (<em>None</em><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Ignore keys listed from assignment into the atmospheric field.</p></li>
+<li><p><strong>atm</strong> (<em>None</em><em> | </em><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField"><em>pyarts.arts.AtmField</em></a>) – The default atmospheric field to use.  Defaults to None to use default-
+constructed atmospheric field object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>atm</strong> – An atmospheric field</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyarts.arts.AtmField.html#pyarts.arts.AtmField" title="pyarts.arts.AtmField">pyarts.arts.AtmField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts.data.xarray_open_dataset">
+<span class="sig-prename descclassname"><span class="pre">pyarts.data.</span></span><span class="sig-name descname"><span class="pre">xarray_open_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename_or_obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts/data.html#xarray_open_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts.data.xarray_open_dataset" title="Link to this definition"></a></dt>
+<dd><p>Wraps xarray.open_dataset to search for files in the current and in ARTS’ data path.</p>
+<p>All args and kwargs are passed on to xarray.open_dataset directly.  Any FileNotFoundError
+will be caught and just raised if no path works.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename_or_obj</strong> (<em>_type_</em>) – _description_</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#FileNotFoundError" title="(in Python v3.11)"><strong>FileNotFoundError</strong></a> – _description_</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
 </dd>
 </dl>
 </dd></dl>
