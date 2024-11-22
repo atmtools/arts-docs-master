@@ -26,31 +26,34 @@ Workspace
       - As :func:`~pyarts.workspace.Workspace.ReadXML`, but reads indexed file names.
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddAtmosphere`
-      - Add atmospheric property the retrieval setup.
+      - Sets an atmospheric target
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddMagneticField`
-      - Add magnetic field component to the retrieval setup.
+      - Set magnetic field derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddPressure`
-      - Add atmospheric pressure to the retrieval setup.
+      - Set pressure derivative
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.RetrievalAddSensorFrequencyPolyFit`
+      - Set sensor frequency derivative to use polynomial fitting offset
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddSpeciesIsotopologueRatio`
-      - Add species isotopologue ratio to the retrieval setup.
+      - Set isotopologue ratio derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddSpeciesVMR`
-      - Add species VMR to the retrieval setup.
+      - Set volume mixing ratio derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddSurface`
-      - Add surface property the retrieval setup.
+      - Sets a surface target
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddTemperature`
-      - Add atmospheric temperature to the retrieval setup.
+      - Set temperature derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddWindField`
-      - Add species VMR to the retrieval setup.
+      - Set wind field derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalFinalizeDiagonal`
-      - Add species VMR to the retrieval setup.
+      - Finalize the retrieval setup.
     * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalInit`
       - Initialize the retrieval setup.
@@ -268,20 +271,20 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc`
       - Perform Disort calculations for spectral flux.
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldClearsky`
+      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
+      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldSunlessClearsky`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc`
       - Perform Disort calculations for spectral radiance.
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
-    * - Method
       - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
       - Use the disort settings agenda to calculate spectral radiance
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldSunlessClearsky`
+      - Use Disort for clearsky calculations of spectral flux field
     * - Method
       - :func:`~pyarts.workspace.Workspace.ecs_dataAddMakarov2020`
       - Sets the O2-66 microwave band data for ECS.
@@ -325,6 +328,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddPressure`
       - Set pressure derivative
     * - Method
+      - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddSensorFrequencyPolyFit`
+      - Set sensor frequency derivative to use polynomial fitting offset
+    * - Method
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio`
       - Set isotopologue ratio derivative
     * - Method
@@ -341,7 +347,7 @@ Workspace
       - Set wind field derivative
     * - Method
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsFinalize`
-      - Finalize :attr:`~pyarts.workspace.Workspace.jacobian_targets` for use in RT methods
+      - Finalize :attr:`~pyarts.workspace.Workspace.jacobian_targets`.
     * - Method
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsInit`
       - Initialize or reset the :attr:`~pyarts.workspace.Workspace.jacobian_targets`
@@ -349,11 +355,29 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.measurement_averaging_kernelCalc`
       - Calculate the averaging kernel matrix.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorAddSimple`
+      - Adds a sensor with a dirac channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorAddSimpleGaussian`
+      - Adds a sensor with a Gaussian channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorAddVectorGaussian`
+      - Adds a sensor with a Gaussian channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorFromModelState`
+      - Update :attr:`~pyarts.workspace.Workspace.measurement_sensor` from :attr:`~pyarts.workspace.Workspace.model_state_vector`.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorInit`
+      - Initialize :attr:`~pyarts.workspace.Workspace.measurement_sensor` to empty.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_sensorSimple`
-      - Sets a sensor with a Gaussian channel opening around the frequency grid.
+      - Wrapper for a single simple dirac-opening sensor
     * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_sensorSimpleGaussian`
-      - Sets a sensor with a Gaussian channel opening around the frequency grid.
+      - Wrapper for a single simple Gaussian-opening sensor
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_sensorVectorGaussian`
+      - Wrapper for a single simple Gaussian-opening sensor
     * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_vectorFromOperatorPath`
       - Sets measurement vector by looping over all sensor elements
@@ -387,6 +411,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.model_state_vectorFromData`
       - Get :attr:`~pyarts.workspace.Workspace.model_state_vector` from available data
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.model_state_vectorFromSensor`
+      - Sets :attr:`~pyarts.workspace.Workspace.model_state_vector`'s sensor part.
     * - Method
       - :func:`~pyarts.workspace.Workspace.model_state_vectorFromSurface`
       - Sets :attr:`~pyarts.workspace.Workspace.model_state_vector`'s surface part.
@@ -576,6 +603,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation`
       - Adds the propagation variables to :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianAddSensorJacobianPerturbations`
+      - Adds sensor properties to the :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`.
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianApplyUnit`
       - Applies a unit to :attr:`~pyarts.workspace.Workspace.spectral_radiance`, returning a new field
@@ -884,7 +914,7 @@ Workspace
       - :class:`~pyarts.arts.Agenda` Spectral radiance as seen of the surface.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.spectral_radiance_unit`
-      - :class:`~pyarts.arts.String` The spectral radiance unit after conversion.
+      - :class:`~pyarts.arts.SpectralRadianceUnitType` The spectral radiance unit after conversion.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.sun`
       - :class:`~pyarts.arts.Sun` A sun.
@@ -947,6 +977,7 @@ Workspace
   pyarts.workspace.Workspace.RetrievalAddAtmosphere
   pyarts.workspace.Workspace.RetrievalAddMagneticField
   pyarts.workspace.Workspace.RetrievalAddPressure
+  pyarts.workspace.Workspace.RetrievalAddSensorFrequencyPolyFit
   pyarts.workspace.Workspace.RetrievalAddSpeciesIsotopologueRatio
   pyarts.workspace.Workspace.RetrievalAddSpeciesVMR
   pyarts.workspace.Workspace.RetrievalAddSurface
@@ -1025,11 +1056,11 @@ Workspace
   pyarts.workspace.Workspace.disort_settings_agendaExecute
   pyarts.workspace.Workspace.disort_settings_agendaSet
   pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc
-  pyarts.workspace.Workspace.disort_spectral_flux_fieldClearsky
   pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda
+  pyarts.workspace.Workspace.disort_spectral_flux_fieldSunlessClearsky
   pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc
-  pyarts.workspace.Workspace.disort_spectral_radiance_fieldClearsky
   pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda
+  pyarts.workspace.Workspace.disort_spectral_radiance_fieldSunlessClearsky
   pyarts.workspace.Workspace.ecs_dataAddMakarov2020
   pyarts.workspace.Workspace.ecs_dataAddMeanAir
   pyarts.workspace.Workspace.ecs_dataAddRodrigues1997
@@ -1044,6 +1075,7 @@ Workspace
   pyarts.workspace.Workspace.jacobian_targetsAddAtmosphere
   pyarts.workspace.Workspace.jacobian_targetsAddMagneticField
   pyarts.workspace.Workspace.jacobian_targetsAddPressure
+  pyarts.workspace.Workspace.jacobian_targetsAddSensorFrequencyPolyFit
   pyarts.workspace.Workspace.jacobian_targetsAddSpeciesIsotopologueRatio
   pyarts.workspace.Workspace.jacobian_targetsAddSpeciesVMR
   pyarts.workspace.Workspace.jacobian_targetsAddSurface
@@ -1052,8 +1084,14 @@ Workspace
   pyarts.workspace.Workspace.jacobian_targetsFinalize
   pyarts.workspace.Workspace.jacobian_targetsInit
   pyarts.workspace.Workspace.measurement_averaging_kernelCalc
+  pyarts.workspace.Workspace.measurement_sensorAddSimple
+  pyarts.workspace.Workspace.measurement_sensorAddSimpleGaussian
+  pyarts.workspace.Workspace.measurement_sensorAddVectorGaussian
+  pyarts.workspace.Workspace.measurement_sensorFromModelState
+  pyarts.workspace.Workspace.measurement_sensorInit
   pyarts.workspace.Workspace.measurement_sensorSimple
   pyarts.workspace.Workspace.measurement_sensorSimpleGaussian
+  pyarts.workspace.Workspace.measurement_sensorVectorGaussian
   pyarts.workspace.Workspace.measurement_vectorFromOperatorPath
   pyarts.workspace.Workspace.measurement_vectorFromSensor
   pyarts.workspace.Workspace.measurement_vector_error_covariance_matrixConstant
@@ -1065,6 +1103,7 @@ Workspace
   pyarts.workspace.Workspace.model_state_vectorFromAtmosphere
   pyarts.workspace.Workspace.model_state_vectorFromBands
   pyarts.workspace.Workspace.model_state_vectorFromData
+  pyarts.workspace.Workspace.model_state_vectorFromSensor
   pyarts.workspace.Workspace.model_state_vectorFromSurface
   pyarts.workspace.Workspace.model_state_vectorSize
   pyarts.workspace.Workspace.model_state_vectorZero
@@ -1128,6 +1167,7 @@ Workspace
   pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPath
   pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPlanarGeometric
   pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation
+  pyarts.workspace.Workspace.spectral_radiance_jacobianAddSensorJacobianPerturbations
   pyarts.workspace.Workspace.spectral_radiance_jacobianApplyUnit
   pyarts.workspace.Workspace.spectral_radiance_jacobianEmpty
   pyarts.workspace.Workspace.spectral_radiance_jacobianFromBackground

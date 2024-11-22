@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace methods &mdash; ARTS 3.0.0dev3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2e972996"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="Errors inside the C++ code" href="develop.error.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Workspace methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-a-workspace-method">Defining a workspace method</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-methods">Basic methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-methods">Meta methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automatic-methods">Automatic methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#generated-files">Generated files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#workspace-method-naming-convention">Workspace method naming convention</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#method-naming">Method naming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-naming">File naming</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="develop.html">For Developers</a></li>
+      <li class="breadcrumb-item active">Workspace methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/develop.workspace_methods.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="workspace-methods">
+<h1>Workspace methods<a class="headerlink" href="#workspace-methods" title="Link to this heading"></a></h1>
+<p>Workspace methods are the core interaction a user has with ARTS calculations.
+They are called from the <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object in python but are
+implemented in C++ under-the-hood.</p>
+<p>The workspace methods definition are mainly located in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>
+and <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code> files.  Some workspace methods are
+automatically generated elsewhere.</p>
+<p>Workspace methods are exposed to other C++ files via the <code class="docutils literal notranslate"><span class="pre">&lt;workspace.h&gt;</span></code> header file.
+Only the CMake target <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code> and targets that depend on it may include
+<code class="docutils literal notranslate"><span class="pre">&lt;workspace.h&gt;</span></code>.</p>
+<section id="defining-a-workspace-method">
+<h2>Defining a workspace method<a class="headerlink" href="#defining-a-workspace-method" title="Link to this heading"></a></h2>
+<p>You may define either a basic method or a meta-method that depends on other methods.
+The easiest way to do so is to copy an existing method and modify it to suit your needs.
+Please design your method input and output to allow meta-methods to be defined,
+as they simplify composibility signficantly.</p>
+<section id="basic-methods">
+<h3>Basic methods<a class="headerlink" href="#basic-methods" title="Link to this heading"></a></h3>
+<p>Basic methods completely define their input and output and do not explicitly
+depend on other methods.  The method must be manually implemented.</p>
+<p>Basic methods are defined entirerly in <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.
+They are part of a map object called <code class="docutils literal notranslate"><span class="pre">wsm_data</span></code>.  The name of the
+method is the key and the value is a struct with the following fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - the author(s) of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the output of the method as a list of strings.  These must be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout</span></code> - the generic output of the method as a list of strings.  These must not be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout_type</span></code> - the type of the generic output as a list of strings.  These must be workspace groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout_desc</span></code> - the description of the generic output as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">in</span></code> - the input of the method as a list of strings.  These must be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin</span></code> - the generic input of the method as a list of strings.  These must not be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_type</span></code> - the type of the generic input as a list of strings.  These must be workspace groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_value</span></code> - the default value of the generic input as an optional workspace value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> - the description of the generic input as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> - a boolean indicating if the workspace should be passed to the method.  If true, the first argument to the method is a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">Workspace&amp;</span></code>.</p></li>
+</ul>
+<p>The expected signature of the method will depend on these fields.
+A linker error will likely occur if the actual signature does not match
+the expected signature.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> may contain the same variable.  If they do, the variable must be
+initialized before the method is called because it is assumed the method is intended to
+simply modify the existing value.</p>
+<p>The fields <code class="docutils literal notranslate"><span class="pre">gin</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_type</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_value</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> must be the same size.
+The same is true for <code class="docutils literal notranslate"><span class="pre">gout</span></code>, <code class="docutils literal notranslate"><span class="pre">gout_type</span></code>, and <code class="docutils literal notranslate"><span class="pre">gout_desc</span></code>.  These are user-generated
+inputs and outputs, and are often used to pass information pertinent to the method itself
+but not to the workspace as a whole.</p>
+<p>Please check other workspace methods for examples by comparing their actual signature
+to the expected signature to figure out how the fields should be filled in.  Also check
+that the documentation is generated as intended by building the <code class="docutils literal notranslate"><span class="pre">pyarts_docs</span></code> target.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>All fields but <code class="docutils literal notranslate"><span class="pre">desc</span></code> and <code class="docutils literal notranslate"><span class="pre">author</span></code> are optional.  If a field is not needed, it
+is convenient to leave it out.</p>
+</div>
+</section>
+<section id="meta-methods">
+<h3>Meta methods<a class="headerlink" href="#meta-methods" title="Link to this heading"></a></h3>
+<p>Meta methods do not define all their input and output, but instead define a call
+order into other methods.  From this call order, the inputs of the user-facing
+workspace method is inferred.  This method should not be implemented manually.</p>
+<p>These methods are defined in <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code>.  They are defined
+as part of a list called <code class="docutils literal notranslate"><span class="pre">wsm_meta</span></code>.
+A single meta method data contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> - the name of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - the author(s) of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">methods</span></code> - the methods that the meta method depends on as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the output of the method as a list of strings.  These must be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preset_gin</span></code> - The preset <code class="docutils literal notranslate"><span class="pre">gin</span></code> values for the method as a list of workspace values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preset_gin_value</span></code> - The preset <code class="docutils literal notranslate"><span class="pre">gin_value</span></code> values for the method as a list of workspace values.</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>A meta method may depend on another meta method.  If it does it is important that the
+meta method it depends on is defined before it in the list.</p>
+</div>
+</section>
+<section id="automatic-methods">
+<h3>Automatic methods<a class="headerlink" href="#automatic-methods" title="Link to this heading"></a></h3>
+<p>All methods that execute a workspace agenda are automatically generated.
+These will be named as <code class="docutils literal notranslate"><span class="pre">agenda_nameExecute</span></code> and may otherwise be
+treated as normal workspace method.
+You need to do nothing to define these methods.  But please refrain from defining
+them manually as that may cause undefined naming conflicts.</p>
+<p>The expected signature of the method <code class="docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto</span></code> is also
+generated automatically near the end of <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.  It takes
+its input and output from a list of other methods.  Feel free to add to this
+list but make sure that any naming conflicts regarding <code class="docutils literal notranslate"><span class="pre">gin</span></code> are resolved
+before doing so.  Adding a method to this list may also require changing the
+actual signature (which is why the method is generated, so that a change in
+the required actual signature is immediately made apparent).</p>
+<p>The methods the begin with <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> are partly generated.
+These methods all require a corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method
+that fills in the <code class="docutils literal notranslate"><span class="pre">jacobian_targets</span></code> workspace variable.  To keep that
+part of the signature consistent, the additional <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> information
+is simply appended to the the <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">out</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin</span></code>-lists of the
+corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method using the local <code class="docutils literal notranslate"><span class="pre">jac2ret</span></code> lambda.</p>
+</section>
+</section>
+<section id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Link to this heading"></a></h2>
+<p>The workspace method interface generates a lot of files during the build process.
+These generated files are located in the build directory and are named
+as <code class="docutils literal notranslate"><span class="pre">auto_wsm_N.cc</span></code>, where N is a number, as <code class="docutils literal notranslate"><span class="pre">auto_wsm.cpp</span></code>, as <code class="docutils literal notranslate"><span class="pre">auto_wsm.h</span></code>,
+and as <code class="docutils literal notranslate"><span class="pre">auto_wsmmeta.cpp</span></code> for the C++ interfacing code.  The python-binding
+code is also generated as <code class="docutils literal notranslate"><span class="pre">py_auto_wsm_N.cpp</span></code>, where N is still a number.</p>
+</section>
+<section id="workspace-method-naming-convention">
+<h2>Workspace method naming convention<a class="headerlink" href="#workspace-method-naming-convention" title="Link to this heading"></a></h2>
+<p>Names carry meaning.  Please follow the naming convention below and
+please do not hesitate to fix any naming inconsistencies you find.</p>
+<section id="method-naming">
+<h3>Method naming<a class="headerlink" href="#method-naming" title="Link to this heading"></a></h3>
+<p>Workspace method names should be descriptive and follow the naming convention
+that the main workspace variable output of the method in <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>
+is followed by a short but descriptive name of what the method does with the output
+in <code class="docutils literal notranslate"><span class="pre">PascalCase</span></code>.
+A general rule of thumb is to use verbs for methods that modify the workspace
+variable and nouns for methods that create a new workspace variable.</p>
+<p>For example, <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html#pyarts.workspace.Workspace.propagation_matrixAddLines" title="pyarts.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a>
+has a main output of <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> and
+adds line absorption to it.  It needs to be preceeded by a call to
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixInit.html#pyarts.workspace.Workspace.propagation_matrixInit" title="pyarts.workspace.Workspace.propagation_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixInit()</span></code></a> which sets up the
+propagation matrix to an initial state.</p>
+<p>Of course, every use-case is different but please try to follow this convention.</p>
+</section>
+<section id="file-naming">
+<h3>File naming<a class="headerlink" href="#file-naming" title="Link to this heading"></a></h3>
+<p>The file that a workspace method is implemented in should be named <code class="docutils literal notranslate"><span class="pre">m_&lt;concept&gt;.cc</span></code>.
+The concept should be a short but descriptive name of what the methods therein do.
+Multiple methods per file is allowed and encouraged, but keep them conceptually similar.
+To ensure compatibility with various filesystems, please avoid using spaces
+and capital letters in the filename.</p>
+<p>Lastly, please ensure that the file is listed in the CMake target <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code>
+or it will not be compiled.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="develop.error.html" class="btn btn-neutral float-left" title="Errors inside the C++ code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

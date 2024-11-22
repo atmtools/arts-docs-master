@@ -294,6 +294,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.NumericBinaryOperator.html">NumericBinaryOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.NumericTernaryOperator.html">NumericTernaryOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.NumericUnaryOperator.html">NumericUnaryOperator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.PairOfBlockMatrix.html">PairOfBlockMatrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ParticleHabit.html">ParticleHabit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ParticleProperties.html">ParticleProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ParticulateProperty.html">ParticulateProperty</a></li>
@@ -324,6 +325,8 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ScatteringHabit.html">ScatteringHabit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ScatteringMetaData.html">ScatteringMetaData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.ScatteringSpeciesProperty.html">ScatteringSpeciesProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.SensorJacobianModelType.html">SensorJacobianModelType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts.arts.SensorKeyType.html">SensorKeyType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.SensorObsel.html">SensorObsel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.SensorPosLos.html">SensorPosLos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts.arts.SensorPosLosVector.html">SensorPosLosVector</a></li>
@@ -453,45 +456,49 @@
 which is [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> Hz sr].</p>
 <p>For the description below, <span class="math notranslate nohighlight">\(c\)</span> is the speed of light, <span class="math notranslate nohighlight">\(k\)</span> is the Boltzmann constant,
 <span class="math notranslate nohighlight">\(f\)</span> is the frequency, <span class="math notranslate nohighlight">\(h\)</span> is the Planck constant, <span class="math notranslate nohighlight">\(F(x)\)</span> is the conversion
-function, and <span class="math notranslate nohighlight">\([I, Q, U, V]\)</span> is the internal representation of <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>.</p>
+function, and <span class="math notranslate nohighlight">\([I,\; Q,\; U,\; V]\)</span> is the internal representation of <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>.</p>
 <p>For Rayleigh-Jeans brightness temperature the conversion is:</p>
 <div class="math notranslate nohighlight">
-\[[I, Q, U, V] \rightarrow [F(I), F(Q), F(U), F(V)]\]</div>
-<p>with</p>
+\[[I,\; Q,\; U,\; V] \rightarrow [F(I),\; F(Q),\; F(U),\; F(V)]\]</div>
 <div class="math notranslate nohighlight">
-\[F(x)=\frac{c^2 x}{2 k f^2}.\]</div>
+\[F(x) = \frac{c^2 x}{2 k f^2}.\]</div>
 <p>For Planck brightness temperature the conversion is:</p>
 <div class="math notranslate nohighlight">
-\[[I, Q, U, V] \rightarrow [
-    F(I),
-    F( \frac{1}{2}\left( I + Q \right) ) - F( \frac{1}{2}\left( I - Q \right) ),
-    F( \frac{1}{2}\left( I + U \right) ) - F( \frac{1}{2}\left( I - U \right) ),
-    F( \frac{1}{2}\left( I + V \right) ) - F( \frac{1}{2}\left( I - V \right) )]\]</div>
-<p>with</p>
+\[[I,\; Q,\; U,\; V] \rightarrow
+    \left[
+    F(I),\;
+    F\left( \frac{I + Q}{2} \right) - F\left( \frac{I - Q}{2} \right),\;
+    F\left( \frac{I + U}{2} \right) - F\left( \frac{I - U}{2} \right),\;
+    F\left( \frac{I + V}{2} \right) - F\left( \frac{I - V}{2} \right)
+    \right]\]</div>
 <div class="math notranslate nohighlight">
 \[F(x) = \frac{h f}{k}\left[\log\left(1 + \frac{2hf^3}{c^2x}\right)\right]^{-1}.\]</div>
-<p>The spectral radiance per wavelength [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m sr`] is:</p>
+<p>The spectral radiance per wavelength [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m sr] is:</p>
 <div class="math notranslate nohighlight">
-\[[I, Q, U, V] \rightarrow [F(I), F(Q), F(U), F(V)]\]</div>
-<p>with</p>
+\[[I,\; Q,\; U,\; V] \rightarrow [F(I),\; F(Q),\; F(U),\; F(V)]\]</div>
 <div class="math notranslate nohighlight">
 \[F(x) = \frac{f^2 x}{c}.\]</div>
-<p>The spectral radiance per wavenumber [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m <span class="math notranslate nohighlight">\(^{-1}\)</span> sr`] is:</p>
+<p>The spectral radiance per wavenumber [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m <span class="math notranslate nohighlight">\(^{-1}\)</span> sr] is:</p>
 <div class="math notranslate nohighlight">
-\[[I, Q, U, V] \rightarrow [F(I), F(Q), F(U), F(V)]\]</div>
+\[[I,\; Q,\; U,\; V] \rightarrow [F(I),\; F(Q),\; F(U),\; F(V)]\]</div>
 <div class="math notranslate nohighlight">
 \[F(x) = \frac{x}{c}.\]</div>
 <p>Lastly, the unit option of course just retains the current state [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> Hz sr].</p>
 <div class="math notranslate nohighlight">
-\[[I, Q, U, V] \rightarrow [I, Q, U, V]\]</div>
+\[[I,\; Q,\; U,\; V] \rightarrow [I,\; Q,\; U,\; V].\]</div>
 <p>Valid options:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;RJBT&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Tr&quot;</span></code>: Rayleigh-Jeans brightness temperature [K]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;PlanckBT&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Tb&quot;</span></code>: Planck brightness temperature [K]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;W_m2_m_sr&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;W/(m^2</span> <span class="pre">m</span> <span class="pre">sr)&quot;</span></code>: Spectral radiance wavelength [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m sr`]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;W_m2_m1_sr&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;W/(m^2</span> <span class="pre">m-1</span> <span class="pre">sr)&quot;</span></code>: Spectral radiance wavenumber [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m <span class="math notranslate nohighlight">\(^{-1}\)</span> sr`]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;W_m2_m_sr&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;W/(m^2</span> <span class="pre">m</span> <span class="pre">sr)&quot;</span></code>: Spectral radiance wavelength [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m sr]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;W_m2_m1_sr&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;W/(m^2</span> <span class="pre">m-1</span> <span class="pre">sr)&quot;</span></code>: Spectral radiance wavenumber [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> m <span class="math notranslate nohighlight">\(^{-1}\)</span> sr]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;unit&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>: Unit spectral radiance [W / m <span class="math notranslate nohighlight">\(^{2}\)</span> Hz sr]</p></li>
 </ul>
+<p class="rubric">Workspace variables of type SpectralRadianceUnitType</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_unit.html#pyarts.workspace.Workspace.spectral_radiance_unit" title="pyarts.workspace.Workspace.spectral_radiance_unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code></a></p></li>
+</ul>
+</td></tr></table>
 <p class="rubric">Overview</p>
 <table class="docutils align-default">
 <tbody>

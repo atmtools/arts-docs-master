@@ -40,7 +40,6 @@ Clearsky radiance
         toa=toa, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
     )
     ws.atmospheric_fieldIGRF(time="2000-03-11 14:39:37")
-    # ws.atmospheric_field[pyarts.arts.AtmKey.t] = 300.0
     
     # %% Checks and settings
     
@@ -50,7 +49,7 @@ Clearsky radiance
     
     # %% Core Disort calculations
     
-    ws.disort_spectral_radiance_fieldClearsky(
+    ws.disort_spectral_radiance_fieldSunlessClearsky(
         longitude=lon,
         latitude=lat,
         disort_quadrature_dimension=NQuad,
@@ -152,7 +151,7 @@ Clearsky flux
     
     # %% Core Disort calculations
     
-    ws.disort_settings_agendaSet(option="Clearsky")
+    ws.disort_settings_agendaSet(option="SunlessClearsky")
     
     ws.ray_pathGeometricDownlooking(longitude=lon, latitude=lat, max_step=40_000)
     ws.ray_path_atmospheric_pointFromPath()

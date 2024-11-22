@@ -26,31 +26,34 @@ CxxWorkspace
       - As :func:`~pyarts.workspace.Workspace.ReadXML`, but reads indexed file names.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddAtmosphere`
-      - Add atmospheric property the retrieval setup.
+      - Sets an atmospheric target
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddMagneticField`
-      - Add magnetic field component to the retrieval setup.
+      - Set magnetic field derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddPressure`
-      - Add atmospheric pressure to the retrieval setup.
+      - Set pressure derivative
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddSensorFrequencyPolyFit`
+      - Set sensor frequency derivative to use polynomial fitting offset
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddSpeciesIsotopologueRatio`
-      - Add species isotopologue ratio to the retrieval setup.
+      - Set isotopologue ratio derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddSpeciesVMR`
-      - Add species VMR to the retrieval setup.
+      - Set volume mixing ratio derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddSurface`
-      - Add surface property the retrieval setup.
+      - Sets a surface target
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddTemperature`
-      - Add atmospheric temperature to the retrieval setup.
+      - Set temperature derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddWindField`
-      - Add species VMR to the retrieval setup.
+      - Set wind field derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalFinalizeDiagonal`
-      - Add species VMR to the retrieval setup.
+      - Finalize the retrieval setup.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalInit`
       - Initialize the retrieval setup.
@@ -268,20 +271,20 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldCalc`
       - Perform Disort calculations for spectral flux.
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldClearsky`
+      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldFromAgenda`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldFromAgenda`
+      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldSunlessClearsky`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldCalc`
       - Perform Disort calculations for spectral radiance.
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
-    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldFromAgenda`
       - Use the disort settings agenda to calculate spectral radiance
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldSunlessClearsky`
+      - Use Disort for clearsky calculations of spectral flux field
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ecs_dataAddMakarov2020`
       - Sets the O2-66 microwave band data for ECS.
@@ -325,6 +328,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddPressure`
       - Set pressure derivative
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddSensorFrequencyPolyFit`
+      - Set sensor frequency derivative to use polynomial fitting offset
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddSpeciesIsotopologueRatio`
       - Set isotopologue ratio derivative
     * - Method
@@ -341,7 +347,7 @@ CxxWorkspace
       - Set wind field derivative
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsFinalize`
-      - Finalize :attr:`~pyarts.workspace.Workspace.jacobian_targets` for use in RT methods
+      - Finalize :attr:`~pyarts.workspace.Workspace.jacobian_targets`.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsInit`
       - Initialize or reset the :attr:`~pyarts.workspace.Workspace.jacobian_targets`
@@ -349,11 +355,29 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.measurement_averaging_kernelCalc`
       - Calculate the averaging kernel matrix.
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorAddSimple`
+      - Adds a sensor with a dirac channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorAddSimpleGaussian`
+      - Adds a sensor with a Gaussian channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorAddVectorGaussian`
+      - Adds a sensor with a Gaussian channel opening around the frequency grid.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorFromModelState`
+      - Update :attr:`~pyarts.workspace.Workspace.measurement_sensor` from :attr:`~pyarts.workspace.Workspace.model_state_vector`.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorInit`
+      - Initialize :attr:`~pyarts.workspace.Workspace.measurement_sensor` to empty.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorSimple`
-      - Sets a sensor with a Gaussian channel opening around the frequency grid.
+      - Wrapper for a single simple dirac-opening sensor
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorSimpleGaussian`
-      - Sets a sensor with a Gaussian channel opening around the frequency grid.
+      - Wrapper for a single simple Gaussian-opening sensor
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorVectorGaussian`
+      - Wrapper for a single simple Gaussian-opening sensor
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath`
       - Sets measurement vector by looping over all sensor elements
@@ -387,6 +411,9 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.model_state_vectorFromData`
       - Get :attr:`~pyarts.workspace.Workspace.model_state_vector` from available data
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.model_state_vectorFromSensor`
+      - Sets :attr:`~pyarts.workspace.Workspace.model_state_vector`'s sensor part.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.model_state_vectorFromSurface`
       - Sets :attr:`~pyarts.workspace.Workspace.model_state_vector`'s surface part.
@@ -576,6 +603,9 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_jacobianAddPathPropagation`
       - Adds the propagation variables to :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_jacobianAddSensorJacobianPerturbations`
+      - Adds sensor properties to the :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_jacobianApplyUnit`
       - Applies a unit to :attr:`~pyarts.workspace.Workspace.spectral_radiance`, returning a new field
@@ -884,7 +914,7 @@ CxxWorkspace
       - :class:`~pyarts.arts.Agenda` Spectral radiance as seen of the surface.
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.spectral_radiance_unit`
-      - :class:`~pyarts.arts.String` The spectral radiance unit after conversion.
+      - :class:`~pyarts.arts.SpectralRadianceUnitType` The spectral radiance unit after conversion.
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.sun`
       - :class:`~pyarts.arts.Sun` A sun.
@@ -943,6 +973,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.RetrievalAddAtmosphere
   .. automethod:: CxxWorkspace.RetrievalAddMagneticField
   .. automethod:: CxxWorkspace.RetrievalAddPressure
+  .. automethod:: CxxWorkspace.RetrievalAddSensorFrequencyPolyFit
   .. automethod:: CxxWorkspace.RetrievalAddSpeciesIsotopologueRatio
   .. automethod:: CxxWorkspace.RetrievalAddSpeciesVMR
   .. automethod:: CxxWorkspace.RetrievalAddSurface
@@ -1021,11 +1052,11 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.disort_settings_agendaExecute
   .. automethod:: CxxWorkspace.disort_settings_agendaSet
   .. automethod:: CxxWorkspace.disort_spectral_flux_fieldCalc
-  .. automethod:: CxxWorkspace.disort_spectral_flux_fieldClearsky
   .. automethod:: CxxWorkspace.disort_spectral_flux_fieldFromAgenda
+  .. automethod:: CxxWorkspace.disort_spectral_flux_fieldSunlessClearsky
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldCalc
-  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldClearsky
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldFromAgenda
+  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldSunlessClearsky
   .. automethod:: CxxWorkspace.ecs_dataAddMakarov2020
   .. automethod:: CxxWorkspace.ecs_dataAddMeanAir
   .. automethod:: CxxWorkspace.ecs_dataAddRodrigues1997
@@ -1040,6 +1071,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.jacobian_targetsAddAtmosphere
   .. automethod:: CxxWorkspace.jacobian_targetsAddMagneticField
   .. automethod:: CxxWorkspace.jacobian_targetsAddPressure
+  .. automethod:: CxxWorkspace.jacobian_targetsAddSensorFrequencyPolyFit
   .. automethod:: CxxWorkspace.jacobian_targetsAddSpeciesIsotopologueRatio
   .. automethod:: CxxWorkspace.jacobian_targetsAddSpeciesVMR
   .. automethod:: CxxWorkspace.jacobian_targetsAddSurface
@@ -1048,8 +1080,14 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.jacobian_targetsFinalize
   .. automethod:: CxxWorkspace.jacobian_targetsInit
   .. automethod:: CxxWorkspace.measurement_averaging_kernelCalc
+  .. automethod:: CxxWorkspace.measurement_sensorAddSimple
+  .. automethod:: CxxWorkspace.measurement_sensorAddSimpleGaussian
+  .. automethod:: CxxWorkspace.measurement_sensorAddVectorGaussian
+  .. automethod:: CxxWorkspace.measurement_sensorFromModelState
+  .. automethod:: CxxWorkspace.measurement_sensorInit
   .. automethod:: CxxWorkspace.measurement_sensorSimple
   .. automethod:: CxxWorkspace.measurement_sensorSimpleGaussian
+  .. automethod:: CxxWorkspace.measurement_sensorVectorGaussian
   .. automethod:: CxxWorkspace.measurement_vectorFromOperatorPath
   .. automethod:: CxxWorkspace.measurement_vectorFromSensor
   .. automethod:: CxxWorkspace.measurement_vector_error_covariance_matrixConstant
@@ -1061,6 +1099,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.model_state_vectorFromAtmosphere
   .. automethod:: CxxWorkspace.model_state_vectorFromBands
   .. automethod:: CxxWorkspace.model_state_vectorFromData
+  .. automethod:: CxxWorkspace.model_state_vectorFromSensor
   .. automethod:: CxxWorkspace.model_state_vectorFromSurface
   .. automethod:: CxxWorkspace.model_state_vectorSize
   .. automethod:: CxxWorkspace.model_state_vectorZero
@@ -1124,6 +1163,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.spectral_radiance_fieldFromOperatorPath
   .. automethod:: CxxWorkspace.spectral_radiance_fieldFromOperatorPlanarGeometric
   .. automethod:: CxxWorkspace.spectral_radiance_jacobianAddPathPropagation
+  .. automethod:: CxxWorkspace.spectral_radiance_jacobianAddSensorJacobianPerturbations
   .. automethod:: CxxWorkspace.spectral_radiance_jacobianApplyUnit
   .. automethod:: CxxWorkspace.spectral_radiance_jacobianEmpty
   .. automethod:: CxxWorkspace.spectral_radiance_jacobianFromBackground

@@ -226,49 +226,47 @@
 <span class="linenos">35</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
 <span class="linenos">36</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
 <span class="linenos">37</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_observer_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Geometric&quot;</span><span class="p">)</span>
-<span class="linenos">38</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_observer_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;EmissionUnits&quot;</span><span class="p">)</span>
+<span class="linenos">38</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance_observer_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Emission&quot;</span><span class="p">)</span>
 <span class="linenos">39</span>
-<span class="linenos">40</span><span class="c1"># %% Set up a sensor with Gaussian channel widths on individual frequency ranges</span>
+<span class="linenos">40</span><span class="c1"># %% Set up a sensor with Gaussian standard deviation channel widths on individual frequency ranges</span>
 <span class="linenos">41</span>
 <span class="linenos">42</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="linenos">43</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_sensorSimpleGaussian</span><span class="p">(</span><span class="n">fwhm</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">pol</span><span class="o">=</span><span class="s2">&quot;RC&quot;</span><span class="p">)</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_sensorSimpleGaussian</span><span class="p">(</span><span class="n">std</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">pol</span><span class="o">=</span><span class="s2">&quot;RC&quot;</span><span class="p">)</span>
 <span class="linenos">45</span>
 <span class="linenos">46</span><span class="c1"># %% Core calculations</span>
 <span class="linenos">47</span>
-<span class="linenos">48</span><span class="n">result</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span><span class="p">()</span>
-<span class="linenos">49</span><span class="n">result_jac</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Matrix</span><span class="p">()</span>
-<span class="linenos">50</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vectorFromSensor</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result_jac</span><span class="p">)</span>
+<span class="linenos">48</span><span class="n">ws</span><span class="o">.</span><span class="n">measurement_vectorFromSensor</span><span class="p">()</span>
+<span class="linenos">49</span>
+<span class="linenos">50</span><span class="c1"># %% Show results</span>
 <span class="linenos">51</span>
-<span class="linenos">52</span><span class="c1"># %% Show results</span>
-<span class="linenos">53</span>
-<span class="linenos">54</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-<span class="linenos">55</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
-<span class="linenos">56</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
-<span class="linenos">57</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
-<span class="linenos">58</span>    <span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line with Gaussian channels on individual grids&quot;</span>
-<span class="linenos">59</span><span class="p">)</span>
+<span class="linenos">52</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">measurement_vector</span><span class="p">)</span>
+<span class="linenos">53</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span>
+<span class="linenos">54</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
+<span class="linenos">55</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">56</span>    <span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="o">/</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line with Gaussian channels on individual grids&quot;</span>
+<span class="linenos">57</span><span class="p">)</span>
+<span class="linenos">58</span>
+<span class="linenos">59</span><span class="c1"># %% Test</span>
 <span class="linenos">60</span>
-<span class="linenos">61</span><span class="c1"># %% Test</span>
-<span class="linenos">62</span>
-<span class="linenos">63</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">64</span>    <span class="n">result</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
-<span class="linenos">65</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-<span class="linenos">66</span>        <span class="p">[</span>
-<span class="linenos">67</span>            <span class="mf">227.78646795</span><span class="p">,</span>
-<span class="linenos">68</span>            <span class="mf">230.8638575</span><span class="p">,</span>
-<span class="linenos">69</span>            <span class="mf">234.80652899</span><span class="p">,</span>
-<span class="linenos">70</span>            <span class="mf">240.36081974</span><span class="p">,</span>
-<span class="linenos">71</span>            <span class="mf">249.78247057</span><span class="p">,</span>
-<span class="linenos">72</span>            <span class="mf">207.62113428</span><span class="p">,</span>
-<span class="linenos">73</span>            <span class="mf">249.78190355</span><span class="p">,</span>
-<span class="linenos">74</span>            <span class="mf">240.35972683</span><span class="p">,</span>
-<span class="linenos">75</span>            <span class="mf">234.80495168</span><span class="p">,</span>
-<span class="linenos">76</span>            <span class="mf">230.86180615</span><span class="p">,</span>
-<span class="linenos">77</span>            <span class="mf">227.78395156</span><span class="p">,</span>
-<span class="linenos">78</span>        <span class="p">]</span>
-<span class="linenos">79</span>    <span class="p">),</span>
-<span class="linenos">80</span><span class="p">)</span>
+<span class="linenos">61</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">62</span>    <span class="n">ws</span><span class="o">.</span><span class="n">measurement_vector</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+<span class="linenos">63</span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos">64</span>        <span class="p">[</span>
+<span class="linenos">65</span>            <span class="mf">227.85626271</span><span class="p">,</span>
+<span class="linenos">66</span>            <span class="mf">230.93430882</span><span class="p">,</span>
+<span class="linenos">67</span>            <span class="mf">234.89998118</span><span class="p">,</span>
+<span class="linenos">68</span>            <span class="mf">240.50100578</span><span class="p">,</span>
+<span class="linenos">69</span>            <span class="mf">250.05272664</span><span class="p">,</span>
+<span class="linenos">70</span>            <span class="mf">209.9140708</span><span class="p">,</span>
+<span class="linenos">71</span>            <span class="mf">249.51258095</span><span class="p">,</span>
+<span class="linenos">72</span>            <span class="mf">240.21976958</span><span class="p">,</span>
+<span class="linenos">73</span>            <span class="mf">234.71155853</span><span class="p">,</span>
+<span class="linenos">74</span>            <span class="mf">230.79135297</span><span class="p">,</span>
+<span class="linenos">75</span>            <span class="mf">227.73970752</span><span class="p">,</span>
+<span class="linenos">76</span>        <span class="p">]</span>
+<span class="linenos">77</span>    <span class="p">),</span>
+<span class="linenos">78</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
