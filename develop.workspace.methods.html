@@ -8,7 +8,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace methods &mdash; ARTS 3.0.0dev3 documentation</title>
+  <title>Workspace methods &mdash; ARTS 3.0.0dev4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -18,7 +18,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=2e972996"></script>
+      <script src="_static/documentation_options.js?v=e51eb95b"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -28,8 +28,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Indices" href="indices.html" />
-    <link rel="prev" title="Errors inside the C++ code" href="develop.error.html" /> 
+    <link rel="next" title="Workspace options" href="develop.workspace.options.html" />
+    <link rel="prev" title="Workspace groups" href="develop.workspace.groups.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -62,19 +62,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Workspace methods</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#defining-a-workspace-method">Defining a workspace method</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#basic-methods">Basic methods</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#meta-methods">Meta methods</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#automatic-methods">Automatic methods</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="develop.workspace.html">Workspace</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="develop.workspace.agendas.html">Workspace agendas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="develop.workspace.groups.html">Workspace groups</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#defining-a-workspace-method">Defining a workspace method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-method-naming-convention">Workspace method naming convention</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#generated-files">Generated files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#workspace-method-naming-convention">Workspace method naming convention</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#method-naming">Method naming</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#file-naming">File naming</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="develop.workspace.options.html">Workspace options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="develop.workspace.variables.html">Workspace variables</a></li>
 </ul>
 </li>
 </ul>
@@ -98,9 +96,10 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="develop.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="develop.workspace.html">Workspace</a></li>
       <li class="breadcrumb-item active">Workspace methods</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/develop.workspace_methods.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/develop.workspace.methods.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,23 +134,27 @@ method is the key and the value is a struct with the following fields:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the method as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - the author(s) of the method as a list of strings.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the output of the method as a list of strings.  These must be workspace variables.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gout</span></code> - the generic output of the method as a list of strings.  These must not be workspace variables.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gout_type</span></code> - the type of the generic output as a list of strings.  These must be workspace groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a> output of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout</span></code> - the generic output of the method as a list of strings.  These must not be <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout_type</span></code> - the type of the generic output as a list of strings.  These must be <a class="reference internal" href="develop.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gout_desc</span></code> - the description of the generic output as a list of strings.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">in</span></code> - the input of the method as a list of strings.  These must be workspace variables.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gin</span></code> - the generic input of the method as a list of strings.  These must not be workspace variables.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gin_type</span></code> - the type of the generic input as a list of strings.  These must be workspace groups.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gin_value</span></code> - the default value of the generic input as an optional workspace value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">in</span></code> - the <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a> input of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin</span></code> - the generic input of the method as a list of strings.  These must not be <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_type</span></code> - the type of the generic input as a list of strings.  These must be <a class="reference internal" href="develop.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_value</span></code> - the default value of the generic input as an optional initialized <a class="reference internal" href="develop.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> - the description of the generic input as a list of strings.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> - a boolean indicating if the workspace should be passed to the method.  If true, the first argument to the method is a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">Workspace&amp;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> - a boolean indicating if a <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> instance should be passed to the method.  If true, the first argument to the method is a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">Workspace&amp;</span></code>.</p></li>
 </ul>
 <p>The expected signature of the method will depend on these fields.
 A linker error will likely occur if the actual signature does not match
 the expected signature.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> may contain the same variable.  If they do, the variable must be
-initialized before the method is called because it is assumed the method is intended to
-simply modify the existing value.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> may contain the same <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a>.  If they do, the variable must be
+initialized before the method is called because it is treated as if the method is intended to
+simply modify the existing value.  Please indicate strongly in the documentation if you sometimes overwrite the input variable.</p>
+<p>On the other hand, if the <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a> is only in <code class="docutils literal notranslate"><span class="pre">out</span></code> and not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
+it is treated as if the workspace variable is created by the method.  Note that since the type system
+does not account for this, it is important that you clear the current state of the <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a>
+in a method that is intended to create a new workspace variable.</p>
 <p>The fields <code class="docutils literal notranslate"><span class="pre">gin</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_type</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_value</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> must be the same size.
 The same is true for <code class="docutils literal notranslate"><span class="pre">gout</span></code>, <code class="docutils literal notranslate"><span class="pre">gout_type</span></code>, and <code class="docutils literal notranslate"><span class="pre">gout_desc</span></code>.  These are user-generated
 inputs and outputs, and are often used to pass information pertinent to the method itself
@@ -195,7 +198,7 @@ These will be named as <code class="docutils literal notranslate"><span class="p
 treated as normal workspace method.
 You need to do nothing to define these methods.  But please refrain from defining
 them manually as that may cause undefined naming conflicts.</p>
-<p>The expected signature of the method <code class="docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto</span></code> is also
+<p>The expected signature of the method <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a> is also
 generated automatically near the end of <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.  It takes
 its input and output from a list of other methods.  Feel free to add to this
 list but make sure that any naming conflicts regarding <code class="docutils literal notranslate"><span class="pre">gin</span></code> are resolved
@@ -254,8 +257,8 @@ or it will not be compiled.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="develop.error.html" class="btn btn-neutral float-left" title="Errors inside the C++ code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="develop.workspace.groups.html" class="btn btn-neutral float-left" title="Workspace groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="develop.workspace.options.html" class="btn btn-neutral float-right" title="Workspace options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
