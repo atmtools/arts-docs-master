@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace agendas &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Workspace agendas &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,9 +63,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.matpack.html">Matpack</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="develop.workspace.html">Workspace</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace agendas</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#what-quailifies-a-workspace-agenda">What quailifies a workspace agenda?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-qualifies-a-workspace-agenda">What qualifies a workspace agenda?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#workspace-agenda-naming-convention">Workspace agenda naming convention</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#do-not-hesitate-to-implement-helpers">Do not hesitate to implement helpers</a></li>
@@ -118,15 +120,22 @@ The workspace agenda definitions are located in the <code class="docutils litera
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the agenda as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputs</span></code> - the workspace variables that are produced by the agenda as a list of strings.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">inputs</span></code> - the workspace variables that are consumed by the agenda as a list of strings.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">array</span></code> - a boolean for whether or not the agenda is described as an <a class="reference internal" href="pyarts.arts.ArrayOfAgenda.html#pyarts.arts.ArrayOfAgenda" title="pyarts.arts.ArrayOfAgenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfAgenda</span></code></a> (if true) or an <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> (if false, default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enum_options</span></code> - a list of strings that are the options for the agenda.  Defaults to empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enum_defaults</span></code> - the default enum option for the agenda.  Defaults to no-default by being empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">array</span></code> - a boolean for whether the agenda is described as an <a class="reference internal" href="pyarts.arts.ArrayOfAgenda.html#pyarts.arts.ArrayOfAgenda" title="pyarts.arts.ArrayOfAgenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfAgenda</span></code></a> (if true) or an <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a> (if false, default).</p></li>
 </ul>
-<section id="what-quailifies-a-workspace-agenda">
-<h2>What quailifies a workspace agenda?<a class="headerlink" href="#what-quailifies-a-workspace-agenda" title="Link to this heading"></a></h2>
+<p>The two enum-variables, if set, will generate workspace methods that allow setting the agenda to a specific named option.
+This is useful for agendas that have known “modes”.  However, it puts some constraints on the implementation of the agenda.
+The implementor must implement a method <code class="docutils literal notranslate"><span class="pre">get_MYAGENDA(const</span> <span class="pre">std::string&amp;)</span></code> in the
+<code class="docutils literal notranslate"><span class="pre">workspace_agenda_creator.h</span></code> and <code class="docutils literal notranslate"><span class="pre">workspace_agenda_creator.cpp</span></code> files.
+Please see existing options in those files for examples.</p>
+<section id="what-qualifies-a-workspace-agenda">
+<h2>What qualifies a workspace agenda?<a class="headerlink" href="#what-qualifies-a-workspace-agenda" title="Link to this heading"></a></h2>
 <p>A method or a set of methods must be able to use the workspace agenda to produce a set of desired workspace variables.
 Generally, if you can keep the number of inputs limited and the number of outputs fixed, you may consider a workspace agenda.
 However, overpopulating the workspace with agendas is not recommended. So please reuse existing ones as appropriate.</p>
 <p>Take <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a> as an example.  The different ways we can define a path
-from an observer to a background is practically limitless.   However, if we are interested in <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>
+from an observer to a background is practically limitless.  However, if we are interested in <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>
 for some observer and frequency,
 we know that we just need the background radiation from the background of the observed <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> and the state of the
 atmosphere along the path.  So a method like <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromOperatorPath.html#pyarts.workspace.Workspace.measurement_vectorFromOperatorPath" title="pyarts.workspace.Workspace.measurement_vectorFromOperatorPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromOperatorPath()</span></code></a>, which takes a set of frequencies and a set of observers,
@@ -146,8 +155,9 @@ No additional files are generated for the Python binding.</p>
 <p>Several agendas have helper methods to make the user interface easier.
 These methods should follow a simple naming convention.</p>
 <ul class="simple">
-<li><p>There are methods that sets an agenda to a named option, such as <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet.html#pyarts.workspace.Workspace.spectral_radiance_space_agendaSet" title="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaSet()</span></code></a>.</p></li>
+<li><p>There are methods that set an agenda to a named option, such as <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet.html#pyarts.workspace.Workspace.spectral_radiance_space_agendaSet" title="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaSet()</span></code></a>.</p></li>
 <li><p>There are methods that compute an agenda based on existing <a class="reference internal" href="develop.workspace.variables.html"><span class="doc">Workspace variables</span></a>, such as <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a>.</p></li>
+<li><p>There are methods that set and agenda based on multiple options, such as <code class="xref py py-func docutils literal notranslate"><span class="pre">Setup()</span></code>.</p></li>
 </ul>
 </section>
 </section>

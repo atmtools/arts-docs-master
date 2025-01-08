@@ -34,7 +34,7 @@ Clearsky radiance
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=toa, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -49,7 +49,9 @@ Clearsky radiance
     
     # %% Core Disort calculations
     
-    ws.disort_spectral_radiance_fieldSunlessClearsky(
+    ws.disort_settings_agendaSetup()
+    
+    ws.disort_spectral_radiance_fieldProfile(
         longitude=lon,
         latitude=lat,
         disort_quadrature_dimension=NQuad,
@@ -135,7 +137,7 @@ Clearsky flux
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=toa, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -151,13 +153,9 @@ Clearsky flux
     
     # %% Core Disort calculations
     
-    ws.disort_settings_agendaSet(option="SunlessClearsky")
+    ws.disort_settings_agendaSetup()
     
     ws.ray_pathGeometricDownlooking(longitude=lon, latitude=lat, max_step=40_000)
-    ws.ray_path_atmospheric_pointFromPath()
-    ws.ray_path_frequency_gridFromPath()
-    ws.ray_path_propagation_matrixFromPath()
-    ws.ray_path_pointLowestFromPath()
     
     ws.disort_spectral_flux_fieldFromAgenda(
         disort_quadrature_dimension=NQuad,
@@ -249,7 +247,7 @@ Clearsky flux from dataset
     
         ws.absorption_bands.keep_hitran_s(remove_lines_percentile)
     
-        ws.surface_fieldSetPlanetEllipsoid(option=planet)
+        ws.surface_fieldPlanet(option=planet)
     
         sun = pyarts.arts.GriddedField2.fromxml(sunfile)
     
@@ -270,21 +268,14 @@ Clearsky flux from dataset
             longitude=atm_longitude,
             max_step=max_level_step,
         )
-        ws.ray_path_atmospheric_pointFromPath()
     
-        ws.ray_path_frequency_gridFromPath()
-        ws.ray_path_propagation_matrixFromPath()
-        ws.disort_settingsInit()
-        ws.disort_settingsOpticalThicknessFromPath()
-        ws.disort_settingsLayerThermalEmissionLinearInTau()
-        ws.disort_settingsSurfaceEmissionByTemperature(ray_path_point=ws.ray_path[0])
-        ws.disort_settingsCosmicMicrowaveBackgroundRadiation()
-        ws.disort_settingsSurfaceLambertian(value=surface_reflectivity)
-        ws.disort_settingsNoSingleScatteringAlbedo()
-        ws.disort_settingsNoFractionalScattering()
-        ws.disort_settingsNoLegendre()
-        ws.disort_settingsSetSun(ray_path_point=ws.ray_path[-1])
-        ws.disort_spectral_flux_fieldCalc()
+        ws.disort_settings_agendaSetup(
+            sun_setting="Sun",
+            surface_setting="ThermalLambertian",
+            surface_lambertian_value=surface_reflectivity * np.ones_like(ws.frequency_grid),
+        )
+    
+        ws.disort_spectral_flux_fieldFromAgenda()
     
         plt.semilogy(pyarts.arts.convert.freq2kaycm(ws.frequency_grid),
                     ws.disort_spectral_flux_field[:, 1])

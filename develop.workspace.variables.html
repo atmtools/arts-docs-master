@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace variables &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Workspace variables &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,6 +63,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.matpack.html">Matpack</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="develop.workspace.html">Workspace</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.agendas.html">Workspace agendas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.groups.html">Workspace groups</a></li>
@@ -69,7 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.options.html">Workspace options</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace variables</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#defining-a-workspace-variable">Defining a workspace variable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#what-quailifies-as-a-workspace-variable">What quailifies as a workspace variable?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-qualifies-as-a-workspace-variable">What qualifies as a workspace variable?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#workspace-variable-naming-convention">Workspace variable naming convention</a></li>
 </ul>
@@ -120,7 +122,7 @@ Workspace agendas are automatically defined as workspace variables from the <cod
 <h3>In <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code><a class="headerlink" href="#in-workspace-variables-cpp" title="Link to this heading"></a></h3>
 <p>The workspace variable definitions are located in the <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code>
 as part of the <code class="docutils literal notranslate"><span class="pre">wsv_data</span></code> map object.  The name of the variable is the key
-of the map and the object is a struct with the following fields:</p>
+of the map and the object are a struct with the following fields:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the variable as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> - the workspace group of the variable as a string.</p></li>
@@ -134,8 +136,8 @@ have no default value.  It will be of the type <a class="reference internal" hre
 if the field <code class="docutils literal notranslate"><span class="pre">array</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
 </section>
 </section>
-<section id="what-quailifies-as-a-workspace-variable">
-<h2>What quailifies as a workspace variable?<a class="headerlink" href="#what-quailifies-as-a-workspace-variable" title="Link to this heading"></a></h2>
+<section id="what-qualifies-as-a-workspace-variable">
+<h2>What qualifies as a workspace variable?<a class="headerlink" href="#what-qualifies-as-a-workspace-variable" title="Link to this heading"></a></h2>
 <p>The intent of a workspace variable is to pass information between workspace methods.
 Workspace variables must therefore be both input and output of different workspace methods.</p>
 <p>If a method has output that is never used by a different method, it should not be a workspace variable. Instead, it should be a local variable of the method.  As defined by workspace method, it should be a <code class="docutils literal notranslate"><span class="pre">gout</span></code>.</p>
@@ -155,7 +157,7 @@ as the <code class="docutils literal notranslate"><span class="pre">py_auto_wsv_
 </section>
 <section id="workspace-variable-naming-convention">
 <h2>Workspace variable naming convention<a class="headerlink" href="#workspace-variable-naming-convention" title="Link to this heading"></a></h2>
-<p>Names carry meaning.  Please follow the naming convention below and
+<p>Names carry meaning.  Please follow the naming convention below, and
 please do not hesitate to fix any naming inconsistencies you find.</p>
 <p>Workspace variables should be named in <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>.  The name should be
 explicit.  Avoid TLAs <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and other abbreviations that are not world-wide exclusive.
@@ -173,7 +175,7 @@ The full list is available in the <code class="docutils literal notranslate"><sp
 As of writing this, the list includes the following terms:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">absorption</span></code> - for workspace variables related to absorption.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">jacobian</span></code> - for workspace variables related to jacobians.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jacobian</span></code> - for workspace variables related to Jacobian.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">spectral_radiance</span></code> - for workspace variables related to spectral radiance.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">propagation_matrix</span></code> - for workspace variables related to propagation matrices.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">source_vector</span></code> - for workspace variables related to source vectors.</p></li>

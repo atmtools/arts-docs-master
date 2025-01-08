@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radiative Transfer &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Radiative Transfer &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,7 +114,7 @@ The key variables to look out for are <a class="reference internal" href="pyarts
 <h2>A single step<a class="headerlink" href="#a-single-step" title="Link to this heading"></a></h2>
 <p>A single step of the radiative transfer calculation in ARTS solvers assume to follow from</p>
 <div class="math notranslate nohighlight">
-\[I_{1} = J_{0} + T_{0} \left(I_{0} - J_{0}\right)\]</div>
+\[I_{1} = J_{0} + T_{0} \left(I_{0} - J_{0}\right),\]</div>
 <p>where
 <span class="math notranslate nohighlight">\(I_{1}\)</span> is the spectral radiance after the step,
 <span class="math notranslate nohighlight">\(I_{0}\)</span> is the spectral radiance before the step,
@@ -133,7 +134,7 @@ may also have been reflected and can thus depend on all model states, we can wri
 <div class="math notranslate nohighlight">
 \[\begin{split}J_{0} &amp;=&amp; J(x_0, x_1) \\
 T_{0} &amp;=&amp; T(x_0, x_1) \\
-I_{0} &amp;=&amp; I_0(\vec{x})\end{split}\]</div>
+I_{0} &amp;=&amp; I_0(\vec{x}),\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(x_0\)</span>, <span class="math notranslate nohighlight">\(x_1\)</span> the levels above and below the layer, and <span class="math notranslate nohighlight">\(\vec{x}\)</span> is the state of the model everywhere.
 Note that both <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span> are covered by <span class="math notranslate nohighlight">\(\vec{x}\)</span>.  This will matter when we compute the Jacobian.</p>
 </section>
@@ -178,8 +179,8 @@ I_N &amp;=&amp; J_{N-1} &amp;+&amp; T_{N-1}T_{N-2} \cdots T_1T_0 \left(I_{0} - J
   &amp;\cdots&amp;            \\
   J_{N-3} &amp;-&amp; J_{N-2} \\
   J_{N-2} &amp;-&amp; J_{N-1}
-\end{array} \right]\end{split}\]</div>
-<p>and so on.  Here, <span class="math notranslate nohighlight">\(\vec{J}'\)</span> is the source vector but we use a prime-tick because it is
+\end{array} \right],\end{split}\]</div>
+<p>and so on.  Here, <span class="math notranslate nohighlight">\(\vec{J}'\)</span> is the source vector, but we use a prime-tick because it is
 0-indexed whereas <span class="math notranslate nohighlight">\(\vec{I}\)</span> is 1-indexed.</p>
 <p>In practice, it is often more convenient to just use
 the step-by-step equations, but the matrix above
@@ -227,7 +228,7 @@ T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\vec{x}} - \frac{\partial J_{N-1}
     \frac{\partial J_{N-2}}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_{N-1}}{\partial \vec{x}}
   \end{array} \right]
 \end{array}\end{split}\]</div>
-<p>Remember we already defined that that
+<p>Remember we already defined that
 <span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depends on values at levels <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
 These are part of <span class="math notranslate nohighlight">\(\vec{x}\)</span> only via mapping, <span class="math notranslate nohighlight">\(\vec{x}\)</span> covers both <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
 Thus, the <span class="math notranslate nohighlight">\(\frac{\partial I_{0}}{\partial\vec{x}}\)</span>-term has been lifted from the above expression,
@@ -239,8 +240,8 @@ more compact,</p>
 \begin{array}{ll}
   \prod_{i=n}^m T_i = T_n T_{n-1} \cdots T_{m+1} T_m &amp; n \geq m \\
   1 &amp; n &lt; m
-\end{array}\right.\end{split}\]</div>
-<p>where it is imporant to note that all <span class="math notranslate nohighlight">\(T_i\)</span> are only functions of <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.</p>
+\end{array}\right.,\end{split}\]</div>
+<p>where it is important to note that all <span class="math notranslate nohighlight">\(T_i\)</span> are only functions of <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.</p>
 <p>For sake of keeping the expressions short, we add <span class="math notranslate nohighlight">\(T_N=1\)</span> and assume <span class="math notranslate nohighlight">\(N&gt;&gt;0\)</span> below.
 We can extract the two dot products and expand them to see what the Jacobian looks like.
 For the source partial derivatives:</p>
@@ -299,7 +300,7 @@ f
 \frac{\partial I_N^{(1)}}{\partial \vec{x}_i} +
 \frac{\partial I_N^{(2)}}{\partial \vec{x}_i} +
 \frac{\partial J_{N-1}}{\partial \vec{x}_i}
-\right)\]</div>
+\right),\]</div>
 <p>where the last term is 0 for all but <span class="math notranslate nohighlight">\(i=N\)</span> and <span class="math notranslate nohighlight">\(i=N-1\)</span>
 and where the function <span class="math notranslate nohighlight">\(f\)</span> is defined as
 the map from <span class="math notranslate nohighlight">\(\vec{x}_i\rightarrow\vec{x}\)</span>.</p>

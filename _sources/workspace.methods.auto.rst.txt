@@ -1,8 +1,6 @@
 .. hlist::
     :columns: 2
 
-    * :func:`~pyarts.workspace.Workspace.abs_lines_per_speciesReadSpeciesSplitCatalog`
-    * :func:`~pyarts.workspace.Workspace.absorption_bandsFromAbsorbtionLines`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsFromModelState`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsKeepID`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsLineMixingAdaptation`
@@ -11,7 +9,8 @@
     * :func:`~pyarts.workspace.Workspace.absorption_bandsReadSplit`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsRemoveID`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSaveSplit`
-    * :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequency`
+    * :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByBand`
+    * :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSetZeeman`
     * :func:`~pyarts.workspace.Workspace.absorption_cia_dataAddCIARecord`
     * :func:`~pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA`
@@ -47,10 +46,11 @@
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldRegridAll`
     * :func:`~pyarts.workspace.Workspace.atmospheric_pointInit`
     * :func:`~pyarts.workspace.Workspace.disort_settings_agendaExecute`
-    * :func:`~pyarts.workspace.Workspace.disort_settings_agendaSet`
+    * :func:`~pyarts.workspace.Workspace.disort_settings_agendaSetup`
     * :func:`~pyarts.workspace.Workspace.disort_settingsCosmicMicrowaveBackgroundRadiation`
     * :func:`~pyarts.workspace.Workspace.disort_settingsInit`
     * :func:`~pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau`
+    * :func:`~pyarts.workspace.Workspace.disort_settingsLegendreCoefficientsFromPath`
     * :func:`~pyarts.workspace.Workspace.disort_settingsNoFractionalScattering`
     * :func:`~pyarts.workspace.Workspace.disort_settingsNoLayerThermalEmission`
     * :func:`~pyarts.workspace.Workspace.disort_settingsNoLegendre`
@@ -61,14 +61,15 @@
     * :func:`~pyarts.workspace.Workspace.disort_settingsNoSurfaceScattering`
     * :func:`~pyarts.workspace.Workspace.disort_settingsOpticalThicknessFromPath`
     * :func:`~pyarts.workspace.Workspace.disort_settingsSetSun`
+    * :func:`~pyarts.workspace.Workspace.disort_settingsSingleScatteringAlbedoFromPath`
     * :func:`~pyarts.workspace.Workspace.disort_settingsSurfaceEmissionByTemperature`
     * :func:`~pyarts.workspace.Workspace.disort_settingsSurfaceLambertian`
     * :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc`
     * :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
-    * :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldSunlessClearsky`
+    * :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldProfile`
     * :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc`
     * :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
-    * :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldSunlessClearsky`
+    * :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldProfile`
     * :func:`~pyarts.workspace.Workspace.ecs_dataAddMakarov2020`
     * :func:`~pyarts.workspace.Workspace.ecs_dataAddMeanAir`
     * :func:`~pyarts.workspace.Workspace.ecs_dataAddRodrigues1997`
@@ -79,6 +80,7 @@
     * :func:`~pyarts.workspace.Workspace.Ignore`
     * :func:`~pyarts.workspace.Workspace.inversion_iterate_agendaExecute`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddAtmosphere`
+    * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddErrorPolyFit`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddMagneticField`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddPressure`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddSensorFrequencyPolyFit`
@@ -89,6 +91,8 @@
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsAddWindField`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsFinalize`
     * :func:`~pyarts.workspace.Workspace.jacobian_targetsInit`
+    * :func:`~pyarts.workspace.Workspace.jacobian_targetsOff`
+    * :func:`~pyarts.workspace.Workspace.legendre_degreeFromDisortSettings`
     * :func:`~pyarts.workspace.Workspace.measurement_averaging_kernelCalc`
     * :func:`~pyarts.workspace.Workspace.measurement_sensorAddSimple`
     * :func:`~pyarts.workspace.Workspace.measurement_sensorAddSimpleGaussian`
@@ -100,7 +104,10 @@
     * :func:`~pyarts.workspace.Workspace.measurement_sensorVectorGaussian`
     * :func:`~pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix_observation_systemCalc`
     * :func:`~pyarts.workspace.Workspace.measurement_vector_error_covariance_matrixConstant`
+    * :func:`~pyarts.workspace.Workspace.measurement_vector_errorAddErrorState`
+    * :func:`~pyarts.workspace.Workspace.measurement_vector_errorInitStandard`
     * :func:`~pyarts.workspace.Workspace.measurement_vector_fittedFromMeasurement`
+    * :func:`~pyarts.workspace.Workspace.measurement_vectorAddError`
     * :func:`~pyarts.workspace.Workspace.measurement_vectorFromOperatorPath`
     * :func:`~pyarts.workspace.Workspace.measurement_vectorFromSensor`
     * :func:`~pyarts.workspace.Workspace.model_state_covariance_matrix_smoothing_errorCalc`
@@ -122,8 +129,12 @@
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_jacobianWindFix`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agendaExecute`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agendaSet`
+    * :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaExecute`
+    * :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSet`
+    * :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringAddSpectralScatteringSpeciesTRO`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringInit`
+    * :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringSpectralInit`
     * :func:`~pyarts.workspace.Workspace.propagation_matrixAddCIA`
     * :func:`~pyarts.workspace.Workspace.propagation_matrixAddFaraday`
     * :func:`~pyarts.workspace.Workspace.propagation_matrixAddLines`
@@ -138,8 +149,11 @@
     * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSet`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointBackground`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointForeground`
+    * :func:`~pyarts.workspace.Workspace.ray_path_pointHighestFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointLowestFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromPath`
+    * :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromSpectralAgenda`
+    * :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_species_splitFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrixAddScattering`
     * :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh`
@@ -157,6 +171,7 @@
     * :func:`~pyarts.workspace.Workspace.ReadXML`
     * :func:`~pyarts.workspace.Workspace.ReadXMLIndexed`
     * :func:`~pyarts.workspace.Workspace.RetrievalAddAtmosphere`
+    * :func:`~pyarts.workspace.Workspace.RetrievalAddErrorPolyFit`
     * :func:`~pyarts.workspace.Workspace.RetrievalAddMagneticField`
     * :func:`~pyarts.workspace.Workspace.RetrievalAddPressure`
     * :func:`~pyarts.workspace.Workspace.RetrievalAddSensorFrequencyPolyFit`
@@ -167,6 +182,8 @@
     * :func:`~pyarts.workspace.Workspace.RetrievalAddWindField`
     * :func:`~pyarts.workspace.Workspace.RetrievalFinalizeDiagonal`
     * :func:`~pyarts.workspace.Workspace.RetrievalInit`
+    * :func:`~pyarts.workspace.Workspace.scattering_speciesInit`
+    * :func:`~pyarts.workspace.Workspace.select_species_listCollectAbsorption`
     * :func:`~pyarts.workspace.Workspace.sortedIndexOfBands`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPath`
@@ -212,7 +229,7 @@
     * :func:`~pyarts.workspace.Workspace.surface_fieldJupiter`
     * :func:`~pyarts.workspace.Workspace.surface_fieldMars`
     * :func:`~pyarts.workspace.Workspace.surface_fieldMoon`
-    * :func:`~pyarts.workspace.Workspace.surface_fieldSetPlanetEllipsoid`
+    * :func:`~pyarts.workspace.Workspace.surface_fieldPlanet`
     * :func:`~pyarts.workspace.Workspace.surface_fieldVenus`
     * :func:`~pyarts.workspace.Workspace.Touch`
     * :func:`~pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationBack`

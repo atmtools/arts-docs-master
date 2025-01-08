@@ -28,6 +28,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddAtmosphere`
       - Sets an atmospheric target
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddErrorPolyFit`
+      - Set a measurement error to polynomial fit.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.RetrievalAddMagneticField`
       - Set magnetic field derivative
     * - Method
@@ -82,12 +85,6 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.WriteXMLIndexed`
       - As :func:`~pyarts.workspace.Workspace.WriteXML`, but creates indexed file names.
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.abs_lines_per_speciesReadSpeciesSplitCatalog`
-      - Reads old style catalog but only for :attr:`~pyarts.workspace.Workspace.absorption_species`
-    * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsFromAbsorbtionLines`
-      - Gets modern line catalog from old style
-    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsFromModelState`
       - Sets :attr:`~pyarts.workspace.Workspace.absorption_bands` to the state of the model.
     * - Method
@@ -112,8 +109,11 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsSaveSplit`
       - Saves all bands fin :attr:`~pyarts.workspace.Workspace.absorption_bands` to a directory
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsSelectFrequency`
-      - Remove all lines/bands that strictly falls outside a frequency range
+      - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsSelectFrequencyByBand`
+      - Remove all bands whose lines all strictly falls outside a frequency range
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsSelectFrequencyByLine`
+      - Remove all lines that strictly falls outside a frequency range
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.absorption_bandsSetZeeman`
       - Set the Zeeman splitting for lines within the frequency range
@@ -226,6 +226,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.disort_settingsLayerThermalEmissionLinearInTau`
       - Use a source function that changes linearly in optical thickness.
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.disort_settingsLegendreCoefficientsFromPath`
+      - Sets the legendre coefficients from the path-variable.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_settingsNoFractionalScattering`
       - Turns off fractional scattering in Disort calculations.
     * - Method
@@ -256,17 +259,20 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.disort_settingsSetSun`
       - Uses Set the FOV to the sun input for Disort calculations.
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.disort_settingsSingleScatteringAlbedoFromPath`
+      - Sets the single scattering albedo from the path-variable.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_settingsSurfaceEmissionByTemperature`
       - Surface radiation into Disort is isotropic from surface temperature.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_settingsSurfaceLambertian`
-      - Turns off BDRF in Disort calculations.
+      - Sets the surface to Lambertian.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_settings_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.disort_settings_agenda`, see it for more details
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_settings_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.disort_settings_agenda`
+      - :func:`~pyarts.arts.CxxWorkspace.disort_settings_agendaSetup`
+      - Setup for Disort standard calculations.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldCalc`
       - Perform Disort calculations for spectral flux.
@@ -274,8 +280,8 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldFromAgenda`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldSunlessClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
+      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_flux_fieldProfile`
+      - Extract a 1D path through the atmospheric field and calculate spectral flux using Disort
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldCalc`
       - Perform Disort calculations for spectral radiance.
@@ -283,8 +289,8 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldFromAgenda`
       - Use the disort settings agenda to calculate spectral radiance
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldSunlessClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
+      - :func:`~pyarts.arts.CxxWorkspace.disort_spectral_radiance_fieldProfile`
+      - Extract a 1D path through the atmospheric field and calculate spectral radiance using Disort
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ecs_dataAddMakarov2020`
       - Sets the O2-66 microwave band data for ECS.
@@ -322,6 +328,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddAtmosphere`
       - Sets an atmospheric target
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddErrorPolyFit`
+      - Set a measurement error to polynomial fit.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsAddMagneticField`
       - Set magnetic field derivative
     * - Method
@@ -352,6 +361,12 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsInit`
       - Initialize or reset the :attr:`~pyarts.workspace.Workspace.jacobian_targets`
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.jacobian_targetsOff`
+      - Turns off :attr:`~pyarts.workspace.Workspace.jacobian_targets`
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.legendre_degreeFromDisortSettings`
+      - Sets :attr:`~pyarts.workspace.Workspace.legendre_degree` to :attr:`~pyarts.workspace.Workspace.disort_settings` ``legendre_polynomial_dimension``
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_averaging_kernelCalc`
       - Calculate the averaging kernel matrix.
     * - Method
@@ -379,11 +394,20 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.measurement_sensorVectorGaussian`
       - Wrapper for a single simple Gaussian-opening sensor
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_vectorAddError`
+      - Add the measurement error to the measurement.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_vectorFromOperatorPath`
       - Sets measurement vector by looping over all sensor elements
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_vectorFromSensor`
       - Sets measurement vector by looping over all sensor elements
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_vector_errorAddErrorState`
+      - Add measurement error from the model state.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.measurement_vector_errorInitStandard`
+      - Initialize measurement error variables to 0 from the measurements.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrixConstant`
       - Sets a constant measurement vector error covariance matrix.
@@ -458,10 +482,13 @@ CxxWorkspace
       - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` to a default value
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_jacobianWindFix`
       - Fix for the wind field derivative.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scatteringAddSpectralScatteringSpeciesTRO`
+      - Adds :attr:`~pyarts.workspace.Workspace.scattering_species` results for totally random oriented spectral calculations to
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scatteringAirSimple`
       - Add simple air to :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering`.
@@ -469,11 +496,20 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scatteringInit`
       - Initialize :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering` to zeroes.
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scatteringSpectralInit`
+      - Initialize :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering` and co to zeroes.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda` to a default value
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda` to a specific value
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_spectral_agendaExecute`
+      - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda`, see it for more details
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_spectral_agendaSet`
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_pathGeometric`
       - Get a geometric radiation path
@@ -500,7 +536,7 @@ CxxWorkspace
       - Executes :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_observer_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_pointBackground`
       - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the expected background point of :attr:`~pyarts.workspace.Workspace.ray_path`
@@ -508,8 +544,11 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_pointForeground`
       - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the expected foreground point of :attr:`~pyarts.workspace.Workspace.ray_path`
     * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.ray_path_pointHighestFromPath`
+      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the highest altitude point of :attr:`~pyarts.workspace.Workspace.ray_path`.
+    * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_pointLowestFromPath`
-      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the lowest point of :attr:`~pyarts.workspace.Workspace.ray_path`.
+      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the lowest altitude point of :attr:`~pyarts.workspace.Workspace.ray_path`.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_propagation_matrixAddScattering`
       - Adds the scattering part of the propagation matrix to the rest along the path.
@@ -519,6 +558,12 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scatteringFromPath`
       - Gets the propagation matrix for scattering along the path.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_scatteringFromSpectralAgenda`
+      - Compute :attr:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering` and co for a path.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.ray_path_propagation_matrix_species_splitFromPath`
+      - As :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath` but the output is only for the selected species.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh`
       - Add :attr:`~pyarts.workspace.Workspace.suns` to :attr:`~pyarts.workspace.Workspace.ray_path_spectral_radiance_source`.
@@ -540,6 +585,12 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.ray_path_zeeman_magnetic_fieldFromPath`
       - Sets A path of Zeeman effec magnetic field properties.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.scattering_speciesInit`
+      - Initialize scattering species.
+    * - Method
+      - :func:`~pyarts.arts.CxxWorkspace.select_species_listCollectAbsorption`
+      - Selects all main absorbers from the absorption data.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.set`
       - Set the variable to the new value.
@@ -620,7 +671,7 @@ CxxWorkspace
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_observer_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_observer_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_observer_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_operatorClearsky1D`
       - Set up a 1D spectral radiance operator
@@ -629,13 +680,13 @@ CxxWorkspace
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_space_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.spectral_radiance_surface_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda` to a specific value
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.sunBlackbody`
       - Set :attr:`~pyarts.workspace.Workspace.sun` to blackbody.
@@ -676,8 +727,8 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.surface_fieldMoon`
       - Moon reference ellipsoids.
     * - Method
-      - :func:`~pyarts.arts.CxxWorkspace.surface_fieldSetPlanetEllipsoid`
-      - Sets the planet base surface field
+      - :func:`~pyarts.arts.CxxWorkspace.surface_fieldPlanet`
+      - Initialize the surface field with the ellipsoid of a planet.
     * - Method
       - :func:`~pyarts.arts.CxxWorkspace.surface_fieldVenus`
       - Venus reference ellipsoids.
@@ -708,6 +759,9 @@ CxxWorkspace
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.absorption_species`
       - :class:`~pyarts.arts.ArrayOfArrayOfSpeciesTag` Tag groups for gas absorption.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.absorption_vector_scattering`
+      - :class:`~pyarts.arts.StokvecVector` The absorption vector of totally random orientation particles at a single point along a path using spectral representation
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.absorption_xsec_fit_data`
       - :class:`~pyarts.arts.ArrayOfXsecRecord` Fitting model coefficients for cross section species.
@@ -772,6 +826,9 @@ CxxWorkspace
       - :attr:`~pyarts.arts.CxxWorkspace.jacobian_targets`
       - :class:`~pyarts.arts.JacobianTargets` A list of targets for the Jacobian Matrix calculations.
     * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.legendre_degree`
+      - :class:`~pyarts.arts.Index` The degree of a Legendre polynimial.
+    * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.measurement_averaging_kernel`
       - :class:`~pyarts.arts.Matrix` Averaging kernel matrix.
     * - Attribute
@@ -781,11 +838,17 @@ CxxWorkspace
       - :attr:`~pyarts.arts.CxxWorkspace.measurement_jacobian`
       - :class:`~pyarts.arts.Matrix` The partial derivatives of the :attr:`~pyarts.workspace.Workspace.measurement_vector`.
     * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.measurement_jacobian_error`
+      - :class:`~pyarts.arts.Matrix` The partial derivatives of the :attr:`~pyarts.workspace.Workspace.measurement_vector_error`.
+    * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.measurement_sensor`
       - :class:`~pyarts.arts.ArrayOfSensorObsel` A list of sensor elements.
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.measurement_vector`
       - :class:`~pyarts.arts.Vector` The measurment vector for, e.g., a sensor.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.measurement_vector_error`
+      - :class:`~pyarts.arts.Vector` The measurment vector error for, e.g., a sensor.
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.measurement_vector_error_covariance_matrix`
       - :class:`~pyarts.arts.CovarianceMatrix` Covariance matrix for observation uncertainties.
@@ -802,6 +865,9 @@ CxxWorkspace
       - :attr:`~pyarts.arts.CxxWorkspace.model_state_vector_apriori`
       - :class:`~pyarts.arts.Vector` An apriori state vector of the model.
     * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.phase_matrix_scattering_spectral`
+      - :class:`~pyarts.arts.SpecmatMatrix` The spectral phase matrix of totally random orientation particles at a single point along a path using spectral representation
+    * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix`
       - :class:`~pyarts.arts.PropmatVector` This contains the propagation matrix for the current path point.
     * - Attribute
@@ -812,13 +878,13 @@ CxxWorkspace
       - :class:`~pyarts.arts.PropmatMatrix` 
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering`
-      - :class:`~pyarts.arts.PropmatVector` This contains the propagation matrix for scattering for the current path point.
+      - :class:`~pyarts.arts.PropmatVector` The propgation matrix of totally random orientation particles at a single point along a path using spectral representation
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_agenda`
       - :class:`~pyarts.arts.Agenda` Compute the propagation matrix, the non-LTE source vector, and their derivatives
     * - Attribute
-      - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix_select_species`
-      - :class:`~pyarts.arts.SpeciesEnum` A select species tag group from :attr:`~pyarts.workspace.Workspace.absorption_species`
+      - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix_scattering_spectral_agenda`
+      - :class:`~pyarts.arts.Agenda` Get the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte`
       - :class:`~pyarts.arts.StokvecVector` The part of the source vector that is due to non-LTE.
@@ -828,6 +894,9 @@ CxxWorkspace
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.ray_path`
       - :class:`~pyarts.arts.ArrayOfPropagationPathPoint` A list path points making up a propagation path.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.ray_path_absorption_vector_scattering`
+      - :class:`~pyarts.arts.ArrayOfStokvecVector` The absorption vector of totally random orientation particles along the propagation path using spectral representation
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.ray_path_atmospheric_point`
       - :class:`~pyarts.arts.ArrayOfAtmPoint` Atmospheric points along the propagation path.
@@ -840,6 +909,9 @@ CxxWorkspace
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.ray_path_observer_agenda`
       - :class:`~pyarts.arts.Agenda` Get the propagation path as it is obeserved.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.ray_path_phase_matrix_scattering_spectral`
+      - :class:`~pyarts.arts.ArrayOfSpecmatMatrix` The spectral phase matrix of totally random orientation particles along the propagation path using spectral representation
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.ray_path_point`
       - :class:`~pyarts.arts.PropagationPathPoint` A single path point.
@@ -882,6 +954,15 @@ CxxWorkspace
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.ray_path_transmission_matrix_jacobian`
       - :class:`~pyarts.arts.ArrayOfMuelmatTensor3` Transmission derivative matrices along the propagation path.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.scattering_species`
+      - :class:`~pyarts.arts.ArrayOfScatteringSpecies` The scattering species
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.select_species`
+      - :class:`~pyarts.arts.SpeciesEnum` Species selection.
+    * - Attribute
+      - :attr:`~pyarts.arts.CxxWorkspace.select_species_list`
+      - :class:`~pyarts.arts.ArrayOfSpeciesEnum` Species selection.
     * - Attribute
       - :attr:`~pyarts.arts.CxxWorkspace.spectral_radiance`
       - :class:`~pyarts.arts.StokvecVector` A spectral radiance vector.
@@ -934,6 +1015,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.__eq__`
       - Return self==value.
     * - Operator
+      - :func:`~pyarts.arts.CxxWorkspace.__format__`
+      - __format__(self, arg: str, /) -> str
+    * - Operator
       - :func:`~pyarts.arts.CxxWorkspace.__ge__`
       - Return self>=value.
     * - Operator
@@ -946,6 +1030,9 @@ CxxWorkspace
       - :func:`~pyarts.arts.CxxWorkspace.__hash__`
       - Return hash(self).
     * - Operator
+      - :func:`~pyarts.arts.CxxWorkspace.__init__`
+      - __init__(self, with_defaults: bool = True) -> None
+    * - Operator
       - :func:`~pyarts.arts.CxxWorkspace.__iter__`
       - Allows `iter(self)`
     * - Operator
@@ -957,6 +1044,12 @@ CxxWorkspace
     * - Operator
       - :func:`~pyarts.arts.CxxWorkspace.__ne__`
       - Return self!=value.
+    * - Operator
+      - :func:`~pyarts.arts.CxxWorkspace.__repr__`
+      - __repr__(self) -> str
+    * - Operator
+      - :func:`~pyarts.arts.CxxWorkspace.__str__`
+      - __str__(self) -> str
 
   .. rubric:: Constructors
 
@@ -971,6 +1064,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.ReadXML
   .. automethod:: CxxWorkspace.ReadXMLIndexed
   .. automethod:: CxxWorkspace.RetrievalAddAtmosphere
+  .. automethod:: CxxWorkspace.RetrievalAddErrorPolyFit
   .. automethod:: CxxWorkspace.RetrievalAddMagneticField
   .. automethod:: CxxWorkspace.RetrievalAddPressure
   .. automethod:: CxxWorkspace.RetrievalAddSensorFrequencyPolyFit
@@ -989,8 +1083,6 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.WriteBuiltinPartitionFunctionsXML
   .. automethod:: CxxWorkspace.WriteXML
   .. automethod:: CxxWorkspace.WriteXMLIndexed
-  .. automethod:: CxxWorkspace.abs_lines_per_speciesReadSpeciesSplitCatalog
-  .. automethod:: CxxWorkspace.absorption_bandsFromAbsorbtionLines
   .. automethod:: CxxWorkspace.absorption_bandsFromModelState
   .. automethod:: CxxWorkspace.absorption_bandsKeepID
   .. automethod:: CxxWorkspace.absorption_bandsLineMixingAdaptation
@@ -999,7 +1091,8 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.absorption_bandsReadSplit
   .. automethod:: CxxWorkspace.absorption_bandsRemoveID
   .. automethod:: CxxWorkspace.absorption_bandsSaveSplit
-  .. automethod:: CxxWorkspace.absorption_bandsSelectFrequency
+  .. automethod:: CxxWorkspace.absorption_bandsSelectFrequencyByBand
+  .. automethod:: CxxWorkspace.absorption_bandsSelectFrequencyByLine
   .. automethod:: CxxWorkspace.absorption_bandsSetZeeman
   .. automethod:: CxxWorkspace.absorption_cia_dataAddCIARecord
   .. automethod:: CxxWorkspace.absorption_cia_dataReadFromCIA
@@ -1037,6 +1130,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.disort_settingsCosmicMicrowaveBackgroundRadiation
   .. automethod:: CxxWorkspace.disort_settingsInit
   .. automethod:: CxxWorkspace.disort_settingsLayerThermalEmissionLinearInTau
+  .. automethod:: CxxWorkspace.disort_settingsLegendreCoefficientsFromPath
   .. automethod:: CxxWorkspace.disort_settingsNoFractionalScattering
   .. automethod:: CxxWorkspace.disort_settingsNoLayerThermalEmission
   .. automethod:: CxxWorkspace.disort_settingsNoLegendre
@@ -1047,16 +1141,17 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.disort_settingsNoSurfaceScattering
   .. automethod:: CxxWorkspace.disort_settingsOpticalThicknessFromPath
   .. automethod:: CxxWorkspace.disort_settingsSetSun
+  .. automethod:: CxxWorkspace.disort_settingsSingleScatteringAlbedoFromPath
   .. automethod:: CxxWorkspace.disort_settingsSurfaceEmissionByTemperature
   .. automethod:: CxxWorkspace.disort_settingsSurfaceLambertian
   .. automethod:: CxxWorkspace.disort_settings_agendaExecute
-  .. automethod:: CxxWorkspace.disort_settings_agendaSet
+  .. automethod:: CxxWorkspace.disort_settings_agendaSetup
   .. automethod:: CxxWorkspace.disort_spectral_flux_fieldCalc
   .. automethod:: CxxWorkspace.disort_spectral_flux_fieldFromAgenda
-  .. automethod:: CxxWorkspace.disort_spectral_flux_fieldSunlessClearsky
+  .. automethod:: CxxWorkspace.disort_spectral_flux_fieldProfile
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldCalc
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldFromAgenda
-  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldSunlessClearsky
+  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldProfile
   .. automethod:: CxxWorkspace.ecs_dataAddMakarov2020
   .. automethod:: CxxWorkspace.ecs_dataAddMeanAir
   .. automethod:: CxxWorkspace.ecs_dataAddRodrigues1997
@@ -1069,6 +1164,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.init
   .. automethod:: CxxWorkspace.inversion_iterate_agendaExecute
   .. automethod:: CxxWorkspace.jacobian_targetsAddAtmosphere
+  .. automethod:: CxxWorkspace.jacobian_targetsAddErrorPolyFit
   .. automethod:: CxxWorkspace.jacobian_targetsAddMagneticField
   .. automethod:: CxxWorkspace.jacobian_targetsAddPressure
   .. automethod:: CxxWorkspace.jacobian_targetsAddSensorFrequencyPolyFit
@@ -1079,6 +1175,8 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.jacobian_targetsAddWindField
   .. automethod:: CxxWorkspace.jacobian_targetsFinalize
   .. automethod:: CxxWorkspace.jacobian_targetsInit
+  .. automethod:: CxxWorkspace.jacobian_targetsOff
+  .. automethod:: CxxWorkspace.legendre_degreeFromDisortSettings
   .. automethod:: CxxWorkspace.measurement_averaging_kernelCalc
   .. automethod:: CxxWorkspace.measurement_sensorAddSimple
   .. automethod:: CxxWorkspace.measurement_sensorAddSimpleGaussian
@@ -1088,8 +1186,11 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.measurement_sensorSimple
   .. automethod:: CxxWorkspace.measurement_sensorSimpleGaussian
   .. automethod:: CxxWorkspace.measurement_sensorVectorGaussian
+  .. automethod:: CxxWorkspace.measurement_vectorAddError
   .. automethod:: CxxWorkspace.measurement_vectorFromOperatorPath
   .. automethod:: CxxWorkspace.measurement_vectorFromSensor
+  .. automethod:: CxxWorkspace.measurement_vector_errorAddErrorState
+  .. automethod:: CxxWorkspace.measurement_vector_errorInitStandard
   .. automethod:: CxxWorkspace.measurement_vector_error_covariance_matrixConstant
   .. automethod:: CxxWorkspace.measurement_vector_error_covariance_matrix_observation_systemCalc
   .. automethod:: CxxWorkspace.measurement_vector_fittedFromMeasurement
@@ -1116,10 +1217,14 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.propagation_matrix_agendaExecute
   .. automethod:: CxxWorkspace.propagation_matrix_agendaSet
   .. automethod:: CxxWorkspace.propagation_matrix_jacobianWindFix
+  .. automethod:: CxxWorkspace.propagation_matrix_scatteringAddSpectralScatteringSpeciesTRO
   .. automethod:: CxxWorkspace.propagation_matrix_scatteringAirSimple
   .. automethod:: CxxWorkspace.propagation_matrix_scatteringInit
+  .. automethod:: CxxWorkspace.propagation_matrix_scatteringSpectralInit
   .. automethod:: CxxWorkspace.propagation_matrix_scattering_agendaExecute
   .. automethod:: CxxWorkspace.propagation_matrix_scattering_agendaSet
+  .. automethod:: CxxWorkspace.propagation_matrix_scattering_spectral_agendaExecute
+  .. automethod:: CxxWorkspace.propagation_matrix_scattering_spectral_agendaSet
   .. automethod:: CxxWorkspace.ray_pathGeometric
   .. automethod:: CxxWorkspace.ray_pathGeometricDownlooking
   .. automethod:: CxxWorkspace.ray_pathGeometricTangentAltitude
@@ -1131,10 +1236,13 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.ray_path_observer_agendaSet
   .. automethod:: CxxWorkspace.ray_path_pointBackground
   .. automethod:: CxxWorkspace.ray_path_pointForeground
+  .. automethod:: CxxWorkspace.ray_path_pointHighestFromPath
   .. automethod:: CxxWorkspace.ray_path_pointLowestFromPath
   .. automethod:: CxxWorkspace.ray_path_propagation_matrixAddScattering
   .. automethod:: CxxWorkspace.ray_path_propagation_matrixFromPath
   .. automethod:: CxxWorkspace.ray_path_propagation_matrix_scatteringFromPath
+  .. automethod:: CxxWorkspace.ray_path_propagation_matrix_scatteringFromSpectralAgenda
+  .. automethod:: CxxWorkspace.ray_path_propagation_matrix_species_splitFromPath
   .. automethod:: CxxWorkspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh
   .. automethod:: CxxWorkspace.ray_path_spectral_radiance_sourceAddScattering
   .. automethod:: CxxWorkspace.ray_path_spectral_radiance_sourceFromPropmat
@@ -1142,6 +1250,8 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.ray_path_transmission_matrixFromPath
   .. automethod:: CxxWorkspace.ray_path_transmission_matrix_cumulativeFromPath
   .. automethod:: CxxWorkspace.ray_path_zeeman_magnetic_fieldFromPath
+  .. automethod:: CxxWorkspace.scattering_speciesInit
+  .. automethod:: CxxWorkspace.select_species_listCollectAbsorption
   .. automethod:: CxxWorkspace.set
   .. automethod:: CxxWorkspace.sortedIndexOfBands
   .. automethod:: CxxWorkspace.spectral_radianceApplyUnit
@@ -1187,7 +1297,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.surface_fieldJupiter
   .. automethod:: CxxWorkspace.surface_fieldMars
   .. automethod:: CxxWorkspace.surface_fieldMoon
-  .. automethod:: CxxWorkspace.surface_fieldSetPlanetEllipsoid
+  .. automethod:: CxxWorkspace.surface_fieldPlanet
   .. automethod:: CxxWorkspace.surface_fieldVenus
   .. automethod:: CxxWorkspace.swap
   .. automethod:: CxxWorkspace.transmission_matrix_backgroundFromPathPropagationBack
@@ -1201,6 +1311,7 @@ CxxWorkspace
   .. autoattribute:: CxxWorkspace.absorption_lookup_table
   .. autoattribute:: CxxWorkspace.absorption_predefined_model_data
   .. autoattribute:: CxxWorkspace.absorption_species
+  .. autoattribute:: CxxWorkspace.absorption_vector_scattering
   .. autoattribute:: CxxWorkspace.absorption_xsec_fit_data
   .. autoattribute:: CxxWorkspace.atmospheric_field
   .. autoattribute:: CxxWorkspace.atmospheric_point
@@ -1222,29 +1333,35 @@ CxxWorkspace
   .. autoattribute:: CxxWorkspace.inversion_iterate_agenda_counter
   .. autoattribute:: CxxWorkspace.inversion_iterate_agenda_do_jacobian
   .. autoattribute:: CxxWorkspace.jacobian_targets
+  .. autoattribute:: CxxWorkspace.legendre_degree
   .. autoattribute:: CxxWorkspace.measurement_averaging_kernel
   .. autoattribute:: CxxWorkspace.measurement_gain_matrix
   .. autoattribute:: CxxWorkspace.measurement_jacobian
+  .. autoattribute:: CxxWorkspace.measurement_jacobian_error
   .. autoattribute:: CxxWorkspace.measurement_sensor
   .. autoattribute:: CxxWorkspace.measurement_vector
+  .. autoattribute:: CxxWorkspace.measurement_vector_error
   .. autoattribute:: CxxWorkspace.measurement_vector_error_covariance_matrix
   .. autoattribute:: CxxWorkspace.measurement_vector_fitted
   .. autoattribute:: CxxWorkspace.model_state_covariance_matrix
   .. autoattribute:: CxxWorkspace.model_state_vector
   .. autoattribute:: CxxWorkspace.model_state_vector_apriori
+  .. autoattribute:: CxxWorkspace.phase_matrix_scattering_spectral
   .. autoattribute:: CxxWorkspace.propagation_matrix
   .. autoattribute:: CxxWorkspace.propagation_matrix_agenda
   .. autoattribute:: CxxWorkspace.propagation_matrix_jacobian
   .. autoattribute:: CxxWorkspace.propagation_matrix_scattering
   .. autoattribute:: CxxWorkspace.propagation_matrix_scattering_agenda
-  .. autoattribute:: CxxWorkspace.propagation_matrix_select_species
+  .. autoattribute:: CxxWorkspace.propagation_matrix_scattering_spectral_agenda
   .. autoattribute:: CxxWorkspace.propagation_matrix_source_vector_nonlte
   .. autoattribute:: CxxWorkspace.propagation_matrix_source_vector_nonlte_jacobian
   .. autoattribute:: CxxWorkspace.ray_path
+  .. autoattribute:: CxxWorkspace.ray_path_absorption_vector_scattering
   .. autoattribute:: CxxWorkspace.ray_path_atmospheric_point
   .. autoattribute:: CxxWorkspace.ray_path_frequency_grid
   .. autoattribute:: CxxWorkspace.ray_path_frequency_grid_wind_shift_jacobian
   .. autoattribute:: CxxWorkspace.ray_path_observer_agenda
+  .. autoattribute:: CxxWorkspace.ray_path_phase_matrix_scattering_spectral
   .. autoattribute:: CxxWorkspace.ray_path_point
   .. autoattribute:: CxxWorkspace.ray_path_propagation_matrix
   .. autoattribute:: CxxWorkspace.ray_path_propagation_matrix_jacobian
@@ -1259,6 +1376,9 @@ CxxWorkspace
   .. autoattribute:: CxxWorkspace.ray_path_transmission_matrix
   .. autoattribute:: CxxWorkspace.ray_path_transmission_matrix_cumulative
   .. autoattribute:: CxxWorkspace.ray_path_transmission_matrix_jacobian
+  .. autoattribute:: CxxWorkspace.scattering_species
+  .. autoattribute:: CxxWorkspace.select_species
+  .. autoattribute:: CxxWorkspace.select_species_list
   .. autoattribute:: CxxWorkspace.spectral_radiance
   .. autoattribute:: CxxWorkspace.spectral_radiance_background
   .. autoattribute:: CxxWorkspace.spectral_radiance_background_jacobian
@@ -1279,12 +1399,16 @@ CxxWorkspace
   .. rubric:: Operators
 
   .. automethod:: CxxWorkspace.__eq__
+  .. automethod:: CxxWorkspace.__format__
   .. automethod:: CxxWorkspace.__ge__
   .. automethod:: CxxWorkspace.__getstate__
   .. automethod:: CxxWorkspace.__gt__
   .. automethod:: CxxWorkspace.__hash__
+  .. automethod:: CxxWorkspace.__init__
   .. automethod:: CxxWorkspace.__iter__
   .. automethod:: CxxWorkspace.__le__
   .. automethod:: CxxWorkspace.__lt__
   .. automethod:: CxxWorkspace.__ne__
+  .. automethod:: CxxWorkspace.__repr__
+  .. automethod:: CxxWorkspace.__str__
 

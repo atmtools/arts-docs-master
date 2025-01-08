@@ -21,7 +21,7 @@ Zeeman
     
     ws.absorption_speciesSet(species=["O2-66"])
     ws.ReadCatalogData()
-    ws.absorption_bandsSelectFrequency(fmin=40e9, fmax=120e9, by_line=1)
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
     ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
     ws.WignerInit()
     
@@ -30,7 +30,7 @@ Zeeman
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -64,17 +64,17 @@ Zeeman
         ws.spectral_radiance[::100],
         np.array(
             [
-                [2.27784834e02, -2.23635319e-04, -3.77001634e-04, 5.69266632e-02],
-                [2.30863853e02, -3.48081919e-04, -5.82851478e-04, 7.04138002e-02],
-                [2.34806521e02, -6.21501805e-04, -1.02884266e-03, 9.33836080e-02],
-                [2.40360801e02, -1.41669913e-03, -2.28974401e-03, 1.40029968e-01],
-                [2.49782407e02, -5.60506178e-03, -8.33739163e-03, 2.69735122e-01],
-                [2.07248447e02, -4.30842579e00, -2.14475851e01, 1.25057382e-05],
-                [2.49781840e02, -5.60734272e-03, -8.34027514e-03, -2.69812575e-01],
-                [2.40359708e02, -1.41773814e-03, -2.29128954e-03, -1.40106546e-01],
-                [2.34804943e02, -6.22167771e-04, -1.02988483e-03, -9.34596090e-02],
-                [2.30861802e02, -3.48574780e-04, -5.83642167e-04, -7.04898114e-02],
-                [2.27782317e02, -2.24029336e-04, -3.77643130e-04, -5.70026253e-02],
+                [2.27784834e02, 4.24956142e-04, -1.07495419e-04, 5.69266632e-02],
+                [2.30863853e02, 6.57653186e-04, -1.68431453e-04, 7.04138002e-02],
+                [2.34806521e02, 1.16288793e-03, -3.04094356e-04, 9.33836080e-02],
+                [2.40360801e02, 2.59757645e-03, -7.08915090e-04, 1.40029968e-01],
+                [2.49782407e02, 9.58496203e-03, -3.00953814e-03, 2.69735122e-01],
+                [2.07248447e02, 2.17886934e01, 1.95305632e00, 1.25057382e-05],
+                [2.49781840e02, 9.58837415e-03, -3.01090734e-03, -2.69812575e-01],
+                [2.40359708e02, 2.59935325e-03, -7.09472967e-04, -1.40106546e-01],
+                [2.34804943e02, 1.16407621e-03, -3.04437307e-04, -9.34596090e-02],
+                [2.30861802e02, 6.58551211e-04, -1.68679754e-04, -7.04898114e-02],
+                [2.27782317e02, 4.25683062e-04, -1.07691261e-04, -5.70026253e-02],
             ]
         ),
     ), "Values have drifted from expected results in spectral radiance"
@@ -100,7 +100,7 @@ Zeeman sensor
     
     ws.absorption_speciesSet(species=["O2-66"])
     ws.ReadCatalogData()
-    ws.absorption_bandsSelectFrequency(fmin=40e9, fmax=120e9, by_line=1)
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
     ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
     ws.WignerInit()
     
@@ -109,7 +109,7 @@ Zeeman sensor
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -186,7 +186,7 @@ Zeeman transmission
     
     ws.absorption_speciesSet(species=["O2-66"])
     ws.ReadCatalogData()
-    ws.absorption_bandsSelectFrequency(fmin=40e9, fmax=120e9, by_line=1)
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
     ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
     ws.WignerInit()
     
@@ -195,7 +195,7 @@ Zeeman transmission
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -228,17 +228,17 @@ Zeeman transmission
         ws.spectral_radiance[::100],
         np.array(
             [
-                [3.48074339e-06, 7.79626187e-11, 1.29462746e-10, -4.58316733e-08],
-                [1.71316764e-06, 5.95493071e-11, 9.78633101e-11, -2.77698065e-08],
-                [6.97243885e-07, 4.28547196e-11, 6.92129313e-11, -1.47794484e-08],
-                [2.01811291e-07, 2.79796924e-11, 4.36322508e-11, -6.24892024e-09],
-                [2.58887859e-08, 1.50722487e-11, 2.10895501e-11, -1.53914529e-09],
-                [3.25340224e-13, 4.13333797e-14, -3.14840689e-13, 8.41284772e-18],
-                [2.59107134e-08, 1.50971400e-11, 2.11231675e-11, 1.54394772e-09],
-                [2.02108653e-07, 2.80648334e-11, 4.37633416e-11, 6.28221755e-09],
-                [6.98656898e-07, 4.30420221e-11, 6.95130288e-11, 1.48859032e-08],
-                [1.71750402e-06, 5.98858575e-11, 9.84130185e-11, 2.80160699e-08],
-                [3.49118434e-06, 7.85004414e-11, 1.30351250e-10, 4.63074542e-08],
+                [3.48823498e-06, -1.46551713e-10, 3.81072431e-11, -4.59221798e-08],
+                [1.71706875e-06, -1.10970204e-10, 2.94013625e-11, -2.78281718e-08],
+                [6.98940567e-07, -7.87051453e-11, 2.15072772e-11, -1.48128572e-08],
+                [2.02345215e-07, -4.99009177e-11, 1.44875960e-11, -6.26439080e-09],
+                [2.59661967e-08, -2.45683770e-11, 8.49367757e-12, -1.54349235e-09],
+                [3.26929916e-13, 2.91596383e-13, 1.29579122e-13, 8.52093039e-18],
+                [2.59895225e-08, -2.46091531e-11, 8.50852019e-12, 1.54840970e-09],
+                [2.02661063e-07, -5.00559190e-11, 1.45335398e-11, 6.29845922e-09],
+                [7.00439370e-07, -7.90569785e-11, 2.16047322e-11, 1.49217232e-08],
+                [1.72166340e-06, -1.11611698e-10, 2.95731412e-11, 2.80799246e-08],
+                [3.49928820e-06, -1.47585397e-10, 3.83784757e-11, 4.64084437e-08],
             ]
         ),
     ), "Values have drifted from expected results in spectral radiance"
@@ -264,7 +264,7 @@ Zeeman sun
     
     ws.absorption_speciesSet(species=["O2-66"])
     ws.ReadCatalogData()
-    ws.absorption_bandsSelectFrequency(fmin=40e9, fmax=120e9, by_line=1)
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
     ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
     ws.WignerInit()
     
@@ -273,7 +273,7 @@ Zeeman sun
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -315,13 +315,13 @@ Zeeman sun
         res[::3, ::7],
         np.array(
             [
-                [5.74974671e03, 5.67393003e03, 5.42098021e03],
-                [2.73578415e00, 2.73611538e00, 2.73734690e00],
-                [2.74234763e00, 2.74294365e00, 2.74528926e00],
-                [2.76134660e00, 2.76143226e00, 2.76179796e00],
-                [2.79371400e00, 2.79309756e00, 2.78966340e00],
-                [2.83017769e00, 2.83067328e00, 2.82828924e00],
-                [2.85383040e00, 2.85967097e00, 2.87221221e00],
+                [5.33326282e03, 5.33326282e03, 5.33326282e03],
+                [2.73804755e00, 2.73801974e00, 2.73802787e00],
+                [2.74724222e00, 2.74702051e00, 2.74708569e00],
+                [2.76264051e00, 2.76189614e00, 2.76211620e00],
+                [2.78427078e00, 2.78251808e00, 2.78303923e00],
+                [2.81213495e00, 2.80873894e00, 2.80975463e00],
+                [2.84621135e00, 2.84039654e00, 2.84214599e00],
             ]
         ),
     )
@@ -346,7 +346,7 @@ Zeeman sun scattering
     
     ws.absorption_speciesSet(species=["O2-66"])
     ws.ReadCatalogData()
-    ws.absorption_bandsSelectFrequency(fmin=40e9, fmax=120e9, by_line=1)
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
     ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
     ws.WignerInit()
     
@@ -355,7 +355,7 @@ Zeeman sun scattering
     
     # %% Grids and planet
     
-    ws.surface_fieldSetPlanetEllipsoid(option="Earth")
+    ws.surface_fieldPlanet(option="Earth")
     ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
     ws.atmospheric_fieldRead(
         toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
@@ -400,12 +400,12 @@ Zeeman sun scattering
         np.array(
             [
                 [5771.99999999, 5771.99999999, 5771.99999999],
-                [535.42850284, 535.42853138, 535.42863128],
-                [551.51083023, 551.51086978, 551.51097854],
-                [562.27742756, 562.27747035, 562.27756852],
-                [570.47208475, 570.47212, 570.47223188],
-                [577.13157683, 577.13161927, 577.13172898],
-                [582.7648976, 582.76494322, 582.76505392],
+                [535.42854728, 535.42857582, 535.42866145],
+                [551.51084741, 551.51088696, 551.51096605],
+                [562.27743565, 562.27748096, 562.27757158],
+                [570.47208681, 570.47212053, 570.47222781],
+                [577.13157565, 577.13161705, 577.13172883],
+                [582.76490041, 582.76494379, 582.76505748],
             ]
         ),
     )

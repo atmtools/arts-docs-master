@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Use of std::formatter&lt;T&gt; &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Use of std::formatter&lt;T&gt; &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -71,6 +72,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.matpack.html">Matpack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.workspace.html">Workspace</a></li>
 </ul>
 </li>
@@ -108,7 +110,7 @@
 <h1>Use of std::formatter&lt;T&gt;<a class="headerlink" href="#use-of-std-formatter-t" title="Link to this heading"></a></h1>
 <section id="what-does-it-achieve">
 <h2>What does it achieve?<a class="headerlink" href="#what-does-it-achieve" title="Link to this heading"></a></h2>
-<p>We use formatters to allow converting ARTS classes to strings in a consistent way.
+<p>We use formatters to allow converting ARTS classes to strings consistently.
 This has some main uses:</p>
 <ol class="arabic simple">
 <li><p>See the content of the types in python using <cite>__repr__</cite>, <cite>__str__</cite>, or <cite>print</cite>.
@@ -117,7 +119,7 @@ more consistent.  And it allows us to specialize the formatting for each
 object using the python <cite>__format__</cite> interface to control some aspects of
 how the output looks.</p></li>
 <li><p>Calls to <cite>std::format</cite> inside the C++ code can be used to format strings
-in a consistent way.  This is especially useful for logging and debugging,
+consistently.  This is especially useful for logging and debugging,
 and may even be used in the XML IO code when <cite>std::print</cite> is available.</p></li>
 </ol>
 </section>
@@ -235,9 +237,9 @@ to chain formatting calls together</p></li>
 <li><p>Whenever you format in a <cite>const char *</cite>, that is anything in C++ that is directly
 written <cite>“I am a const char *”</cite>, there will be a resulting <cite>‘0’</cite> character included
 in the formatted string.  This will cause problems if you intend to copy-paste the
-screen output, as the <cite>‘0’</cite> character will not be visible but there anyways.
+screen output, as the <cite>‘0’</cite> character will not be visible but there anyway.
 To avoid this, use <cite>std::string_view</cite> instead of <cite>const char *</cite> whenever possible.
-The easiest way to to this is simply to write <cite>“I am a string_view”sv</cite>, as the <cite>sv</cite>
+The easiest way to this is simply to write <cite>“I am a string_view”sv</cite>, as the <cite>sv</cite>
 makes it a <cite>std::string_view</cite> and avoids copying the last <cite>‘0’</cite> character.</p></li>
 </ol>
 </section>

@@ -5,30 +5,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyarts.recipe.AtmosphericFlux &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>pyarts.recipe.AtmosphericFlux &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=73457b95" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=769eb728"></script>
+      <script src="../../../_static/documentation_options.js?v=d2e63331"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
-      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-      <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -174,9 +167,9 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surface_temperature</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequency</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">by_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
             <span class="n">toa</span><span class="o">=</span><span class="n">atmospheric_altitude</span><span class="p">,</span>
@@ -264,21 +257,15 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="c1"># Visible</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visf</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_frequency_gridFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_propagation_matrixFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsInit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsOpticalThicknessFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoLayerThermalEmission</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSurfaceEmission</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSpaceEmission</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceLambertian</span><span class="p">(</span>
-            <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
+            <span class="n">layer_emission_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="n">scattering_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="n">space_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="n">surface_setting</span><span class="o">=</span><span class="s2">&quot;Lambertian&quot;</span><span class="p">,</span>
+            <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
+            <span class="n">surface_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSingleScatteringAlbedo</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoFractionalScattering</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoLegendre</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSetSun</span><span class="p">(</span><span class="n">ray_path_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldCalc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">SOLAR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
             <span class="s2">&quot;i,ijk-&gt;jk&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">visw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span>
@@ -286,23 +273,15 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="c1"># IR</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_f</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_frequency_gridFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_propagation_matrixFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsInit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsOpticalThicknessFromPath</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsLayerThermalEmissionLinearInTau</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceEmissionByTemperature</span><span class="p">(</span>
-            <span class="n">ray_path_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
+            <span class="n">layer_emission_setting</span><span class="o">=</span><span class="s2">&quot;LinearInTau&quot;</span><span class="p">,</span>
+            <span class="n">scattering_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="n">space_setting</span><span class="o">=</span><span class="s2">&quot;CosmicMicrowaveBackgroundRadiation&quot;</span><span class="p">,</span>
+            <span class="n">surface_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
+            <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="n">surface_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thermal_surface_reflectivity</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsCosmicMicrowaveBackgroundRadiation</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceLambertian</span><span class="p">(</span>
-            <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thermal_surface_reflectivity</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSingleScatteringAlbedo</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoFractionalScattering</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoLegendre</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSun</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldCalc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">THERMAL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
             <span class="s2">&quot;i,ijk-&gt;jk&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span>

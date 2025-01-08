@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace options &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Workspace options &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,6 +63,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.matpack.html">Matpack</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="develop.workspace.html">Workspace</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.agendas.html">Workspace agendas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.groups.html">Workspace groups</a></li>
@@ -112,25 +114,29 @@
 <p>Workspace options are wrappers for creating <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> types that fully define the set of valid options
 that are required for “some” task.  They are used instead of strings to ensure that the methods that use them
 always cover the full set of solutions required (i.e., by switching over all options in a switch-statement).</p>
-<p>They are mostly intended as input to workspace methods, but they may also be part of variuous workspace groups
+<p>They are mostly intended as input to workspace methods, but they may also be part of various workspace groups
 to define the logic of the group.  The options are defined in the <code class="docutils literal notranslate"><span class="pre">arts_options.cc</span></code> file as parts of the
 <code class="docutils literal notranslate"><span class="pre">opts</span></code> list object.  Each option is a struct with the following fields:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> - the name of the option as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the option as a string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">values_and_desc</span></code> - a list of lists of strings.  The outer-most list defines a unique option.  The inner lists must all have the same length.  The inner list defines at least two strings.  The first value of the inner list are used to build the <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> value and must thus be usable as valid C++ code.  The last value of the inner list is the description of the option.  All values inbetween are various ways to spell the option.  The <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> will be constructible from strings of any of these values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">values_and_desc</span></code> - a list of lists of strings.  The outermost list defines a unique option.  The inner lists must all have the same length.</p></li>
+<li><p>The inner list defines at least two strings.  The first value of the inner list are used to build the <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code></p></li>
+<li><p>value and must thus be usable as valid C++ code.  The last value of the inner list is the description of the option.  All values in-between are various ways to spell the option.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> will be constructible from strings of these values.</p></li>
 </ul>
 <section id="what-do-you-get-by-defining-an-option">
 <h2>What do you get by defining an option?<a class="headerlink" href="#what-do-you-get-by-defining-an-option" title="Link to this heading"></a></h2>
 <p>Using <code class="docutils literal notranslate"><span class="pre">T</span></code> as the option type, <code class="docutils literal notranslate"><span class="pre">e</span></code> as an instance of the option type, and <code class="docutils literal notranslate"><span class="pre">s</span></code> as an instance of <code class="docutils literal notranslate"><span class="pre">std::string</span></code>,
-you will automatic have access to the following interface for each option type:</p>
+you will automatically have access to the following interface for each option type:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">good_enum(e)</span></code> - returns a boolean that checks if the option is valid.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">toString(e)</span></code> - returns a string representation of the option.  Note that this is a templated type and you can input a templated index to select the name you want from the lists of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">toString(e)</span></code> - returns a string representation of the option.  Note that this is a template type,
+and you can input a template index to select the name you want from the lists of strings.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">to&lt;T&gt;(s)</span></code> - returns the option from a string.  It will look through all provided names for the option type.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">operator&lt;&lt;(std::ostream</span> <span class="pre">&amp;os,</span> <span class="pre">const</span> <span class="pre">T</span> <span class="pre">x)</span></code> - allows streamed output of the option.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">operator&gt;&gt;(std::istream</span> <span class="pre">&amp;is,</span> <span class="pre">T</span> <span class="pre">&amp;x)</span></code> - allows streamed input of the option.</p></li>
-<li><p>In addition to this, all the requirements for being a <span class="xref std std-doc">develop.workspace.group</span> are also automatically fulfilled.</p></li>
+<li><p>In addition to this, all the requirements for being a <a class="reference internal" href="develop.workspace.groups.html"><span class="doc">Workspace groups</span></a> are also automatically fulfilled.</p></li>
 </ul>
 </section>
 <section id="generated-files">

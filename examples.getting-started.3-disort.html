@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3. Disort &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>3. Disort &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -66,6 +67,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="examples.getting-started.4-scattering.html">4. Scattering calculations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.getting-started.5.atmosphere.html">Atmosphere</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="examples.arts-catalogue-data.html">Arts catalogue data</a></li>
@@ -138,7 +140,7 @@
 <span class="linenos">26</span>
 <span class="linenos">27</span><span class="c1"># %% Grids and planet</span>
 <span class="linenos">28</span>
-<span class="linenos">29</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">29</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
 <span class="linenos">30</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
 <span class="linenos">31</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
 <span class="linenos">32</span>    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
@@ -153,58 +155,60 @@
 <span class="linenos">41</span>
 <span class="linenos">42</span><span class="c1"># %% Core Disort calculations</span>
 <span class="linenos">43</span>
-<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_fieldSunlessClearsky</span><span class="p">(</span>
-<span class="linenos">45</span>    <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-<span class="linenos">46</span>    <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-<span class="linenos">47</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
-<span class="linenos">48</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="linenos">49</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="linenos">50</span><span class="p">)</span>
-<span class="linenos">51</span>
-<span class="linenos">52</span><span class="c1"># %% Equivalent ARTS calculations</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_fieldProfile</span><span class="p">(</span>
+<span class="linenos">47</span>    <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
+<span class="linenos">48</span>    <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
+<span class="linenos">49</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
+<span class="linenos">50</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">51</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">52</span><span class="p">)</span>
 <span class="linenos">53</span>
-<span class="linenos">54</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
-<span class="linenos">55</span>    <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-<span class="linenos">56</span>    <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-<span class="linenos">57</span>    <span class="n">max_step</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
-<span class="linenos">58</span><span class="p">)</span>
-<span class="linenos">59</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radianceClearskyEmission</span><span class="p">()</span>
-<span class="linenos">60</span>
-<span class="linenos">61</span><span class="c1"># %% Plot results</span>
+<span class="linenos">54</span><span class="c1"># %% Equivalent ARTS calculations</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
+<span class="linenos">57</span>    <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
+<span class="linenos">58</span>    <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
+<span class="linenos">59</span>    <span class="n">max_step</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+<span class="linenos">60</span><span class="p">)</span>
+<span class="linenos">61</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radianceClearskyEmission</span><span class="p">()</span>
 <span class="linenos">62</span>
-<span class="linenos">63</span><span class="k">if</span> <span class="n">PLOT</span><span class="p">:</span>
-<span class="linenos">64</span>    <span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span>
-<span class="linenos">65</span>
-<span class="linenos">66</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-<span class="linenos">67</span>        <span class="n">f</span><span class="p">,</span>
-<span class="linenos">68</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)],</span>
-<span class="linenos">69</span>        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;disort&quot;</span><span class="p">,</span>
-<span class="linenos">70</span>    <span class="p">)</span>
-<span class="linenos">71</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="linenos">72</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-<span class="linenos">73</span>        <span class="n">f</span><span class="p">,</span>
-<span class="linenos">74</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-<span class="linenos">75</span>        <span class="s2">&quot;g:&quot;</span><span class="p">,</span>
-<span class="linenos">76</span>        <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="linenos">77</span>    <span class="p">)</span>
-<span class="linenos">78</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-<span class="linenos">79</span>        <span class="n">f</span><span class="p">,</span>
-<span class="linenos">80</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
-<span class="linenos">81</span>        <span class="s2">&quot;m:&quot;</span><span class="p">,</span>
-<span class="linenos">82</span>        <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="linenos">83</span>    <span class="p">)</span>
-<span class="linenos">84</span>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [W sr$^{-1}$ m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="linenos">85</span>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [index count]&quot;</span><span class="p">)</span>
-<span class="linenos">86</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
-<span class="linenos">87</span>
-<span class="linenos">88</span><span class="c1"># %% The last test should be that we are close to the correct values</span>
+<span class="linenos">63</span><span class="c1"># %% Plot results</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span><span class="k">if</span> <span class="n">PLOT</span><span class="p">:</span>
+<span class="linenos">66</span>    <span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
+<span class="linenos">69</span>        <span class="n">f</span><span class="p">,</span>
+<span class="linenos">70</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)],</span>
+<span class="linenos">71</span>        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;disort&quot;</span><span class="p">,</span>
+<span class="linenos">72</span>    <span class="p">)</span>
+<span class="linenos">73</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="linenos">74</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
+<span class="linenos">75</span>        <span class="n">f</span><span class="p">,</span>
+<span class="linenos">76</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="linenos">77</span>        <span class="s2">&quot;g:&quot;</span><span class="p">,</span>
+<span class="linenos">78</span>        <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="linenos">79</span>    <span class="p">)</span>
+<span class="linenos">80</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
+<span class="linenos">81</span>        <span class="n">f</span><span class="p">,</span>
+<span class="linenos">82</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+<span class="linenos">83</span>        <span class="s2">&quot;m:&quot;</span><span class="p">,</span>
+<span class="linenos">84</span>        <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="linenos">85</span>    <span class="p">)</span>
+<span class="linenos">86</span>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [W sr$^{-1}$ m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="linenos">87</span>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [index count]&quot;</span><span class="p">)</span>
+<span class="linenos">88</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
 <span class="linenos">89</span>
-<span class="linenos">90</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">91</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="linenos">92</span>    <span class="o">/</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-<span class="linenos">93</span>    <span class="mi">1</span><span class="p">,</span>
-<span class="linenos">94</span>    <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
-<span class="linenos">95</span><span class="p">),</span> <span class="s2">&quot;Bad results, clearsky calculations are not close between DISORT and ARTS&quot;</span>
+<span class="linenos">90</span><span class="c1"># %% The last test should be that we are close to the correct values</span>
+<span class="linenos">91</span>
+<span class="linenos">92</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">93</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos">94</span>    <span class="o">/</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="linenos">95</span>    <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">96</span>    <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+<span class="linenos">97</span><span class="p">),</span> <span class="s2">&quot;Bad results, clearsky calculations are not close between DISORT and ARTS&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -237,7 +241,7 @@
 <span class="linenos">25</span>
 <span class="linenos">26</span><span class="c1"># %% Grids and planet</span>
 <span class="linenos">27</span>
-<span class="linenos">28</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">28</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
 <span class="linenos">29</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
 <span class="linenos">30</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
 <span class="linenos">31</span>    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
@@ -253,58 +257,54 @@
 <span class="linenos">41</span>
 <span class="linenos">42</span><span class="c1"># %% Core Disort calculations</span>
 <span class="linenos">43</span>
-<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;SunlessClearsky&quot;</span><span class="p">)</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
 <span class="linenos">45</span>
 <span class="linenos">46</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="mi">40_000</span><span class="p">)</span>
-<span class="linenos">47</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_pointFromPath</span><span class="p">()</span>
-<span class="linenos">48</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_frequency_gridFromPath</span><span class="p">()</span>
-<span class="linenos">49</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_propagation_matrixFromPath</span><span class="p">()</span>
-<span class="linenos">50</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_pointLowestFromPath</span><span class="p">()</span>
-<span class="linenos">51</span>
-<span class="linenos">52</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">(</span>
-<span class="linenos">53</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
-<span class="linenos">54</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="linenos">55</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="linenos">56</span><span class="p">)</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-<span class="linenos">59</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="linenos">60</span>    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-<span class="linenos">61</span>        <span class="p">[</span>
-<span class="linenos">62</span>            <span class="mf">2.65924430e-15</span><span class="p">,</span>
-<span class="linenos">63</span>            <span class="mf">2.66162733e-15</span><span class="p">,</span>
-<span class="linenos">64</span>            <span class="mf">2.75440515e-15</span><span class="p">,</span>
-<span class="linenos">65</span>            <span class="mf">9.57958182e-18</span><span class="p">,</span>
-<span class="linenos">66</span>            <span class="mf">2.08076327e-17</span><span class="p">,</span>
-<span class="linenos">67</span>            <span class="mf">5.39749082e-16</span><span class="p">,</span>
-<span class="linenos">68</span>            <span class="mf">2.93074072e-15</span><span class="p">,</span>
-<span class="linenos">69</span>            <span class="mf">2.93357370e-15</span><span class="p">,</span>
-<span class="linenos">70</span>            <span class="mf">3.03918211e-15</span><span class="p">,</span>
-<span class="linenos">71</span>            <span class="mf">9.99616600e-18</span><span class="p">,</span>
-<span class="linenos">72</span>            <span class="mf">2.34511632e-17</span><span class="p">,</span>
-<span class="linenos">73</span>            <span class="mf">6.12773186e-16</span><span class="p">,</span>
-<span class="linenos">74</span>            <span class="mf">3.19264874e-15</span><span class="p">,</span>
-<span class="linenos">75</span>            <span class="mf">3.19665668e-15</span><span class="p">,</span>
-<span class="linenos">76</span>            <span class="mf">3.33784028e-15</span><span class="p">,</span>
-<span class="linenos">77</span>            <span class="mf">1.03768102e-17</span><span class="p">,</span>
-<span class="linenos">78</span>            <span class="mf">3.05943372e-17</span><span class="p">,</span>
-<span class="linenos">79</span>            <span class="mf">8.07853130e-16</span><span class="p">,</span>
-<span class="linenos">80</span>            <span class="mf">3.35251230e-15</span><span class="p">,</span>
-<span class="linenos">81</span>            <span class="mf">3.36075470e-15</span><span class="p">,</span>
-<span class="linenos">82</span>            <span class="mf">3.65036247e-15</span><span class="p">,</span>
-<span class="linenos">83</span>            <span class="mf">1.07209025e-17</span><span class="p">,</span>
-<span class="linenos">84</span>            <span class="mf">6.78926741e-17</span><span class="p">,</span>
-<span class="linenos">85</span>            <span class="mf">1.56163327e-15</span><span class="p">,</span>
-<span class="linenos">86</span>            <span class="mf">3.37235023e-15</span><span class="p">,</span>
-<span class="linenos">87</span>            <span class="mf">2.86992821e-15</span><span class="p">,</span>
-<span class="linenos">88</span>            <span class="mf">3.97673151e-15</span><span class="p">,</span>
-<span class="linenos">89</span>            <span class="mf">1.52446216e-15</span><span class="p">,</span>
-<span class="linenos">90</span>            <span class="mf">2.80896759e-15</span><span class="p">,</span>
-<span class="linenos">91</span>            <span class="mf">3.94566396e-15</span><span class="p">,</span>
-<span class="linenos">92</span>        <span class="p">]</span>
-<span class="linenos">93</span>    <span class="p">),</span>
-<span class="linenos">94</span>    <span class="mi">1</span><span class="p">,</span>
-<span class="linenos">95</span><span class="p">),</span> <span class="s2">&quot;Mismatch from historical Disort spectral fluxes&quot;</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">(</span>
+<span class="linenos">49</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
+<span class="linenos">50</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">51</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">52</span><span class="p">)</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">55</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="linenos">56</span>    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos">57</span>        <span class="p">[</span>
+<span class="linenos">58</span>            <span class="mf">2.65924430e-15</span><span class="p">,</span>
+<span class="linenos">59</span>            <span class="mf">2.66162733e-15</span><span class="p">,</span>
+<span class="linenos">60</span>            <span class="mf">2.75440515e-15</span><span class="p">,</span>
+<span class="linenos">61</span>            <span class="mf">9.57958182e-18</span><span class="p">,</span>
+<span class="linenos">62</span>            <span class="mf">2.08076327e-17</span><span class="p">,</span>
+<span class="linenos">63</span>            <span class="mf">5.39749082e-16</span><span class="p">,</span>
+<span class="linenos">64</span>            <span class="mf">2.93074072e-15</span><span class="p">,</span>
+<span class="linenos">65</span>            <span class="mf">2.93357370e-15</span><span class="p">,</span>
+<span class="linenos">66</span>            <span class="mf">3.03918211e-15</span><span class="p">,</span>
+<span class="linenos">67</span>            <span class="mf">9.99616600e-18</span><span class="p">,</span>
+<span class="linenos">68</span>            <span class="mf">2.34511632e-17</span><span class="p">,</span>
+<span class="linenos">69</span>            <span class="mf">6.12773186e-16</span><span class="p">,</span>
+<span class="linenos">70</span>            <span class="mf">3.19264874e-15</span><span class="p">,</span>
+<span class="linenos">71</span>            <span class="mf">3.19665668e-15</span><span class="p">,</span>
+<span class="linenos">72</span>            <span class="mf">3.33784028e-15</span><span class="p">,</span>
+<span class="linenos">73</span>            <span class="mf">1.03768102e-17</span><span class="p">,</span>
+<span class="linenos">74</span>            <span class="mf">3.05943372e-17</span><span class="p">,</span>
+<span class="linenos">75</span>            <span class="mf">8.07853130e-16</span><span class="p">,</span>
+<span class="linenos">76</span>            <span class="mf">3.35251230e-15</span><span class="p">,</span>
+<span class="linenos">77</span>            <span class="mf">3.36075470e-15</span><span class="p">,</span>
+<span class="linenos">78</span>            <span class="mf">3.65036247e-15</span><span class="p">,</span>
+<span class="linenos">79</span>            <span class="mf">1.07209025e-17</span><span class="p">,</span>
+<span class="linenos">80</span>            <span class="mf">6.78926741e-17</span><span class="p">,</span>
+<span class="linenos">81</span>            <span class="mf">1.56163327e-15</span><span class="p">,</span>
+<span class="linenos">82</span>            <span class="mf">3.37235023e-15</span><span class="p">,</span>
+<span class="linenos">83</span>            <span class="mf">2.86992821e-15</span><span class="p">,</span>
+<span class="linenos">84</span>            <span class="mf">3.97673151e-15</span><span class="p">,</span>
+<span class="linenos">85</span>            <span class="mf">1.52446216e-15</span><span class="p">,</span>
+<span class="linenos">86</span>            <span class="mf">2.80896759e-15</span><span class="p">,</span>
+<span class="linenos">87</span>            <span class="mf">3.94566396e-15</span><span class="p">,</span>
+<span class="linenos">88</span>        <span class="p">]</span>
+<span class="linenos">89</span>    <span class="p">),</span>
+<span class="linenos">90</span>    <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">91</span><span class="p">),</span> <span class="s2">&quot;Mismatch from historical Disort spectral fluxes&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -349,7 +349,7 @@
 <span class="linenos">37</span>
 <span class="linenos">38</span>    <span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">remove_lines_percentile</span><span class="p">)</span>
 <span class="linenos">39</span>
-<span class="linenos">40</span>    <span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldSetPlanetEllipsoid</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">planet</span><span class="p">)</span>
+<span class="linenos">40</span>    <span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">planet</span><span class="p">)</span>
 <span class="linenos">41</span>
 <span class="linenos">42</span>    <span class="n">sun</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField2</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span><span class="n">sunfile</span><span class="p">)</span>
 <span class="linenos">43</span>
@@ -370,27 +370,20 @@
 <span class="linenos">58</span>        <span class="n">longitude</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
 <span class="linenos">59</span>        <span class="n">max_step</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
 <span class="linenos">60</span>    <span class="p">)</span>
-<span class="linenos">61</span>    <span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_pointFromPath</span><span class="p">()</span>
-<span class="linenos">62</span>
-<span class="linenos">63</span>    <span class="n">ws</span><span class="o">.</span><span class="n">ray_path_frequency_gridFromPath</span><span class="p">()</span>
-<span class="linenos">64</span>    <span class="n">ws</span><span class="o">.</span><span class="n">ray_path_propagation_matrixFromPath</span><span class="p">()</span>
-<span class="linenos">65</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsInit</span><span class="p">()</span>
-<span class="linenos">66</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsOpticalThicknessFromPath</span><span class="p">()</span>
-<span class="linenos">67</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsLayerThermalEmissionLinearInTau</span><span class="p">()</span>
-<span class="linenos">68</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceEmissionByTemperature</span><span class="p">(</span><span class="n">ray_path_point</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="linenos">69</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsCosmicMicrowaveBackgroundRadiation</span><span class="p">()</span>
-<span class="linenos">70</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSurfaceLambertian</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">surface_reflectivity</span><span class="p">)</span>
-<span class="linenos">71</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoSingleScatteringAlbedo</span><span class="p">()</span>
-<span class="linenos">72</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoFractionalScattering</span><span class="p">()</span>
-<span class="linenos">73</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsNoLegendre</span><span class="p">()</span>
-<span class="linenos">74</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settingsSetSun</span><span class="p">(</span><span class="n">ray_path_point</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-<span class="linenos">75</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldCalc</span><span class="p">()</span>
-<span class="linenos">76</span>
-<span class="linenos">77</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">),</span>
-<span class="linenos">78</span>                <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="linenos">79</span>
-<span class="linenos">80</span>    <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">AtmField</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">,</span>
-<span class="linenos">81</span>                            <span class="n">alts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">))</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
+<span class="linenos">63</span>        <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
+<span class="linenos">64</span>        <span class="n">surface_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
+<span class="linenos">65</span>        <span class="n">surface_lambertian_value</span><span class="o">=</span><span class="n">surface_reflectivity</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">),</span>
+<span class="linenos">66</span>    <span class="p">)</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span>    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">),</span>
+<span class="linenos">71</span>                <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="linenos">72</span>
+<span class="linenos">73</span>    <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">AtmField</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">,</span>
+<span class="linenos">74</span>                            <span class="n">alts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>

@@ -28,6 +28,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.RetrievalAddAtmosphere`
       - Sets an atmospheric target
     * - Method
+      - :func:`~pyarts.workspace.Workspace.RetrievalAddErrorPolyFit`
+      - Set a measurement error to polynomial fit.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.RetrievalAddMagneticField`
       - Set magnetic field derivative
     * - Method
@@ -82,12 +85,6 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.WriteXMLIndexed`
       - As :func:`~pyarts.workspace.Workspace.WriteXML`, but creates indexed file names.
     * - Method
-      - :func:`~pyarts.workspace.Workspace.abs_lines_per_speciesReadSpeciesSplitCatalog`
-      - Reads old style catalog but only for :attr:`~pyarts.workspace.Workspace.absorption_species`
-    * - Method
-      - :func:`~pyarts.workspace.Workspace.absorption_bandsFromAbsorbtionLines`
-      - Gets modern line catalog from old style
-    * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_bandsFromModelState`
       - Sets :attr:`~pyarts.workspace.Workspace.absorption_bands` to the state of the model.
     * - Method
@@ -112,8 +109,11 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.absorption_bandsSaveSplit`
       - Saves all bands fin :attr:`~pyarts.workspace.Workspace.absorption_bands` to a directory
     * - Method
-      - :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequency`
-      - Remove all lines/bands that strictly falls outside a frequency range
+      - :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByBand`
+      - Remove all bands whose lines all strictly falls outside a frequency range
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine`
+      - Remove all lines that strictly falls outside a frequency range
     * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_bandsSetZeeman`
       - Set the Zeeman splitting for lines within the frequency range
@@ -226,6 +226,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau`
       - Use a source function that changes linearly in optical thickness.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.disort_settingsLegendreCoefficientsFromPath`
+      - Sets the legendre coefficients from the path-variable.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsNoFractionalScattering`
       - Turns off fractional scattering in Disort calculations.
     * - Method
@@ -256,17 +259,20 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.disort_settingsSetSun`
       - Uses Set the FOV to the sun input for Disort calculations.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.disort_settingsSingleScatteringAlbedoFromPath`
+      - Sets the single scattering albedo from the path-variable.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsSurfaceEmissionByTemperature`
       - Surface radiation into Disort is isotropic from surface temperature.
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsSurfaceLambertian`
-      - Turns off BDRF in Disort calculations.
+      - Sets the surface to Lambertian.
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settings_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.disort_settings_agenda`, see it for more details
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_settings_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.disort_settings_agenda`
+      - :func:`~pyarts.workspace.Workspace.disort_settings_agendaSetup`
+      - Setup for Disort standard calculations.
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc`
       - Perform Disort calculations for spectral flux.
@@ -274,8 +280,8 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
       - Use Disort for clearsky calculations of spectral flux field
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldSunlessClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
+      - :func:`~pyarts.workspace.Workspace.disort_spectral_flux_fieldProfile`
+      - Extract a 1D path through the atmospheric field and calculate spectral flux using Disort
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc`
       - Perform Disort calculations for spectral radiance.
@@ -283,8 +289,8 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
       - Use the disort settings agenda to calculate spectral radiance
     * - Method
-      - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldSunlessClearsky`
-      - Use Disort for clearsky calculations of spectral flux field
+      - :func:`~pyarts.workspace.Workspace.disort_spectral_radiance_fieldProfile`
+      - Extract a 1D path through the atmospheric field and calculate spectral radiance using Disort
     * - Method
       - :func:`~pyarts.workspace.Workspace.ecs_dataAddMakarov2020`
       - Sets the O2-66 microwave band data for ECS.
@@ -322,6 +328,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddAtmosphere`
       - Sets an atmospheric target
     * - Method
+      - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddErrorPolyFit`
+      - Set a measurement error to polynomial fit.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsAddMagneticField`
       - Set magnetic field derivative
     * - Method
@@ -352,6 +361,12 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.jacobian_targetsInit`
       - Initialize or reset the :attr:`~pyarts.workspace.Workspace.jacobian_targets`
     * - Method
+      - :func:`~pyarts.workspace.Workspace.jacobian_targetsOff`
+      - Turns off :attr:`~pyarts.workspace.Workspace.jacobian_targets`
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.legendre_degreeFromDisortSettings`
+      - Sets :attr:`~pyarts.workspace.Workspace.legendre_degree` to :attr:`~pyarts.workspace.Workspace.disort_settings` ``legendre_polynomial_dimension``
+    * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_averaging_kernelCalc`
       - Calculate the averaging kernel matrix.
     * - Method
@@ -379,11 +394,20 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.measurement_sensorVectorGaussian`
       - Wrapper for a single simple Gaussian-opening sensor
     * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_vectorAddError`
+      - Add the measurement error to the measurement.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_vectorFromOperatorPath`
       - Sets measurement vector by looping over all sensor elements
     * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_vectorFromSensor`
       - Sets measurement vector by looping over all sensor elements
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_vector_errorAddErrorState`
+      - Add measurement error from the model state.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.measurement_vector_errorInitStandard`
+      - Initialize measurement error variables to 0 from the measurements.
     * - Method
       - :func:`~pyarts.workspace.Workspace.measurement_vector_error_covariance_matrixConstant`
       - Sets a constant measurement vector error covariance matrix.
@@ -458,10 +482,13 @@ Workspace
       - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` to a default value
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_jacobianWindFix`
       - Fix for the wind field derivative.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringAddSpectralScatteringSpeciesTRO`
+      - Adds :attr:`~pyarts.workspace.Workspace.scattering_species` results for totally random oriented spectral calculations to
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple`
       - Add simple air to :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering`.
@@ -469,11 +496,20 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringInit`
       - Initialize :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering` to zeroes.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrix_scatteringSpectralInit`
+      - Initialize :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering` and co to zeroes.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda` to a default value
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda` to a specific value
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaExecute`
+      - Executes :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda`, see it for more details
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSet`
+      - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_pathGeometric`
       - Get a geometric radiation path
@@ -500,7 +536,7 @@ Workspace
       - Executes :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_pointBackground`
       - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the expected background point of :attr:`~pyarts.workspace.Workspace.ray_path`
@@ -508,8 +544,11 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.ray_path_pointForeground`
       - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the expected foreground point of :attr:`~pyarts.workspace.Workspace.ray_path`
     * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_pointHighestFromPath`
+      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the highest altitude point of :attr:`~pyarts.workspace.Workspace.ray_path`.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_pointLowestFromPath`
-      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the lowest point of :attr:`~pyarts.workspace.Workspace.ray_path`.
+      - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the lowest altitude point of :attr:`~pyarts.workspace.Workspace.ray_path`.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrixAddScattering`
       - Adds the scattering part of the propagation matrix to the rest along the path.
@@ -519,6 +558,12 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromPath`
       - Gets the propagation matrix for scattering along the path.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromSpectralAgenda`
+      - Compute :attr:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_scattering` and co for a path.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrix_species_splitFromPath`
+      - As :func:`~pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath` but the output is only for the selected species.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh`
       - Add :attr:`~pyarts.workspace.Workspace.suns` to :attr:`~pyarts.workspace.Workspace.ray_path_spectral_radiance_source`.
@@ -540,6 +585,12 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_zeeman_magnetic_fieldFromPath`
       - Sets A path of Zeeman effec magnetic field properties.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.scattering_speciesInit`
+      - Initialize scattering species.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.select_species_listCollectAbsorption`
+      - Selects all main absorbers from the absorption data.
     * - Method
       - :func:`~pyarts.workspace.Workspace.set`
       - Set the variable to the new value.
@@ -620,7 +671,7 @@ Workspace
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_observer_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_observer_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_observer_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_operatorClearsky1D`
       - Set up a 1D spectral radiance operator
@@ -629,13 +680,13 @@ Workspace
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_space_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_space_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_surface_agendaExecute`
       - Executes :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda`, see it for more details
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_surface_agendaSet`
-      - Sets :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda`
+      - Set :attr:`~pyarts.workspace.Workspace.spectral_radiance_surface_agenda` to a specific value
     * - Method
       - :func:`~pyarts.workspace.Workspace.sunBlackbody`
       - Set :attr:`~pyarts.workspace.Workspace.sun` to blackbody.
@@ -676,8 +727,8 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.surface_fieldMoon`
       - Moon reference ellipsoids.
     * - Method
-      - :func:`~pyarts.workspace.Workspace.surface_fieldSetPlanetEllipsoid`
-      - Sets the planet base surface field
+      - :func:`~pyarts.workspace.Workspace.surface_fieldPlanet`
+      - Initialize the surface field with the ellipsoid of a planet.
     * - Method
       - :func:`~pyarts.workspace.Workspace.surface_fieldVenus`
       - Venus reference ellipsoids.
@@ -708,6 +759,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_species`
       - :class:`~pyarts.arts.ArrayOfArrayOfSpeciesTag` Tag groups for gas absorption.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.absorption_vector_scattering`
+      - :class:`~pyarts.arts.StokvecVector` The absorption vector of totally random orientation particles at a single point along a path using spectral representation
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_xsec_fit_data`
       - :class:`~pyarts.arts.ArrayOfXsecRecord` Fitting model coefficients for cross section species.
@@ -772,6 +826,9 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.jacobian_targets`
       - :class:`~pyarts.arts.JacobianTargets` A list of targets for the Jacobian Matrix calculations.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.legendre_degree`
+      - :class:`~pyarts.arts.Index` The degree of a Legendre polynimial.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.measurement_averaging_kernel`
       - :class:`~pyarts.arts.Matrix` Averaging kernel matrix.
     * - Attribute
@@ -781,11 +838,17 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.measurement_jacobian`
       - :class:`~pyarts.arts.Matrix` The partial derivatives of the :attr:`~pyarts.workspace.Workspace.measurement_vector`.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.measurement_jacobian_error`
+      - :class:`~pyarts.arts.Matrix` The partial derivatives of the :attr:`~pyarts.workspace.Workspace.measurement_vector_error`.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.measurement_sensor`
       - :class:`~pyarts.arts.ArrayOfSensorObsel` A list of sensor elements.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.measurement_vector`
       - :class:`~pyarts.arts.Vector` The measurment vector for, e.g., a sensor.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.measurement_vector_error`
+      - :class:`~pyarts.arts.Vector` The measurment vector error for, e.g., a sensor.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix`
       - :class:`~pyarts.arts.CovarianceMatrix` Covariance matrix for observation uncertainties.
@@ -802,6 +865,9 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.model_state_vector_apriori`
       - :class:`~pyarts.arts.Vector` An apriori state vector of the model.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.phase_matrix_scattering_spectral`
+      - :class:`~pyarts.arts.SpecmatMatrix` The spectral phase matrix of totally random orientation particles at a single point along a path using spectral representation
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix`
       - :class:`~pyarts.arts.PropmatVector` This contains the propagation matrix for the current path point.
     * - Attribute
@@ -812,13 +878,13 @@ Workspace
       - :class:`~pyarts.arts.PropmatMatrix` 
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering`
-      - :class:`~pyarts.arts.PropmatVector` This contains the propagation matrix for scattering for the current path point.
+      - :class:`~pyarts.arts.PropmatVector` The propgation matrix of totally random orientation particles at a single point along a path using spectral representation
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_agenda`
       - :class:`~pyarts.arts.Agenda` Compute the propagation matrix, the non-LTE source vector, and their derivatives
     * - Attribute
-      - :attr:`~pyarts.workspace.Workspace.propagation_matrix_select_species`
-      - :class:`~pyarts.arts.SpeciesEnum` A select species tag group from :attr:`~pyarts.workspace.Workspace.absorption_species`
+      - :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda`
+      - :class:`~pyarts.arts.Agenda` Get the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte`
       - :class:`~pyarts.arts.StokvecVector` The part of the source vector that is due to non-LTE.
@@ -828,6 +894,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path`
       - :class:`~pyarts.arts.ArrayOfPropagationPathPoint` A list path points making up a propagation path.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.ray_path_absorption_vector_scattering`
+      - :class:`~pyarts.arts.ArrayOfStokvecVector` The absorption vector of totally random orientation particles along the propagation path using spectral representation
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_atmospheric_point`
       - :class:`~pyarts.arts.ArrayOfAtmPoint` Atmospheric points along the propagation path.
@@ -840,6 +909,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`
       - :class:`~pyarts.arts.Agenda` Get the propagation path as it is obeserved.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.ray_path_phase_matrix_scattering_spectral`
+      - :class:`~pyarts.arts.ArrayOfSpecmatMatrix` The spectral phase matrix of totally random orientation particles along the propagation path using spectral representation
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_point`
       - :class:`~pyarts.arts.PropagationPathPoint` A single path point.
@@ -882,6 +954,15 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_transmission_matrix_jacobian`
       - :class:`~pyarts.arts.ArrayOfMuelmatTensor3` Transmission derivative matrices along the propagation path.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.scattering_species`
+      - :class:`~pyarts.arts.ArrayOfScatteringSpecies` The scattering species
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.select_species`
+      - :class:`~pyarts.arts.SpeciesEnum` Species selection.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.select_species_list`
+      - :class:`~pyarts.arts.ArrayOfSpeciesEnum` Species selection.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.spectral_radiance`
       - :class:`~pyarts.arts.StokvecVector` A spectral radiance vector.
@@ -934,6 +1015,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.__eq__`
       - Return self==value.
     * - Operator
+      - :func:`~pyarts.workspace.Workspace.__format__`
+      - __format__(self, arg: str, /) -> str
+    * - Operator
       - :func:`~pyarts.workspace.Workspace.__ge__`
       - Return self>=value.
     * - Operator
@@ -945,6 +1029,9 @@ Workspace
     * - Operator
       - :func:`~pyarts.workspace.Workspace.__hash__`
       - Return hash(self).
+    * - Operator
+      - :func:`~pyarts.workspace.Workspace.__init__`
+      - __init__(self, with_defaults: bool = True) -> None
     * - Operator
       - :func:`~pyarts.workspace.Workspace.__iter__`
       - Allows `iter(self)`
@@ -958,8 +1045,14 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.__ne__`
       - Return self!=value.
     * - Operator
+      - :func:`~pyarts.workspace.Workspace.__repr__`
+      - __repr__(self) -> str
+    * - Operator
       - :func:`~pyarts.workspace.Workspace.__setstate__`
       - 
+    * - Operator
+      - :func:`~pyarts.workspace.Workspace.__str__`
+      - __str__(self) -> str
 
   .. rubric:: Constructors
 
@@ -975,6 +1068,7 @@ Workspace
   pyarts.workspace.Workspace.ReadXML
   pyarts.workspace.Workspace.ReadXMLIndexed
   pyarts.workspace.Workspace.RetrievalAddAtmosphere
+  pyarts.workspace.Workspace.RetrievalAddErrorPolyFit
   pyarts.workspace.Workspace.RetrievalAddMagneticField
   pyarts.workspace.Workspace.RetrievalAddPressure
   pyarts.workspace.Workspace.RetrievalAddSensorFrequencyPolyFit
@@ -993,8 +1087,6 @@ Workspace
   pyarts.workspace.Workspace.WriteBuiltinPartitionFunctionsXML
   pyarts.workspace.Workspace.WriteXML
   pyarts.workspace.Workspace.WriteXMLIndexed
-  pyarts.workspace.Workspace.abs_lines_per_speciesReadSpeciesSplitCatalog
-  pyarts.workspace.Workspace.absorption_bandsFromAbsorbtionLines
   pyarts.workspace.Workspace.absorption_bandsFromModelState
   pyarts.workspace.Workspace.absorption_bandsKeepID
   pyarts.workspace.Workspace.absorption_bandsLineMixingAdaptation
@@ -1003,7 +1095,8 @@ Workspace
   pyarts.workspace.Workspace.absorption_bandsReadSplit
   pyarts.workspace.Workspace.absorption_bandsRemoveID
   pyarts.workspace.Workspace.absorption_bandsSaveSplit
-  pyarts.workspace.Workspace.absorption_bandsSelectFrequency
+  pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByBand
+  pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine
   pyarts.workspace.Workspace.absorption_bandsSetZeeman
   pyarts.workspace.Workspace.absorption_cia_dataAddCIARecord
   pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA
@@ -1041,6 +1134,7 @@ Workspace
   pyarts.workspace.Workspace.disort_settingsCosmicMicrowaveBackgroundRadiation
   pyarts.workspace.Workspace.disort_settingsInit
   pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau
+  pyarts.workspace.Workspace.disort_settingsLegendreCoefficientsFromPath
   pyarts.workspace.Workspace.disort_settingsNoFractionalScattering
   pyarts.workspace.Workspace.disort_settingsNoLayerThermalEmission
   pyarts.workspace.Workspace.disort_settingsNoLegendre
@@ -1051,16 +1145,17 @@ Workspace
   pyarts.workspace.Workspace.disort_settingsNoSurfaceScattering
   pyarts.workspace.Workspace.disort_settingsOpticalThicknessFromPath
   pyarts.workspace.Workspace.disort_settingsSetSun
+  pyarts.workspace.Workspace.disort_settingsSingleScatteringAlbedoFromPath
   pyarts.workspace.Workspace.disort_settingsSurfaceEmissionByTemperature
   pyarts.workspace.Workspace.disort_settingsSurfaceLambertian
   pyarts.workspace.Workspace.disort_settings_agendaExecute
-  pyarts.workspace.Workspace.disort_settings_agendaSet
+  pyarts.workspace.Workspace.disort_settings_agendaSetup
   pyarts.workspace.Workspace.disort_spectral_flux_fieldCalc
   pyarts.workspace.Workspace.disort_spectral_flux_fieldFromAgenda
-  pyarts.workspace.Workspace.disort_spectral_flux_fieldSunlessClearsky
+  pyarts.workspace.Workspace.disort_spectral_flux_fieldProfile
   pyarts.workspace.Workspace.disort_spectral_radiance_fieldCalc
   pyarts.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda
-  pyarts.workspace.Workspace.disort_spectral_radiance_fieldSunlessClearsky
+  pyarts.workspace.Workspace.disort_spectral_radiance_fieldProfile
   pyarts.workspace.Workspace.ecs_dataAddMakarov2020
   pyarts.workspace.Workspace.ecs_dataAddMeanAir
   pyarts.workspace.Workspace.ecs_dataAddRodrigues1997
@@ -1073,6 +1168,7 @@ Workspace
   pyarts.workspace.Workspace.init
   pyarts.workspace.Workspace.inversion_iterate_agendaExecute
   pyarts.workspace.Workspace.jacobian_targetsAddAtmosphere
+  pyarts.workspace.Workspace.jacobian_targetsAddErrorPolyFit
   pyarts.workspace.Workspace.jacobian_targetsAddMagneticField
   pyarts.workspace.Workspace.jacobian_targetsAddPressure
   pyarts.workspace.Workspace.jacobian_targetsAddSensorFrequencyPolyFit
@@ -1083,6 +1179,8 @@ Workspace
   pyarts.workspace.Workspace.jacobian_targetsAddWindField
   pyarts.workspace.Workspace.jacobian_targetsFinalize
   pyarts.workspace.Workspace.jacobian_targetsInit
+  pyarts.workspace.Workspace.jacobian_targetsOff
+  pyarts.workspace.Workspace.legendre_degreeFromDisortSettings
   pyarts.workspace.Workspace.measurement_averaging_kernelCalc
   pyarts.workspace.Workspace.measurement_sensorAddSimple
   pyarts.workspace.Workspace.measurement_sensorAddSimpleGaussian
@@ -1092,8 +1190,11 @@ Workspace
   pyarts.workspace.Workspace.measurement_sensorSimple
   pyarts.workspace.Workspace.measurement_sensorSimpleGaussian
   pyarts.workspace.Workspace.measurement_sensorVectorGaussian
+  pyarts.workspace.Workspace.measurement_vectorAddError
   pyarts.workspace.Workspace.measurement_vectorFromOperatorPath
   pyarts.workspace.Workspace.measurement_vectorFromSensor
+  pyarts.workspace.Workspace.measurement_vector_errorAddErrorState
+  pyarts.workspace.Workspace.measurement_vector_errorInitStandard
   pyarts.workspace.Workspace.measurement_vector_error_covariance_matrixConstant
   pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix_observation_systemCalc
   pyarts.workspace.Workspace.measurement_vector_fittedFromMeasurement
@@ -1120,10 +1221,14 @@ Workspace
   pyarts.workspace.Workspace.propagation_matrix_agendaExecute
   pyarts.workspace.Workspace.propagation_matrix_agendaSet
   pyarts.workspace.Workspace.propagation_matrix_jacobianWindFix
+  pyarts.workspace.Workspace.propagation_matrix_scatteringAddSpectralScatteringSpeciesTRO
   pyarts.workspace.Workspace.propagation_matrix_scatteringAirSimple
   pyarts.workspace.Workspace.propagation_matrix_scatteringInit
+  pyarts.workspace.Workspace.propagation_matrix_scatteringSpectralInit
   pyarts.workspace.Workspace.propagation_matrix_scattering_agendaExecute
   pyarts.workspace.Workspace.propagation_matrix_scattering_agendaSet
+  pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaExecute
+  pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSet
   pyarts.workspace.Workspace.ray_pathGeometric
   pyarts.workspace.Workspace.ray_pathGeometricDownlooking
   pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude
@@ -1135,10 +1240,13 @@ Workspace
   pyarts.workspace.Workspace.ray_path_observer_agendaSet
   pyarts.workspace.Workspace.ray_path_pointBackground
   pyarts.workspace.Workspace.ray_path_pointForeground
+  pyarts.workspace.Workspace.ray_path_pointHighestFromPath
   pyarts.workspace.Workspace.ray_path_pointLowestFromPath
   pyarts.workspace.Workspace.ray_path_propagation_matrixAddScattering
   pyarts.workspace.Workspace.ray_path_propagation_matrixFromPath
   pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromPath
+  pyarts.workspace.Workspace.ray_path_propagation_matrix_scatteringFromSpectralAgenda
+  pyarts.workspace.Workspace.ray_path_propagation_matrix_species_splitFromPath
   pyarts.workspace.Workspace.ray_path_spectral_radiance_scatteringSunsFirstOrderRayleigh
   pyarts.workspace.Workspace.ray_path_spectral_radiance_sourceAddScattering
   pyarts.workspace.Workspace.ray_path_spectral_radiance_sourceFromPropmat
@@ -1146,6 +1254,8 @@ Workspace
   pyarts.workspace.Workspace.ray_path_transmission_matrixFromPath
   pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulativeFromPath
   pyarts.workspace.Workspace.ray_path_zeeman_magnetic_fieldFromPath
+  pyarts.workspace.Workspace.scattering_speciesInit
+  pyarts.workspace.Workspace.select_species_listCollectAbsorption
   pyarts.workspace.Workspace.set
   pyarts.workspace.Workspace.sortedIndexOfBands
   pyarts.workspace.Workspace.spectral_radianceApplyUnit
@@ -1191,7 +1301,7 @@ Workspace
   pyarts.workspace.Workspace.surface_fieldJupiter
   pyarts.workspace.Workspace.surface_fieldMars
   pyarts.workspace.Workspace.surface_fieldMoon
-  pyarts.workspace.Workspace.surface_fieldSetPlanetEllipsoid
+  pyarts.workspace.Workspace.surface_fieldPlanet
   pyarts.workspace.Workspace.surface_fieldVenus
   pyarts.workspace.Workspace.swap
   pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationBack
@@ -1202,6 +1312,7 @@ Workspace
   pyarts.workspace.Workspace.absorption_lookup_table
   pyarts.workspace.Workspace.absorption_predefined_model_data
   pyarts.workspace.Workspace.absorption_species
+  pyarts.workspace.Workspace.absorption_vector_scattering
   pyarts.workspace.Workspace.absorption_xsec_fit_data
   pyarts.workspace.Workspace.atmospheric_field
   pyarts.workspace.Workspace.atmospheric_point
@@ -1223,29 +1334,35 @@ Workspace
   pyarts.workspace.Workspace.inversion_iterate_agenda_counter
   pyarts.workspace.Workspace.inversion_iterate_agenda_do_jacobian
   pyarts.workspace.Workspace.jacobian_targets
+  pyarts.workspace.Workspace.legendre_degree
   pyarts.workspace.Workspace.measurement_averaging_kernel
   pyarts.workspace.Workspace.measurement_gain_matrix
   pyarts.workspace.Workspace.measurement_jacobian
+  pyarts.workspace.Workspace.measurement_jacobian_error
   pyarts.workspace.Workspace.measurement_sensor
   pyarts.workspace.Workspace.measurement_vector
+  pyarts.workspace.Workspace.measurement_vector_error
   pyarts.workspace.Workspace.measurement_vector_error_covariance_matrix
   pyarts.workspace.Workspace.measurement_vector_fitted
   pyarts.workspace.Workspace.model_state_covariance_matrix
   pyarts.workspace.Workspace.model_state_vector
   pyarts.workspace.Workspace.model_state_vector_apriori
+  pyarts.workspace.Workspace.phase_matrix_scattering_spectral
   pyarts.workspace.Workspace.propagation_matrix
   pyarts.workspace.Workspace.propagation_matrix_agenda
   pyarts.workspace.Workspace.propagation_matrix_jacobian
   pyarts.workspace.Workspace.propagation_matrix_scattering
   pyarts.workspace.Workspace.propagation_matrix_scattering_agenda
-  pyarts.workspace.Workspace.propagation_matrix_select_species
+  pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda
   pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte
   pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian
   pyarts.workspace.Workspace.ray_path
+  pyarts.workspace.Workspace.ray_path_absorption_vector_scattering
   pyarts.workspace.Workspace.ray_path_atmospheric_point
   pyarts.workspace.Workspace.ray_path_frequency_grid
   pyarts.workspace.Workspace.ray_path_frequency_grid_wind_shift_jacobian
   pyarts.workspace.Workspace.ray_path_observer_agenda
+  pyarts.workspace.Workspace.ray_path_phase_matrix_scattering_spectral
   pyarts.workspace.Workspace.ray_path_point
   pyarts.workspace.Workspace.ray_path_propagation_matrix
   pyarts.workspace.Workspace.ray_path_propagation_matrix_jacobian
@@ -1260,6 +1377,9 @@ Workspace
   pyarts.workspace.Workspace.ray_path_transmission_matrix
   pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulative
   pyarts.workspace.Workspace.ray_path_transmission_matrix_jacobian
+  pyarts.workspace.Workspace.scattering_species
+  pyarts.workspace.Workspace.select_species
+  pyarts.workspace.Workspace.select_species_list
   pyarts.workspace.Workspace.spectral_radiance
   pyarts.workspace.Workspace.spectral_radiance_background
   pyarts.workspace.Workspace.spectral_radiance_background_jacobian
@@ -1277,12 +1397,16 @@ Workspace
   pyarts.workspace.Workspace.surface_field
   pyarts.workspace.Workspace.transmission_matrix_background
   pyarts.workspace.Workspace.__eq__
+  pyarts.workspace.Workspace.__format__
   pyarts.workspace.Workspace.__ge__
   pyarts.workspace.Workspace.__getstate__
   pyarts.workspace.Workspace.__gt__
   pyarts.workspace.Workspace.__hash__
+  pyarts.workspace.Workspace.__init__
   pyarts.workspace.Workspace.__iter__
   pyarts.workspace.Workspace.__le__
   pyarts.workspace.Workspace.__lt__
   pyarts.workspace.Workspace.__ne__
+  pyarts.workspace.Workspace.__repr__
   pyarts.workspace.Workspace.__setstate__
+  pyarts.workspace.Workspace.__str__

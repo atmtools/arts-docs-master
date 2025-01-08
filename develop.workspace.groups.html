@@ -8,17 +8,18 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace groups &mdash; ARTS 3.0.0dev6 documentation</title>
+  <title>Workspace groups &mdash; ARTS 3.0.0dev7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=769eb728"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,11 +63,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="develop.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="develop.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="develop.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="develop.matpack.html">Matpack</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="develop.workspace.html">Workspace</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="develop.workspace.agendas.html">Workspace agendas</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace groups</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#defining-a-workspace-group">Defining a workspace group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#what-quailifies-as-a-workspace-group">What quailifies as a workspace group?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-qualifies-as-a-workspace-group">What qualifies as a workspace group?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#workspace-group-naming-convention">Workspace group naming convention</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#file-naming">File naming</a></li>
@@ -127,8 +129,8 @@ of the map and the object is a struct with the following fields:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> - the main header file that must be included to use the workspace group.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the variable as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">array_depth</span></code> - an integer defining the depth of the array.  You can recursively access data of this type of array using the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator using an integer or range type.  Remember that the <code class="docutils literal notranslate"><span class="pre">value_type</span></code> of the array should also be a workspace group.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">value_type</span></code> - a boolean that defines whether or not a workspace group instance of this type is copyable in python.  You cannot copy python types such as <code class="docutils literal notranslate"><span class="pre">int</span></code> and <code class="docutils literal notranslate"><span class="pre">str</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">map_type</span></code> - a boolean that defines whether or not the workspace group is a map.  Maps can be accessed via the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator using the key type.  Remember that both the <code class="docutils literal notranslate"><span class="pre">mapped_type</span></code> and the <code class="docutils literal notranslate"><span class="pre">key_type</span></code> of the map should also be workspace groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value_type</span></code> - a boolean that defines whether a workspace group instance of this type is copyable in python.  You cannot copy python types such as <code class="docutils literal notranslate"><span class="pre">int</span></code> and <code class="docutils literal notranslate"><span class="pre">str</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">map_type</span></code> - a boolean that defines whether the workspace group is a map.  Maps can be accessed via the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator using the key type.  Remember that both the <code class="docutils literal notranslate"><span class="pre">mapped_type</span></code> and the <code class="docutils literal notranslate"><span class="pre">key_type</span></code> of the map should also be workspace groups.</p></li>
 </ul>
 </section>
 <section id="in-arts-options-cpp">
@@ -138,8 +140,8 @@ The workspace group defined from a workspace option will
 simply be the name of the <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> that defines the option.</p>
 </section>
 </section>
-<section id="what-quailifies-as-a-workspace-group">
-<h2>What quailifies as a workspace group?<a class="headerlink" href="#what-quailifies-as-a-workspace-group" title="Link to this heading"></a></h2>
+<section id="what-qualifies-as-a-workspace-group">
+<h2>What qualifies as a workspace group?<a class="headerlink" href="#what-qualifies-as-a-workspace-group" title="Link to this heading"></a></h2>
 <p>You need to ensure that the following code is possible for each workspace group <code class="docutils literal notranslate"><span class="pre">T</span></code>.
 Read this assuming that <code class="docutils literal notranslate"><span class="pre">a</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">i</span></code> is an instance of an integer, and <code class="docutils literal notranslate"><span class="pre">k</span></code> is an instance of a “key”.
 The following must compile:</p>
@@ -149,7 +151,7 @@ The following must compile:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">T{}</span></code> - allow default construction.  Failure to comply leads to a static assertion as the group fails the <code class="docutils literal notranslate"><span class="pre">WorkspaceGroupIsDefaultConstructible</span></code> concept.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">T{a}</span></code> - allow copy construction of.  Failure to comply leads to a static assertion as the group fails the <code class="docutils literal notranslate"><span class="pre">WorkspaceGroupIsCopyable</span></code> concept.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">std::format(&quot;{}&quot;,</span> <span class="pre">a)</span></code>, <code class="docutils literal notranslate"><span class="pre">std::format(&quot;{:sqNB,}&quot;,</span> <span class="pre">a)</span></code>, <code class="docutils literal notranslate"><span class="pre">x.inner_fmt().tags</span></code>, and <code class="docutils literal notranslate"><span class="pre">static_assert(std::same_as&lt;format_tags,</span> <span class="pre">std::remove_cvref_t&lt;decltype(x.inner_fmt().tags)&gt;&gt;)</span></code> - allow formatting the group to a string.  The exception to this are classes that pass one of these consepts: <code class="docutils literal notranslate"><span class="pre">std::integral&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">std::floating_point&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">std::same_as&lt;T,</span> <span class="pre">std::string&gt;</span></code>.   Failure to comply leads to a static assertion as the group fails the <code class="docutils literal notranslate"><span class="pre">arts_formattable_or_value_type</span></code> concept.  Note that to ensure this, you should read the <a class="reference internal" href="develop.classes.formatter.html"><span class="doc">Use of std::formatter&lt;T&gt;</span></a> documentation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">x[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">x[k]</span></code> should also implement all of the above if the group is an array or map type, respectively.  This also holds true for the group of <code class="docutils literal notranslate"><span class="pre">k</span></code> for map types.  Failure to compile will lead to difficult errors in the python binding compilation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">x[k]</span></code> should also implement all the above if the group is an array or map type, respectively.  This also holds true for the group of <code class="docutils literal notranslate"><span class="pre">k</span></code> for map types.  Failure to compile will lead to difficult errors in the python binding compilation.</p></li>
 </ul>
 <p>Additionally, you need to ensure that your group passes the <code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests when <code class="docutils literal notranslate"><span class="pre">pyarts</span></code> is built.  There exist a helper method <code class="docutils literal notranslate"><span class="pre">workspace_group_interface</span></code> you can send a mutable version
 of the <code class="docutils literal notranslate"><span class="pre">py::class_&lt;T&gt;</span></code> object to that should ensure this.  However, generally they interface via python might require some additional work.</p>
