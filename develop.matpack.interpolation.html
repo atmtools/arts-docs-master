@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -83,6 +83,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
 </ul>
 
@@ -145,14 +146,14 @@ examples.</p>
 </section>
 <section id="green-and-blue-interpolation">
 <h3>Green and blue interpolation<a class="headerlink" href="#green-and-blue-interpolation" title="Link to this heading"></a></h3>
-<figure class="align-default" id="id9">
+<figure class="align-default" id="id8">
 <a class="reference internal image-reference" href="_images/interpolation_types.svg"><img alt="_images/interpolation_types.svg" src="_images/interpolation_types.svg" style="width: 800px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 1 </span><span class="caption-text">The two different types of interpolation. Green (dotted):
 Interpolation to a new grid, output has same dimension as input,
 in this case 2D. Blue (dashed): Interpolation to a sequence of
-points, output is always 1D.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+points, output is always 1D.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>There are two different types of interpolation in ARTS:</p>
@@ -293,7 +294,7 @@ same role as explained above.</p></li>
 <section id="interpolation-weights">
 <h3>Interpolation weights<a class="headerlink" href="#interpolation-weights" title="Link to this heading"></a></h3>
 <p>As explained in the “Numerical Recipes”
-<a href="#id5"><span class="problematic" id="id6">:cite:p:`numerical_recipes_C:97`</span></a>, 2D bi-linear interpolation means, that
+<span id="id5">[<a class="reference internal" href="bibliography.html#id129" title="W.H. Press, S.A. Teukolsky, W.T. Vetterling, and B.P. Flannery. Numerical recipes in C. Cambridge University Press, 2 edition, 1997.">1</a>]</span>, 2D bi-linear interpolation means, that
 the interpolated value is a weighted average of the original field at
 the four corner points of the grid square in which the interpolation
 point is located. Taking the corner points in the order indicated in the Figure
@@ -308,7 +309,7 @@ below, the interpolated value is given by:</p>
 <p>where <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(u\)</span> are the fractional distances between the
 corner points in the two dimensions, <span class="math notranslate nohighlight">\(y_i\)</span> are the field values
 at the corner points, and <span class="math notranslate nohighlight">\(w_i\)</span> are the interpolation weights.</p>
-<figure class="align-default" id="id10">
+<figure class="align-default" id="id9">
 <a class="reference internal image-reference" href="_images/interpolation_square.svg"><img alt="_images/interpolation_square.svg" src="_images/interpolation_square.svg" style="width: 400px;" />
 </a>
 <figcaption>
@@ -318,7 +319,7 @@ are the fractional distances in the two dimensions.
 (By the way, I have discovered that this is exactly the result that
 you get if you first interpolate linearly in one dimension, then in
 the other. I was playing around with this a bit, but it is the more
-efficient way to pre-calculate the <span class="math notranslate nohighlight">\(w_i\)</span> and do all dimensions at once.)</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
+efficient way to pre-calculate the <span class="math notranslate nohighlight">\(w_i\)</span> and do all dimensions at once.)</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>How many interpolation weights one needs for a multilinear
@@ -417,8 +418,8 @@ interpolation weights, and the actual fields. For each interpolated
 value, the weights are applied to the appropriate original field values
 and the sum is taken (see Equation above). The <code class="docutils literal notranslate"><span class="pre">interp</span></code> family of functions
 performs this step.</p>
-<section id="id7">
-<h4>Blue interpolation<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
+<section id="id6">
+<h4>Blue interpolation<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">interp</span><span class="p">(</span><span class="w"> </span><span class="n">VectorView</span><span class="w">            </span><span class="n">ia</span><span class="p">,</span>
 <span class="w">            </span><span class="n">ConstMatrixView</span><span class="w">       </span><span class="n">itw</span><span class="p">,</span>
 <span class="w">            </span><span class="n">ConstVectorView</span><span class="w">       </span><span class="n">a</span><span class="p">,</span>
@@ -461,8 +462,8 @@ performs this step.</p>
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h4>Green interpolation<a class="headerlink" href="#id8" title="Link to this heading"></a></h4>
+<section id="id7">
+<h4>Green interpolation<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">interp</span><span class="p">(</span><span class="w"> </span><span class="n">MatrixView</span><span class="w">            </span><span class="n">ia</span><span class="p">,</span>
 <span class="w">            </span><span class="n">ConstTensor3View</span><span class="w">      </span><span class="n">itw</span><span class="p">,</span>
 <span class="w">            </span><span class="n">ConstMatrixView</span><span class="w">       </span><span class="n">a</span><span class="p">,</span>
