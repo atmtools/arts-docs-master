@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace variables &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="Workspace options" href="dev.workspace.options.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev.workspace.html">Workspace</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.agendas.html">Workspace agendas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.groups.html">Workspace groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.methods.html">Workspace methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.options.html">Workspace options</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#defining-a-workspace-variable">Defining a workspace variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-qualifies-as-a-workspace-variable">What qualifies as a workspace variable?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-variable-naming-convention">Workspace variable naming convention</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="dev.workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">Workspace variables</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.workspace.variables.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="workspace-variables">
+<h1>Workspace variables<a class="headerlink" href="#workspace-variables" title="Link to this heading"></a></h1>
+<p>Workspace variables allow named data to be passed into workspace methods.
+They are attributes of the <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object.</p>
+<p>Most workspace variables are defined in the <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code> file.
+Workspace agendas are automatically defined as workspace variables from the <code class="docutils literal notranslate"><span class="pre">workspace_agendas.cpp</span></code>.</p>
+<section id="defining-a-workspace-variable">
+<h2>Defining a workspace variable<a class="headerlink" href="#defining-a-workspace-variable" title="Link to this heading"></a></h2>
+<section id="in-workspace-variables-cpp">
+<h3>In <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code><a class="headerlink" href="#in-workspace-variables-cpp" title="Link to this heading"></a></h3>
+<p>The workspace variable definitions are located in the <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code>
+as part of the <code class="docutils literal notranslate"><span class="pre">wsv_data</span></code> map object.  The name of the variable is the key
+of the map and the object are a struct with the following fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the variable as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> - the workspace group of the variable as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_value</span></code> - an optional default value of the workspace variable that is defined when a <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object is default-initialized.</p></li>
+</ul>
+</section>
+<section id="in-workspace-agendas-cpp">
+<h3>In <code class="docutils literal notranslate"><span class="pre">workspace_agendas.cpp</span></code><a class="headerlink" href="#in-workspace-agendas-cpp" title="Link to this heading"></a></h3>
+<p>See the page on <a class="reference internal" href="dev.workspace.agendas.html"><span class="doc">Workspace agendas</span></a> for more information.  The workspace variable defined from the workspace agenda will
+have no default value.  It will be of the type <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a>.</p>
+</section>
+</section>
+<section id="what-qualifies-as-a-workspace-variable">
+<h2>What qualifies as a workspace variable?<a class="headerlink" href="#what-qualifies-as-a-workspace-variable" title="Link to this heading"></a></h2>
+<p>The intent of a workspace variable is to pass information between workspace methods.
+Workspace variables must therefore be both input and output of different workspace methods.</p>
+<p>If a method has output that is never used by a different method, it should not be a workspace variable. Instead, it should be a local variable of the method.  As defined by workspace method, it should be a <code class="docutils literal notranslate"><span class="pre">gout</span></code>.</p>
+<p>If a method has input that is not produced by a different method, it should not be a workspace variable. Instead, it should be a local variable of the method.  As defined by workspace method, it should be a <code class="docutils literal notranslate"><span class="pre">gin</span></code>.</p>
+<p>There are only a few exceptions to this rule:</p>
+<ul class="simple">
+<li><p>Workspace agendas are not required to be output of a workspace method.  They are expected to be consumed by a workspace method.  The reason for this exception is that they define a special logic that may not be easily expressed as a workspace method or a workspace option.</p></li>
+<li><p>Workspace agendas’ inputs and outputs are also not required to follow the above rule.  The reason is the same as for why workspace agendas are themselves an exception.</p></li>
+<li><p>Workspace options are not required to be output of a workspace method.  The reason is that workspace methods must fully define their logic, and workspace options are the explicitly named options that a workspace method is expected to understand.</p></li>
+</ul>
+</section>
+<section id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Link to this heading"></a></h2>
+<p>The workspace variable interface generates <code class="docutils literal notranslate"><span class="pre">auto_wsv.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">auto_wsv.h</span></code>
+for the C++ interface to the workspace variables.  The Python binding is generated
+as the <code class="docutils literal notranslate"><span class="pre">py_auto_wsv_N.cpp</span></code> files, where N is an integer.</p>
+</section>
+<section id="workspace-variable-naming-convention">
+<h2>Workspace variable naming convention<a class="headerlink" href="#workspace-variable-naming-convention" title="Link to this heading"></a></h2>
+<p>Names carry meaning.  Please follow the naming convention below, and
+please do not hesitate to fix any naming inconsistencies you find.</p>
+<p>Workspace variables should be named in <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>.  The name should be
+explicit.  Avoid TLAs <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and other abbreviations that are not world-wide exclusive.
+A common TLA to avoid is <code class="docutils literal notranslate"><span class="pre">lte</span></code> because it means different things in different
+contexts (e.g., local thermodynamic equilibrium or long-term evolution).
+Using <code class="docutils literal notranslate"><span class="pre">lte</span></code> in a name is therefore ambiguous and strongly discouraged.  On-the-other hand, <code class="docutils literal notranslate"><span class="pre">nonlte</span></code>
+is unambiguous - it is not used as anything other than non-local thermodynamic equilibrium.</p>
+<p>To allow searching and connecting different workspace variables to their intended context,
+we have reserved a set of terms that should be used in the names of related workspace variables.
+This list will connect workspace variables under a rubric <code class="docutils literal notranslate"><span class="pre">Related</span> <span class="pre">workspace</span> <span class="pre">variables</span></code> in the documentation.
+Please note that combining more than one of these terms is possible and highly encouraged.
+The workspace variable <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> along the <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>
+is called <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix.html#pyarts.workspace.Workspace.ray_path_propagation_matrix" title="pyarts.workspace.Workspace.ray_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix</span></code></a> to connect it to both concepts.
+The full list is available in the <code class="docutils literal notranslate"><span class="pre">workspace_variables_keywords.cpp</span></code> file.
+As of writing this, the list includes the following terms:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">absorption</span></code> - for workspace variables related to absorption.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jacobian</span></code> - for workspace variables related to Jacobian.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spectral_radiance</span></code> - for workspace variables related to spectral radiance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">propagation_matrix</span></code> - for workspace variables related to propagation matrices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source_vector</span></code> - for workspace variables related to source vectors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nonlte</span></code> - for workspace variables related to non-local thermodynamic equilibrium.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ray_path</span></code> - for workspace variables related to ray paths.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scattering</span></code> - for workspace variables related to scattering.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code> - for workspace variables that are also grids.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">measurement</span></code> - for workspace variables related to measurements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_state</span></code> - for workspace variables related to model states.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disort</span></code> - for workspace variables related to DISORT.</p></li>
+</ul>
+<p>Check the <code class="docutils literal notranslate"><span class="pre">workspace_variables_keywords.cpp</span></code> file for the correct list regardless.  If you read this and the list above is no longer correct, please update it.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>TLA means three-letter abbreviations, and it is commonly used in text and speech to indicate why you should avoid using TLAs - abbreviations feel easy to use and common-know-how once you get used to them but the first time you encounter one you have no idea what it means, which distracts from the content being discussed.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.workspace.options.html" class="btn btn-neutral float-left" title="Workspace options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

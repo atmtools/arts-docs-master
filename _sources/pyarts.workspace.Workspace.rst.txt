@@ -115,6 +115,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine`
       - Remove all lines that strictly falls outside a frequency range
     * - Method
+      - :func:`~pyarts.workspace.Workspace.absorption_bandsSetNonLTE`
+      - Set all bands to use non-LTE calculations.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.absorption_bandsSetZeeman`
       - Set the Zeeman splitting for lines within the frequency range
     * - Method
@@ -193,8 +196,14 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.atmospheric_fieldAppendXsecSpeciesData`
       - Append species data to the atmospheric field based on cross-section data
     * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_fieldFitNonLTE`
+      - Fits 
+    * - Method
       - :func:`~pyarts.workspace.Workspace.atmospheric_fieldFromModelState`
       - Sets :attr:`~pyarts.workspace.Workspace.atmospheric_field` to the state of the model.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_fieldFromProfile`
+      - Sets the atmospheric field to the atmospheric profile.
     * - Method
       - :func:`~pyarts.workspace.Workspace.atmospheric_fieldHydrostaticPressure`
       - Add the hydrostatic pressure to the atmospheric field
@@ -204,6 +213,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.atmospheric_fieldInit`
       - Initialize the atmospheric field with some altitude and isotopologue ratios
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_fieldInitializeNonLTE`
+      - Initialize the non-LTE atmospheric field from the LTE temperature field.
     * - Method
       - :func:`~pyarts.workspace.Workspace.atmospheric_fieldRead`
       - Reads absorption file from a directory
@@ -217,11 +229,23 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.atmospheric_pointInit`
       - Initialize an atmospheric point with some isotopologue ratios
     * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_profileExtract`
+      - Extract an atmospheric profile.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_profileFitNonLTE`
+      - Fits non-LTE distributions to the level data.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.atmospheric_profileFromGrid`
+      - Extract an atmospheric profile and its grids.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsCosmicMicrowaveBackgroundRadiation`
       - Space radiation into Disort is isotropic cosmic background radiation.
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsInit`
       - Perform Disort calculations for spectral flux.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.disort_settingsLayerNonThermalEmissionLinearInTau`
+      - Same as :func:`~pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau` but considers non-LTE
     * - Method
       - :func:`~pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau`
       - Use a source function that changes linearly in optical thickness.
@@ -312,6 +336,12 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.ecs_dataInit`
       - Resets/initializes the ECS data.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.flux_profileIntegrate`
+      - Computes the spectral flux
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.frequency_gridFitNonLTE`
+      - Frequency grid useful for :func:`~pyarts.workspace.Workspace.atmospheric_profileFitNonLTE`
     * - Method
       - :func:`~pyarts.workspace.Workspace.frequency_gridWindShift`
       - Applies wind shift to the :attr:`~pyarts.workspace.Workspace.frequency_grid` for the local frequency grid.
@@ -466,6 +496,9 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.model_state_vector_aprioriFromState`
       - Sets the a priori state of the model state vector to the current state.
     * - Method
+      - :func:`~pyarts.workspace.Workspace.nlte_line_flux_profileIntegrate`
+      - Integrate the spectral flux profile to get the line non-LTE flux
+    * - Method
       - :func:`~pyarts.workspace.Workspace.propagation_matrixAddCIA`
       - Calculate absorption coefficients per tag group for HITRAN CIA continua.
     * - Method
@@ -541,23 +574,59 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSetOperator`
       - Set :attr:`~pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agenda` to exclusively use provided external operator
     * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathAddGeometricGridCrossings`
+      - Fill the path with geometric step points.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathAddLimbPoint`
+      - Add the limb point to the ray path
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathFillGeometricHalfStep`
+      - Fill the path with geometric step points.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathFillGeometricStepwise`
+      - Fill the path with geometric step points.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathFixUpdownAzimuth`
+      - Fix azimuth angle errors that can occur for 180 and 0 degrees zenith.
+    * - Method
       - :func:`~pyarts.workspace.Workspace.ray_pathGeometric`
       - Get a geometric radiation path
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_pathGeometricDownlooking`
       - Wraps :func:`~pyarts.workspace.Workspace.ray_pathGeometric` for straight downlooking paths from the top-of-the-atmosphere altitude
     * - Method
-      - :func:`~pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude`
-      - Get a geometric radiation path that crosses the tangent altitude
-    * - Method
       - :func:`~pyarts.workspace.Workspace.ray_pathGeometricUplooking`
       - Wraps :func:`~pyarts.workspace.Workspace.ray_pathGeometric` for straight uplooking paths from the surface altitude at the position
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathInit`
+      - Initialize the ray path with a single point.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathRemoveNearby`
+      - Remove points that are too close to each other.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathRemoveNonAtm`
+      - Remove non-atmospheric points to the ray path
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathRemoveNonGeometricGridCrossings`
+      - Remove all non-geometric grid crossings from the ray path.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_pathSetGeometricExtremes`
+      - Adds all crossings of the ray path with the grid of the atmospheric field parameter.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointExtendInPressure`
       - Gets the atmospheric points along the path.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath`
       - Gets the atmospheric points along the path.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointFromProfile`
+      - Set ``ray_path_atmospheric_point = atmospheric_profile``.  Purely compositional.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_fieldFluxProfile`
+      - Adds observers that covers all zenith angles for each altitude point.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_fieldFromObserverAgenda`
+      - Create a ray path field from a set of observers.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_frequency_gridFromPath`
       - Gets the frequency grid along the path.
@@ -568,11 +637,17 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaExecuteOperator`
       - Executes an operator emulating :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`, see it for more details
     * - Method
-      - :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSet`
-      - Set :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda` to a specific predefined option
+      - :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSetGeometric`
+      - Set :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda` from programmable geometric settings.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSetOperator`
       - Set :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda` to exclusively use provided external operator
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_observersFieldProfilePseudo2D`
+      - Get a list of observer positions and line of sights to represent observing all angles of a profile.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.ray_path_observersFluxProfile`
+      - Add :math:`n` observers per altitude point.
     * - Method
       - :func:`~pyarts.workspace.Workspace.ray_path_pointBackground`
       - Sets :attr:`~pyarts.workspace.Workspace.ray_path_point` to the expected background point of :attr:`~pyarts.workspace.Workspace.ray_path`
@@ -634,6 +709,15 @@ Workspace
       - :func:`~pyarts.workspace.Workspace.sortedIndexOfBands`
       - Get the sorting of the bands by first quantum identifier then some ``criteria``
     * - Method
+      - :func:`~pyarts.workspace.Workspace.spectral_flux_profileFromPathField`
+      - Computes the spectral flux
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.spectral_flux_profileFromSpectralRadianceField`
+      - Computes the spectral flux.  The input field must be a profile.
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.spectral_flux_profilePseudo2D`
+      - Computes the spectral flux profile using pseudo-2D geometry
+    * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radianceApplyUnit`
       - Applies a unit to :attr:`~pyarts.workspace.Workspace.spectral_radiance`, returning a new field
     * - Method
@@ -651,9 +735,6 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radianceClearskyTransmission`
       - Computes clearsky transmission of spectral radiances
-    * - Method
-      - :func:`~pyarts.workspace.Workspace.spectral_radianceCumulativeEmission`
-      - Gets the spectral radiance from the path emission.
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radianceCumulativeTransmission`
       - Gets the spectral radiance from the path transmission.
@@ -687,6 +768,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPlanarGeometric`
       - Computes the spectral radiance field assuming planar geometric paths
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D`
+      - Computes the spectral radiance field assuming a profile and a pseudo-2D path.
     * - Method
       - :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation`
       - Adds the propagation variables to :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`
@@ -798,6 +882,9 @@ Workspace
     * - Method
       - :func:`~pyarts.workspace.Workspace.water_equivalent_pressure_operatorMK05`
       - Calculate equivalent water pressure according to Murphy and Koop, 2005
+    * - Method
+      - :func:`~pyarts.workspace.Workspace.zenith_gridProfilePseudo2D`
+      - A custom zenith grid for :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D`
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.absorption_bands`
       - :class:`~pyarts.arts.AbsorptionBands` Bands of absorption lines for LBL calculations.
@@ -820,11 +907,20 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.absorption_xsec_fit_data`
       - :class:`~pyarts.arts.ArrayOfXsecRecord` Fitting model coefficients for cross section species.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.altitude`
+      - :class:`~pyarts.arts.Numeric` A single altitude in the atmosphere.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.altitude_grid`
+      - :class:`~pyarts.arts.AscendingGrid` An ascending list of :attr:`~pyarts.workspace.Workspace.altitude`.  Often related to a field or a profile.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.atmospheric_field`
       - :class:`~pyarts.arts.AtmField` An atmospheric field in ARTS.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.atmospheric_point`
       - :class:`~pyarts.arts.AtmPoint` An atmospheric point in ARTS.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.atmospheric_profile`
+      - :class:`~pyarts.arts.ArrayOfAtmPoint` An atmospheric point in ARTS.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.covariance_matrix_diagonal_blocks`
       - :class:`~pyarts.arts.JacobianTargetsDiagonalCovarianceMatrixMap` A helper map for setting the covariance matrix.
@@ -860,7 +956,7 @@ Workspace
       - :class:`~pyarts.arts.LinemixingEcsData` Error corrected sudden data
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.frequency_grid`
-      - :class:`~pyarts.arts.AscendingGrid` A single path point's frequency grid.
+      - :class:`~pyarts.arts.AscendingGrid` A single frequency grid.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.frequency_grid_wind_shift_jacobian`
       - :class:`~pyarts.arts.Vector3` The frequency grid wind shift Jacobian.
@@ -880,8 +976,20 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.jacobian_targets`
       - :class:`~pyarts.arts.JacobianTargets` A list of targets for the Jacobian Matrix calculations.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.latitude`
+      - :class:`~pyarts.arts.Numeric` A single latitude.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.latitude_grid`
+      - :class:`~pyarts.arts.AscendingGrid` An ascending list of :attr:`~pyarts.workspace.Workspace.latitude`.  Often related to a field or a profile.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.legendre_degree`
       - :class:`~pyarts.arts.Index` The degree of a Legendre polynimial.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.longitude`
+      - :class:`~pyarts.arts.Numeric` A single longitude.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.longitude_grid`
+      - :class:`~pyarts.arts.AscendingGrid` An ascending list of :attr:`~pyarts.workspace.Workspace.longitude`.  Often related to a field or a profile.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.measurement_averaging_kernel`
       - :class:`~pyarts.arts.Matrix` Averaging kernel matrix.
@@ -919,11 +1027,14 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.model_state_vector_apriori`
       - :class:`~pyarts.arts.Vector` An apriori state vector of the model.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.nlte_line_flux_profile`
+      - :class:`~pyarts.arts.QuantumIdentifierVectorMap` A per-line flux profile.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.phase_matrix_scattering_spectral`
       - :class:`~pyarts.arts.SpecmatMatrix` The spectral phase matrix of totally random orientation particles at a single point along a path using spectral representation
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix`
-      - :class:`~pyarts.arts.PropmatVector` This contains the propagation matrix for the current path point.
+      - :class:`~pyarts.arts.PropmatVector` This contains the fully polarized propagation matrix for the current path point.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.propagation_matrix_agenda`
       - :class:`~pyarts.arts.Agenda` Compute the propagation matrix, the non-LTE source vector, and their derivatives
@@ -955,6 +1066,9 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.ray_path_atmospheric_point`
       - :class:`~pyarts.arts.ArrayOfAtmPoint` Atmospheric points along the propagation path.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.ray_path_field`
+      - :class:`~pyarts.arts.ArrayOfArrayOfPropagationPathPoint` A list of :attr:`~pyarts.workspace.Workspace.ray_path` intended to build up a field of observations.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_frequency_grid`
       - :class:`~pyarts.arts.ArrayOfAscendingGrid` All :attr:`~pyarts.workspace.Workspace.frequency_grid` along the propagation path.
     * - Attribute
@@ -963,6 +1077,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_observer_agenda`
       - :class:`~pyarts.arts.Agenda` Get the propagation path as it is obeserved.
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.ray_path_observers`
+      - :class:`~pyarts.arts.ArrayOfPropagationPathPoint` A list path points making up the observers of a propagation path.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.ray_path_phase_matrix_scattering_spectral`
       - :class:`~pyarts.arts.ArrayOfSpecmatMatrix` The spectral phase matrix of totally random orientation particles along the propagation path using spectral representation
@@ -1018,6 +1135,9 @@ Workspace
       - :attr:`~pyarts.workspace.Workspace.select_species_list`
       - :class:`~pyarts.arts.ArrayOfSpeciesEnum` Species selection.
     * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.spectral_flux_profile`
+      - :class:`~pyarts.arts.Matrix` An altitude profile of spectral flux.
+    * - Attribute
       - :attr:`~pyarts.workspace.Workspace.spectral_radiance`
       - :class:`~pyarts.arts.StokvecVector` A spectral radiance vector.
     * - Attribute
@@ -1026,6 +1146,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.spectral_radiance_background_jacobian`
       - :class:`~pyarts.arts.StokvecMatrix` Spectral radiance derivative from the background
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.spectral_radiance_field`
+      - :class:`~pyarts.arts.StokvecGriddedField6` The spectral radiance field.
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.spectral_radiance_jacobian`
       - :class:`~pyarts.arts.StokvecMatrix` Jacobian of :attr:`~pyarts.workspace.Workspace.spectral_radiance` with respect to :attr:`~pyarts.workspace.Workspace.jacobian_targets`.
@@ -1065,6 +1188,9 @@ Workspace
     * - Attribute
       - :attr:`~pyarts.workspace.Workspace.transmission_matrix_background`
       - :class:`~pyarts.arts.MuelmatVector` Transmittance from the background
+    * - Attribute
+      - :attr:`~pyarts.workspace.Workspace.zenith_grid`
+      - :class:`~pyarts.arts.AscendingGrid` A single zenith angle grid.
     * - Operator
       - :func:`~pyarts.workspace.Workspace.__eq__`
       - Return self==value.
@@ -1151,6 +1277,7 @@ Workspace
   pyarts.workspace.Workspace.absorption_bandsSaveSplit
   pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByBand
   pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine
+  pyarts.workspace.Workspace.absorption_bandsSetNonLTE
   pyarts.workspace.Workspace.absorption_bandsSetZeeman
   pyarts.workspace.Workspace.absorption_cia_dataAddCIARecord
   pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA
@@ -1177,16 +1304,23 @@ Workspace
   pyarts.workspace.Workspace.atmospheric_fieldAppendPredefSpeciesData
   pyarts.workspace.Workspace.atmospheric_fieldAppendTagsSpeciesData
   pyarts.workspace.Workspace.atmospheric_fieldAppendXsecSpeciesData
+  pyarts.workspace.Workspace.atmospheric_fieldFitNonLTE
   pyarts.workspace.Workspace.atmospheric_fieldFromModelState
+  pyarts.workspace.Workspace.atmospheric_fieldFromProfile
   pyarts.workspace.Workspace.atmospheric_fieldHydrostaticPressure
   pyarts.workspace.Workspace.atmospheric_fieldIGRF
   pyarts.workspace.Workspace.atmospheric_fieldInit
+  pyarts.workspace.Workspace.atmospheric_fieldInitializeNonLTE
   pyarts.workspace.Workspace.atmospheric_fieldRead
   pyarts.workspace.Workspace.atmospheric_fieldRegrid
   pyarts.workspace.Workspace.atmospheric_fieldRegridAll
   pyarts.workspace.Workspace.atmospheric_pointInit
+  pyarts.workspace.Workspace.atmospheric_profileExtract
+  pyarts.workspace.Workspace.atmospheric_profileFitNonLTE
+  pyarts.workspace.Workspace.atmospheric_profileFromGrid
   pyarts.workspace.Workspace.disort_settingsCosmicMicrowaveBackgroundRadiation
   pyarts.workspace.Workspace.disort_settingsInit
+  pyarts.workspace.Workspace.disort_settingsLayerNonThermalEmissionLinearInTau
   pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau
   pyarts.workspace.Workspace.disort_settingsLegendreCoefficientsFromPath
   pyarts.workspace.Workspace.disort_settingsNoFractionalScattering
@@ -1217,6 +1351,8 @@ Workspace
   pyarts.workspace.Workspace.ecs_dataAddRodrigues1997
   pyarts.workspace.Workspace.ecs_dataAddTran2011
   pyarts.workspace.Workspace.ecs_dataInit
+  pyarts.workspace.Workspace.flux_profileIntegrate
+  pyarts.workspace.Workspace.frequency_gridFitNonLTE
   pyarts.workspace.Workspace.frequency_gridWindShift
   pyarts.workspace.Workspace.get
   pyarts.workspace.Workspace.gravity_operatorCentralMass
@@ -1268,6 +1404,7 @@ Workspace
   pyarts.workspace.Workspace.model_state_vectorZero
   pyarts.workspace.Workspace.model_state_vector_aprioriFromData
   pyarts.workspace.Workspace.model_state_vector_aprioriFromState
+  pyarts.workspace.Workspace.nlte_line_flux_profileIntegrate
   pyarts.workspace.Workspace.propagation_matrixAddCIA
   pyarts.workspace.Workspace.propagation_matrixAddFaraday
   pyarts.workspace.Workspace.propagation_matrixAddLines
@@ -1293,17 +1430,31 @@ Workspace
   pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaExecuteOperator
   pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSet
   pyarts.workspace.Workspace.propagation_matrix_scattering_spectral_agendaSetOperator
+  pyarts.workspace.Workspace.ray_pathAddGeometricGridCrossings
+  pyarts.workspace.Workspace.ray_pathAddLimbPoint
+  pyarts.workspace.Workspace.ray_pathFillGeometricHalfStep
+  pyarts.workspace.Workspace.ray_pathFillGeometricStepwise
+  pyarts.workspace.Workspace.ray_pathFixUpdownAzimuth
   pyarts.workspace.Workspace.ray_pathGeometric
   pyarts.workspace.Workspace.ray_pathGeometricDownlooking
-  pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude
   pyarts.workspace.Workspace.ray_pathGeometricUplooking
+  pyarts.workspace.Workspace.ray_pathInit
+  pyarts.workspace.Workspace.ray_pathRemoveNearby
+  pyarts.workspace.Workspace.ray_pathRemoveNonAtm
+  pyarts.workspace.Workspace.ray_pathRemoveNonGeometricGridCrossings
+  pyarts.workspace.Workspace.ray_pathSetGeometricExtremes
   pyarts.workspace.Workspace.ray_path_atmospheric_pointExtendInPressure
   pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath
+  pyarts.workspace.Workspace.ray_path_atmospheric_pointFromProfile
+  pyarts.workspace.Workspace.ray_path_fieldFluxProfile
+  pyarts.workspace.Workspace.ray_path_fieldFromObserverAgenda
   pyarts.workspace.Workspace.ray_path_frequency_gridFromPath
   pyarts.workspace.Workspace.ray_path_observer_agendaExecute
   pyarts.workspace.Workspace.ray_path_observer_agendaExecuteOperator
-  pyarts.workspace.Workspace.ray_path_observer_agendaSet
+  pyarts.workspace.Workspace.ray_path_observer_agendaSetGeometric
   pyarts.workspace.Workspace.ray_path_observer_agendaSetOperator
+  pyarts.workspace.Workspace.ray_path_observersFieldProfilePseudo2D
+  pyarts.workspace.Workspace.ray_path_observersFluxProfile
   pyarts.workspace.Workspace.ray_path_pointBackground
   pyarts.workspace.Workspace.ray_path_pointForeground
   pyarts.workspace.Workspace.ray_path_pointHighestFromPath
@@ -1324,13 +1475,15 @@ Workspace
   pyarts.workspace.Workspace.select_species_listCollectAbsorption
   pyarts.workspace.Workspace.set
   pyarts.workspace.Workspace.sortedIndexOfBands
+  pyarts.workspace.Workspace.spectral_flux_profileFromPathField
+  pyarts.workspace.Workspace.spectral_flux_profileFromSpectralRadianceField
+  pyarts.workspace.Workspace.spectral_flux_profilePseudo2D
   pyarts.workspace.Workspace.spectral_radianceApplyUnit
   pyarts.workspace.Workspace.spectral_radianceApplyUnitFromSpectralRadiance
   pyarts.workspace.Workspace.spectral_radianceClearskyBackgroundTransmission
   pyarts.workspace.Workspace.spectral_radianceClearskyEmission
   pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering
   pyarts.workspace.Workspace.spectral_radianceClearskyTransmission
-  pyarts.workspace.Workspace.spectral_radianceCumulativeEmission
   pyarts.workspace.Workspace.spectral_radianceCumulativeTransmission
   pyarts.workspace.Workspace.spectral_radianceDefaultTransmission
   pyarts.workspace.Workspace.spectral_radianceIntegrateDisort
@@ -1342,6 +1495,7 @@ Workspace
   pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath
   pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPath
   pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPlanarGeometric
+  pyarts.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D
   pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation
   pyarts.workspace.Workspace.spectral_radiance_jacobianAddSensorJacobianPerturbations
   pyarts.workspace.Workspace.spectral_radiance_jacobianApplyUnit
@@ -1379,6 +1533,7 @@ Workspace
   pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationBack
   pyarts.workspace.Workspace.transmission_matrix_backgroundFromPathPropagationFront
   pyarts.workspace.Workspace.water_equivalent_pressure_operatorMK05
+  pyarts.workspace.Workspace.zenith_gridProfilePseudo2D
   pyarts.workspace.Workspace.absorption_bands
   pyarts.workspace.Workspace.absorption_cia_data
   pyarts.workspace.Workspace.absorption_lookup_table
@@ -1386,8 +1541,11 @@ Workspace
   pyarts.workspace.Workspace.absorption_species
   pyarts.workspace.Workspace.absorption_vector_scattering
   pyarts.workspace.Workspace.absorption_xsec_fit_data
+  pyarts.workspace.Workspace.altitude
+  pyarts.workspace.Workspace.altitude_grid
   pyarts.workspace.Workspace.atmospheric_field
   pyarts.workspace.Workspace.atmospheric_point
+  pyarts.workspace.Workspace.atmospheric_profile
   pyarts.workspace.Workspace.covariance_matrix_diagonal_blocks
   pyarts.workspace.Workspace.disort_fourier_mode_dimension
   pyarts.workspace.Workspace.disort_legendre_polynomial_dimension
@@ -1406,7 +1564,11 @@ Workspace
   pyarts.workspace.Workspace.inversion_iterate_agenda_counter
   pyarts.workspace.Workspace.inversion_iterate_agenda_do_jacobian
   pyarts.workspace.Workspace.jacobian_targets
+  pyarts.workspace.Workspace.latitude
+  pyarts.workspace.Workspace.latitude_grid
   pyarts.workspace.Workspace.legendre_degree
+  pyarts.workspace.Workspace.longitude
+  pyarts.workspace.Workspace.longitude_grid
   pyarts.workspace.Workspace.measurement_averaging_kernel
   pyarts.workspace.Workspace.measurement_gain_matrix
   pyarts.workspace.Workspace.measurement_jacobian
@@ -1419,6 +1581,7 @@ Workspace
   pyarts.workspace.Workspace.model_state_covariance_matrix
   pyarts.workspace.Workspace.model_state_vector
   pyarts.workspace.Workspace.model_state_vector_apriori
+  pyarts.workspace.Workspace.nlte_line_flux_profile
   pyarts.workspace.Workspace.phase_matrix_scattering_spectral
   pyarts.workspace.Workspace.propagation_matrix
   pyarts.workspace.Workspace.propagation_matrix_agenda
@@ -1431,9 +1594,11 @@ Workspace
   pyarts.workspace.Workspace.ray_path
   pyarts.workspace.Workspace.ray_path_absorption_vector_scattering
   pyarts.workspace.Workspace.ray_path_atmospheric_point
+  pyarts.workspace.Workspace.ray_path_field
   pyarts.workspace.Workspace.ray_path_frequency_grid
   pyarts.workspace.Workspace.ray_path_frequency_grid_wind_shift_jacobian
   pyarts.workspace.Workspace.ray_path_observer_agenda
+  pyarts.workspace.Workspace.ray_path_observers
   pyarts.workspace.Workspace.ray_path_phase_matrix_scattering_spectral
   pyarts.workspace.Workspace.ray_path_point
   pyarts.workspace.Workspace.ray_path_propagation_matrix
@@ -1452,9 +1617,11 @@ Workspace
   pyarts.workspace.Workspace.scattering_species
   pyarts.workspace.Workspace.select_species
   pyarts.workspace.Workspace.select_species_list
+  pyarts.workspace.Workspace.spectral_flux_profile
   pyarts.workspace.Workspace.spectral_radiance
   pyarts.workspace.Workspace.spectral_radiance_background
   pyarts.workspace.Workspace.spectral_radiance_background_jacobian
+  pyarts.workspace.Workspace.spectral_radiance_field
   pyarts.workspace.Workspace.spectral_radiance_jacobian
   pyarts.workspace.Workspace.spectral_radiance_observer_agenda
   pyarts.workspace.Workspace.spectral_radiance_observer_line_of_sight
@@ -1468,6 +1635,7 @@ Workspace
   pyarts.workspace.Workspace.suns
   pyarts.workspace.Workspace.surface_field
   pyarts.workspace.Workspace.transmission_matrix_background
+  pyarts.workspace.Workspace.zenith_grid
   pyarts.workspace.Workspace.__eq__
   pyarts.workspace.Workspace.__format__
   pyarts.workspace.Workspace.__ge__

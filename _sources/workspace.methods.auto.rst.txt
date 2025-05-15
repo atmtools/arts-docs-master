@@ -11,6 +11,7 @@
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSaveSplit`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByBand`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSelectFrequencyByLine`
+    * :func:`~pyarts.workspace.Workspace.absorption_bandsSetNonLTE`
     * :func:`~pyarts.workspace.Workspace.absorption_bandsSetZeeman`
     * :func:`~pyarts.workspace.Workspace.absorption_cia_dataAddCIARecord`
     * :func:`~pyarts.workspace.Workspace.absorption_cia_dataReadFromCIA`
@@ -37,20 +38,27 @@
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldAppendPredefSpeciesData`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldAppendTagsSpeciesData`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldAppendXsecSpeciesData`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_fieldFitNonLTE`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldFromModelState`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_fieldFromProfile`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldHydrostaticPressure`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldIGRF`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldInit`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_fieldInitializeNonLTE`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldRead`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldRegrid`
     * :func:`~pyarts.workspace.Workspace.atmospheric_fieldRegridAll`
     * :func:`~pyarts.workspace.Workspace.atmospheric_pointInit`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_profileExtract`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_profileFitNonLTE`
+    * :func:`~pyarts.workspace.Workspace.atmospheric_profileFromGrid`
     * :func:`~pyarts.workspace.Workspace.disort_settings_agendaExecute`
     * :func:`~pyarts.workspace.Workspace.disort_settings_agendaExecuteOperator`
     * :func:`~pyarts.workspace.Workspace.disort_settings_agendaSetOperator`
     * :func:`~pyarts.workspace.Workspace.disort_settings_agendaSetup`
     * :func:`~pyarts.workspace.Workspace.disort_settingsCosmicMicrowaveBackgroundRadiation`
     * :func:`~pyarts.workspace.Workspace.disort_settingsInit`
+    * :func:`~pyarts.workspace.Workspace.disort_settingsLayerNonThermalEmissionLinearInTau`
     * :func:`~pyarts.workspace.Workspace.disort_settingsLayerThermalEmissionLinearInTau`
     * :func:`~pyarts.workspace.Workspace.disort_settingsLegendreCoefficientsFromPath`
     * :func:`~pyarts.workspace.Workspace.disort_settingsNoFractionalScattering`
@@ -77,6 +85,8 @@
     * :func:`~pyarts.workspace.Workspace.ecs_dataAddRodrigues1997`
     * :func:`~pyarts.workspace.Workspace.ecs_dataAddTran2011`
     * :func:`~pyarts.workspace.Workspace.ecs_dataInit`
+    * :func:`~pyarts.workspace.Workspace.flux_profileIntegrate`
+    * :func:`~pyarts.workspace.Workspace.frequency_gridFitNonLTE`
     * :func:`~pyarts.workspace.Workspace.frequency_gridWindShift`
     * :func:`~pyarts.workspace.Workspace.gravity_operatorCentralMass`
     * :func:`~pyarts.workspace.Workspace.Ignore`
@@ -126,6 +136,7 @@
     * :func:`~pyarts.workspace.Workspace.model_state_vectorFromSurface`
     * :func:`~pyarts.workspace.Workspace.model_state_vectorSize`
     * :func:`~pyarts.workspace.Workspace.model_state_vectorZero`
+    * :func:`~pyarts.workspace.Workspace.nlte_line_flux_profileIntegrate`
     * :func:`~pyarts.workspace.Workspace.OEM`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaAuto`
     * :func:`~pyarts.workspace.Workspace.propagation_matrix_agendaExecute`
@@ -154,11 +165,16 @@
     * :func:`~pyarts.workspace.Workspace.propagation_matrixInit`
     * :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointExtendInPressure`
     * :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointFromPath`
+    * :func:`~pyarts.workspace.Workspace.ray_path_atmospheric_pointFromProfile`
+    * :func:`~pyarts.workspace.Workspace.ray_path_fieldFluxProfile`
+    * :func:`~pyarts.workspace.Workspace.ray_path_fieldFromObserverAgenda`
     * :func:`~pyarts.workspace.Workspace.ray_path_frequency_gridFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaExecute`
     * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaExecuteOperator`
-    * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSet`
+    * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSetGeometric`
     * :func:`~pyarts.workspace.Workspace.ray_path_observer_agendaSetOperator`
+    * :func:`~pyarts.workspace.Workspace.ray_path_observersFieldProfilePseudo2D`
+    * :func:`~pyarts.workspace.Workspace.ray_path_observersFluxProfile`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointBackground`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointForeground`
     * :func:`~pyarts.workspace.Workspace.ray_path_pointHighestFromPath`
@@ -175,10 +191,19 @@
     * :func:`~pyarts.workspace.Workspace.ray_path_transmission_matrix_cumulativeFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_transmission_matrixFromPath`
     * :func:`~pyarts.workspace.Workspace.ray_path_zeeman_magnetic_fieldFromPath`
+    * :func:`~pyarts.workspace.Workspace.ray_pathAddGeometricGridCrossings`
+    * :func:`~pyarts.workspace.Workspace.ray_pathAddLimbPoint`
+    * :func:`~pyarts.workspace.Workspace.ray_pathFillGeometricHalfStep`
+    * :func:`~pyarts.workspace.Workspace.ray_pathFillGeometricStepwise`
+    * :func:`~pyarts.workspace.Workspace.ray_pathFixUpdownAzimuth`
     * :func:`~pyarts.workspace.Workspace.ray_pathGeometric`
     * :func:`~pyarts.workspace.Workspace.ray_pathGeometricDownlooking`
-    * :func:`~pyarts.workspace.Workspace.ray_pathGeometricTangentAltitude`
     * :func:`~pyarts.workspace.Workspace.ray_pathGeometricUplooking`
+    * :func:`~pyarts.workspace.Workspace.ray_pathInit`
+    * :func:`~pyarts.workspace.Workspace.ray_pathRemoveNearby`
+    * :func:`~pyarts.workspace.Workspace.ray_pathRemoveNonAtm`
+    * :func:`~pyarts.workspace.Workspace.ray_pathRemoveNonGeometricGridCrossings`
+    * :func:`~pyarts.workspace.Workspace.ray_pathSetGeometricExtremes`
     * :func:`~pyarts.workspace.Workspace.ReadCatalogData`
     * :func:`~pyarts.workspace.Workspace.ReadXML`
     * :func:`~pyarts.workspace.Workspace.ReadXMLIndexed`
@@ -197,9 +222,13 @@
     * :func:`~pyarts.workspace.Workspace.scattering_speciesInit`
     * :func:`~pyarts.workspace.Workspace.select_species_listCollectAbsorption`
     * :func:`~pyarts.workspace.Workspace.sortedIndexOfBands`
+    * :func:`~pyarts.workspace.Workspace.spectral_flux_profileFromPathField`
+    * :func:`~pyarts.workspace.Workspace.spectral_flux_profileFromSpectralRadianceField`
+    * :func:`~pyarts.workspace.Workspace.spectral_flux_profilePseudo2D`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPath`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldFromOperatorPlanarGeometric`
+    * :func:`~pyarts.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianAddPathPropagation`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianAddSensorJacobianPerturbations`
     * :func:`~pyarts.workspace.Workspace.spectral_radiance_jacobianApplyUnit`
@@ -224,7 +253,6 @@
     * :func:`~pyarts.workspace.Workspace.spectral_radianceClearskyEmission`
     * :func:`~pyarts.workspace.Workspace.spectral_radianceClearskyRayleighScattering`
     * :func:`~pyarts.workspace.Workspace.spectral_radianceClearskyTransmission`
-    * :func:`~pyarts.workspace.Workspace.spectral_radianceCumulativeEmission`
     * :func:`~pyarts.workspace.Workspace.spectral_radianceCumulativeTransmission`
     * :func:`~pyarts.workspace.Workspace.spectral_radianceDefaultTransmission`
     * :func:`~pyarts.workspace.Workspace.spectral_radianceIntegrateDisort`
@@ -259,4 +287,5 @@
     * :func:`~pyarts.workspace.Workspace.WriteBuiltinPartitionFunctionsXML`
     * :func:`~pyarts.workspace.Workspace.WriteXML`
     * :func:`~pyarts.workspace.Workspace.WriteXMLIndexed`
+    * :func:`~pyarts.workspace.Workspace.zenith_gridProfilePseudo2D`
 

@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace methods &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Workspace options" href="dev.workspace.options.html" />
+    <link rel="prev" title="Workspace groups" href="dev.workspace.groups.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev.workspace.html">Workspace</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.agendas.html">Workspace agendas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.groups.html">Workspace groups</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Workspace methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-add-a-workspace-method">How to add a workspace method?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defining-a-workspace-method">Defining a workspace method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generated-files">Generated files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-method-naming-convention">Workspace method naming convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-method-documentation">Workspace method documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples-of-defined-workspace-methods">Examples of defined workspace methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.options.html">Workspace options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.variables.html">Workspace variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="dev.workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">Workspace methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.workspace.methods.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="workspace-methods">
+<h1>Workspace methods<a class="headerlink" href="#workspace-methods" title="Link to this heading"></a></h1>
+<p>Workspace methods are the core interaction a user has with ARTS calculations.
+They are called from the <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object in python but are
+implemented in C++ under-the-hood.</p>
+<p>The workspace methods definition are mainly located in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>
+and <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code> files.  Some workspace methods are
+automatically generated elsewhere.</p>
+<p>Workspace methods are exposed to other C++ files via the <code class="docutils literal notranslate"><span class="pre">&lt;workspace.h&gt;</span></code> header file.
+Only the CMake target <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code> and targets that depend on it may include
+<code class="docutils literal notranslate"><span class="pre">&lt;workspace.h&gt;</span></code>.</p>
+<section id="how-to-add-a-workspace-method">
+<h2>How to add a workspace method?<a class="headerlink" href="#how-to-add-a-workspace-method" title="Link to this heading"></a></h2>
+<p>The easiest way to add a workspace method is to copy an existing method.
+Go to the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> or <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code> file, depending on
+if it is a basic or meta-method you wish to add.
+Copy an existing method and modify it to suit your needs.</p>
+<p>Meta-methods are automatically generated and do not require any additional code.
+Basic methods require new code to be compiled as part of the <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code> target.
+Please add this code to an existing <code class="docutils literal notranslate"><span class="pre">m_</span></code>-file or create a new one.
+Please ensure that the new file is listed in the CMake target <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code>.</p>
+</section>
+<section id="defining-a-workspace-method">
+<h2>Defining a workspace method<a class="headerlink" href="#defining-a-workspace-method" title="Link to this heading"></a></h2>
+<p>You may define either a basic method or a meta-method that depends on other methods.
+The easiest way to do so is to copy an existing method and modify it to suit your needs.
+Please design your method input and output to allow meta-methods to be defined,
+as they simplify composability significantly.</p>
+<section id="basic-methods">
+<h3>Basic methods<a class="headerlink" href="#basic-methods" title="Link to this heading"></a></h3>
+<p>Basic methods completely define their input and output and do not explicitly
+depend on other methods.  The method must be manually implemented.</p>
+<p>Basic methods are defined entirely in <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.
+They are part of a map object called <code class="docutils literal notranslate"><span class="pre">wsm_data</span></code>.  The name of the
+method is the key and the value is a struct with the following fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - the author(s) of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a> output of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout</span></code> - the generic output of the method as a list of strings.  These must not be <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout_type</span></code> - the type of the generic output as a list of strings.  These must be <a class="reference internal" href="dev.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gout_desc</span></code> - the description of the generic output as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">in</span></code> - the <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a> input of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin</span></code> - the generic input of the method as a list of strings.  These must not be <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_type</span></code> - the type of the generic input as a list of strings.  These must be <a class="reference internal" href="dev.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_value</span></code> - the default value of the generic input as an optional initialized <a class="reference internal" href="dev.workspace.groups.html"><span class="doc">Workspace groups</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> - the description of the generic input as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> - a boolean indicating if a <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> instance should be passed to the method.  If true, the first argument to the method is a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">Workspace&amp;</span></code>.</p></li>
+</ul>
+<p>The expected signature of the method will depend on these fields.
+A linker error will likely occur if the actual signature does not match
+the expected signature.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> may contain the same <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>.  If they do, the variable must be
+initialized before the method is called because it is treated as if the method is intended to
+simply modify the existing value.  Please indicate strongly in the documentation if you sometimes overwrite the input variable.</p>
+<p>On the other hand, if the <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a> is only in <code class="docutils literal notranslate"><span class="pre">out</span></code> and not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
+it is treated as if the workspace variable is created by the method.  Note that since the type system
+does not account for this, it is important that you clear the current state of the <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>
+in a method that is intended to create a new workspace variable.</p>
+<p>The fields <code class="docutils literal notranslate"><span class="pre">gin</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_type</span></code>, <code class="docutils literal notranslate"><span class="pre">gin_value</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin_desc</span></code> must be the same size.
+The same is true for <code class="docutils literal notranslate"><span class="pre">gout</span></code>, <code class="docutils literal notranslate"><span class="pre">gout_type</span></code>, and <code class="docutils literal notranslate"><span class="pre">gout_desc</span></code>.  These are user-generated
+inputs and outputs, and are often used to pass information pertinent to the method itself
+but not to the workspace as a whole.</p>
+<p>Please check other workspace methods for examples by comparing their actual signature
+to the expected signature to figure out how the fields should be filled in.  Also check
+that the documentation is generated as intended by building the <code class="docutils literal notranslate"><span class="pre">pyarts_docs</span></code> target.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>All fields but <code class="docutils literal notranslate"><span class="pre">desc</span></code> and <code class="docutils literal notranslate"><span class="pre">author</span></code> are optional.  If a field is not needed, it
+is convenient to leave it out.</p>
+</div>
+</section>
+<section id="meta-methods">
+<h3>Meta-methods<a class="headerlink" href="#meta-methods" title="Link to this heading"></a></h3>
+<p>Meta-methods do not define all their input and output, but instead define a call
+order into other methods.  From this call order, the inputs of the user-facing
+workspace method is inferred.  This method should not be implemented manually.</p>
+<p>These methods are defined in <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code>.  They are defined
+as part of a list called <code class="docutils literal notranslate"><span class="pre">wsm_meta</span></code>.
+A single meta-method data contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> - the name of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the method as a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - the author(s) of the method as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">methods</span></code> - the methods that the meta-method depends on as a list of strings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out</span></code> - the output of the method as a list of strings.  These must be workspace variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preset_gin</span></code> - The preset <code class="docutils literal notranslate"><span class="pre">gin</span></code> values for the method as a list of workspace values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preset_gin_value</span></code> - The preset <code class="docutils literal notranslate"><span class="pre">gin_value</span></code> values for the method as a list of workspace values.</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>A meta-method may depend on another meta-method.  If it does, it is important that the
+meta-method it depends on is defined before it in the list.</p>
+</div>
+</section>
+<section id="automatic-methods">
+<h3>Automatic methods<a class="headerlink" href="#automatic-methods" title="Link to this heading"></a></h3>
+<p>All methods that execute a workspace agenda are automatically generated.
+These will be named as <code class="docutils literal notranslate"><span class="pre">agenda_nameExecute</span></code> and may otherwise be
+treated as normal workspace method.
+You need to do nothing to define these methods.  But please refrain from defining
+them manually as that may cause undefined naming conflicts.</p>
+<p>The expected signature of the method <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a> is also
+generated automatically near the end of <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.  It takes
+its input and output from a list of other methods.  Feel free to add to this
+list but make sure that any naming conflicts regarding <code class="docutils literal notranslate"><span class="pre">gin</span></code> are resolved
+before doing so.  Adding a method to this list may also require changing the
+actual signature (which is why the method is generated, so that a change in
+the required actual signature is immediately made apparent).</p>
+<p>The methods that begin with <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> are partly generated.
+These methods all require a corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method
+that fills in the <code class="docutils literal notranslate"><span class="pre">jacobian_targets</span></code> workspace variable.  To keep that
+part of the signature consistent, the additional <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> information
+is simply appended to the <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">out</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin</span></code>-lists of the
+corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method using the local <code class="docutils literal notranslate"><span class="pre">jac2ret</span></code> lambda.</p>
+</section>
+</section>
+<section id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Link to this heading"></a></h2>
+<p>The workspace method interface generates a lot of files during the build process.
+These generated files are located in the build directory and are named
+as <code class="docutils literal notranslate"><span class="pre">auto_wsm_N.cc</span></code>, where N is a number, as <code class="docutils literal notranslate"><span class="pre">auto_wsm.cpp</span></code>, as <code class="docutils literal notranslate"><span class="pre">auto_wsm.h</span></code>,
+and as <code class="docutils literal notranslate"><span class="pre">auto_wsmmeta.cpp</span></code> for the C++ interfacing code.  The python-binding
+code is also generated as <code class="docutils literal notranslate"><span class="pre">py_auto_wsm_N.cpp</span></code>, where N is still a number.</p>
+</section>
+<section id="workspace-method-naming-convention">
+<h2>Workspace method naming convention<a class="headerlink" href="#workspace-method-naming-convention" title="Link to this heading"></a></h2>
+<p>Names carry meaning.  Please follow the naming convention below, and
+please do not hesitate to fix any naming inconsistencies you find.</p>
+<section id="method-naming">
+<h3>Method naming<a class="headerlink" href="#method-naming" title="Link to this heading"></a></h3>
+<p>Workspace method names should be descriptive and follow the naming convention
+that the main workspace variable output of the method in <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>
+is followed by a short but descriptive name of what the method does with the output
+in <code class="docutils literal notranslate"><span class="pre">PascalCase</span></code>.
+A general rule of thumb is to use verbs for methods that modify the workspace
+variable and nouns for methods that create a new workspace variable.</p>
+<p>For example, <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html#pyarts.workspace.Workspace.propagation_matrixAddLines" title="pyarts.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a>
+has a main output of <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> and
+adds line absorption to it.  It needs to be preceded by a call to
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixInit.html#pyarts.workspace.Workspace.propagation_matrixInit" title="pyarts.workspace.Workspace.propagation_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixInit()</span></code></a> which sets up the
+propagation matrix to an initial state.</p>
+<p>Of course, every use-case is different, but please try to follow this convention.</p>
+</section>
+<section id="file-naming">
+<h3>File naming<a class="headerlink" href="#file-naming" title="Link to this heading"></a></h3>
+<p>The file that a workspace method is implemented in should be named <code class="docutils literal notranslate"><span class="pre">m_&lt;concept&gt;.cc</span></code>.
+The concept should be a short but descriptive name of what the methods therein do.
+Multiple methods per file is allowed and encouraged, but keep them conceptually similar.
+To ensure compatibility with various file systems, please avoid using spaces
+and capital letters in the filename.</p>
+<p>Lastly, please ensure that the file is listed in the CMake target <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code>,
+or it will not be compiled.</p>
+</section>
+</section>
+<section id="workspace-method-documentation">
+<h2>Workspace method documentation<a class="headerlink" href="#workspace-method-documentation" title="Link to this heading"></a></h2>
+<p>Workspace documentation that contains <code class="docutils literal notranslate"><span class="pre">*text*</span></code> is automatically turned into links
+to the relevant ARTS-related variable or method.  Please use this feature to link
+between workspace methods and variables.</p>
+<p>If a method require extra information beyond what you can fit in the <code class="docutils literal notranslate"><span class="pre">desc</span></code> field,
+there’s a <code class="docutils literal notranslate"><span class="pre">workspace_method_extra_doc.cpp</span></code> file that you can add to.  This file
+has access to the full workspace as part of the <code class="docutils literal notranslate"><span class="pre">artsworkspace</span></code> target and the
+python documentation adds a separate subsection for the information in this file (documentation level <code class="docutils literal notranslate"><span class="pre">-------</span></code>).</p>
+</section>
+<section id="examples-of-defined-workspace-methods">
+<h2>Examples of defined workspace methods<a class="headerlink" href="#examples-of-defined-workspace-methods" title="Link to this heading"></a></h2>
+<p>The following examples are taken from the ARTS source code.  Please check the
+source code for the full context of the examples.</p>
+<section id="method-creating-a-workspace-variable">
+<h3>Method creating a workspace variable<a class="headerlink" href="#method-creating-a-workspace-variable" title="Link to this heading"></a></h3>
+<p>The following is a basic
+method that creates or set a workspace variable.</p>
+<p>This is the extration of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;ray_pathGeometricUplooking&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Wraps *ray_pathGeometric* for straight uplooking paths from the surface altitude at the position</span>
+<span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;ray_path&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;surface_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;max_step&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Numeric&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Numeric</span><span class="p">{</span><span class="mf">1e3</span><span class="p">}},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_desc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;The maximum step length&quot;</span><span class="p">},</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The signature of the method is:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">ray_pathGeometricUplooking</span><span class="p">(</span><span class="n">ArrayOfPropagationPathPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ray_path</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_field</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surface_field</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">longitude</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">max_step</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
+<p>The first argument of the method is a reference to <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>.
+Since <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> is in <code class="docutils literal notranslate"><span class="pre">out</span></code> but not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
+it is expected that the method overwrite any existing value of <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>.</p>
+<p>The arguments <a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_field.html#pyarts.workspace.Workspace.atmospheric_field" title="pyarts.workspace.Workspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a>, <a class="reference internal" href="pyarts.workspace.Workspace.surface_field.html#pyarts.workspace.Workspace.surface_field" title="pyarts.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.latitude.html#pyarts.workspace.Workspace.latitude" title="pyarts.workspace.Workspace.latitude"><code class="xref py py-attr docutils literal notranslate"><span class="pre">latitude</span></code></a>, and <a class="reference internal" href="pyarts.workspace.Workspace.longitude.html#pyarts.workspace.Workspace.longitude" title="pyarts.workspace.Workspace.longitude"><code class="xref py py-attr docutils literal notranslate"><span class="pre">longitude</span></code></a>
+are defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method as immutable references to the respective
+workspace variables.</p>
+<p>Lastly, the argument <code class="docutils literal notranslate"><span class="pre">max_step</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">gin</span></code> and is passed
+as an immutable reference as well.  The type of the argument is <code class="docutils literal notranslate"><span class="pre">Numeric</span></code>
+and the default value is <code class="docutils literal notranslate"><span class="pre">1e3</span></code>.  The default value is passed to the method
+if the user does not provide a value for <code class="docutils literal notranslate"><span class="pre">max_step</span></code>.</p>
+<p>All other fields are there to provide context and to generate the documentation.
+See <a class="reference internal" href="pyarts.workspace.Workspace.ray_pathGeometricUplooking.html#pyarts.workspace.Workspace.ray_pathGeometricUplooking" title="pyarts.workspace.Workspace.ray_pathGeometricUplooking"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ray_pathGeometricUplooking()</span></code></a> for the full documentation.</p>
+</section>
+<section id="method-modifying-a-workspace-variable">
+<h3>Method modifying a workspace variable<a class="headerlink" href="#method-modifying-a-workspace-variable" title="Link to this heading"></a></h3>
+<p>The following is a basic workspace method that modifies existing workspace variables.</p>
+<p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;propagation_matrixAddLines&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Line-by-line calculations.</span>
+<span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;propagation_matrix&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_jacobian&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte_jacobian&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;propagation_matrix&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_jacobian&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte_jacobian&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;frequency_grid&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;jacobian_targets&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;select_species&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;absorption_bands&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;ecs_data&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;atmospheric_point&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;ray_path_point&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;no_negative_absorption&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Index&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Index</span><span class="p">{</span><span class="mi">1</span><span class="p">}},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gin_desc</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="p">{</span><span class="s">&quot;Turn off to allow individual absorbers to have negative absorption&quot;</span><span class="p">},</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The signature of the method is:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">propagation_matrixAddLines</span><span class="p">(</span><span class="n">PropmatVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">StokvecVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_source_vector_nonlte</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">PropmatMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_jacobian</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">StokvecMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_source_vector_nonlte_jacobian</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AscendingGrid</span><span class="o">&amp;</span><span class="w"> </span><span class="n">frequency_grid</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jacobian_targets</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">SpeciesEnum</span><span class="o">&amp;</span><span class="w"> </span><span class="n">select_species</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AbsorptionBands</span><span class="o">&amp;</span><span class="w"> </span><span class="n">absorption_bands</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">LinemixingEcsData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ecs_data</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AtmPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_point</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">PropagationPathPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ray_path_point</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Index</span><span class="o">&amp;</span><span class="w"> </span><span class="n">no_negative_absorption</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
+<p>The first four arguments of the method are references to
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a>.
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_jacobian</span></code></a>, and
+<a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian.html#pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian" title="pyarts.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte_jacobian</span></code></a>
+are both output (<code class="docutils literal notranslate"><span class="pre">out</span></code>) and input (<code class="docutils literal notranslate"><span class="pre">in</span></code>).  The method is expected to modify the existing values
+of these workspace variables instead of creating new ones.</p>
+<p>The arguments
+<a class="reference internal" href="pyarts.workspace.Workspace.frequency_grid.html#pyarts.workspace.Workspace.frequency_grid" title="pyarts.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.select_species.html#pyarts.workspace.Workspace.select_species" title="pyarts.workspace.Workspace.select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select_species</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.absorption_bands.html#pyarts.workspace.Workspace.absorption_bands" title="pyarts.workspace.Workspace.absorption_bands"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_bands</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.ecs_data.html#pyarts.workspace.Workspace.ecs_data" title="pyarts.workspace.Workspace.ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ecs_data</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_point.html#pyarts.workspace.Workspace.atmospheric_point" title="pyarts.workspace.Workspace.atmospheric_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_point</span></code></a>, and
+<a class="reference internal" href="pyarts.workspace.Workspace.ray_path_point.html#pyarts.workspace.Workspace.ray_path_point" title="pyarts.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> are just defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method
+as immutable references to the respective workspace variables.</p>
+<p>Lastly, the argument <code class="docutils literal notranslate"><span class="pre">no_negative_absorption</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">gin</span></code> and is passed
+as an immutable reference as well.  The type of the argument is <code class="docutils literal notranslate"><span class="pre">Index</span></code>
+and the default value is <code class="docutils literal notranslate"><span class="pre">1</span></code>.  The default value is passed to the method
+if the user does not provide a value for <code class="docutils literal notranslate"><span class="pre">no_negative_absorption</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">no_negative_absorption</span></code> argument is used to turn off the check for negative absorption,
+which is useful for debugging purposes.</p>
+<p>The other fields are there to provide context and to generate the documentation.
+See <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrixAddLines.html#pyarts.workspace.Workspace.propagation_matrixAddLines" title="pyarts.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a> for the full documentation.</p>
+</section>
+<section id="method-that-uses-a-workspace-agenda">
+<h3>Method that uses a workspace agenda<a class="headerlink" href="#method-that-uses-a-workspace-agenda" title="Link to this heading"></a></h3>
+<p>The following is a basic workspace method that creates workspace variables.</p>
+<p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;measurement_vectorFromSensor&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">.</span><span class="n">desc</span><span class="w"> </span><span class="o">=</span>
+<span class="w">          </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Sets measurement vector by looping over all sensor elements</span>
+
+<span class="s">The core calculations happens inside the *spectral_radiance_observer_agenda*.</span>
+
+<span class="s">User choices of *spectral_radiance_unit* does not adversely affect this method</span>
+<span class="s">unless the *measurement_vector* or *measurement_jacobian* are further modified</span>
+<span class="s">before consumption by, e.g., *OEM*</span>
+<span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="p">.</span><span class="n">author</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">.</span><span class="n">out</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;measurement_vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;measurement_jacobian&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">.</span><span class="n">in</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;measurement_sensor&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;jacobian_targets&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;surface_field&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;spectral_radiance_unit&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;spectral_radiance_observer_agenda&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">.</span><span class="n">pass_workspace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">  </span><span class="p">};</span>
+</pre></div>
+</div>
+<p>The signature of the method is:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">measurement_vectorFromSensor</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Workspace</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ws</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">Vector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_vector</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">Matrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_jacobian</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">ArrayOfSensorObsel</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_sensor</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jacobian_targets</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_field</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surface_field</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">SpectralRadianceUnitType</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_radiance_unit</span><span class="p">,</span>
+<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">Agenda</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_radiance_observer_agenda</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
+<p>The first argument of the method is a reference to the workspace object itself.
+This is passed as a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">Workspace&amp;</span></code> reference to the method.  It is passed
+to the method because <code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in the method definition.
+Note that the workspace object is passed as a <code class="docutils literal notranslate"><span class="pre">const</span></code> reference, so it cannot be modified.</p>
+<p>The coming two arguments of the method are references to
+<a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector.html#pyarts.workspace.Workspace.measurement_vector" title="pyarts.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a> and
+<a class="reference internal" href="pyarts.workspace.Workspace.measurement_jacobian.html#pyarts.workspace.Workspace.measurement_jacobian" title="pyarts.workspace.Workspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a>.
+Since <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vector.html#pyarts.workspace.Workspace.measurement_vector" title="pyarts.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a> and
+<a class="reference internal" href="pyarts.workspace.Workspace.measurement_jacobian.html#pyarts.workspace.Workspace.measurement_jacobian" title="pyarts.workspace.Workspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a> are in <code class="docutils literal notranslate"><span class="pre">out</span></code> but not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
+it is expected that the method overwrite any existing values they might hold.</p>
+<p>The arguments <a class="reference internal" href="pyarts.workspace.Workspace.measurement_sensor.html#pyarts.workspace.Workspace.measurement_sensor" title="pyarts.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.jacobian_targets.html#pyarts.workspace.Workspace.jacobian_targets" title="pyarts.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_field.html#pyarts.workspace.Workspace.atmospheric_field" title="pyarts.workspace.Workspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.surface_field.html#pyarts.workspace.Workspace.surface_field" title="pyarts.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a>,
+<a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_unit.html#pyarts.workspace.Workspace.spectral_radiance_unit" title="pyarts.workspace.Workspace.spectral_radiance_unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code></a>, and
+<a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_observer_agenda.html#pyarts.workspace.Workspace.spectral_radiance_observer_agenda" title="pyarts.workspace.Workspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a>
+are defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method
+as immutable references to the respective workspace variables.</p>
+<p>The other fields are there to provide context and to generate the documentation.
+See <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromSensor.html#pyarts.workspace.Workspace.measurement_vectorFromSensor" title="pyarts.workspace.Workspace.measurement_vectorFromSensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measurement_vectorFromSensor()</span></code></a> for the full documentation.</p>
+</section>
+<section id="meta-method-output-with-workspace-variables">
+<h3>Meta-method output with workspace variables<a class="headerlink" href="#meta-method-output-with-workspace-variables" title="Link to this heading"></a></h3>
+<p>The following is a meta-method that creates workspace variables.</p>
+<p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code> file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_meta</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">WorkspaceMethodInternalMetaRecord</span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;atmospheric_fieldRead&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reads absorption file from a directory&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">methods</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_fieldInit&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;atmospheric_fieldAppendBaseData&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;atmospheric_fieldAppendAbsorptionData&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">preset_gin</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;replace_existing&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">preset_gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Index</span><span class="p">{</span><span class="mi">0</span><span class="p">}},</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>The signature of the generated meta-method is
+not important because it is generated automatically.</p>
+<p>Calling the above method is effectively the same as calling
+the listed methods one after the other and then deleting all method output
+that is not in <code class="docutils literal notranslate"><span class="pre">out</span></code>.
+In other words, even if a sub-method has an output that is not in <code class="docutils literal notranslate"><span class="pre">out</span></code>,
+it will not be passed to the user.</p>
+<p>The call order and documentation of
+See <a class="reference internal" href="pyarts.workspace.Workspace.atmospheric_fieldRead.html#pyarts.workspace.Workspace.atmospheric_fieldRead" title="pyarts.workspace.Workspace.atmospheric_fieldRead"><code class="xref py py-meth docutils literal notranslate"><span class="pre">atmospheric_fieldRead()</span></code></a>
+makes it possible to follow the call order.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.workspace.groups.html" class="btn btn-neutral float-left" title="Workspace groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.workspace.options.html" class="btn btn-neutral float-right" title="Workspace options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

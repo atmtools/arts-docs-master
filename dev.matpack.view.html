@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multidimensional views &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interpolation in ARTS" href="dev.matpack.interpolation.html" />
+    <link rel="prev" title="Multidimensional data" href="dev.matpack.data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev.matpack.html">Matpack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.Sparse.html">Sparse matrices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.data.html">Multidimensional data</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Multidimensional views</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#member-methods">Member methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accessing-data-operator">Accessing data - <code class="docutils literal notranslate"><span class="pre">operator[]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relevant-files">Relevant files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.interpolation.html">Interpolation in ARTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.sorted_grid.html">Sorted grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.gridded_data.html">Gridded data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.band_matrix.html">Band matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="dev.matpack.html">Matpack</a></li>
+      <li class="breadcrumb-item active">Multidimensional views</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.matpack.view.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multidimensional-views">
+<h1>Multidimensional views<a class="headerlink" href="#multidimensional-views" title="Link to this heading"></a></h1>
+<p>There are two view classes in Matpack: <code class="docutils literal notranslate"><span class="pre">view_t</span></code> and <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.
+The former is for contiguous data, while the latter is for strided data as the name implies.
+From a performance perspective, contiguous data is generally faster to access than strided data - often by a significant margin.</p>
+<p>A view is either created as part of one of the <a class="reference internal" href="dev.matpack.data.html"><span class="doc">Multidimensional data</span></a> classes or by accessing a subarray of an existing view.
+Accessing a subarray in a contiguous manner will create a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>, while accessing a subarray in a strided manner will create a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.</p>
+<p>Both classes are implemented in the <code class="docutils literal notranslate"><span class="pre">matpack</span></code> namespace.  They are template classes that
+define their rank and a <code class="docutils literal notranslate"><span class="pre">const</span></code>-qualified data type.
+They are implemented with public inheritance from <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code>.  <code class="docutils literal notranslate"><span class="pre">view_t</span></code> inherits from a <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code> with
+<code class="docutils literal notranslate"><span class="pre">std::layout_right</span></code> layout, while <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> inherits from a <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code> with
+<code class="docutils literal notranslate"><span class="pre">std::layout_stride</span></code> layout.  Both are defined to have dynamic extents in all dimensions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is very important that you follow the <code class="docutils literal notranslate"><span class="pre">const</span></code>-qualification of the data type in all
+methods and functions that manually create views.  This is followed by the <code class="docutils literal notranslate"><span class="pre">matpack</span></code> classes
+internally, but if you work around this you can easily create bugs that are hard to find.</p>
+<p>Do not manually call the constructors of <code class="docutils literal notranslate"><span class="pre">view_t</span></code> or <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> with data pointers or
+custom <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code> without confirming that you are following the <code class="docutils literal notranslate"><span class="pre">const</span></code>-qualification.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">view_t</span></code> and <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> classes are not available via the python interface.</p>
+<section id="member-methods">
+<h2>Member methods<a class="headerlink" href="#member-methods" title="Link to this heading"></a></h2>
+<p>The list below is all the methods available for both <code class="docutils literal notranslate"><span class="pre">view_t</span></code> and <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.
+The examples will assume a <code class="docutils literal notranslate"><span class="pre">4x5</span></code> matrix of <code class="docutils literal notranslate"><span class="pre">view_t&lt;Complex,</span> <span class="pre">2&gt;</span></code>, a complex matrix, called <code class="docutils literal notranslate"><span class="pre">mat</span></code> and <code class="docutils literal notranslate"><span class="pre">mat2</span></code>.</p>
+<p>These are the common member methods for both classes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code> - the total number of elements in the view.  Example: <code class="docutils literal notranslate"><span class="pre">mat.size()</span> <span class="pre">==</span> <span class="pre">20</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shape</span></code> - the shape of the view. Example: <code class="docutils literal notranslate"><span class="pre">mat.shape()</span> <span class="pre">==</span> <span class="pre">{4,</span> <span class="pre">5}</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extent(i)</span></code> - the extent of the view in dimension <code class="docutils literal notranslate"><span class="pre">i</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">mat.extent(0)</span> <span class="pre">==</span> <span class="pre">5</span></code>, <code class="docutils literal notranslate"><span class="pre">mat.extent(1)</span> <span class="pre">==</span> <span class="pre">4</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stride(i)</span></code> - the stride of the view in dimension <code class="docutils literal notranslate"><span class="pre">i</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">mat.stride(0)</span> <span class="pre">==</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">mat.stride(1)</span> <span class="pre">==</span> <span class="pre">5</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator[]</span></code> - access elements or sub-views of the view.  Examples:
+- <code class="docutils literal notranslate"><span class="pre">mat[3,</span> <span class="pre">4]</span></code> accesses the complex element in row 3 and column 4.
+- <code class="docutils literal notranslate"><span class="pre">mat[3]</span></code> accesses the 4th row of the matrix, returning a <code class="docutils literal notranslate"><span class="pre">view_t</span></code> of size 5.
+- <code class="docutils literal notranslate"><span class="pre">mat[joker,</span> <span class="pre">4]</span></code> accesses the 5th column of the matrix, returning it as a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> of size 4.
+- <code class="docutils literal notranslate"><span class="pre">mat[3,</span> <span class="pre">StridedRange(0,</span> <span class="pre">2,</span> <span class="pre">2)]</span></code> accesses the 1st and 3rd elements of the 4th row of the matrix, returning it as a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> of size 2.
+- <code class="docutils literal notranslate"><span class="pre">mat[3,</span> <span class="pre">Range(0,</span> <span class="pre">2)]</span></code> accesses the 1st and 2nd elements of the 4th row of the matrix, returning it as a <code class="docutils literal notranslate"><span class="pre">view_t</span></code> of size 2.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">begin</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code>.  These are iterators that can be used in range-based for loops.  They allow iterations over the inner view.
+Example: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(auto&amp;</span> <span class="pre">vecview</span> <span class="pre">:</span> <span class="pre">mat)</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>, will have <code class="docutils literal notranslate"><span class="pre">vecview</span></code> be a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>.  This is equivalent to orderly access to <code class="docutils literal notranslate"><span class="pre">mat[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">mat[1]</span></code>, <code class="docutils literal notranslate"><span class="pre">mat[2]</span></code>, then <code class="docutils literal notranslate"><span class="pre">mat[3]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elem_begin</span></code> and <code class="docutils literal notranslate"><span class="pre">elem_end</span></code>.  There are element-wise iterators.  Combined with <code class="docutils literal notranslate"><span class="pre">elemwise_range</span></code>, they allow iteration of the data in the view element-by-element.
+Example: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(auto&amp;</span> <span class="pre">elem</span> <span class="pre">:</span> <span class="pre">elemwise_range(mat))</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code> will iterate over all elements in the matrix.  This is equivalent to orderly access to <code class="docutils literal notranslate"><span class="pre">mat[0,</span> <span class="pre">0]</span></code>, <code class="docutils literal notranslate"><span class="pre">mat[0,</span> <span class="pre">1]</span></code>, …, <code class="docutils literal notranslate"><span class="pre">mat[3,</span> <span class="pre">4]</span></code>.
+This type of access is much more efficient for <code class="docutils literal notranslate"><span class="pre">view_t</span></code> than for <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elem_at(i)</span></code>.  Helper method to access the element at index <code class="docutils literal notranslate"><span class="pre">i</span></code>.  This is equivalent to <code class="docutils literal notranslate"><span class="pre">*(elem_begin()</span> <span class="pre">+</span> <span class="pre">i)</span></code>, but for <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>, the implementation is the other way around (<code class="docutils literal notranslate"><span class="pre">elem_begin</span></code> is implemented as a function of <code class="docutils literal notranslate"><span class="pre">elem_at</span></code>).
+Example: <code class="docutils literal notranslate"><span class="pre">mat.elem_at(0)</span> <span class="pre">==</span> <span class="pre">mat[0,</span> <span class="pre">0]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator=</span></code> - copy the data from another view, or set all elements to a single value.  Examples:
+- <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">=</span> <span class="pre">0.0</span></code> will set all elements to zero.
+- <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">=</span> <span class="pre">mat2</span></code> will copy all elements from <code class="docutils literal notranslate"><span class="pre">mat2</span></code> to <code class="docutils literal notranslate"><span class="pre">mat</span></code>.  The two views must have the same shape.
+The available right-hand side argument types are:
+- Same type as the <code class="docutils literal notranslate"><span class="pre">*this</span></code> value.  Will just copy the data (unless <code class="docutils literal notranslate"><span class="pre">&amp;RHS==&amp;LHS</span></code>).  Must have the same shape.
+- <code class="docutils literal notranslate"><span class="pre">CONSTANT</span></code> of the same date type as that of the view.  Will set all elements to this value.
+- Any other <code class="docutils literal notranslate"><span class="pre">data_t</span></code>, <code class="docutils literal notranslate"><span class="pre">cdata_t</span></code>, <code class="docutils literal notranslate"><span class="pre">view_t</span></code>, or <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> of the same rank whose data type is convertible to the data type of the view.  Will copy the data.  Must have the same shape.
+- Any data type we can access via the helper methods <code class="docutils literal notranslate"><span class="pre">mdshape</span></code> and <code class="docutils literal notranslate"><span class="pre">mdvalue</span></code>.  These are meta-functions that help access things like the Eigen matrix library types.  Will copy the data.  Must have the same shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">+=</span></code>, <code class="docutils literal notranslate"><span class="pre">-=</span></code>, <code class="docutils literal notranslate"><span class="pre">*=</span></code>, and <code class="docutils literal notranslate"><span class="pre">/=</span></code>.  Will perform element-wise addition, subtraction, multiplication, and division, respectively.  The right-hand side must either have the same shape or be a constant.  Examples:  <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">+=</span> <span class="pre">1.0</span></code>, <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">-=</span> <span class="pre">mat2</span></code>, <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">*=</span> <span class="pre">2.0</span></code>, <code class="docutils literal notranslate"><span class="pre">mat</span> <span class="pre">/=</span> <span class="pre">mat2</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">real</span></code> and <code class="docutils literal notranslate"><span class="pre">imag</span></code>.  Returns a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> of only the real and imaginary values of a view to a complex data type.  Example: <code class="docutils literal notranslate"><span class="pre">mat.real()</span></code> will return a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> of the real values of <code class="docutils literal notranslate"><span class="pre">mat</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ncols</span></code>, <code class="docutils literal notranslate"><span class="pre">nrows</span></code>, <code class="docutils literal notranslate"><span class="pre">npages</span></code>, <code class="docutils literal notranslate"><span class="pre">nbooks</span></code>, <code class="docutils literal notranslate"><span class="pre">nshelves</span></code>, <code class="docutils literal notranslate"><span class="pre">nvitrines</span></code>, and <code class="docutils literal notranslate"><span class="pre">nlibraries</span></code>.
+These are helper methods to access the shape of the view in the right-most 7 dimensions.  Ensure you do not call these on too low-rank views.  Example: <code class="docutils literal notranslate"><span class="pre">mat.nrows()</span> <span class="pre">==</span> <span class="pre">4</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">front</span></code> and <code class="docutils literal notranslate"><span class="pre">back</span></code>.  These are helper methods to access the first and last element of the view.  Example: <code class="docutils literal notranslate"><span class="pre">mat.front()</span> <span class="pre">==</span> <span class="pre">mat[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">mat.back()</span> <span class="pre">==</span> <span class="pre">mat[3]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base_set</span></code>.  This overwrites the view with another view.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base_md</span></code>.  This returns the base <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code> of the view.  Useful for interfacing with libraries that use <code class="docutils literal notranslate"><span class="pre">std::mdspan</span></code>.</p></li>
+</ul>
+<p>These methods are only available for <code class="docutils literal notranslate"><span class="pre">view_t</span></code> but are not available for <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">view_as</span></code> - view the data as if it had a different shape.  The size must remain constant.  Example: <code class="docutils literal notranslate"><span class="pre">mat.view_as(2,</span> <span class="pre">2,</span> <span class="pre">5)</span></code> will produce a <code class="docutils literal notranslate"><span class="pre">view_t&lt;Complex,</span> <span class="pre">3&gt;</span></code> of shape <code class="docutils literal notranslate"><span class="pre">2x2x5</span></code>.</p></li>
+</ul>
+</section>
+<section id="accessing-data-operator">
+<h2>Accessing data - <code class="docutils literal notranslate"><span class="pre">operator[]</span></code><a class="headerlink" href="#accessing-data-operator" title="Link to this heading"></a></h2>
+<p>The access operator - <code class="docutils literal notranslate"><span class="pre">operator[]</span></code> - is a template that accepts any integer, <code class="docutils literal notranslate"><span class="pre">Joker</span></code>, <code class="docutils literal notranslate"><span class="pre">Range</span></code>, or <code class="docutils literal notranslate"><span class="pre">StridedRange</span></code> as its arguments.
+They work as follows:</p>
+<ul class="simple">
+<li><p>Integers are used to access a single element or dimension in the view.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Joker</span></code> is used to access a whole dimension.  A value of the type <code class="docutils literal notranslate"><span class="pre">Joker</span></code> available all through ARTS is <code class="docutils literal notranslate"><span class="pre">joker</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Range</span></code> is used to access a range of elements in a dimension.  It has a constant stride of 1 to allow for contiguous access even in the view it produces.  It has two arguments: the start index of the new view and the number of elements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StridedRange</span></code> is used to access a range of elements in a dimension with a custom stride.  It has three arguments: the start index of the new view, the number of elements, and the stride.</p></li>
+</ul>
+<p>Calling the access operator on a <code class="docutils literal notranslate"><span class="pre">view_t</span></code> will produce either a reference to the internal element, a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>, or a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.
+Calling the access operator on a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> will produce either a reference to the internal element or another <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.
+The type of the produced view depends on the type of the arguments to the access operator.  All integers will produce a reference to the internal element.
+For a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>, there are two access patterns that produces a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>, both which requires that the right-most access arguments are of type <code class="docutils literal notranslate"><span class="pre">Joker</span></code>.
+These are:
+- All the left-most access arguments are integers.
+- All the left-most access arguments are first integers and then followed by a single <code class="docutils literal notranslate"><span class="pre">Range</span></code> argument.
+Any other combination will produce a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>.  And there is no safe way to go back to a <code class="docutils literal notranslate"><span class="pre">view_t</span></code> from a <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code>,
+even if you later access your new <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> in a manner that would normally produce a <code class="docutils literal notranslate"><span class="pre">view_t</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Omitting dangling <code class="docutils literal notranslate"><span class="pre">joker</span></code> is perfectly fine.  The access operator will automatically fill in
+all missing right-most arguments with <code class="docutils literal notranslate"><span class="pre">joker</span></code>.  This is especially useful when you want to access,
+for instance, a matrix view from a tensor view of rank 3 or higher.</p>
+</div>
+</section>
+<section id="relevant-files">
+<h2>Relevant files<a class="headerlink" href="#relevant-files" title="Link to this heading"></a></h2>
+<p>The relevant files for the data holding core matpack types are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">matpack/matpack_mdspan_view_t.h</span></code> - the <code class="docutils literal notranslate"><span class="pre">view_t</span></code> class.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matpack/matpack_mdspan_strided_view_t.h</span></code> - the <code class="docutils literal notranslate"><span class="pre">strided_view_t</span></code> class.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.matpack.data.html" class="btn btn-neutral float-left" title="Multidimensional data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.matpack.interpolation.html" class="btn btn-neutral float-right" title="Interpolation in ARTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

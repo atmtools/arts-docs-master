@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gridded data &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Band matrices" href="dev.matpack.band_matrix.html" />
+    <link rel="prev" title="Sorted grids" href="dev.matpack.sorted_grid.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev.matpack.html">Matpack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.Sparse.html">Sparse matrices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.data.html">Multidimensional data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.view.html">Multidimensional views</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.interpolation.html">Interpolation in ARTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.sorted_grid.html">Sorted grids</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Gridded data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#member-methods">Member methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interpolation">Interpolation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relevant-files">Relevant files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dev.matpack.band_matrix.html">Band matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="dev.matpack.html">Matpack</a></li>
+      <li class="breadcrumb-item active">Gridded data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.matpack.gridded_data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gridded-data">
+<h1>Gridded data<a class="headerlink" href="#gridded-data" title="Link to this heading"></a></h1>
+<p>A gridded data object is a multidimensional array of data, where each of the dimensions have a grid associated with them.
+The grid is a one-dimensional array of values that represent the coordinates of the data in that dimension.</p>
+<p>It is defined in the <code class="docutils literal notranslate"><span class="pre">matpack</span></code> namespace as a template class called <code class="docutils literal notranslate"><span class="pre">gridded_data_t</span></code>.
+The template parameters are the data type and the type of each grid.</p>
+<p>For instance, a 3D gridded field of numeric data with unsorted grids is defined as: <code class="docutils literal notranslate"><span class="pre">matpack::gridded_data_t&lt;Numeric,</span> <span class="pre">Vector,</span> <span class="pre">Vector,</span> <span class="pre">Vector&gt;</span></code>.
+This is in fact the type <a class="reference internal" href="pyarts.arts.GriddedField3.html#pyarts.arts.GriddedField3" title="pyarts.arts.GriddedField3"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.GriddedField3</span></code></a>.  It holds the name of of the data as a string, the data itself
+as a <a class="reference internal" href="pyarts.arts.Tensor3.html#pyarts.arts.Tensor3" title="pyarts.arts.Tensor3"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.Tensor3</span></code></a>, the name of the grids as strings, and the grids themselves as <a class="reference internal" href="pyarts.arts.Vector.html#pyarts.arts.Vector" title="pyarts.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.Vector</span></code></a>.</p>
+<p>The internal workings of the gridded data class is that it holds a <a class="reference internal" href="dev.matpack.data.html"><span class="doc">Multidimensional data</span></a> object whose rank is
+the same as the number of grids passed in.</p>
+<p>The effective layout of the class is:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Grids</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">gridded_data_t</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">String</span><span class="w">                               </span><span class="n">name</span><span class="p">;</span>
+<span class="w">  </span><span class="n">data_t</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">...(</span><span class="n">Grids</span><span class="p">)</span><span class="o">&gt;</span><span class="w">          </span><span class="n">data</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">...(</span><span class="n">Grids</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="n">grid_names</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">Grids</span><span class="p">...</span><span class="o">&gt;</span><span class="w">                 </span><span class="n">grids</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<section id="member-methods">
+<h2>Member methods<a class="headerlink" href="#member-methods" title="Link to this heading"></a></h2>
+<p>The available member methods are a subset of those available for the <code class="docutils literal notranslate"><span class="pre">data_t</span></code> as well as helper methods to deal with interpolation.  The methods are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grid&lt;I&gt;</span></code> - get the grid at index <code class="docutils literal notranslate"><span class="pre">I</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.grid&lt;0&gt;()</span></code> gives the first grid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gridname&lt;I&gt;</span></code> - get the name of the grid at index <code class="docutils literal notranslate"><span class="pre">I</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.gridname&lt;0&gt;()</span></code> gives the name of the first grid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shape</span></code> - the shape of the grids.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.shape()</span> <span class="pre">==</span> <span class="pre">{4,</span> <span class="pre">5,</span> <span class="pre">6}</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ok</span></code> - check if the data is valid.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.ok()</span></code>.  Must be called in user-facing code to ensure that the data is valid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator[]</span></code> - the access operator.  Forwards to the <code class="docutils literal notranslate"><span class="pre">data_t::operator[]</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data[3,</span> <span class="pre">4,</span> <span class="pre">5]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resize</span></code> - resize the data.  Forwards to the <code class="docutils literal notranslate"><span class="pre">data_t::resize</span></code>.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.resize({4,</span> <span class="pre">5,</span> <span class="pre">6})</span></code>.  Note that the object is no longer <code class="docutils literal notranslate"><span class="pre">ok</span></code> after this call.  The grids must be manually fixed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lag&lt;...&gt;</span></code> - template Lagrange operator.  The template argument is of the interpolation Lagrange type.  The input is either a grid and the allowed extrapolation, or a new grid point.
+The former returns a list of the Lagrange coefficients and the latter returns a single interpolation point.  The output can be used with a manual call to <code class="docutils literal notranslate"><span class="pre">my_interp::reinterp</span></code> or <code class="docutils literal notranslate"><span class="pre">my_interp::interp</span></code>,
+potentially with <code class="docutils literal notranslate"><span class="pre">my_interp::interpweights</span></code>.  See the interpolation section below for more information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reinterp&lt;...&gt;</span></code> - template reinterpolation, wraps calling <code class="docutils literal notranslate"><span class="pre">lag</span></code> and then <code class="docutils literal notranslate"><span class="pre">my_interp::reinterp</span></code>.  The input is the new grids of the data.  The output is a data object of the same rank as <code class="docutils literal notranslate"><span class="pre">this-&gt;data</span></code>.  Example:
+<code class="docutils literal notranslate"><span class="pre">gridded_data.reinterp&lt;...&gt;(new_grid1,</span> <span class="pre">new_grid2,</span> <span class="pre">new_grid3)</span></code>.  See the interpolation section below for more information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interp&lt;...&gt;</span></code> - Wraps calling <code class="docutils literal notranslate"><span class="pre">lag</span></code> and then <code class="docutils literal notranslate"><span class="pre">::interp</span></code>.  The input is the values on the grid to interpolate to.  Example: <code class="docutils literal notranslate"><span class="pre">gridded_data.interp&lt;...&gt;(my_alt,</span> <span class="pre">my_lat,</span> <span class="pre">my_lon)</span></code>.  See the interpolation section below for more information.</p></li>
+</ul>
+</section>
+<section id="interpolation">
+<h2>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading"></a></h2>
+<p>To understand how to use the interpolation methods of the gridded data class, you should first read and understand how
+non-linear interpolation works in ARTS.  This is available at <a class="reference internal" href="dev.matpack.interpolation.html"><span class="doc">Interpolation in ARTS</span></a>.  The section of interest
+is the one on higher order interpolation.</p>
+<p>Rather than go through the exact details, here are a couple of code examples to show how to use the interpolation methods.</p>
+<section id="for-1d-data">
+<h3>For 1D data<a class="headerlink" href="#for-1d-data" title="Link to this heading"></a></h3>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">GriddedField1</span><span class="w"> </span><span class="n">f</span><span class="p">{.</span><span class="n">data_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;TestData-1D&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">data</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">Vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">},</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">grid_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;x&quot;</span><span class="p">},</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">grids</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">Vector</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">}};</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">           </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">f</span><span class="p">.</span><span class="n">reinterp</span><span class="o">&lt;</span><span class="n">LagrangeInterpolation</span><span class="o">&gt;</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">           </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">f</span><span class="p">.</span><span class="n">reinterp</span><span class="o">&lt;</span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Numeric: {}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">interp</span><span class="o">&lt;</span><span class="n">LagrangeInterpolation</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Numeric: {}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">interp</span><span class="o">&lt;</span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="mi">-1</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Matpack<span class="w"> </span>data:
+<span class="o">{</span>
+x:<span class="w"> </span><span class="o">[</span><span class="m">2</span>,<span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="m">6</span>,<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">10</span>,<span class="w"> </span><span class="m">12</span><span class="o">]</span>,
+TestData-1D:<span class="w"> </span><span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span>,<span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="m">6</span><span class="o">]</span>
+<span class="o">}</span>
+Matpack<span class="w"> </span>data:
+<span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">1</span>.5<span class="o">]</span>
+Matpack<span class="w"> </span>data:
+<span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">1</span>.5,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">0</span>.5<span class="o">]</span>
+Numeric:<span class="w"> </span><span class="m">10</span>
+Numeric:<span class="w"> </span>-0.5
+</pre></div>
+</div>
+</section>
+<section id="for-2d-data">
+<h3>For 2D data<a class="headerlink" href="#for-2d-data" title="Link to this heading"></a></h3>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">GriddedField2</span><span class="w"> </span><span class="n">g</span><span class="p">{.</span><span class="n">data_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;TestData-2D&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">data</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">Vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">}.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">grid_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">},</span>
+<span class="w">                      </span><span class="p">.</span><span class="n">grids</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="n">Vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">}}};</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">           </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">g</span><span class="p">.</span><span class="n">reinterp</span><span class="o">&lt;</span><span class="n">LagrangeInterpolation</span><span class="p">,</span><span class="w"> </span><span class="n">LagrangeInterpolation</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">               </span><span class="p">{</span><span class="mf">1.5</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mf">1.5</span><span class="p">},</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Matpack data:</span><span class="se">\n</span><span class="s">{:B,Ns}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">g</span><span class="p">.</span><span class="n">reinterp</span><span class="o">&lt;</span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">-5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span><span class="w"> </span><span class="mi">20</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">           </span><span class="s">&quot;Numeric: {}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">g</span><span class="p">.</span><span class="n">interp</span><span class="o">&lt;</span><span class="n">LagrangeInterpolation</span><span class="p">,</span><span class="w"> </span><span class="n">LagrangeInterpolation</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Numeric: {}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">g</span><span class="p">.</span><span class="n">interp</span><span class="o">&lt;</span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">FixedLagrangeInterpolation</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">-2</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Matpack<span class="w"> </span>data:
+<span class="o">{</span>
+x:<span class="w"> </span><span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span><span class="o">]</span>,
+y:<span class="w"> </span><span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span><span class="o">]</span>,
+TestData-2D:<span class="w"> </span><span class="o">[</span>
+<span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span><span class="o">]</span>,
+<span class="o">[</span><span class="m">4</span>,<span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="m">6</span><span class="o">]</span>
+<span class="o">]</span>
+<span class="o">}</span>
+Matpack<span class="w"> </span>data:
+<span class="o">[</span>
+<span class="o">[</span><span class="m">3</span><span class="o">]</span>
+<span class="o">]</span>
+Matpack<span class="w"> </span>data:
+<span class="o">[</span>
+<span class="o">[</span>-2,<span class="w"> </span><span class="m">6</span><span class="o">]</span>,
+<span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">9</span><span class="o">]</span>,
+<span class="o">[</span><span class="m">4</span>,<span class="w"> </span><span class="m">12</span><span class="o">]</span>,
+<span class="o">[</span>-5,<span class="w"> </span><span class="m">3</span><span class="o">]</span>
+<span class="o">]</span>
+Numeric:<span class="w"> </span>-3
+Numeric:<span class="w"> </span>-8
+</pre></div>
+</div>
+</section>
+</section>
+<section id="relevant-files">
+<h2>Relevant files<a class="headerlink" href="#relevant-files" title="Link to this heading"></a></h2>
+<p>The relevant files for the data holding core matpack types are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">matpack/matpack_mdspan_helpers_gridded_data_t.h</span></code> - the <code class="docutils literal notranslate"><span class="pre">gridded_data_t</span></code> class.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.matpack.sorted_grid.html" class="btn btn-neutral float-left" title="Sorted grids" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.matpack.band_matrix.html" class="btn btn-neutral float-right" title="Band matrices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

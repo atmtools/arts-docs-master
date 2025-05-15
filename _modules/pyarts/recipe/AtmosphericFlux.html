@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pyarts.recipe.AtmosphericFlux &mdash; ARTS 3.0.0dev7 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -52,10 +52,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../devs.html">For Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
@@ -86,33 +86,33 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pyarts.recipe.AtmosphericFlux</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pyarts</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Flux</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Flux</span><span class="p">:</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">up</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">diffuse_down</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">direct_down</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffuse_down</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct_down</span>
 
 
 <div class="viewcode-block" id="AtmosphericFlux">
 <a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.AtmosphericFlux">[docs]</a>
-<span class="k">class</span> <span class="nc">AtmosphericFlux</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AtmosphericFlux</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Disort clearsky flux operator using the Czarnecki-scheme.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="AtmosphericFlux.__init__">
 <a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.AtmosphericFlux.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">visible_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
         <span class="n">thermal_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
@@ -212,7 +212,7 @@
 
 <div class="viewcode-block" id="AtmosphericFlux.get_atmosphere">
 <a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.AtmosphericFlux.get_atmosphere">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_atmosphere</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_atmosphere</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nlte</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ssprops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">isots</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the atmospheric field as a dictionary of python types.</span>
@@ -236,7 +236,7 @@
 
 <div class="viewcode-block" id="AtmosphericFlux.__call__">
 <a class="viewcode-back" href="../../../pyarts.recipe.html#pyarts.recipe.AtmosphericFlux.__call__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">atmospheric_profile</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
         <span class="n">surface_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

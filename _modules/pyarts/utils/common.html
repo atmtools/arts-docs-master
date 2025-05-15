@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pyarts.utils.common &mdash; ARTS 3.0.0dev7 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -52,10 +52,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guide.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyarts.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../develop.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../devs.html">For Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
@@ -90,10 +90,10 @@
 <span class="sd">&quot;&quot;&quot;Miscellaneous convenience functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkstemp</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">mkstemp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;deprecated&#39;</span><span class="p">,</span>
@@ -107,7 +107,7 @@
 
 <div class="viewcode-block" id="deprecated">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.deprecated">[docs]</a>
-<span class="k">def</span> <span class="nf">deprecated</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">deprecated</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator which can be used to mark functions as deprecated.</span>
 
 <span class="sd">    Examples:</span>
@@ -139,7 +139,7 @@
 
     <span class="c1"># Wrapper that prints the warning before calling the deprecated function.</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -166,7 +166,7 @@
 
 <div class="viewcode-block" id="unique">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.unique">[docs]</a>
-<span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unique</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicates from list whilst keeping the original order</span>
 
 <span class="sd">    Notes:</span>
@@ -193,7 +193,7 @@
 
 <div class="viewcode-block" id="path_append">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.path_append">[docs]</a>
-<span class="k">def</span> <span class="nf">path_append</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_append</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a directory to environment path variable.</span>
 
 <span class="sd">    Append entries to colon-separated variables (e.g. the system path).</span>
@@ -218,7 +218,7 @@
 
 <div class="viewcode-block" id="path_prepend">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.path_prepend">[docs]</a>
-<span class="k">def</span> <span class="nf">path_prepend</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_prepend</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepend a directory to environment path variable.</span>
 
 <span class="sd">    Append entries to colon-separated variables (e.g. the system path).</span>
@@ -243,7 +243,7 @@
 
 <div class="viewcode-block" id="path_remove">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.path_remove">[docs]</a>
-<span class="k">def</span> <span class="nf">path_remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_remove</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a directory from environment path variable.</span>
 
 <span class="sd">    Remove entries from colon-separated variables (e.g. the system path).</span>
@@ -263,7 +263,7 @@
 
 <div class="viewcode-block" id="TempFileHandler">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.TempFileHandler">[docs]</a>
-<span class="k">class</span> <span class="nc">TempFileHandler</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TempFileHandler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for creating and deleting temporary files.</span>
 
 <span class="sd">    This class is a context manager that creates a temporary file and</span>
@@ -277,14 +277,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="TempFileHandler.__init__">
 <a class="viewcode-back" href="../../../pyarts.utils.html#pyarts.utils.TempFileHandler.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;pyarts&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tmp&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;pyarts&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tmp&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dir</span> <span class="o">=</span> <span class="nb">dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Generate a unique filename</span>
         <span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="o">=</span> <span class="n">mkstemp</span><span class="p">(</span>
             <span class="n">suffix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dir</span>
@@ -292,7 +292,7 @@
         <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span>
 
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="c1"># Remove the file if it exists</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
