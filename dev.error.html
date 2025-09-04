@@ -59,14 +59,13 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Errors inside the C++ code</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#use-of-macros-in-debug-h">Use of macros in <cite>debug.h</cite></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#what-does-it-achieve">What does it achieve?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#how-is-it-implemented">How is it implemented?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#arts-assert">ARTS_ASSERT</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#arts-user-error">ARTS_USER_ERROR</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#arts-user-error-if">ARTS_USER_ERROR_IF</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#arts-method-error-catch">ARTS_METHOD_ERROR_CATCH</a></li>
@@ -77,6 +76,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -122,29 +123,17 @@ messages about the problems to the user.</p>
 <section id="how-is-it-implemented">
 <h3>How is it implemented?<a class="headerlink" href="#how-is-it-implemented" title="Link to this heading"></a></h3>
 <p>The macros are defined in <cite>debug.h</cite> and are used throughout the ARTS code.</p>
-<p>There are the macros that are important in there.</p>
+<p>These are the macros that are important in there.</p>
 <ol class="arabic simple">
-<li><p>ARTS_ASSERT</p></li>
 <li><p>ARTS_USER_ERROR</p></li>
 <li><p>ARTS_USER_ERROR_IF</p></li>
 <li><p>ARTS_METHOD_ERROR_CATCH</p></li>
 </ol>
-<p>All of these use the <cite>std::format</cite> library to format the error message.</p>
+<p>All of these use the <cite>std::format</cite> library to format the error message.
+Do not use these macros inside header files as they will cause
+compilation times to increase significantly.</p>
 <p>All of these adds relevant line numbers and file names to the error message.
 If the compiler was modern enough, even the function signature is added.</p>
-</section>
-<section id="arts-assert">
-<h3>ARTS_ASSERT<a class="headerlink" href="#arts-assert" title="Link to this heading"></a></h3>
-<p>This is used for errors caused by the programmer.</p>
-<p>It is only available when debug flags are set.
-The error message will be thrown as an exception of the <cite>std::logic_error</cite> type.</p>
-<p>Upon setting <cite>-DARTS_ASSERT_USE_C</cite>, the macro will use the C <cite>assert</cite> function.
-This will cause the program to abort if the condition is not met.
-The error message will not be printed in this mode.</p>
-<p>Example usage:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ARTS_ASSERT</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is a test message, {} is not {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-</div>
 </section>
 <section id="arts-user-error">
 <h3>ARTS_USER_ERROR<a class="headerlink" href="#arts-user-error" title="Link to this heading"></a></h3>

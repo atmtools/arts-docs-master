@@ -1,0 +1,94 @@
+measurement_inversion_agenda
+============================
+
+.. currentmodule:: pyarts3.workspace
+
+.. attribute:: Workspace.measurement_inversion_agenda
+   :type: ~pyarts3.arts.Agenda
+   
+   This is a helper :class:`~pyarts3.arts.Agenda` intended for use within :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`.
+   
+   It outputs the :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` and :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` for the
+   current iteration of the inversion. The :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` is the
+   fitted measurement vector, i.e., the measurement vector that is expected to be
+   observed given the current :attr:`~pyarts3.workspace.Workspace.atmospheric_field`, :attr:`~pyarts3.workspace.Workspace.absorption_bands`, :attr:`~pyarts3.workspace.Workspace.measurement_sensor`,
+   and :attr:`~pyarts3.workspace.Workspace.surface_field`.  It does not take these as explicit input but via the Workspace
+   mechanism.  Within the :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`, these will be the local variables.
+   
+   What is special about this Agenda is that it enforces that the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian`
+   is empty on output if :attr:`~pyarts3.workspace.Workspace.do_jacobian` evaluates false.  Do not use this Agenda if you
+   do not mind having a non-empty :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` on output even if :attr:`~pyarts3.workspace.Workspace.do_jacobian`
+   evaluates false.  Also do not use this Agenda if you wish to squeeze out performance,
+   it does a lot of unnecessary checks and operations that are not always needed.
+   
+   It is possible to execute :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`.
+   
+   As all agendas in ARTS, :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` is also customizable via its operator helper class: :class:`~pyarts3.arts.measurement_inversion_agendaOperator`.
+   See it, :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecuteOperator` for more details.
+   
+   :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` have these constraints ():
+   
+   #. When :attr:`~pyarts3.workspace.Workspace.do_jacobian` evaluates as true, the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` must be non-empty.
+   
+   
+   
+   
+   Parameters
+   ----------
+   measurement_vector_fitted : ~pyarts3.arts.Vector
+       As :attr:`~pyarts3.workspace.Workspace.measurement_vector`, but fitted to the model. See :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` **[OUT]**
+   measurement_jacobian : ~pyarts3.arts.Matrix
+       The first order partial derivatives of the :attr:`~pyarts3.workspace.Workspace.measurement_vector`. See :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` **[OUT]**
+   jacobian_targets : ~pyarts3.arts.JacobianTargets
+       A list of targets for the Jacobian Matrix calculations. See :attr:`~pyarts3.workspace.Workspace.jacobian_targets` **[IN]**
+   do_jacobian : ~pyarts3.arts.Index
+       A boolean calculations related to the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` should be ignored. See :attr:`~pyarts3.workspace.Workspace.do_jacobian` **[IN]**
+   
+   
+   
+   .. rubric:: Default value
+   
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vector_errorFromModelState`
+   #. :func:`~pyarts3.workspace.Workspace.jacobian_targetsConditionalClear`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vectorFromSensor`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_jacobianTransformations`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vectorConditionalAddError`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vector_fittedFromMeasurement`
+   
+   
+   
+   
+   .. rubric:: Input to workspace method
+   
+   .. hlist::
+       :columns: 1
+   
+       * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`
+   
+   
+   .. rubric:: Output from workspace methods
+   
+   .. hlist::
+       :columns: 1
+   
+       * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSet` 
+       * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSetOperator`
+   
+   
+   .. rubric:: Related workspace variables
+   
+   .. hlist::
+       :columns: 2
+   
+       * :attr:`~pyarts3.workspace.Workspace.measurement_averaging_kernel` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_gain_matrix` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian_error` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_sensor` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vector` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_error` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_error_covariance_matrix` 
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted`
+   
+   .. :class:`~pyarts3.arts.Agenda`
+   

@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pyarts
+import pyarts3 as pyarts
 
-h = pyarts.arts.GriddedField3.fromxml("planets/Earth/afgl/tropical/p.xml").grids[0]
-p = pyarts.arts.GriddedField3.fromxml("planets/Earth/afgl/tropical/p.xml").data.flatten()
+h = pyarts.arts.SortedGriddedField3.fromxml("planets/Earth/afgl/tropical/p.xml").grids[0]
+p = pyarts.arts.SortedGriddedField3.fromxml("planets/Earth/afgl/tropical/p.xml").data.flatten()
 
 def h2p(alt, *args):
     return np.interp(alt, h, p)

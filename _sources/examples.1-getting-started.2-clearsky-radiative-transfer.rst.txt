@@ -1,0 +1,409 @@
+2. Clearsky radiative transfer
+==============================
+
+Zeeman
+------
+
+.. code-block:: python
+    :linenos:
+
+    import pyarts3 as pyarts
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    ws = pyarts.workspace.Workspace()
+    
+    # %% Sampled frequency range
+    
+    line_f0 = 118750348044.712
+    ws.frequency_grid = np.linspace(-50e6, 50e6, 1001) + line_f0
+    
+    # %% Species and line absorption
+    
+    ws.absorption_speciesSet(species=["O2-66"])
+    ws.ReadCatalogData()
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
+    ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
+    ws.WignerInit()
+    
+    # %% Use the automatic agenda setter for propagation matrix calculations
+    ws.propagation_matrix_agendaAuto()
+    
+    # %% Grids and planet
+    
+    ws.surface_fieldPlanet(option="Earth")
+    ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
+    ws.atmospheric_fieldRead(
+        toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
+    )
+    ws.atmospheric_fieldSchmidthFieldFromIGRF(time="2000-03-11 14:39:37")
+    
+    # %% Checks and settings
+    
+    ws.spectral_radiance_transform_operatorSet(option="Tb")
+    
+    # %% Core calculations
+    
+    pos = [100e3, 0, 0]
+    los = [180.0, 0.0]
+    ws.ray_pathGeometric(pos=pos, los=los, max_step=1000.0)
+    ws.spectral_radianceClearskyEmission()
+    ws.spectral_radianceApplyUnitFromSpectralRadiance()
+    
+    # %% Show results
+    
+    plt.plot((ws.frequency_grid - line_f0) / 1e6, ws.spectral_radiance + 0)
+    plt.xlabel("Frequency offset [MHz]")
+    plt.ylabel("Spectral radiance [K]")
+    plt.title(f"Zeeman effect of {round(line_f0/1e6)} MHz O$_2$ line")
+    
+    # %% Test
+    
+    assert np.allclose(
+        ws.spectral_radiance[::100],
+        np.array(
+            [
+                [2.27784834e02, 4.24956142e-04, -1.07495419e-04, 5.69266632e-02],
+                [2.30863853e02, 6.57653186e-04, -1.68431453e-04, 7.04138002e-02],
+                [2.34806521e02, 1.16288793e-03, -3.04094356e-04, 9.33836080e-02],
+                [2.40360801e02, 2.59757645e-03, -7.08915090e-04, 1.40029968e-01],
+                [2.49782407e02, 9.58496203e-03, -3.00953814e-03, 2.69735122e-01],
+                [2.07248447e02, 2.17886934e01, 1.95305632e00, 1.25057382e-05],
+                [2.49781840e02, 9.58837415e-03, -3.01090734e-03, -2.69812575e-01],
+                [2.40359708e02, 2.59935325e-03, -7.09472967e-04, -1.40106546e-01],
+                [2.34804943e02, 1.16407621e-03, -3.04437307e-04, -9.34596090e-02],
+                [2.30861802e02, 6.58551211e-04, -1.68679754e-04, -7.04898114e-02],
+                [2.27782317e02, 4.25683062e-04, -1.07691261e-04, -5.70026253e-02],
+            ]
+        ),
+    ), "Values have drifted from expected results in spectral radiance"
+    
+Zeeman sensor
+-------------
+
+.. code-block:: python
+    :linenos:
+
+    import pyarts3 as pyarts
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    ws = pyarts.workspace.Workspace()
+    
+    # %% Sampled frequency range
+    
+    line_f0 = 118750348044.712
+    ws.frequency_grid = np.linspace(-50e6, 50e6, 1001) + line_f0
+    
+    # %% Species and line absorption
+    
+    ws.absorption_speciesSet(species=["O2-66"])
+    ws.ReadCatalogData()
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
+    ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
+    ws.WignerInit()
+    
+    # %% Use the automatic agenda setter for propagation matrix calculations
+    ws.propagation_matrix_agendaAuto()
+    
+    # %% Grids and planet
+    
+    ws.surface_fieldPlanet(option="Earth")
+    ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
+    ws.atmospheric_fieldRead(
+        toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
+    )
+    ws.atmospheric_fieldIGRF(time="2000-03-11 14:39:37")
+    
+    # %% Checks and settings
+    
+    ws.spectral_radiance_transform_operator = "Tb"
+    ws.ray_path_observer_agendaSetGeometric()
+    
+    # %% Set up a sensor with Gaussian standard deviation channel widths on individual frequency ranges
+    
+    pos = [100e3, 0, 0]
+    los = [180.0, 0.0]
+    ws.measurement_sensorSimpleGaussian(std=1e5, pos=pos, los=los, pol="RC")
+    
+    # %% Core calculations
+    
+    ws.measurement_vectorFromSensor()
+    
+    # %% Show results
+    
+    plt.plot((ws.frequency_grid - line_f0) / 1e6, ws.measurement_vector)
+    plt.xlabel("Frequency offset [MHz]")
+    plt.ylabel("Spectral radiance [K]")
+    plt.title(
+        f"Zeeman effect of {round(line_f0/1e6)} MHz O$_2$ line with Gaussian channels on individual grids"
+    )
+    
+    # %% Test
+    
+    assert np.allclose(
+        ws.measurement_vector[::100],
+        np.array(
+            [
+                227.85626271,
+                230.93430882,
+                234.89998118,
+                240.50100578,
+                250.05272664,
+                209.9140708,
+                249.51258095,
+                240.21976958,
+                234.71155853,
+                230.79135297,
+                227.73970752,
+            ]
+        ),
+    )
+    
+Zeeman transmission
+-------------------
+
+.. code-block:: python
+    :linenos:
+
+    import pyarts3 as pyarts
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    ws = pyarts.workspace.Workspace()
+    
+    # %% Sampled frequency range
+    
+    line_f0 = 118750348044.712
+    nf = 1001
+    ws.frequency_grid = np.linspace(-50e6, 50e6, nf) + line_f0
+    
+    # %% Species and line absorption
+    
+    ws.absorption_speciesSet(species=["O2-66"])
+    ws.ReadCatalogData()
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
+    ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
+    ws.WignerInit()
+    
+    # %% Use the automatic agenda setter for propagation matrix calculations
+    ws.propagation_matrix_agendaAuto()
+    
+    # %% Grids and planet
+    
+    ws.surface_fieldPlanet(option="Earth")
+    ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
+    ws.atmospheric_fieldRead(
+        toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
+    )
+    ws.atmospheric_fieldIGRF(time="2000-03-11 14:39:37")
+    
+    # %% Checks and settings
+    
+    ws.spectral_radiance_space_agendaSet(option="Transmission")
+    ws.spectral_radiance_surface_agendaSet(option="Transmission")
+    
+    # %% Core calculations
+    
+    pos = [100e3, 0, 0]
+    los = [180.0, 0.0]
+    ws.ray_pathGeometric(pos=pos, los=los, max_step=1000.0)
+    ws.spectral_radianceClearskyTransmission()
+    
+    # %% Show results
+    
+    plt.semilogy((ws.frequency_grid - line_f0) / 1e6, ws.spectral_radiance)
+    plt.xlabel("Frequency offset [MHz]")
+    plt.ylabel("Spectral radiance [K]")
+    plt.title(f"Zeeman effect of {round(line_f0/1e6)} MHz O$_2$ line")
+    
+    # %% Test
+    
+    assert np.allclose(
+        ws.spectral_radiance[::100],
+        np.array(
+            [
+                [3.48823498e-06, -1.46551713e-10, 3.81072431e-11, -4.59221798e-08],
+                [1.71706875e-06, -1.10970204e-10, 2.94013625e-11, -2.78281718e-08],
+                [6.98940567e-07, -7.87051453e-11, 2.15072772e-11, -1.48128572e-08],
+                [2.02345215e-07, -4.99009177e-11, 1.44875960e-11, -6.26439080e-09],
+                [2.59661967e-08, -2.45683770e-11, 8.49367757e-12, -1.54349235e-09],
+                [3.26929916e-13, 2.91596383e-13, 1.29579122e-13, 8.52093039e-18],
+                [2.59895225e-08, -2.46091531e-11, 8.50852019e-12, 1.54840970e-09],
+                [2.02661063e-07, -5.00559190e-11, 1.45335398e-11, 6.29845922e-09],
+                [7.00439370e-07, -7.90569785e-11, 2.16047322e-11, 1.49217232e-08],
+                [1.72166340e-06, -1.11611698e-10, 2.95731412e-11, 2.80799246e-08],
+                [3.49928820e-06, -1.47585397e-10, 3.83784757e-11, 4.64084437e-08],
+            ]
+        ),
+    ), "Values have drifted from expected results in spectral radiance"
+    
+Zeeman sun
+----------
+
+.. code-block:: python
+    :linenos:
+
+    import pyarts3 as pyarts
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    ws = pyarts.workspace.Workspace()
+    
+    # %% Sampled frequency range
+    
+    line_f0 = 118750348044.712
+    ws.frequency_grid = [line_f0]
+    
+    # %% Species and line absorption
+    
+    ws.absorption_speciesSet(species=["O2-66"])
+    ws.ReadCatalogData()
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
+    ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
+    ws.WignerInit()
+    
+    # %% Use the automatic agenda setter for propagation matrix calculations
+    ws.propagation_matrix_agendaAuto()
+    
+    # %% Grids and planet
+    
+    ws.surface_fieldPlanet(option="Earth")
+    ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
+    ws.atmospheric_fieldRead(
+        toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
+    )
+    ws.atmospheric_fieldIGRF(time="2000-03-11 14:39:37")
+    
+    # %% Add a sun
+    
+    ws.sunBlackbody()
+    ws.sunsAddSun(suns=ws.suns)
+    
+    # %% Checks and settings
+    
+    ws.spectral_radiance_transform_operatorSet(option="Tb")
+    ws.spectral_radiance_space_agendaSet(option="SunOrCosmicBackground")
+    ws.spectral_radiance_surface_agendaSet(option="Blackbody")
+    
+    # %% Core calculations
+    
+    pos = [90e3, 0, 0]
+    zas = np.linspace(0, 2, 21)
+    aas = np.linspace(-180, 180, 21)
+    res = np.empty((len(zas), len(aas)))
+    for iza in range(len(zas)):
+        for iaa in range(len(aas)):
+            los = [zas[iza], aas[iaa]]
+            ws.ray_pathGeometric(pos=pos, los=los, max_step=1000.0)
+            ws.spectral_radianceClearskyEmission()
+            ws.spectral_radianceApplyUnitFromSpectralRadiance()
+            res[iza, iaa] = ws.spectral_radiance[0][0]
+    
+    # FIXME: Use some sort of Imager for measurement_vector for the above
+    
+    r, theta = np.meshgrid(zas, np.rad2deg(aas))
+    fig, ax = plt.subplots(subplot_kw=dict(projection="polar"))
+    ax.contourf(theta, r, res.T)
+    
+    assert np.allclose(
+        res[::3, ::7],
+        np.array(
+            [
+                [5.33326282e03, 5.33326282e03, 5.33326282e03],
+                [2.73804755e00, 2.73801974e00, 2.73802787e00],
+                [2.74724222e00, 2.74702051e00, 2.74708569e00],
+                [2.76264051e00, 2.76189614e00, 2.76211620e00],
+                [2.78427078e00, 2.78251808e00, 2.78303923e00],
+                [2.81213495e00, 2.80873894e00, 2.80975463e00],
+                [2.84621135e00, 2.84039654e00, 2.84214599e00],
+            ]
+        ),
+    )
+    
+Zeeman sun scattering
+---------------------
+
+.. code-block:: python
+    :linenos:
+
+    import pyarts3 as pyarts
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    ws = pyarts.workspace.Workspace()
+    
+    # %% Sampled frequency range
+    
+    ws.frequency_grid = [pyarts.arts.convert.wavelen2freq(700e-9)]
+    
+    # %% Species and line absorption
+    
+    ws.absorption_speciesSet(species=["O2-66"])
+    ws.ReadCatalogData()
+    ws.absorption_bandsSelectFrequencyByLine(fmin=40e9, fmax=120e9)
+    ws.absorption_bandsSetZeeman(species="O2-66", fmin=118e9, fmax=119e9)
+    ws.WignerInit()
+    
+    # %% Use the automatic agenda setter for propagation matrix calculations
+    ws.propagation_matrix_agendaAuto()
+    
+    # %% Grids and planet
+    
+    ws.surface_fieldPlanet(option="Earth")
+    ws.surface_field[pyarts.arts.SurfaceKey("t")] = 295.0
+    ws.atmospheric_fieldRead(
+        toa=100e3, basename="planets/Earth/afgl/tropical/", missing_is_zero=1
+    )
+    ws.atmospheric_fieldIGRF(time="2000-03-11 14:39:37")
+    
+    # %% Add a sun
+    
+    ws.sunBlackbody()
+    ws.sunsAddSun(suns=ws.suns)
+    
+    # %% Checks and settings
+    
+    ws.spectral_radiance_transform_operator = "Tb"
+    ws.spectral_radiance_space_agendaSet(option="SunOrCosmicBackground")
+    ws.spectral_radiance_surface_agendaSet(option="Blackbody")
+    ws.ray_path_observer_agendaSetGeometric()
+    ws.propagation_matrix_scattering_agendaSet(option="AirSimple")
+    
+    # %% Core calculations
+    pos = [90e3, 0, 0]
+    zas = np.linspace(0, 5, 21)
+    aas = np.linspace(-180, 180, 21)
+    res = np.empty((len(zas), len(aas)))
+    for iza in range(len(zas)):
+        for iaa in range(len(aas)):
+            los = [zas[iza], aas[iaa]]
+            ws.ray_pathGeometric(pos=pos, los=los, max_step=1000.0)
+            ws.ray_path_suns_pathFromPathObserver(just_hit=1)
+            ws.spectral_radianceClearskyRayleighScattering()
+            ws.spectral_radianceApplyUnitFromSpectralRadiance()
+            res[iza, iaa] = ws.spectral_radiance[0][0]
+    
+    # FIXME: Use some sort of Imager for measurement_vector for the above
+    
+    r, theta = np.meshgrid(zas, np.rad2deg(aas))
+    fig, ax = plt.subplots(subplot_kw=dict(projection="polar"))
+    ax.contourf(theta, r, res.T)
+    
+    assert np.allclose(
+        res[1::3, 1::7],
+        np.array(
+            [
+                [5771.99999999, 5771.99999999, 5771.99999999],
+                [535.42854728, 535.42857582, 535.42866145],
+                [551.51084741, 551.51088696, 551.51096605],
+                [562.27743565, 562.27748096, 562.27757158],
+                [570.47208681, 570.47212053, 570.47222781],
+                [577.13157565, 577.13161705, 577.13172883],
+                [582.76490041, 582.76494379, 582.76505748],
+            ]
+        ),
+    )
+    
+
+

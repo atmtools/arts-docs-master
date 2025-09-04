@@ -61,7 +61,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
@@ -80,6 +80,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -141,8 +143,8 @@ chapter.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">interpolation.cc</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">interpolation.cc</span></code></p></li>
 </ul>
-<p>The first two files contain the declarations and implementation, the last file some usage
-examples.</p>
+<p>The first two files contain the declarations and implementation,
+the last file some usage examples.</p>
 </section>
 <section id="green-and-blue-interpolation">
 <h3>Green and blue interpolation<a class="headerlink" href="#green-and-blue-interpolation" title="Link to this heading"></a></h3>
@@ -159,7 +161,7 @@ points, output is always 1D.</span><a class="headerlink" href="#id8" title="Link
 <p>There are two different types of interpolation in ARTS:</p>
 <ul class="simple">
 <li><p><em>Green Interpolation</em>: Interpolation of a gridded field to a new grid.</p></li>
-<li><p><em>Blue Interpolation</em>: Interpolation of a gridded field to a sequence of positions.</p></li>
+<li><p><em>Blue Interpolation</em>: Interpolation of a gridded field to asequence of positions.</p></li>
 </ul>
 <p>The figure above illustrates the different types
 for a 2D example.</p>
@@ -206,10 +208,10 @@ quite a lot of detail what is actually wrong with the grids.</p>
 <section id="grid-positions">
 <h3>Grid positions<a class="headerlink" href="#grid-positions" title="Link to this heading"></a></h3>
 <p>A grid position specifies where an interpolation point is, relative
-to the original grid. It consists of three parts, an <a class="reference internal" href="pyarts.arts.Index.html#pyarts.arts.Index" title="pyarts.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.Index</span></code></a> giving the
-original grid index below the interpolation point, a <a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.Numeric</span></code></a>
+to the original grid. It consists of three parts, an <a class="reference internal" href="pyarts3.arts.Index.html#pyarts3.arts.Index" title="pyarts3.arts.Index"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts3.arts.Index</span></code></a> giving the
+original grid index below the interpolation point, a <a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts3.arts.Numeric</span></code></a>
 giving the fractional distance to the next original grid point, and a
-<a class="reference internal" href="pyarts.arts.Numeric.html#pyarts.arts.Numeric" title="pyarts.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts.arts.Numeric</span></code></a> giving 1 minus this number. Of course, the last element is
+<a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyarts3.arts.Numeric</span></code></a> giving 1 minus this number. Of course, the last element is
 redundant. However, it is efficient to store this, since it is used
 many times over. We store the two numerics in a plain C array of
 dimension 2. (No need to use a fancy Array or Vector for this, since
@@ -694,258 +696,75 @@ interpolation, which uses two neighboring data points in the 1D
 case. But ARTS also has a framework for higher order polynomial
 interpolation. It is defined in the the file</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">matpack/interp.h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matpack/lagrange_interp.h</span></code></p></li>
+</ul>
+<p>The higher order interpolation framework uses a template class,
+<code class="docutils literal notranslate"><span class="pre">lagrange_interp::lag_t&lt;&gt;</span></code>, which is described below.
+The class takes two compile-time parameters, the polynomial order
+<span class="math notranslate nohighlight">\(O\)</span> and  grid transformation type.  The rules for how
+to transform the grid are in the file <code class="docutils literal notranslate"><span class="pre">matpack/lagrange_interp.h</span></code>.
+Regardless, the template type holds weights and indices to the
+original grid, which are used to compute the interpolated value
+and which are used to map into the data field.</p>
+<p>Three styles of interpolations are implemented as functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">interp</span></code>: Pure interpolation.  Reduces the data field to the
+a single interpolated value.  Takes as many <code class="docutils literal notranslate"><span class="pre">lagrange_interp::lag_t&lt;&gt;</span></code>
+as the rank of the data field.  May also use an <code class="docutils literal notranslate"><span class="pre">interpweights</span></code>
+approach similar to the linear case, but this is not required.
+The signature is either <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">interp(data,</span> <span class="pre">lag_t&lt;&gt;,</span> <span class="pre">lag_t&lt;&gt;,</span> <span class="pre">...)</span></code>
+or <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">interp(data,</span> <span class="pre">interpweights,</span> <span class="pre">lag_t&lt;&gt;,</span> <span class="pre">lag_t&lt;&gt;,</span> <span class="pre">...)</span></code>, to
+return the interpolated value <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reinterp</span></code>: Reinterpolates the data to a new grid.  Retains
+the same rank as the data field but changes the grid.  This
+takes as many lists of <code class="docutils literal notranslate"><span class="pre">lagrange_interp::lag_t&lt;&gt;</span></code> as the
+rank of the data field.  The lists can be of any type that
+follows rules similar to <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>.
+May use <code class="docutils literal notranslate"><span class="pre">reinterpweights</span></code> as a multidimensional
+interpolation weights approach similar to the linear case,
+and it may reuse data.  This yields four possible signatures:
+<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">reinterp(data_t&amp;,</span> <span class="pre">data,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">reinterp(data_t&amp;,</span> <span class="pre">data,</span> <span class="pre">reinterpweights,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">data_t</span> <span class="pre">reinterp(data,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">data_t</span> <span class="pre">reinterp(data,</span> <span class="pre">reinterpweights,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flat_interp</span></code>: Interpolates a line through the data field composed
+of all the coordinates of the <code class="docutils literal notranslate"><span class="pre">lag_t&lt;&gt;</span></code> objects.  This reduces
+the data_field to a vector of values.  For rank 1 data fields,
+this is equivalent to the <code class="docutils literal notranslate"><span class="pre">interp</span></code> function.  The methods take
+as many lists of <code class="docutils literal notranslate"><span class="pre">lag_t&lt;&gt;</span></code> as the rank of the data field.  These
+must all have the same length, and this length is the size of the
+output vector.  May use <code class="docutils literal notranslate"><span class="pre">flat_interpweights</span></code> as a
+multidimensional interpolation weights approach similar to the
+linear case, and it may reuse data.  This yields four possible
+signatures:
+<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">flat_interp(data_t&amp;,</span> <span class="pre">data,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">flat_interp(data_t&amp;,</span> <span class="pre">data,</span> <span class="pre">flat_interpweights,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">data_t</span> <span class="pre">flat_interp(data,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">data_t</span> <span class="pre">flat_interp(data,</span> <span class="pre">flat_interpweights,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">list&lt;lag_t&lt;&gt;&gt;,</span> <span class="pre">...)</span></code>.</p></li>
 </ul>
 <section id="weights">
 <h3>Weights<a class="headerlink" href="#weights" title="Link to this heading"></a></h3>
-<p>We define interpolation order <span class="math notranslate nohighlight">\(O\)</span> as the order of the polynomial that
-is used. Linear interpolation, the ARTS standard case, corresponds to
-<span class="math notranslate nohighlight">\(O=1\)</span>. <span class="math notranslate nohighlight">\(O=2\)</span> is quadratic interpolation, <span class="math notranslate nohighlight">\(O=3\)</span> cubic interpolation.
-The number of interpolation points (and weights) for a 1D
-interpolation is <span class="math notranslate nohighlight">\(O+1\)</span> for each point in the new grid. So, linear
-interpolation uses 2 points, quadratic 3, and cubic 4.</p>
-<p>As a special case, interpolation order <cite>O=0</cite> is also implemented,
-which means <em>nearest neighbor interpolation</em>. In other words, the
-value at the closest neighboring point is chosen, so there is no real
-interpolation at all. This case is particularly useful if you have a
-field that may be interpolated in several dimensions, but you do not
-really want to do all dimensions all the time. With <span class="math notranslate nohighlight">\(O=0\)</span>
-interpolation and a grid that matches the original grid, interpolation
-can be effectively <em>turned off</em> for that dimension.</p>
-<p>Note, that if you use even interpolation orders, you will have an
-unequal number of interpolation points <em>to the left</em> and <em>to the
-right</em> of your new point. This is an argument for preferring <span class="math notranslate nohighlight">\(O=3\)</span> as the
-basic higher order polynomial interpolation, instead of <span class="math notranslate nohighlight">\(O=2\)</span>.</p>
-<p>Overall, higher order interpolation works rather similarly to the
-linear case.  The main difference is that grid positions for higher
-order interpolation are stored in an object of type
-<code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code>, instead of <code class="docutils literal notranslate"><span class="pre">GridPos</span></code>. A
-<code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> object contains the grids first index, interpolation
-weights for all interpolation points, and on demand the linear derivative of the
-interpolation at the grid position. For each point in the new grid,
-there is 1 index, <span class="math notranslate nohighlight">\(O+1\)</span> weights, and <code class="docutils literal notranslate"><span class="pre">0</span></code> or <span class="math notranslate nohighlight">\(O+1\)</span> weight derivatives.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> type is a template and requires
-instantiation upon use of several compile-time parameters.  The template
-signature is:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
-<span class="w">    </span><span class="n">Index</span><span class="w"> </span><span class="n">PolyOrder</span><span class="o">=</span><span class="mi">-1</span><span class="p">,</span>
-<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">do_derivs</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-<span class="w">    </span><span class="n">GridType</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="n">GridType</span><span class="o">::</span><span class="n">Standard</span><span class="p">,</span>
-<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">cycle_limit</span><span class="w"> </span><span class="n">lim</span><span class="o">&gt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Limit</span><span class="o">=</span><span class="n">no_cycle</span><span class="o">&gt;</span>
-<span class="w">  </span><span class="k">requires</span><span class="p">(</span><span class="n">test_cyclic_limit</span><span class="o">&lt;</span><span class="n">Limit</span><span class="o">&gt;</span><span class="p">())</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">Lagrange</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">PolyOrder</span></code> <code class="docutils literal notranslate"><span class="pre">Index</span></code> informs the type about its interpolation
-order.  If it is negative, the object’s polynomial order is determined at runtime.
-If it is positive, the value of the polynomial order has been determined at compile time.
-The difference between runtime and compile time objects is that you tend to to get
-orders of magnitude faster execution times if the value is known at compile time.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">do_derivs</span></code> <code class="docutils literal notranslate"><span class="pre">bool</span></code> tells the type to also compute the
-derivatives of the weights.  If this is false, fewer calculations are performed
-but you cannot compute the derivatives.  In general, computing the derivatives
-add an overhead of in worst case 2, as there’s often quite a lot less work to
-do to compute the derivatives.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">type</span></code> <code class="docutils literal notranslate"><span class="pre">GridType</span></code> selects the grid transformation.
-<code class="docutils literal notranslate"><span class="pre">GridType</span></code> is described more below for options, but there are two
-special grid types that are important to distinguish: cyclic and non-cyclic
-grid types.  If the type is inherently cyclic, special care is taken to cycle the indices
-and weights so that you can interpolate over the “borders” of the input vector grid.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">&lt;cycle_limit</span> <span class="pre">lim&gt;</span> <span class="pre">class</span> <span class="pre">Limit</span></code> template class over the
-<code class="docutils literal notranslate"><span class="pre">lim</span></code> <code class="docutils literal notranslate"><span class="pre">cycle_limit</span></code> determines the cyclicity of the grid.
-It has to be <code class="docutils literal notranslate"><span class="pre">my_interp::no_cycle</span></code> for all non-cyclic grids.
-The template class itself is very simple.  It needs to be possible to instantiate
-the class with <code class="docutils literal notranslate"><span class="pre">cycle_limit::lower</span></code> and <code class="docutils literal notranslate"><span class="pre">cycle_limit::upper</span></code>
-such that the class has a <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">constexpr</span> <span class="pre">Numeric</span></code> member called
-<code class="docutils literal notranslate"><span class="pre">bound</span></code>.  If the class is instantiated with the <code class="docutils literal notranslate"><span class="pre">cycle_limit::lower</span></code>,
-the value of <code class="docutils literal notranslate"><span class="pre">bound</span></code> must be strictly lower than the value of the class
-as instantiated by <code class="docutils literal notranslate"><span class="pre">cycle_limit::upper</span></code>.  Three examples of cyclic bounds
-are provided as <code class="docutils literal notranslate"><span class="pre">my_interp::cycle_m180_p180</span></code>,  <code class="docutils literal notranslate"><span class="pre">my_interp::cycle_0_p360</span></code>,
-and <code class="docutils literal notranslate"><span class="pre">my_interp::cycle_0_p2pi</span></code>, which respectively represents the cyclic bounds
-of <span class="math notranslate nohighlight">\([-180,\; 180)\)</span>, <span class="math notranslate nohighlight">\([0,\; 360)\)</span>, and <span class="math notranslate nohighlight">\([0,\; 2\pi)\)</span>.</p>
-<p>In contrast to <code class="docutils literal notranslate"><span class="pre">GridPos</span></code>, <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> stores
-weights <code class="docutils literal notranslate"><span class="pre">lx</span></code> rather than fractional distances <code class="docutils literal notranslate"><span class="pre">fd</span></code>.
-For the linear case:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">lx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">lx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>So the two concepts are almost the same.  Because the <code class="docutils literal notranslate"><span class="pre">lx</span></code> are associated
-with each interpolation point, they work also for higher interpolation
-order, whereas the concept of fractional distance does not.</p>
-<p>The weights along any dimension is calculated according to</p>
+<p>Lagrange weights are computed as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}l_j(x) = \prod_{\substack{0 \leq m \leq O \\ m \neq j}}
-\frac{u(f(x) - f(x _m))}{u(f(x_j) - f(x_m))}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(f\)</span> is a grid scaling function and <span class="math notranslate nohighlight">\(u\)</span> is a combination of sign-reversal and cyclic minima.
-The <span class="math notranslate nohighlight">\(f\)</span> can be a logarithm, reverse cosine,
-circular constraints, or, most commonly, just the input.  The provided options
-are part of the <code class="docutils literal notranslate"><span class="pre">my_interp::GridType</span></code> enum class and are:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Standard</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = t\]</div>
-<p>where <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Cyclic</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = t + n\left(t_1 - t_0\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(c_0 \leq t + n\left(c_1 - c_0\right) &lt; c_1\)</span>,
-with <span class="math notranslate nohighlight">\(n\)</span> as an integer and
-<span class="math notranslate nohighlight">\(\left[c_0, c_1\right)\)</span> as the cyclic limits so that
-<span class="math notranslate nohighlight">\(g\left(c_0\right) \equiv g\left(c_0 + m\left[c_1-c_0\right]\right)\)</span>
-holds true for a valid function <span class="math notranslate nohighlight">\(g(t)\)</span> and any integer <span class="math notranslate nohighlight">\(m\)</span>.
-<span class="math notranslate nohighlight">\(u(t) = t + X\)</span>.  <span class="math notranslate nohighlight">\(X\)</span> is found as whichever has the absolute minimum
-of <span class="math notranslate nohighlight">\(t + c_1-c_0\)</span>, <span class="math notranslate nohighlight">\(t\)</span>, or <span class="math notranslate nohighlight">\(t+c_0-c_1\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Log</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \ln\left(t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(t &gt; 0\)</span>.  <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Log10</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \log_{10}\left(t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(t &gt; 0\)</span>.  <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Log2</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \log_2\left(t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(t &gt; 0\)</span>.  <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SinDeg</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \sin\left(\frac{\pi}{180}t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(-90\leq t \leq 90\)</span>.  <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SinRad</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \sin\left(t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(-\pi/2 \leq t \leq \pi/2\)</span>.  <span class="math notranslate nohighlight">\(u(t) = t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CosDeg</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \cos\left(\frac{\pi}{180}\left[180 - t\right]\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(0\leq t \leq 180\)</span>.  <span class="math notranslate nohighlight">\(u(t) = -t\)</span>.</p>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CosRad</span></code></p>
-<div class="math notranslate nohighlight">
-\[f\left(t\right) = \cos\left(\pi-t\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(0 \leq t \leq \pi\)</span>.  <span class="math notranslate nohighlight">\(u(t) = -t\)</span>.</p>
-</li>
-</ul>
-<p>The derivatives are computed as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\frac{\partial l_j(x)}{\partial x} = \sum_{i=0}^{O}
-\left\{
-\begin{array}{lcr}
-  \frac{l_j(x)}{x - x_i} &amp; \mathrm{if} &amp; x \neq x_i \\
-  \frac{1}{x_j - x_i} \prod_{m=0}^O
-  \left\{
-  \begin{array}{lcr}
-  \frac{x - x_m}{x_j - x_m} &amp; \mathrm{if} &amp; m \neq i,\; j \\
-  1 &amp; \mathrm{if} &amp; m \in i,\; j
-  \end{array} \right. &amp; \mathrm{if} &amp; x \equiv x_i
-\end{array}
-\right. \; i \neq j.\end{split}\]</div>
-<p>Note that the upper branch speedup is only available for
-<code class="docutils literal notranslate"><span class="pre">Standard</span></code> and for <code class="docutils literal notranslate"><span class="pre">Cyclic</span></code> code.
-Other cases must use the lower branch to get linear derivatives.</p>
-<p>Instead of <code class="docutils literal notranslate"><span class="pre">gridpos</span></code>, you have to use the constructor
-<code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> for higher order interpolation
-with a single interpolation point, and <code class="docutils literal notranslate"><span class="pre">my_interp::lagrange_interpolation_list&lt;my_interp::Lagrange&lt;&gt;&gt;</span></code>
-for multiple outputs. The constructor requires a start-position guess,
-the value at which to interpolate towards, and the original grid as
-inputs.  In the version of <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> that has
-its polynomial order determined at runtime, and addition number representing
-this polynomial order has to also be passed (so that the choice of runtime
-rather than compile time polynomial order is explicit).  The multiple outputs
-function takes the new grid followed by the old grid as arguments.  Again,
-the runtime polynomial order has to also explicitly be set when the runtime
-when calling this function.  An optional but crucial final parameter can
-be passed to the function to determine if the extrapolation outside of a grid is
-acceptable.  By default, the new grid is only allowed to be half a step size
-beyond the upper and lower edges of the old grid.</p>
+\frac{u(f(x)) - u(f(x _m))}{u(f(x_j)) - u(f(x_m))}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f\)</span> is a grid scaling function and <span class="math notranslate nohighlight">\(u\)</span> deals with cyclicity.
+The transformation can be whatever, but most common
+is to use the identity function <span class="math notranslate nohighlight">\(f(x) = x\)</span>, which is thus the default.</p>
 </section>
-<section id="interpolation">
-<h3>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading"></a></h3>
-<p>So far we have not computed any interpolation but just the weights.  For the
-interpolation, the code using one or more (list of) <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code>
-can both mimic, but also differs in parts significantly from, the linear interpolation
-discussed above.  Perhaps the most important difference is that there are no blue
-interpolation schemes.  This was not used anywhere at the time of implementation,
-so it was deemed less useful.  Instead, there are only two types of
-interpolation offered: full interpolation that goes from a N-dimensional tensor
-input to a scalar, and full re-interpolation that goes from one N-dimensional
-tensor and outputs another N-dimensional tensor.  Note that we say “scalar”
-and not <code class="docutils literal notranslate"><span class="pre">Numeric</span></code>, because we can handle a much wider
-variety of input value type, perhaps most notable <code class="docutils literal notranslate"><span class="pre">Complex</span></code>.</p>
-<p>The call order after you have a list of (lists of) <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code>
-is simple.  Given <code class="docutils literal notranslate"><span class="pre">lag...</span></code> as this list and <code class="docutils literal notranslate"><span class="pre">in</span></code> as the input field,
-the call-order for scalar interpolation is</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">itw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpweights</span><span class="p">(</span><span class="n">lag</span><span class="p">...);</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interp</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">itw</span><span class="p">,</span><span class="w"> </span><span class="n">lag</span><span class="p">...);</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal notranslate"><span class="pre">out</span></code> is a scalar.  It is very important that the rank of <code class="docutils literal notranslate"><span class="pre">in</span></code>
-is the same as the count of the number of <code class="docutils literal notranslate"><span class="pre">lag...</span></code>.  If you want to have
-the derivative instead of the interpolation along some dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code>,
-the call is</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">ditw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dinterpweights</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lag</span><span class="p">...);</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">dout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interp</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">itw</span><span class="p">,</span><span class="w"> </span><span class="n">lag</span><span class="p">...);</span>
-</pre></div>
-</div>
-<p>where again <code class="docutils literal notranslate"><span class="pre">dout</span></code> is a scalar but now represents the derivative along the select dimension.  The <code class="docutils literal notranslate"><span class="pre">dim</span></code> must be 0 or
-higher but strictly less than the rank of <code class="docutils literal notranslate"><span class="pre">in</span></code>.  The two interpolation
-weight tensors <code class="docutils literal notranslate"><span class="pre">itw</span></code> and <code class="docutils literal notranslate"><span class="pre">ditw</span></code> will here have the rank as
-<code class="docutils literal notranslate"><span class="pre">in</span></code> with a shape that is the polynomial order plus one in the same
-order as <code class="docutils literal notranslate"><span class="pre">lag...</span></code>.  It is possible to pre-allocate these sizes and call
-these two functions directly with <code class="docutils literal notranslate"><span class="pre">d/itw</span></code> as the first input.
-For re-interpolation, the call order is very similar</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">ritw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpweights</span><span class="p">(</span><span class="n">lag</span><span class="p">...);</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">rout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reinterp</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">itw</span><span class="p">,</span><span class="w"> </span><span class="n">lag</span><span class="p">...);</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal notranslate"><span class="pre">rout</span></code> is a tensor the same rank as <code class="docutils literal notranslate"><span class="pre">in</span></code>.  If you want to have
-the derivative instead of the interpolation along some dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code>,
-the call is</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">dritw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dinterpweights</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lag</span><span class="p">...);</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">drout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reinterp</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">itw</span><span class="p">,</span><span class="w"> </span><span class="n">lag</span><span class="p">...);</span>
-</pre></div>
-</div>
-<p>where again <code class="docutils literal notranslate"><span class="pre">drout</span></code> is a tensor the same rank as <code class="docutils literal notranslate"><span class="pre">in</span></code> but now represents the derivative along the select dimension.
-The rank of <code class="docutils literal notranslate"><span class="pre">ritw</span></code> and <code class="docutils literal notranslate"><span class="pre">dritw</span></code> is twice that of the rank of <code class="docutils literal notranslate"><span class="pre">in</span></code>.  The inner half of the shape is exactly
-the same as in the scalar interpolation.  The outer half of the shape is the same as the length of the lists that makes up the
-<code class="docutils literal notranslate"><span class="pre">lag...</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For convenience and for an unknown effect on the speed of the calculations, it is optional to compute
-the interpolation weights.  You can call <code class="docutils literal notranslate"><span class="pre">interp</span></code> and <code class="docutils literal notranslate"><span class="pre">reinterp</span></code> directly, omitting the calls to
-<code class="docutils literal notranslate"><span class="pre">interpweights</span></code> and <code class="docutils literal notranslate"><span class="pre">dinterpweights</span></code>.  We are to this date (2023-02-27) not sure what that does to execution
-speed and cannot give any recommendation either way on how to use it.  Different compilers seem to prefer different solutions,
-so it is better for code consistency to stick with the same approach as the <code class="docutils literal notranslate"><span class="pre">gridpos</span></code> does of demanding a call
-to <code class="docutils literal notranslate"><span class="pre">interpweights</span></code> and <code class="docutils literal notranslate"><span class="pre">dinterpweights</span></code> first.</p>
-</div>
-</section>
-<section id="summary">
-<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
-<p>Now you probably understand better what was written at the very
-beginning of this chapter, namely that doing an interpolation always
-requires the chain of function calls:</p>
-<ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gridpos</span></code> or <code class="docutils literal notranslate"><span class="pre">my_interp::Lagrange&lt;&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">my_interp::lagrange_interpolation_list&lt;&gt;</span></code> (one for each interpolation dimension)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">interpweights</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">interp</span></code> or <code class="docutils literal notranslate"><span class="pre">reinterp</span></code></p></li>
-</ol>
-<p>If you are interested in how the functions really work, look in file
-<code class="docutils literal notranslate"><span class="pre">interpolation.cc</span></code> or <code class="docutils literal notranslate"><span class="pre">matpack/interp.h</span></code>.
-The documentation there is quite detailed.  When you are using
-interpolation, you should always give some thought to whether you can
-re-use grid positions or even interpolation weights. This can really
-save you a lot of computation time. For example, if you want to
-interpolate several fields — which are all on the same grids — to
-some position, you only have to compute the weights once.  However, also
-be aware that sometimes reallocating might be preferred to passing views.</p>
+<section id="grid-cyclicity">
+<h3>Grid cyclicity<a class="headerlink" href="#grid-cyclicity" title="Link to this heading"></a></h3>
+<p>If the grid is cyclic <span class="math notranslate nohighlight">\(\left[X_0, X_1\right)\)</span>,
+and for simplicity of writing these examples <span class="math notranslate nohighlight">\(f(x) = x\)</span>, then
+the algorithmic first thing that happens is that <span class="math notranslate nohighlight">\(x\)</span> is shifted
+to be within this range <span class="math notranslate nohighlight">\(\left[X_0, X_1\right)\)</span>.
+If the grid coordinates closest to <span class="math notranslate nohighlight">\(x\)</span> after the shift are
+<span class="math notranslate nohighlight">\(\left[x_j, x_{j+1}, \cdots, x_{j+n}\right]\)</span>,
+and <span class="math notranslate nohighlight">\(x_j \leq x \lt x_{j+n}\)</span> then <span class="math notranslate nohighlight">\(u(x) = x\)</span> for all values.
+If <span class="math notranslate nohighlight">\(x \lt x_j\)</span>, then <span class="math notranslate nohighlight">\(u(x) = x + X_0 - X_1\)</span>
+for all <span class="math notranslate nohighlight">\(x_i \geq \left(X_1-X_0\right) / 2\)</span>.
+If <span class="math notranslate nohighlight">\(x \gt x_{j+n}\)</span>, then <span class="math notranslate nohighlight">\(u(x) = x - X_0 + X_1\)</span>
+for all <span class="math notranslate nohighlight">\(x_i \lt \left(X_1-X_0\right) / 2\)</span>.</p>
 </section>
 </section>
 </section>

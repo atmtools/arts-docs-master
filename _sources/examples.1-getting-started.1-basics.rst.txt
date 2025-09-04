@@ -1,0 +1,350 @@
+1. Basics
+=========
+
+This is a basic introduction to using pyarts
+
+It will take you through the following concepts:
+
+1. Creating a workspace
+2. Setting common variables on the workspace
+3. Loading data from files
+4. Running methods using the workspace
+5. Create a custom Agenda
+
+1. Create a workspace
+---------------------
+
+This example shows how to create a Workspace, the common entry point for
+all pyarts simulations.
+
+.. code-block:: python
+    :linenos:
+
+    # The first step is to import the pyarts package. This will make all
+    # pyarts modules available to you.
+    import pyarts3 as pyarts
+    
+    # The Workspace class is the common entry point for all pyarts simulations.
+    # It is used to interface with the ARTS C++ library and to manage the
+    # simulation state.
+    ws = pyarts.Workspace()
+    
+    # That's it. You have created a Workspace. You can now use it to run
+    # simulations. For example, you can run the ARTS Hello World example:
+    print("Hello, World!\n", ws)
+    
+2. Setting workspace variable
+-----------------------------
+
+This example shows how to set a workspace variable.  The way
+workspace variables are set depends on the constructors or __init__
+methods available for the respective ARTS classes.  We hope that most
+of our constructors make pythonic sense
+
+.. code-block:: python
+    :linenos:
+
+    # Import the module
+    import pyarts3 as pyarts
+    import numpy as np  # For some of the examples
+    
+    
+    # Create a workspace
+    ws = pyarts.Workspace()
+    
+    """
+    Indices can be set from the built-in python int.
+    
+    It is necessary to create an index object first, since the workspace
+    variable must know the type.
+    """
+    ws.ind = pyarts.arts.Index(1)
+    print("Should contain 1:           ", ws.ind)
+    
+    """
+    Once an index exist on the workspace, you can set it directly from int.
+    """
+    ws.ind = 2
+    print("Should contain 2:           ", ws.ind)
+    
+    
+    """
+    What follows are some examples of how to set other types of workspace
+    variables.  The general rule is that you can set a workspace variable
+    from any python object that has a corresponding ARTS type.  For
+    example, you can set a string from a python string, a matrix from a
+    numpy array, etc.
+    """
+    
+    # Numeric
+    ws.num = pyarts.arts.Numeric(9.81)  # from builtin float
+    print("Should contain 9.81:        ", ws.num)
+    
+    ws.num = 10   # from builtin int
+    print("Should contain 10:          ", ws.num)
+    
+    ws.num = np.float64(9.81)  # from numpy float
+    print("Should contain 9.81, again: ", ws.num)
+    
+    # Numeric
+    ws.str = pyarts.arts.String("hello")  # from builtin str
+    print("Should contain 'hello':     ", ws.str)
+    
+    ws.str = b"ARTS"  # from bytes
+    print("Should contain 'ARTS':      ", ws.str)
+    
+    
+    # Vector
+    ws.vec = pyarts.arts.Vector([1, 2, 3])  # from builtin list
+    print("Should contain 1 2 3:       ", ws.vec)
+    
+    ws.vec = np.array([4, 5, 6])  # from numpy array
+    print("Should contain 4 5 6:       ", ws.vec)
+    
+    
+    # Matrix
+    ws.mat = pyarts.arts.Matrix([[1, 2], [3, 4]])  # from builtin list
+    print("Should contain\n 1 2\n3 4:\n", ws.mat)
+    
+    ws.mat = np.array([[5, 6], [7, 8]])  # from numpy array
+    print("Should contain\n 5 6\n7 8:\n", ws.mat)
+    
+    """
+    Many more types are supported.  Please look at the documentation of the
+    respective Workspace Group for more information on how to initialize them.
+    """
+    
+    # TESTING
+    # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
+    # THE CONTENT OF THE VARIABLES ARE GOOD.
+    assert np.isclose(ws.ind, 2)
+    assert np.isclose(ws.num, 9.81)
+    assert np.allclose(ws.vec, [4, 5, 6])
+    assert np.allclose(ws.mat, [[5, 6], [7, 8]])
+    # END TESTING
+    
+3. Loading data from file
+-------------------------
+
+This example shows how to load data from a file into a workspace variable.
+
+
+.. code-block:: python
+    :linenos:
+
+    # Import the module
+    import pyarts3 as pyarts
+    
+    
+    # Create a workspace
+    ws = pyarts.Workspace()
+    
+    
+    """
+    Before we load data into a workspace variable, we need to know about
+    one of the tricks that ARTS uses to make the file IO more flexible.
+    
+    The trick is that ARTS does not just look for files in the folder
+    that you specify, but also in a number of other folders.  This is
+    useful since a lot of radiative transfer data is the same regardless
+    of the scenario that you are simulating.  For example, the absorption
+    lines of H2O are the same regardless of whether you are simulating
+    a clear sky or a cloudy sky.
+    
+    The folders that ARTS looks in are called search paths.  You can
+    print the search paths that ARTS uses by doing:
+    """
+    print("ARTS search paths:", pyarts.arts.globals.parameters.datapath)
+    
+    
+    """
+    The results of this command will depend on your environment variables
+    at the time of first import of pyarts during the scripting.  The default
+    search paths can be changed by setting the ARTS_DATA_PATH environment
+    variable.  For example, if you want to add a folder called "my_data"
+    to the search paths, you can do:
+    
+    export ARTS_DATA_PATH=/my_data
+    
+    before starting python.  If you want to add multiple folders, you can
+    separate them with a colon:
+    export ARTS_DATA_PATH=/my_data:/my_other_data
+    
+    Check the documentation for your shell if you want to make this change
+    permanent.
+    
+    It is always possible to add additional search paths from within python:
+    """
+    pyarts.arts.globals.parameters.datapath.append("/my_data")
+    print("ARTS search paths:", pyarts.arts.globals.parameters.datapath)
+    
+    
+    """
+    The following examples assumes that you have a copy of the arts-cat-data
+    and arts-xml-data repositories in the search paths.  If you do not have
+    these, you can download them from: https://www.radiativetransfer.org/tools/
+    
+    It demonstrates different ways that you can load data from a file into
+    the workspace.  There is no "best" way to do this, it depends on the
+    context, and what you find most readable.
+    """
+    
+    # Call the WorkspaceVariable member method "readxml" to load data from file
+    ws.absorption_bands.readxml("lines/O2-66.xml")
+    
+    # TESTING
+    # AS THIS FILE IS RUN TO TEST ARTS, WE NEED TO CHECK THAT
+    # THE CONTENT OF THE VARIABLES ARE GOOD.
+    assert len(ws.absorption_bands) > 0
+    assert "/my_data" in pyarts.arts.globals.parameters.datapath
+    # END TESTING
+    
+4. Running a workspace method
+-----------------------------
+
+This example demonstrates how to run a workspace method.
+We have shown this in previous examples, but here we will
+explain some details.
+
+.. code-block:: python
+    :linenos:
+
+    # Import the module
+    import pyarts3 as pyarts
+    
+    
+    # Create a workspace
+    ws = pyarts.Workspace()
+    
+    
+    """
+    All workspace methods can take pure python instance or workspace variables
+    """
+    example_index = pyarts.arts.Index(1)
+    ws.example_index = example_index
+    print(example_index)
+    print(ws.example_index)
+    print(type(ws.example_index), type(example_index))
+    
+    """
+    You can call workspace methods with named or positional arguments or any
+    combination thereof that python accepts
+    """
+    # 1)  Name some arguments
+    ws.spectral_radiance_space_agendaSet(
+        option="UniformCosmicBackground"
+    )
+    # 2)  Name some arguments, use positional for the others
+    ws.spectral_radiance_space_agendaSet(
+        ws.spectral_radiance_space_agenda,
+        option="UniformCosmicBackground",
+    )
+    # 3)  Name all arguments
+    ws.spectral_radiance_space_agendaSet(
+        spectral_radiance_space_agenda=ws.spectral_radiance_space_agenda,
+        option="UniformCosmicBackground",
+    )
+    # 4)  Use all positional arguments
+    ws.spectral_radiance_space_agendaSet(
+        ws.spectral_radiance_space_agenda, "UniformCosmicBackground"
+    )
+    
+5. Create an agenda
+-------------------
+
+This will explain how to create an agenda and set it on the workspace.
+
+
+.. code-block:: python
+    :linenos:
+
+    # Import the module
+    import pyarts3 as pyarts
+    
+    
+    # Create a workspace
+    ws = pyarts.Workspace()
+    
+    
+    """
+    Agendas are a collection of functions that define the simulation
+    of some core component.  For example, the iy_space_agenda defines
+    how the radiative transfer equation receives radiation from a
+    background of space --- commonly just the cosmic background radiation.
+    
+    These Agendas are defined from a set of common inputs and outputs.
+    
+    Agendas must consist of methods that combined covers the inputs and
+    outputs of the agenda itself.  While it is possible to create an
+    agenda manually, it is much more preferable to use the workspace
+    methods that exist to create the agenda for you.
+    
+    Before showing you how to creating your own iy_space_agenda,
+    this method call can do it for you, and it will probably do
+    it faster and safer than any manual approach:
+    """
+    ws.spectral_radiance_space_agendaSet(
+        option="UniformCosmicBackground"
+    )
+    
+    """
+    That said, we provide interpreted ways to create agendas manually.
+    The cosmic background radiation agenda of the method call above
+    can be created by the following, decorated code:
+    """
+    
+    
+    @pyarts.workspace.arts_agenda
+    def cosmic_background(ws):
+        ws.spectral_radianceUniformCosmicBackground(
+            spectral_radiance=ws.spectral_radiance,
+            frequency_grid=ws.frequency_grid,
+        )
+        ws.spectral_radiance_jacobianEmpty()
+        ws.Ignore(ws.ray_path_point)
+    
+    
+    ws.spectral_radiance_space_agenda = cosmic_background
+    print(cosmic_background)
+    print(ws.spectral_radiance_space_agenda)
+    
+    
+    """
+    The local namespace of your python instance will now contain
+    the variable "cosmic_background".  This is of type Agenda but is unchecked.
+    The assignment to "ws.iy_space_agenda" will cause the agenda to
+    be created, set, and checked on the current workspace.  This checking might
+    fail if, for instance, a required input or output is missing.
+    
+    It is possible to create a checked agenda that lives on the both the python
+    and on the pyarts workspace by specifying which workspace it should be set
+    on as a named argument to the agenda decorator:
+    """
+    
+    
+    @pyarts.workspace.arts_agenda(ws=ws)
+    def spectral_radiance_space_agenda(ws):
+        ws.spectral_radianceUniformCosmicBackground()
+        ws.spectral_radiance_jacobianEmpty()
+        ws.Ignore(ws.ray_path_point)
+    
+    
+    print(spectral_radiance_space_agenda)
+    print(ws.spectral_radiance_space_agenda)
+    
+    """
+    Lastly, an advanced feature to skip typing ignores is to tell the property to
+    deal with this for you by fixing the agenda.  Note that this might give you bad
+    results if the agenda is ever changed in a future update of ARTS as the method
+    will simply append all new input.  Still, it is convenient:
+    """
+    
+    @pyarts.workspace.arts_agenda(ws=ws, fix=True)
+    def spectral_radiance_space_agenda(ws):
+        ws.spectral_radianceUniformCosmicBackground()
+        ws.spectral_radiance_jacobianEmpty()
+    
+    print(spectral_radiance_space_agenda)
+    
+
+

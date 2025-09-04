@@ -59,10 +59,10 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Use of std::formatter&lt;T&gt;</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Use of <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#what-does-it-achieve">What does it achieve?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#how-is-it-implemented">How is it implemented?</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#what-formatter-options-are-available">What formatter options are available?</a></li>
@@ -74,6 +74,8 @@
 <li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -97,7 +99,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
           <li class="breadcrumb-item"><a href="dev.classes.html">ARTS Classes and Structs</a></li>
-      <li class="breadcrumb-item active">Use of std::formatter&lt;T&gt;</li>
+      <li class="breadcrumb-item active">Use of <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/dev.classes.formatter.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -108,30 +110,32 @@
            <div itemprop="articleBody">
              
   <section id="use-of-std-formatter-t">
-<h1>Use of std::formatter&lt;T&gt;<a class="headerlink" href="#use-of-std-formatter-t" title="Link to this heading"></a></h1>
+<h1>Use of <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code><a class="headerlink" href="#use-of-std-formatter-t" title="Link to this heading"></a></h1>
 <section id="what-does-it-achieve">
 <h2>What does it achieve?<a class="headerlink" href="#what-does-it-achieve" title="Link to this heading"></a></h2>
 <p>We use formatters to allow converting ARTS classes to strings consistently.
 This has some main uses:</p>
 <ol class="arabic simple">
-<li><p>See the content of the types in python using <cite>__repr__</cite>, <cite>__str__</cite>, or <cite>print</cite>.
+<li><p>See the content of the types in python using <code class="docutils literal notranslate"><span class="pre">__repr__</span></code>, <code class="docutils literal notranslate"><span class="pre">__str__</span></code>, or <code class="docutils literal notranslate"><span class="pre">print</span></code>.
 Using formatters instead of stream operators is not just faster, but also
 more consistent.  And it allows us to specialize the formatting for each
-object using the python <cite>__format__</cite> interface to control some aspects of
+object using the python <code class="docutils literal notranslate"><span class="pre">__format__</span></code> interface to control some aspects of
 how the output looks.</p></li>
-<li><p>Calls to <cite>std::format</cite> inside the C++ code can be used to format strings
+<li><p>Calls to <code class="docutils literal notranslate"><span class="pre">std::format</span></code> inside the C++ code can be used to format strings
 consistently.  This is especially useful for logging and debugging,
-and may even be used in the XML IO code when <cite>std::print</cite> is available.</p></li>
+and our experience using it in XML IO code with <code class="docutils literal notranslate"><span class="pre">std::print</span></code> shows
+that it is significantly faster than the old stream-based solution to
+text manipulation.</p></li>
 </ol>
 </section>
 <section id="how-is-it-implemented">
 <h2>How is it implemented?<a class="headerlink" href="#how-is-it-implemented" title="Link to this heading"></a></h2>
-<p>Most ARTS classes should provide a <cite>std::formatter&lt;T&gt;</cite> specialization to allow
-formatting of the class using <cite>fmt::format</cite> and its ilks.
-The only exceptions are those groups that are marked as <cite>value_type</cite> in the
+<p>Most ARTS classes should provide a <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code> specialization to allow
+formatting of the class using <code class="docutils literal notranslate"><span class="pre">std::format</span></code> and its ilks.
+The only exceptions are those groups that are marked as <code class="docutils literal notranslate"><span class="pre">value_type</span></code> in the
 workspace groups definition.</p>
 <p>This is done by
-specialization of the <cite>std::formatter&lt;T&gt;</cite> class template for the class in
+specialization of the <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span></code> class template for the class in
 question. The following is an outline of meta-code
 for the specialization of this class that
 must exist for most ARTS classes:</p>
@@ -154,17 +158,17 @@ must exist for most ARTS classes:</p>
 </div>
 <p>This specialization must live on the top-level namespace (otherwise it does not work).</p>
 <p>The only two functions that are actually needed for the class to be
-formattable are <cite>format</cite> and <cite>parse</cite>.  The rest are helper functions and data that
+formattable are <code class="docutils literal notranslate"><span class="pre">format</span></code> and <code class="docutils literal notranslate"><span class="pre">parse</span></code>.  The rest are helper functions and data that
 allow us to make the format across multiple ARTS classes compatible.
-The implementation of <cite>format</cite> is also specific to the class in question,
+The implementation of <code class="docutils literal notranslate"><span class="pre">format</span></code> is also specific to the class in question,
 so its potential implementations will not be discussed here in details,
 but examples and best-practices will be given.</p>
-<p>The <cite>MetaData</cite> is a placeholder for additional data that the class needs to store
+<p>The <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> is a placeholder for additional data that the class needs to store
 to be formatted.  For sake of sanity in the code, it is recommended that this data
-is either another <cite>std::formatter&lt;T&gt; fmt;</cite> or a <cite>format_tags tags;</cite> object, as explicitly named.
+is either another <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span> <span class="pre">fmt;</span></code> or a <code class="docutils literal notranslate"><span class="pre">format_tags</span> <span class="pre">tags;</span></code> object, as explicitly named.
 Any other names or more options are discouraged as it will break cross-class compatibility.
 Only these two options are discussed here.</p>
-<p>If your class’s <cite>MetaData</cite> is <cite>std::formatter&lt;T&gt; fmt;</cite> then the following is the recommended implementation:</p>
+<p>If your class’s <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> is <code class="docutils literal notranslate"><span class="pre">std::formatter&lt;T&gt;</span> <span class="pre">fmt;</span></code> then the following is the recommended implementation:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-number">Listing 8 </span><span class="caption-text">Meta code for formatting ARTS classes that inherit a formatter</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
@@ -182,7 +186,7 @@ Only these two options are discussed here.</p>
 </pre></div>
 </div>
 </div>
-<p>If your class’s <cite>MetaData</cite> is <cite>format_tags tags;</cite> then the following is the recommended implementation:</p>
+<p>If your class’s <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> is <code class="docutils literal notranslate"><span class="pre">format_tags</span> <span class="pre">tags;</span></code> then the following is the recommended implementation:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-number">Listing 9 </span><span class="caption-text">Meta code for formatting ARTS classes that owns a formatter</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
@@ -200,26 +204,39 @@ Only these two options are discussed here.</p>
 </pre></div>
 </div>
 </div>
-<p>The above ensures that there exists at most one <cite>tags</cite> object for each class, and that
-the <cite>tags</cite> object is the only object that needs to be passed around to ensure compatibility.</p>
+<p>The above ensures that there exists at most one <code class="docutils literal notranslate"><span class="pre">tags</span></code> object for each class, and that
+the <code class="docutils literal notranslate"><span class="pre">tags</span></code> object is the only object that needs to be passed around to ensure compatibility.</p>
 </section>
 <section id="what-formatter-options-are-available">
 <h2>What formatter options are available?<a class="headerlink" href="#what-formatter-options-are-available" title="Link to this heading"></a></h2>
-<p>The following options are available for the <cite>format_tags</cite> object:</p>
+<p>The following options are available for the <code class="docutils literal notranslate"><span class="pre">format_tags</span></code> object:</p>
 <ol class="arabic simple">
-<li><p><cite>bracket</cite>. Activated by the <cite>B</cite> character in the format string.</p></li>
-<li><p><cite>short_str</cite>. Activated by the <cite>s</cite> character in the format string.</p></li>
-<li><p><cite>comma</cite>. Activated by the <cite>,</cite> character in the format string.</p></li>
-<li><p><cite>names</cite>. Activated by the <cite>N</cite> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bracket</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;B&quot;</span></code> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">short_str</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comma</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;,&quot;</span></code> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">names</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;N&quot;</span></code> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;IO&quot;</span></code> characters in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;q&quot;</span></code> character in the format string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>.  Cannot be activated, should be set manually in the <code class="docutils literal notranslate"><span class="pre">parse</span></code> method.</p></li>
 </ol>
-<p>The default formatting string given to <cite>__str__</cite> is <cite>{:NB,}</cite> and the default
-formatting string given to <cite>__repr__</cite> is <cite>{:sNB,}</cite>.</p>
-<p>What a type will do with these options is up to the type itself.</p>
+<p>The default formatting string given to <code class="docutils literal notranslate"><span class="pre">__str__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:qNB,}&quot;</span></code> and the default
+formatting string given to <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:sqNB,}&quot;</span></code>.</p>
+<p>What a type will do with these options is up to the type itself.  Generally,
+a <code class="docutils literal notranslate"><span class="pre">bracket</span></code> type should add brackets around the output, a <code class="docutils literal notranslate"><span class="pre">short_str</span></code> type should
+show a short string representation, a <code class="docutils literal notranslate"><span class="pre">comma</span></code> type should separate elements with commas,
+a <code class="docutils literal notranslate"><span class="pre">names</span></code> type should show the names of the elements, an <code class="docutils literal notranslate"><span class="pre">io</span></code> type should use the IO
+formatting, and a <code class="docutils literal notranslate"><span class="pre">q</span></code> type should quote the quotable output.  If you need the formatted
+output to look a certain way, you need to write a test that enforces this.  The way these
+options interact is also not defined, so combining them may lead to unexpected results.</p>
+<p>The special <code class="docutils literal notranslate"><span class="pre">depth</span></code> option is a <code class="docutils literal notranslate"><span class="pre">Size</span></code> that is used to indicate how “deep” the
+variable should be indented in the output.  It is used for instance in the <code class="docutils literal notranslate"><span class="pre">matpack</span></code>
+formatter to indicate how many levels of indentation should be used when formatting
+the objects.</p>
 </section>
 <section id="what-do-you-need-to-think-about-when-implementing-a-formatter">
 <h2>What do you need to think about when implementing a formatter?<a class="headerlink" href="#what-do-you-need-to-think-about-when-implementing-a-formatter" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Calling the <cite>format_tags</cite> object’s <cite>format</cite> method is an efficient way
+<li><p>Calling the <code class="docutils literal notranslate"><span class="pre">format_tags</span></code> object’s <code class="docutils literal notranslate"><span class="pre">format</span></code> method is an efficient way
 to chain formatting calls together</p></li>
 </ol>
 <blockquote>
@@ -235,13 +252,14 @@ to chain formatting calls together</p></li>
 </div>
 </div></blockquote>
 <ol class="arabic simple" start="2">
-<li><p>Whenever you format in a <cite>const char *</cite>, that is anything in C++ that is directly
-written <cite>“I am a const char *”</cite>, there will be a resulting <cite>‘0’</cite> character included
+<li><p>Whenever you format in a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*</span></code>, that is anything in C++ that is directly
+written <code class="docutils literal notranslate"><span class="pre">&quot;I</span> <span class="pre">am</span> <span class="pre">a</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*&quot;</span></code>, there will be a resulting <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> character included
 in the formatted string.  This will cause problems if you intend to copy-paste the
-screen output, as the <cite>‘0’</cite> character will not be visible but there anyway.
-To avoid this, use <cite>std::string_view</cite> instead of <cite>const char *</cite> whenever possible.
-The easiest way to this is simply to write <cite>“I am a string_view”sv</cite>, as the <cite>sv</cite>
-makes it a <cite>std::string_view</cite> and avoids copying the last <cite>‘0’</cite> character.</p></li>
+screen output, as the <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> character will not be visible but there anyway.
+Sometimes the output will even be truncated at the first <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> character.
+To avoid this, use <code class="docutils literal notranslate"><span class="pre">std::string_view</span></code> instead of <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*</span></code> whenever possible.
+The easiest way to this is simply to write <code class="docutils literal notranslate"><span class="pre">&quot;I</span> <span class="pre">am</span> <span class="pre">a</span> <span class="pre">string_view&quot;sv</span></code>, as the <code class="docutils literal notranslate"><span class="pre">sv</span></code>
+makes it a <code class="docutils literal notranslate"><span class="pre">std::string_view</span></code> and avoids copying the last <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> character.</p></li>
 </ol>
 </section>
 </section>

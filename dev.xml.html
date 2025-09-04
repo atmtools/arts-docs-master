@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XML IO &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="Documentation" href="dev.doc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">XML IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-xml-io-stream">The <code class="docutils literal notranslate"><span class="pre">xml_io_stream</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#templated-overloads-of-xml-io-stream">Templated overloads of <code class="docutils literal notranslate"><span class="pre">xml_io_stream</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#std-vector-t-or-array-t"><code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">Array&lt;T&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-array-t-n"><code class="docutils literal notranslate"><span class="pre">std::array&lt;T,</span> <span class="pre">N&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#all-arts-options">All <code class="docutils literal notranslate"><span class="pre">arts_options</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-function-t-ts"><code class="docutils literal notranslate"><span class="pre">std::function&lt;T(Ts...)&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-unordered-map-key-t"><code class="docutils literal notranslate"><span class="pre">std::unordered_map&lt;Key,</span> <span class="pre">T&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-optional-t"><code class="docutils literal notranslate"><span class="pre">std::optional&lt;T&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-shared-ptr-t"><code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;T&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-tuple-t"><code class="docutils literal notranslate"><span class="pre">std::tuple&lt;T...&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-pair-a-b"><code class="docutils literal notranslate"><span class="pre">std::pair&lt;A,</span> <span class="pre">B&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#std-variant-t"><code class="docutils literal notranslate"><span class="pre">std::variant&lt;T...&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matpack-data-t-t-n"><code class="docutils literal notranslate"><span class="pre">matpack::data_t&lt;T,</span> <span class="pre">N&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matpack-cdata-t-t-n"><code class="docutils literal notranslate"><span class="pre">matpack::cdata_t&lt;T,</span> <span class="pre">N...&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matpack-grid-t-compare"><code class="docutils literal notranslate"><span class="pre">matpack::grid_t&lt;Compare&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matpack-gridded-data-t-t-grids"><code class="docutils literal notranslate"><span class="pre">matpack::gridded_data_t&lt;T,</span> <span class="pre">Grids...&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aggregates">Aggregates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">XML IO</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.xml.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="xml-io">
+<h1>XML IO<a class="headerlink" href="#xml-io" title="Link to this heading"></a></h1>
+<p>This is the main way that we perform file IO in ARTS.</p>
+<p>Each workspace group must support XML file IO.
+If a group is added that does not support XML file IO, ARTS cannot compile.
+Support is done by overloading a templated struct, <code class="docutils literal notranslate"><span class="pre">xml_io_stream</span></code>,
+which defines the core concepts involved in the workflow.</p>
+<p>How the group handles XML file IO inside this is up to the group itself.
+Generally, all lower level overloads should already be defined, so it
+is common to just chain several calls to other XML IO methods.</p>
+<section id="the-xml-io-stream">
+<h2>The <code class="docutils literal notranslate"><span class="pre">xml_io_stream</span></code><a class="headerlink" href="#the-xml-io-stream" title="Link to this heading"></a></h2>
+<p>There are two structs defined in <code class="docutils literal notranslate"><span class="pre">xml_io_struct.h</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-number">Listing 11 </span><span class="caption-text">The original structs that should be overloaded</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">//! Name overloads</span>
+<span class="linenos"> 2</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="linenos"> 3</span><span class="k">struct</span><span class="w"> </span><span class="nc">xml_io_stream_name</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&lt;unknown&gt;&quot;</span><span class="n">sv</span><span class="p">;</span>
+<span class="linenos"> 5</span><span class="p">};</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="linenos"> 8</span><span class="k">struct</span><span class="w"> </span><span class="nc">xml_io_stream</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xml_io_stream_name_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="c1">// Core IO</span>
+<span class="linenos">12</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="p">,</span>
+<span class="linenos">13</span><span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="p">,</span>
+<span class="linenos">14</span><span class="w">                    </span><span class="n">bofstream</span><span class="o">*</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span>
+<span class="linenos">15</span><span class="w">                    </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="n">sv</span><span class="p">)</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">istream</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">bifstream</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="c1">// Binary streaming IO (optional)</span>
+<span class="linenos">19</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">bofstream</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">20</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">bifstream</span><span class="o">*</span><span class="p">)</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="w">  </span><span class="c1">// Text streaming (optional)</span>
+<span class="linenos">23</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">24</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>The first struct allows overloading the <code class="docutils literal notranslate"><span class="pre">type_name</span></code>.
+This is a way to give a unique name to templated types.
+For any generic type, this defaults to an unknown name,
+which should never find itself into an actual file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">xml_io_stream_name_v&lt;T&gt;</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">xml_io_stream_name&lt;T&gt;::name</span></code>.</p>
+</div>
+<p>The second struct contains the information required to access
+the XML IO.  For the generic type, this has an unknown name
+with all of its static methods deleted.  The intent is that
+we need to overload these methods for specific types.
+Please see a later subsection on helper structs that exists
+that will allow you to skip writing overloads for some subtypes.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>As a reminder, to explicitly overload this structure
+you write <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">&lt;&gt;</span> <span class="pre">struct&lt;MyType&gt;</span> <span class="pre">{/*</span> <span class="pre">code</span> <span class="pre">*/};</span></code>.  To template overload it
+you write <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">&lt;typename</span> <span class="pre">...T&gt;</span> <span class="pre">struct&lt;MyTemplate&lt;T...&gt;&gt;</span> <span class="pre">{/*</span> <span class="pre">code</span> <span class="pre">*/};</span></code>.</p>
+<p>The former always take precedence to the latter, so you can overload a generic template
+and then still specialize it.  Be very careful about the latter overload.  If the
+template matches any other overloaded template, there will be a name clash and the
+compiler will produce very complicated errors.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">type_name</span></code>, the <code class="docutils literal notranslate"><span class="pre">write</span></code> and the <code class="docutils literal notranslate"><span class="pre">read</span></code> method
+are required to be overloaded for every workspace group in ARTS.
+There is a convenience concept defined, <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>,
+which is used throughout the XML IO interface methods to ensure
+that the name and methods are declared.  This should hopefully
+ensure that accidentally missing to overload the methods will
+cause a visible error directly in the code you write rather than
+deep inside some generic template function.  In the past, this
+type of error was often a link-time error with no visible
+side-effect to the developer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will still get a linker error if your declaration does not come with a compiled definition.</p>
+</div>
+<p>The other three methods are there to aid template chaining.
+You do not need to define them.  They may be used in manual
+code as well, of course, and if your type fulfills the criterias
+to define them, it is useful to do so.</p>
+<p>First, <code class="docutils literal notranslate"><span class="pre">put</span></code> and <code class="docutils literal notranslate"><span class="pre">get</span></code>.  If an overload defines these,
+it fulfills the <code class="docutils literal notranslate"><span class="pre">xml_io_binary</span></code> concept.
+These are for data types where the
+memory layout is known when the type is defined.  <code class="docutils literal notranslate"><span class="pre">Numeric</span></code>
+is one such example.  <code class="docutils literal notranslate"><span class="pre">Numeric</span></code> will always be bit-by-bit
+copyable and replacable.  You can store its data in binary
+form without any issues.  In fact, doing so often results in
+much faster file IO.  Since <code class="docutils literal notranslate"><span class="pre">Numeric</span></code> is binary-representable,
+any data that can be represented as a <code class="docutils literal notranslate"><span class="pre">std::span&lt;Numeric&gt;</span></code> is
+also binary-representable.  Such types involve <code class="docutils literal notranslate"><span class="pre">std::array&lt;Numeric,</span> <span class="pre">N&gt;</span></code>
+and <code class="docutils literal notranslate"><span class="pre">std::vector&lt;Numeric&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">Vector</span></code> and <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> and so on.
+Of these four types,  <code class="docutils literal notranslate"><span class="pre">std::array&lt;Numeric,</span> <span class="pre">N&gt;</span></code> is in turn also
+binary-representable, so if we define <code class="docutils literal notranslate"><span class="pre">put</span></code> and <code class="docutils literal notranslate"><span class="pre">get</span></code>
+for it (spoiler: we do),
+a <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::array&lt;Numeric,</span> <span class="pre">N&gt;&gt;</span></code> is also known
+to be binary-representable.
+<code class="docutils literal notranslate"><span class="pre">Vector</span></code>, however, is not binary-representable.
+Its size is only known at runtime.</p>
+<p>The last overloadable method is <code class="docutils literal notranslate"><span class="pre">parse</span></code>.  When it is overloaded,
+the concept <code class="docutils literal notranslate"><span class="pre">xml_io_parseable</span></code> true.  This method is supposed to
+take a stream where we know there will be a span of data to read.
+Again using <code class="docutils literal notranslate"><span class="pre">Numeric</span></code> as an example, we know it is going to be a single
+connected set of characters that must be parsed through
+the lense of <code class="docutils literal notranslate"><span class="pre">double_imanip()</span></code>
+or similar lenses to be understood.  Thus we know that if we have a span of
+<code class="docutils literal notranslate"><span class="pre">Numeric</span></code> to be parsed, they will be laid out next to eachother with some
+whitespace separation, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;1</span> <span class="pre">2</span> <span class="pre">3</span> <span class="pre">4</span> <span class="pre">5&quot;</span></code>.  So it can be read.
+Again, we can chain parse <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, but not <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>
+since the latter has a runtime size.</p>
+<p>It is very useful to overload the above whenever possible.
+They unlock contiguous IO optimizations that are incredibly
+useful to speed up reading routines.  On the other hand,
+if your type cannot be represented as a span, it might not
+help as much to force the overload.</p>
+</section>
+<section id="templated-overloads-of-xml-io-stream">
+<h2>Templated overloads of <code class="docutils literal notranslate"><span class="pre">xml_io_stream</span></code><a class="headerlink" href="#templated-overloads-of-xml-io-stream" title="Link to this heading"></a></h2>
+<p>Several types have template overloads that should handle the most common
+combinations of advanced types in ARTS.  You are free to do an explicit
+overload to any of these types, but are not required to.  The base classes
+covers most use-cases.</p>
+<p>These template overloads make use of the naming structure, and some types
+have been explicitly renamed.  Only the base-name will be given below.
+Overloaded names are too many.</p>
+<p>What follows below is a summary of the existing template overloads and any
+special considerations that must be had when wanting to use them.</p>
+<section id="std-vector-t-or-array-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">Array&lt;T&gt;</span></code><a class="headerlink" href="#std-vector-t-or-array-t" title="Link to this heading"></a></h3>
+<p>These are the same type and overloaded in the <code class="docutils literal notranslate"><span class="pre">xml_io_stream_array.h</span></code> file.
+They will by default be named <code class="docutils literal notranslate"><span class="pre">&quot;Array&quot;</span></code>.
+The only limitation is that the type <code class="docutils literal notranslate"><span class="pre">T</span></code> must be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+If the <code class="docutils literal notranslate"><span class="pre">T</span></code> is parseable or binary-compatible, these methods are used.
+In turn, the <code class="docutils literal notranslate"><span class="pre">Array&lt;T&gt;</span></code> will not be parseable or binary-compatible.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.arts.ArrayOfIndex.html#pyarts3.arts.ArrayOfIndex" title="pyarts3.arts.ArrayOfIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfIndex</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.ArrayOfString.html#pyarts3.arts.ArrayOfString" title="pyarts3.arts.ArrayOfString"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayOfString</span></code></a></p></li>
+</ul>
+</section>
+<section id="std-array-t-n">
+<h3><code class="docutils literal notranslate"><span class="pre">std::array&lt;T,</span> <span class="pre">N&gt;</span></code><a class="headerlink" href="#std-array-t-n" title="Link to this heading"></a></h3>
+<p>These are also overloaded in the <code class="docutils literal notranslate"><span class="pre">xml_io_stream_array.h</span></code> file.
+They will be default have the exact same name as  the <code class="docutils literal notranslate"><span class="pre">Array&lt;T&gt;</span></code> (even if
+the <code class="docutils literal notranslate"><span class="pre">Array&lt;T&gt;</span></code> overload its name).
+However, this name is not used in the XML file by defaunlt, instead opting to use
+no name at all.
+If the <code class="docutils literal notranslate"><span class="pre">T</span></code> is parseable or binary-compatible, these methods are used.
+In turn, the <code class="docutils literal notranslate"><span class="pre">std::array&lt;T,</span> <span class="pre">N&gt;</span></code> will be parseable and/or binary-compatible
+to the same degree as <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You must overload the <code class="docutils literal notranslate"><span class="pre">xml_io_stream&lt;std::array&lt;T,</span> <span class="pre">N&gt;&gt;</span></code> if <code class="docutils literal notranslate"><span class="pre">std::array&lt;T,</span> <span class="pre">N&gt;</span></code> is
+directly facing the user and holds either parseable or binary compatible <code class="docutils literal notranslate"><span class="pre">T</span></code>.
+This is because it does not respect XML tagging - it assumes that it is OK to just put its data where it is at.</p>
+</div>
+</section>
+<section id="all-arts-options">
+<h3>All <code class="docutils literal notranslate"><span class="pre">arts_options</span></code><a class="headerlink" href="#all-arts-options" title="Link to this heading"></a></h3>
+<p>These are overloaded to their names in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_enum_option.h</span></code>.
+You can fullfill the criterias for this overload manually - or by a
+very unfortunate mistake - by fullfilling the <code class="docutils literal notranslate"><span class="pre">xml_enum_option</span></code> concept.
+These option values are put as strings in the XML-tag and parsed as such.</p>
+</section>
+<section id="std-function-t-ts">
+<h3><code class="docutils literal notranslate"><span class="pre">std::function&lt;T(Ts...)&gt;</span></code><a class="headerlink" href="#std-function-t-ts" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name <code class="docutils literal notranslate"><span class="pre">&quot;Function&quot;</span></code> in
+<code class="docutils literal notranslate"><span class="pre">xml_io_stream_functional.h</span></code>.
+Any attempt to call these overloads will result in
+a runtime error.  The overload
+exist so we can compose other XML IO in case there is a method in the future to
+allow custom functional objects to be re-created.
+Consider this compositional for all intent and purposes.</p>
+</section>
+<section id="std-unordered-map-key-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::unordered_map&lt;Key,</span> <span class="pre">T&gt;</span></code><a class="headerlink" href="#std-unordered-map-key-t" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name <code class="docutils literal notranslate"><span class="pre">&quot;Map&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_map.h</span></code>.
+Both <code class="docutils literal notranslate"><span class="pre">Key</span></code> and <code class="docutils literal notranslate"><span class="pre">T</span></code> must be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+They will be written one after the other for all types.
+No care for binary-compatibility or parseability are taken.</p>
+</section>
+<section id="std-optional-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::optional&lt;T&gt;</span></code><a class="headerlink" href="#std-optional-t" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name <code class="docutils literal notranslate"><span class="pre">&quot;Optional&quot;</span></code> in
+<code class="docutils literal notranslate"><span class="pre">xml_io_stream_optional.h</span></code>.
+The type <code class="docutils literal notranslate"><span class="pre">T</span></code> must not only  be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>,
+but also default constructible.
+No care for binary-compatibility or parseability are taken.</p>
+</section>
+<section id="std-shared-ptr-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;T&gt;</span></code><a class="headerlink" href="#std-shared-ptr-t" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name <code class="docutils literal notranslate"><span class="pre">&quot;Shared&quot;</span></code> in
+<code class="docutils literal notranslate"><span class="pre">xml_io_stream_shared_ptr.h</span></code>.
+The non-constant type of <code class="docutils literal notranslate"><span class="pre">T</span></code> must not only  be
+<code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>, but also default constructible.
+Constant types are first constructed as non-constant before
+being moved into the constant shared pointer.
+No care for binary-compatibility or parseability are taken.</p>
+</section>
+<section id="std-tuple-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::tuple&lt;T...&gt;</span></code><a class="headerlink" href="#std-tuple-t" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name <code class="docutils literal notranslate"><span class="pre">&quot;Tuple&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_tuple.h</span></code>.
+However, this name is not displayed to the user by default,
+instead opting to use no name at all.
+All types <code class="docutils literal notranslate"><span class="pre">T...</span></code> must  be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+Binary-compatibility and parseability is taken into account and forwarded
+to nested types, with specialization if all <code class="docutils literal notranslate"><span class="pre">T...</span></code> are the same type,</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You must overload the <code class="docutils literal notranslate"><span class="pre">xml_io_stream&lt;std::tuple&lt;T...&gt;&gt;</span></code> if <code class="docutils literal notranslate"><span class="pre">std::tuple&lt;T...&gt;</span></code> is
+directly facing the user and if the tuple holds all parseable and binary compatible types.
+This is because it does not respect XML tagging - it assumes that it is OK to just put its data where it is at.</p>
+</div>
+</section>
+<section id="std-pair-a-b">
+<h3><code class="docutils literal notranslate"><span class="pre">std::pair&lt;A,</span> <span class="pre">B&gt;</span></code><a class="headerlink" href="#std-pair-a-b" title="Link to this heading"></a></h3>
+<p>These are overloaded to do the same as
+<code class="docutils literal notranslate"><span class="pre">std::tuple&lt;A,</span> <span class="pre">B&gt;</span></code>
+in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_tuple.h</span></code>.
+Both <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> must  be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+Binary-compatibility and parseability is taken into account and forwarded
+to nested types, with specialization if both <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> are the same type,
+if, and only if, both <code class="docutils literal notranslate"><span class="pre">A</span></code> and <a href="#id1"><span class="problematic" id="id2">``</span></a>B``share this property.</p>
+</section>
+<section id="std-variant-t">
+<h3><code class="docutils literal notranslate"><span class="pre">std::variant&lt;T...&gt;</span></code><a class="headerlink" href="#std-variant-t" title="Link to this heading"></a></h3>
+<p>These are overloaded to the name of <code class="docutils literal notranslate"><span class="pre">&quot;Variant&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_tuple.h</span></code>.
+The types <code class="docutils literal notranslate"><span class="pre">T...</span></code> must not only be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>,
+but also default constructible.
+All the types <code class="docutils literal notranslate"><span class="pre">T...</span></code> must have unique <code class="docutils literal notranslate"><span class="pre">xml_io_stream&lt;T&gt;::type_name...</span></code>.
+These are used to identify which type is constructed
+during the reading routine.
+No care for binary-compatibility or parseability are taken.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmKeyVal</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfKeyVal</span></code></p></li>
+</ul>
+</section>
+<section id="matpack-data-t-t-n">
+<h3><code class="docutils literal notranslate"><span class="pre">matpack::data_t&lt;T,</span> <span class="pre">N&gt;</span></code><a class="headerlink" href="#matpack-data-t-t-n" title="Link to this heading"></a></h3>
+<p>These are overloaded to default name <code class="docutils literal notranslate"><span class="pre">&quot;Matpack&quot;</span></code> in
+<code class="docutils literal notranslate"><span class="pre">xml_io_stream_matpack_mdspan.h</span></code>.
+The type <code class="docutils literal notranslate"><span class="pre">T</span></code> must be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+Binary-compatibility and parseability is taken into account but not forwarded
+to nested types.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.arts.Vector.html#pyarts3.arts.Vector" title="pyarts3.arts.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.Matrix.html#pyarts3.arts.Matrix" title="pyarts3.arts.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a></p></li>
+</ul>
+</section>
+<section id="matpack-cdata-t-t-n">
+<h3><code class="docutils literal notranslate"><span class="pre">matpack::cdata_t&lt;T,</span> <span class="pre">N...&gt;</span></code><a class="headerlink" href="#matpack-cdata-t-t-n" title="Link to this heading"></a></h3>
+<p>These are overloaded to the same name as the same-ranked and typed
+<code class="docutils literal notranslate"><span class="pre">matpack::data_t&lt;T,</span> <span class="pre">N&gt;</span></code> in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_matpack_mdspan.h</span></code>.
+The type <code class="docutils literal notranslate"><span class="pre">T</span></code> must be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+Binary-compatibility and parseability is taken into account and forwarded
+to nested types.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.arts.Vector2.html#pyarts3.arts.Vector2" title="pyarts3.arts.Vector2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector2</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a></p></li>
+</ul>
+</section>
+<section id="matpack-grid-t-compare">
+<h3><code class="docutils literal notranslate"><span class="pre">matpack::grid_t&lt;Compare&gt;</span></code><a class="headerlink" href="#matpack-grid-t-compare" title="Link to this heading"></a></h3>
+<p>Are completely forwarded as <code class="docutils literal notranslate"><span class="pre">Vector</span></code> in
+<code class="docutils literal notranslate"><span class="pre">xml_io_stream_matpack_mdspan_helpers.h</span></code>.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.arts.AscendingGrid.html#pyarts3.arts.AscendingGrid" title="pyarts3.arts.AscendingGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">AscendingGrid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.DescendingGrid.html#pyarts3.arts.DescendingGrid" title="pyarts3.arts.DescendingGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">DescendingGrid</span></code></a></p></li>
+</ul>
+</section>
+<section id="matpack-gridded-data-t-t-grids">
+<h3><code class="docutils literal notranslate"><span class="pre">matpack::gridded_data_t&lt;T,</span> <span class="pre">Grids...&gt;</span></code><a class="headerlink" href="#matpack-gridded-data-t-t-grids" title="Link to this heading"></a></h3>
+<p>Are overloaded in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_matpack_mdspan_helpers.h</span></code>
+to default name <code class="docutils literal notranslate"><span class="pre">&quot;GriddedField</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">Grids...</span></code> and the <code class="docutils literal notranslate"><span class="pre">T</span></code> must be <code class="docutils literal notranslate"><span class="pre">arts_xml_ioable</span></code>.
+No care for binary-compatibility or parseability are taken.</p>
+<p>Example types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.arts.GriddedField1.html#pyarts3.arts.GriddedField1" title="pyarts3.arts.GriddedField1"><code class="xref py py-class docutils literal notranslate"><span class="pre">GriddedField1</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.GriddedField2.html#pyarts3.arts.GriddedField2" title="pyarts3.arts.GriddedField2"><code class="xref py py-class docutils literal notranslate"><span class="pre">GriddedField2</span></code></a></p></li>
+</ul>
+</section>
+<section id="aggregates">
+<h3>Aggregates<a class="headerlink" href="#aggregates" title="Link to this heading"></a></h3>
+<p>Are overloadable in <code class="docutils literal notranslate"><span class="pre">xml_io_stream_aggregate.h</span></code>.  These will map directly
+to the <code class="docutils literal notranslate"><span class="pre">std::tuple&lt;T...&gt;</span></code> overload when activated, except that it gives
+type a named XML tag.</p>
+<p>The overload is quite complicated, requiring somewhat hacky code since there
+is currently no standard way to easily turn an aggregate into a tuple.
+You activate it by modyfying the following piece of code for your type</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-number">Listing 12 </span><span class="caption-text">The aggregate overload</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// Example aggregate (do not copy)</span>
+<span class="linenos"> 2</span><span class="k">struct</span><span class="w"> </span><span class="nc">MyStruct</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="p">};</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1">// Overladable struct that activates the aggregate overlaods</span>
+<span class="linenos"> 7</span><span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="linenos"> 8</span><span class="k">struct</span><span class="w"> </span><span class="nc">xml_io_stream_aggregate</span><span class="o">&lt;</span><span class="n">MyStruct</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">10</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will get the default naming scheme.  Please also overload the name.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If any subtype of the aggregate is not possible to store, you will end
+up with very complicated errors.  Ensure all subtypes are XML IO compatible.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.doc.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -59,7 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
@@ -79,6 +79,8 @@
 <li class="toctree-l3"><a class="reference internal" href="dev.workspace.variables.html">Workspace variables</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -127,14 +129,22 @@ The agenda object itself is a struct with the following fields:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the agenda as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputs</span></code> - the workspace variables that are produced/output by the agenda as a list of strings.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">inputs</span></code> - the workspace variables that are consumed by the agenda as a list of strings.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">enum_options</span></code> - a list of strings that are the options for the agenda.  Defaults to empty.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">enum_defaults</span></code> - the default enum option for the agenda.  Defaults to no-default by being empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enum_options</span></code> - (optional) a list of strings that are the options for the agenda.  Defaults to empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enum_defaults</span></code> - (optional) the default enum option for the agenda.  Defaults to no-default by being empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_constraints</span></code> - (optional) a vector of structs that define constraints on the output after the agenda has been executed.  Defaults to unconstrained.</p></li>
 </ul>
 <p>The two enum-variables, if set, will generate workspace methods that allow setting the agenda to a specific named option.
 This is useful for agendas that have known “modes”.  However, it puts some constraints on the implementation of the agenda.
 The implementor must implement a method <code class="docutils literal notranslate"><span class="pre">get_agendax(const</span> <span class="pre">std::string&amp;)</span></code> in the
 <code class="docutils literal notranslate"><span class="pre">workspace_agenda_creator.h</span></code> and <code class="docutils literal notranslate"><span class="pre">workspace_agenda_creator.cpp</span></code> files.
 Please see existing options in those files for examples.</p>
+<p>If you want to ensure that the outputs have the right size or correct values (e.g., positive values),
+after executing the agenda, you can use the <code class="docutils literal notranslate"><span class="pre">output_constraints</span></code> field.  This is a complicated field
+that is a vector of constraints.  Each constraint has a test and a message.  The test should be
+a compilable expression that returns a boolean true when the constraint is satisfied.  The message
+is the string that is printed in the exception when 1) the test fails, and 2) on the documentation page.
+Additionally, any number of expressions can be added to the message.  These expressions added to the message
+and evaluated at runtime when a failure occurs (e.g., <code class="docutils literal notranslate"><span class="pre">{x.size()}</span></code>).</p>
 <section id="how-to-add-a-workspace-agenda">
 <h2>How to add a workspace agenda?<a class="headerlink" href="#how-to-add-a-workspace-agenda" title="Link to this heading"></a></h2>
 <p>The easiest way to add an agenda is to copy an existing agenda.
@@ -157,17 +167,17 @@ will mute all future warnings.  All cases should be explicitly handled.</p>
 <p>A method or a set of methods must be able to use the workspace agenda to produce a set of desired workspace variables.
 Generally, if you can keep the number of inputs limited and the number of outputs fixed, you may consider a workspace agenda.
 However, overpopulating the workspace with agendas is not recommended. So please reuse existing ones as appropriate.</p>
-<p>Take <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_observer_agenda.html#pyarts.workspace.Workspace.ray_path_observer_agenda" title="pyarts.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a> as an example.  The different ways we can define a path
+<p>Take <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_observer_agenda.html#pyarts3.workspace.Workspace.ray_path_observer_agenda" title="pyarts3.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a> as an example.  The different ways we can define a path
 from an observer to a background is practically limitless.
-However, if we are just interested in <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance.html#pyarts.workspace.Workspace.spectral_radiance" title="pyarts.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>
+However, if we are just interested in <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_radiance.html#pyarts3.workspace.Workspace.spectral_radiance" title="pyarts3.workspace.Workspace.spectral_radiance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance</span></code></a>
 for some observer and frequency,
 we know that we just need the background radiation from the background of
-the observed <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> and the state of the
+the observed <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> and the state of the
 atmosphere along the path.
-So a method like <a class="reference internal" href="pyarts.workspace.Workspace.measurement_vectorFromOperatorPath.html#pyarts.workspace.Workspace.measurement_vectorFromOperatorPath" title="pyarts.workspace.Workspace.measurement_vectorFromOperatorPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromOperatorPath()</span></code></a>,
+So a method like <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vectorFromOperatorPath.html#pyarts3.workspace.Workspace.measurement_vectorFromOperatorPath" title="pyarts3.workspace.Workspace.measurement_vectorFromOperatorPath"><code class="xref py py-func docutils literal notranslate"><span class="pre">measurement_vectorFromOperatorPath()</span></code></a>,
 which takes a set of frequencies and a set of observers,
 may effectively ignore the complexity of computing
-the <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> internally, and leave that to the workspace agenda.</p>
+the <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> internally, and leave that to the workspace agenda.</p>
 </section>
 <section id="generated-files">
 <h2>Generated files<a class="headerlink" href="#generated-files" title="Link to this heading"></a></h2>
@@ -196,9 +206,9 @@ ensure there are no bugs in the generated code.</p>
 <p>Several agendas have helper methods to make the user interface easier.
 These methods should follow a simple naming convention.</p>
 <ul class="simple">
-<li><p>There are methods that set an agenda to a named option, such as <a class="reference internal" href="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet.html#pyarts.workspace.Workspace.spectral_radiance_space_agendaSet" title="pyarts.workspace.Workspace.spectral_radiance_space_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaSet()</span></code></a>.  These are default generated by using the enum-variables.</p></li>
-<li><p>There are methods that compute an agenda based on existing <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>, such as <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a>.</p></li>
-<li><p>There are methods that set an agenda based on multiple options, such as <a class="reference internal" href="pyarts.workspace.Workspace.disort_settings_agendaSetup.html#pyarts.workspace.Workspace.disort_settings_agendaSetup" title="pyarts.workspace.Workspace.disort_settings_agendaSetup"><code class="xref py py-func docutils literal notranslate"><span class="pre">disort_settings_agendaSetup()</span></code></a>.</p></li>
+<li><p>There are methods that set an agenda to a named option, such as <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_radiance_space_agendaSet.html#pyarts3.workspace.Workspace.spectral_radiance_space_agendaSet" title="pyarts3.workspace.Workspace.spectral_radiance_space_agendaSet"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_radiance_space_agendaSet()</span></code></a>.  These are default generated by using the enum-variables.</p></li>
+<li><p>There are methods that compute an agenda based on existing <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>, such as <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts3.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts3.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a>.</p></li>
+<li><p>There are methods that set an agenda based on multiple options, such as <a class="reference internal" href="pyarts3.workspace.Workspace.disort_settings_agendaSetup.html#pyarts3.workspace.Workspace.disort_settings_agendaSetup" title="pyarts3.workspace.Workspace.disort_settings_agendaSetup"><code class="xref py py-func docutils literal notranslate"><span class="pre">disort_settings_agendaSetup()</span></code></a>.</p></li>
 </ul>
 </section>
 </section>

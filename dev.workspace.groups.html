@@ -59,7 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
@@ -80,6 +80,8 @@
 <li class="toctree-l3"><a class="reference internal" href="dev.workspace.variables.html">Workspace variables</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -117,7 +119,7 @@
 <h1>Workspace groups<a class="headerlink" href="#workspace-groups" title="Link to this heading"></a></h1>
 <p>Workspace groups are the types of the <a class="reference internal" href="dev.workspace.variables.html"><span class="doc">Workspace variables</span></a>.
 They define the logic that can be applied to the data.
-Workspace groups are all available in the <a class="reference internal" href="pyarts.arts.html#module-pyarts.arts" title="pyarts.arts"><code class="xref py py-mod docutils literal notranslate"><span class="pre">arts</span></code></a> module.</p>
+Workspace groups are all available in the <a class="reference internal" href="pyarts3.arts.html#module-pyarts3.arts" title="pyarts3.arts"><code class="xref py py-mod docutils literal notranslate"><span class="pre">arts</span></code></a> module.</p>
 <p>Most workspace groups are defined in the <code class="docutils literal notranslate"><span class="pre">workspace_groups.cpp</span></code> file.
 Additionally, <a class="reference internal" href="dev.workspace.options.html"><span class="doc">Workspace options</span></a> are automatically turned into workspace groups using their definitions in the <code class="docutils literal notranslate"><span class="pre">arts_options.cpp</span></code> file.</p>
 <section id="how-to-add-a-workspace-group">
@@ -134,7 +136,7 @@ your new workspace group interface smooth from python.</p>
 <p>Note that there are several templated methods available that will help your
 class have a better python interface.  Please write more if you find some
 defaults are missing.  The most important one for all workspace groups is
-<code class="docutils literal notranslate"><span class="pre">workspace_group_interface</span></code>, which handles bindings for all the standard
+<code class="docutils literal notranslate"><span class="pre">generic_interface</span></code>, which handles bindings for all the standard
 interfaces required for workspace groups (such as IO).</p>
 </section>
 <section id="defining-a-workspace-group">
@@ -167,7 +169,7 @@ The following must compile:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">std::format(&quot;{}&quot;,</span> <span class="pre">a)</span></code>, <code class="docutils literal notranslate"><span class="pre">std::format(&quot;{:sqNB,}&quot;,</span> <span class="pre">a)</span></code>, <code class="docutils literal notranslate"><span class="pre">x.inner_fmt().tags</span></code>, and <code class="docutils literal notranslate"><span class="pre">static_assert(std::same_as&lt;format_tags,</span> <span class="pre">std::remove_cvref_t&lt;decltype(x.inner_fmt().tags)&gt;&gt;)</span></code> - allow formatting the group to a string.  The exception to this are classes that pass one of these consepts: <code class="docutils literal notranslate"><span class="pre">std::integral&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">std::floating_point&lt;T&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">std::same_as&lt;T,</span> <span class="pre">std::string&gt;</span></code>.   Failure to comply leads to a static assertion as the group fails the <code class="docutils literal notranslate"><span class="pre">arts_formattable_or_value_type</span></code> concept.  Note that to ensure this, you should read the <a class="reference internal" href="dev.classes.formatter.html"><span class="doc">Use of std::formatter&lt;T&gt;</span></a> documentation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">x[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">x[k]</span></code> should also implement all the above if the group is an array or map type, respectively.  This also holds true for the group of <code class="docutils literal notranslate"><span class="pre">k</span></code> for map types.  Failure to compile will lead to difficult errors in the python binding compilation.</p></li>
 </ul>
-<p>Additionally, you need to ensure that your group passes the <code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests when <code class="docutils literal notranslate"><span class="pre">pyarts</span></code> is built.  There exist a helper method <code class="docutils literal notranslate"><span class="pre">workspace_group_interface</span></code> you can send a mutable version
+<p>Additionally, you need to ensure that your group passes the <code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests when <code class="docutils literal notranslate"><span class="pre">pyarts</span></code> is built.  There exist a helper method <code class="docutils literal notranslate"><span class="pre">generic_interface</span></code> you can send a mutable version
 of the <code class="docutils literal notranslate"><span class="pre">py::class_&lt;T&gt;</span></code> object to that should ensure this.  However, generally they interface via python might require some additional work.</p>
 </section>
 <section id="generated-files">

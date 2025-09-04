@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="next" title="Documentation" href="dev.doc.html" />
     <link rel="prev" title="Workspace options" href="dev.workspace.options.html" /> 
 </head>
 
@@ -59,7 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyarts.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
@@ -78,6 +78,8 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -114,7 +116,7 @@
   <section id="workspace-variables">
 <h1>Workspace variables<a class="headerlink" href="#workspace-variables" title="Link to this heading"></a></h1>
 <p>Workspace variables allow named data to be passed into workspace methods.
-They are attributes of the <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object.</p>
+They are attributes of the <a class="reference internal" href="pyarts3.workspace.Workspace.html#pyarts3.workspace.Workspace" title="pyarts3.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object.</p>
 <p>Most workspace variables are defined in the <code class="docutils literal notranslate"><span class="pre">workspace_variables.cpp</span></code> file.
 Workspace agendas are automatically defined as workspace variables from the <code class="docutils literal notranslate"><span class="pre">workspace_agendas.cpp</span></code>.</p>
 <section id="defining-a-workspace-variable">
@@ -127,13 +129,13 @@ of the map and the object are a struct with the following fields:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code> - a description of the variable as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> - the workspace group of the variable as a string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">default_value</span></code> - an optional default value of the workspace variable that is defined when a <a class="reference internal" href="pyarts.workspace.Workspace.html#pyarts.workspace.Workspace" title="pyarts.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object is default-initialized.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_value</span></code> - an optional default value of the workspace variable that is defined when a <a class="reference internal" href="pyarts3.workspace.Workspace.html#pyarts3.workspace.Workspace" title="pyarts3.workspace.Workspace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workspace</span></code></a> object is default-initialized.</p></li>
 </ul>
 </section>
 <section id="in-workspace-agendas-cpp">
 <h3>In <code class="docutils literal notranslate"><span class="pre">workspace_agendas.cpp</span></code><a class="headerlink" href="#in-workspace-agendas-cpp" title="Link to this heading"></a></h3>
 <p>See the page on <a class="reference internal" href="dev.workspace.agendas.html"><span class="doc">Workspace agendas</span></a> for more information.  The workspace variable defined from the workspace agenda will
-have no default value.  It will be of the type <a class="reference internal" href="pyarts.arts.Agenda.html#pyarts.arts.Agenda" title="pyarts.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a>.</p>
+have no default value.  It will be of the type <a class="reference internal" href="pyarts3.arts.Agenda.html#pyarts3.arts.Agenda" title="pyarts3.arts.Agenda"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agenda</span></code></a>.</p>
 </section>
 </section>
 <section id="what-qualifies-as-a-workspace-variable">
@@ -169,8 +171,8 @@ is unambiguous - it is not used as anything other than non-local thermodynamic e
 we have reserved a set of terms that should be used in the names of related workspace variables.
 This list will connect workspace variables under a rubric <code class="docutils literal notranslate"><span class="pre">Related</span> <span class="pre">workspace</span> <span class="pre">variables</span></code> in the documentation.
 Please note that combining more than one of these terms is possible and highly encouraged.
-The workspace variable <a class="reference internal" href="pyarts.workspace.Workspace.propagation_matrix.html#pyarts.workspace.Workspace.propagation_matrix" title="pyarts.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> along the <a class="reference internal" href="pyarts.workspace.Workspace.ray_path.html#pyarts.workspace.Workspace.ray_path" title="pyarts.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>
-is called <a class="reference internal" href="pyarts.workspace.Workspace.ray_path_propagation_matrix.html#pyarts.workspace.Workspace.ray_path_propagation_matrix" title="pyarts.workspace.Workspace.ray_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix</span></code></a> to connect it to both concepts.
+The workspace variable <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix.html#pyarts3.workspace.Workspace.propagation_matrix" title="pyarts3.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> along the <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>
+is called <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_propagation_matrix.html#pyarts3.workspace.Workspace.ray_path_propagation_matrix" title="pyarts3.workspace.Workspace.ray_path_propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_propagation_matrix</span></code></a> to connect it to both concepts.
 The full list is available in the <code class="docutils literal notranslate"><span class="pre">workspace_variables_keywords.cpp</span></code> file.
 As of writing this, the list includes the following terms:</p>
 <ul class="simple">
@@ -202,7 +204,7 @@ As of writing this, the list includes the following terms:</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="dev.workspace.options.html" class="btn btn-neutral float-left" title="Workspace options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dev.doc.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

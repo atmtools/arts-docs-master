@@ -1,0 +1,96 @@
+inversion_iterate_agenda
+========================
+
+.. currentmodule:: pyarts3.workspace
+
+.. attribute:: Workspace.inversion_iterate_agenda
+   :type: ~pyarts3.arts.Agenda
+   
+   Work in progress ...
+   
+   See :func:`~pyarts3.workspace.Workspace.OEM`.
+   
+   .. note::
+       The output :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` size may depend on the :attr:`~pyarts3.workspace.Workspace.do_jacobian` input.
+   
+   It is possible to execute :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`.
+   
+   As all agendas in ARTS, :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda` is also customizable via its operator helper class: :class:`~pyarts3.arts.inversion_iterate_agendaOperator`.
+   See it, :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecuteOperator` for more details.
+   
+   :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda` have these constraints ():
+   
+   #. On output, the measurement vector and Jacobian must match expected size.
+   #. On output, the model state vector and Jacobian must match expected size.
+   
+   
+   
+   
+   Parameters
+   ----------
+   atmospheric_field : ~pyarts3.arts.AtmField
+       An atmospheric field in ARTS. See :attr:`~pyarts3.workspace.Workspace.atmospheric_field` **[INOUT]**
+   absorption_bands : ~pyarts3.arts.AbsorptionBands
+       Bands of absorption lines for line-by-line (LBL) calculations. See :attr:`~pyarts3.workspace.Workspace.absorption_bands` **[INOUT]**
+   measurement_sensor : ~pyarts3.arts.ArrayOfSensorObsel
+       A list of sensor elements. See :attr:`~pyarts3.workspace.Workspace.measurement_sensor` **[INOUT]**
+   surface_field : ~pyarts3.arts.SurfaceField
+       The surface field describes the surface properties. See :attr:`~pyarts3.workspace.Workspace.surface_field` **[INOUT]**
+   subsurface_field : ~pyarts3.arts.SubsurfaceField
+       The sub0surface field describes the sub-surface properties. See :attr:`~pyarts3.workspace.Workspace.subsurface_field` **[INOUT]**
+   measurement_vector_fitted : ~pyarts3.arts.Vector
+       As :attr:`~pyarts3.workspace.Workspace.measurement_vector`, but fitted to the model. See :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` **[OUT]**
+   measurement_jacobian : ~pyarts3.arts.Matrix
+       The first order partial derivatives of the :attr:`~pyarts3.workspace.Workspace.measurement_vector`. See :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` **[OUT]**
+   jacobian_targets : ~pyarts3.arts.JacobianTargets
+       A list of targets for the Jacobian Matrix calculations. See :attr:`~pyarts3.workspace.Workspace.jacobian_targets` **[IN]**
+   model_state_vector : ~pyarts3.arts.Vector
+       A state vector of the model. See :attr:`~pyarts3.workspace.Workspace.model_state_vector` **[IN]**
+   do_jacobian : ~pyarts3.arts.Index
+       A boolean calculations related to the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` should be ignored. See :attr:`~pyarts3.workspace.Workspace.do_jacobian` **[IN]**
+   inversion_iterate_agenda_counter : ~pyarts3.arts.Index
+       A counter for the inversion iterate agenda. See :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda_counter` **[IN]**
+   
+   
+   
+   .. rubric:: Default value
+   
+   #. :func:`~pyarts3.workspace.Workspace.UpdateModelStates`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`
+   #. :func:`~pyarts3.workspace.Workspace.Ignore`, using: input = :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda_counter`
+   #. :func:`~pyarts3.workspace.Workspace.Touch`, using: input = :attr:`~pyarts3.workspace.Workspace.atmospheric_field`
+   #. :func:`~pyarts3.workspace.Workspace.Touch`, using: input = :attr:`~pyarts3.workspace.Workspace.absorption_bands`
+   #. :func:`~pyarts3.workspace.Workspace.Touch`, using: input = :attr:`~pyarts3.workspace.Workspace.measurement_sensor`
+   #. :func:`~pyarts3.workspace.Workspace.Touch`, using: input = :attr:`~pyarts3.workspace.Workspace.surface_field`
+   #. :func:`~pyarts3.workspace.Workspace.Touch`, using: input = :attr:`~pyarts3.workspace.Workspace.subsurface_field`
+   
+   
+   
+   
+   .. rubric:: Input to workspace methods
+   
+   .. hlist::
+       :columns: 1
+   
+       * :func:`~pyarts3.workspace.Workspace.OEM` 
+       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`
+   
+   
+   .. rubric:: Output from workspace methods
+   
+   .. hlist::
+       :columns: 1
+   
+       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaSet` 
+       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaSetOperator`
+   
+   
+   .. rubric:: Related workspace variable
+   
+   .. hlist::
+       :columns: 1
+   
+       * :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda_counter`
+   
+   .. :class:`~pyarts3.arts.Agenda`
+   

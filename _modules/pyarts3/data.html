@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts3.data &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=73457b95" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d2e63331"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts3.data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts3.data</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Common functions for the pyarts package.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts.globals</span><span class="w"> </span><span class="kn">import</span> <span class="n">parameters</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
+
+
+<div class="viewcode-block" id="download">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.download">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xml&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">),</span> <span class="n">download_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download and extract data files.</span>
+
+<span class="sd">    This function sets the ARTS data search path to the downloaded</span>
+<span class="sd">    data directories, so that ARTS can find the required data files.</span>
+
+<span class="sd">    If the environment variable ARTS_DATA_PATH or ARTS_INCLUDE_PATH is set,</span>
+<span class="sd">    it is assumed that the user wants to use their own catalog locations</span>
+<span class="sd">    and this function does nothing.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        data (Tuple[str]):</span>
+<span class="sd">            List of data types to download. Possible values are:</span>
+<span class="sd">            - ``&quot;xml&quot;``: arts-xml-data package</span>
+<span class="sd">            - ``&quot;cat&quot;``: arts-cat-data package</span>
+<span class="sd">        download_dir (str, optional):</span>
+<span class="sd">            The directory where the data files will be stored.</span>
+<span class="sd">            If not provided, the default is ``~/.cache/arts/``.</span>
+<span class="sd">        verbose (bool, optional):</span>
+<span class="sd">            Whether to print info messages. Defaults to False.</span>
+<span class="sd">        **kwargs:</span>
+<span class="sd">            Additional options passed on to the data specific download functions, e.g.</span>
+<span class="sd">            ``version`` for ARTS catalogs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_DATA_PATH&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping download, environment variable ARTS_DATA_PATH already set.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_INCLUDE_PATH&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Skipping download, environment variable ARTS_INCLUDE_PATH already set.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">download_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">download_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;arts&quot;</span><span class="p">)</span>
+
+    <span class="n">datadirs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">match</span> <span class="n">d</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s2">&quot;xml&quot;</span><span class="p">:</span>
+                <span class="n">datadirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">download_arts_xml_data</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;cat&quot;</span><span class="p">:</span>
+                <span class="n">datadirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">download_arts_cat_data</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown download data type &quot;</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">datadirs</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_DownloadProgressBar</span><span class="p">(</span><span class="n">tqdm</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">tsize</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">bsize</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_download_and_extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">extract_dir</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downloads a zip file from a given URL and extracts it to a specified directory.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        url (str): The URL of the zip file to download.</span>
+<span class="sd">        extract_dir (str, optional): The directory to extract the zip file to. Defaults to &quot;.&quot;.</span>
+<span class="sd">        verbose (bool, optional): Whether to print info messages. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">_DownloadProgressBar</span><span class="p">(</span>
+            <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">miniters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+            <span class="n">zip_path</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">reporthook</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">update_to</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">extract_dir</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_download_arts_data</span><span class="p">(</span><span class="n">catname</span><span class="p">,</span> <span class="n">download_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download and extract the ARTS XML and catalog data files from github.</span>
+
+<span class="sd">    This function sets the ARTS data search path to the downloaded</span>
+<span class="sd">    data directories, so that ARTS can find the required data files.</span>
+
+<span class="sd">    If the environment variable ARTS_DATA_PATH or ARTS_INCLUDE_PATH is set,</span>
+<span class="sd">    it is assumed that the user wants to use their own catalog locations</span>
+<span class="sd">    and this function does nothing.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        download_dir (str, optional):</span>
+<span class="sd">            The directory where the data files will be stored.</span>
+<span class="sd">            ggkIf not provided, the default is `~/.cache/arts`.</span>
+<span class="sd">        version (str, optional):</span>
+<span class="sd">            The version of ARTS to download the data files for. The default</span>
+<span class="sd">            is the version of the currently installed pyarts package.</span>
+<span class="sd">        verbose (bool, optional):</span>
+<span class="sd">            Whether to print info messages. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_DATA_PATH&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping download, environment variable ARTS_DATA_PATH already set.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ARTS_INCLUDE_PATH&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Skipping download, environment variable ARTS_INCLUDE_PATH already set.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">download_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">download_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;arts&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+
+        <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span>
+
+    <span class="n">GITHUB_URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://github.com/atmtools/arts/releases/download/v</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">/&quot;</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Version </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2"> is not a release version.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Please check out the current catalogs with svn instead.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">catname</span> <span class="o">=</span> <span class="n">catname</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">version</span>
+    <span class="n">catdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">catname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">catdir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_download_and_extract</span><span class="p">(</span>
+            <span class="n">GITHUB_URL</span> <span class="o">+</span> <span class="n">catname</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="p">)</span>
+
+    <span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">catdir</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">catdir</span>
+
+
+<div class="viewcode-block" id="download_arts_xml_data">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.download_arts_xml_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_arts_xml_data</span><span class="p">(</span><span class="n">download_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download and extract the ARTS XML data files from github.</span>
+
+<span class="sd">    This function sets the ARTS data search path to the downloaded</span>
+<span class="sd">    data directories, so that ARTS can find the required data files.</span>
+
+<span class="sd">    If the environment variable ARTS_DATA_PATH or ARTS_INCLUDE_PATH is set,</span>
+<span class="sd">    it is assumed that the user wants to use their own catalog locations</span>
+<span class="sd">    and this function does nothing.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        download_dir (str, optional):</span>
+<span class="sd">            The directory where the data files will be stored.</span>
+<span class="sd">            ggkIf not provided, the default is `~/.cache/arts`.</span>
+<span class="sd">        version (str, optional):</span>
+<span class="sd">            The version of ARTS to download the data files for. The default</span>
+<span class="sd">            is the version of the currently installed pyarts package.</span>
+<span class="sd">        verbose (bool, optional):</span>
+<span class="sd">            Whether to print info messages. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_download_arts_data</span><span class="p">(</span><span class="s2">&quot;arts-xml-data&quot;</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="download_arts_cat_data">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.download_arts_cat_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_arts_cat_data</span><span class="p">(</span><span class="n">download_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download and extract the ARTS catalog data files from github.</span>
+
+<span class="sd">    This function sets the ARTS data search path to the downloaded</span>
+<span class="sd">    data directories, so that ARTS can find the required data files.</span>
+
+<span class="sd">    If the environment variable ARTS_DATA_PATH or ARTS_INCLUDE_PATH is set,</span>
+<span class="sd">    it is assumed that the user wants to use their own catalog locations</span>
+<span class="sd">    and this function does nothing.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        download_dir (str, optional):</span>
+<span class="sd">            The directory where the data files will be stored.</span>
+<span class="sd">            ggkIf not provided, the default is `~/.cache/arts`.</span>
+<span class="sd">        version (str, optional):</span>
+<span class="sd">            The version of ARTS to download the data files for. The default</span>
+<span class="sd">            is the version of the currently installed pyarts package.</span>
+<span class="sd">        verbose (bool, optional):</span>
+<span class="sd">            Whether to print info messages. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_download_arts_data</span><span class="p">(</span><span class="s2">&quot;arts-cat-data&quot;</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="to_atmospheric_field">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.to_atmospheric_field">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_atmospheric_field</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">remap</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ignore</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">atm</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Populates a ~pyarts3.arts.AtmField from an xarray Dataset-like structure</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : xarray.Dataset</span>
+<span class="sd">        A dataset.  Coordinates should contain &#39;alt&#39;, &#39;lat&#39;, and &#39;lon&#39;.</span>
+<span class="sd">        All other keys() should be assignable to the atm-field by name.</span>
+<span class="sd">    remap : None | dict[str, str], optional</span>
+<span class="sd">        All names in this optional dict are renamed when accessing the dataset.</span>
+<span class="sd">        For example, if the altitude-grid is called &#39;Alt&#39; instead of &#39;alt&#39;, the</span>
+<span class="sd">        dict should contain {..., &#39;alt&#39;: &#39;Alt&#39;, ...}.</span>
+<span class="sd">    ignore : None | list[str], optional</span>
+<span class="sd">        Ignore keys listed from assignment into the atmospheric field.</span>
+<span class="sd">    atm : None | pyarts.arts.AtmField</span>
+<span class="sd">        The default atmospheric field to use.  Defaults to None to use default-</span>
+<span class="sd">        constructed atmospheric field object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    atm : pyarts.arts.AtmField</span>
+<span class="sd">        An atmospheric field</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ignore</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ignore</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">remap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">remap</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">alt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">remap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alt&quot;</span><span class="p">,</span> <span class="s2">&quot;alt&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;alt&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span>
+        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">remap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;lat&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span>
+        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">remap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;lon&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span>
+        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="n">GF3</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GeodeticField3</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Generic&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">alt</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">lon</span><span class="o">.</span><span class="n">size</span><span class="p">)),</span>
+        <span class="n">grid_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Altitude&quot;</span><span class="p">,</span> <span class="s2">&quot;Latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude&quot;</span><span class="p">],</span>
+        <span class="n">grids</span><span class="o">=</span><span class="p">[</span><span class="n">alt</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">atm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">atm</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;top_of_atmosphere&quot;</span><span class="p">):</span>
+        <span class="n">atm</span><span class="o">.</span><span class="n">top_of_atmosphere</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">top_of_atmosphere</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">atm</span><span class="o">.</span><span class="n">top_of_atmosphere</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">alt</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">k</span> <span class="o">=</span> <span class="n">remap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">kstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+            <span class="n">GF3</span><span class="o">.</span><span class="n">dataname</span> <span class="o">=</span> <span class="n">kstr</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">GF3</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span><span class="p">[:]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kstr</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flat</span><span class="p">[:]</span>
+
+            <span class="n">atm</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">GF3</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Failed to assign key to atm: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">atm</span></div>
+
+
+
+<div class="viewcode-block" id="to_absorption_species">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.to_absorption_species">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_absorption_species</span><span class="p">(</span>
+    <span class="n">atm_field</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ArrayOfArrayOfSpeciesTag</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scans the ARTS data path for species relevant to the given atmospheric field.</span>
+
+<span class="sd">    The scan is done over files in an arts-cat-data like directory structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atm_field (pyarts.arts.AtmField): A relevant atmospheric field.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pyarts.arts.ArrayOfArrayOfSpeciesTag: All found species tags.</span>
+<span class="sd">        The intent is that this is enough information to use pyarts.workspace.Workspace.ReadCatalogData</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">species</span> <span class="o">=</span> <span class="n">atm_field</span><span class="o">.</span><span class="n">species_keys</span><span class="p">()</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">species</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">find_xml</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;xsec/</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-XFIT&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-XFIT&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">spec2</span> <span class="ow">in</span> <span class="n">species</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">find_xml</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cia/</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">find_xml</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cia/</span><span class="si">{</span><span class="n">spec2</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec2</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">find_xml</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cia/</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">spec</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SpeciesEnum</span><span class="o">.</span><span class="n">Water</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;H2O-ForeignContCKDMT400&quot;</span><span class="p">)</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;H2O-SelfContCKDMT400&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">spec</span> <span class="o">==</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SpeciesEnum</span><span class="o">.</span><span class="n">CarbonDioxide</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;CO2-CKDMT252&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ArrayOfArrayOfSpeciesTag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">out</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="xarray_open_dataset">
+<a class="viewcode-back" href="../../pyarts3.data.html#pyarts3.data.xarray_open_dataset">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">xarray_open_dataset</span><span class="p">(</span><span class="n">filename_or_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps xarray.open_dataset to search for files in the current and in ARTS&#39; data path.</span>
+
+<span class="sd">    All args and kwargs are passed on to xarray.open_dataset directly.  Any FileNotFoundError</span>
+<span class="sd">    will be caught and just raised if no path works.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename_or_obj (_type_): _description_</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">filename_or_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">filename_or_obj</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found in ARTS data path (</span><span class="si">{</span><span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">filename_or_obj</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

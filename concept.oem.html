@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimal estimation &mdash; ARTS 3.0.0dev7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d2e63331"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Physical grids" href="concept.physical_grids.html" />
+    <link rel="prev" title="Radiative Transfer" href="concept.radiative_transfer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="users.html">Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.atmospheric_field.html">The atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_field.html">The surface and planet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="concepts.html">Underpinning concepts and background</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Optimal estimation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linearization">Linearization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transforming-the-jacobian-matrix">Transforming the Jacobian matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="concept.physical_grids.html">Physical grids</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
+          <li class="breadcrumb-item"><a href="concepts.html">Underpinning concepts and background</a></li>
+      <li class="breadcrumb-item active">Optimal estimation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concept.oem.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="optimal-estimation">
+<span id="sec-oem"></span><h1>Optimal estimation<a class="headerlink" href="#optimal-estimation" title="Link to this heading"></a></h1>
+<p>The core expression of optimal estimation in ARTS
+follows from <span id="id1">Rodgers [<a class="reference internal" href="bibliography.html#id143" title="C.D. Rodgers. Inverse methods for atmospheric sounding: Theory and practise. World Scientific Publishing, 1 edition, 2000.">6</a>]</span>.
+He formulates the core expression of a measurement as</p>
+<div class="math notranslate nohighlight">
+\[\vec{y} = F\left(\vec{x}\right) + \epsilon,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{y}\)</span> is a measurement vector
+(i.e., <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vector.html#pyarts3.workspace.Workspace.measurement_vector" title="pyarts3.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a>
+in the ARTS workspace),
+<span class="math notranslate nohighlight">\(\vec{x}\)</span> is the state of the model
+(i.e., <a class="reference internal" href="pyarts3.workspace.Workspace.model_state_vector.html#pyarts3.workspace.Workspace.model_state_vector" title="pyarts3.workspace.Workspace.model_state_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vector</span></code></a>
+in the ARTS workspace),
+<span class="math notranslate nohighlight">\(F\)</span> is the model (i.e., ARTS itself), and
+<span class="math notranslate nohighlight">\(\epsilon\)</span> is some measurement error that cannot
+be modelled.</p>
+<p>The forward model result from this is just</p>
+<div class="math notranslate nohighlight">
+\[\vec{y}_f = F\left(\vec{x}\right).\]</div>
+<p>The goal of the optimal estimation is to find an <span class="math notranslate nohighlight">\(\vec{x}\)</span>
+that minimizes some cost-function, which in ARTS is defined as</p>
+<div class="math notranslate nohighlight">
+\[\chi^2 = \chi^2_y + \chi^2_x,\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\chi^2_y = \frac{1}{m} \left(\vec{y}-\vec{y}_f\right)^\top \mathbf{S}_\epsilon^{-1} \left(\vec{y}-\vec{y}_f\right).\\\chi^2_x = \frac{1}{m} \left(\vec{x}-\vec{x}_a\right)^\top \mathbf{S}_a^{-1} \left(\vec{x}-\vec{x}_a\right),\end{aligned}\end{align} \]</div>
+<p>where
+<span class="math notranslate nohighlight">\(m\)</span> is the number of measurements,
+<span class="math notranslate nohighlight">\(\vec{x}_a\)</span> is an a priori of <span class="math notranslate nohighlight">\(\vec{x}\)</span>,
+<span class="math notranslate nohighlight">\(\mathbf{S}_\epsilon\)</span> is the covariance of the measurement noise, and
+<span class="math notranslate nohighlight">\(\mathbf{S}_a\)</span> is the covariance of the model state apriori.</p>
+<section id="linearization">
+<h2>Linearization<a class="headerlink" href="#linearization" title="Link to this heading"></a></h2>
+<p>The optimal estimation methods in ARTS only work if it is possible to
+linearize <span class="math notranslate nohighlight">\(F\left(\vec{x}\right)\)</span> around <span class="math notranslate nohighlight">\(\vec{x}\)</span>.
+This is equivalent to stating that</p>
+<div class="math notranslate nohighlight">
+\[\vec{y} = \vec{y}_f + \mathbf{J} \left(\vec{x} - \vec{x}_a\right)\]</div>
+<p>where we can take the partial derivative to find that</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \frac{\partial \vec{y}}{\partial \vec{x}}\]</div>
+<p>is the Jacobian matrix
+(i.e., <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jacobian.html#pyarts3.workspace.Workspace.measurement_jacobian" title="pyarts3.workspace.Workspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a>
+in the ARTS workspace).</p>
+<p>One approach to minimize <span class="math notranslate nohighlight">\(\vec{x}\)</span> is to
+use a Gauss-Newton approach to update the state
+of the atmosphere.  This might look like</p>
+<div class="math notranslate nohighlight">
+\[\vec{x}_{i+1} = \vec{x}_a + \mathbf{S}_a
+\mathbf{J}^\top\left(\mathbf{J}\mathbf{S}_a \mathbf{J} ^\top+\mathbf{S}_\epsilon\right)^{-1}
+\left[\vec{y}-\vec{y}_f+
+\mathbf{J}\left(\vec{x}_i-\vec{x}_a\right)\right],\]</div>
+<div class="math notranslate nohighlight">
+\[\vec{y}_f = F\left(\vec{x}_i\right)\]</div>
+<p>for <span class="math notranslate nohighlight">\(i\)</span> starting at <span class="math notranslate nohighlight">\(a\)</span> or <span class="math notranslate nohighlight">\(0\)</span> and increasing the
+count until the cost functions above are not decreasing anymore, or
+too slowly to warrant more iterations.</p>
+</section>
+<section id="transforming-the-jacobian-matrix">
+<h2>Transforming the Jacobian matrix<a class="headerlink" href="#transforming-the-jacobian-matrix" title="Link to this heading"></a></h2>
+<p>It is sometimes desired to transform the Jacobian matrix away from the
+native units that are available in the model.  Instead of retrieving
+volume-mixing-ratio, it is sometimes more stable to retrieve the
+relative change in the volume-mixing-ratio, or perhaps even
+the logarithm of the volume-mixing-ratio, to avoid negative
+values creeping in to what is otherwise an intensive and numerical
+exercise.</p>
+<p>There are three ways perform transformations on the Jacobian
+matrix in ARTS.
+You can change the measurement unit (e.g., from spectral radiance
+to brightness temperature), you can change the model state unit
+(e.g., from volume-mixing-ratio to relative humidity), or you can
+map the Jacobian matrix to another vector space (e.g., from
+Cartesian coordinates to spherical coordinates).</p>
+<p>The first type of transformations are performed by an
+<a class="reference internal" href="pyarts3.arts.SpectralRadianceTransformOperator.html#pyarts3.arts.SpectralRadianceTransformOperator" title="pyarts3.arts.SpectralRadianceTransformOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralRadianceTransformOperator</span></code></a>
+in ARTS.  This is a local operation that is almost trivial to undo.
+Generally, you should just use one of the
+provided enumeration values of
+<a class="reference internal" href="pyarts3.arts.SpectralRadianceUnitType.html#pyarts3.arts.SpectralRadianceUnitType" title="pyarts3.arts.SpectralRadianceUnitType"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralRadianceUnitType</span></code></a> to
+set up these types of transformations.
+The enumeration class also describes how the transformations
+are done.  This will not be repeated here.</p>
+<p>The second and third types of transformations are a bit more complicated
+because they transform the model state vector.
+The optimal estimation methods are sometimes iterative, and they must be
+able to update the state of the model between iterations.
+These two types of transformations are therefore required to
+be able to transform the model state vector from native to non-native
+units, and vice versa, as well as to transform the Jacobian matrix
+from native to non-native units (but only in one-way, this operation
+does not need to be reversible).</p>
+<p>From a mathematical point of view, these two behave very similar.
+But from a practical point of view they are quite different.
+Transforming the model state vector requires just the model state
+vector of the native units and the Jacobian matrix that corresponds
+to just that model state parameter.
+Mapping the model state vector to non-native units may require
+knowing more than just a single model state parameter.</p>
+<section id="core-mapping-transformation-expression">
+<h3>Core mapping/transformation expression<a class="headerlink" href="#core-mapping-transformation-expression" title="Link to this heading"></a></h3>
+<p>If we define the native units of <span class="math notranslate nohighlight">\(\vec{x}\)</span> as <span class="math notranslate nohighlight">\(\vec{t}\)</span>
+so that</p>
+<div class="math notranslate nohighlight">
+\[\vec{x} = f\left(\vec{t}\right),\]</div>
+<p>there must be a reversible functions so that</p>
+<div class="math notranslate nohighlight">
+\[\vec{t} = f^{-1}\left(\vec{x}\right)\]</div>
+<p>for any transformation or mapping to work.  It must also be possible
+to take the partial derivative of <span class="math notranslate nohighlight">\(\vec{t}\)</span> with regards
+to <span class="math notranslate nohighlight">\(\vec{x}\)</span>.</p>
+<p>If we put this in the form of the linearized forward simulation,</p>
+<div class="math notranslate nohighlight">
+\[\vec{y}_f = \mathbf{J} \vec{x} = \mathbf{J} f\left(\vec{t}\right).\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\mathbf{J}\)</span> is still the partial derivative with regards to
+<span class="math notranslate nohighlight">\(\vec{x}\)</span>.  However, all partial derivatives will have been
+computed in terms of <span class="math notranslate nohighlight">\(\vec{t}\)</span>, since this is the native unit.
+If we introduce</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{J}' = \frac{\partial \vec{y}}{\partial \vec{t}},\]</div>
+<p>it is clear we can write</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}' \frac{\partial}{\partial \vec{x}} f^{-1}\left(\vec{x}\right).\]</div>
+<p>This step right here is what we consider the transformation
+of the Jacobian matrix.
+To make use of this style of transformation, we must provide
+matching <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(f^{-1}\)</span>, as well as a way to compute
+the partial derivative of <span class="math notranslate nohighlight">\(f^{-1}\)</span> with regards to
+<span class="math notranslate nohighlight">\(\vec{x}\)</span>.</p>
+<p>We provide several such solutions built-in to ARTS
+as listed below but it is possible to specify these
+directly from python by simply providing the three
+operators above.</p>
+<section id="relative-retrievals">
+<h4>Relative retrievals<a class="headerlink" href="#relative-retrievals" title="Link to this heading"></a></h4>
+<p>This is a model state vector transformation.
+By relative retrievals, we mean that the value itself is not
+retrieved, but instead its ratio is retrieved.</p>
+<p>In this scenario:</p>
+<div class="math notranslate nohighlight">
+\[\vec{x} = \vec{t} \oslash \vec{t}_0,\]</div>
+<div class="math notranslate nohighlight">
+\[\vec{t} = \vec{x} \odot \vec{t}_0,\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}' \odot \vec{t}_0,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\oslash\)</span> and <span class="math notranslate nohighlight">\(\odot\)</span>
+are element-wise division and multiplication,
+respectively.  <span class="math notranslate nohighlight">\(\vec{t}_0\)</span> is
+simply the a priori value of <span class="math notranslate nohighlight">\(\vec{t}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first iteration of a retrieval setup is going to be <span class="math notranslate nohighlight">\(\vec{x} = \vec{1}\)</span>.</p>
+</div>
+</section>
+<section id="logarithmic-retrievals">
+<h4>Logarithmic retrievals<a class="headerlink" href="#logarithmic-retrievals" title="Link to this heading"></a></h4>
+<p>This is a model state vector transformation.
+By logarithmic retrievals, we mean that the value itself is not
+retrieved, but instead its logarithm is retrieved.</p>
+<p>In this scenario:</p>
+<div class="math notranslate nohighlight">
+\[\vec{x} = \log\left(\vec{t}\right),\]</div>
+<div class="math notranslate nohighlight">
+\[\vec{t} = \exp\left(\vec{x}\right),\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}' \odot \exp\left(\vec{x}\right),\]</div>
+<p>where the exponential and logarithmic operations are element-wise.</p>
+</section>
+<section id="logarithmic-relative-retrievals">
+<h4>Logarithmic relative retrievals<a class="headerlink" href="#logarithmic-relative-retrievals" title="Link to this heading"></a></h4>
+<p>This is a model state vector transformation.
+By logarithmic relative retrievals, we mean that the value itself is not
+retrieved, but instead the logarithm of its relative value is retrieved.</p>
+<p>In this scenario:</p>
+<div class="math notranslate nohighlight">
+\[\vec{x} = \log\left(\vec{t} \oslash \vec{t}_0\right),\]</div>
+<div class="math notranslate nohighlight">
+\[\vec{t} = \exp\left(\vec{x}\right) \odot \vec{t}_0,\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}' \odot \exp\left(\vec{x}\right) \odot \vec{t}_0,\]</div>
+<p>where the operations are still element-wise on the product that is created.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first iteration of a retrieval setup is going to have <span class="math notranslate nohighlight">\(\vec{x} = \vec{0}\)</span>.</p>
+</div>
+</section>
+<section id="relative-humidity-retrievals">
+<h4>Relative humidity retrievals<a class="headerlink" href="#relative-humidity-retrievals" title="Link to this heading"></a></h4>
+<p>This is a model state vector transformation.
+By relative humidity retrievals, we mean that the value itself is not
+retrieved, but instead the its conversion to relative humidity is retrieved.</p>
+<p>In this scenario:</p>
+<div class="math notranslate nohighlight">
+\[\vec{x} = \vec{t} \odot \vec{p} \oslash p_{\textrm{sat}}\left(\vec{T}\right),\]</div>
+<div class="math notranslate nohighlight">
+\[\vec{t} = \vec{x} \odot p_{\textrm{sat}}\left(\vec{T}\right) \oslash \vec{p},\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}' \odot p_{\textrm{sat}}\left(\vec{T}\right) \oslash \vec{p},\]</div>
+<p>where
+<span class="math notranslate nohighlight">\(\vec{p}\)</span> is the pressure at the position of <span class="math notranslate nohighlight">\(\vec{t}\)</span>,
+<span class="math notranslate nohighlight">\(\vec{T}\)</span> is the temperature at the position of <span class="math notranslate nohighlight">\(\vec{t}\)</span>, and
+<span class="math notranslate nohighlight">\(p_{\textrm{sat}}\)</span> is a user-provided method to compute the element-wise
+saturation pressure.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>There is a flag that can be provided to this transformation that
+turns negative relative humidities off.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be aware that the implementation in ARTS is general,
+and that while you can choose to treat temperature as, e.g.,
+relative humidity… please don’t.  It makes sense only for
+some species.</p>
+</div>
+</section>
+<section id="absolute-field-retrievals">
+<h4>Absolute field retrievals<a class="headerlink" href="#absolute-field-retrievals" title="Link to this heading"></a></h4>
+<p>This is a model state vector mapping.
+By absolute field retrievals, we mean that the value itself is not
+retrieved, but instead the absolute value of the field is retrieved.</p>
+<p>In this scenario:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rcl}
+  \vec{x} &amp;=&amp; \sqrt{\vec{t}_u \odot \vec{t}_u + \vec{t}_v \odot \vec{t}_v + \vec{t}_w \odot \vec{t}_w},\\
+  \vec{\theta} &amp;=&amp; \arcsin\left(\vec{t}_w \oslash \vec{x}\right),\\
+  \vec{\phi} &amp;=&amp; \arctan\left(\vec{t}_v \oslash \vec{t}_u\right),\\
+  \vec{t}_u &amp;=&amp; \vec{x} \odot \cos\left(\vec{\theta}\right) \odot \cos\left(\vec{\phi}\right),\\
+  \vec{t}_v &amp;=&amp; \vec{x} \odot \cos\left(\vec{\theta}\right) \odot \sin\left(\vec{\phi}\right),\\
+  \vec{t}_w &amp;=&amp; \vec{x} \odot \sin\left(\vec{\theta}\right),\\
+\end{array}\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{J} = \mathbf{J}_u' \odot \vec{t}_u \oslash \vec{x} +
+             \mathbf{J}_v' \odot \vec{t}_v \oslash \vec{x} +
+             \mathbf{J}_w' \odot \vec{t}_w \oslash \vec{x},\]</div>
+<p>where the subscripts <span class="math notranslate nohighlight">\(u\)</span>, <span class="math notranslate nohighlight">\(v\)</span>, and <span class="math notranslate nohighlight">\(w\)</span>
+indicate the three components of the vector north, east, and up,
+respectively,
+and <span class="math notranslate nohighlight">\(\mathbf{J}_u'\)</span>, <span class="math notranslate nohighlight">\(\mathbf{J}_v'\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{J}_w'\)</span>
+are the Jacobian matrices of these three components
+in the native units of the model state vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Neither <span class="math notranslate nohighlight">\(\vec{\theta}\)</span> nor <span class="math notranslate nohighlight">\(\vec{\phi}\)</span> are part of the
+model state vector, but are instead derived from the model state vector
+and are used to map the Cartesian coordinates to spherical coordinates.
+They are fixed during the retrieval process
+and are not updated between iterations.</p>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="concept.radiative_transfer.html" class="btn btn-neutral float-left" title="Radiative Transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="concept.physical_grids.html" class="btn btn-neutral float-right" title="Physical grids" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

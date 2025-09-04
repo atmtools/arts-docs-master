@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pyarts
+import pyarts3 as pyarts
 
 atm_field = pyarts.arts.AtmField(toa=100e3)
 atm_field["mag_u"] = 50e-6
