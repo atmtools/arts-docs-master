@@ -6,18 +6,14 @@ surface_field
 .. attribute:: Workspace.surface_field
    :type: ~pyarts3.arts.SurfaceField
    
-   The surface field describes the surface properties.
+   The surface field.
    
-   This describes the global surface values, such as elevation and 
-   temperature but also entirerly abstract properties and types.
+   This contains the global surface values, such as elevation and
+   temperature but also entirely abstract properties and types that
+   are used by specific surface-related methods.
    
+   It is a 2D field with latitude, and longitude dimensions.
    
-   
-   .. rubric:: Default value
-   
-   ``"Ellipsoid": 0 0
-   "SurfaceKey": 
-   "SurfacePropertyTag":``
    
    
    
@@ -29,8 +25,11 @@ surface_field
        * :func:`~pyarts3.workspace.Workspace.RetrievalFinalizeDiagonal` 
        * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldFitNonLTE` 
        * :func:`~pyarts3.workspace.Workspace.atmospheric_profileFitNonLTE` 
+       * :func:`~pyarts3.workspace.Workspace.disort_settingsDownwellingObserver` 
        * :func:`~pyarts3.workspace.Workspace.disort_settingsSetSun` 
        * :func:`~pyarts3.workspace.Workspace.disort_settingsSurfaceEmissionByTemperature` 
+       * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecute` 
+       * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator` 
        * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile` 
        * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldCalcCdisort` 
        * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort` 
@@ -67,10 +66,12 @@ surface_field
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyEmission` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyRayleighScattering` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyTransmission` 
-       * :func:`~pyarts3.workspace.Workspace.spectral_radianceFlatScalarReflectance` 
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission` 
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmissionWithJacobian` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceSunOrCosmicBackground` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceSunsOrCosmicBackground` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radianceSurfaceBlackbody` 
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceSurfaceReflectance` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_jacobianAddSensorJacobianPerturbations` 
@@ -80,6 +81,10 @@ surface_field
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecute` 
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecuteOperator` 
        * :func:`~pyarts3.workspace.Workspace.sun_pathFromObserverAgenda` 
+       * :func:`~pyarts3.workspace.Workspace.surface_reflectanceFlatRealFresnel` 
+       * :func:`~pyarts3.workspace.Workspace.surface_reflectanceFlatScalar` 
+       * :func:`~pyarts3.workspace.Workspace.surface_reflectance_agendaExecute` 
+       * :func:`~pyarts3.workspace.Workspace.surface_reflectance_agendaExecuteOperator` 
        * :func:`~pyarts3.workspace.Workspace.zenith_gridProfilePseudo2D`
    
    
@@ -117,8 +122,10 @@ surface_field
    .. hlist::
        :columns: 1
    
+       * :attr:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` 
+       * :attr:`~pyarts3.workspace.Workspace.surface_reflectance_agenda`
    
    
    .. rubric:: Modified by workspace agenda

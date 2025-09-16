@@ -15,12 +15,17 @@ spectral_radiance_surface_agenda
    
    Subsurface calculations are also supported through this agenda.
    
-   It is possible to execute :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecute`.
+   .. rubric:: Execution and customization
+   See :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSet` for builtin options that selects execution options.
    
-   As all agendas in ARTS, :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` is also customizable via its operator helper class: :class:`~pyarts3.arts.spectral_radiance_surface_agendaOperator`.
+   You can execute :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecute`.
+   
+   As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.spectral_radiance_surface_agendaOperator`.
    See it, :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecuteOperator` for more details.
    
-   :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` have these constraints ():
+   Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
+   
+   .. rubric:: Constraints
    
    #. On output, :attr:`~pyarts3.workspace.Workspace.spectral_radiance` has the size of :attr:`~pyarts3.workspace.Workspace.frequency_grid`.
    #. On output, :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` has the shape of the expected :attr:`~pyarts3.workspace.Workspace.model_state_vector` (i.e., the x-size of :attr:`~pyarts3.workspace.Workspace.jacobian_targets`) times the size of :attr:`~pyarts3.workspace.Workspace.frequency_grid`.
@@ -28,24 +33,24 @@ spectral_radiance_surface_agenda
    
    
    
-   Parameters
-   ----------
-   spectral_radiance : ~pyarts3.arts.StokvecVector
-       A spectral radiance vector. See :attr:`~pyarts3.workspace.Workspace.spectral_radiance` **[OUT]**
-   spectral_radiance_jacobian : ~pyarts3.arts.StokvecMatrix
-       Jacobian of :attr:`~pyarts3.workspace.Workspace.spectral_radiance` with respect to :attr:`~pyarts3.workspace.Workspace.jacobian_targets`. See :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` **[OUT]**
-   frequency_grid : ~pyarts3.arts.AscendingGrid
-       A single frequency grid. See :attr:`~pyarts3.workspace.Workspace.frequency_grid` **[IN]**
-   jacobian_targets : ~pyarts3.arts.JacobianTargets
-       A list of targets for the Jacobian Matrix calculations. See :attr:`~pyarts3.workspace.Workspace.jacobian_targets` **[IN]**
-   ray_path_point : ~pyarts3.arts.PropagationPathPoint
-       A single path point. See :attr:`~pyarts3.workspace.Workspace.ray_path_point` **[IN]**
-   surface_field : ~pyarts3.arts.SurfaceField
-       The surface field describes the surface properties. See :attr:`~pyarts3.workspace.Workspace.surface_field` **[IN]**
-   subsurface_field : ~pyarts3.arts.SubsurfaceField
-       The sub0surface field describes the sub-surface properties. See :attr:`~pyarts3.workspace.Workspace.subsurface_field` **[IN]**
+   .. rubric:: Agenda output
    
+   .. hlist::
+       :columns: 1
    
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`
+   
+   .. rubric:: Agenda input
+   
+   .. hlist::
+       :columns: 2
+   
+       * :attr:`~pyarts3.workspace.Workspace.frequency_grid`
+       * :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_point`
+       * :attr:`~pyarts3.workspace.Workspace.surface_field`
+       * :attr:`~pyarts3.workspace.Workspace.subsurface_field`
    
    .. rubric:: Default value
    
@@ -90,6 +95,7 @@ spectral_radiance_surface_agenda
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background_jacobian` 
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_field` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` 
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda` 

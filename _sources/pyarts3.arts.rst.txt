@@ -292,9 +292,11 @@ pyarts3.arts
   pyarts3.arts.StokvecVector
   pyarts3.arts.StridedRange
   pyarts3.arts.String
+  pyarts3.arts.SubsurfaceData
   pyarts3.arts.SubsurfaceField
   pyarts3.arts.SubsurfaceKey
   pyarts3.arts.SubsurfacePoint
+  pyarts3.arts.SubsurfacePropertyTag
   pyarts3.arts.Sun
   pyarts3.arts.SurfaceData
   pyarts3.arts.SurfaceField
@@ -325,6 +327,7 @@ pyarts3.arts
   pyarts3.arts.disort_settings_agenda_setup_space_type
   pyarts3.arts.disort_settings_agenda_setup_sun_type
   pyarts3.arts.disort_settings_agenda_setup_surface_type
+  pyarts3.arts.disort_settings_downwelling_wrapper_agendaOperator
   pyarts3.arts.inversion_iterate_agendaOperator
   pyarts3.arts.measurement_inversion_agendaOperator
   pyarts3.arts.propagation_matrix_agendaOperator
@@ -335,6 +338,7 @@ pyarts3.arts
   pyarts3.arts.spectral_radiance_observer_agendaOperator
   pyarts3.arts.spectral_radiance_space_agendaOperator
   pyarts3.arts.spectral_radiance_surface_agendaOperator
+  pyarts3.arts.surface_reflectance_agendaOperator
   pyarts3.arts.frequency_shift
   pyarts3.arts.igrf
   pyarts3.arts.stringify_keys
@@ -534,7 +538,7 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.ArrayOfString`
     - A list of :class:`~pyarts3.arts.String`
   * - :class:`~pyarts3.arts.ArrayOfSubsurfacePoint`
-    - A list of :class:`~pyarts3.arts.SubsurfacePoint`
+    - A list of :class:`~pyarts3.arts.SubsurfacePoint`.
   * - :class:`~pyarts3.arts.ArrayOfSun`
     - A list of :class:`~pyarts3.arts.Sun`
   * - :class:`~pyarts3.arts.ArrayOfSurfacePoint`
@@ -929,12 +933,16 @@ pyarts3.arts
     - A strided range, used to select parts of a matpack type
   * - :class:`~pyarts3.arts.String`
     - Basic string type
+  * - :class:`~pyarts3.arts.SubsurfaceData`
+    - A data structure for subsurface field information.
   * - :class:`~pyarts3.arts.SubsurfaceField`
     - A sub-surface field.
   * - :class:`~pyarts3.arts.SubsurfaceKey`
     - A key to identify a subsurface property.
   * - :class:`~pyarts3.arts.SubsurfacePoint`
     - A surface point.
+  * - :class:`~pyarts3.arts.SubsurfacePropertyTag`
+    - A custom property tag for subsurface fields data.
   * - :class:`~pyarts3.arts.Sun`
     - A single sun.
   * - :class:`~pyarts3.arts.SurfaceData`
@@ -995,6 +1003,8 @@ pyarts3.arts
     - For direct radiation settings with :func:`~pyarts3.workspace.Workspace.disort_settings_agendaSetup`.
   * - :class:`~pyarts3.arts.disort_settings_agenda_setup_surface_type`
     - For surface boundary settings with :func:`~pyarts3.workspace.Workspace.disort_settings_agendaSetup`.
+  * - :class:`~pyarts3.arts.disort_settings_downwelling_wrapper_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda`.
   * - :class:`~pyarts3.arts.inversion_iterate_agendaOperator`
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`.
   * - :class:`~pyarts3.arts.measurement_inversion_agendaOperator`
@@ -1015,6 +1025,8 @@ pyarts3.arts
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_radiance_space_agenda`.
   * - :class:`~pyarts3.arts.spectral_radiance_surface_agendaOperator`
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`.
+  * - :class:`~pyarts3.arts.surface_reflectance_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.surface_reflectance_agenda`.
 
 .. rubric:: Functions
 

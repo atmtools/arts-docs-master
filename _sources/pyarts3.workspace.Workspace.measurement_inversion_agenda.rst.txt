@@ -21,33 +21,50 @@ measurement_inversion_agenda
    evaluates false.  Also do not use this Agenda if you wish to squeeze out performance,
    it does a lot of unnecessary checks and operations that are not always needed.
    
-   It is possible to execute :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`.
+   .. rubric:: Execution and customization
+   See :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSet` for builtin options that selects execution options.
    
-   As all agendas in ARTS, :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` is also customizable via its operator helper class: :class:`~pyarts3.arts.measurement_inversion_agendaOperator`.
+   You can execute :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`.
+   
+   As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.measurement_inversion_agendaOperator`.
    See it, :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecuteOperator` for more details.
    
-   :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda` have these constraints ():
+   Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
+   
+   .. rubric:: Constraint
    
    #. When :attr:`~pyarts3.workspace.Workspace.do_jacobian` evaluates as true, the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` must be non-empty.
    
    
    
    
-   Parameters
-   ----------
-   measurement_vector_fitted : ~pyarts3.arts.Vector
-       As :attr:`~pyarts3.workspace.Workspace.measurement_vector`, but fitted to the model. See :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` **[OUT]**
-   measurement_jacobian : ~pyarts3.arts.Matrix
-       The first order partial derivatives of the :attr:`~pyarts3.workspace.Workspace.measurement_vector`. See :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` **[OUT]**
-   jacobian_targets : ~pyarts3.arts.JacobianTargets
-       A list of targets for the Jacobian Matrix calculations. See :attr:`~pyarts3.workspace.Workspace.jacobian_targets` **[IN]**
-   do_jacobian : ~pyarts3.arts.Index
-       A boolean calculations related to the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` should be ignored. See :attr:`~pyarts3.workspace.Workspace.do_jacobian` **[IN]**
+   .. rubric:: Agenda output
    
+   .. hlist::
+       :columns: 1
    
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian`
+   
+   .. rubric:: Agenda input
+   
+   .. hlist::
+       :columns: 1
+   
+       * :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
+       * :attr:`~pyarts3.workspace.Workspace.do_jacobian`
    
    .. rubric:: Default value
    
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.absorption_bands`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.atmospheric_field`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.measurement_sensor`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.model_state_vector`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_radiance_transform_operator`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.subsurface_field`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.surface_field`
+   #. Copies the global :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
    #. :func:`~pyarts3.workspace.Workspace.measurement_vector_errorFromModelState`
    #. :func:`~pyarts3.workspace.Workspace.jacobian_targetsConditionalClear`
    #. :func:`~pyarts3.workspace.Workspace.measurement_vectorFromSensor`
