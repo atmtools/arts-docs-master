@@ -5,105 +5,106 @@ spectral_radiance_surface_agenda
 
 .. attribute:: Workspace.spectral_radiance_surface_agenda
    :type: ~pyarts3.arts.Agenda
-   
+
    Spectral radiance as seen of the surface.
-   
+
    This agenda calculates the spectral radiance as seen of the surface.
    One common use-case us to provide a background spectral radiance.
-   
+
    The input path point should be as if it is looking at the surface.
-   
+
    Subsurface calculations are also supported through this agenda.
-   
+
    .. rubric:: Execution and customization
+
    See :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSet` for builtin options that selects execution options.
-   
+
    You can execute :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecute`.
-   
+
    As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.spectral_radiance_surface_agendaOperator`.
    See it, :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecuteOperator` for more details.
-   
+
    Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
-   
+
    .. rubric:: Constraints
-   
+
    #. On output, :attr:`~pyarts3.workspace.Workspace.spectral_radiance` has the size of :attr:`~pyarts3.workspace.Workspace.frequency_grid`.
    #. On output, :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` has the shape of the expected :attr:`~pyarts3.workspace.Workspace.model_state_vector` (i.e., the x-size of :attr:`~pyarts3.workspace.Workspace.jacobian_targets`) times the size of :attr:`~pyarts3.workspace.Workspace.frequency_grid`.
-   
-   
-   
-   
+
+
+
+
    .. rubric:: Agenda output
-   
+
    .. hlist::
        :columns: 1
-   
+
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance`
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`
-   
+
    .. rubric:: Agenda input
-   
+
    .. hlist::
        :columns: 2
-   
+
        * :attr:`~pyarts3.workspace.Workspace.frequency_grid`
        * :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
        * :attr:`~pyarts3.workspace.Workspace.ray_path_point`
        * :attr:`~pyarts3.workspace.Workspace.surface_field`
        * :attr:`~pyarts3.workspace.Workspace.subsurface_field`
-   
+
    .. rubric:: Default value
-   
+
    #. :func:`~pyarts3.workspace.Workspace.spectral_radianceSurfaceBlackbody`
    #. :func:`~pyarts3.workspace.Workspace.Ignore`, using: input = :attr:`~pyarts3.workspace.Workspace.subsurface_field`
-   
-   
-   
-   
+
+
+
+
    .. rubric:: Input to workspace methods
-   
+
    .. hlist::
        :columns: 2
-   
-       * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField` 
-       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyEmission` 
-       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyRayleighScattering` 
-       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyTransmission` 
-       * :func:`~pyarts3.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath` 
+
+       * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField`
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyEmission`
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyRayleighScattering`
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyTransmission`
+       * :func:`~pyarts3.workspace.Workspace.spectral_radiance_backgroundAgendasAtEndOfPath`
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaExecute`
-   
-   
+
+
    .. rubric:: Output from workspace methods
-   
+
    .. hlist::
        :columns: 1
-   
-       * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSet` 
+
+       * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSet`
        * :func:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agendaSetOperator`
-   
-   
+
+
    .. rubric:: Related workspace variables
-   
+
    .. hlist::
        :columns: 2
-   
-       * :attr:`~pyarts3.workspace.Workspace.disort_spectral_radiance_field` 
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_jacobian` 
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_scattering` 
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source` 
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source_jacobian` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background_jacobian` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_field` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_line_of_sight` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_position` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_operator` 
-       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_space_agenda` 
+
+       * :attr:`~pyarts3.workspace.Workspace.disort_spectral_radiance_field`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_scattering`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_background_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_field`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_line_of_sight`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_position`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_operator`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_space_agenda`
        * :attr:`~pyarts3.workspace.Workspace.spectral_radiance_transform_operator`
-   
+
    .. :class:`~pyarts3.arts.Agenda`
-   
+

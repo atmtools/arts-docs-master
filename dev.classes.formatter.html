@@ -211,16 +211,25 @@ the <code class="docutils literal notranslate"><span class="pre">tags</span></co
 <h2>What formatter options are available?<a class="headerlink" href="#what-formatter-options-are-available" title="Link to this heading"></a></h2>
 <p>The following options are available for the <code class="docutils literal notranslate"><span class="pre">format_tags</span></code> object:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">bracket</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;B&quot;</span></code> character in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">short_str</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> character in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">comma</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;,&quot;</span></code> character in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">names</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;N&quot;</span></code> character in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">io</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;IO&quot;</span></code> characters in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;q&quot;</span></code> character in the format string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>.  Cannot be activated, should be set manually in the <code class="docutils literal notranslate"><span class="pre">parse</span></code> method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bracket</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;B&quot;</span></code> character in the format string.
+Will add brackets around the output if applicable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">short_str</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> character in the format string.
+Will use a short string representation if applicable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comma</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;,&quot;</span></code> character in the format string.
+Will comma-separate elements if applicable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">names</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;N&quot;</span></code> character in the format string.
+Will show the names of the elements if applicable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;IO&quot;</span></code> characters in the format string.
+Will use the IO formatting so that XML streams work as expected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;q&quot;</span></code> character in the format string.
+Will quote the quotable output.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>. Activated by the <code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> character in the format string.
+Switch the default separator behavior from space to newline (or vice versa).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>.  Cannot be activated, should be set manually in the
+<code class="docutils literal notranslate"><span class="pre">parse</span></code> method.</p></li>
 </ol>
-<p>The default formatting string given to <code class="docutils literal notranslate"><span class="pre">__str__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:qNB,}&quot;</span></code> and the default
-formatting string given to <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:sqNB,}&quot;</span></code>.</p>
+<p>The default formatting string given to <code class="docutils literal notranslate"><span class="pre">__str__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:qNB,}&quot;</span></code>
+and the default formatting string given to <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;{:nsqNB,}&quot;</span></code>.</p>
 <p>What a type will do with these options is up to the type itself.  Generally,
 a <code class="docutils literal notranslate"><span class="pre">bracket</span></code> type should add brackets around the output, a <code class="docutils literal notranslate"><span class="pre">short_str</span></code> type should
 show a short string representation, a <code class="docutils literal notranslate"><span class="pre">comma</span></code> type should separate elements with commas,
