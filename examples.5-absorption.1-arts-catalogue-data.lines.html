@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Absorption by a single species" href="examples.5-absorption.2-SingleSpeciesAbsorption.html" />
+    <link rel="next" title="Absorption by a single species" href="examples.5-absorption.2-absorption-by-a-single-species.html" />
     <link rel="prev" title="Cia" href="examples.5-absorption.1-arts-catalogue-data.cia.html" /> 
 </head>
 
@@ -67,7 +67,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Lines</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="examples.5-absorption.2-SingleSpeciesAbsorption.html">Absorption by a single species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.5-absorption.2-absorption-by-a-single-species.html">Absorption by a single species</a></li>
 </ul>
 </li>
 </ul>
@@ -111,7 +111,6 @@
   <section id="lines">
 <h1>Lines<a class="headerlink" href="#lines" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">This file will showcase how you can load line data from arts-cat-data into the</span>
 <span class="sd">workspace and do the required setups to perform a simple forward calculations</span>
 <span class="sd">using this data</span>
@@ -126,18 +125,16 @@
 <span class="sd">import os</span>
 <span class="sd">print(os.environ.get(&quot;ARTS_DATA_PATH&quot;))</span>
 <span class="sd">```</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
 <span class="c1"># Initialize ARTS</span>
 <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">Set ws.abs_species to the species tags that you wish to use.  Pure line-by-line</span>
 <span class="sd">calculations sets the species by an expanded form of the AFGL tag system in</span>
 <span class="sd">ARTS.  This example sets the isotopologue to O16-O16, &quot;O2-66&quot;, to include all</span>
@@ -234,7 +231,6 @@
 <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">Compute absorption</span>
 
 <span class="sd">Now we can use the propagation_matrix_agenda to compute the absorption of O2-66.</span>
@@ -243,37 +239,30 @@
 
 <span class="sd">To just execute the agenda we need to still define its both its inputs and the</span>
 <span class="sd">inputs required to initialize the propagation matrix</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">ws</span><span class="o">.</span><span class="n">jacobian_targets</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">JacobianTargets</span><span class="p">()</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-    <span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="mi">11</span>
-<span class="p">)</span>  <span class="c1"># Frequencies between 40 and 120 GHz</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">40e9</span><span class="p">,</span> <span class="mf">120e9</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>  <span class="c1"># Frequencies between 40 and 120 GHz</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">ray_path_point</span>  <span class="c1"># No particular POSLOS</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_pointInit</span><span class="p">()</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">295</span>  <span class="c1"># At room temperature</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="mf">1e5</span>  <span class="c1"># At 1 bar</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="p">[</span><span class="s2">&quot;O2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="mf">0.21</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
-<span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_point</span><span class="p">[</span><span class="s2">&quot;O2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.21</span>  <span class="c1"># At 21% atmospheric Oxygen</span>
 
 <span class="c1"># Call the agenda with inputs above</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaExecute</span><span class="p">()</span>
 
 <span class="c1"># Plot the absorption of this example</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;O2-66 absorption from examples/arts-cat-data/lines/lines.py&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption [1/m]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;O2-66 absorption from examples/arts-cat-data/lines/lines.py&quot;</span><span class="p">)</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">That&#39;s it!  You are done and have reached the end of this example.  Everything</span>
 <span class="sd">below here is just to ensure that ARTS does not break in the future.  It can</span>
 <span class="sd">be safely ignored</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Save test results</span>
 <span class="c1"># ws.propagation_matrix.savexml(&quot;lines_test_result.xml&quot;, type=&quot;ascii&quot;)</span>
@@ -308,7 +297,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="examples.5-absorption.1-arts-catalogue-data.cia.html" class="btn btn-neutral float-left" title="Cia" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples.5-absorption.2-SingleSpeciesAbsorption.html" class="btn btn-neutral float-right" title="Absorption by a single species" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="examples.5-absorption.2-absorption-by-a-single-species.html" class="btn btn-neutral float-right" title="Absorption by a single species" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
