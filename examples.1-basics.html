@@ -233,6 +233,24 @@ of our constructors make pythonic sense</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the module</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ARTS relies heavily on data provided by two catalogs: arts-xml-data and</span>
+<span class="sd">arts-cat-data, they provide absorption lines, atmospheric profiles,</span>
+<span class="sd">and other data.</span>
+
+<span class="sd">The download method automatically retrieves the correct catalogs for</span>
+<span class="sd">your pyarts version.  It also sets the search paths described below</span>
+<span class="sd">correctly.  The method should always be called at the beginning of</span>
+<span class="sd">your script right after importing pyarts.  It will only download</span>
+<span class="sd">the catalogs if they are not already present.  But it is still</span>
+<span class="sd">important to call it, since it will set the search paths correctly.</span>
+
+<span class="sd">By default, the catalogs are stored in your home directory in the</span>
+<span class="sd">`~/.cache/arts/` folder.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+
 <span class="c1"># Create a workspace</span>
 <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
 
@@ -277,15 +295,10 @@ of our constructors make pythonic sense</p>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The following examples assumes that you have a copy of the arts-cat-data</span>
-<span class="sd">and arts-xml-data repositories in the search paths.  If you do not have</span>
-<span class="sd">these, you can download them from: https://www.radiativetransfer.org/tools/</span>
-
-<span class="sd">It demonstrates different ways that you can load data from a file into</span>
+<span class="sd">There are different ways that you can load data from a file into</span>
 <span class="sd">the workspace.  There is no &quot;best&quot; way to do this, it depends on the</span>
 <span class="sd">context, and what you find most readable.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="c1"># Call the WorkspaceVariable member method &quot;readxml&quot; to load data from file</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">readxml</span><span class="p">(</span><span class="s2">&quot;lines/O2-66.xml&quot;</span><span class="p">)</span>
 
@@ -447,6 +460,9 @@ format.</p>
 <p>An helper method</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
 
 <span class="c1"># Use default atmosphere</span>
 <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
