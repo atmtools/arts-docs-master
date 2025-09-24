@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Cia" href="examples.5-absorption.1-arts-catalogue-data.cia.html" />
+    <link rel="next" title="Absorption by a single species" href="examples.5-absorption.2-absorption-by-a-single-species.html" />
     <link rel="prev" title="Absorption" href="examples.5-absorption.html" /> 
 </head>
 
@@ -63,8 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples.4-scattering-properties.html">Scattering properties</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.5-absorption.html">Absorption</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Arts catalogue data</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="examples.5-absorption.1-arts-catalogue-data.cia.html">Cia</a></li>
-<li class="toctree-l4"><a class="reference internal" href="examples.5-absorption.1-arts-catalogue-data.lines.html">Lines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line-strength">Line strength</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="examples.5-absorption.2-absorption-by-a-single-species.html">Absorption by a single species</a></li>
@@ -111,12 +110,87 @@
 <h1>Arts catalogue data<a class="headerlink" href="#arts-catalogue-data" title="Link to this heading"></a></h1>
 <p>These examples give an overview of the basic functionality of ARTS absorption catalogue data
 and how to use it in your own scripts.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples.5-absorption.1-arts-catalogue-data.cia.html">Cia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.5-absorption.1-arts-catalogue-data.lines.html">Lines</a></li>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#line-strength" id="id1">Line strength</a></p></li>
 </ul>
+</nav>
+<section id="line-strength">
+<h2>Line strength<a class="headerlink" href="#line-strength" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file will showcase how you can load line data from arts-cat-data</span>
+<span class="sd">workspace and generate a plot of the line strengths.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts.convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">freq2kaycm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pa</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+<span class="c1"># Initialize ARTS</span>
+<span class="n">ws</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+
+<span class="c1"># Isotopologue</span>
+<span class="n">isotopologue</span> <span class="o">=</span> <span class="s2">&quot;CO2-626&quot;</span>
+<span class="c1"># Frequency range</span>
+<span class="n">f_min</span> <span class="o">=</span> <span class="mf">18.7e12</span>
+<span class="n">f_max</span> <span class="o">=</span> <span class="mf">21.5e12</span>
+
+<span class="c1"># Load line catalog</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="n">isotopologue</span><span class="p">])</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsReadSpeciesSplitCatalog</span><span class="p">(</span><span class="n">basename</span><span class="o">=</span><span class="s2">&quot;lines/&quot;</span><span class="p">)</span>
+
+<span class="c1"># Throw away lines outside the frequency range</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="n">f_min</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">f_max</span><span class="p">)</span>
+
+<span class="c1"># Get the intensity of the strongest line in each band</span>
+<span class="n">max_strengths</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+<span class="p">]</span>
+
+<span class="c1"># Sort bands by descending maximum line strength</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">max_strengths</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">sorted_bands</span> <span class="o">=</span> <span class="p">{</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">}</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot the two bands with the highest line strengths</span>
+<span class="k">for</span> <span class="n">qi</span><span class="p">,</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_bands</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="c1"># Line center frequencies</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">f0</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">band</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
+    <span class="n">strengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">band</span><span class="o">.</span><span class="n">lines</span><span class="p">]</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">get_next_color</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span>
+        <span class="n">pos</span> <span class="o">/</span> <span class="mf">1e12</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">strengths</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qi</span><span class="si">:</span><span class="s2">h</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;x-small&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">f_min</span> <span class="o">/</span> <span class="mf">1e12</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">f_max</span> <span class="o">/</span> <span class="mf">1e12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [THz]&quot;</span><span class="p">)</span>
+<span class="n">ax_wn</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax_wn</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">f_min</span><span class="p">),</span> <span class="n">freq2kaycm</span><span class="p">(</span><span class="n">f_max</span><span class="p">))</span>
+<span class="n">ax_wn</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Wavenumber [cm$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Hitran line strength&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>(<a class="reference download internal" download="" href="_downloads/f20bea94b5a789f1280a478c8f39899a/1-line-strength.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/a6fb6074367a4b2d34e8ae07d7631f3d/1-line-strength.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/87275d97f1c5be855108245ae8925efc/1-line-strength.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/1-line-strength.svg" class="plot-directive" src="_images/1-line-strength.svg" />
+</figure>
+</section>
 </section>
 
 
@@ -124,7 +198,7 @@ and how to use it in your own scripts.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="examples.5-absorption.html" class="btn btn-neutral float-left" title="Absorption" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples.5-absorption.1-arts-catalogue-data.cia.html" class="btn btn-neutral float-right" title="Cia" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="examples.5-absorption.2-absorption-by-a-single-species.html" class="btn btn-neutral float-right" title="Absorption by a single species" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

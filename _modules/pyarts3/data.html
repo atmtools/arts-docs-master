@@ -248,14 +248,21 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking out </span><span class="si">{</span><span class="n">catname</span><span class="si">}</span><span class="s2"> from SVN&quot;</span><span class="p">)</span>
             <span class="n">svn_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://radiativetransfer.org/svn/rt/</span><span class="si">{</span><span class="n">catname</span><span class="si">}</span><span class="s2">/trunk/&quot;</span>
             <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;svn&quot;</span><span class="p">,</span> <span class="s2">&quot;checkout&quot;</span><span class="p">,</span> <span class="n">svn_path</span><span class="p">,</span> <span class="n">catdir</span><span class="p">]</span>
-            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                    <span class="s2">&quot;svn command not found, cannot check out from SVN&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_download_and_extract</span><span class="p">(</span>
                 <span class="n">GITHUB_URL</span> <span class="o">+</span> <span class="n">fullcatname</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
             <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">USE_SVN</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">catname</span><span class="si">}</span><span class="s2"> from SVN, update manually if needed: `svn update </span><span class="si">{</span><span class="n">catdir</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">catname</span><span class="si">}</span><span class="s2"> from SVN, update manually if needed: `svn update </span><span class="si">{</span><span class="n">catdir</span><span class="si">}</span><span class="s2">`&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">parameters</span><span class="o">.</span><span class="n">datapath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">catdir</span><span class="p">)</span>
 
