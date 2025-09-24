@@ -1,13 +1,14 @@
 """
 This file will showcase how you can load line data from arts-cat-data
-workspace and generate a plot of the line strengths.
+into the workspace and generate a plot of the line strengths.
 """
+
+import textwrap
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pyarts3 as pa
 from pyarts3.arts.convert import freq2kaycm
-import textwrap
 
 # Download catalogs
 pa.data.download()
@@ -20,6 +21,8 @@ isotopologue = "CO2-626"
 # Frequency range
 f_min = 18.7e12
 f_max = 21.5e12
+# Reference temperature for line strength
+T0 = 296
 
 # Load line catalog
 ws.absorption_speciesSet(species=[isotopologue])
@@ -30,7 +33,7 @@ ws.absorption_bandsSelectFrequencyByLine(fmin=f_min, fmax=f_max)
 
 # Get the intensity of the strongest line in each band
 max_strengths = [
-    np.max([line.hitran_s(isotopologue, T0=300) for line in b.lines])
+    np.max([line.hitran_s(isotopologue, T0=T0) for line in b.lines])
     for b in ws.absorption_bands.values()
 ]
 
@@ -46,7 +49,7 @@ fig, ax = plt.subplots()
 for qi, band in list(sorted_bands.items())[:2]:
     # Line center frequencies
     pos = np.array([line.f0 for line in band.lines])
-    strengths = [line.hitran_s(isotopologue, T0=300) for line in band.lines]
+    strengths = [line.hitran_s(isotopologue, T0=T0) for line in band.lines]
     color = ax._get_lines.get_next_color()
     ax.vlines(
         pos / 1e12,

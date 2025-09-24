@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -119,14 +119,15 @@ and how to use it in your own scripts.</p>
 <h2>Line strength<a class="headerlink" href="#line-strength" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This file will showcase how you can load line data from arts-cat-data</span>
-<span class="sd">workspace and generate a plot of the line strengths.</span>
+<span class="sd">into the workspace and generate a plot of the line strengths.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts.convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">freq2kaycm</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 
 <span class="c1"># Download catalogs</span>
 <span class="n">pa</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
@@ -139,6 +140,8 @@ and how to use it in your own scripts.</p>
 <span class="c1"># Frequency range</span>
 <span class="n">f_min</span> <span class="o">=</span> <span class="mf">18.7e12</span>
 <span class="n">f_max</span> <span class="o">=</span> <span class="mf">21.5e12</span>
+<span class="c1"># Reference temperature for line strength</span>
+<span class="n">T0</span> <span class="o">=</span> <span class="mi">296</span>
 
 <span class="c1"># Load line catalog</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="n">isotopologue</span><span class="p">])</span>
@@ -149,7 +152,7 @@ and how to use it in your own scripts.</p>
 
 <span class="c1"># Get the intensity of the strongest line in each band</span>
 <span class="n">max_strengths</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="n">T0</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
 <span class="p">]</span>
 
@@ -165,7 +168,7 @@ and how to use it in your own scripts.</p>
 <span class="k">for</span> <span class="n">qi</span><span class="p">,</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_bands</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">2</span><span class="p">]:</span>
     <span class="c1"># Line center frequencies</span>
     <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">f0</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">band</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
-    <span class="n">strengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">band</span><span class="o">.</span><span class="n">lines</span><span class="p">]</span>
+    <span class="n">strengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">hitran_s</span><span class="p">(</span><span class="n">isotopologue</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="n">T0</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">band</span><span class="o">.</span><span class="n">lines</span><span class="p">]</span>
     <span class="n">color</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">get_next_color</span><span class="p">()</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span>
         <span class="n">pos</span> <span class="o">/</span> <span class="mf">1e12</span><span class="p">,</span>
