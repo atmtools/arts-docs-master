@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sensor description" href="user.sensors.html" />
+    <link rel="next" title="The subsurface" href="user.subsurface_field.html" />
     <link rel="prev" title="The atmosphere" href="user.atmospheric_field.html" /> 
 </head>
 
@@ -70,6 +70,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="user.subsurface_field.html">The subsurface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html">Underpinning concepts and background</a></li>
 </ul>
@@ -121,9 +122,9 @@ point. A surface point holds the local state of the surface at a specific locati
 including the normal of the surface at that point.</p>
 <p>Key notations:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="pyarts3.arts.SurfaceField.html#pyarts3.arts.SurfaceField" title="pyarts3.arts.SurfaceField"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceField</span></code></a> - The surface field.  An instance is in this text named: <cite>surf_field</cite>.</p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.SurfaceData.html#pyarts3.arts.SurfaceData" title="pyarts3.arts.SurfaceData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceData</span></code></a> - The surface field data.  An instance is in this text named: <cite>surf_data</cite>.</p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.SurfacePoint.html#pyarts3.arts.SurfacePoint" title="pyarts3.arts.SurfacePoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfacePoint</span></code></a> - The local surface state.  An instance is in this text named: <cite>surf_point</cite>.</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.SurfaceField.html#pyarts3.arts.SurfaceField" title="pyarts3.arts.SurfaceField"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceField</span></code></a> - The surface field.  An instance is in this text named: <code class="docutils literal notranslate"><span class="pre">surf_field</span></code>.</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.SurfaceData.html#pyarts3.arts.SurfaceData" title="pyarts3.arts.SurfaceData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceData</span></code></a> - The surface field data.  An instance is in this text named: <code class="docutils literal notranslate"><span class="pre">surf_data</span></code>.</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.SurfacePoint.html#pyarts3.arts.SurfacePoint" title="pyarts3.arts.SurfacePoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">SurfacePoint</span></code></a> - The local surface state.  An instance is in this text named: <code class="docutils literal notranslate"><span class="pre">surf_point</span></code>.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -349,16 +350,16 @@ An example of using <a class="reference internal" href="pyarts3.arts.Numeric.htm
 </pre></div>
 </div>
 </section>
-<section id="sortedgriddedfield2">
-<h4>SortedGriddedField2<a class="headerlink" href="#sortedgriddedfield2" title="Link to this heading"></a></h4>
-<p>If the surface data is of the type <a class="reference internal" href="pyarts3.arts.SortedGriddedField2.html#pyarts3.arts.SortedGriddedField2" title="pyarts3.arts.SortedGriddedField2"><code class="xref py py-class docutils literal notranslate"><span class="pre">SortedGriddedField2</span></code></a>,
+<section id="geodeticfield2">
+<h4>GeodeticField2<a class="headerlink" href="#geodeticfield2" title="Link to this heading"></a></h4>
+<p>If the surface data is of the type <a class="reference internal" href="pyarts3.arts.GeodeticField2.html#pyarts3.arts.GeodeticField2" title="pyarts3.arts.GeodeticField2"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeodeticField2</span></code></a>,
 the data is defined on a grid of geodetic latitude and longitude.
 It interpolates linearly between the grid points when extracting point-wise data.
 For sake of this linear interpolation, longitude is treated as a cyclic coordinate between [-180, 180) - please ensure your grid is defined accordingly.
 This data type fully respects the rules of extrapolation outside its grid.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If the <a class="reference internal" href="pyarts3.arts.SortedGriddedField2.html#pyarts3.arts.SortedGriddedField2" title="pyarts3.arts.SortedGriddedField2"><code class="xref py py-class docutils literal notranslate"><span class="pre">SortedGriddedField2</span></code></a> does not cover the full range of the surface, the extrapolation rules will be used to
+<p>If the <a class="reference internal" href="pyarts3.arts.GeodeticField2.html#pyarts3.arts.GeodeticField2" title="pyarts3.arts.GeodeticField2"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeodeticField2</span></code></a> does not cover the full range of the surface, the extrapolation rules will be used to
 extrapolate it.  By default, these rules are set to not allow any extrapolation.  This can be changed by setting the
 extrapolation settings as needed.  See headers <a class="reference internal" href="#extrapolation-rules">Extrapolation rules</a> and <a class="reference internal" href="#surface-field-data">surface field data</a> for more information.</p>
 </div>
@@ -392,7 +393,7 @@ If you want to pass in a custom class all you need is to define <code class="doc
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="user.atmospheric_field.html" class="btn btn-neutral float-left" title="The atmosphere" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="user.sensors.html" class="btn btn-neutral float-right" title="Sensor description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="user.subsurface_field.html" class="btn btn-neutral float-right" title="The subsurface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

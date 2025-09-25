@@ -11,10 +11,14 @@ spectral_radiance_closed_surface_agenda
    It behave exactly like :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`.  It exists
    to allow chaining surface agendas.  The idea is that the main
    :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` variable is the first interface
-   and can chain into another surface agenda.
+   and can chain into another surface agenda - this one.
 
-   Thus this agenda must be "closed".  It cannot call :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`,
-   whereas :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` can call this agenda.
+   Thus this agenda must be "closed".  It cannot call another :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`,
+   whereas :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` can call this agenda.  Imagine a chain where
+   the :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` gets the reflectance from a land surface model
+   and calls the :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda` to compute the downwelling radiation at the surface.
+   It can in turn call :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda` to get the upwelling radiation from the surface
+   that is being emitted.  That's the type of use case this agenda is made for and why it exists!
 
 
 

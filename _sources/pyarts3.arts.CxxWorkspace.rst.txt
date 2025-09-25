@@ -113,13 +113,10 @@ CxxWorkspace
       - Reads all species in :attr:`~pyarts3.workspace.Workspace.absorption_species` from a basename
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.absorption_bandsReadSplit`
-      - Saves all bands in :attr:`~pyarts3.workspace.Workspace.absorption_bands` to a directory
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.absorption_bandsRemoveID`
-      - Remove first band of with a matching ID
+      - Reads all xml-files in a given directory and puts them into :attr:`~pyarts3.workspace.Workspace.absorption_bands`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.absorption_bandsSaveSplit`
-      - Saves all bands fin :attr:`~pyarts3.workspace.Workspace.absorption_bands` to a directory
+      - Saves all bands in :attr:`~pyarts3.workspace.Workspace.absorption_bands` to a directory
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.absorption_bandsSelectFrequencyByBand`
       - Remove all bands whose lines all strictly falls outside a frequency range
@@ -132,9 +129,6 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.absorption_bandsSetZeeman`
       - Set the Zeeman splitting for lines within the frequency range
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.absorption_cia_dataAddCIARecord`
-      - Takes CIARecord as input and appends the results in the appropriate place.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.absorption_cia_dataReadFromCIA`
       - Read data from a CIA data file for all CIA molecules defined
@@ -241,20 +235,11 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_fieldRead`
       - Read atmospheric data files from a directory
     * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_fieldRegrid`
-      - Regrid the input atmospheric field parameter to a new grid.
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_fieldRegridAll`
-      - Regrid all parameters of the input atmospheric field to a new grid
-    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_fieldSchmidthFieldFromIGRF`
       - For forward calculations, this should be similar to :func:`~pyarts3.workspace.Workspace.atmospheric_fieldIGRF`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_pointInit`
       - Initialize an atmospheric point with some isotopologue ratios
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_profileExtendInPressure`
-      - Extends the atmospheric profile in pressure.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.atmospheric_profileExtract`
       - Extract an atmospheric profile from the atmospheric field.
@@ -365,10 +350,10 @@ CxxWorkspace
       - Perform Disort calculations for spectral flux.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_flux_fieldFromAgenda`
-      - Use Disort for clearsky calculations of spectral flux field
+      - Use Disort for clearsky calculations of spectral flux field.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_flux_fieldProfile`
-      - Extract a 1D path through the atmospheric field and calculate spectral flux using Disort
+      - Extract a 1D path through the atmosphere and calculate spectral flux using Disort.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldApplyUnit`
       - Convert units of the Disort spectral radiance field.
@@ -379,20 +364,20 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldCalcCdisort`
       - Perform CDisort calculations for spectral radiance.
     * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldDepthProfile`
+      - Sets a ray path from a point and depth profile and calculates spectral radiance using Disort.
+    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldFromAgenda`
-      - Use the disort settings agenda to calculate spectral radiance
+      - Use Disort for clearsky calculations of spectral radiance field.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldFromAgendaCdisort`
       - Use the disort settings agenda to calculate spectral radiance
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldProfile`
-      - Extract a 1D path through the atmospheric field and calculate spectral radiance using Disort
+      - Extract a 1D path through the atmosphere and calculate spectral radiance using Disort.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldProfileCdisort`
       - Extract a 1D path through the atmospheric field and calculate spectral radiance using Disort
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.disort_spectral_radiance_fieldSubsurfaceProfile`
-      - Extract a 1D path through the subsurface field and calculate spectral radiance using Disort
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.ecs_dataAddMakarov2020`
       - Sets the O2-66 microwave band data for ECS.
@@ -581,13 +566,13 @@ CxxWorkspace
       - Make the :attr:`~pyarts3.workspace.Workspace.measurement_sensor` excluive.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorSimple`
-      - Creates a single simple dirac-opening sensor
+      - Creates a single simple Dirac-opening sensor
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorSimpleGaussian`
-      - Creates a single simple Gaussian-opening sensor
+      - Creates a single simple Gaussian-opening sensor.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorVectorGaussian`
-      - Creates a single simple Gaussian-opening sensor
+      - Creates a single simple Gaussian-opening sensor.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_vectorConditionalAddError`
       - Add the measurement error to the measurement.  Conditionally, also to the Jacobian.
@@ -659,10 +644,10 @@ CxxWorkspace
       - Calculates absorption matrix describing Faraday rotation.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.propagation_matrixAddLines`
-      - Line-by-line calculations.
+      - Add line-by-line absorption to the propagation matrix.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.propagation_matrixAddLookup`
-      - Lookup calculations.
+      - Add line-by-line absorption to the propagation matrix.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.propagation_matrixAddPredefined`
       - Adds all of the predefined models in :attr:`~pyarts3.workspace.Workspace.absorption_species` to the propagation_matrix
@@ -859,14 +844,8 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.scattering_speciesInit`
       - Initialize scattering species.
     * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.select_species_listCollectAbsorption`
-      - Selects all main absorbers from the absorption data.
-    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.set`
       - Set the variable to the new value.
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.sortedIndexOfBands`
-      - Get the sorting of the bands by first quantum identifier then some ``criteria``
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_flux_profileFromPathField`
       - Computes the spectral flux from a field of paths.
@@ -926,7 +905,7 @@ CxxWorkspace
       - Get the spectral radiance of a sun or of the cosmic background if no sun is hit.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radianceSurfaceBlackbody`
-      - Set surface spectral radiance from Planck function of the surface temperature
+      - Set surface spectral radiance from Planck function of the surface temperature.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radianceSurfaceReflectance`
       - Set surface spectral radiance to use sub-surface emission and Fresnel reflectance.
@@ -947,16 +926,16 @@ CxxWorkspace
       - Computes the spectral radiance field assuming a profile and a pseudo-2D path.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radiance_jacobianAddPathPropagation`
-      - Adds the propagation variables to :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`
+      - Adds the propagation variables to :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radiance_jacobianAddSensorJacobianPerturbations`
       - Adds sensor properties to the :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radiance_jacobianEmpty`
-      - Set the cosmic background radiation derivative to empty.
+      - Set the radiation derivative to empty.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radiance_jacobianFromBackground`
-      - Sets :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` from the background values
+      - Sets :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian` from the background values.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radiance_observer_agendaExecute`
       - Executes :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda`, see it for more details
@@ -1014,9 +993,6 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.sun_pathFromObserverAgenda`
       - Find a path that hits the sun if possible
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.sunsAddSun`
-      - Add :attr:`~pyarts3.workspace.Workspace.sun` to :attr:`~pyarts3.workspace.Workspace.suns`, only exist for composability.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.surface_fieldEarth`
       - Earth reference ellipsoids.
@@ -1079,7 +1055,7 @@ CxxWorkspace
       - Sets :attr:`~pyarts3.workspace.Workspace.transmission_matrix_background` to front of :attr:`~pyarts3.workspace.Workspace.ray_path_transmission_matrix_cumulative`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.water_equivalent_pressure_operatorMK05`
-      - Sets an operator to compute the water equivalent pressure according to Murphy and Koop, 2005.
+      - Calculate equivalent water pressure according to Murphy and Koop, 2005
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.zenith_gridProfilePseudo2D`
       - A custom zenith grid for :func:`~pyarts3.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D`
@@ -1241,7 +1217,7 @@ CxxWorkspace
       - This contains the fully polarized propagation matrix for the current path point.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.propagation_matrix_agenda`
-      - Compute the propagation matrix, the non-LTE source vector, and their derivatives.
+      - Computes the propagation matrix, the non-LTE source vector, and their derivatives.
     * - :class:`~pyarts3.arts.PropmatMatrix`
       - :attr:`~pyarts3.arts.CxxWorkspace.propagation_matrix_jacobian`
       - Partial derivative of the :attr:`~pyarts3.workspace.Workspace.propagation_matrix` with regards to :attr:`~pyarts3.workspace.Workspace.jacobian_targets`.
@@ -1250,10 +1226,10 @@ CxxWorkspace
       - The propgation matrix of totally random orientation particles at a single point along a path using spectral representation
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.propagation_matrix_scattering_agenda`
-      - Compute the part of the propagation matrix that relates to scattering.
+      - Computes the part of the propagation matrix that relates to scattering.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.propagation_matrix_scattering_spectral_agenda`
-      - Get the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix.
+      - Gets the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix.
     * - :class:`~pyarts3.arts.StokvecVector`
       - :attr:`~pyarts3.arts.CxxWorkspace.propagation_matrix_source_vector_nonlte`
       - The part of the source vector that is due to non-LTE.
@@ -1280,7 +1256,7 @@ CxxWorkspace
       - A list of :attr:`~pyarts3.workspace.Workspace.frequency_grid_wind_shift_jacobian` for a ray path.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.ray_path_observer_agenda`
-      - Get the propagation path as it is obeserved.
+      - Gets the propagation path as it is obeserved.
     * - :class:`~pyarts3.arts.ArrayOfPropagationPathPoint`
       - :attr:`~pyarts3.arts.CxxWorkspace.ray_path_observers`
       - A list path points making up the observers of a propagation path.
@@ -1337,7 +1313,7 @@ CxxWorkspace
       - Species selection.
     * - :class:`~pyarts3.arts.ArrayOfSpeciesEnum`
       - :attr:`~pyarts3.arts.CxxWorkspace.select_species_list`
-      - Species selection.
+      - Species selection when multiple species must be chosen.
     * - :class:`~pyarts3.arts.Matrix`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_flux_profile`
       - An altitude profile of spectral flux.
@@ -1361,7 +1337,7 @@ CxxWorkspace
       - Jacobian of :attr:`~pyarts3.workspace.Workspace.spectral_radiance` with respect to :attr:`~pyarts3.workspace.Workspace.jacobian_targets`.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_radiance_observer_agenda`
-      - Spectral radiance as seen from the input position and environment.
+      - Computes spectral radiance as seen from the input position and environment.
     * - :class:`~pyarts3.arts.Vector2`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_radiance_observer_line_of_sight`
       - The line-of-sight of the observer of spectral radiance.
@@ -1373,10 +1349,10 @@ CxxWorkspace
       - The spectral radiance operator.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_radiance_space_agenda`
-      - Spectral radiance as seen of space.
+      - Gets spectral radiance as seen of space.
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_radiance_surface_agenda`
-      - Spectral radiance as seen of the surface.
+      - Computes spectral radiance as seen of the surface.
     * - :class:`~pyarts3.arts.SpectralRadianceTransformOperator`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_radiance_transform_operator`
       - The spectral radiance transform operator
@@ -1385,7 +1361,7 @@ CxxWorkspace
       - The sub-surface field.
     * - :class:`~pyarts3.arts.ArrayOfSubsurfacePoint`
       - :attr:`~pyarts3.arts.CxxWorkspace.subsurface_profile`
-      - A subsurface profile.  Supposed to be ordered from top to bottom.
+      - A profile of subsurface points.  Supposed to be ordered from top to bottom.
     * - :class:`~pyarts3.arts.Sun`
       - :attr:`~pyarts3.arts.CxxWorkspace.sun`
       - A sun.
@@ -1501,13 +1477,11 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.absorption_bandsReadSpeciesSplitARTSCAT
   .. automethod:: CxxWorkspace.absorption_bandsReadSpeciesSplitCatalog
   .. automethod:: CxxWorkspace.absorption_bandsReadSplit
-  .. automethod:: CxxWorkspace.absorption_bandsRemoveID
   .. automethod:: CxxWorkspace.absorption_bandsSaveSplit
   .. automethod:: CxxWorkspace.absorption_bandsSelectFrequencyByBand
   .. automethod:: CxxWorkspace.absorption_bandsSelectFrequencyByLine
   .. automethod:: CxxWorkspace.absorption_bandsSetNonLTE
   .. automethod:: CxxWorkspace.absorption_bandsSetZeeman
-  .. automethod:: CxxWorkspace.absorption_cia_dataAddCIARecord
   .. automethod:: CxxWorkspace.absorption_cia_dataReadFromCIA
   .. automethod:: CxxWorkspace.absorption_cia_dataReadFromXML
   .. automethod:: CxxWorkspace.absorption_cia_dataReadSpeciesSplitCatalog
@@ -1543,11 +1517,8 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.atmospheric_fieldInit
   .. automethod:: CxxWorkspace.atmospheric_fieldInitializeNonLTE
   .. automethod:: CxxWorkspace.atmospheric_fieldRead
-  .. automethod:: CxxWorkspace.atmospheric_fieldRegrid
-  .. automethod:: CxxWorkspace.atmospheric_fieldRegridAll
   .. automethod:: CxxWorkspace.atmospheric_fieldSchmidthFieldFromIGRF
   .. automethod:: CxxWorkspace.atmospheric_pointInit
-  .. automethod:: CxxWorkspace.atmospheric_profileExtendInPressure
   .. automethod:: CxxWorkspace.atmospheric_profileExtract
   .. automethod:: CxxWorkspace.atmospheric_profileFitNonLTE
   .. automethod:: CxxWorkspace.atmospheric_profileFromGrid
@@ -1589,11 +1560,11 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldApplyUnit
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldCalc
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldCalcCdisort
+  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldDepthProfile
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldFromAgenda
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldFromAgendaCdisort
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldProfile
   .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldProfileCdisort
-  .. automethod:: CxxWorkspace.disort_spectral_radiance_fieldSubsurfaceProfile
   .. automethod:: CxxWorkspace.ecs_dataAddMakarov2020
   .. automethod:: CxxWorkspace.ecs_dataAddMeanAir
   .. automethod:: CxxWorkspace.ecs_dataAddRodrigues1997
@@ -1749,9 +1720,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.readxml
   .. automethod:: CxxWorkspace.savexml
   .. automethod:: CxxWorkspace.scattering_speciesInit
-  .. automethod:: CxxWorkspace.select_species_listCollectAbsorption
   .. automethod:: CxxWorkspace.set
-  .. automethod:: CxxWorkspace.sortedIndexOfBands
   .. automethod:: CxxWorkspace.spectral_flux_profileFromPathField
   .. automethod:: CxxWorkspace.spectral_flux_profileFromSpectralRadianceField
   .. automethod:: CxxWorkspace.spectral_flux_profilePseudo2D
@@ -1801,7 +1770,6 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.sunBlackbody
   .. automethod:: CxxWorkspace.sunFromGrid
   .. automethod:: CxxWorkspace.sun_pathFromObserverAgenda
-  .. automethod:: CxxWorkspace.sunsAddSun
   .. automethod:: CxxWorkspace.surface_fieldEarth
   .. automethod:: CxxWorkspace.surface_fieldEuropa
   .. automethod:: CxxWorkspace.surface_fieldFromModelState
@@ -1838,6 +1806,8 @@ CxxWorkspace
 
      See methods that consume this variable for more details on its content.
 
+     Also see :doc:`concept.absorption.lbl` for more information on LBL calculations.
+
 
 
 
@@ -1869,8 +1839,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.nlte_line_flux_profileIntegrate`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddLines`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrix_agendaAuto`
-         * :func:`~pyarts3.workspace.Workspace.select_species_listCollectAbsorption`
-         * :func:`~pyarts3.workspace.Workspace.sortedIndexOfBands`
 
 
      .. rubric:: Modified by workspace methods
@@ -1883,7 +1851,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsFromModelState`
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsKeepID`
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsLineMixingAdaptation`
-         * :func:`~pyarts3.workspace.Workspace.absorption_bandsRemoveID`
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsSelectFrequencyByBand`
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsSelectFrequencyByLine`
          * :func:`~pyarts3.workspace.Workspace.absorption_bandsSetNonLTE`
@@ -1934,10 +1901,7 @@ CxxWorkspace
      HITRAN Collision-Induced Absorption (CIA) Data.
 
      This variable holds HITRAN CIA data (binary absorption
-     cross-sections). The data itself is described in: Richard, C. et al.
-     (2012), New section of the HITRAN database: Collision-induced
-     absorption (CIA), J. Quant. Spectrosc. Radiat. Transfer, 113,
-     1276-1285, doi:10.1016/j.jqsrt.2011.11.004.
+     cross-sections). The data itself is described in :cite:t:`Richard2012`.
 
      The binary absorption cross-sections have to be multiplied with the
      densities of both molecules to get a scalar absorption coefficient.
@@ -1947,6 +1911,8 @@ CxxWorkspace
      The length of this array should be equal to the number of pairs
      of molecules that have CIA data available.
      Some methods that split the data might not work as intended otherwise.
+
+     See also :doc:`concept.absorption.cia` for more information on CIA calculations.
 
 
 
@@ -1958,15 +1924,6 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldAppendCIASpeciesData`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddCIA`
-         * :func:`~pyarts3.workspace.Workspace.select_species_listCollectAbsorption`
-
-
-     .. rubric:: Modified by workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.absorption_cia_dataAddCIARecord`
 
 
      .. rubric:: Output from workspace methods
@@ -2003,6 +1960,8 @@ CxxWorkspace
 
      Precomputing this table replaces the need for the calculation of scalar gas line-by-line
      absorption.
+
+     See :doc:`concept.absorption.lookup` for more information on lookup table calculations.
 
 
 
@@ -2059,6 +2018,8 @@ CxxWorkspace
 
      Can currently only contain data for new MT CKD models of water.
 
+     See :doc:`concept.absorption.predef` for more information on predefined model calculations.
+
 
 
 
@@ -2069,7 +2030,6 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldAppendPredefSpeciesData`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddPredefined`
-         * :func:`~pyarts3.workspace.Workspace.select_species_listCollectAbsorption`
 
 
      .. rubric:: Modified by workspace method
@@ -2274,6 +2234,8 @@ CxxWorkspace
      fitminpressures, fitmaxpressures, fitmintemperatures and fitmaxtemperatures
      are not used to apply the model and solely serve for informational purposes.
 
+     See also :doc:`concept.absorption.xsec` for more information on these calculations.
+
 
 
 
@@ -2284,7 +2246,6 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldAppendXsecSpeciesData`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddXsecFit`
-         * :func:`~pyarts3.workspace.Workspace.select_species_listCollectAbsorption`
 
 
      .. rubric:: Output from workspace methods
@@ -2359,8 +2320,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.absorption_lookup_tableCalc`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldFromProfile`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldHydrostaticPressure`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegrid`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegridAll`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_profileExtract`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_profileFitNonLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField`
@@ -2419,6 +2378,8 @@ CxxWorkspace
      -  Isotopologue ratios             - The isotopologue ratios of various species.  See :class:`~pyarts3.arts.SpeciesIsotope` for more details.
      -  Non-local thermodynamics ratios - Unitless [pure-style] OR Kelvin [vibrational-style] ratios replacing the Boltzman distribution used in the LTE calculations.
      -  Scattering species content      - See user guide for more information.  This is custom data to aid scattering calculations.
+
+     For more information, see :doc:`user.atmospheric_field`.
 
 
 
@@ -2501,8 +2462,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldHydrostaticPressure`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldIGRF`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldInitializeNonLTE`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegrid`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegridAll`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldSchmidthFieldFromIGRF`
          * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecuteOperator`
@@ -2547,6 +2506,8 @@ CxxWorkspace
      at a single altitude-latitude-longitude but may of course be generated manually.
 
      See :attr:`~pyarts3.workspace.Workspace.atmospheric_field` for the data that may be available in the atmospheric point.
+
+     For more information, see :doc:`user.atmospheric_field`.
 
 
 
@@ -2607,6 +2568,9 @@ CxxWorkspace
 
      An atmospheric profile in ARTS.
 
+     This exists to interface between the fully 3D atmospheric field native to ARTS
+     and various 1D and 2D solvers that make use of profiles for fixed geometries.
+
      The atmospheric profile consists of all the relevant atmospheric field data
      at a discrete profile in the atmosphere.  It is often extracted from an :class:`~pyarts3.arts.AtmField`
      at a single latitude-longitude coordinate but may of course be generated manually.
@@ -2614,6 +2578,8 @@ CxxWorkspace
      See :attr:`~pyarts3.workspace.Workspace.atmospheric_field` for the data that may be available in the atmospheric point.
 
      The size of the profile is the same as :attr:`~pyarts3.workspace.Workspace.altitude_grid`.
+
+     For more information, see :doc:`user.atmospheric_field`.
 
 
 
@@ -2632,12 +2598,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_radiance_fieldProfilePseudo2D`
 
 
-     .. rubric:: Modified by workspace methods
+     .. rubric:: Modified by workspace method
 
      .. hlist::
          :columns: 1
 
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_profileExtendInPressure`
          * :func:`~pyarts3.workspace.Workspace.atmospheric_profileFitNonLTE`
 
 
@@ -2718,11 +2683,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmissionWithJacobian`
 
@@ -2773,11 +2738,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmissionWithJacobian`
 
@@ -2833,11 +2798,11 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldCalc`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldCalcCdisort`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
 
 
@@ -2865,6 +2830,7 @@ CxxWorkspace
 
 
 
+
      .. rubric:: Input to workspace methods
 
      .. hlist::
@@ -2877,11 +2843,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmissionWithJacobian`
 
@@ -3051,11 +3017,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmissionWithJacobian`
 
@@ -3268,11 +3234,11 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldCalc`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldCalcCdisort`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSubsurfaceDisortEmission`
 
 
@@ -3469,11 +3435,11 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgenda`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldFromAgendaCdisort`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.flux_profileIntegrate`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
@@ -3597,7 +3563,10 @@ CxxWorkspace
      the frequency grid, not on the actual wind speed for the sake of
      wind shift Jacobian calculations.
 
-     The order is ``[df_du, df_dv, df_fw]``
+     The order is
+
+     .. math::
+         \left[ \begin{array}{c} \frac{\partial f}{\partial u} \\ \frac{\partial f}{\partial v} \\ \frac{\partial f}{\partial w} \end{array} \right]
 
 
 
@@ -3668,7 +3637,7 @@ CxxWorkspace
 
      The gravity operator.
 
-     Usage: gravity = gravity_operator(altitude, latitude, longitude).
+     Usage: gravity = :attr:`~pyarts3.workspace.Workspace.gravity_operator` ( :attr:`~pyarts3.workspace.Workspace.altitude`, :attr:`~pyarts3.workspace.Workspace.latitude`, :attr:`~pyarts3.workspace.Workspace.longitude` ).
 
      Parameters
      ----------
@@ -3682,7 +3651,7 @@ CxxWorkspace
      Returns
      -------
      gravity : Numeric
-         The gravity in m/s :math:`^2`.
+         The gravity in :math:`\textrm{m/s}^2`.
 
 
 
@@ -3836,6 +3805,14 @@ CxxWorkspace
      :type: ~pyarts3.arts.JacobianTargets
 
      A list of targets for the Jacobian Matrix calculations.
+
+     See :class:`~pyarts3.arts.JacobianTargetType` for more information.  The targets are
+     sorted by their type.  A target must have information about its
+     position in the target count, as well as the number of parameters
+     it contributes to the :attr:`~pyarts3.workspace.Workspace.model_state_vector`.  It must know these
+     things because it is able to map data between the :attr:`~pyarts3.workspace.Workspace.model_state_vector`
+     and the actual model field, e.g., the :attr:`~pyarts3.workspace.Workspace.atmospheric_field`, the :attr:`~pyarts3.workspace.Workspace.surface_field`,
+     the :attr:`~pyarts3.workspace.Workspace.subsurface_field`, the :attr:`~pyarts3.workspace.Workspace.absorption_bands`, the :attr:`~pyarts3.workspace.Workspace.measurement_sensor`, etc.
 
 
 
@@ -4081,15 +4058,6 @@ CxxWorkspace
 
 
 
-     .. rubric:: Input to workspace methods
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegrid`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegridAll`
-
-
      .. rubric:: Related workspace variables
 
      .. hlist::
@@ -4210,15 +4178,6 @@ CxxWorkspace
          nature of all grids.
 
 
-
-
-     .. rubric:: Input to workspace methods
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegrid`
-         * :func:`~pyarts3.workspace.Workspace.atmospheric_fieldRegridAll`
 
 
      .. rubric:: Related workspace variables
@@ -5239,7 +5198,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.propagation_matrix_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Compute the propagation matrix, the non-LTE source vector, and their derivatives.
+     Computes the propagation matrix, the non-LTE source vector, and their derivatives.
 
      The intent of this agenda is to be the workhorse for the propagation matrix
      calculations that are happening deep in your ARTS method calls.
@@ -5487,7 +5446,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.propagation_matrix_scattering_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Compute the part of the propagation matrix that relates to scattering.
+     Computes the part of the propagation matrix that relates to scattering.
 
      .. rubric:: Execution and customization
 
@@ -5579,7 +5538,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.propagation_matrix_scattering_spectral_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Get the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix.
+     Gets the scattering propagation matrix, the scattering absorption vector, and the scattering spectral phase matrix.
 
      .. rubric:: Execution and customization
 
@@ -5879,9 +5838,9 @@ CxxWorkspace
          :columns: 2
 
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_flux_fieldProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfile`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldProfileCdisort`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
          * :func:`~pyarts3.workspace.Workspace.ray_pathFromPointAndDepth`
          * :func:`~pyarts3.workspace.Workspace.ray_pathGeometric`
          * :func:`~pyarts3.workspace.Workspace.ray_pathGeometricDownlooking`
@@ -6087,6 +6046,8 @@ CxxWorkspace
 
      A list of :attr:`~pyarts3.workspace.Workspace.ray_path` intended to build up a field of observations.
 
+     This is used by some methods to set up representative fields to help speed up computations.
+
 
 
 
@@ -6278,7 +6239,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.ray_path_observer_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Get the propagation path as it is obeserved.
+     Gets the propagation path as it is obeserved.
 
      The intent of this agenda is to provide a propagation path as seen from the observer
      position and line of sight.
@@ -6494,6 +6455,18 @@ CxxWorkspace
 
      A single path point.
 
+     This consists of
+
+     #. The altitude in meters as a :class:`~pyarts3.arts.Numeric` .
+     #. The latitude in degrees as a :class:`~pyarts3.arts.Numeric` .
+     #. The longitude in degrees as a :class:`~pyarts3.arts.Numeric` .
+     #. The zenith angle in degrees as a :class:`~pyarts3.arts.Numeric` .
+     #. The azimuth angle in degrees as a :class:`~pyarts3.arts.Numeric` .
+     #. The :class:`~pyarts3.arts.PathPositionType` of the path if it moves forward along its line of sight.
+     #. The :class:`~pyarts3.arts.PathPositionType` of the of the path at its current position.
+     #. Bulk refractive index at the path point as a :class:`~pyarts3.arts.Numeric` .
+     #. Group refractive index at the path point as a :class:`~pyarts3.arts.Numeric` .
+
 
 
 
@@ -6505,7 +6478,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settingsSetSun`
          * :func:`~pyarts3.workspace.Workspace.disort_settingsSurfaceEmissionByTemperature`
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldApplyUnit`
-         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldSubsurfaceProfile`
+         * :func:`~pyarts3.workspace.Workspace.disort_spectral_radiance_fieldDepthProfile`
          * :func:`~pyarts3.workspace.Workspace.frequency_gridWindShift`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddFaraday`
          * :func:`~pyarts3.workspace.Workspace.propagation_matrixAddLines`
@@ -7591,7 +7564,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.select_species_list
      :type: ~pyarts3.arts.ArrayOfSpeciesEnum
 
-     Species selection.
+     Species selection when multiple species must be chosen.
 
 
 
@@ -7602,14 +7575,6 @@ CxxWorkspace
          :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix_species_splitFromPath`
-
-
-     .. rubric:: Output from workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.select_species_listCollectAbsorption`
 
      .. :class:`~pyarts3.arts.ArrayOfSpeciesEnum`
 
@@ -7814,7 +7779,7 @@ CxxWorkspace
 
      Spectral radiance derivative from the background
 
-     Shape: NJAC x :attr:`~pyarts3.workspace.Workspace.frequency_grid`
+     Shape: :attr:`~pyarts3.workspace.Workspace.model_state_vector` x :attr:`~pyarts3.workspace.Workspace.frequency_grid`
 
 
 
@@ -7882,10 +7847,14 @@ CxxWorkspace
      It behave exactly like :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`.  It exists
      to allow chaining surface agendas.  The idea is that the main
      :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` variable is the first interface
-     and can chain into another surface agenda.
+     and can chain into another surface agenda - this one.
 
-     Thus this agenda must be "closed".  It cannot call :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`,
-     whereas :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` can call this agenda.
+     Thus this agenda must be "closed".  It cannot call another :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`,
+     whereas :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` can call this agenda.  Imagine a chain where
+     the :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda` gets the reflectance from a land surface model
+     and calls the :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda` to compute the downwelling radiation at the surface.
+     It can in turn call :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda` to get the upwelling radiation from the surface
+     that is being emitted.  That's the type of use case this agenda is made for and why it exists!
 
 
 
@@ -8102,14 +8071,14 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.spectral_radiance_observer_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Spectral radiance as seen from the input position and environment.
+     Computes spectral radiance as seen from the input position and environment.
 
      The intent of this agenda is to provide the spectral radiance as seen from the observer
      position and line of sight.
 
      It also outputs the :attr:`~pyarts3.workspace.Workspace.ray_path` as seen from the observer position and line of sight.
      This is useful in-case a call to the destructive :func:`~pyarts3.workspace.Workspace.spectral_radianceApplyUnitFromSpectralRadiance`
-     is warranted
+     is warranted.
 
      .. rubric:: Execution and customization
 
@@ -8390,7 +8359,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.spectral_radiance_space_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Spectral radiance as seen of space.
+     Gets spectral radiance as seen of space.
 
      This agenda calculates the spectral radiance as seen of space.
      One common use-case is to provide a background spectral radiance.
@@ -8493,14 +8462,16 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.spectral_radiance_surface_agenda
      :type: ~pyarts3.arts.Agenda
 
-     Spectral radiance as seen of the surface.
+     Computes spectral radiance as seen of the surface.
 
      This agenda calculates the spectral radiance as seen of the surface.
      One common use-case us to provide a background spectral radiance.
 
      The input path point should be as if it is looking at the surface.
 
-     Subsurface calculations are also supported through this agenda.
+     Subsurface calculations are also supported through this agenda,
+     but might require setting :attr:`~pyarts3.workspace.Workspace.spectral_radiance_closed_surface_agenda`
+     as well.
 
      .. rubric:: Execution and customization
 
@@ -8667,7 +8638,9 @@ CxxWorkspace
      It also contains many properties that are used by specific
      subsurface-related methods.
 
-     It is a 3D field with altitude, latitude, and longitude dimensions.
+     It is a 3D field with :attr:`~pyarts3.workspace.Workspace.altitude`, :attr:`~pyarts3.workspace.Workspace.latitude`, and :attr:`~pyarts3.workspace.Workspace.longitude` dimensions.
+
+     For more information, see :doc:`user.subsurface_field`.
 
 
 
@@ -8747,7 +8720,9 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.subsurface_profile
      :type: ~pyarts3.arts.ArrayOfSubsurfacePoint
 
-     A subsurface profile.  Supposed to be ordered from top to bottom.
+     A profile of subsurface points.  Supposed to be ordered from top to bottom.
+
+     For more information, see :doc:`user.subsurface_field`.
 
 
 
@@ -8789,7 +8764,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_settingsSetSun`
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSunOrCosmicBackground`
          * :func:`~pyarts3.workspace.Workspace.sun_pathFromObserverAgenda`
-         * :func:`~pyarts3.workspace.Workspace.sunsAddSun`
 
 
      .. rubric:: Output from workspace methods
@@ -8864,14 +8838,6 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_radianceSunsOrCosmicBackground`
 
 
-     .. rubric:: Modified by workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.sunsAddSun`
-
-
      .. rubric:: Related workspace variable
 
      .. hlist::
@@ -8891,7 +8857,9 @@ CxxWorkspace
      temperature but also entirely abstract properties and types that
      are used by specific surface-related methods.
 
-     It is a 2D field with latitude, and longitude dimensions.
+     It is a 2D field with :attr:`~pyarts3.workspace.Workspace.latitude` , and :attr:`~pyarts3.workspace.Workspace.longitude` dimensions.
+
+     For more information, see :doc:`user.surface_field`.
 
 
 

@@ -112,6 +112,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfAtmData.html">ArrayOfAtmData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfAtmPoint.html">ArrayOfAtmPoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfAtmTargets.html">ArrayOfAtmTargets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfBlock.html">ArrayOfBlock</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfCIARecord.html">ArrayOfCIARecord</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfErrorTarget.html">ArrayOfErrorTarget</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfGriddedField1.html">ArrayOfGriddedField1</a></li>
@@ -153,6 +154,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfString.html">ArrayOfString</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfSubsurfacePoint.html">ArrayOfSubsurfacePoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfSun.html">ArrayOfSun</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfSurfaceData.html">ArrayOfSurfaceData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfSurfacePoint.html">ArrayOfSurfacePoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfSurfaceTarget.html">ArrayOfSurfaceTarget</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfTensor3.html">ArrayOfTensor3</a></li>
@@ -453,17 +455,16 @@
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyarts3.arts.</span></span><span class="sig-name descname"><span class="pre">AtmField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyarts3.arts.AtmField" title="Link to this definition"></a></dt>
 <dd><p>An atmospheric field.</p>
 <p>An atmospheric field holds two things:</p>
-<ol class="arabic">
-<li><p>The top of the atmosphere altitude, which is the altitude at which the atmosphere ends.  Unit: m</p></li>
-<li><p>A map of <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>.  The available types of keys are:</p>
 <ol class="arabic simple">
-<li><p><a class="reference internal" href="pyarts3.arts.AtmKey.html#pyarts3.arts.AtmKey" title="pyarts3.arts.AtmKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmKey</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.SpeciesEnum.html#pyarts3.arts.SpeciesEnum" title="pyarts3.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotope</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.QuantumLevelIdentifier.html#pyarts3.arts.QuantumLevelIdentifier" title="pyarts3.arts.QuantumLevelIdentifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumLevelIdentifier</span></code></a></p></li>
-<li><p><a class="reference internal" href="pyarts3.arts.ScatteringSpeciesProperty.html#pyarts3.arts.ScatteringSpeciesProperty" title="pyarts3.arts.ScatteringSpeciesProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScatteringSpeciesProperty</span></code></a></p></li>
+<li><p>The top of the atmosphere altitude, which is the altitude at which the atmosphere ends.  Unit: m</p></li>
+<li><p>A virtual map of <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>.  The available types of keys are:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="pyarts3.arts.AtmKey.html#pyarts3.arts.AtmKey" title="pyarts3.arts.AtmKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmKey</span></code></a> - holds basic data temperature, pressure, wind, and magnetic field.</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.SpeciesEnum.html#pyarts3.arts.SpeciesEnum" title="pyarts3.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a> - holds volume mixing ratios of absorption species.  Some species might have a different unit.</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotope</span></code></a> - holds isotopologue ratios of absorption species.  Defaults to built-in values</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.QuantumLevelIdentifier.html#pyarts3.arts.QuantumLevelIdentifier" title="pyarts3.arts.QuantumLevelIdentifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumLevelIdentifier</span></code></a> - holds Non-LTE data - i.e., the direct ratios of upper and lower states (which are instead computed on-the-fly when LTE conditions are assumed).</p></li>
+<li><p><a class="reference internal" href="pyarts3.arts.ScatteringSpeciesProperty.html#pyarts3.arts.ScatteringSpeciesProperty" title="pyarts3.arts.ScatteringSpeciesProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScatteringSpeciesProperty</span></code></a> - holds data required for scattering calculations.  The units and type of data are free-form and depend on the scattering model/method.</p></li>
 </ol>
-<p>See each key for more information on what type of data it allows holding.</p>
 </li>
 </ol>
 <p class="rubric">Workspace variables of type AtmField</p>
@@ -487,118 +488,122 @@
 <td><p>Read variable from file.</p></td>
 </tr>
 <tr class="row-even"><td><p>Method</p></td>
+<td><p><a class="reference internal" href="#pyarts3.arts.AtmField.regrid" title="pyarts3.arts.AtmField.regrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">regrid()</span></code></a></p></td>
+<td><p>Regrid all fields to a new grid.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.savexml" title="pyarts3.arts.AtmField.savexml"><code class="xref py py-func docutils literal notranslate"><span class="pre">savexml()</span></code></a></p></td>
 <td><p>Saves variable to file.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.species_keys" title="pyarts3.arts.AtmField.species_keys"><code class="xref py py-func docutils literal notranslate"><span class="pre">species_keys()</span></code></a></p></td>
 <td><p>Species keys</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.to_dict" title="pyarts3.arts.AtmField.to_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code></a></p></td>
 <td><p>Convert an atmospheric field to a dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Method</p></td>
+<tr class="row-even"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.to_xarray" title="pyarts3.arts.AtmField.to_xarray"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_xarray()</span></code></a></p></td>
 <td><p>Convert the atmospheric field to an xarray dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method</p></td>
+<tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.update" title="pyarts3.arts.AtmField.update"><code class="xref py py-func docutils literal notranslate"><span class="pre">update()</span></code></a></p></td>
 <td><p>Update the atmospheric field with dictionary values.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Static Method</p></td>
+<tr class="row-even"><td><p>Static Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.from_dict" title="pyarts3.arts.AtmField.from_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">from_dict()</span></code></a></p></td>
 <td><p>Create an atmospheric field from a dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p>Static Method</p></td>
+<tr class="row-odd"><td><p>Static Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.fromxml" title="pyarts3.arts.AtmField.fromxml"><code class="xref py py-func docutils literal notranslate"><span class="pre">fromxml()</span></code></a></p></td>
 <td><p>Create variable from file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotope</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotope</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.isots" title="pyarts3.arts.AtmField.isots"><code class="xref py py-attr docutils literal notranslate"><span class="pre">isots</span></code></a></p></td>
 <td><p>Isotopologue ratio data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.QuantumIdentifier.html#pyarts3.arts.QuantumIdentifier" title="pyarts3.arts.QuantumIdentifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumIdentifier</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.QuantumIdentifier.html#pyarts3.arts.QuantumIdentifier" title="pyarts3.arts.QuantumIdentifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumIdentifier</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.nlte" title="pyarts3.arts.AtmField.nlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nlte</span></code></a></p></td>
 <td><p>NLTE data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.AtmKey.html#pyarts3.arts.AtmKey" title="pyarts3.arts.AtmKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmKey</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.AtmKey.html#pyarts3.arts.AtmKey" title="pyarts3.arts.AtmKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmKey</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.other" title="pyarts3.arts.AtmField.other"><code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code></a></p></td>
 <td><p>Basic atmospheric data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.SpeciesEnum.html#pyarts3.arts.SpeciesEnum" title="pyarts3.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.SpeciesEnum.html#pyarts3.arts.SpeciesEnum" title="pyarts3.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.specs" title="pyarts3.arts.AtmField.specs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">specs</span></code></a></p></td>
 <td><p>Species data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.ScatteringSpeciesProperty.html#pyarts3.arts.ScatteringSpeciesProperty" title="pyarts3.arts.ScatteringSpeciesProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScatteringSpeciesProperty</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference internal" href="pyarts3.arts.ScatteringSpeciesProperty.html#pyarts3.arts.ScatteringSpeciesProperty" title="pyarts3.arts.ScatteringSpeciesProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScatteringSpeciesProperty</span></code></a>, <a class="reference internal" href="pyarts3.arts.AtmData.html#pyarts3.arts.AtmData" title="pyarts3.arts.AtmData"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtmData</span></code></a>]</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.ssprops" title="pyarts3.arts.AtmField.ssprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ssprops</span></code></a></p></td>
 <td><p>Scattering species properties data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.top_of_atmosphere" title="pyarts3.arts.AtmField.top_of_atmosphere"><code class="xref py py-attr docutils literal notranslate"><span class="pre">top_of_atmosphere</span></code></a></p></td>
 <td><p>Top of the atmosphere [m]</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__call__" title="pyarts3.arts.AtmField.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__call__()</span></code></a></p></td>
 <td><p>Overloaded function.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__eq__" title="pyarts3.arts.AtmField.__eq__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__eq__()</span></code></a></p></td>
 <td><p>Return self==value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__format__" title="pyarts3.arts.AtmField.__format__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__format__()</span></code></a></p></td>
 <td><p>__format__(self, arg: str, /) -&gt; str</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__ge__" title="pyarts3.arts.AtmField.__ge__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ge__()</span></code></a></p></td>
 <td><p>Return self&gt;=value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__getitem__" title="pyarts3.arts.AtmField.__getitem__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__getitem__()</span></code></a></p></td>
 <td><p>__getitem__(self, arg: pyarts3.arts.AtmKey | pyarts3.arts.SpeciesEnum | pyarts3.arts.SpeciesIsotope | pyarts3.arts.QuantumLevelIdentifier | pyarts3.arts.ScatteringSpeciesProperty, /) -&gt; pyarts3.arts.AtmData</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__getstate__" title="pyarts3.arts.AtmField.__getstate__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__getstate__()</span></code></a></p></td>
 <td><p>__getstate__(self) -&gt; tuple[list[pyarts3.arts.AtmKey | pyarts3.arts.SpeciesEnum | pyarts3.arts.SpeciesIsotope | pyarts3.arts.QuantumLevelIdentifier | pyarts3.arts.ScatteringSpeciesProperty], pyarts3.arts.ArrayOfAtmData, float]</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__gt__" title="pyarts3.arts.AtmField.__gt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__gt__()</span></code></a></p></td>
 <td><p>Return self&gt;value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__hash__" title="pyarts3.arts.AtmField.__hash__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__hash__()</span></code></a></p></td>
 <td><p>Return hash(self).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__init__" title="pyarts3.arts.AtmField.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a></p></td>
 <td><p>__init__(self, toa: float = 100000.0, iso: pyarts3.arts.IsoRatioOption = “Builtin”) -&gt; None</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__le__" title="pyarts3.arts.AtmField.__le__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__le__()</span></code></a></p></td>
 <td><p>Return self&lt;=value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__lt__" title="pyarts3.arts.AtmField.__lt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__lt__()</span></code></a></p></td>
 <td><p>Return self&lt;value.</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__ne__" title="pyarts3.arts.AtmField.__ne__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__ne__()</span></code></a></p></td>
 <td><p>Return self!=value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__repr__" title="pyarts3.arts.AtmField.__repr__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__repr__()</span></code></a></p></td>
 <td><p>__repr__(self) -&gt; str</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__setitem__" title="pyarts3.arts.AtmField.__setitem__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__setitem__()</span></code></a></p></td>
 <td><p>__setitem__(self, arg0: pyarts3.arts.AtmKey | pyarts3.arts.SpeciesEnum | pyarts3.arts.SpeciesIsotope | pyarts3.arts.QuantumLevelIdentifier | pyarts3.arts.ScatteringSpeciesProperty, arg1: pyarts3.arts.AtmData, /) -&gt; None</p></td>
 </tr>
-<tr class="row-odd"><td><p>Operator</p></td>
+<tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__setstate__" title="pyarts3.arts.AtmField.__setstate__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__setstate__()</span></code></a></p></td>
 <td><p>__setstate__(self, arg: tuple[collections.abc.Sequence[pyarts3.arts.AtmKey | pyarts3.arts.SpeciesEnum | pyarts3.arts.SpeciesIsotope | pyarts3.arts.QuantumLevelIdentifier | pyarts3.arts.ScatteringSpeciesProperty], pyarts3.arts.ArrayOfAtmData, float], /) -&gt; None</p></td>
 </tr>
-<tr class="row-even"><td><p>Operator</p></td>
+<tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.AtmField.__str__" title="pyarts3.arts.AtmField.__str__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__str__()</span></code></a></p></td>
 <td><p>__str__(self) -&gt; str</p></td>
 </tr>
@@ -684,6 +689,30 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyarts3.arts.AtmField.regrid">
+<span class="sig-name descname"><span class="pre">regrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.AscendingGrid.html#pyarts3.arts.AscendingGrid" title="pyarts3.arts.AscendingGrid"><span class="pre">pyarts3.arts.AscendingGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.LatGrid.html#pyarts3.arts.LatGrid" title="pyarts3.arts.LatGrid"><span class="pre">pyarts3.arts.LatGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.LonGrid.html#pyarts3.arts.LonGrid" title="pyarts3.arts.LonGrid"><span class="pre">pyarts3.arts.LonGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrapolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.InterpolationExtrapolation.html#pyarts3.arts.InterpolationExtrapolation" title="pyarts3.arts.InterpolationExtrapolation"><span class="pre">pyarts3.arts.InterpolationExtrapolation</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_atmkeys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_species</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_isotopologues</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_nlte</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_scattering</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyarts3.arts.AtmField.regrid" title="Link to this definition"></a></dt>
+<dd><p>Regrid all fields to a new grid.</p>
+<p>This will convert the data to a <em>GeodeticField3</em> if it is not already.
+It will not respect the existing extrapolation settings, so these must be set
+manually after calling this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alt</strong> (<a class="reference internal" href="pyarts3.arts.AscendingGrid.html#pyarts3.arts.AscendingGrid" title="pyarts3.arts.AscendingGrid"><em>AscendingGrid</em></a>) – The new altitude grid.</p></li>
+<li><p><strong>lat</strong> (<a class="reference internal" href="pyarts3.arts.LatGrid.html#pyarts3.arts.LatGrid" title="pyarts3.arts.LatGrid"><em>LatGrid</em></a>) – The new latitude grid.</p></li>
+<li><p><strong>lon</strong> (<a class="reference internal" href="pyarts3.arts.LonGrid.html#pyarts3.arts.LonGrid" title="pyarts3.arts.LonGrid"><em>LonGrid</em></a>) – The new longitude grid.</p></li>
+<li><p><strong>extrapolation</strong> (<a class="reference internal" href="pyarts3.arts.InterpolationExtrapolation.html#pyarts3.arts.InterpolationExtrapolation" title="pyarts3.arts.InterpolationExtrapolation"><em>InterpolationExtrapolation</em></a>) – The extrapolation method to use.  The default is Nearest.</p></li>
+<li><p><strong>do_atmkeys</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If true, regrid the basic atmospheric keys (temperature, pressure, magnetic field, wind).  Default is true.</p></li>
+<li><p><strong>do_species</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If true, regrid the species VMRs.  Default is true.</p></li>
+<li><p><strong>do_isotopologues</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If true, regrid the isotopologue ratios.  Default is false.</p></li>
+<li><p><strong>do_nlte</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If true, regrid the NLTE values.  Default is true.</p></li>
+<li><p><strong>do_scattering</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If true, regrid the scattering species properties.  Default is true.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
