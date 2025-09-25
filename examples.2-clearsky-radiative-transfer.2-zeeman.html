@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -126,7 +126,9 @@
 </nav>
 <section id="id1">
 <h2>Zeeman<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -174,6 +176,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
 
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 <span class="c1"># %% Test</span>
 
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
@@ -203,7 +208,9 @@
 </section>
 <section id="zeeman-sensor">
 <h2>Zeeman sensor<a class="headerlink" href="#zeeman-sensor" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -255,6 +262,9 @@
     <span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line with Gaussian channels on individual grids&quot;</span>
 <span class="p">)</span>
 
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 <span class="c1"># %% Test</span>
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">measurement_vector</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
@@ -283,7 +293,9 @@
 </section>
 <section id="zeeman-transmission">
 <h2>Zeeman transmission<a class="headerlink" href="#zeeman-transmission" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -332,6 +344,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
 
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 <span class="c1"># %% Test</span>
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
@@ -360,7 +375,9 @@
 </section>
 <section id="zeeman-sun">
 <h2>Zeeman sun<a class="headerlink" href="#zeeman-sun" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -419,6 +436,9 @@
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">res</span><span class="p">[::</span><span class="mi">3</span><span class="p">,</span> <span class="p">::</span><span class="mi">7</span><span class="p">],</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -442,7 +462,9 @@
 </section>
 <section id="zeeman-sun-scattering">
 <h2>Zeeman sun scattering<a class="headerlink" href="#zeeman-sun-scattering" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -502,6 +524,9 @@
 <span class="n">r</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">zas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">aas</span><span class="p">))</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">7</span><span class="p">],</span>

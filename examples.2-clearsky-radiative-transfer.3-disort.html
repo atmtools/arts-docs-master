@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -122,7 +122,9 @@
 </nav>
 <section id="clearsky-radiance">
 <h2>Clearsky radiance<a class="headerlink" href="#clearsky-radiance" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w">  </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -205,6 +207,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [index count]&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
 
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 <span class="c1"># %% The last test should be that we are close to the correct values</span>
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
@@ -220,8 +225,7 @@
 </section>
 <section id="clearsky-flux">
 <h2>Clearsky flux<a class="headerlink" href="#clearsky-flux" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
 <span class="c1"># Download catalogs</span>
@@ -319,7 +323,9 @@
 </section>
 <section id="clearsky-flux-from-dataset">
 <h2>Clearsky flux from dataset<a class="headerlink" href="#clearsky-flux-from-dataset" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 
@@ -404,6 +410,9 @@
     <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">,</span> <span class="n">alts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Atmospheric field&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="_downloads/cf961ae8e4192604088357ffc642162c/3-clearsky-flux-from-dataset.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
