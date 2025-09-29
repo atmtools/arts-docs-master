@@ -81,7 +81,7 @@ if output_lines_for_bands_indices:
                 + f"{(line_info[0] + wavenumber).ljust(40)} "
                 f"{strength.ljust(25)} {line_info[-2]}"
             )
-        print(f"Band {i + 1} contains {len(band.lines)} lines\n")
+        print()
 
 # Print info about all plotted bands
 for i, (qi, band) in plot_bands:
