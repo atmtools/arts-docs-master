@@ -77,6 +77,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyarts3.utils.path_append"><code class="docutils literal notranslate"><span class="pre">path_append()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyarts3.utils.path_prepend"><code class="docutils literal notranslate"><span class="pre">path_prepend()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyarts3.utils.path_remove"><code class="docutils literal notranslate"><span class="pre">path_remove()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarts3.utils.time_report"><code class="docutils literal notranslate"><span class="pre">time_report()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyarts3.utils.unique"><code class="docutils literal notranslate"><span class="pre">unique()</span></code></a></li>
 </ul>
 </li>
@@ -219,6 +220,43 @@ If the path variable is not set, nothing is done.</p>
 <li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the path variable to append to.
 Defaults to the system path ‘PATH’.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.utils.time_report">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.utils.</span></span><span class="sig-name descname"><span class="pre">time_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mintime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/utils/time_report.html#time_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.utils.time_report" title="Link to this definition"></a></dt>
+<dd><p>Plots the time report.</p>
+<p>The time report is available only when
+ARTS has been compiled with the CMake option <code class="docutils literal notranslate"><span class="pre">-DENABLE_ARTS_PROFILING=ON</span></code>,
+which is not part of the default distribution.</p>
+<p>Nevertheless, there is enough helpful parts in being able to see the
+state of parallelism and report the time of internal methods that
+this method is part of the distribution.</p>
+<p>There is a cost in terms of performance to having the time report
+enabled, so it should not be used in production runs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – The mode of output.  Options are “plot” and “table”.  Default is “plot”.</p></li>
+<li><p><strong>clear</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether or not to clear the time-report.  Default is True.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The scale of the time axis, defaults to 1.0.  Special values are 1e3 for
+milliseconds and 1e6 for microseconds.</p></li>
+<li><p><strong>fig</strong> (<em>matplotlib figure</em><em>, </em><em>optional</em>) – The figure to draw on in a plotting mode.  By default creates a new figure.</p></li>
+<li><p><strong>mintime</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The minimum time in seconds for a method to be included in the report.
+This is useful to filter out methods that are called often but take
+very little time, and thus clutter the report.  Default is None to include
+all methods.  mintime is applied after scaling.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>r</strong> (<em>dict</em>) – The time report</p></li>
+<li><p><strong>*out</strong> (<em>tuple</em>) – If mode is “plot”, returns the matplotlib figure and axis.
+If mode is “table”, returns a string containing the time report in Markdown table format.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
