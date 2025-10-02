@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -106,14 +106,8 @@
 <h1>Disort<a class="headerlink" href="#disort" title="Link to this heading"></a></h1>
 <p>This example requires the following input files:</p>
 <ul class="simple">
-<li><p><a class="reference download internal" download="" href="_downloads/2d9ebe81cc262f30fd77dc8d9e4a25d3/scat_data.xml"><code class="xref download docutils literal notranslate"><span class="pre">scat_data.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/3135b8b9b79e2787707b8824faeb0d71/scat_data.xml.bin"><code class="xref download docutils literal notranslate"><span class="pre">scat_data.xml.bin</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/9751203e3fcc1eeca79febee609d2702/scat_meta.xml"><code class="xref download docutils literal notranslate"><span class="pre">scat_meta.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/b552b58a33bbfb9ca9b49b087ff7e4d7/p_grid.xml"><code class="xref download docutils literal notranslate"><span class="pre">p_grid.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/d67b177ba1335c2402a1408273271026/t_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">t_field.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/2483ce22afba55c079ebfe4545e4dfa1/z_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">z_field.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/96e83c1651f4df0144ed7e39f682c415/vmr_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">vmr_field.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/1b1aa174d80eb4dd3fd27b67146a2bb6/particle_bulkprop_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">particle_bulkprop_field.xml</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/2297db1204cea5f69520d042034cc328/particle_bulkprop_names.xml"><code class="xref download docutils literal notranslate"><span class="pre">particle_bulkprop_names.xml</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/2449cf8e527ddd2302406262f1fadcc3/1-particle_bulkprop_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-particle_bulkprop_field.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/2330116a9455472be3781f711c71b4cd/1-vmr_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-vmr_field.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/6450cf78f382e15f21b39b444e636a57/1-scat_data.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-scat_data.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/73483416eec3e0ced1aca9a875ef4c15/1-z_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-z_field.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/17e97690ef32305fab10478656f5e4b5/1-particle_bulkprop_names.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-particle_bulkprop_names.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/97eea9a987001187223061f85985aba5/1-scat_meta.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-scat_meta.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/b017968461fd95e2e7da3904285cc52c/1-t_field.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-t_field.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/519a3ba77c8d27c2c8b0e12edc938577/1-p_grid.xml"><code class="xref download docutils literal notranslate"><span class="pre">1-p_grid.xml</span></code></a>, <a class="reference download internal" download="" href="_downloads/2805dd7cc5d5e04126cbbd29492344e2/1-scat_data.xml.bin"><code class="xref download docutils literal notranslate"><span class="pre">1-scat_data.xml.bin</span></code></a></p></li>
+<li><p>All inputfiles in one zip file: <code class="xref download docutils literal notranslate"><span class="pre">1-disort.sht-inputfiles.zip</span></code></p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Scattering calculations with DISORT</span>
@@ -121,6 +115,8 @@
 <span class="sd">This script demonstrates how to simulate brightness temperatures of cloudy</span>
 <span class="sd">skies using the DISORT scattering solver.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
@@ -132,6 +128,9 @@
     <span class="n">ScatteringHabit</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.xml</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span>
+
+<span class="c1"># Input file names are prefixed with the example number</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;1-&quot;</span>
 
 <span class="c1"># Download catalogs</span>
 <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
@@ -158,8 +157,8 @@
 <span class="c1"># We load scattering and scattering meta data from the ARTS .xml format. The</span>
 <span class="c1"># scattering and scattering meta data arrays contain scattering data for rain</span>
 <span class="c1"># particles (index 0) and ice particle (index 1).</span>
-<span class="n">scat_data_raw</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;scat_data.xml&quot;</span><span class="p">)</span>
-<span class="n">scat_data_meta</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;scat_meta.xml&quot;</span><span class="p">)</span>
+<span class="n">scat_data_raw</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;scat_data.xml&quot;</span><span class="p">)</span>
+<span class="n">scat_data_meta</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;scat_meta.xml&quot;</span><span class="p">)</span>
 
 <span class="n">t_grid</span> <span class="o">=</span> <span class="n">scat_data_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T_grid</span>
 <span class="n">f_grid</span> <span class="o">=</span> <span class="n">scat_data_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">f_grid</span>
@@ -199,12 +198,12 @@
 <span class="n">bulk_props</span> <span class="o">=</span> <span class="n">rain</span><span class="o">.</span><span class="n">get_bulk_scattering_properties_tro_spectral</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">f_grid</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># %% Grids and Planet</span>
-<span class="n">p_grid</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;p_grid.xml&quot;</span><span class="p">)</span>
-<span class="n">t_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;t_field.xml&quot;</span><span class="p">)</span>
-<span class="n">z_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;z_field.xml&quot;</span><span class="p">)</span>
-<span class="n">vmr_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;vmr_field.xml&quot;</span><span class="p">)</span>
-<span class="n">pbf_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;particle_bulkprop_field.xml&quot;</span><span class="p">)</span>
-<span class="n">pbf_names</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;particle_bulkprop_names.xml&quot;</span><span class="p">)</span>
+<span class="n">p_grid</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;p_grid.xml&quot;</span><span class="p">)</span>
+<span class="n">t_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;t_field.xml&quot;</span><span class="p">)</span>
+<span class="n">z_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;z_field.xml&quot;</span><span class="p">)</span>
+<span class="n">vmr_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;vmr_field.xml&quot;</span><span class="p">)</span>
+<span class="n">pbf_field</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;particle_bulkprop_field.xml&quot;</span><span class="p">)</span>
+<span class="n">pbf_names</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;particle_bulkprop_names.xml&quot;</span><span class="p">)</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">t_field</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 

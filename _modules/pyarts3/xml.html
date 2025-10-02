@@ -171,8 +171,27 @@
             <span class="n">event</span><span class="p">,</span> <span class="n">elem</span> <span class="o">=</span> <span class="n">get_next_tag</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Array&quot;</span><span class="p">:</span>
                 <span class="n">tag</span> <span class="o">+=</span> <span class="s2">&quot;ArrayOf&quot;</span>
-                <span class="n">event</span><span class="p">,</span> <span class="n">elem</span> <span class="o">=</span> <span class="n">get_next_tag</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-            <span class="n">tag</span> <span class="o">+=</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Index&quot;</span><span class="p">:</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;Index&quot;</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">event</span><span class="p">,</span> <span class="n">elem</span> <span class="o">=</span> <span class="n">get_next_tag</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Map&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Map type not supported by xml.load&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;GriddedField&quot;</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;GriddedField</span><span class="si">{</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Matpack&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Numeric&quot;</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">+=</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;rank&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">+=</span> <span class="s2">&quot;Vector&quot;</span>
+                <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;rank&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">+=</span> <span class="s2">&quot;Matrix&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Tensor</span><span class="si">{</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tag</span> <span class="o">+=</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No ARTS type found in file </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tag</span>
