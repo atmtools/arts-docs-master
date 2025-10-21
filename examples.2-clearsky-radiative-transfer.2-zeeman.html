@@ -8,7 +8,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zeeman &mdash; ARTS 3.0.0dev8 documentation</title>
+  <title>Zeeman &mdash; ARTS 3.0.0dev9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3afc90f3"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,6 +61,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.html">Clearsky radiative transfer</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.1-simple-outgoing-radiance.html">Simple outgoing radiance</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Zeeman</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-geometry">Zeeman geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id1">Zeeman</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-sensor">Zeeman sensor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-transmission">Zeeman transmission</a></li>
@@ -117,13 +118,73 @@
 <h1>Zeeman<a class="headerlink" href="#zeeman" title="Link to this heading"></a></h1>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#id1" id="id2">Zeeman</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sensor" id="id3">Zeeman sensor</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-transmission" id="id4">Zeeman transmission</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sun" id="id5">Zeeman sun</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sun-scattering" id="id6">Zeeman sun scattering</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-geometry" id="id2">Zeeman geometry</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id3">Zeeman</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sensor" id="id4">Zeeman sensor</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-transmission" id="id5">Zeeman transmission</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sun" id="id6">Zeeman sun</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sun-scattering" id="id7">Zeeman sun scattering</a></p></li>
 </ul>
 </nav>
+<section id="zeeman-geometry">
+<h2>Zeeman geometry<a class="headerlink" href="#zeeman-geometry" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="c1"># %% Get magnetic field at a sample position</span>
+<span class="n">ell</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">planets</span><span class="o">.</span><span class="n">Earth</span><span class="o">.</span><span class="n">ellipsoid</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">mag</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">igrf</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ell</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Setup figure for multiple subplots</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="n">N</span> <span class="o">*</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># %% Store computed angles for later verification</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># %% loop over different LOS directions</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+        <span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">N</span><span class="p">)[</span><span class="n">i</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">M</span><span class="p">)[</span><span class="n">j</span><span class="p">]]</span>
+
+        <span class="c1"># Setup 3D subplot</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">i</span><span class="o">*</span><span class="n">M</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Plot and store angles</span>
+        <span class="n">ang</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">zeeman</span><span class="o">.</span><span class="n">MagneticAngles</span><span class="p">(</span><span class="n">mag</span><span class="p">,</span> <span class="n">los</span><span class="p">)</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">MagneticAngles</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ang</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ang</span><span class="o">.</span><span class="n">eta</span><span class="p">,</span> <span class="n">ang</span><span class="o">.</span><span class="n">theta</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span>
+                   <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">3.02347622</span><span class="p">,</span>  <span class="mf">1.07933684</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.92908112</span><span class="p">,</span>  <span class="mf">1.07933684</span><span class="p">],</span>
+                             <span class="p">[</span><span class="o">-</span><span class="mf">1.16531399</span><span class="p">,</span>  <span class="mf">1.07933684</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">3.02347622</span><span class="p">,</span>  <span class="mf">1.07933684</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.21669967</span><span class="p">,</span>  <span class="mf">0.50432248</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.98174228</span><span class="p">,</span>  <span class="mf">2.12671818</span><span class="p">],</span>
+                             <span class="p">[</span><span class="o">-</span><span class="mf">1.04334554</span><span class="p">,</span>  <span class="mf">1.92599378</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.21669967</span><span class="p">,</span>  <span class="mf">0.50432248</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.11811643</span><span class="p">,</span>  <span class="mf">2.06225581</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">2.21251154</span><span class="p">,</span>  <span class="mf">2.06225581</span><span class="p">],</span>
+                             <span class="p">[</span><span class="o">-</span><span class="mf">1.97627867</span><span class="p">,</span>  <span class="mf">2.06225581</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mf">0.11811643</span><span class="p">,</span>  <span class="mf">2.06225581</span><span class="p">]])),</span> <span class="s2">&quot;Angles do not match expected values.&quot;</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="_downloads/2456c5699738297522d40cd8cbbb300a/1-zeeman-geometry.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/58af9517983cca0e21fd930feec4b2d3/1-zeeman-geometry.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/9feefce6c2e716a60beb42182c9d9081/1-zeeman-geometry.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/1-zeeman-geometry.svg" class="plot-directive" src="_images/1-zeeman-geometry.svg" />
+</figure>
+</section>
 <section id="id1">
 <h2>Zeeman<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -199,9 +260,9 @@
 <span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/52d2ea5ec228f7d1fe846eaa76404ef6/1-zeeman.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/b5d460fdda7fc9143949adfbe5c9bb39/1-zeeman.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/5f5561279129e6cbd4c435417fbafa64/1-zeeman.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/fcfa7e6c499863ba201d6ef2fed71918/2-zeeman.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/e318dd92a0f5732b0a0fe9c8b6e7da8b/2-zeeman.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/d055b3bbf1f0c7535c97fb55003bb515/2-zeeman.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
-<img alt="_images/1-zeeman.svg" class="plot-directive" src="_images/1-zeeman.svg" />
+<img alt="_images/2-zeeman.svg" class="plot-directive" src="_images/2-zeeman.svg" />
 </figure>
 </section>
 <section id="zeeman-sensor">
@@ -274,9 +335,9 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/1c7523d4f90a8a0617d51b672d0f5c8f/2-zeeman-sensor.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/fba2b479f1d39f6e3ccf637c96f3b120/2-zeeman-sensor.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/c9e278e72fc0a44f1f576ea82a948c1b/2-zeeman-sensor.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/78554177e63eae5fe7f0d693c294eee6/3-zeeman-sensor.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/3c35a7fa39f06f43e3c9a7ac317c4bfd/3-zeeman-sensor.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/9e027de7aca44203b4b2e75adce8d31a/3-zeeman-sensor.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
-<img alt="_images/2-zeeman-sensor.svg" class="plot-directive" src="_images/2-zeeman-sensor.svg" />
+<img alt="_images/3-zeeman-sensor.svg" class="plot-directive" src="_images/3-zeeman-sensor.svg" />
 </figure>
 </section>
 <section id="zeeman-transmission">
@@ -354,9 +415,9 @@
 <span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/6e2e1b40d588e2ee6ffd45d0bc4ef096/3-zeeman-transmission.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/df2422b952542430cdcdd6448c98c3b3/3-zeeman-transmission.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/7a61a8e0d514f15472b577a1de871900/3-zeeman-transmission.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/779302f5cb0e43c6fca488d69aee2082/4-zeeman-transmission.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/d5e4c96ee45c82f4cefb71b03f67b8ba/4-zeeman-transmission.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/fd291967bd00cbf337b3753e0d7a2f62/4-zeeman-transmission.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
-<img alt="_images/3-zeeman-transmission.svg" class="plot-directive" src="_images/3-zeeman-transmission.svg" />
+<img alt="_images/4-zeeman-transmission.svg" class="plot-directive" src="_images/4-zeeman-transmission.svg" />
 </figure>
 </section>
 <section id="zeeman-sun">
@@ -439,9 +500,9 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/39323b49077b297be1542e1e81148544/4-zeeman-sun.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/d81afeb17f75d19d1124141bd7d151a8/4-zeeman-sun.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/024c71728d8771b736c8ce3ef42b6f21/4-zeeman-sun.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/6188ad1af11b2d6caa0142d1b6021491/5-zeeman-sun.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/7dce62f97b5141a0c6c618b84b1c63a3/5-zeeman-sun.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/12f9a4c2ffae2efb32e3d4243beafb12/5-zeeman-sun.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
-<img alt="_images/4-zeeman-sun.svg" class="plot-directive" src="_images/4-zeeman-sun.svg" />
+<img alt="_images/5-zeeman-sun.svg" class="plot-directive" src="_images/5-zeeman-sun.svg" />
 </figure>
 </section>
 <section id="zeeman-sun-scattering">
@@ -524,9 +585,9 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/23c0dc45c06da7a64d3e4cdbe337d34f/5-zeeman-sun-scattering.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/ac33414a9361ac9f5cc96ba14de8a070/5-zeeman-sun-scattering.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/5d45953209d59f8d381ee710fc9d8b31/5-zeeman-sun-scattering.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/d68cc7c6258da1724bfd5423b4a05660/6-zeeman-sun-scattering.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/7a35a6d5ad396b98b3318e31f6d66822/6-zeeman-sun-scattering.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/7483b1998e001344ddd049e59af8e0ac/6-zeeman-sun-scattering.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
-<img alt="_images/5-zeeman-sun-scattering.svg" class="plot-directive" src="_images/5-zeeman-sun-scattering.svg" />
+<img alt="_images/6-zeeman-sun-scattering.svg" class="plot-directive" src="_images/6-zeeman-sun-scattering.svg" />
 </figure>
 </section>
 </section>

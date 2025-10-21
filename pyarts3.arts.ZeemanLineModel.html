@@ -8,7 +8,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZeemanLineModel &mdash; ARTS 3.0.0dev8 documentation</title>
+  <title>ZeemanLineModel &mdash; ARTS 3.0.0dev9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3afc90f3"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -73,6 +73,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.math.html">pyarts3.arts.math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.path.html">pyarts3.arts.path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.physics.html">pyarts3.arts.physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.planets.html">pyarts3.arts.planets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.predef.html">pyarts3.arts.predef</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.rtepack.html">pyarts3.arts.rtepack</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.zeeman.html">pyarts3.arts.zeeman</a></li>
@@ -197,6 +198,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.DisortSettings.html">DisortSettings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.DoubleGaussGrid.html">DoubleGaussGrid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EarthEllipsoid.html">EarthEllipsoid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EllipsoidGravity.html">EllipsoidGravity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ErrorKey.html">ErrorKey</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EuropaEllipsoid.html">EuropaEllipsoid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ExtSSACallback.html">ExtSSACallback</a></li>
@@ -323,6 +325,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SortedGriddedField5.html">SortedGriddedField5</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SortedGriddedField6.html">SortedGriddedField6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.Sparse.html">Sparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SparseStokvecMatrix.html">SparseStokvecMatrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesEnum.html">SpeciesEnum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesEnumVectors.html">SpeciesEnumVectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html">SpeciesIsotope</a></li>
@@ -461,7 +464,7 @@
 <tbody>
 <tr class="row-odd"><td><p>Method</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.ZeemanLineModel.strengths" title="pyarts3.arts.ZeemanLineModel.strengths"><code class="xref py py-func docutils literal notranslate"><span class="pre">strengths()</span></code></a></p></td>
-<td><p>The number of Zeeman lines</p></td>
+<td><p>The relative strengths of the Zeeman components for the given quantum numbers state.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.ZeemanLineModel.gl" title="pyarts3.arts.ZeemanLineModel.gl"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gl</span></code></a></p></td>
@@ -536,8 +539,15 @@
 <p class="rubric">Methods</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.ZeemanLineModel.strengths">
-<span class="sig-name descname"><span class="pre">strengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.QuantumState.html#pyarts3.arts.QuantumState" title="pyarts3.arts.QuantumState"><span class="pre">pyarts3.arts.QuantumState</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.ArrayOfNumeric.html#pyarts3.arts.ArrayOfNumeric" title="pyarts3.arts.ArrayOfNumeric"><span class="pre">pyarts3.arts.ArrayOfNumeric</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyarts3.arts.ZeemanLineModel.strengths" title="Link to this definition"></a></dt>
-<dd><p>The number of Zeeman lines</p>
+<span class="sig-name descname"><span class="pre">strengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pyarts3.arts.QuantumState.html#pyarts3.arts.QuantumState" title="pyarts3.arts.QuantumState"><span class="pre">pyarts3.arts.QuantumState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.ArrayOfNumeric.html#pyarts3.arts.ArrayOfNumeric" title="pyarts3.arts.ArrayOfNumeric"><span class="pre">pyarts3.arts.ArrayOfNumeric</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyarts3.arts.ZeemanLineModel.strengths" title="Link to this definition"></a></dt>
+<dd><p>The relative strengths of the Zeeman components for the given quantum numbers state.
+:param qn: The quantum numbers of the line. Must be an instance of the QuantumState class as provided by this module.
+:type qn: QuantumState</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)">float</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Attributes</p>

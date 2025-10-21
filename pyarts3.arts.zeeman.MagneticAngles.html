@@ -8,7 +8,7 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MagneticAngles &mdash; ARTS 3.0.0dev8 documentation</title>
+  <title>MagneticAngles &mdash; ARTS 3.0.0dev9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3afc90f3"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -73,6 +73,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.math.html">pyarts3.arts.math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.path.html">pyarts3.arts.path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.physics.html">pyarts3.arts.physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.planets.html">pyarts3.arts.planets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.predef.html">pyarts3.arts.predef</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.rtepack.html">pyarts3.arts.rtepack</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="pyarts3.arts.zeeman.html">pyarts3.arts.zeeman</a><ul class="current">
@@ -205,6 +206,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.DisortSettings.html">DisortSettings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.DoubleGaussGrid.html">DoubleGaussGrid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EarthEllipsoid.html">EarthEllipsoid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EllipsoidGravity.html">EllipsoidGravity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ErrorKey.html">ErrorKey</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.EuropaEllipsoid.html">EuropaEllipsoid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ExtSSACallback.html">ExtSSACallback</a></li>
@@ -331,6 +333,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SortedGriddedField5.html">SortedGriddedField5</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SortedGriddedField6.html">SortedGriddedField6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.Sparse.html">Sparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SparseStokvecMatrix.html">SparseStokvecMatrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesEnum.html">SpeciesEnum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesEnumVectors.html">SpeciesEnumVectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.SpeciesIsotope.html">SpeciesIsotope</a></li>
@@ -465,75 +468,91 @@
 <p class="rubric">Overview</p>
 <table class="docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a></p></td>
+<td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.B_projected" title="pyarts3.arts.zeeman.MagneticAngles.B_projected"><code class="xref py py-attr docutils literal notranslate"><span class="pre">B_projected</span></code></a></p></td>
+<td><p>Projection of the magnetic field onto the plane perpendicular to the line of sight.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.H" title="pyarts3.arts.zeeman.MagneticAngles.H"><code class="xref py py-attr docutils literal notranslate"><span class="pre">H</span></code></a></p></td>
 <td><p>Absolute magnetic field strength</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.ca" title="pyarts3.arts.zeeman.MagneticAngles.ca"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ca</span></code></a></p></td>
 <td><p>Magnetic sin(asimuth)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.cz" title="pyarts3.arts.zeeman.MagneticAngles.cz"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cz</span></code></a></p></td>
 <td><p>Magnetic cos(zenith)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.deta_du" title="pyarts3.arts.zeeman.MagneticAngles.deta_du"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deta_du</span></code></a></p></td>
 <td><p>Derivative of eta with respect to u</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dv" title="pyarts3.arts.zeeman.MagneticAngles.deta_dv"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deta_dv</span></code></a></p></td>
 <td><p>Derivative of eta with respect to v</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dw" title="pyarts3.arts.zeeman.MagneticAngles.deta_dw"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deta_dw</span></code></a></p></td>
 <td><p>Derivative of eta with respect to w</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_du" title="pyarts3.arts.zeeman.MagneticAngles.dtheta_du"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dtheta_du</span></code></a></p></td>
 <td><p>Derivative of theta with respect to u</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dv" title="pyarts3.arts.zeeman.MagneticAngles.dtheta_dv"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dtheta_dv</span></code></a></p></td>
 <td><p>Derivative of theta with respect to v</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dw" title="pyarts3.arts.zeeman.MagneticAngles.dtheta_dw"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dtheta_dw</span></code></a></p></td>
 <td><p>Derivative of theta with respect to w</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.duct" title="pyarts3.arts.zeeman.MagneticAngles.duct"><code class="xref py py-attr docutils literal notranslate"><span class="pre">duct</span></code></a></p></td>
 <td><p>Derivative of angle constant</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a></p></td>
+<td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.e1" title="pyarts3.arts.zeeman.MagneticAngles.e1"><code class="xref py py-attr docutils literal notranslate"><span class="pre">e1</span></code></a></p></td>
+<td><p>Propagation vector upwards projection</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a></p></td>
+<td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.e2" title="pyarts3.arts.zeeman.MagneticAngles.e2"><code class="xref py py-attr docutils literal notranslate"><span class="pre">e2</span></code></a></p></td>
+<td><p>Propagation vector rightward projection</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.eta" title="pyarts3.arts.zeeman.MagneticAngles.eta"><code class="xref py py-attr docutils literal notranslate"><span class="pre">eta</span></code></a></p></td>
 <td><p>Magnetic angle eta</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a></p></td>
+<td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.k" title="pyarts3.arts.zeeman.MagneticAngles.k"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k</span></code></a></p></td>
+<td><p>Propagation vector</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.sa" title="pyarts3.arts.zeeman.MagneticAngles.sa"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sa</span></code></a></p></td>
 <td><p>Magnetic cos(asimuth)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.sz" title="pyarts3.arts.zeeman.MagneticAngles.sz"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sz</span></code></a></p></td>
 <td><p>Magnetic sin(zenith)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.theta" title="pyarts3.arts.zeeman.MagneticAngles.theta"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta</span></code></a></p></td>
 <td><p>Magnetic angle theta</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.u" title="pyarts3.arts.zeeman.MagneticAngles.u"><code class="xref py py-attr docutils literal notranslate"><span class="pre">u</span></code></a></p></td>
 <td><p>Magnetic u</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.uct" title="pyarts3.arts.zeeman.MagneticAngles.uct"><code class="xref py py-attr docutils literal notranslate"><span class="pre">uct</span></code></a></p></td>
 <td><p>Angle constant</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.v" title="pyarts3.arts.zeeman.MagneticAngles.v"><code class="xref py py-attr docutils literal notranslate"><span class="pre">v</span></code></a></p></td>
 <td><p>Magnetic v</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Numeric</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.w" title="pyarts3.arts.zeeman.MagneticAngles.w"><code class="xref py py-attr docutils literal notranslate"><span class="pre">w</span></code></a></p></td>
 <td><p>Magnetic w</p></td>
 </tr>
@@ -579,7 +598,7 @@
 </tr>
 <tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.__repr__" title="pyarts3.arts.zeeman.MagneticAngles.__repr__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__repr__()</span></code></a></p></td>
-<td><p>Return repr(self).</p></td>
+<td><p>__repr__(self) -&gt; str</p></td>
 </tr>
 <tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.zeeman.MagneticAngles.__str__" title="pyarts3.arts.zeeman.MagneticAngles.__str__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__str__()</span></code></a></p></td>
@@ -599,110 +618,134 @@
 
 <p class="rubric">Attributes</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.B_projected">
+<span class="sig-name descname"><span class="pre">B_projected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><span class="pre">Vector3</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.B_projected" title="Link to this definition"></a></dt>
+<dd><p>Projection of the magnetic field onto the plane perpendicular to the line of sight.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.H">
-<span class="sig-name descname"><span class="pre">H</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.H" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">H</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.H" title="Link to this definition"></a></dt>
 <dd><p>Absolute magnetic field strength</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.ca">
-<span class="sig-name descname"><span class="pre">ca</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.ca" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ca</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.ca" title="Link to this definition"></a></dt>
 <dd><p>Magnetic sin(asimuth)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.cz">
-<span class="sig-name descname"><span class="pre">cz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.cz" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">cz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.cz" title="Link to this definition"></a></dt>
 <dd><p>Magnetic cos(zenith)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.deta_du">
-<span class="sig-name descname"><span class="pre">deta_du</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_du" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deta_du</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_du" title="Link to this definition"></a></dt>
 <dd><p>Derivative of eta with respect to u</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.deta_dv">
-<span class="sig-name descname"><span class="pre">deta_dv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dv" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deta_dv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dv" title="Link to this definition"></a></dt>
 <dd><p>Derivative of eta with respect to v</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.deta_dw">
-<span class="sig-name descname"><span class="pre">deta_dw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deta_dw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.deta_dw" title="Link to this definition"></a></dt>
 <dd><p>Derivative of eta with respect to w</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.dtheta_du">
-<span class="sig-name descname"><span class="pre">dtheta_du</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_du" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dtheta_du</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_du" title="Link to this definition"></a></dt>
 <dd><p>Derivative of theta with respect to u</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.dtheta_dv">
-<span class="sig-name descname"><span class="pre">dtheta_dv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dv" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dtheta_dv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dv" title="Link to this definition"></a></dt>
 <dd><p>Derivative of theta with respect to v</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.dtheta_dw">
-<span class="sig-name descname"><span class="pre">dtheta_dw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dtheta_dw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.dtheta_dw" title="Link to this definition"></a></dt>
 <dd><p>Derivative of theta with respect to w</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.duct">
-<span class="sig-name descname"><span class="pre">duct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.duct" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">duct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.duct" title="Link to this definition"></a></dt>
 <dd><p>Derivative of angle constant</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.e1">
+<span class="sig-name descname"><span class="pre">e1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><span class="pre">Vector3</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.e1" title="Link to this definition"></a></dt>
+<dd><p>Propagation vector upwards projection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.e2">
+<span class="sig-name descname"><span class="pre">e2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><span class="pre">Vector3</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.e2" title="Link to this definition"></a></dt>
+<dd><p>Propagation vector rightward projection</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.eta">
-<span class="sig-name descname"><span class="pre">eta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.eta" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">eta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.eta" title="Link to this definition"></a></dt>
 <dd><p>Magnetic angle eta</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.k">
+<span class="sig-name descname"><span class="pre">k</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Vector3.html#pyarts3.arts.Vector3" title="pyarts3.arts.Vector3"><span class="pre">Vector3</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.k" title="Link to this definition"></a></dt>
+<dd><p>Propagation vector</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.sa">
-<span class="sig-name descname"><span class="pre">sa</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.sa" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sa</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.sa" title="Link to this definition"></a></dt>
 <dd><p>Magnetic cos(asimuth)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.sz">
-<span class="sig-name descname"><span class="pre">sz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.sz" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.sz" title="Link to this definition"></a></dt>
 <dd><p>Magnetic sin(zenith)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.theta">
-<span class="sig-name descname"><span class="pre">theta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.theta" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">theta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.theta" title="Link to this definition"></a></dt>
 <dd><p>Magnetic angle theta</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.u">
-<span class="sig-name descname"><span class="pre">u</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.u" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">u</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.u" title="Link to this definition"></a></dt>
 <dd><p>Magnetic u</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.uct">
-<span class="sig-name descname"><span class="pre">uct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.uct" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">uct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.uct" title="Link to this definition"></a></dt>
 <dd><p>Angle constant</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.v">
-<span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.v" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.v" title="Link to this definition"></a></dt>
 <dd><p>Magnetic v</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.w">
-<span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pyarts3.arts.Numeric.html#pyarts3.arts.Numeric" title="pyarts3.arts.Numeric"><span class="pre">Numeric</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.w" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.w" title="Link to this definition"></a></dt>
 <dd><p>Magnetic w</p>
 </dd></dl>
 
@@ -773,9 +816,8 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.__repr__" title="Link to this definition"></a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyarts3.arts.zeeman.MagneticAngles.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.zeeman.MagneticAngles.__str__">
