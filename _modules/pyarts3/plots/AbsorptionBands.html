@@ -76,6 +76,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
       <li class="breadcrumb-item active">pyarts3.plots.AbsorptionBands</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -88,9 +89,9 @@
   <h1>Source code for pyarts3.plots.AbsorptionBands</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbsorptionBands</span><span class="p">,</span> <span class="n">AscendingGrid</span><span class="p">,</span> <span class="n">AtmPoint</span><span class="p">,</span> <span class="n">AtmField</span><span class="p">,</span> <span class="n">Propmat</span><span class="p">,</span> <span class="n">SpeciesEnum</span><span class="p">,</span> <span class="n">PropagationPathPoint</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">colormaps</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
@@ -99,7 +100,7 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.AbsorptionBands.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">absorption_bands</span><span class="p">:</span> <span class="n">AbsorptionBands</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">AbsorptionBands</span><span class="p">,</span>
          <span class="o">*</span><span class="p">,</span>
          <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span>
          <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -110,10 +111,12 @@
          <span class="n">species</span><span class="p">:</span> <span class="n">SpeciesEnum</span> <span class="o">=</span> <span class="n">SpeciesEnum</span><span class="o">.</span><span class="n">AIR</span><span class="p">,</span>
          <span class="n">path_point</span><span class="p">:</span> <span class="n">PropagationPathPoint</span> <span class="o">=</span> <span class="n">PropagationPathPoint</span><span class="p">(),</span>
          <span class="n">min_pm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">cm_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;viridis&#39;</span><span class="p">):</span>
+         <span class="n">cm</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span>
+             <span class="s1">&#39;viridis&#39;</span><span class="p">),</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a plot of the absorption by the bands in the AbsorptionBands object.</span>
 
-<span class="sd">    If freqs is and index, this is the number of frequency points between the lowest</span>
+<span class="sd">    If freqs is an index, this is the number of frequency points between the lowest</span>
 <span class="sd">    and highest frequency in the AbsorptionBands object.  If freqs is an AscendingGrid,</span>
 <span class="sd">    it is used directly for the x-axis.</span>
 
@@ -139,7 +142,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    absorption_bands : ~pyarts3.arts.AbsorptionBands</span>
+<span class="sd">    data : ~pyarts3.arts.AbsorptionBands</span>
 <span class="sd">        The AbsorptionBands object containing the data to plot.</span>
 <span class="sd">    mode : str, optional</span>
 <span class="sd">        The mode to use for the plot - see text for descriptions. Defaults to &#39;normal&#39;.</span>
@@ -160,8 +163,10 @@
 <span class="sd">    min_pm : float, optional</span>
 <span class="sd">        The minimum absorption to consider a band important.  Only used in &#39;important Y X&#39; modes.</span>
 <span class="sd">        Defaults to 1% of the minimum absorption in the full propagation matrix.</span>
-<span class="sd">    cm_key : str, optional</span>
-<span class="sd">        The matplotlib colormap key to use for coloring in &quot;important Y X&quot; mode  Must be resampable.  Defaults to &#39;viridis&#39;.</span>
+<span class="sd">    cm : ~matplotlib.colors.ListedColormap, optional</span>
+<span class="sd">        The matplotlib colormap to use for coloring in &quot;important Y X&quot; mode  Must be resampable.  Defaults to &#39;viridis&#39;.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -173,15 +178,15 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">f0</span> <span class="o">=</span> <span class="mf">1e99</span>
         <span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e99</span>
-        <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">absorption_bands</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">absorption_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
                 <span class="n">f0</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">f0</span><span class="p">)</span>
                 <span class="n">f1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">f0</span><span class="p">)</span>
         <span class="n">freqs</span> <span class="o">=</span> <span class="n">AscendingGrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">freqs</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">atm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">absorption_bands</span><span class="p">])</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span>
         <span class="n">toa</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span><span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -189,46 +194,50 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">AtmField</span><span class="p">):</span>
         <span class="n">atm</span> <span class="o">=</span> <span class="n">atm</span><span class="p">(</span><span class="o">*</span><span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)})</span>
 
-    <span class="n">pm</span> <span class="o">=</span> <span class="n">absorption_bands</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">(</span>
+    <span class="n">pm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">(</span>
         <span class="n">f</span><span class="o">=</span><span class="n">freqs</span><span class="p">,</span> <span class="n">atm</span><span class="o">=</span><span class="n">atm</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">species</span><span class="p">,</span> <span class="n">path_point</span><span class="o">=</span><span class="n">path_point</span><span class="p">)</span>
     <span class="n">pm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,j-&gt;i&#39;</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">pol</span><span class="p">)</span>
 
+    <span class="c1"># Plots a simple line plot of the total absorption</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+    <span class="c1"># Separates the absorption into important bands/species/isotopes</span>
     <span class="k">elif</span> <span class="n">mode</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;important&#39;</span><span class="p">):</span>
         <span class="n">pm_bands</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;isotopes&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;species&#39;</span><span class="p">):</span>
+        <span class="c1"># Extracts keys based on mode, computing their propagation matrices on-the-fly</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;isotopes&#39;</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;species&#39;</span><span class="p">):</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">band</span><span class="o">.</span><span class="n">isot</span> <span class="k">if</span> <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span>
-                <span class="s1">&#39;isotopes&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="o">.</span><span class="n">spec</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">absorption_bands</span><span class="p">]</span>
+                <span class="s1">&#39;isotopes&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="o">.</span><span class="n">spec</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">keys</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-                <span class="n">bands</span> <span class="o">=</span> <span class="n">absorption_bands</span><span class="o">.</span><span class="n">extract_species</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">bands</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">extract_species</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="n">pm_band</span> <span class="o">=</span> <span class="n">bands</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">(</span>
                     <span class="n">f</span><span class="o">=</span><span class="n">freqs</span><span class="p">,</span> <span class="n">atm</span><span class="o">=</span><span class="n">atm</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">species</span><span class="p">,</span> <span class="n">path_point</span><span class="o">=</span><span class="n">path_point</span><span class="p">)</span>
                 <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,j-&gt;i&#39;</span><span class="p">,</span> <span class="n">pm_band</span><span class="p">,</span> <span class="n">pol</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">mode</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;bands&#39;</span><span class="p">):</span>
-            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">band</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">absorption_bands</span><span class="p">]</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">band</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-                <span class="n">bands</span> <span class="o">=</span> <span class="n">AbsorptionBands</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">absorption_bands</span><span class="p">[</span><span class="n">key</span><span class="p">]})</span>
+                <span class="n">bands</span> <span class="o">=</span> <span class="n">AbsorptionBands</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]})</span>
                 <span class="n">pm_band</span> <span class="o">=</span> <span class="n">bands</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">(</span>
                     <span class="n">f</span><span class="o">=</span><span class="n">freqs</span><span class="p">,</span> <span class="n">atm</span><span class="o">=</span><span class="n">atm</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">species</span><span class="p">,</span> <span class="n">path_point</span><span class="o">=</span><span class="n">path_point</span><span class="p">)</span>
                 <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,j-&gt;i&#39;</span><span class="p">,</span> <span class="n">pm_band</span><span class="p">,</span> <span class="n">pol</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">min_pm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">min_pm</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+        <span class="n">min_pm</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span> <span class="k">if</span> <span class="n">min_pm</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_pm</span>
 
+        <span class="c1"># Filter out bands below the minimum propagation matrix value (and set values to NaN)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">min_pm</span><span class="p">:</span>
                 <span class="k">del</span> <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_pm</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
+        <span class="c1"># Sort bands so stronger are first (this helps with visibility when plotting)</span>
         <span class="n">pm_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pm_bands</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">pm_keys</span><span class="p">:</span>
@@ -237,19 +246,20 @@
         <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">order</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pm_keys</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span>
 
-        <span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cm_key</span><span class="p">)</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pm_bands</span><span class="p">))</span>
-        <span class="k">if</span> <span class="s2">&quot;fill&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
-                                <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pm_bands</span><span class="p">))</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absorption [1/m]&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;fill&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+                <span class="n">freqs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+                <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
+                                                   <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">freqs</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+                <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">pm_bands</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
+                                           <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 

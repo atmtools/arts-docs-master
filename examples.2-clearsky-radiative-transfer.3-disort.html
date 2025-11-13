@@ -122,7 +122,7 @@
 </nav>
 <section id="clearsky-radiance">
 <h2>Clearsky radiance<a class="headerlink" href="#clearsky-radiance" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w">  </span><span class="nn">os</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -177,19 +177,15 @@
 <span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
     <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
     <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-    <span class="n">max_step</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+    <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radianceClearskyEmission</span><span class="p">()</span>
 
 <span class="c1"># %% Plot results</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">-</span> <span class="n">line_f0</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">/</span> <span class="mf">1e9</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-    <span class="n">f</span><span class="p">,</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;disort&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_radiance_field</span><span class="p">,</span>
+                      <span class="n">freqs</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_radiance</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
     <span class="n">f</span><span class="p">,</span>
@@ -204,7 +200,7 @@
     <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [W sr$^{-1}$ m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [index count]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [GHz]&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
@@ -227,6 +223,8 @@
 <h2>Clearsky flux<a class="headerlink" href="#clearsky-flux" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="c1"># Download catalogs</span>
 <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
@@ -267,7 +265,7 @@
 <span class="c1"># %% Core Disort calculations</span>
 <span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
 
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="mi">40_000</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mi">40_000</span><span class="p">)</span>
 
 <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">(</span>
     <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
@@ -317,9 +315,29 @@
     <span class="p">),</span>
     <span class="mi">1</span><span class="p">,</span>
 <span class="p">),</span> <span class="s2">&quot;Mismatch from historical Disort spectral fluxes&quot;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+                      <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">altitude_grid</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+                      <span class="n">freqs</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Disort clearsky spectral fluxes&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">a</span><span class="p">,</span>
+              <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Spectral flux [W m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upwelling spectral flux&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling diffuse spectral flux&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling direct spectral flux&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/212e34aadd9d2dcf460027f9a7cbdbb5/2-clearsky-flux.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="_downloads/212e34aadd9d2dcf460027f9a7cbdbb5/2-clearsky-flux.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/c5fb8c9ec92dd1a2c6f6772efdd3216e/2-clearsky-flux.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/d7731117a861c0ca2d675d2160435929/2-clearsky-flux.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/2-clearsky-flux.svg" class="plot-directive" src="_images/2-clearsky-flux.svg" />
+</figure>
 </section>
 <section id="clearsky-flux-from-dataset">
 <h2>Clearsky flux from dataset<a class="headerlink" href="#clearsky-flux-from-dataset" title="Link to this heading"></a></h2>
@@ -396,7 +414,7 @@
 <span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
     <span class="n">latitude</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
     <span class="n">longitude</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
-    <span class="n">max_step</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
+    <span class="n">max_stepsize</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
@@ -407,15 +425,31 @@
 
 <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-    <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">),</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">down_diffuse</span><span class="p">,</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span>
+    <span class="n">freqs</span><span class="o">=</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span><span class="p">),</span>
+    <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">altitude_grid</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
+    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down_diffuse&#39;</span><span class="p">,</span>
+    <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downward diffuse spectral flux from DISORT&quot;</span><span class="p">)</span>
 
-<span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">AtmField</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">,</span> <span class="n">alts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+
+<span class="n">alts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">)</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">,</span>
+    <span class="n">alts</span><span class="o">=</span><span class="n">alts</span><span class="p">,</span>
+    <span class="n">ygrid</span><span class="o">=</span><span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
+    <span class="n">apply_natural_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_lines</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_label</span><span class="p">())</span>
 <span class="n">f</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Atmospheric field&quot;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>

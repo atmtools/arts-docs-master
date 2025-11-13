@@ -76,6 +76,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
       <li class="breadcrumb-item active">pyarts3.plots.AtmField</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -90,24 +91,79 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">vmr_scale</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="s1">&#39;‰&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;µ&#39;</span><span class="p">:</span> <span class="s1">&#39;ppmv&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="s1">&#39;ppbv&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="s1">&#39;pptv&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="s1">&#39;ppqv&#39;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">scale</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">VMR&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_label</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="p">):</span>
+        <span class="k">match</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">t</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Temperature [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">K]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">p</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Pressure [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">Pa]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_u</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Wind field U [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">m/s]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_v</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Wind field V [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">m/s]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">wind_w</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Wind field W [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">m/s]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_u</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Magnetic field U [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">T]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_v</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Magnetic field V [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">T]&quot;</span>
+            <span class="k">case</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmKey</span><span class="o">.</span><span class="n">mag_w</span><span class="p">:</span> <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Magnetic field W [</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">T]&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SpeciesEnum</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SpeciesIsotope</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">vmr_scale</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">unit</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">natural_scale</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span>
+
+    <span class="n">xmin</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="p">[</span><span class="n">scl0</span><span class="p">,</span> <span class="n">xmin0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">metric_prefix</span><span class="p">(</span><span class="n">xmin</span><span class="p">)</span>
+    <span class="n">scl0</span> <span class="o">=</span> <span class="n">scl0</span> <span class="k">if</span> <span class="n">scl0</span> <span class="o">!=</span> <span class="s1">&#39;u&#39;</span> <span class="k">else</span> <span class="s1">&#39;µ&#39;</span>
+    <span class="n">scl0</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="n">scl0</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">scl0</span>
+
+    <span class="n">xmax</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="p">[</span><span class="n">scl1</span><span class="p">,</span> <span class="n">xmax0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">metric_prefix</span><span class="p">(</span><span class="n">xmax</span><span class="p">)</span>
+    <span class="n">scl1</span> <span class="o">=</span> <span class="n">scl1</span> <span class="k">if</span> <span class="n">scl1</span> <span class="o">!=</span> <span class="s1">&#39;u&#39;</span> <span class="k">else</span> <span class="s1">&#39;µ&#39;</span>
+    <span class="n">scl1</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="n">scl1</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">scl1</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">scl0</span> <span class="o">==</span> <span class="n">scl1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xmin</span> <span class="o">&lt;</span> <span class="n">xmin0</span> <span class="ow">and</span> <span class="n">xmax</span> <span class="o">&lt;</span> <span class="n">xmax0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xmin</span> <span class="o">&gt;</span> <span class="n">xmin0</span> <span class="ow">and</span> <span class="n">xmax</span> <span class="o">&gt;</span> <span class="n">xmax0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">scl1</span><span class="p">,</span> <span class="n">x</span> <span class="o">/</span> <span class="n">xmax</span> <span class="o">*</span> <span class="n">xmax0</span>
+
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span>
+
+
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.AtmField.plot">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">atm_field</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmField</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">alts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mi">51</span><span class="p">),</span>
-    <span class="n">lats</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">lons</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">ygrid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">alts</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mi">51</span><span class="p">),</span>
+    <span class="n">lats</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LatGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">lons</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LonGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">apply_natural_scale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot select atmospheric field parameters by extracting a profile.</span>
 
@@ -127,48 +183,57 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    atm_field : ~pyarts3.arts.AtmField</span>
+<span class="sd">    data : ~pyarts3.arts.AtmField</span>
 <span class="sd">        An atmospheric field</span>
 <span class="sd">    fig : Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    alts : :class:`~numpy.ndarray` | :class:`float`, optional</span>
+<span class="sd">    ax : Axes, optional</span>
+<span class="sd">        Not used (function creates its own subplots). Accepted for API consistency.</span>
+<span class="sd">    alts : ~pyarts3.arts.AscendingGrid | float, optional</span>
 <span class="sd">        A grid to plot on - must after broadcast with lats and lons be 1D. Defaults to np.linspace(0, 1e5, 51).</span>
-<span class="sd">    lats : :class:`~numpy.ndarray` | :class:`float`, optional</span>
+<span class="sd">    lats : ~pyarts3.arts.LatGrid | float, optional</span>
 <span class="sd">        A grid to plot on - must after broadcast with alts and lons be 1D. Defaults to 0.</span>
-<span class="sd">    lons : :class:`~numpy.ndarray` | :class:`float`, optional</span>
+<span class="sd">    lons : ~pyarts3.arts.LonGrid | float, optional</span>
 <span class="sd">        A grid to plot on - must after broadcast with alts and lats be 1D. Defaults to 0.</span>
-<span class="sd">    ygrid : :class:`~numpy.ndarray` | :class:`None`, optional</span>
+<span class="sd">    ygrid : ~pyarts3.arts.Vector | :class:`None`, optional</span>
 <span class="sd">        Choice of y-grid for plotting.  Uses broadcasted alts if None. Defaults to None.</span>
 <span class="sd">    keys : list, optional</span>
 <span class="sd">        A list of keys to plot. Defaults to None for all keys in :meth:`~pyarts3.arts.AtmField.keys`.</span>
+<span class="sd">    apply_natural_scale : bool, optional</span>
+<span class="sd">        Whether to apply natural scaling to each parameter. Defaults to False.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments passed to plot()</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fig : As input</span>
 <span class="sd">        As input.</span>
-<span class="sd">    subs : As input</span>
-<span class="sd">        As input.</span>
+<span class="sd">    ax : list</span>
+<span class="sd">        List of matplotlib axes objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_arrays</span><span class="p">(</span><span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">atm_field</span><span class="p">(</span><span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
 
     <span class="n">keys</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">keys</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">keys</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)))</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span>
+                             <span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="p">),</span> <span class="s1">&#39;constrained_layout&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
 
-    <span class="n">subs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">subs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">subs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">],</span>
+        <span class="k">if</span> <span class="n">apply_natural_scale</span><span class="p">:</span>
+            <span class="n">unit</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">natural_scale</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+        <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
             <span class="n">alts</span> <span class="k">if</span> <span class="n">ygrid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ygrid</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">get_label</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">unit</span><span class="p">),</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
-        <span class="n">subs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">subs</span></div>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 </pre></div>
 

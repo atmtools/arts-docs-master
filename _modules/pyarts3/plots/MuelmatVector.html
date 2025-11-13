@@ -76,6 +76,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
       <li class="breadcrumb-item active">pyarts3.plots.MuelmatVector</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -90,7 +91,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
@@ -100,11 +101,13 @@
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.MuelmatVector.plot">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">transmission_matrix</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">MuelmatVector</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">MuelmatVector</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">freqs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">is_polar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">freqs</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">component</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Muelmat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the transmission matrix elements.</span>
 
@@ -112,53 +115,45 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    transmission_matrix : ~pyarts3.arts.MuelmatVector</span>
+<span class="sd">    data : ~pyarts3.arts.MuelmatVector</span>
 <span class="sd">        A vector of Mueller matrices representing the transmission properties.</span>
 <span class="sd">    fig : Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    freqs : list, optional</span>
-<span class="sd">        A list of frequencies to plot. Defaults to None for no frequency grid.</span>
-<span class="sd">    is_polar : bool, optional</span>
-<span class="sd">        If True, the transmission matrix is treated as polarized (4x4).</span>
-<span class="sd">        If False, it is treated as unpolarized (1D).</span>
-<span class="sd">        If None (default), the polarization state is determined from the data.</span>
+<span class="sd">    ax : Axes or list, optional</span>
+<span class="sd">        The matplotlib axes to draw on. For 1D plot: single axes. For 4x4 plot: 16 axes.</span>
+<span class="sd">        Defaults to None for new axes.</span>
+<span class="sd">    freqs : ~pyarts3.arts.AscendingGrid, optional</span>
+<span class="sd">        A grid of frequencies to plot. Defaults to None for no frequency grid.</span>
+<span class="sd">    component : None | ~pyarts3.arts.Muelmat, optional</span>
+<span class="sd">        If None, plot the dot product of each Mueller matrix with the given component.</span>
+<span class="sd">        If provided, plot each of the 16 elements M[i,j] across the vector.</span>
+<span class="sd">    **kwargs : optional</span>
+<span class="sd">        Additional keyword arguments passed to matplotlib plot().</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fig : As input</span>
 <span class="sd">        As input.</span>
-<span class="sd">    subs : As input</span>
-<span class="sd">        As input.</span>
+<span class="sd">    ax : As input</span>
+<span class="sd">        As input. Single axis for 1D plot, or list of 16 axes for 4x4 plot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">is_polar</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">is_polar</span> <span class="o">=</span> <span class="n">transmission_matrix</span><span class="o">.</span><span class="n">is_polarized</span><span class="p">()</span>
-    
-    <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transmission_matrix</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">transmission_matrix</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Length of freqs must match length of transmission_matrix&quot;</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_polar</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">subs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">subs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">subs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_polar</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Figure must have exactly one axis for 1D transmission matrix&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">16</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Figure must have exactly 16 axes for 4x4 transmission matrix&quot;</span><span class="p">)</span>
+    <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">freqs</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_polar</span><span class="p">:</span>
-        <span class="n">subs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">transmission_matrix</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span>
+                             <span class="mi">1</span> <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">4</span><span class="p">,</span>
+                             <span class="mi">1</span> <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">4</span><span class="p">,</span>
+                             <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)})</span>
+
+    <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+            <span class="s2">&quot;ik,k-&gt;i&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">component</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-                <span class="n">ax</span> <span class="o">=</span> <span class="n">subs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">transmission_matrix</span><span class="p">])</span>
+                <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span>
+                                                 <span class="n">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">subs</span></div>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 </pre></div>
 

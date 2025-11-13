@@ -103,7 +103,6 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfPropmatVector.html">ArrayOfArrayOfPropmatVector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfScatteringMetaData.html">ArrayOfArrayOfScatteringMetaData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfSingleScatteringData.html">ArrayOfArrayOfSingleScatteringData</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfSpeciesTag.html">ArrayOfArrayOfSpeciesTag</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfStokvecMatrix.html">ArrayOfArrayOfStokvecMatrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfStokvecVector.html">ArrayOfArrayOfStokvecVector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ArrayOfArrayOfString.html">ArrayOfArrayOfString</a></li>
@@ -400,8 +399,12 @@
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.propagation_matrix_agendaOperator.html">propagation_matrix_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.propagation_matrix_scattering_agendaOperator.html">propagation_matrix_scattering_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.propagation_matrix_scattering_spectral_agendaOperator.html">propagation_matrix_scattering_spectral_agendaOperator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.propagation_matrix_single_agendaOperator.html">propagation_matrix_single_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ray_path_observer_agendaOperator.html">ray_path_observer_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ray_path_observer_agendaSetGeometricMaxStep.html">ray_path_observer_agendaSetGeometricMaxStep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.ray_path_point_back_propagation_agendaOperator.html">ray_path_point_back_propagation_agendaOperator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.single_spectral_radiance_space_agendaOperator.html">single_spectral_radiance_space_agendaOperator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.single_spectral_radiance_surface_agendaOperator.html">single_spectral_radiance_surface_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.spectral_radiance_observer_agendaOperator.html">spectral_radiance_observer_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.spectral_radiance_space_agendaOperator.html">spectral_radiance_space_agendaOperator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarts3.arts.spectral_radiance_surface_agendaOperator.html">spectral_radiance_surface_agendaOperator</a></li>
@@ -412,11 +415,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.data.html">pyarts3.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts3.gui.html">pyarts3.gui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.hitran.html">pyarts3.hitran</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.math.html">pyarts3.math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.plots.html">pyarts3.plots</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.recipe.html">pyarts3.recipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.utils.html">pyarts3.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarts3.spectroscopy.html">pyarts3.spectroscopy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.workspace.html">pyarts3.workspace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyarts3.xml.html">pyarts3.xml</a></li>
 </ul>
@@ -2466,7 +2471,7 @@ and returns any associated data.</p>
 </tr>
 <tr class="row-even"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope.__hash__" title="pyarts3.arts.SpeciesIsotope.__hash__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__hash__()</span></code></a></p></td>
-<td><p>Return hash(self).</p></td>
+<td><p>__hash__(self) -&gt; int</p></td>
 </tr>
 <tr class="row-odd"><td><p>Operator</p></td>
 <td><p><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope.__init__" title="pyarts3.arts.SpeciesIsotope.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a></p></td>
@@ -2633,6 +2638,8 @@ and returns any associated data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__eq__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2643,6 +2650,8 @@ and returns any associated data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__ge__">
 <span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__ge__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2653,13 +2662,14 @@ and returns any associated data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__gt__">
 <span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__gt__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__hash__">
-<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__hash__" title="Link to this definition"></a></dt>
-<dd><p>Return hash(self).</p>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__hash__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__init__">
@@ -2685,16 +2695,22 @@ and returns any associated data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__le__">
 <span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__le__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__lt__">
 <span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__lt__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyarts3.arts.SpeciesIsotope.__ne__">
 <span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyarts3.arts.SpeciesIsotope.__ne__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyarts3.arts.SpeciesIsotope" title="pyarts3.arts.SpeciesIsotope"><span class="pre">pyarts3.arts.SpeciesIsotope</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">

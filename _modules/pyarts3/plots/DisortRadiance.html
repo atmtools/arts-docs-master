@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts3.plots.DisortRadiance &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=73457b95" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
+      <li class="breadcrumb-item active">pyarts3.plots.DisortRadiance</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts3.plots.DisortRadiance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Plotting routine for DisortRadiance &quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="plot">
+<a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.DisortRadiance.plot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">DisortRadiance</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">alt_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">azi_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;contourf&#39;</span><span class="p">,</span>
+    <span class="n">select</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">],</span>
+    <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot DISORT radiance results as two 2D heatmaps (upward and downward).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ~pyarts3.arts.DisortRadiance</span>
+<span class="sd">        A DisortRadiance object containing radiance results</span>
+<span class="sd">    fig : Figure, optional</span>
+<span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
+<span class="sd">    ax : Axes, optional</span>
+<span class="sd">        Not used (function creates its own subplots). Accepted for API consistency.</span>
+<span class="sd">    alt_idx : int, optional</span>
+<span class="sd">        Altitude index to use. Defaults to 0 (top of atmosphere).</span>
+<span class="sd">    azi_idx : int, optional</span>
+<span class="sd">        Azimuth index to use. Defaults to 0.</span>
+<span class="sd">    plotstyle : str, optional</span>
+<span class="sd">        The matplotlib plotting function to use, &#39;contourf&#39; or &#39;plot&#39;</span>
+<span class="sd">    freqs : array-like, optional</span>
+<span class="sd">        Frequency grid to use for x-axis. Defaults to None, which uses data.frequency_grid.</span>
+<span class="sd">    select : list or str, optional</span>
+<span class="sd">        Which directions to plot: &#39;up&#39; and/or &#39;down&#39;. Defaults to [&#39;up&#39;, &#39;down&#39;].</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Additional keyword arguments passed to matplotlib plotting function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig : As input</span>
+<span class="sd">        The matplotlib figure.</span>
+<span class="sd">    ax : list</span>
+<span class="sd">        List of two matplotlib axes objects [ax_up, ax_down].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">freq_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">freqs</span>
+    <span class="n">zenith_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">zenith_grid</span>
+    <span class="n">radiance</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1"># Data shape is [freq, alt, azimuth, zenith]</span>
+    <span class="c1"># Extract slice: all frequencies, given altitude, given azimuth, all zeniths</span>
+    <span class="n">data_slice</span> <span class="o">=</span> <span class="n">radiance</span><span class="p">[:,</span> <span class="n">alt_idx</span><span class="p">,</span> <span class="n">azi_idx</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Split zenith angles: zenith &gt; 90° is downward, zenith &lt;= 90° is upward</span>
+    <span class="c1"># Assuming zenith_grid is in degrees and sorted</span>
+    <span class="n">n_zenith</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zenith_grid</span><span class="p">)</span>
+    <span class="n">mid_idx</span> <span class="o">=</span> <span class="n">n_zenith</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="c1"># Upward radiation (zenith angles &lt; 90°, smaller indices)</span>
+    <span class="n">upward_data</span> <span class="o">=</span> <span class="n">data_slice</span><span class="p">[:,</span> <span class="n">mid_idx</span><span class="p">:]</span>  <span class="c1"># Transpose to put freq on x-axis</span>
+    <span class="n">upward_zenith</span> <span class="o">=</span> <span class="n">zenith_grid</span><span class="p">[</span><span class="n">mid_idx</span><span class="p">:]</span>
+
+    <span class="c1"># Downward radiation (zenith angles &gt;= 90°, larger indices)</span>
+    <span class="n">downward_data</span> <span class="o">=</span> <span class="n">data_slice</span><span class="p">[:,</span> <span class="p">:</span><span class="n">mid_idx</span><span class="p">]</span>  <span class="c1"># Transpose to put freq on x-axis</span>
+    <span class="n">downward_zenith</span> <span class="o">=</span> <span class="n">zenith_grid</span><span class="p">[:</span><span class="n">mid_idx</span><span class="p">]</span>
+
+    <span class="c1"># Plotting options</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="n">select</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">select</span>
+    <span class="n">has_up</span> <span class="o">=</span> <span class="s1">&#39;up&#39;</span> <span class="ow">in</span> <span class="n">select</span>
+    <span class="n">has_down</span> <span class="o">=</span> <span class="s1">&#39;down&#39;</span> <span class="ow">in</span> <span class="n">select</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">has_up</span> <span class="o">+</span> <span class="n">has_down</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;select option unknown &#39;</span><span class="si">{</span><span class="n">select</span><span class="si">}</span><span class="s2">&#39;. See docs.&quot;</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span>
+                             <span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;constrained_layout&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">plotstyle</span> <span class="o">==</span> <span class="s1">&#39;contourf&#39;</span><span class="p">:</span>
+        <span class="c1"># Plot upward radiation</span>
+        <span class="k">if</span> <span class="n">has_up</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">upward_zenith</span><span class="p">,</span> <span class="n">upward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Plot downward radiation</span>
+        <span class="k">if</span> <span class="n">has_down</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">downward_zenith</span><span class="p">,</span> <span class="n">downward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">plotstyle</span> <span class="o">==</span> <span class="s1">&#39;plot&#39;</span><span class="p">:</span>
+        <span class="c1"># Plot upward radiation</span>
+        <span class="k">if</span> <span class="n">has_up</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">upward_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Plot downward radiation</span>
+        <span class="k">if</span> <span class="n">has_down</span><span class="p">:</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">downward_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;plotstyle unknown &#39;</span><span class="si">{</span><span class="n">plotstyle</span><span class="si">}</span><span class="s2">&#39;. See docs.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

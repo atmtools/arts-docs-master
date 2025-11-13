@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts3.spectroscopy &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=73457b95" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts3.spectroscopy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts3.spectroscopy</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;Functions directly related to spectroscopy.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3.arts.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">constants</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;doppler_broadening&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;boltzmann_level&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;stimulated_emission&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="linewidth">
+<a class="viewcode-back" href="../../pyarts3.spectroscopy.html#pyarts3.spectroscopy.linewidth">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">linewidth</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the full-width at half maximum (FWHM) of an absorption line.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        f (ndarray): Frequency grid.</span>
+<span class="sd">        a (ndarray): Line properties</span>
+<span class="sd">            (e.g. absorption coefficients or cross-sections).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Linewidth.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; f = np.linspace(0, np.pi, 100)</span>
+<span class="sd">        &gt;&gt;&gt; a = np.sin(f)**2</span>
+<span class="sd">        &gt;&gt;&gt; linewidth(f, a)</span>
+<span class="sd">        1.571048056449009</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">roots</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="doppler_broadening">
+<a class="viewcode-back" href="../../pyarts3.spectroscopy.html#pyarts3.spectroscopy.doppler_broadening">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">doppler_broadening</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">f0</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the doppler broadening half-width half-maximum</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \\gamma_D(T) = \\sqrt{ \\frac{2\\log(2) k_B T}{mc^2} } f_0</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        t (float or ndarray): Temperature [Kelvin]</span>
+
+<span class="sd">        f0 (float or like temperature): Central frequency [Hertz/invcm]</span>
+
+<span class="sd">        m (float or like temperature): Mass [kilogram]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">        hwhm (like temperature): Half-width half-maximum [Hertz/invcm]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span>
+                   <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">f0</span></div>
+
+
+
+<div class="viewcode-block" id="boltzmann_level">
+<a class="viewcode-back" href="../../pyarts3.spectroscopy.html#pyarts3.spectroscopy.boltzmann_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">boltzmann_level</span><span class="p">(</span><span class="n">elow</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the Boltzmann level function</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        K_1 = \\exp\\left(\\frac{E_l \\left[T-T_0\\right]}{k_B T T_0}\\right),</span>
+
+<span class="sd">    where :math:`k_B` is the Boltzmann constant.</span>
+
+<span class="sd">    All ndarrays must be of same size, any of the inputs can be ndarray</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        elow (float or ndarray): Lower state energy level [J]</span>
+
+<span class="sd">        t (float or ndarray): Temperature [Kelvin]</span>
+
+<span class="sd">        t0 (float or ndarray): Line temperature [Kelvin]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">        K1 (like input): How much Boltzmann statistics feeds the transition</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        S(T) = S(T_0)K_1K_2 \\frac{Q(T_0)}{Q(T)}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">elow</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">t0</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="stimulated_emission">
+<a class="viewcode-back" href="../../pyarts3.spectroscopy.html#pyarts3.spectroscopy.stimulated_emission">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">stimulated_emission</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the stimulated emission function</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        K_2 = \\frac{1 - \\exp\\left( - \\frac{h f_0}{k_B T}\\right)}</span>
+<span class="sd">        {1 - \\exp\\left( - \\frac{h f_0}{k_B T_0}\\right)},</span>
+
+<span class="sd">    with Planck constant :math:`h` and Boltzmann constant :math:`k_B`.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        f0 (float or ndarray): Line frequency [Hz]</span>
+
+<span class="sd">        t (float or ndarray): Temperature [Kelvin]</span>
+
+<span class="sd">        t0 (float or ndarray): Line temperature [Kelvin]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">        K2 (like input): How stimulated the emission is</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        S(T) = S(T_0)K_1K_2 \\frac{Q(T_0)}{Q(T)}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">f0</span><span class="o">/</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="n">t</span><span class="p">)))</span> <span class="o">/</span> \
+        <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">f0</span><span class="o">/</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="n">t0</span><span class="p">)))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

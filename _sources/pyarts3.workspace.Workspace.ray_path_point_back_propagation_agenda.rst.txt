@@ -1,0 +1,121 @@
+ray_path_point_back_propagation_agenda
+======================================
+
+.. currentmodule:: pyarts3.workspace
+
+.. attribute:: Workspace.ray_path_point_back_propagation_agenda
+   :type: ~pyarts3.arts.Agenda
+
+   Gets the next past point along a propagation path.
+
+   :attr:`~pyarts3.workspace.Workspace.ray_path` must have a point already.  This point is propagated backwards.
+
+   It is up to internal methods if they respect :attr:`~pyarts3.workspace.Workspace.dispersion_single` or not.
+
+   It is up to internal methods if they respect :attr:`~pyarts3.workspace.Workspace.max_stepsize` or not.
+
+   A special exception may be made for a 1-size :attr:`~pyarts3.workspace.Workspace.ray_path` that is in space or at the surface,
+   where the next point may be the same point as the input.
+
+   The end of the path is reached when the last point in :attr:`~pyarts3.workspace.Workspace.ray_path` is
+   at :class:`~pyarts3.arts.PathPositionType` ``space`` or ``surface``.
+
+   .. rubric:: Execution and customization
+
+   See :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaSet` for builtin options that selects execution options.
+
+   You can execute :attr:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaExecute`.
+
+   As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.ray_path_point_back_propagation_agendaOperator`.
+   See it, :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaExecuteOperator` for more details.
+
+   Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
+
+
+
+
+   .. rubric:: Agenda output
+
+   .. hlist::
+       :columns: 1
+
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_point`
+
+   .. rubric:: Agenda input
+
+   .. hlist::
+       :columns: 2
+
+       * :attr:`~pyarts3.workspace.Workspace.ray_path`
+       * :attr:`~pyarts3.workspace.Workspace.dispersion_single`
+       * :attr:`~pyarts3.workspace.Workspace.propagation_matrix_single`
+       * :attr:`~pyarts3.workspace.Workspace.max_stepsize`
+
+   .. rubric:: Default value
+
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.atmospheric_field`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.surface_field`
+   #. surface_search_accuracy = 0.1
+   #. surface_safe_search = 1
+   #. :func:`~pyarts3.workspace.Workspace.ray_path_pointPastGeometric`
+   #. :func:`~pyarts3.workspace.Workspace.Ignore`, using: input = :attr:`~pyarts3.workspace.Workspace.dispersion_single`
+   #. :func:`~pyarts3.workspace.Workspace.Ignore`, using: input = :attr:`~pyarts3.workspace.Workspace.propagation_matrix_single`
+
+
+
+
+   .. rubric:: Input to workspace methods
+
+   .. hlist::
+       :columns: 1
+
+       * :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaExecute`
+       * :func:`~pyarts3.workspace.Workspace.single_spectral_radianceClearskyEmissionPropagation`
+       * :func:`~pyarts3.workspace.Workspace.spectral_radianceClearskyEmissionFrequencyDependentPropagation`
+
+
+   .. rubric:: Output from workspace methods
+
+   .. hlist::
+       :columns: 1
+
+       * :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaSet`
+       * :func:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agendaSetOperator`
+
+
+   .. rubric:: Related workspace variables
+
+   .. hlist::
+       :columns: 2
+
+       * :attr:`~pyarts3.workspace.Workspace.ray_path`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_absorption_vector_scattering`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_atmospheric_point`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_field`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_frequency_grid`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_frequency_wind_shift_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_observers`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_phase_matrix_scattering_spectral`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_point`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix_scattering`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_propagation_matrix_source_vector_nonlte_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_single_frequency`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_single_propagation_matrix`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_single_propagation_matrix_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_single_propagation_matrix_nonlte`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_single_propagation_matrix_nonlte_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_scattering`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_spectral_radiance_source_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_suns_path`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_transmission_matrix`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_transmission_matrix_cumulative`
+       * :attr:`~pyarts3.workspace.Workspace.ray_path_transmission_matrix_jacobian`
+
+   .. :class:`~pyarts3.arts.Agenda`
+

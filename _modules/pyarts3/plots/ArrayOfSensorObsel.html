@@ -76,6 +76,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
       <li class="breadcrumb-item active">pyarts3.plots.ArrayOfSensorObsel</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -89,8 +90,7 @@
 <span></span><span class="sd">&quot;&quot;&quot; Plotting routine for the sensor response &quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
@@ -99,13 +99,19 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.ArrayOfSensorObsel.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">measurement_sensor</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ArrayOfSensorObsel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">pol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ArrayOfSensorObsel</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">keys</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+         <span class="n">pol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the sensor observational element array.</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        Any option other than &quot;f&quot; will sort the sensor observational element array by the</span>
 <span class="sd">        corresponding key. The object lives via a pointer, so the original</span>
-<span class="sd">        measurement_sensor is modified in-place.</span>
+<span class="sd">        data is modified in-place.</span>
 
 <span class="sd">        This should not massively affect any radiative transfer computations,</span>
 <span class="sd">        but it might result in different results down on the floating point</span>
@@ -126,34 +132,34 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    measurement_sensor : ~pyarts3.arts.ArrayOfSensorObsel</span>
+<span class="sd">    data : ~pyarts3.arts.ArrayOfSensorObsel</span>
 <span class="sd">        A sensor observation element array.</span>
 <span class="sd">    fig : Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    subs : Subaxis, optional</span>
-<span class="sd">        List of subplots to add to. Defaults to None for a new subplot.</span>
+<span class="sd">    ax : Axes, optional</span>
+<span class="sd">        Not used (function creates its own subplots). Accepted for API consistency.</span>
 <span class="sd">    keys : str | list</span>
 <span class="sd">        The keys to use for plotting. Options are in :class:`~pyarts3.arts.SensorKeyType`.</span>
-<span class="sd">    pol : str | pyarts3.arts.Stokvec</span>
+<span class="sd">    pol : str | ~pyarts3.arts.Stokvec</span>
 <span class="sd">        The polarization to use for plotting. Defaults to &quot;I&quot;, constructs a :class:`~pyarts3.arts.Stokvec`.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments passed to the plotting function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fig : As input</span>
 <span class="sd">        As input.</span>
-<span class="sd">    subs : As input</span>
-<span class="sd">        As input.</span>
+<span class="sd">    ax : list</span>
+<span class="sd">        List of matplotlib axes objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">keys</span><span class="p">]</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">keys</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">keys</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
 
-    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">10</span><span class="p">)})</span>
 
     <span class="n">pol</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span><span class="p">(</span><span class="n">pol</span><span class="p">)</span>
 
@@ -166,27 +172,20 @@
         <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">aa</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">subs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">isub</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">isub</span><span class="p">])</span>
 
         <span class="n">i</span> <span class="o">=</span> <span class="nb">map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-
-        <span class="n">subs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">isub</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">measurement_sensor</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span> <span class="n">along_poslos</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span> <span class="n">along_freq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span>
+                                          <span class="n">along_poslos</span><span class="o">=</span><span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
+                                          <span class="n">along_freq</span><span class="o">=</span><span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
 
             <span class="n">x</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">f_grid</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">elem</span><span class="o">.</span><span class="n">poslos</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">subs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">subs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">isub</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">subs</span></div>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 </pre></div>
 

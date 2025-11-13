@@ -25,10 +25,10 @@ ws.frequency_grid = pa.arts.convert.kaycm2freq(kayser_grid)  # in Hz
 # This example uses a reduced set of species to speed up the calculation.
 # Use the second line for a more realistic setup.
 ws.absorption_speciesSet(
-    species=["H2O-161, H2O-ForeignContCKDMT400, H2O-SelfContCKDMT400", "CO2-626"]
+    species=["H2O-161", "H2O-ForeignContCKDMT400", "H2O-SelfContCKDMT400", "CO2-626"]
 )
 # ws.absorption_speciesSet(
-#     species=["H2O, H2O-ForeignContCKDMT400, H2O-SelfContCKDMT400", "CO2", "O3"]
+#     species=["H2O", "H2O-ForeignContCKDMT400", "H2O-SelfContCKDMT400", "CO2", "O3"]
 # )
 
 # Read spectral line data from ARTS catalog
@@ -58,13 +58,12 @@ ws.atmospheric_fieldRead(
 # Set up geometry of observation
 pos = [100e3, 0, 0]
 los = [180.0, 0.0]
-ws.ray_pathGeometric(pos=pos, los=los, max_step=1000.0)
+ws.ray_pathGeometric(pos=pos, los=los, max_stepsize=1000.0)
 ws.spectral_radianceClearskyEmission()
 
 # %% Show results
 
-fig, ax = plt.subplots()
-ax.plot(kayser_grid, ws.spectral_radiance[:, 0])
+fig, ax = pa.plot(ws.spectral_radiance, freqs=kayser_grid, component="I")
 ax.set_xlabel("Frequency / Kayser (cm$^{-1}$)")
 ax.set_ylabel("Spectral radiance /")
 ax.set_title("Clear sky outgoing radiance")

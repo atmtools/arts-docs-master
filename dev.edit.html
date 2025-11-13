@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editor modules for GUI integration &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plot GUI architecture" href="dev.gui.html" />
+    <link rel="prev" title="Plot Modules for GUI Integration" href="dev.plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Editor modules for GUI integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-pattern">Design Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dispatch-and-fallback">Dispatch and Fallback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#editor-guidelines">Editor Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-new-editor">Adding a new editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples-and-references">Examples and References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">Editor modules for GUI integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.edit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="editor-modules-for-gui-integration">
+<h1>Editor modules for GUI integration<a class="headerlink" href="#editor-modules-for-gui-integration" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The ARTS Python GUI provides per-type editor modules for workspace
+group values. These modules live in <code class="docutils literal notranslate"><span class="pre">python/src/pyarts3/gui/edit/</span></code> and
+are used by the GUI (and can also be called directly) to edit values
+in a small, focused dialog.</p>
+<p>The goal is to give developers a clear, consistent pattern for adding or
+adjusting editors as the set of supported ARTS types grows.</p>
+</section>
+<section id="design-pattern">
+<h2>Design Pattern<a class="headerlink" href="#design-pattern" title="Link to this heading"></a></h2>
+<p>Each editor module is named after the ARTS workspace type it handles
+and exports a single function <code class="docutils literal notranslate"><span class="pre">edit(value,</span> <span class="pre">parent=None)</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;edit&quot;</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">edit</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edit a &lt;WorkspaceGroup&gt; value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : ~pyarts3.arts.&lt;WorkspaceGroup&gt;</span>
+<span class="sd">        The value to edit</span>
+<span class="sd">    parent : QWidget, optional</span>
+<span class="sd">        Parent widget for the dialog</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    &lt;WorkspaceGroup&gt; or None</span>
+<span class="sd">        The edited value if accepted, None if cancelled</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Build QDialog UI and return new value on accept</span>
+</pre></div>
+</div>
+</section>
+<section id="dispatch-and-fallback">
+<h2>Dispatch and Fallback<a class="headerlink" href="#dispatch-and-fallback" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The dispatcher <code class="docutils literal notranslate"><span class="pre">pyarts3.gui.edit.edit(value,</span> <span class="pre">parent)</span></code> looks up an
+editor submodule matching <code class="docutils literal notranslate"><span class="pre">type(value).__name__</span></code> and calls its
+<code class="docutils literal notranslate"><span class="pre">edit</span></code> function if available.</p></li>
+<li><p>If no specialized editor is found, the <code class="docutils literal notranslate"><span class="pre">Generic</span></code> editor is used as a
+fallback. It offers a type-preserving eval UI where the user enters an
+expression that is passed to the original type’s constructor
+(<code class="docutils literal notranslate"><span class="pre">TypeName(&lt;expr&gt;)</span></code>). This makes it possible to edit uncommon types without
+writing a dedicated editor.</p></li>
+<li><p>For safety and consistency, the <code class="docutils literal notranslate"><span class="pre">Generic</span></code> editor first attempts to delegate
+to a specialized editor module if one exists; the eval UI is strictly a
+fallback.</p></li>
+</ul>
+</section>
+<section id="editor-guidelines">
+<h2>Editor Guidelines<a class="headerlink" href="#editor-guidelines" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Signature: <code class="docutils literal notranslate"><span class="pre">edit(value,</span> <span class="pre">parent=None)</span></code> returning the edited value
+or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p>Dialogs should use <code class="docutils literal notranslate"><span class="pre">QDialog.exec_()</span></code> and return values only on
+<code class="docutils literal notranslate"><span class="pre">QDialog.Accepted</span></code>.</p></li>
+<li><p>Preserve ARTS types. If the editor creates intermediate Python lists or numpy
+arrays, coerce back to the original type, e.g., <code class="docutils literal notranslate"><span class="pre">type(value)(data)</span></code>.</p></li>
+<li><p>Keep the UI minimal and focused on the specific type.</p></li>
+<li><p>Provide friendly error messages and avoid crashing on invalid input.</p></li>
+<li><p>Respect the optional <code class="docutils literal notranslate"><span class="pre">parent</span></code> QWidget for modality/ownership.</p></li>
+</ul>
+</section>
+<section id="adding-a-new-editor">
+<h2>Adding a new editor<a class="headerlink" href="#adding-a-new-editor" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Create editor module at <code class="docutils literal notranslate"><span class="pre">pyarts3/gui/edit/MyType.py</span></code>.</p></li>
+<li><p>Implement a small <code class="docutils literal notranslate"><span class="pre">QDialog</span></code> to edit the value.</p></li>
+<li><p>Reconstruct the type on save, e.g., <code class="docutils literal notranslate"><span class="pre">type(value)(payload)</span></code>.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">MyType</span></code> to <code class="docutils literal notranslate"><span class="pre">pyarts3/gui/edit/__init__.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyType</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify via GUI double-click or by calling the editor in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3.gui.edit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">edit</span>
+<span class="n">new_value</span> <span class="o">=</span> <span class="n">edit</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">old_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="examples-and-references">
+<h2>Examples and References<a class="headerlink" href="#examples-and-references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Simple scalars: <code class="docutils literal notranslate"><span class="pre">Numeric.py</span></code>, <code class="docutils literal notranslate"><span class="pre">Index.py</span></code>, <code class="docutils literal notranslate"><span class="pre">String.py</span></code></p></li>
+<li><p>Arrays and matrices: <code class="docutils literal notranslate"><span class="pre">Vector.py</span></code>, <code class="docutils literal notranslate"><span class="pre">Matrix.py</span></code></p></li>
+<li><p>Fixed-size vectors: <code class="docutils literal notranslate"><span class="pre">Vector2.py</span></code>, <code class="docutils literal notranslate"><span class="pre">Vector3.py</span></code>, <code class="docutils literal notranslate"><span class="pre">Stokvec.py</span></code></p></li>
+<li><p>Fallback: <code class="docutils literal notranslate"><span class="pre">Generic.py</span></code> (type-preserving eval)</p></li>
+</ul>
+<p>These examples illustrate type preservation, validation, and concise UI design.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.plots.html" class="btn btn-neutral float-left" title="Plot Modules for GUI Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.gui.html" class="btn btn-neutral float-right" title="Plot GUI architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

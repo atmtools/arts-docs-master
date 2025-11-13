@@ -14,5 +14,5 @@ ws.ray_path_fieldFromObserverAgenda()
 f, a = None, None
 for x in ws.ray_path_field:
     f, a = pyarts.plots.ArrayOfPropagationPathPoint.plot(
-        x, draw_za_aa=True, draw_map=False, fig=f, subs=a
+        x, draw_za_aa=True, draw_map=False, fig=f, ax=a
     )
