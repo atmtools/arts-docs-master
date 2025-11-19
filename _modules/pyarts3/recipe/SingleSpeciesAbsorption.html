@@ -106,53 +106,53 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        species : str</span>
-<span class="sd">            See absorption_speciesSet for details.</span>
+<span class="sd">            See abs_speciesSet for details.</span>
 <span class="sd">        cutoff : float</span>
 <span class="sd">            The cutoff value for the absorption bands. Defaults to None for no cutoff.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">cutoff</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_point</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">PropagationPathPoint</span><span class="p">()</span></div>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_point</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">PropagationPathPoint</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="SingleSpeciesAbsorption.__call__">
 <a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.SingleSpeciesAbsorption.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">frequency_grid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span><span class="p">,</span>
-        <span class="n">atmospheric_point</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmPoint</span><span class="p">,</span>
+        <span class="n">freq_grid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span><span class="p">,</span>
+        <span class="n">atm_point</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AtmPoint</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call operator to return a propagation matrix</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        frequency_grid : ~pyarts3.arts.AscendingGrid</span>
+<span class="sd">        freq_grid : ~pyarts3.arts.AscendingGrid</span>
 <span class="sd">            A list of frequency points.</span>
-<span class="sd">        atmospheric_point : ~pyarts3.arts.AtmPoint</span>
+<span class="sd">        atm_point : ~pyarts3.arts.AtmPoint</span>
 <span class="sd">            The state of the atmosphere at the point of interest</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        numpy.ndarray : propagation_matrix</span>
+<span class="sd">        numpy.ndarray : spectral_propmat</span>
 <span class="sd">            The propagation matrix at the frequency and point of interest</span>
 <span class="sd">            Note that the first dimention is the size of the frequency</span>
 <span class="sd">            grid and that the second dimension contains 7 variables, the</span>
 <span class="sd">            first of which is unpolarized absorption.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaExecute</span><span class="p">(</span>
-            <span class="n">frequency_grid</span><span class="o">=</span><span class="n">frequency_grid</span><span class="p">,</span>
-            <span class="n">atmospheric_point</span><span class="o">=</span><span class="n">atmospheric_point</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaExecute</span><span class="p">(</span>
+            <span class="n">freq_grid</span><span class="o">=</span><span class="n">freq_grid</span><span class="p">,</span>
+            <span class="n">atm_point</span><span class="o">=</span><span class="n">atm_point</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span></div>
 </div>
 
 </pre></div>

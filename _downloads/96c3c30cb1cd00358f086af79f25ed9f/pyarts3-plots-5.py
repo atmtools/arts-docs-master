@@ -2,9 +2,9 @@ import pyarts3 as pyarts
 import numpy as np
 
 # Create azimuth angles (compass directions)
-azimuth = pyarts.arts.AzimuthGrid(np.linspace(0, 360, 13)[:-1])
+azimuth = pyarts.arts.AziGrid(np.linspace(0, 360, 13)[:-1])
 
-fig, ax = pyarts.plots.AzimuthGrid.plot(azimuth, polar=True)
+fig, ax = pyarts.plots.AziGrid.plot(azimuth, polar=True)
 ax.set_xlabel("Index")
 ax.set_ylabel("Azimuth Angle [°]")
 ax.set_title("Azimuth Grid")

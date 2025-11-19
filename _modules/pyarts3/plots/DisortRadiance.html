@@ -128,7 +128,7 @@
 <span class="sd">    plotstyle : str, optional</span>
 <span class="sd">        The matplotlib plotting function to use, &#39;contourf&#39; or &#39;plot&#39;</span>
 <span class="sd">    freqs : array-like, optional</span>
-<span class="sd">        Frequency grid to use for x-axis. Defaults to None, which uses data.frequency_grid.</span>
+<span class="sd">        Frequency grid to use for x-axis. Defaults to None, which uses data.freq_grid.</span>
 <span class="sd">    select : list or str, optional</span>
 <span class="sd">        Which directions to plot: &#39;up&#39; and/or &#39;down&#39;. Defaults to [&#39;up&#39;, &#39;down&#39;].</span>
 <span class="sd">    **kwargs</span>
@@ -141,8 +141,8 @@
 <span class="sd">    ax : list</span>
 <span class="sd">        List of two matplotlib axes objects [ax_up, ax_down].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">freq_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">freqs</span>
-    <span class="n">zenith_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">zenith_grid</span>
+    <span class="n">freq_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">freq_grid</span> <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">freqs</span>
+    <span class="n">zen_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">zen_grid</span>
     <span class="n">radiance</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
 
     <span class="c1"># Data shape is [freq, alt, azimuth, zenith]</span>
@@ -150,17 +150,17 @@
     <span class="n">data_slice</span> <span class="o">=</span> <span class="n">radiance</span><span class="p">[:,</span> <span class="n">alt_idx</span><span class="p">,</span> <span class="n">azi_idx</span><span class="p">,</span> <span class="p">:]</span>
 
     <span class="c1"># Split zenith angles: zenith &gt; 90° is downward, zenith &lt;= 90° is upward</span>
-    <span class="c1"># Assuming zenith_grid is in degrees and sorted</span>
-    <span class="n">n_zenith</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zenith_grid</span><span class="p">)</span>
+    <span class="c1"># Assuming zen_grid is in degrees and sorted</span>
+    <span class="n">n_zenith</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zen_grid</span><span class="p">)</span>
     <span class="n">mid_idx</span> <span class="o">=</span> <span class="n">n_zenith</span> <span class="o">//</span> <span class="mi">2</span>
 
     <span class="c1"># Upward radiation (zenith angles &lt; 90°, smaller indices)</span>
     <span class="n">upward_data</span> <span class="o">=</span> <span class="n">data_slice</span><span class="p">[:,</span> <span class="n">mid_idx</span><span class="p">:]</span>  <span class="c1"># Transpose to put freq on x-axis</span>
-    <span class="n">upward_zenith</span> <span class="o">=</span> <span class="n">zenith_grid</span><span class="p">[</span><span class="n">mid_idx</span><span class="p">:]</span>
+    <span class="n">upward_zenith</span> <span class="o">=</span> <span class="n">zen_grid</span><span class="p">[</span><span class="n">mid_idx</span><span class="p">:]</span>
 
     <span class="c1"># Downward radiation (zenith angles &gt;= 90°, larger indices)</span>
     <span class="n">downward_data</span> <span class="o">=</span> <span class="n">data_slice</span><span class="p">[:,</span> <span class="p">:</span><span class="n">mid_idx</span><span class="p">]</span>  <span class="c1"># Transpose to put freq on x-axis</span>
-    <span class="n">downward_zenith</span> <span class="o">=</span> <span class="n">zenith_grid</span><span class="p">[:</span><span class="n">mid_idx</span><span class="p">]</span>
+    <span class="n">downward_zenith</span> <span class="o">=</span> <span class="n">zen_grid</span><span class="p">[:</span><span class="n">mid_idx</span><span class="p">]</span>
 
     <span class="c1"># Plotting options</span>
     <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="n">select</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">select</span>
@@ -176,11 +176,13 @@
     <span class="k">if</span> <span class="n">plotstyle</span> <span class="o">==</span> <span class="s1">&#39;contourf&#39;</span><span class="p">:</span>
         <span class="c1"># Plot upward radiation</span>
         <span class="k">if</span> <span class="n">has_up</span><span class="p">:</span>
-            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">upward_zenith</span><span class="p">,</span> <span class="n">upward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+                <span class="n">freq_grid</span><span class="p">,</span> <span class="n">upward_zenith</span><span class="p">,</span> <span class="n">upward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Plot downward radiation</span>
         <span class="k">if</span> <span class="n">has_down</span><span class="p">:</span>
-            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">downward_zenith</span><span class="p">,</span> <span class="n">downward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">freq_grid</span><span class="p">,</span>
+                                               <span class="n">downward_zenith</span><span class="p">,</span> <span class="n">downward_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">plotstyle</span> <span class="o">==</span> <span class="s1">&#39;plot&#39;</span><span class="p">:</span>
         <span class="c1"># Plot upward radiation</span>
         <span class="k">if</span> <span class="n">has_up</span><span class="p">:</span>

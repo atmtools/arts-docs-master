@@ -8,16 +8,16 @@ measurement_inversion_agenda
 
    This is a helper :class:`~pyarts3.arts.Agenda` intended for use within :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`.
 
-   It outputs the :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` and :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` for the
-   current iteration of the inversion. The :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted` is the
+   It outputs the :attr:`~pyarts3.workspace.Workspace.measurement_vec_fit` and :attr:`~pyarts3.workspace.Workspace.measurement_jac` for the
+   current iteration of the inversion. The :attr:`~pyarts3.workspace.Workspace.measurement_vec_fit` is the
    fitted measurement vector, i.e., the measurement vector that is expected to be
-   observed given the current :attr:`~pyarts3.workspace.Workspace.atmospheric_field`, :attr:`~pyarts3.workspace.Workspace.absorption_bands`, :attr:`~pyarts3.workspace.Workspace.measurement_sensor`,
-   and :attr:`~pyarts3.workspace.Workspace.surface_field`.  It does not take these as explicit input but via the Workspace
+   observed given the current :attr:`~pyarts3.workspace.Workspace.atm_field`, :attr:`~pyarts3.workspace.Workspace.abs_bands`, :attr:`~pyarts3.workspace.Workspace.measurement_sensor`,
+   and :attr:`~pyarts3.workspace.Workspace.surf_field`.  It does not take these as explicit input but via the Workspace
    mechanism.  Within the :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`, these will be the local variables.
 
-   What is special about this Agenda is that it enforces that the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian`
-   is empty on output if :attr:`~pyarts3.workspace.Workspace.do_jacobian` evaluates false.  Do not use this Agenda if you
-   do not mind having a non-empty :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` on output even if :attr:`~pyarts3.workspace.Workspace.do_jacobian`
+   What is special about this Agenda is that it enforces that the :attr:`~pyarts3.workspace.Workspace.measurement_jac`
+   is empty on output if :attr:`~pyarts3.workspace.Workspace.do_jac` evaluates false.  Do not use this Agenda if you
+   do not mind having a non-empty :attr:`~pyarts3.workspace.Workspace.measurement_jac` on output even if :attr:`~pyarts3.workspace.Workspace.do_jac`
    evaluates false.  Also do not use this Agenda if you wish to squeeze out performance,
    it does a lot of unnecessary checks and operations that are not always needed.
 
@@ -34,7 +34,7 @@ measurement_inversion_agenda
 
    .. rubric:: Constraint
 
-   #. When :attr:`~pyarts3.workspace.Workspace.do_jacobian` evaluates as true, the :attr:`~pyarts3.workspace.Workspace.measurement_jacobian` must be non-empty.
+   #. When :attr:`~pyarts3.workspace.Workspace.do_jac` evaluates as true, the :attr:`~pyarts3.workspace.Workspace.measurement_jac` must be non-empty.
 
 
 
@@ -44,34 +44,34 @@ measurement_inversion_agenda
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_vec_fit`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jac`
 
    .. rubric:: Agenda input
 
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
-       * :attr:`~pyarts3.workspace.Workspace.do_jacobian`
+       * :attr:`~pyarts3.workspace.Workspace.jac_targets`
+       * :attr:`~pyarts3.workspace.Workspace.do_jac`
 
    .. rubric:: Default value
 
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.absorption_bands`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.atmospheric_field`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.abs_bands`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.atm_field`
    #. Shares the global :attr:`~pyarts3.workspace.Workspace.measurement_sensor`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.model_state_vector`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_radiance_transform_operator`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.subsurface_field`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.surface_field`
-   #. Copies the global :attr:`~pyarts3.workspace.Workspace.jacobian_targets`
-   #. :func:`~pyarts3.workspace.Workspace.measurement_vector_errorFromModelState`
-   #. :func:`~pyarts3.workspace.Workspace.jacobian_targetsConditionalClear`
-   #. :func:`~pyarts3.workspace.Workspace.measurement_vectorFromSensor`
-   #. :func:`~pyarts3.workspace.Workspace.measurement_jacobianTransformations`
-   #. :func:`~pyarts3.workspace.Workspace.measurement_vectorConditionalAddError`
-   #. :func:`~pyarts3.workspace.Workspace.measurement_vector_fittedFromMeasurement`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.model_state_vec`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.spectral_rad_transform_operator`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.subsurf_field`
+   #. Shares the global :attr:`~pyarts3.workspace.Workspace.surf_field`
+   #. Copies the global :attr:`~pyarts3.workspace.Workspace.jac_targets`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vec_errorFromModelState`
+   #. :func:`~pyarts3.workspace.Workspace.jac_targetsConditionalClear`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vecFromSensor`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_jacTransformations`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vecConditionalAddError`
+   #. :func:`~pyarts3.workspace.Workspace.measurement_vec_fitFromMeasurement`
 
 
 
@@ -91,22 +91,6 @@ measurement_inversion_agenda
 
        * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSet`
        * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaSetOperator`
-
-
-   .. rubric:: Related workspace variables
-
-   .. hlist::
-       :columns: 2
-
-       * :attr:`~pyarts3.workspace.Workspace.measurement_averaging_kernel`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_gain_matrix`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_jacobian_error`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_sensor`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vector`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_error`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_error_covariance_matrix`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vector_fitted`
 
    .. :class:`~pyarts3.arts.Agenda`
 

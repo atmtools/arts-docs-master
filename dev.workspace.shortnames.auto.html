@@ -1,0 +1,811 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Short-forms for naming workspace variables &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plot Modules for GUI Integration" href="dev.plots.html" />
+    <link rel="prev" title="Workspace variables" href="dev.workspace.variables.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev.workspace.html">Workspace</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.agendas.html">Workspace agendas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.groups.html">Workspace groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.methods.html">Workspace methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.options.html">Workspace options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.variables.html">Workspace variables</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Short-forms for naming workspace variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#coordinates">Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gridded">Gridded</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#normal-variables">Normal Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#storage-form">Storage form</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.edit.html">Editor modules for GUI integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+          <li class="breadcrumb-item"><a href="dev.workspace.html">Workspace</a></li>
+      <li class="breadcrumb-item active">Short-forms for naming workspace variables</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.workspace.shortnames.auto.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="short-forms-for-naming-workspace-variables">
+<h1>Short-forms for naming workspace variables<a class="headerlink" href="#short-forms-for-naming-workspace-variables" title="Link to this heading"></a></h1>
+<p>This is a mostly auto-generated list of short-forms for naming workspace
+variables in ARTS.</p>
+<p>All variables in ARTS use short-hand names to identify them and
+simplify writing and using them. The keys to read these short-hand
+names are listed below.</p>
+<p>All complete short-hand names are separated by an underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>), or
+equals the name itself.</p>
+<section id="coordinates">
+<h2>Coordinates<a class="headerlink" href="#coordinates" title="Link to this heading"></a></h2>
+<section id="alt">
+<h3><code class="docutils literal notranslate"><span class="pre">alt</span></code><a class="headerlink" href="#alt" title="Link to this heading"></a></h3>
+<p>Altitude</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.alt.html#pyarts3.workspace.Workspace.alt" title="pyarts3.workspace.Workspace.alt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">alt</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.alt_grid.html#pyarts3.workspace.Workspace.alt_grid" title="pyarts3.workspace.Workspace.alt_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">alt_grid</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="freq">
+<h3><code class="docutils literal notranslate"><span class="pre">freq</span></code><a class="headerlink" href="#freq" title="Link to this heading"></a></h3>
+<p>Frequency</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq.html#pyarts3.workspace.Workspace.freq" title="pyarts3.workspace.Workspace.freq"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid.html#pyarts3.workspace.Workspace.freq_grid" title="pyarts3.workspace.Workspace.freq_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid_path.html#pyarts3.workspace.Workspace.freq_grid_path" title="pyarts3.workspace.Workspace.freq_grid_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_wind_shift_jac.html#pyarts3.workspace.Workspace.freq_wind_shift_jac" title="pyarts3.workspace.Workspace.freq_wind_shift_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_wind_shift_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_wind_shift_jac_path.html#pyarts3.workspace.Workspace.freq_wind_shift_jac_path" title="pyarts3.workspace.Workspace.freq_wind_shift_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_wind_shift_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_freq_path.html#pyarts3.workspace.Workspace.single_freq_path" title="pyarts3.workspace.Workspace.single_freq_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_freq_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="lat">
+<h3><code class="docutils literal notranslate"><span class="pre">lat</span></code><a class="headerlink" href="#lat" title="Link to this heading"></a></h3>
+<p>Latitude [-90, 90].</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lat.html#pyarts3.workspace.Workspace.lat" title="pyarts3.workspace.Workspace.lat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lat_grid.html#pyarts3.workspace.Workspace.lat_grid" title="pyarts3.workspace.Workspace.lat_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lat_grid</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="lon">
+<h3><code class="docutils literal notranslate"><span class="pre">lon</span></code><a class="headerlink" href="#lon" title="Link to this heading"></a></h3>
+<p>Longitude [-180, 180) circular.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lon.html#pyarts3.workspace.Workspace.lon" title="pyarts3.workspace.Workspace.lon"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lon</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lon_grid.html#pyarts3.workspace.Workspace.lon_grid" title="pyarts3.workspace.Workspace.lon_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lon_grid</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="zen">
+<h3><code class="docutils literal notranslate"><span class="pre">zen</span></code><a class="headerlink" href="#zen" title="Link to this heading"></a></h3>
+<p>Zenith angle [0, 180].</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.zen_grid.html#pyarts3.workspace.Workspace.zen_grid" title="pyarts3.workspace.Workspace.zen_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">zen_grid</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+</section>
+<section id="gridded">
+<h2>Gridded<a class="headerlink" href="#gridded" title="Link to this heading"></a></h2>
+<section id="field">
+<h3><code class="docutils literal notranslate"><span class="pre">field</span></code><a class="headerlink" href="#field" title="Link to this heading"></a></h3>
+<p>Contiguous values defined along one or more dimensions.  May be ungridded.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_field.html#pyarts3.workspace.Workspace.atm_field" title="pyarts3.workspace.Workspace.atm_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_flux_field.html#pyarts3.workspace.Workspace.disort_spectral_flux_field" title="pyarts3.workspace.Workspace.disort_spectral_flux_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_flux_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_rad_field.html#pyarts3.workspace.Workspace.disort_spectral_rad_field" title="pyarts3.workspace.Workspace.disort_spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_rad_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_field.html#pyarts3.workspace.Workspace.ray_path_field" title="pyarts3.workspace.Workspace.ray_path_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_field</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_field.html#pyarts3.workspace.Workspace.spectral_rad_field" title="pyarts3.workspace.Workspace.spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.subsurf_field.html#pyarts3.workspace.Workspace.subsurf_field" title="pyarts3.workspace.Workspace.subsurf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subsurf_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.surf_field.html#pyarts3.workspace.Workspace.surf_field" title="pyarts3.workspace.Workspace.surf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surf_field</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="grid">
+<h3><code class="docutils literal notranslate"><span class="pre">grid</span></code><a class="headerlink" href="#grid" title="Link to this heading"></a></h3>
+<p>Sorted one-dimensional grids.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.alt_grid.html#pyarts3.workspace.Workspace.alt_grid" title="pyarts3.workspace.Workspace.alt_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">alt_grid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid.html#pyarts3.workspace.Workspace.freq_grid" title="pyarts3.workspace.Workspace.freq_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid_path.html#pyarts3.workspace.Workspace.freq_grid_path" title="pyarts3.workspace.Workspace.freq_grid_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lat_grid.html#pyarts3.workspace.Workspace.lat_grid" title="pyarts3.workspace.Workspace.lat_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lat_grid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.lon_grid.html#pyarts3.workspace.Workspace.lon_grid" title="pyarts3.workspace.Workspace.lon_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lon_grid</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.zen_grid.html#pyarts3.workspace.Workspace.zen_grid" title="pyarts3.workspace.Workspace.zen_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">zen_grid</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="path">
+<h3><code class="docutils literal notranslate"><span class="pre">path</span></code><a class="headerlink" href="#path" title="Link to this heading"></a></h3>
+<p>Paths contain values sampled along a trajectory through the atmosphere.  Unlike profiles, paths are possibly not aligned with any grid.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_path.html#pyarts3.workspace.Workspace.atm_path" title="pyarts3.workspace.Workspace.atm_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid_path.html#pyarts3.workspace.Workspace.freq_grid_path" title="pyarts3.workspace.Workspace.freq_grid_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_wind_shift_jac_path.html#pyarts3.workspace.Workspace.freq_wind_shift_jac_path" title="pyarts3.workspace.Workspace.freq_wind_shift_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_wind_shift_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_field.html#pyarts3.workspace.Workspace.ray_path_field" title="pyarts3.workspace.Workspace.ray_path_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_observer_agenda.html#pyarts3.workspace.Workspace.ray_path_observer_agenda" title="pyarts3.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_observers.html#pyarts3.workspace.Workspace.ray_path_observers" title="pyarts3.workspace.Workspace.ray_path_observers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observers</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_suns_path.html#pyarts3.workspace.Workspace.ray_path_suns_path" title="pyarts3.workspace.Workspace.ray_path_suns_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_suns_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_freq_path.html#pyarts3.workspace.Workspace.single_freq_path" title="pyarts3.workspace.Workspace.single_freq_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_freq_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac_path.html#pyarts3.workspace.Workspace.single_propmat_jac_path" title="pyarts3.workspace.Workspace.single_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_path.html#pyarts3.workspace.Workspace.single_propmat_path" title="pyarts3.workspace.Workspace.single_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat_path.html#pyarts3.workspace.Workspace.spectral_absvec_scat_path" title="pyarts3.workspace.Workspace.spectral_absvec_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_phamat_spectral_path.html#pyarts3.workspace.Workspace.spectral_phamat_spectral_path" title="pyarts3.workspace.Workspace.spectral_phamat_spectral_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_phamat_spectral_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac_path.html#pyarts3.workspace.Workspace.spectral_propmat_jac_path" title="pyarts3.workspace.Workspace.spectral_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_path.html#pyarts3.workspace.Workspace.spectral_propmat_path" title="pyarts3.workspace.Workspace.spectral_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_path.html#pyarts3.workspace.Workspace.spectral_propmat_scat_path" title="pyarts3.workspace.Workspace.spectral_propmat_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_scat_path.html#pyarts3.workspace.Workspace.spectral_rad_scat_path" title="pyarts3.workspace.Workspace.spectral_rad_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path.html#pyarts3.workspace.Workspace.spectral_tramat_cumulative_path" title="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_cumulative_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_jac_path.html#pyarts3.workspace.Workspace.spectral_tramat_jac_path" title="pyarts3.workspace.Workspace.spectral_tramat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_path.html#pyarts3.workspace.Workspace.spectral_tramat_path" title="pyarts3.workspace.Workspace.spectral_tramat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.sun_path.html#pyarts3.workspace.Workspace.sun_path" title="pyarts3.workspace.Workspace.sun_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="point">
+<h3><code class="docutils literal notranslate"><span class="pre">point</span></code><a class="headerlink" href="#point" title="Link to this heading"></a></h3>
+<p>Values are extracted at a single coordinate in a field.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_point.html#pyarts3.workspace.Workspace.atm_point" title="pyarts3.workspace.Workspace.atm_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_point</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_point.html#pyarts3.workspace.Workspace.ray_point" title="pyarts3.workspace.Workspace.ray_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_point</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_point_back_propagation_agenda.html#pyarts3.workspace.Workspace.ray_point_back_propagation_agenda" title="pyarts3.workspace.Workspace.ray_point_back_propagation_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_point_back_propagation_agenda</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="profile">
+<h3><code class="docutils literal notranslate"><span class="pre">profile</span></code><a class="headerlink" href="#profile" title="Link to this heading"></a></h3>
+<p>Profiles are cuts through a field along a single dimension, e.g., the altitude.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_profile.html#pyarts3.workspace.Workspace.atm_profile" title="pyarts3.workspace.Workspace.atm_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_profile</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.nlte_line_flux_profile.html#pyarts3.workspace.Workspace.nlte_line_flux_profile" title="pyarts3.workspace.Workspace.nlte_line_flux_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nlte_line_flux_profile</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_flux_profile.html#pyarts3.workspace.Workspace.spectral_flux_profile" title="pyarts3.workspace.Workspace.spectral_flux_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_flux_profile</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.subsurf_profile.html#pyarts3.workspace.Workspace.subsurf_profile" title="pyarts3.workspace.Workspace.subsurf_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subsurf_profile</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="single">
+<h3><code class="docutils literal notranslate"><span class="pre">single</span></code><a class="headerlink" href="#single" title="Link to this heading"></a></h3>
+<p>Contains a single value extracted from a frequency grid.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_dispersion.html#pyarts3.workspace.Workspace.single_dispersion" title="pyarts3.workspace.Workspace.single_dispersion"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_dispersion</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_dispersion_jac.html#pyarts3.workspace.Workspace.single_dispersion_jac" title="pyarts3.workspace.Workspace.single_dispersion_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_dispersion_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_freq_path.html#pyarts3.workspace.Workspace.single_freq_path" title="pyarts3.workspace.Workspace.single_freq_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_freq_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec.html#pyarts3.workspace.Workspace.single_nlte_srcvec" title="pyarts3.workspace.Workspace.single_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat.html#pyarts3.workspace.Workspace.single_propmat" title="pyarts3.workspace.Workspace.single_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_agenda.html#pyarts3.workspace.Workspace.single_propmat_agenda" title="pyarts3.workspace.Workspace.single_propmat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac.html#pyarts3.workspace.Workspace.single_propmat_jac" title="pyarts3.workspace.Workspace.single_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac_path.html#pyarts3.workspace.Workspace.single_propmat_jac_path" title="pyarts3.workspace.Workspace.single_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_path.html#pyarts3.workspace.Workspace.single_propmat_path" title="pyarts3.workspace.Workspace.single_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad.html#pyarts3.workspace.Workspace.single_rad" title="pyarts3.workspace.Workspace.single_rad"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_jac.html#pyarts3.workspace.Workspace.single_rad_jac" title="pyarts3.workspace.Workspace.single_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_space_agenda.html#pyarts3.workspace.Workspace.single_rad_space_agenda" title="pyarts3.workspace.Workspace.single_rad_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_space_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_surface_agenda.html#pyarts3.workspace.Workspace.single_rad_surface_agenda" title="pyarts3.workspace.Workspace.single_rad_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_surface_agenda</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="spectral">
+<h3><code class="docutils literal notranslate"><span class="pre">spectral</span></code><a class="headerlink" href="#spectral" title="Link to this heading"></a></h3>
+<p>Defined over a frequency grid.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_flux_field.html#pyarts3.workspace.Workspace.disort_spectral_flux_field" title="pyarts3.workspace.Workspace.disort_spectral_flux_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_flux_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_rad_field.html#pyarts3.workspace.Workspace.disort_spectral_rad_field" title="pyarts3.workspace.Workspace.disort_spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_rad_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat.html#pyarts3.workspace.Workspace.spectral_absvec_scat" title="pyarts3.workspace.Workspace.spectral_absvec_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat_path.html#pyarts3.workspace.Workspace.spectral_absvec_scat_path" title="pyarts3.workspace.Workspace.spectral_absvec_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_flux_profile.html#pyarts3.workspace.Workspace.spectral_flux_profile" title="pyarts3.workspace.Workspace.spectral_flux_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_flux_profile</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_phamat_spectral.html#pyarts3.workspace.Workspace.spectral_phamat_spectral" title="pyarts3.workspace.Workspace.spectral_phamat_spectral"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_phamat_spectral</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_phamat_spectral_path.html#pyarts3.workspace.Workspace.spectral_phamat_spectral_path" title="pyarts3.workspace.Workspace.spectral_phamat_spectral_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_phamat_spectral_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat.html#pyarts3.workspace.Workspace.spectral_propmat" title="pyarts3.workspace.Workspace.spectral_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac.html#pyarts3.workspace.Workspace.spectral_propmat_jac" title="pyarts3.workspace.Workspace.spectral_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac_path.html#pyarts3.workspace.Workspace.spectral_propmat_jac_path" title="pyarts3.workspace.Workspace.spectral_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_path.html#pyarts3.workspace.Workspace.spectral_propmat_path" title="pyarts3.workspace.Workspace.spectral_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat.html#pyarts3.workspace.Workspace.spectral_propmat_scat" title="pyarts3.workspace.Workspace.spectral_propmat_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_path.html#pyarts3.workspace.Workspace.spectral_propmat_scat_path" title="pyarts3.workspace.Workspace.spectral_propmat_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_spectral_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad.html#pyarts3.workspace.Workspace.spectral_rad" title="pyarts3.workspace.Workspace.spectral_rad"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg.html#pyarts3.workspace.Workspace.spectral_rad_bkg" title="pyarts3.workspace.Workspace.spectral_rad_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg_jac.html#pyarts3.workspace.Workspace.spectral_rad_bkg_jac" title="pyarts3.workspace.Workspace.spectral_rad_bkg_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda.html#pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda" title="pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_closed_surface_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_field.html#pyarts3.workspace.Workspace.spectral_rad_field" title="pyarts3.workspace.Workspace.spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac.html#pyarts3.workspace.Workspace.spectral_rad_jac" title="pyarts3.workspace.Workspace.spectral_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_observer_agenda.html#pyarts3.workspace.Workspace.spectral_rad_observer_agenda" title="pyarts3.workspace.Workspace.spectral_rad_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_observer_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_operator.html#pyarts3.workspace.Workspace.spectral_rad_operator" title="pyarts3.workspace.Workspace.spectral_rad_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_operator</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_scat_path.html#pyarts3.workspace.Workspace.spectral_rad_scat_path" title="pyarts3.workspace.Workspace.spectral_rad_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_space_agenda.html#pyarts3.workspace.Workspace.spectral_rad_space_agenda" title="pyarts3.workspace.Workspace.spectral_rad_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_space_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_surface_agenda.html#pyarts3.workspace.Workspace.spectral_rad_surface_agenda" title="pyarts3.workspace.Workspace.spectral_rad_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_surface_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_transform_operator.html#pyarts3.workspace.Workspace.spectral_rad_transform_operator" title="pyarts3.workspace.Workspace.spectral_rad_transform_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_transform_operator</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl.html#pyarts3.workspace.Workspace.spectral_surf_refl" title="pyarts3.workspace.Workspace.spectral_surf_refl"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_agenda.html#pyarts3.workspace.Workspace.spectral_surf_refl_agenda" title="pyarts3.workspace.Workspace.spectral_surf_refl_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_jac.html#pyarts3.workspace.Workspace.spectral_surf_refl_jac" title="pyarts3.workspace.Workspace.spectral_surf_refl_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_bkg.html#pyarts3.workspace.Workspace.spectral_tramat_bkg" title="pyarts3.workspace.Workspace.spectral_tramat_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_bkg</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path.html#pyarts3.workspace.Workspace.spectral_tramat_cumulative_path" title="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_cumulative_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_jac_path.html#pyarts3.workspace.Workspace.spectral_tramat_jac_path" title="pyarts3.workspace.Workspace.spectral_tramat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_path.html#pyarts3.workspace.Workspace.spectral_tramat_path" title="pyarts3.workspace.Workspace.spectral_tramat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+</section>
+<section id="normal-variables">
+<h2>Normal Variables<a class="headerlink" href="#normal-variables" title="Link to this heading"></a></h2>
+<section id="abs">
+<h3><code class="docutils literal notranslate"><span class="pre">abs</span></code><a class="headerlink" href="#abs" title="Link to this heading"></a></h3>
+<p>Absorption processes</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_bands.html#pyarts3.workspace.Workspace.abs_bands" title="pyarts3.workspace.Workspace.abs_bands"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_bands</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_cia_data.html#pyarts3.workspace.Workspace.abs_cia_data" title="pyarts3.workspace.Workspace.abs_cia_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_cia_data</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_ecs_data.html#pyarts3.workspace.Workspace.abs_ecs_data" title="pyarts3.workspace.Workspace.abs_ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_ecs_data</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_lookup_data.html#pyarts3.workspace.Workspace.abs_lookup_data" title="pyarts3.workspace.Workspace.abs_lookup_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_lookup_data</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_predef_data.html#pyarts3.workspace.Workspace.abs_predef_data" title="pyarts3.workspace.Workspace.abs_predef_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_predef_data</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_species.html#pyarts3.workspace.Workspace.abs_species" title="pyarts3.workspace.Workspace.abs_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_species</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_xfit_data.html#pyarts3.workspace.Workspace.abs_xfit_data" title="pyarts3.workspace.Workspace.abs_xfit_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_xfit_data</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="absvec">
+<h3><code class="docutils literal notranslate"><span class="pre">absvec</span></code><a class="headerlink" href="#absvec" title="Link to this heading"></a></h3>
+<p>The absorption vector</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat.html#pyarts3.workspace.Workspace.spectral_absvec_scat" title="pyarts3.workspace.Workspace.spectral_absvec_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat_path.html#pyarts3.workspace.Workspace.spectral_absvec_scat_path" title="pyarts3.workspace.Workspace.spectral_absvec_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="atm">
+<h3><code class="docutils literal notranslate"><span class="pre">atm</span></code><a class="headerlink" href="#atm" title="Link to this heading"></a></h3>
+<p>The atmosphere</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_field.html#pyarts3.workspace.Workspace.atm_field" title="pyarts3.workspace.Workspace.atm_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_path.html#pyarts3.workspace.Workspace.atm_path" title="pyarts3.workspace.Workspace.atm_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_point.html#pyarts3.workspace.Workspace.atm_point" title="pyarts3.workspace.Workspace.atm_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_point</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.atm_profile.html#pyarts3.workspace.Workspace.atm_profile" title="pyarts3.workspace.Workspace.atm_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_profile</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="bkg">
+<h3><code class="docutils literal notranslate"><span class="pre">bkg</span></code><a class="headerlink" href="#bkg" title="Link to this heading"></a></h3>
+<p>Background</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg.html#pyarts3.workspace.Workspace.spectral_rad_bkg" title="pyarts3.workspace.Workspace.spectral_rad_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg_jac.html#pyarts3.workspace.Workspace.spectral_rad_bkg_jac" title="pyarts3.workspace.Workspace.spectral_rad_bkg_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg_jac</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_bkg.html#pyarts3.workspace.Workspace.spectral_tramat_bkg" title="pyarts3.workspace.Workspace.spectral_tramat_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_bkg</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="cia">
+<h3><code class="docutils literal notranslate"><span class="pre">cia</span></code><a class="headerlink" href="#cia" title="Link to this heading"></a></h3>
+<p>Collision-induced absorption</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_cia_data.html#pyarts3.workspace.Workspace.abs_cia_data" title="pyarts3.workspace.Workspace.abs_cia_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_cia_data</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="covmat">
+<h3><code class="docutils literal notranslate"><span class="pre">covmat</span></code><a class="headerlink" href="#covmat" title="Link to this heading"></a></h3>
+<p>Covariance matrices</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.covmat_diagonal_blocks.html#pyarts3.workspace.Workspace.covmat_diagonal_blocks" title="pyarts3.workspace.Workspace.covmat_diagonal_blocks"><code class="xref py py-attr docutils literal notranslate"><span class="pre">covmat_diagonal_blocks</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec_error_covmat.html#pyarts3.workspace.Workspace.measurement_vec_error_covmat" title="pyarts3.workspace.Workspace.measurement_vec_error_covmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec_error_covmat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.model_state_covmat.html#pyarts3.workspace.Workspace.model_state_covmat" title="pyarts3.workspace.Workspace.model_state_covmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_covmat</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="disort">
+<h3><code class="docutils literal notranslate"><span class="pre">disort</span></code><a class="headerlink" href="#disort" title="Link to this heading"></a></h3>
+<p>Discrete ordinate radiative transfer</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_fourier_mode_dimension.html#pyarts3.workspace.Workspace.disort_fourier_mode_dimension" title="pyarts3.workspace.Workspace.disort_fourier_mode_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_fourier_mode_dimension</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_legendre_polynomial_dimension.html#pyarts3.workspace.Workspace.disort_legendre_polynomial_dimension" title="pyarts3.workspace.Workspace.disort_legendre_polynomial_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_legendre_polynomial_dimension</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_quadrature.html#pyarts3.workspace.Workspace.disort_quadrature" title="pyarts3.workspace.Workspace.disort_quadrature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_quadrature_dimension.html#pyarts3.workspace.Workspace.disort_quadrature_dimension" title="pyarts3.workspace.Workspace.disort_quadrature_dimension"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_quadrature_dimension</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_settings.html#pyarts3.workspace.Workspace.disort_settings" title="pyarts3.workspace.Workspace.disort_settings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_settings</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_settings_agenda.html#pyarts3.workspace.Workspace.disort_settings_agenda" title="pyarts3.workspace.Workspace.disort_settings_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_settings_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda.html#pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda" title="pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_settings_downwelling_wrapper_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_flux_field.html#pyarts3.workspace.Workspace.disort_spectral_flux_field" title="pyarts3.workspace.Workspace.disort_spectral_flux_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_flux_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_rad_field.html#pyarts3.workspace.Workspace.disort_spectral_rad_field" title="pyarts3.workspace.Workspace.disort_spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_rad_field</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="ecs">
+<h3><code class="docutils literal notranslate"><span class="pre">ecs</span></code><a class="headerlink" href="#ecs" title="Link to this heading"></a></h3>
+<p>Error-corrected sudden</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_ecs_data.html#pyarts3.workspace.Workspace.abs_ecs_data" title="pyarts3.workspace.Workspace.abs_ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_ecs_data</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="jac">
+<h3><code class="docutils literal notranslate"><span class="pre">jac</span></code><a class="headerlink" href="#jac" title="Link to this heading"></a></h3>
+<p>The Jacobian matrix</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.do_jac.html#pyarts3.workspace.Workspace.do_jac" title="pyarts3.workspace.Workspace.do_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">do_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_wind_shift_jac.html#pyarts3.workspace.Workspace.freq_wind_shift_jac" title="pyarts3.workspace.Workspace.freq_wind_shift_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_wind_shift_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.freq_wind_shift_jac_path.html#pyarts3.workspace.Workspace.freq_wind_shift_jac_path" title="pyarts3.workspace.Workspace.freq_wind_shift_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_wind_shift_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.jac_targets.html#pyarts3.workspace.Workspace.jac_targets" title="pyarts3.workspace.Workspace.jac_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jac_targets</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jac.html#pyarts3.workspace.Workspace.measurement_jac" title="pyarts3.workspace.Workspace.measurement_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jac_error.html#pyarts3.workspace.Workspace.measurement_jac_error" title="pyarts3.workspace.Workspace.measurement_jac_error"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jac_error</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_dispersion_jac.html#pyarts3.workspace.Workspace.single_dispersion_jac" title="pyarts3.workspace.Workspace.single_dispersion_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_dispersion_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac.html#pyarts3.workspace.Workspace.single_propmat_jac" title="pyarts3.workspace.Workspace.single_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac_path.html#pyarts3.workspace.Workspace.single_propmat_jac_path" title="pyarts3.workspace.Workspace.single_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_jac.html#pyarts3.workspace.Workspace.single_rad_jac" title="pyarts3.workspace.Workspace.single_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac.html#pyarts3.workspace.Workspace.spectral_propmat_jac" title="pyarts3.workspace.Workspace.spectral_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac_path.html#pyarts3.workspace.Workspace.spectral_propmat_jac_path" title="pyarts3.workspace.Workspace.spectral_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg_jac.html#pyarts3.workspace.Workspace.spectral_rad_bkg_jac" title="pyarts3.workspace.Workspace.spectral_rad_bkg_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac.html#pyarts3.workspace.Workspace.spectral_rad_jac" title="pyarts3.workspace.Workspace.spectral_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_jac.html#pyarts3.workspace.Workspace.spectral_surf_refl_jac" title="pyarts3.workspace.Workspace.spectral_surf_refl_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_jac_path.html#pyarts3.workspace.Workspace.spectral_tramat_jac_path" title="pyarts3.workspace.Workspace.spectral_tramat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_jac_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="los">
+<h3><code class="docutils literal notranslate"><span class="pre">los</span></code><a class="headerlink" href="#los" title="Link to this heading"></a></h3>
+<p>Line-of-sight</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.obs_los.html#pyarts3.workspace.Workspace.obs_los" title="pyarts3.workspace.Workspace.obs_los"><code class="xref py py-attr docutils literal notranslate"><span class="pre">obs_los</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="nlte">
+<h3><code class="docutils literal notranslate"><span class="pre">nlte</span></code><a class="headerlink" href="#nlte" title="Link to this heading"></a></h3>
+<p>Non-local thermodynamic equilibrium</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.nlte_line_flux_profile.html#pyarts3.workspace.Workspace.nlte_line_flux_profile" title="pyarts3.workspace.Workspace.nlte_line_flux_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nlte_line_flux_profile</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec.html#pyarts3.workspace.Workspace.single_nlte_srcvec" title="pyarts3.workspace.Workspace.single_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="obs">
+<h3><code class="docutils literal notranslate"><span class="pre">obs</span></code><a class="headerlink" href="#obs" title="Link to this heading"></a></h3>
+<p>Observers</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.obs_los.html#pyarts3.workspace.Workspace.obs_los" title="pyarts3.workspace.Workspace.obs_los"><code class="xref py py-attr docutils literal notranslate"><span class="pre">obs_los</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.obs_pos.html#pyarts3.workspace.Workspace.obs_pos" title="pyarts3.workspace.Workspace.obs_pos"><code class="xref py py-attr docutils literal notranslate"><span class="pre">obs_pos</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="phamat">
+<h3><code class="docutils literal notranslate"><span class="pre">phamat</span></code><a class="headerlink" href="#phamat" title="Link to this heading"></a></h3>
+<p>The phase matrix</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_phamat_spectral.html#pyarts3.workspace.Workspace.spectral_phamat_spectral" title="pyarts3.workspace.Workspace.spectral_phamat_spectral"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_phamat_spectral</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_phamat_spectral_path.html#pyarts3.workspace.Workspace.spectral_phamat_spectral_path" title="pyarts3.workspace.Workspace.spectral_phamat_spectral_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_phamat_spectral_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="pos">
+<h3><code class="docutils literal notranslate"><span class="pre">pos</span></code><a class="headerlink" href="#pos" title="Link to this heading"></a></h3>
+<p>Position</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.obs_pos.html#pyarts3.workspace.Workspace.obs_pos" title="pyarts3.workspace.Workspace.obs_pos"><code class="xref py py-attr docutils literal notranslate"><span class="pre">obs_pos</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="predef">
+<h3><code class="docutils literal notranslate"><span class="pre">predef</span></code><a class="headerlink" href="#predef" title="Link to this heading"></a></h3>
+<p>Predefined data</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_predef_data.html#pyarts3.workspace.Workspace.abs_predef_data" title="pyarts3.workspace.Workspace.abs_predef_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_predef_data</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="propmat">
+<h3><code class="docutils literal notranslate"><span class="pre">propmat</span></code><a class="headerlink" href="#propmat" title="Link to this heading"></a></h3>
+<p>The propagation matrix</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat.html#pyarts3.workspace.Workspace.single_propmat" title="pyarts3.workspace.Workspace.single_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_agenda.html#pyarts3.workspace.Workspace.single_propmat_agenda" title="pyarts3.workspace.Workspace.single_propmat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac.html#pyarts3.workspace.Workspace.single_propmat_jac" title="pyarts3.workspace.Workspace.single_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_jac_path.html#pyarts3.workspace.Workspace.single_propmat_jac_path" title="pyarts3.workspace.Workspace.single_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_propmat_path.html#pyarts3.workspace.Workspace.single_propmat_path" title="pyarts3.workspace.Workspace.single_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat.html#pyarts3.workspace.Workspace.spectral_propmat" title="pyarts3.workspace.Workspace.spectral_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_agenda</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac.html#pyarts3.workspace.Workspace.spectral_propmat_jac" title="pyarts3.workspace.Workspace.spectral_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac_path.html#pyarts3.workspace.Workspace.spectral_propmat_jac_path" title="pyarts3.workspace.Workspace.spectral_propmat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_path.html#pyarts3.workspace.Workspace.spectral_propmat_path" title="pyarts3.workspace.Workspace.spectral_propmat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat.html#pyarts3.workspace.Workspace.spectral_propmat_scat" title="pyarts3.workspace.Workspace.spectral_propmat_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_path.html#pyarts3.workspace.Workspace.spectral_propmat_scat_path" title="pyarts3.workspace.Workspace.spectral_propmat_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_spectral_agenda</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="rad">
+<h3><code class="docutils literal notranslate"><span class="pre">rad</span></code><a class="headerlink" href="#rad" title="Link to this heading"></a></h3>
+<p>Radiative transfer/radiance</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.disort_spectral_rad_field.html#pyarts3.workspace.Workspace.disort_spectral_rad_field" title="pyarts3.workspace.Workspace.disort_spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">disort_spectral_rad_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad.html#pyarts3.workspace.Workspace.single_rad" title="pyarts3.workspace.Workspace.single_rad"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_jac.html#pyarts3.workspace.Workspace.single_rad_jac" title="pyarts3.workspace.Workspace.single_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_space_agenda.html#pyarts3.workspace.Workspace.single_rad_space_agenda" title="pyarts3.workspace.Workspace.single_rad_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_space_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_rad_surface_agenda.html#pyarts3.workspace.Workspace.single_rad_surface_agenda" title="pyarts3.workspace.Workspace.single_rad_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_rad_surface_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad.html#pyarts3.workspace.Workspace.spectral_rad" title="pyarts3.workspace.Workspace.spectral_rad"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg.html#pyarts3.workspace.Workspace.spectral_rad_bkg" title="pyarts3.workspace.Workspace.spectral_rad_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_bkg_jac.html#pyarts3.workspace.Workspace.spectral_rad_bkg_jac" title="pyarts3.workspace.Workspace.spectral_rad_bkg_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_bkg_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda.html#pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda" title="pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_closed_surface_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_field.html#pyarts3.workspace.Workspace.spectral_rad_field" title="pyarts3.workspace.Workspace.spectral_rad_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_field</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac.html#pyarts3.workspace.Workspace.spectral_rad_jac" title="pyarts3.workspace.Workspace.spectral_rad_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_observer_agenda.html#pyarts3.workspace.Workspace.spectral_rad_observer_agenda" title="pyarts3.workspace.Workspace.spectral_rad_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_observer_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_operator.html#pyarts3.workspace.Workspace.spectral_rad_operator" title="pyarts3.workspace.Workspace.spectral_rad_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_operator</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_scat_path.html#pyarts3.workspace.Workspace.spectral_rad_scat_path" title="pyarts3.workspace.Workspace.spectral_rad_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_space_agenda.html#pyarts3.workspace.Workspace.spectral_rad_space_agenda" title="pyarts3.workspace.Workspace.spectral_rad_space_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_space_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_surface_agenda.html#pyarts3.workspace.Workspace.spectral_rad_surface_agenda" title="pyarts3.workspace.Workspace.spectral_rad_surface_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_surface_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_transform_operator.html#pyarts3.workspace.Workspace.spectral_rad_transform_operator" title="pyarts3.workspace.Workspace.spectral_rad_transform_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_transform_operator</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="ray">
+<h3><code class="docutils literal notranslate"><span class="pre">ray</span></code><a class="headerlink" href="#ray" title="Link to this heading"></a></h3>
+<p>Ray-tracing</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_field.html#pyarts3.workspace.Workspace.ray_path_field" title="pyarts3.workspace.Workspace.ray_path_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_field</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_observer_agenda.html#pyarts3.workspace.Workspace.ray_path_observer_agenda" title="pyarts3.workspace.Workspace.ray_path_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observer_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_observers.html#pyarts3.workspace.Workspace.ray_path_observers" title="pyarts3.workspace.Workspace.ray_path_observers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_observers</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_suns_path.html#pyarts3.workspace.Workspace.ray_path_suns_path" title="pyarts3.workspace.Workspace.ray_path_suns_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_suns_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_point.html#pyarts3.workspace.Workspace.ray_point" title="pyarts3.workspace.Workspace.ray_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_point</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.ray_point_back_propagation_agenda.html#pyarts3.workspace.Workspace.ray_point_back_propagation_agenda" title="pyarts3.workspace.Workspace.ray_point_back_propagation_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_point_back_propagation_agenda</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="refl">
+<h3><code class="docutils literal notranslate"><span class="pre">refl</span></code><a class="headerlink" href="#refl" title="Link to this heading"></a></h3>
+<p>Reflectance</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl.html#pyarts3.workspace.Workspace.spectral_surf_refl" title="pyarts3.workspace.Workspace.spectral_surf_refl"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_agenda.html#pyarts3.workspace.Workspace.spectral_surf_refl_agenda" title="pyarts3.workspace.Workspace.spectral_surf_refl_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_agenda</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_jac.html#pyarts3.workspace.Workspace.spectral_surf_refl_jac" title="pyarts3.workspace.Workspace.spectral_surf_refl_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_jac</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="scat">
+<h3><code class="docutils literal notranslate"><span class="pre">scat</span></code><a class="headerlink" href="#scat" title="Link to this heading"></a></h3>
+<p>Scattering</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.scat_species.html#pyarts3.workspace.Workspace.scat_species" title="pyarts3.workspace.Workspace.scat_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">scat_species</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat.html#pyarts3.workspace.Workspace.spectral_absvec_scat" title="pyarts3.workspace.Workspace.spectral_absvec_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_absvec_scat_path.html#pyarts3.workspace.Workspace.spectral_absvec_scat_path" title="pyarts3.workspace.Workspace.spectral_absvec_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_absvec_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat.html#pyarts3.workspace.Workspace.spectral_propmat_scat" title="pyarts3.workspace.Workspace.spectral_propmat_scat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_path.html#pyarts3.workspace.Workspace.spectral_propmat_scat_path" title="pyarts3.workspace.Workspace.spectral_propmat_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda.html#pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda" title="pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_scat_spectral_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_scat_path.html#pyarts3.workspace.Workspace.spectral_rad_scat_path" title="pyarts3.workspace.Workspace.spectral_rad_scat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_scat_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="srcvec">
+<h3><code class="docutils literal notranslate"><span class="pre">srcvec</span></code><a class="headerlink" href="#srcvec" title="Link to this heading"></a></h3>
+<p>The source vector</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec.html#pyarts3.workspace.Workspace.single_nlte_srcvec" title="pyarts3.workspace.Workspace.single_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.single_nlte_srcvec_path.html#pyarts3.workspace.Workspace.single_nlte_srcvec_path" title="pyarts3.workspace.Workspace.single_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">single_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_path" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_srcvec_path.html#pyarts3.workspace.Workspace.spectral_rad_srcvec_path" title="pyarts3.workspace.Workspace.spectral_rad_srcvec_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_srcvec_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="subsurf">
+<h3><code class="docutils literal notranslate"><span class="pre">subsurf</span></code><a class="headerlink" href="#subsurf" title="Link to this heading"></a></h3>
+<p>The subsurface</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.subsurf_field.html#pyarts3.workspace.Workspace.subsurf_field" title="pyarts3.workspace.Workspace.subsurf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subsurf_field</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.subsurf_profile.html#pyarts3.workspace.Workspace.subsurf_profile" title="pyarts3.workspace.Workspace.subsurf_profile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subsurf_profile</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="surf">
+<h3><code class="docutils literal notranslate"><span class="pre">surf</span></code><a class="headerlink" href="#surf" title="Link to this heading"></a></h3>
+<p>The surface</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl.html#pyarts3.workspace.Workspace.spectral_surf_refl" title="pyarts3.workspace.Workspace.spectral_surf_refl"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_agenda.html#pyarts3.workspace.Workspace.spectral_surf_refl_agenda" title="pyarts3.workspace.Workspace.spectral_surf_refl_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_agenda</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_surf_refl_jac.html#pyarts3.workspace.Workspace.spectral_surf_refl_jac" title="pyarts3.workspace.Workspace.spectral_surf_refl_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_surf_refl_jac</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.surf_field.html#pyarts3.workspace.Workspace.surf_field" title="pyarts3.workspace.Workspace.surf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surf_field</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="tramat">
+<h3><code class="docutils literal notranslate"><span class="pre">tramat</span></code><a class="headerlink" href="#tramat" title="Link to this heading"></a></h3>
+<p>The transmittance matrix</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_bkg.html#pyarts3.workspace.Workspace.spectral_tramat_bkg" title="pyarts3.workspace.Workspace.spectral_tramat_bkg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_bkg</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path.html#pyarts3.workspace.Workspace.spectral_tramat_cumulative_path" title="pyarts3.workspace.Workspace.spectral_tramat_cumulative_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_cumulative_path</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_jac_path.html#pyarts3.workspace.Workspace.spectral_tramat_jac_path" title="pyarts3.workspace.Workspace.spectral_tramat_jac_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_jac_path</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.spectral_tramat_path.html#pyarts3.workspace.Workspace.spectral_tramat_path" title="pyarts3.workspace.Workspace.spectral_tramat_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_tramat_path</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+<section id="xfit">
+<h3><code class="docutils literal notranslate"><span class="pre">xfit</span></code><a class="headerlink" href="#xfit" title="Link to this heading"></a></h3>
+<p>Cross-section fitting</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.abs_xfit_data.html#pyarts3.workspace.Workspace.abs_xfit_data" title="pyarts3.workspace.Workspace.abs_xfit_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_xfit_data</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+</section>
+<section id="storage-form">
+<h2>Storage form<a class="headerlink" href="#storage-form" title="Link to this heading"></a></h2>
+<section id="mat">
+<h3><code class="docutils literal notranslate"><span class="pre">mat</span></code><a class="headerlink" href="#mat" title="Link to this heading"></a></h3>
+<p>As a matrix.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_gain_mat.html#pyarts3.workspace.Workspace.measurement_gain_mat" title="pyarts3.workspace.Workspace.measurement_gain_mat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_gain_mat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+</ul>
+</td></tr></table>
+</section>
+<section id="vec">
+<h3><code class="docutils literal notranslate"><span class="pre">vec</span></code><a class="headerlink" href="#vec" title="Link to this heading"></a></h3>
+<p>As a vector.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec.html#pyarts3.workspace.Workspace.measurement_vec" title="pyarts3.workspace.Workspace.measurement_vec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec_error.html#pyarts3.workspace.Workspace.measurement_vec_error" title="pyarts3.workspace.Workspace.measurement_vec_error"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec_error</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec_error_covmat.html#pyarts3.workspace.Workspace.measurement_vec_error_covmat" title="pyarts3.workspace.Workspace.measurement_vec_error_covmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec_error_covmat</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec_fit.html#pyarts3.workspace.Workspace.measurement_vec_fit" title="pyarts3.workspace.Workspace.measurement_vec_fit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec_fit</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.model_state_vec.html#pyarts3.workspace.Workspace.model_state_vec" title="pyarts3.workspace.Workspace.model_state_vec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vec</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.model_state_vec_apriori.html#pyarts3.workspace.Workspace.model_state_vec_apriori" title="pyarts3.workspace.Workspace.model_state_vec_apriori"><code class="xref py py-attr docutils literal notranslate"><span class="pre">model_state_vec_apriori</span></code></a></p></li>
+</ul>
+</td></tr></table>
+<p class="rubric">Unshortened Variables</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.inversion_iterate_agenda.html#pyarts3.workspace.Workspace.inversion_iterate_agenda" title="pyarts3.workspace.Workspace.inversion_iterate_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inversion_iterate_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.sun.html#pyarts3.workspace.Workspace.sun" title="pyarts3.workspace.Workspace.sun"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sun</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_inversion_agenda.html#pyarts3.workspace.Workspace.measurement_inversion_agenda" title="pyarts3.workspace.Workspace.measurement_inversion_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_inversion_agenda</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.gravity_operator.html#pyarts3.workspace.Workspace.gravity_operator" title="pyarts3.workspace.Workspace.gravity_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gravity_operator</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.max_stepsize.html#pyarts3.workspace.Workspace.max_stepsize" title="pyarts3.workspace.Workspace.max_stepsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_stepsize</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.inversion_iterate_agenda_counter.html#pyarts3.workspace.Workspace.inversion_iterate_agenda_counter" title="pyarts3.workspace.Workspace.inversion_iterate_agenda_counter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inversion_iterate_agenda_counter</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.suns.html#pyarts3.workspace.Workspace.suns" title="pyarts3.workspace.Workspace.suns"><code class="xref py py-attr docutils literal notranslate"><span class="pre">suns</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.legendre_degree.html#pyarts3.workspace.Workspace.legendre_degree" title="pyarts3.workspace.Workspace.legendre_degree"><code class="xref py py-attr docutils literal notranslate"><span class="pre">legendre_degree</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_sensor.html#pyarts3.workspace.Workspace.measurement_sensor" title="pyarts3.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.measurement_averaging_kernel.html#pyarts3.workspace.Workspace.measurement_averaging_kernel" title="pyarts3.workspace.Workspace.measurement_averaging_kernel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_averaging_kernel</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.select_species_list.html#pyarts3.workspace.Workspace.select_species_list" title="pyarts3.workspace.Workspace.select_species_list"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select_species_list</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.water_equivalent_pressure_operator.html#pyarts3.workspace.Workspace.water_equivalent_pressure_operator" title="pyarts3.workspace.Workspace.water_equivalent_pressure_operator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">water_equivalent_pressure_operator</span></code></a></p></li>
+<li><p><a class="reference internal" href="pyarts3.workspace.Workspace.select_species.html#pyarts3.workspace.Workspace.select_species" title="pyarts3.workspace.Workspace.select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select_species</span></code></a></p></li>
+</ul>
+</td></tr></table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.workspace.variables.html" class="btn btn-neutral float-left" title="Workspace variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.plots.html" class="btn btn-neutral float-right" title="Plot Modules for GUI Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

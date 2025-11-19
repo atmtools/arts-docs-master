@@ -127,12 +127,12 @@
 
 <span class="c1"># %% Set up a 1D atmosphere</span>
 <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
     <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
 
 <span class="c1"># %% Add a field of scattering species properties</span>
 <span class="c1">#</span>
@@ -151,21 +151,21 @@
 
 <span class="c1"># We then define a GriddedField3 representing the ice extinction and</span>
 <span class="c1"># single-scattering albedo and add it to ``atm_field`` of the workspace.</span>
-<span class="n">grids</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">grids</span>
+<span class="n">grids</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">grids</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">ice_extinction_profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 <span class="n">ice_extinction_profile</span><span class="p">[(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mf">5e3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mf">15e3</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">ice_extinction_profile</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField3</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">ice_extinction_profile</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">grids</span><span class="o">=</span><span class="n">grids</span>
 <span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">[</span><span class="n">ice_extinction</span><span class="p">]</span> <span class="o">=</span> <span class="n">ice_extinction_profile</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">[</span><span class="n">ice_extinction</span><span class="p">]</span> <span class="o">=</span> <span class="n">ice_extinction_profile</span>
 
 <span class="n">ice_ssa_profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 <span class="n">ice_ssa_profile</span><span class="p">[(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mf">5e3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mf">15e3</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">ice_ssa_profile</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField3</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">ice_ssa_profile</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">grids</span><span class="o">=</span><span class="n">grids</span>
 <span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">[</span><span class="n">ice_ssa</span><span class="p">]</span> <span class="o">=</span> <span class="n">ice_ssa_profile</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">[</span><span class="n">ice_ssa</span><span class="p">]</span> <span class="o">=</span> <span class="n">ice_ssa_profile</span>
 
 <span class="c1"># %% Rain</span>
 <span class="n">rain_extinction</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">ScatteringSpeciesProperty</span><span class="p">(</span>
@@ -180,14 +180,14 @@
 <span class="n">rain_extinction_profile</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField3</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">rain_extinction_profile</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">grids</span><span class="o">=</span><span class="n">grids</span>
 <span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">[</span><span class="n">rain_extinction</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_extinction_profile</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">[</span><span class="n">rain_extinction</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_extinction_profile</span>
 
 <span class="n">rain_ssa_profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 <span class="n">rain_ssa_profile</span><span class="p">[</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mf">5e3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">rain_ssa_profile</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField3</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">rain_ssa_profile</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">grids</span><span class="o">=</span><span class="n">grids</span>
 <span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">[</span><span class="n">rain_ssa</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_ssa_profile</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">[</span><span class="n">rain_ssa</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_ssa_profile</span>
 
 <span class="c1"># %% Create the scattering species</span>
 
@@ -209,7 +209,7 @@
 <span class="c1"># check the consistency of the Henyey-Greenstein scatterer, we extract the data</span>
 <span class="c1"># in gridded and spectral representation and ensure that they are the same when</span>
 <span class="c1"># both are converted to gridded representation.</span>
-<span class="n">atm_pt</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">(</span><span class="mf">11e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">atm_pt</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">(</span><span class="mf">11e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 <span class="n">f_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">89e9</span><span class="p">])</span>
 <span class="n">bsp</span> <span class="o">=</span> <span class="n">scattering_species</span><span class="o">.</span><span class="n">get_bulk_scattering_properties_tro_spectral</span><span class="p">(</span><span class="n">atm_pt</span><span class="p">,</span> <span class="n">f_grid</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">pm_spectral</span> <span class="o">=</span> <span class="n">bsp</span><span class="o">.</span><span class="n">phase_matrix</span>
@@ -236,7 +236,7 @@
 <span class="c1">#</span>
 <span class="c1"># Similarly, we can extract the phase function for rain by calculating the</span>
 <span class="c1"># bulk-scattering properties at a lower point in the atmosphere.</span>
-<span class="n">atm_pt</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">(</span><span class="mf">4e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">atm_pt</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">(</span><span class="mf">4e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 <span class="n">bsp</span> <span class="o">=</span> <span class="n">scattering_species</span><span class="o">.</span><span class="n">get_bulk_scattering_properties_tro_spectral</span><span class="p">(</span><span class="n">atm_pt</span><span class="p">,</span> <span class="n">f_grid</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">pm_spectral</span> <span class="o">=</span> <span class="n">bsp</span><span class="o">.</span><span class="n">phase_matrix</span>
 

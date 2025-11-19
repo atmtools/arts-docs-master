@@ -120,7 +120,7 @@
 <span class="sd">    from the ARTS database and extracting the AtmPoint at position by the path_point.  If atm is</span>
 <span class="sd">    an AtmField, the AtmPoint at position by the path_point is extracted.</span>
 
-<span class="sd">    The path_point is passed directly to the ArrayOfCIARecord.propagation_matrix() method and defaults</span>
+<span class="sd">    The path_point is passed directly to the ArrayOfCIARecord.spectral_propmat() method and defaults</span>
 <span class="sd">    to pos: [0, 0, 0], los: [0, 0].</span>
 
 <span class="sd">    same determines if each entry in the array is plotted onto the same plot or not.</span>
@@ -156,11 +156,11 @@
 
     <span class="k">if</span> <span class="n">atm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">isot</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span>
         <span class="n">toa</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span><span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">atm</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_field</span><span class="p">(</span><span class="o">*</span><span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span><span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">atm</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">(</span><span class="o">*</span><span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atm</span><span class="p">,</span> <span class="n">AtmField</span><span class="p">):</span>
         <span class="n">atm</span> <span class="o">=</span> <span class="n">atm</span><span class="p">(</span><span class="o">*</span><span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
 

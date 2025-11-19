@@ -1,0 +1,76 @@
+do_jac
+======
+
+.. currentmodule:: pyarts3.workspace
+
+.. attribute:: Workspace.do_jac
+   :type: ~pyarts3.arts.Index
+
+   A boolean calculations related to the :attr:`~pyarts3.workspace.Workspace.measurement_jac` should be ignored.
+
+   This variable is limited to very few methods related to the inversion process for :func:`~pyarts3.workspace.Workspace.OEM`.
+   Note that deep code of ARTS will ignore this variable, so it is not a global switch.
+   Instead, it is used as a switch to clear the :attr:`~pyarts3.workspace.Workspace.jac_targets` variable, which is used
+   to determine the size of the :attr:`~pyarts3.workspace.Workspace.measurement_jac`.  It is important to be careful
+   with this, as it will mess with the size of the :attr:`~pyarts3.workspace.Workspace.measurement_jac` and could
+   thus lead to runtime errors being thrown in places where unexpected sizes are encountered.
+
+
+
+   .. rubric:: Default value
+
+   ``1``
+
+
+
+   .. rubric:: Input to workspace methods
+
+   .. hlist::
+       :columns: 2
+
+       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`
+       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecuteOperator`
+       * :func:`~pyarts3.workspace.Workspace.jac_targetsConditionalClear`
+       * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecute`
+       * :func:`~pyarts3.workspace.Workspace.measurement_inversion_agendaExecuteOperator`
+       * :func:`~pyarts3.workspace.Workspace.measurement_vecConditionalAddError`
+
+
+   .. rubric:: Input to workspace agendas
+
+   .. hlist::
+       :columns: 1
+
+       * :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda`
+
+
+   .. rubric:: Related workspace variables
+
+   .. hlist::
+       :columns: 2
+
+       * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac`
+       * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.jac_targets`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jac`
+       * :attr:`~pyarts3.workspace.Workspace.measurement_jac_error`
+       * :attr:`~pyarts3.workspace.Workspace.single_dispersion_jac`
+       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac`
+       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
+       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_bkg_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_jac`
+       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_jac_path`
+
+   .. :class:`~pyarts3.arts.Index`
+

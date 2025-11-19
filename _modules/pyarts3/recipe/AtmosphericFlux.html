@@ -114,10 +114,10 @@
 <a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.AtmosphericFlux.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">visible_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
-        <span class="n">thermal_surface_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">visible_surf_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">thermal_surf_reflectivity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
         <span class="n">atmospheric_altitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">50e3</span><span class="p">,</span>
-        <span class="n">surface_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span><span class="p">,</span>
+        <span class="n">surf_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span><span class="p">,</span>
         <span class="n">max_level_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e3</span><span class="p">,</span>
         <span class="n">NQuad</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
         <span class="n">atm_latitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
@@ -133,10 +133,10 @@
 <span class="sd">        The operator allows you to change the</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            visible_surface_reflectivity (float, optional): The surface reflectivity constant for Disort in visible. Defaults to 0.3.</span>
-<span class="sd">            thermal_surface_reflectivity (float, optional): The surface reflectivity constant for Disort in thermal. Defaults to 0.05.</span>
+<span class="sd">            visible_surf_reflectivity (float, optional): The surface reflectivity constant for Disort in visible. Defaults to 0.3.</span>
+<span class="sd">            thermal_surf_reflectivity (float, optional): The surface reflectivity constant for Disort in thermal. Defaults to 0.05.</span>
 <span class="sd">            atmospheric_altitude (float, optional): The top-of-the-atmosphere altitude [m]. Defaults to 50e3.</span>
-<span class="sd">            surface_temperature (float, optional): The surface temperature [K]. Defaults to 300.0.</span>
+<span class="sd">            surf_temperature (float, optional): The surface temperature [K]. Defaults to 300.0.</span>
 <span class="sd">            max_level_step (float, optional): The maximum thickness of layers [m]. Defaults to 1e3.</span>
 <span class="sd">            NQuad (int, optional): The number of quadratures used by Disort. Defaults to 16.</span>
 <span class="sd">            atm_latitude (float, optional): Latitude of profile [degrees]. Defaults to 0.0.</span>
@@ -147,8 +147,8 @@
 <span class="sd">            remove_lines_percentile (dict | float | None, optional): The percentile of lines to remove [0, 100].  Per species if dict. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span> <span class="o">=</span> <span class="n">visible_surface_reflectivity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thermal_surface_reflectivity</span> <span class="o">=</span> <span class="n">thermal_surface_reflectivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible_surf_reflectivity</span> <span class="o">=</span> <span class="n">visible_surf_reflectivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thermal_surf_reflectivity</span> <span class="o">=</span> <span class="n">thermal_surf_reflectivity</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
 
@@ -156,36 +156,36 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_fourier_mode_dimension</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_legendre_polynomial_dimension</span> <span class="o">=</span> <span class="mi">1</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="mf">750e9</span>
+        <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="mf">750e9</span>
 
         <span class="k">if</span> <span class="n">remove_lines_percentile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">remove_lines_percentile</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">remove_lines_percentile</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">propagation_matrix_agendaAuto</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surface_temperature</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">absorption_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surf_temperature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atmospheric_fieldRead</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
             <span class="n">toa</span><span class="o">=</span><span class="n">atmospheric_altitude</span><span class="p">,</span>
             <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span>
             <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
-            <span class="n">latitude</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
-            <span class="n">longitude</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
+            <span class="n">lat</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
+            <span class="n">lon</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
             <span class="n">max_stepsize</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_pointFromPath</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_pathFromPath</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">visf</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span>
             <span class="s2">&quot;planets/Earth/Optimized-Flux-Frequencies/SW-flux-optimized-f_grid.xml&quot;</span>
@@ -204,10 +204,10 @@
 
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField2</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span><span class="s2">&quot;star/Sun/solar_spectrum_QUIET.xml&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">sunFromGrid</span><span class="p">(</span>
-            <span class="n">frequency_grid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">,</span>
+            <span class="n">freq_grid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">,</span>
             <span class="n">sun_spectrum_raw</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
-            <span class="n">latitude</span><span class="o">=</span><span class="n">solar_latitude</span><span class="p">,</span>
-            <span class="n">longitude</span><span class="o">=</span><span class="n">solar_longitude</span><span class="p">,</span>
+            <span class="n">lat</span><span class="o">=</span><span class="n">solar_latitude</span><span class="p">,</span>
+            <span class="n">lon</span><span class="o">=</span><span class="n">solar_longitude</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -229,7 +229,7 @@
 <span class="sd">            dict: Atmospheric field dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">stringify_keys</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_point</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_path</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span>
                 <span class="n">core</span><span class="o">=</span><span class="n">core</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="n">specs</span><span class="p">,</span> <span class="n">nlte</span><span class="o">=</span><span class="n">nlte</span><span class="p">,</span> <span class="n">ssprops</span><span class="o">=</span><span class="n">ssprops</span><span class="p">,</span> <span class="n">isots</span><span class="o">=</span><span class="n">isots</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -239,33 +239,33 @@
 <a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.AtmosphericFlux.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">atmospheric_profile</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="n">surface_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">atm_profile</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">surf_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total flux profile</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            atmospheric_profile (dict, optional): A dictionary of atmospheric data. Defaults to {}.</span>
-<span class="sd">            surface_temperature (float, optional): A surface temperature. Defaults to None.</span>
+<span class="sd">            atm_profile (dict, optional): A dictionary of atmospheric data. Defaults to {}.</span>
+<span class="sd">            surf_temperature (float, optional): A surface temperature. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Flux, Flux, numpy.ndarray: The solar and thermal fluxes and the center altitudes of the layers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">surface_temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surface_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surface_temperature</span>
+        <span class="k">if</span> <span class="n">surf_temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surf_temperature</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_path_atmospheric_point</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">atmospheric_profile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_path</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">)</span>
 
         <span class="c1"># Visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
             <span class="n">layer_emission_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
             <span class="n">scattering_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
             <span class="n">space_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
-            <span class="n">surface_setting</span><span class="o">=</span><span class="s2">&quot;Lambertian&quot;</span><span class="p">,</span>
+            <span class="n">surf_setting</span><span class="o">=</span><span class="s2">&quot;Lambertian&quot;</span><span class="p">,</span>
             <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
-            <span class="n">surface_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_surface_reflectivity</span> <span class="o">*</span>
+            <span class="n">surf_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_surf_reflectivity</span> <span class="o">*</span>
             <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
@@ -278,14 +278,14 @@
                           <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ik-&gt;k&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">visw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">down_direct</span><span class="p">))</span>
 
         <span class="c1"># IR</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">frequency_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_f</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
             <span class="n">layer_emission_setting</span><span class="o">=</span><span class="s2">&quot;LinearInTau&quot;</span><span class="p">,</span>
             <span class="n">scattering_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
             <span class="n">space_setting</span><span class="o">=</span><span class="s2">&quot;CosmicMicrowaveBackgroundRadiation&quot;</span><span class="p">,</span>
-            <span class="n">surface_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
+            <span class="n">surf_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
             <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
-            <span class="n">surface_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thermal_surface_reflectivity</span> <span class="o">*</span>
+            <span class="n">surf_lambertian_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thermal_surf_reflectivity</span> <span class="o">*</span>
             <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visf</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>

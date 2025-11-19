@@ -78,6 +78,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="dev.workspace.options.html">Workspace options</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev.workspace.variables.html">Workspace variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev.workspace.shortnames.auto.html">Short-forms for naming workspace variables</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
@@ -220,7 +221,7 @@ These will be named as <code class="docutils literal notranslate"><span class="p
 treated as normal workspace method.
 You need to do nothing to define these methods.  But please refrain from defining
 them manually as that may cause undefined naming conflicts.</p>
-<p>The expected signature of the method <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix_agendaAuto.html#pyarts3.workspace.Workspace.propagation_matrix_agendaAuto" title="pyarts3.workspace.Workspace.propagation_matrix_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrix_agendaAuto()</span></code></a> is also
+<p>The expected signature of the method <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_agendaAuto.html#pyarts3.workspace.Workspace.spectral_propmat_agendaAuto" title="pyarts3.workspace.Workspace.spectral_propmat_agendaAuto"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_propmat_agendaAuto()</span></code></a> is also
 generated automatically near the end of <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code>.  It takes
 its input and output from a list of other methods.  Feel free to add to this
 list but make sure that any naming conflicts regarding <code class="docutils literal notranslate"><span class="pre">gin</span></code> are resolved
@@ -228,11 +229,11 @@ before doing so.  Adding a method to this list may also require changing the
 actual signature (which is why the method is generated, so that a change in
 the required actual signature is immediately made apparent).</p>
 <p>The methods that begin with <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> are partly generated.
-These methods all require a corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method
-that fills in the <code class="docutils literal notranslate"><span class="pre">jacobian_targets</span></code> workspace variable.  To keep that
+These methods all require a corresponding <code class="docutils literal notranslate"><span class="pre">jac_targetsAdd...</span></code> method
+that fills in the <code class="docutils literal notranslate"><span class="pre">jac_targets</span></code> workspace variable.  To keep that
 part of the signature consistent, the additional <code class="docutils literal notranslate"><span class="pre">RetrievalAdd...</span></code> information
 is simply appended to the <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">out</span></code>, and <code class="docutils literal notranslate"><span class="pre">gin</span></code>-lists of the
-corresponding <code class="docutils literal notranslate"><span class="pre">jacobian_targetsAdd...</span></code> method using the local <code class="docutils literal notranslate"><span class="pre">jac2ret</span></code> lambda.</p>
+corresponding <code class="docutils literal notranslate"><span class="pre">jac_targetsAdd...</span></code> method using the local <code class="docutils literal notranslate"><span class="pre">jac2ret</span></code> lambda.</p>
 </section>
 </section>
 <section id="generated-files">
@@ -255,10 +256,10 @@ is followed by a short but descriptive name of what the method does with the out
 in <code class="docutils literal notranslate"><span class="pre">PascalCase</span></code>.
 A general rule of thumb is to use verbs for methods that modify the workspace
 variable and nouns for methods that create a new workspace variable.</p>
-<p>For example, <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrixAddLines.html#pyarts3.workspace.Workspace.propagation_matrixAddLines" title="pyarts3.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a>
-has a main output of <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix.html#pyarts3.workspace.Workspace.propagation_matrix" title="pyarts3.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a> and
+<p>For example, <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmatAddLines.html#pyarts3.workspace.Workspace.spectral_propmatAddLines" title="pyarts3.workspace.Workspace.spectral_propmatAddLines"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_propmatAddLines()</span></code></a>
+has a main output of <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat.html#pyarts3.workspace.Workspace.spectral_propmat" title="pyarts3.workspace.Workspace.spectral_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat</span></code></a> and
 adds line absorption to it.  It needs to be preceded by a call to
-<a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrixInit.html#pyarts3.workspace.Workspace.propagation_matrixInit" title="pyarts3.workspace.Workspace.propagation_matrixInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">propagation_matrixInit()</span></code></a> which sets up the
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmatInit.html#pyarts3.workspace.Workspace.spectral_propmatInit" title="pyarts3.workspace.Workspace.spectral_propmatInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">spectral_propmatInit()</span></code></a> which sets up the
 propagation matrix to an initial state.</p>
 <p>Of course, every use-case is different, but please try to follow this convention.</p>
 </section>
@@ -298,61 +299,61 @@ method that creates or set a workspace variable.</p>
 <span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;ray_path&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;surface_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">gin</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;max_step&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">gin_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Numeric&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Numeric</span><span class="p">{</span><span class="mf">1e3</span><span class="p">}},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">gin_desc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;The maximum step length&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atm_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;surf_field&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lon&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;max_stepsize&quot;</span><span class="p">},</span>
 <span class="p">};</span>
 </pre></div>
 </div>
 <p>The signature of the method is:</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">ray_pathGeometricUplooking</span><span class="p">(</span><span class="n">ArrayOfPropagationPathPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ray_path</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_field</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surface_field</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">longitude</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">max_step</span><span class="p">);</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atm_field</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surf_field</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">lon</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Numeric</span><span class="o">&amp;</span><span class="w"> </span><span class="n">max_stepsize</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
 <p>The first argument of the method is a reference to <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>.
 Since <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a> is in <code class="docutils literal notranslate"><span class="pre">out</span></code> but not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
 it is expected that the method overwrite any existing value of <a class="reference internal" href="pyarts3.workspace.Workspace.ray_path.html#pyarts3.workspace.Workspace.ray_path" title="pyarts3.workspace.Workspace.ray_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path</span></code></a>.</p>
-<p>The arguments <a class="reference internal" href="pyarts3.workspace.Workspace.atmospheric_field.html#pyarts3.workspace.Workspace.atmospheric_field" title="pyarts3.workspace.Workspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a>, <a class="reference internal" href="pyarts3.workspace.Workspace.surface_field.html#pyarts3.workspace.Workspace.surface_field" title="pyarts3.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.latitude.html#pyarts3.workspace.Workspace.latitude" title="pyarts3.workspace.Workspace.latitude"><code class="xref py py-attr docutils literal notranslate"><span class="pre">latitude</span></code></a>, and <a class="reference internal" href="pyarts3.workspace.Workspace.longitude.html#pyarts3.workspace.Workspace.longitude" title="pyarts3.workspace.Workspace.longitude"><code class="xref py py-attr docutils literal notranslate"><span class="pre">longitude</span></code></a>
+<p>The arguments <a class="reference internal" href="pyarts3.workspace.Workspace.atm_field.html#pyarts3.workspace.Workspace.atm_field" title="pyarts3.workspace.Workspace.atm_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_field</span></code></a>, <a class="reference internal" href="pyarts3.workspace.Workspace.surf_field.html#pyarts3.workspace.Workspace.surf_field" title="pyarts3.workspace.Workspace.surf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surf_field</span></code></a>,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">latitude</span></code>, and <code class="xref py py-attr docutils literal notranslate"><span class="pre">longitude</span></code>
 are defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method as immutable references to the respective
 workspace variables.</p>
-<p>Lastly, the argument <code class="docutils literal notranslate"><span class="pre">max_step</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">gin</span></code> and is passed
-as an immutable reference as well.  The type of the argument is <code class="docutils literal notranslate"><span class="pre">Numeric</span></code>
-and the default value is <code class="docutils literal notranslate"><span class="pre">1e3</span></code>.  The default value is passed to the method
-if the user does not provide a value for <code class="docutils literal notranslate"><span class="pre">max_step</span></code>.</p>
 <p>All other fields are there to provide context and to generate the documentation.
 See <a class="reference internal" href="pyarts3.workspace.Workspace.ray_pathGeometricUplooking.html#pyarts3.workspace.Workspace.ray_pathGeometricUplooking" title="pyarts3.workspace.Workspace.ray_pathGeometricUplooking"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ray_pathGeometricUplooking()</span></code></a> for the full documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The command <code class="docutils literal notranslate"><span class="pre">*ray_pathGeometric*</span></code>
+is automatically turned to a link by the pyarts build system
+by mimicying of the sphinx linking system.</p>
+</div>
 </section>
 <section id="method-modifying-a-workspace-variable">
 <h3>Method modifying a workspace variable<a class="headerlink" href="#method-modifying-a-workspace-variable" title="Link to this heading"></a></h3>
 <p>The following is a basic workspace method that modifies existing workspace variables.</p>
 <p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> file:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;propagation_matrixAddLines&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Line-by-line calculations.</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;spectral_propmatAddLines&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Add line-by-line absorption to the propagation matrix.</span>
+
+<span class="s">See :doc:`concept.absorption.lbl` for details.</span>
 <span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;propagation_matrix&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_jacobian&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte_jacobian&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;propagation_matrix&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_jacobian&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;propagation_matrix_source_vector_nonlte_jacobian&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;frequency_grid&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;jacobian_targets&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;spectral_propmat&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_nlte_srcvec&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_propmat_jac&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_nlte_srcvec_jac&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">in</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;spectral_propmat&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_nlte_srcvec&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_propmat_jac&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;spectral_nlte_srcvec_jac&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;freq_grid&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;jac_targets&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="s">&quot;select_species&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;absorption_bands&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;ecs_data&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;atmospheric_point&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="s">&quot;ray_path_point&quot;</span><span class="p">},</span>
+<span class="w">                  </span><span class="s">&quot;abs_bands&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;abs_ecs_data&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;atm_point&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s">&quot;ray_point&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">gin</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;no_negative_absorption&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">gin_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Index&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Index</span><span class="p">{</span><span class="mi">1</span><span class="p">}},</span>
@@ -362,36 +363,36 @@ See <a class="reference internal" href="pyarts3.workspace.Workspace.ray_pathGeom
 </pre></div>
 </div>
 <p>The signature of the method is:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">propagation_matrixAddLines</span><span class="p">(</span><span class="n">PropmatVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">StokvecVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_source_vector_nonlte</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">PropmatMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_jacobian</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">StokvecMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">propagation_matrix_source_vector_nonlte_jacobian</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AscendingGrid</span><span class="o">&amp;</span><span class="w"> </span><span class="n">frequency_grid</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jacobian_targets</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">SpeciesEnum</span><span class="o">&amp;</span><span class="w"> </span><span class="n">select_species</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AbsorptionBands</span><span class="o">&amp;</span><span class="w"> </span><span class="n">absorption_bands</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">LinemixingEcsData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ecs_data</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">AtmPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_point</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">PropagationPathPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ray_path_point</span><span class="p">,</span>
-<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">Index</span><span class="o">&amp;</span><span class="w"> </span><span class="n">no_negative_absorption</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">spectral_propmatAddLines</span><span class="p">(</span><span class="n">PropmatVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_propmat</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">StokvecVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_nlte_srcvec</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">PropmatMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_propmat_jac</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">StokvecMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_nlte_srcvec_jac</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">AscendingGrid</span><span class="o">&amp;</span><span class="w"> </span><span class="n">freq_grid</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jac_targets</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">SpeciesEnum</span><span class="o">&amp;</span><span class="w"> </span><span class="n">select_species</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">AbsorptionBands</span><span class="o">&amp;</span><span class="w"> </span><span class="n">abs_bands</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">LinemixingEcsData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">abs_ecs_data</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">AtmPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atm_point</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">PropagationPathPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ray_point</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="n">Index</span><span class="o">&amp;</span><span class="w"> </span><span class="n">no_negative_absorption</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
 <p>The first four arguments of the method are references to
-<a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix.html#pyarts3.workspace.Workspace.propagation_matrix" title="pyarts3.workspace.Workspace.propagation_matrix"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix</span></code></a>.
-<a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte.html#pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte" title="pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix_jacobian.html#pyarts3.workspace.Workspace.propagation_matrix_jacobian" title="pyarts3.workspace.Workspace.propagation_matrix_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_jacobian</span></code></a>, and
-<a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian.html#pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian" title="pyarts3.workspace.Workspace.propagation_matrix_source_vector_nonlte_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">propagation_matrix_source_vector_nonlte_jacobian</span></code></a>
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat.html#pyarts3.workspace.Workspace.spectral_propmat" title="pyarts3.workspace.Workspace.spectral_propmat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat</span></code></a>.
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmat_jac.html#pyarts3.workspace.Workspace.spectral_propmat_jac" title="pyarts3.workspace.Workspace.spectral_propmat_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_propmat_jac</span></code></a>, and
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac.html#pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac" title="pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_nlte_srcvec_jac</span></code></a>
 are both output (<code class="docutils literal notranslate"><span class="pre">out</span></code>) and input (<code class="docutils literal notranslate"><span class="pre">in</span></code>).  The method is expected to modify the existing values
 of these workspace variables instead of creating new ones.</p>
 <p>The arguments
-<a class="reference internal" href="pyarts3.workspace.Workspace.frequency_grid.html#pyarts3.workspace.Workspace.frequency_grid" title="pyarts3.workspace.Workspace.frequency_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency_grid</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.jacobian_targets.html#pyarts3.workspace.Workspace.jacobian_targets" title="pyarts3.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.freq_grid.html#pyarts3.workspace.Workspace.freq_grid" title="pyarts3.workspace.Workspace.freq_grid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">freq_grid</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.jac_targets.html#pyarts3.workspace.Workspace.jac_targets" title="pyarts3.workspace.Workspace.jac_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jac_targets</span></code></a>,
 <a class="reference internal" href="pyarts3.workspace.Workspace.select_species.html#pyarts3.workspace.Workspace.select_species" title="pyarts3.workspace.Workspace.select_species"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select_species</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.absorption_bands.html#pyarts3.workspace.Workspace.absorption_bands" title="pyarts3.workspace.Workspace.absorption_bands"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_bands</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.ecs_data.html#pyarts3.workspace.Workspace.ecs_data" title="pyarts3.workspace.Workspace.ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ecs_data</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.atmospheric_point.html#pyarts3.workspace.Workspace.atmospheric_point" title="pyarts3.workspace.Workspace.atmospheric_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_point</span></code></a>, and
-<a class="reference internal" href="pyarts3.workspace.Workspace.ray_path_point.html#pyarts3.workspace.Workspace.ray_path_point" title="pyarts3.workspace.Workspace.ray_path_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_path_point</span></code></a> are just defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">absorption_bands</span></code>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.abs_ecs_data.html#pyarts3.workspace.Workspace.abs_ecs_data" title="pyarts3.workspace.Workspace.abs_ecs_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_ecs_data</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.atm_point.html#pyarts3.workspace.Workspace.atm_point" title="pyarts3.workspace.Workspace.atm_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_point</span></code></a>, and
+<a class="reference internal" href="pyarts3.workspace.Workspace.ray_point.html#pyarts3.workspace.Workspace.ray_point" title="pyarts3.workspace.Workspace.ray_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ray_point</span></code></a> are just defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method
 as immutable references to the respective workspace variables.</p>
 <p>Lastly, the argument <code class="docutils literal notranslate"><span class="pre">no_negative_absorption</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">gin</span></code> and is passed
 as an immutable reference as well.  The type of the argument is <code class="docutils literal notranslate"><span class="pre">Index</span></code>
@@ -400,44 +401,52 @@ if the user does not provide a value for <code class="docutils literal notransla
 The <code class="docutils literal notranslate"><span class="pre">no_negative_absorption</span></code> argument is used to turn off the check for negative absorption,
 which is useful for debugging purposes.</p>
 <p>The other fields are there to provide context and to generate the documentation.
-See <a class="reference internal" href="pyarts3.workspace.Workspace.propagation_matrixAddLines.html#pyarts3.workspace.Workspace.propagation_matrixAddLines" title="pyarts3.workspace.Workspace.propagation_matrixAddLines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">propagation_matrixAddLines()</span></code></a> for the full documentation.</p>
+See <a class="reference internal" href="pyarts3.workspace.Workspace.spectral_propmatAddLines.html#pyarts3.workspace.Workspace.spectral_propmatAddLines" title="pyarts3.workspace.Workspace.spectral_propmatAddLines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">spectral_propmatAddLines()</span></code></a> for the full documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The link using the <code class="docutils literal notranslate"><span class="pre">:doc:</span></code>-command is automatically generated by
+the sphinx documentation system.  Any default sphinx command, and
+a few extra commands beyond that, are automatically respected in
+full.  The only exception is the <code class="docutils literal notranslate"><span class="pre">*text*</span></code>-command, which is
+automatically turned into links to ARTS-related variables and methods.</p>
+</div>
 </section>
 <section id="method-that-uses-a-workspace-agenda">
 <h3>Method that uses a workspace agenda<a class="headerlink" href="#method-that-uses-a-workspace-agenda" title="Link to this heading"></a></h3>
 <p>The following is a basic workspace method that creates workspace variables.</p>
 <p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_methods.cpp</span></code> file:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;measurement_vectorFromSensor&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_data</span><span class="p">[</span><span class="s">&quot;measurement_vecFromSensor&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="p">.</span><span class="n">desc</span><span class="w"> </span><span class="o">=</span>
 <span class="w">          </span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">--(</span><span class="s">Sets measurement vector by looping over all sensor elements</span>
 
-<span class="s">The core calculations happens inside the *spectral_radiance_observer_agenda*.</span>
+<span class="s">The core calculations happens inside the *spectral_rad_observer_agenda*.</span>
 
-<span class="s">User choices of *spectral_radiance_unit* does not adversely affect this method</span>
-<span class="s">unless the *measurement_vector* or *measurement_jacobian* are further modified</span>
+<span class="s">User choices of *spectral_rad_unit* does not adversely affect this method</span>
+<span class="s">unless the *measurement_vec* or *measurement_jac* are further modified</span>
 <span class="s">before consumption by, e.g., *OEM*</span>
 <span class="dl">)--</span><span class="s">&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="p">.</span><span class="n">author</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
-<span class="w">      </span><span class="p">.</span><span class="n">out</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;measurement_vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;measurement_jacobian&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">.</span><span class="n">out</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;measurement_vec&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;measurement_jac&quot;</span><span class="p">},</span>
 <span class="w">      </span><span class="p">.</span><span class="n">in</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;measurement_sensor&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="s">&quot;jacobian_targets&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="s">&quot;surface_field&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="s">&quot;spectral_radiance_unit&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="s">&quot;spectral_radiance_observer_agenda&quot;</span><span class="p">},</span>
+<span class="w">                         </span><span class="s">&quot;jac_targets&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;atm_field&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;surf_field&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;spectral_rad_unit&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;spectral_rad_observer_agenda&quot;</span><span class="p">},</span>
 <span class="w">      </span><span class="p">.</span><span class="n">pass_workspace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
 <span class="w">  </span><span class="p">};</span>
 </pre></div>
 </div>
 <p>The signature of the method is:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">measurement_vectorFromSensor</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Workspace</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ws</span><span class="p">,</span>
-<span class="w">                                  </span><span class="n">Vector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_vector</span><span class="p">,</span>
-<span class="w">                                  </span><span class="n">Matrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_jacobian</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">ArrayOfSensorObsel</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_sensor</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jacobian_targets</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atmospheric_field</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surface_field</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">SpectralRadianceUnitType</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_radiance_unit</span><span class="p">,</span>
-<span class="w">                                  </span><span class="k">const</span><span class="w"> </span><span class="n">Agenda</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_radiance_observer_agenda</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">measurement_vecFromSensor</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Workspace</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ws</span><span class="p">,</span>
+<span class="w">                               </span><span class="n">Vector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_vec</span><span class="p">,</span>
+<span class="w">                               </span><span class="n">Matrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_jac</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">ArrayOfSensorObsel</span><span class="o">&amp;</span><span class="w"> </span><span class="n">measurement_sensor</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">JacobianTargets</span><span class="o">&amp;</span><span class="w"> </span><span class="n">jac_targets</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">AtmField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">atm_field</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">SurfaceField</span><span class="o">&amp;</span><span class="w"> </span><span class="n">surf_field</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">SpectralRadianceUnitType</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_rad_unit</span><span class="p">,</span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="n">Agenda</span><span class="o">&amp;</span><span class="w"> </span><span class="n">spectral_rad_observer_agenda</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The signature of the method returns <code class="docutils literal notranslate"><span class="pre">void</span></code>.  This is the same for all ARTS methods.</p>
@@ -446,34 +455,34 @@ This is passed as a <code class="docutils literal notranslate"><span class="pre"
 to the method because <code class="docutils literal notranslate"><span class="pre">pass_workspace</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in the method definition.
 Note that the workspace object is passed as a <code class="docutils literal notranslate"><span class="pre">const</span></code> reference, so it cannot be modified.</p>
 <p>The coming two arguments of the method are references to
-<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vector.html#pyarts3.workspace.Workspace.measurement_vector" title="pyarts3.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a> and
-<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jacobian.html#pyarts3.workspace.Workspace.measurement_jacobian" title="pyarts3.workspace.Workspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a>.
-Since <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vector.html#pyarts3.workspace.Workspace.measurement_vector" title="pyarts3.workspace.Workspace.measurement_vector"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vector</span></code></a> and
-<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jacobian.html#pyarts3.workspace.Workspace.measurement_jacobian" title="pyarts3.workspace.Workspace.measurement_jacobian"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jacobian</span></code></a> are in <code class="docutils literal notranslate"><span class="pre">out</span></code> but not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec.html#pyarts3.workspace.Workspace.measurement_vec" title="pyarts3.workspace.Workspace.measurement_vec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec</span></code></a> and
+<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jac.html#pyarts3.workspace.Workspace.measurement_jac" title="pyarts3.workspace.Workspace.measurement_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jac</span></code></a>.
+Since <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vec.html#pyarts3.workspace.Workspace.measurement_vec" title="pyarts3.workspace.Workspace.measurement_vec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_vec</span></code></a> and
+<a class="reference internal" href="pyarts3.workspace.Workspace.measurement_jac.html#pyarts3.workspace.Workspace.measurement_jac" title="pyarts3.workspace.Workspace.measurement_jac"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_jac</span></code></a> are in <code class="docutils literal notranslate"><span class="pre">out</span></code> but not in <code class="docutils literal notranslate"><span class="pre">in</span></code>,
 it is expected that the method overwrite any existing values they might hold.</p>
 <p>The arguments <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_sensor.html#pyarts3.workspace.Workspace.measurement_sensor" title="pyarts3.workspace.Workspace.measurement_sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measurement_sensor</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.jacobian_targets.html#pyarts3.workspace.Workspace.jacobian_targets" title="pyarts3.workspace.Workspace.jacobian_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jacobian_targets</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.atmospheric_field.html#pyarts3.workspace.Workspace.atmospheric_field" title="pyarts3.workspace.Workspace.atmospheric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atmospheric_field</span></code></a>,
-<a class="reference internal" href="pyarts3.workspace.Workspace.surface_field.html#pyarts3.workspace.Workspace.surface_field" title="pyarts3.workspace.Workspace.surface_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface_field</span></code></a>,
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_unit</span></code>, and
-<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_radiance_observer_agenda.html#pyarts3.workspace.Workspace.spectral_radiance_observer_agenda" title="pyarts3.workspace.Workspace.spectral_radiance_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_radiance_observer_agenda</span></code></a>
+<a class="reference internal" href="pyarts3.workspace.Workspace.jac_targets.html#pyarts3.workspace.Workspace.jac_targets" title="pyarts3.workspace.Workspace.jac_targets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">jac_targets</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.atm_field.html#pyarts3.workspace.Workspace.atm_field" title="pyarts3.workspace.Workspace.atm_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atm_field</span></code></a>,
+<a class="reference internal" href="pyarts3.workspace.Workspace.surf_field.html#pyarts3.workspace.Workspace.surf_field" title="pyarts3.workspace.Workspace.surf_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surf_field</span></code></a>,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_unit</span></code>, and
+<a class="reference internal" href="pyarts3.workspace.Workspace.spectral_rad_observer_agenda.html#pyarts3.workspace.Workspace.spectral_rad_observer_agenda" title="pyarts3.workspace.Workspace.spectral_rad_observer_agenda"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spectral_rad_observer_agenda</span></code></a>
 are defined in <code class="docutils literal notranslate"><span class="pre">in</span></code> and are passed to the method
 as immutable references to the respective workspace variables.</p>
 <p>The other fields are there to provide context and to generate the documentation.
-See <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vectorFromSensor.html#pyarts3.workspace.Workspace.measurement_vectorFromSensor" title="pyarts3.workspace.Workspace.measurement_vectorFromSensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measurement_vectorFromSensor()</span></code></a> for the full documentation.</p>
+See <a class="reference internal" href="pyarts3.workspace.Workspace.measurement_vecFromSensor.html#pyarts3.workspace.Workspace.measurement_vecFromSensor" title="pyarts3.workspace.Workspace.measurement_vecFromSensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measurement_vecFromSensor()</span></code></a> for the full documentation.</p>
 </section>
 <section id="meta-method-output-with-workspace-variables">
 <h3>Meta-method output with workspace variables<a class="headerlink" href="#meta-method-output-with-workspace-variables" title="Link to this heading"></a></h3>
 <p>The following is a meta-method that creates workspace variables.</p>
 <p>This is the extraction of the text in the <code class="docutils literal notranslate"><span class="pre">workspace_meta_methods.cpp</span></code> file:</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wsm_meta</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">WorkspaceMethodInternalMetaRecord</span><span class="p">{</span>
-<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;atmospheric_fieldRead&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;atm_fieldRead&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">desc</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reads absorption file from a directory&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">author</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;Richard Larsson&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">methods</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_fieldInit&quot;</span><span class="p">,</span>
-<span class="w">                         </span><span class="s">&quot;atmospheric_fieldAppendBaseData&quot;</span><span class="p">,</span>
-<span class="w">                         </span><span class="s">&quot;atmospheric_fieldAppendAuto&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atmospheric_field&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">methods</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atm_fieldInit&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;atm_fieldAppendBaseData&quot;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&quot;atm_fieldAppendAuto&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">.</span><span class="n">out</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;atm_field&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">preset_gin</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;replace_existing&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="p">.</span><span class="n">preset_gin_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Index</span><span class="p">{</span><span class="mi">0</span><span class="p">}},</span>
 <span class="p">});</span>
@@ -486,9 +495,8 @@ the listed methods one after the other and then deleting all method output
 that is not in <code class="docutils literal notranslate"><span class="pre">out</span></code>.
 In other words, even if a sub-method has an output that is not in <code class="docutils literal notranslate"><span class="pre">out</span></code>,
 it will not be passed to the user.</p>
-<p>The call order and documentation of
-See <a class="reference internal" href="pyarts3.workspace.Workspace.atmospheric_fieldRead.html#pyarts3.workspace.Workspace.atmospheric_fieldRead" title="pyarts3.workspace.Workspace.atmospheric_fieldRead"><code class="xref py py-meth docutils literal notranslate"><span class="pre">atmospheric_fieldRead()</span></code></a>
-makes it possible to follow the call order.</p>
+<p>The call order and documentation is available here
+see <a class="reference internal" href="pyarts3.workspace.Workspace.atm_fieldRead.html#pyarts3.workspace.Workspace.atm_fieldRead" title="pyarts3.workspace.Workspace.atm_fieldRead"><code class="xref py py-meth docutils literal notranslate"><span class="pre">atm_fieldRead()</span></code></a></p>
 </section>
 </section>
 </section>

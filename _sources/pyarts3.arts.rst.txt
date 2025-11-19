@@ -117,7 +117,7 @@ pyarts3.arts
   pyarts3.arts.AtmField
   pyarts3.arts.AtmKey
   pyarts3.arts.AtmPoint
-  pyarts3.arts.AzimuthGrid
+  pyarts3.arts.AziGrid
   pyarts3.arts.BinnedPSD
   pyarts3.arts.Block
   pyarts3.arts.BlockMatrix
@@ -324,8 +324,8 @@ pyarts3.arts
   pyarts3.arts.WsvMap
   pyarts3.arts.XsecRecord
   pyarts3.arts.ZeemanLineModel
-  pyarts3.arts.ZenithGrid
-  pyarts3.arts.ZenithGriddedField1
+  pyarts3.arts.ZenGrid
+  pyarts3.arts.ZenGriddedField1
   pyarts3.arts.cppdisort
   pyarts3.arts.disort_settings_agendaOperator
   pyarts3.arts.disort_settings_agenda_setup_layer_emission_type
@@ -336,19 +336,19 @@ pyarts3.arts
   pyarts3.arts.disort_settings_downwelling_wrapper_agendaOperator
   pyarts3.arts.inversion_iterate_agendaOperator
   pyarts3.arts.measurement_inversion_agendaOperator
-  pyarts3.arts.propagation_matrix_agendaOperator
-  pyarts3.arts.propagation_matrix_scattering_agendaOperator
-  pyarts3.arts.propagation_matrix_scattering_spectral_agendaOperator
-  pyarts3.arts.propagation_matrix_single_agendaOperator
   pyarts3.arts.ray_path_observer_agendaOperator
   pyarts3.arts.ray_path_observer_agendaSetGeometricMaxStep
-  pyarts3.arts.ray_path_point_back_propagation_agendaOperator
-  pyarts3.arts.single_spectral_radiance_space_agendaOperator
-  pyarts3.arts.single_spectral_radiance_surface_agendaOperator
-  pyarts3.arts.spectral_radiance_observer_agendaOperator
-  pyarts3.arts.spectral_radiance_space_agendaOperator
-  pyarts3.arts.spectral_radiance_surface_agendaOperator
-  pyarts3.arts.surface_reflectance_agendaOperator
+  pyarts3.arts.ray_point_back_propagation_agendaOperator
+  pyarts3.arts.single_propmat_agendaOperator
+  pyarts3.arts.single_rad_space_agendaOperator
+  pyarts3.arts.single_rad_surface_agendaOperator
+  pyarts3.arts.spectral_propmat_agendaOperator
+  pyarts3.arts.spectral_propmat_scat_agendaOperator
+  pyarts3.arts.spectral_propmat_scat_spectral_agendaOperator
+  pyarts3.arts.spectral_rad_observer_agendaOperator
+  pyarts3.arts.spectral_rad_space_agendaOperator
+  pyarts3.arts.spectral_rad_surface_agendaOperator
+  pyarts3.arts.spectral_surf_refl_agendaOperator
   pyarts3.arts.frequency_shift
   pyarts3.arts.igrf
   pyarts3.arts.stringify_keys
@@ -593,7 +593,7 @@ pyarts3.arts
     - A key to identify an atmospheric property.
   * - :class:`~pyarts3.arts.AtmPoint`
     - An atmospheric point.
-  * - :class:`~pyarts3.arts.AzimuthGrid`
+  * - :class:`~pyarts3.arts.AziGrid`
     - A 1-dimensional vector of :class:`~pyarts3.arts.Numeric` that are guaranteed to be within the range [0, 360).
   * - :class:`~pyarts3.arts.BinnedPSD`
     - Binned PSD returning a fixed particle concentration defined over a sequence of size bins with particle number zeros outside of size bins and temperature range.
@@ -666,7 +666,7 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.GaussLegendreGrid`
     - Gaussian Legendre grid
   * - :class:`~pyarts3.arts.GeodeticField2`
-    - A 2-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 2-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.GeodeticField3`
     - A 3-dimensional gridof :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.GridType`
@@ -686,7 +686,7 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.GriddedField6`
     - A 6 dimensional gridded set of :class:`~pyarts3.arts.Numeric` data
   * - :class:`~pyarts3.arts.GriddedSpectralField6`
-    - A 6-dimensional gridof :class:`~pyarts3.arts.Stokvec`.
+    - A 6-dimensional grid of :class:`~pyarts3.arts.Stokvec`.
   * - :class:`~pyarts3.arts.HenyeyGreensteinScatterer`
     - Henyey-Greenstein scatterer
   * - :class:`~pyarts3.arts.HitranLineStrengthOption`
@@ -880,17 +880,17 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.SizeParameter`
     - Parameters used to represent the size of particles.
   * - :class:`~pyarts3.arts.SortedGriddedField1`
-    - A 1-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 1-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.SortedGriddedField2`
-    - A 2-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 2-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.SortedGriddedField3`
-    - A 3-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 3-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.SortedGriddedField4`
-    - A 4-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 4-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.SortedGriddedField5`
-    - A 5-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 5-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.SortedGriddedField6`
-    - A 6-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+    - A 6-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.Sparse`
     - A sparse version of :class:`~pyarts3.arts.Matrix`
   * - :class:`~pyarts3.arts.SparseStokvecMatrix`
@@ -916,9 +916,9 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.SpecmatVector`
     - A vector of :class:`~pyarts3.arts.Specmat`
   * - :class:`~pyarts3.arts.SpectralRadianceOperator`
-    - An operator for getting the :attr:`~pyarts3.workspace.Workspace.spectral_radiance`
+    - An operator for getting the :attr:`~pyarts3.workspace.Workspace.spectral_rad`
   * - :class:`~pyarts3.arts.SpectralRadianceTransformOperator`
-    - Transformation of :attr:`~pyarts3.workspace.Workspace.spectral_radiance` and :attr:`~pyarts3.workspace.Workspace.spectral_radiance_jacobian`
+    - Transformation of :attr:`~pyarts3.workspace.Workspace.spectral_rad` and :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
   * - :class:`~pyarts3.arts.SpectralRadianceUnitType`
     - Choice of spectral radiance unit in conversions.
   * - :class:`~pyarts3.arts.Stokvec`
@@ -936,7 +936,7 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.StokvecSortedGriddedField5`
     - A 5-dimensional grid of :class:`~pyarts3.arts.Stokvec`.
   * - :class:`~pyarts3.arts.StokvecSortedGriddedField6`
-    - A 6-dimensional gridof :class:`~pyarts3.arts.Stokvec`.
+    - A 6-dimensional grid of :class:`~pyarts3.arts.Stokvec`.
   * - :class:`~pyarts3.arts.StokvecTensor3`
     - A :class:`~pyarts3.arts.Tensor3` but holds :class:`~pyarts3.arts.Stokvec`.
   * - :class:`~pyarts3.arts.StokvecTensor4`
@@ -1007,10 +1007,10 @@ pyarts3.arts
     - A single cross-section record.
   * - :class:`~pyarts3.arts.ZeemanLineModel`
     - Zeeman model
-  * - :class:`~pyarts3.arts.ZenithGrid`
+  * - :class:`~pyarts3.arts.ZenGrid`
     - A 1-dimensional vector of :class:`~pyarts3.arts.Numeric` that are guaranteed to be within the range [0, 180].
-  * - :class:`~pyarts3.arts.ZenithGriddedField1`
-    - A 1-dimensional gridof :class:`~pyarts3.arts.Numeric`.
+  * - :class:`~pyarts3.arts.ZenGriddedField1`
+    - A 1-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.cppdisort`
     - A DISORT object.
   * - :class:`~pyarts3.arts.disort_settings_agendaOperator`
@@ -1031,32 +1031,32 @@ pyarts3.arts
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`.
   * - :class:`~pyarts3.arts.measurement_inversion_agendaOperator`
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda`.
-  * - :class:`~pyarts3.arts.propagation_matrix_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.propagation_matrix_agenda`.
-  * - :class:`~pyarts3.arts.propagation_matrix_scattering_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.propagation_matrix_scattering_agenda`.
-  * - :class:`~pyarts3.arts.propagation_matrix_scattering_spectral_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.propagation_matrix_scattering_spectral_agenda`.
-  * - :class:`~pyarts3.arts.propagation_matrix_single_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.propagation_matrix_single_agenda`.
   * - :class:`~pyarts3.arts.ray_path_observer_agendaOperator`
     - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda`.
   * - :class:`~pyarts3.arts.ray_path_observer_agendaSetGeometricMaxStep`
     - For use with :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetGeometric`.  Determines how to densify the geometric path.
-  * - :class:`~pyarts3.arts.ray_path_point_back_propagation_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.ray_path_point_back_propagation_agenda`.
-  * - :class:`~pyarts3.arts.single_spectral_radiance_space_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_spectral_radiance_space_agenda`.
-  * - :class:`~pyarts3.arts.single_spectral_radiance_surface_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_spectral_radiance_surface_agenda`.
-  * - :class:`~pyarts3.arts.spectral_radiance_observer_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_radiance_observer_agenda`.
-  * - :class:`~pyarts3.arts.spectral_radiance_space_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_radiance_space_agenda`.
-  * - :class:`~pyarts3.arts.spectral_radiance_surface_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_radiance_surface_agenda`.
-  * - :class:`~pyarts3.arts.surface_reflectance_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.surface_reflectance_agenda`.
+  * - :class:`~pyarts3.arts.ray_point_back_propagation_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agenda`.
+  * - :class:`~pyarts3.arts.single_propmat_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_propmat_agenda`.
+  * - :class:`~pyarts3.arts.single_rad_space_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`.
+  * - :class:`~pyarts3.arts.single_rad_surface_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`.
+  * - :class:`~pyarts3.arts.spectral_propmat_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda`.
+  * - :class:`~pyarts3.arts.spectral_propmat_scat_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_agenda`.
+  * - :class:`~pyarts3.arts.spectral_propmat_scat_spectral_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda`.
+  * - :class:`~pyarts3.arts.spectral_rad_observer_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`.
+  * - :class:`~pyarts3.arts.spectral_rad_space_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`.
+  * - :class:`~pyarts3.arts.spectral_rad_surface_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_surface_agenda`.
+  * - :class:`~pyarts3.arts.spectral_surf_refl_agendaOperator`
+    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda`.
 
 .. rubric:: Functions
 

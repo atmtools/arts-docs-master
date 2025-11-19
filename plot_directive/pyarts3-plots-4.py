@@ -3,6 +3,6 @@ import numpy as np
 
 ws = pyarts.Workspace()
 
-ws.atmospheric_fieldRead(toa=100e3, basename="planets/Earth/afgl/tropical/")
+ws.atm_fieldRead(toa=100e3, basename="planets/Earth/afgl/tropical/")
 
-pyarts.plots.AtmField.plot(ws.atmospheric_field, keys=["p", "t"])
+pyarts.plots.AtmField.plot(ws.atm_field, keys=["p", "t"])
