@@ -2,7 +2,6 @@ import pyarts3 as pyarts
 import numpy as np
 
 ws = pyarts.Workspace()
-
-ws.atm_fieldRead(toa=100e3, basename="planets/Earth/afgl/tropical/")
-
-pyarts.plots.AtmField.plot(ws.atm_field, keys=["p", "t"])
+ws.measurement_sensorSimpleGaussian(std = 10e6, pos = [100e3, 0, 0], los = [180.0, 0.0],
+                                    freq_grid = np.linspace(-50e6, 50e6, 101))
+pyarts.plots.ArrayOfSensorObsel.plot(ws.measurement_sensor)

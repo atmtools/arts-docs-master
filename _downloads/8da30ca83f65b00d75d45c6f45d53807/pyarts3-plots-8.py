@@ -1,7 +1,9 @@
+import matplotlib.pyplot as plt
 import pyarts3 as pyarts
-import numpy as np
 
-# Create a longitude grid
-lons = pyarts.arts.LonGrid(np.linspace(-180, 175, 36))
-
-pyarts.plots.LonGrid.plot(lons, polar=True)
+cia = pyarts.arts.CIARecord.fromxml("cia/O2-CIA-N2.xml")
+f, a = pyarts.plots.CIARecord.plot(cia, fig=plt.figure(figsize=(12, 6)))
+a.set_yscale("log")
+a.set_xlabel("Frequency [Hz]")
+a.set_ylabel("Absorption [1/m]")
+a.set_title("O$_2$-N$_2$ Collision-induced absorption")

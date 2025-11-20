@@ -89,6 +89,8 @@
   <h1>Source code for pyarts3.plots.DisortRadiance</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Plotting routine for DisortRadiance &quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 
@@ -99,49 +101,60 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.DisortRadiance.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">DisortRadiance</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">alt_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">azi_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;contourf&#39;</span><span class="p">,</span>
-    <span class="n">select</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">],</span>
-    <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">DisortRadiance</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">alt_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="n">azi_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;contourf&#39;</span><span class="p">,</span>
+         <span class="n">select</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">],</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot DISORT radiance results as two 2D heatmaps (upward and downward).</span>
+
+<span class="sd">    .. rubric:: Example (mock data)</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :include-source:</span>
+
+<span class="sd">        import pyarts3 as pyarts</span>
+<span class="sd">        import numpy as np</span>
+
+<span class="sd">        radiance = pyarts.arts.DisortRadiance()</span>
+<span class="sd">        radiance.freq_grid = pyarts.arts.AscendingGrid(np.linspace(1e9, 1e12, 50))</span>
+<span class="sd">        radiance.alt_grid = pyarts.arts.DescendingGrid(np.linspace(80e3, 0, 41))</span>
+<span class="sd">        radiance.azi_grid = pyarts.arts.AziGrid(np.linspace(0, 330, 12))</span>
+<span class="sd">        radiance.zen_grid = pyarts.arts.ZenGrid(np.linspace(0, 180, 17))</span>
+<span class="sd">        radiance.data = pyarts.arts.Tensor4(np.random.randn(50, 41, 12, 17) * 10 + 100 * np.sin(np.radians(radiance.zen_grid))[None, None, None, :])</span>
+<span class="sd">        fig, ax = pyarts.plots.DisortRadiance.plot(radiance)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ~pyarts3.arts.DisortRadiance</span>
 <span class="sd">        A DisortRadiance object containing radiance results</span>
-<span class="sd">    fig : Figure, optional</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    ax : Axes, optional</span>
-<span class="sd">        Not used (function creates its own subplots). Accepted for API consistency.</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
+<span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
 <span class="sd">    alt_idx : int, optional</span>
 <span class="sd">        Altitude index to use. Defaults to 0 (top of atmosphere).</span>
 <span class="sd">    azi_idx : int, optional</span>
 <span class="sd">        Azimuth index to use. Defaults to 0.</span>
 <span class="sd">    plotstyle : str, optional</span>
-<span class="sd">        The matplotlib plotting function to use, &#39;contourf&#39; or &#39;plot&#39;</span>
-<span class="sd">    freqs : array-like, optional</span>
-<span class="sd">        Frequency grid to use for x-axis. Defaults to None, which uses data.freq_grid.</span>
+<span class="sd">        The matplotlib plotting function to use, &#39;contourf&#39; or &#39;plot&#39;.</span>
 <span class="sd">    select : list or str, optional</span>
 <span class="sd">        Which directions to plot: &#39;up&#39; and/or &#39;down&#39;. Defaults to [&#39;up&#39;, &#39;down&#39;].</span>
-<span class="sd">    **kwargs</span>
-<span class="sd">        Additional keyword arguments passed to matplotlib plotting function.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fig : As input</span>
-<span class="sd">        The matplotlib figure.</span>
-<span class="sd">    ax : list</span>
-<span class="sd">        List of two matplotlib axes objects [ax_up, ax_down].</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input.  Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input.  Otherwise the created Axes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">freq_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">freq_grid</span> <span class="k">if</span> <span class="n">freqs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">freqs</span>
+    <span class="n">freq_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">freq_grid</span>
     <span class="n">zen_grid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">zen_grid</span>
     <span class="n">radiance</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
 

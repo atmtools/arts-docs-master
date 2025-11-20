@@ -862,6 +862,9 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmat_jacWindFix`
       - Fix for the wind field derivative.
     * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmat_pathAdaptiveHalfPath`
+      - Same as :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath` but with adaptive path.
+    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmat_pathAddScattering`
       - Adds the scattering part of the propagation matrix to the rest along the path.
     * - Method
@@ -1867,6 +1870,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.spectral_propmat_agendaSet
   .. automethod:: CxxWorkspace.spectral_propmat_agendaSetOperator
   .. automethod:: CxxWorkspace.spectral_propmat_jacWindFix
+  .. automethod:: CxxWorkspace.spectral_propmat_pathAdaptiveHalfPath
   .. automethod:: CxxWorkspace.spectral_propmat_pathAddScattering
   .. automethod:: CxxWorkspace.spectral_propmat_pathFromPath
   .. automethod:: CxxWorkspace.spectral_propmat_path_species_splitFromPath
@@ -2611,6 +2615,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.ray_pointPastRefractive`
          * :func:`~pyarts3.workspace.Workspace.single_radClearskyEmissionPropagation`
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyBackgroundTransmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation`
@@ -2734,6 +2739,14 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_radSinglePathEmissionFrequencyLoop`
          * :func:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_pathFromPropmat`
          * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathFromPath`
+
+
+     .. rubric:: Modified by workspace method
+
+     .. hlist::
+         :columns: 1
+
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
 
 
      .. rubric:: Output from workspace methods
@@ -3886,6 +3899,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_jacWindFix`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_scatAddSpectralScatteringSpeciesTRO`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_scatAirSimple`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_scatInit`
@@ -4003,6 +4017,14 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_scat_pathFromSpectralAgenda`
          * :func:`~pyarts3.workspace.Workspace.spectral_radSinglePathEmissionFrequencyLoop`
          * :func:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_pathFromPropmat`
+
+
+     .. rubric:: Modified by workspace method
+
+     .. hlist::
+         :columns: 1
+
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
 
 
      .. rubric:: Output from workspace method
@@ -4157,6 +4179,14 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_path_species_splitFromPath`
+
+
+     .. rubric:: Modified by workspace method
+
+     .. hlist::
+         :columns: 1
+
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
 
 
      .. rubric:: Output from workspace method
@@ -4461,6 +4491,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_jacWindFix`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_path_species_splitFromPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyBackgroundTransmission`
@@ -4836,6 +4867,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.single_radClearskyEmissionPropagation`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation`
 
 
@@ -5961,6 +5993,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.ray_pathRemoveNonAtm`
          * :func:`~pyarts3.workspace.Workspace.ray_pathRemoveNonGeometricGridCrossings`
          * :func:`~pyarts3.workspace.Workspace.ray_pathSetGeometricExtremes`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
 
 
      .. rubric:: Output from workspace methods
@@ -8518,11 +8551,12 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_pathFromPropmat`
 
 
-     .. rubric:: Output from workspace method
+     .. rubric:: Output from workspace methods
 
      .. hlist::
          :columns: 1
 
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
 
 
@@ -8625,11 +8659,12 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_pathFromPropmat`
 
 
-     .. rubric:: Output from workspace method
+     .. rubric:: Output from workspace methods
 
      .. hlist::
          :columns: 1
 
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
 
 
@@ -9070,6 +9105,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField`
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profilePseudo2D`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_path_species_splitFromPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyBackgroundTransmission`
@@ -9280,11 +9316,12 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathFromPath`
 
 
-     .. rubric:: Output from workspace method
+     .. rubric:: Output from workspace methods
 
      .. hlist::
          :columns: 1
 
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
 
 
@@ -9397,11 +9434,12 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAddScattering`
 
 
-     .. rubric:: Output from workspace method
+     .. rubric:: Output from workspace methods
 
      .. hlist::
          :columns: 1
 
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathFromPath`
 
 
@@ -12639,6 +12677,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.single_rad_surface_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profileFromPathField`
          * :func:`~pyarts3.workspace.Workspace.spectral_flux_profilePseudo2D`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmat_pathAdaptiveHalfPath`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyBackgroundTransmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation`

@@ -89,6 +89,8 @@
   <h1>Source code for pyarts3.plots.SubsurfaceField</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Plotting routine for profiles of the subsurface field &quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
@@ -100,27 +102,46 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.SubsurfaceField.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SubsurfaceField</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">alts</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="n">lats</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LatGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">lons</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LonGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SubsurfaceField</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">alts</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">AscendingGrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+         <span class="n">lats</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LatGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="n">lons</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">LonGrid</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot select subsurface field parameters by extracting a profile.</span>
+
+<span class="sd">    .. rubric:: Example</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :include-source:</span>
+
+<span class="sd">        import matplotlib.pyplot as plt</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        import pyarts3 as pyarts</span>
+
+<span class="sd">        subsurf_field = pyarts.arts.SubsurfaceField(bottom_depth=-1)</span>
+<span class="sd">        subsurf_field[&quot;t&quot;] = lambda alt, lat, lon: 295 + 5 * alt * 10</span>
+<span class="sd">        subsurf_field[&quot;rho&quot;] = lambda alt, lat, lon: 0.977 - 0.001 * alt</span>
+
+<span class="sd">        fig = plt.figure(figsize=(14, 8))</span>
+<span class="sd">        fig, subs = pyarts.plots.SubsurfaceField.plot(subsurf_field, alts=np.linspace(-1, 0), fig=fig, keys=[&quot;t&quot;, &quot;rho&quot;])</span>
+<span class="sd">        subs.flatten()[0].set_title(&quot;Temperature profile&quot;)</span>
+<span class="sd">        subs.flatten()[1].set_title(&quot;Density profile&quot;)</span>
+<span class="sd">        subs.flatten()[0].set_ylabel(&quot;Depth [m]&quot;)</span>
+<span class="sd">        subs.flatten()[0].set_xlabel(&quot;Temperature [K]&quot;)</span>
+<span class="sd">        subs.flatten()[1].set_xlabel(&quot;Density [kg/m$^3$]&quot;)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ~pyarts3.arts.SubsurfaceField</span>
 <span class="sd">        A subsurface field</span>
-<span class="sd">    fig : Figure, optional</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    ax : Axes or list of Axes, optional</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
 <span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
 <span class="sd">    alts : ~pyarts3.arts.AscendingGrid | float, optional</span>
 <span class="sd">        A grid to plot on - must after broadcast with lats and lons be 1D. Defaults to np.linspace(0, 1e5, 51).</span>
@@ -128,19 +149,19 @@
 <span class="sd">        A grid to plot on - must after broadcast with alts and lons be 1D. Defaults to 0.</span>
 <span class="sd">    lons : ~pyarts3.arts.LonGrid | float, optional</span>
 <span class="sd">        A grid to plot on - must after broadcast with alts and lats be 1D. Defaults to 0.</span>
-<span class="sd">    ygrid : ~pyarts3.arts.Vector | :class:`None`, optional</span>
+<span class="sd">    ygrid : ~pyarts3.arts.Vector | None, optional</span>
 <span class="sd">        Choice of y-grid for plotting.  Uses broadcasted alts if None. Defaults to None.</span>
 <span class="sd">    keys : list, optional</span>
 <span class="sd">        A list of keys to plot. Defaults to None for all keys in :meth:`~pyarts3.arts.SubsurfaceField.keys`.</span>
 <span class="sd">    **kwargs : keyword arguments</span>
-<span class="sd">        Additional keyword arguments passed to plot()</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fig : As input</span>
-<span class="sd">        As input.</span>
-<span class="sd">    ax : list</span>
-<span class="sd">        List of matplotlib axes objects.</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input.  Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input.  Otherwise the created Axes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_arrays</span><span class="p">(</span><span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">alts</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>

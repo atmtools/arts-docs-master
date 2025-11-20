@@ -14,4 +14,3 @@ subs.flatten()[1].set_title("Magnetic profile v-component")
 subs.flatten()[2].set_title("Magnetic profile w-component")
 subs.flatten()[0].set_ylabel("Altitude [m]")
 [sub.set_xlabel("Field strength [T]") for sub in subs.flatten()]
-plt.show()

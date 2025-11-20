@@ -86,19 +86,36 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pyarts3.plots</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;  Plotting ARTS data</span>
+<span></span><span class="sd">&quot;&quot;&quot;  Plotting ARTS data.</span>
 
 <span class="sd">This module provides functions related to plotting ARTS data</span>
 <span class="sd">based only on the type of the data.</span>
 <span class="sd">Each submodule is named exactly as the data type it can plot, which is also</span>
-<span class="sd">the name of a builtin group.</span>
+<span class="sd">the name of a builtin group.  It is supposed to be a helpful way to get</span>
+<span class="sd">a quick overview of the data in a given ARTS data structure.</span>
 
-<span class="sd">Each submodule provides a plot()</span>
-<span class="sd">function that takes the data type as its first argument and optional</span>
-<span class="sd">arguments to control the plotting.  The plot() functions return the</span>
-<span class="sd">figure, a list of subplots, and nothing more.</span>
+<span class="sd">Each submodule provides a plot()-method.</span>
+<span class="sd">The generic plot() function in this module dispatches to the appropriate</span>
+<span class="sd">submodule based on the type of the input data.  Only exact type matches are</span>
+<span class="sd">considered.  For unavailable types, a TypeError is raised.</span>
+<span class="sd">Each submodule&#39;s plot() function accepts the same 3 parameters:</span>
+
+<span class="sd">- ``data``: The ARTS data to plot.</span>
+<span class="sd">- ``fig``: An optional matplotlib Figure to plot on.</span>
+<span class="sd">- ``ax``: An optional matplotlib Axes (or list/array of Axes) to plot on.</span>
+
+<span class="sd">Additional keyword arguments are forwarded to the specific plot() function,</span>
+<span class="sd">which if they are not recognized directly by the specific plot() function are</span>
+<span class="sd">forwarded yet again to the underlying matplotlib plotting functions.</span>
+
+<span class="sd">.. tip::</span>
+<span class="sd">    Below you will find examples using mock-data to illustrate the usage of the</span>
+<span class="sd">    specific plot-functions.  In practice, you would use ARTS data created by</span>
+<span class="sd">    running ARTS simulations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_matplotlib</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbsorptionBands</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayOfCIARecord</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayOfPropagationPathPoint</span>
@@ -131,7 +148,11 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../pyarts3.plots.html#pyarts3.plots.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">_matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">_numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">_matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">_numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">_matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic plotting function that dispatches to the appropriate plot module.</span>
 
 <span class="sd">    This function automatically determines the type of the input data and calls</span>
@@ -151,27 +172,28 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : ARTS workspace type</span>
+<span class="sd">    data : ARTS builtin group</span>
 <span class="sd">        Any ARTS data type that has a corresponding plot module.</span>
-<span class="sd">    fig : matplotlib Figure, optional</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    ax : matplotlib Axes, optional</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
 <span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
-<span class="sd">    **kwargs</span>
-<span class="sd">        All keyword arguments are forwarded to the specific plot function.</span>
-<span class="sd">        Additional plot-specific parameters vary by data type.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fig : matplotlib Figure</span>
-<span class="sd">        The matplotlib figure object.</span>
-<span class="sd">    ax : matplotlib Axes or list of Axes</span>
-<span class="sd">        The matplotlib axes object(s).</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input.  Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input.  Otherwise the created Axes.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    TypeError</span>
 <span class="sd">        If no plot module exists for the given data type.</span>
+<span class="sd">    Exception</span>
+<span class="sd">        As forwarded by the specific plot module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -184,18 +206,21 @@
 
     <span class="c1"># Check if we have a submodule with the same name as the type</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">current_module</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
-        <span class="n">plot_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">current_module</span><span class="p">,</span> <span class="n">type_name</span><span class="p">)</span>
-
-        <span class="c1"># Check if the submodule has a plot function</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plot_module</span><span class="p">,</span> <span class="s1">&#39;plot&#39;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">plot_module</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Plot module &#39;</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">&#39; exists but has no plot() function&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">current_module</span><span class="p">,</span> <span class="n">type_name</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">available_modules</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">current_module</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+            <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;plot&#39;</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;sys&#39;</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;common&#39;</span><span class="p">])</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+        <span class="k">if</span> <span class="n">type_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">builtin_groups</span><span class="p">()]:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No plot module found for type &#39;</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;If you create a plotting routine for this type, please consider contributing it to pyarts3!</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Available plot modules exist for: </span><span class="si">{</span><span class="n">available_modules</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;No plot module found for type &#39;</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Available plot modules: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">dir</span><span class="p">(</span><span class="n">current_module</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;plot&#39;</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;sys&#39;</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;common&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;No plot module found for type &#39;</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Available plot modules exist for: </span><span class="si">{</span><span class="n">available_modules</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
 </pre></div>

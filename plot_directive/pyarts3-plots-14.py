@@ -1,7 +1,7 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create zenith angles from 0° (up) to 180° (down)
-zenith = pyarts.arts.ZenGrid(np.linspace(0, 180, 19))
+# Create a longitude grid
+lons = pyarts.arts.LonGrid(np.linspace(-180, 175, 36))
 
-pyarts.plots.ZenGrid.plot(zenith, polar=True)
+pyarts.plots.LonGrid.plot(lons, polar=True)

@@ -89,6 +89,8 @@
   <h1>Source code for pyarts3.plots.Matrix</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Plotting routine for Matrix &quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
@@ -100,15 +102,13 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.Matrix.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">xgrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">xgrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a Matrix as a 2D heatmap.</span>
 
 <span class="sd">    .. rubric:: Example</span>
@@ -130,23 +130,23 @@
 <span class="sd">    ----------</span>
 <span class="sd">    data : ~pyarts3.arts.Matrix</span>
 <span class="sd">        A 2D array of numeric values</span>
-<span class="sd">    fig : Figure, optional</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    ax : Axes, optional</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
 <span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
 <span class="sd">    xgrid : ~pyarts3.arts.Vector | None = None,</span>
 <span class="sd">        X-axis values. If None, uses column indices. Defaults to None.</span>
 <span class="sd">    ygrid : ~pyarts3.arts.Vector | None = None,</span>
 <span class="sd">        Y-axis values. If None, uses row indices. Defaults to None.</span>
-<span class="sd">    **kwargs</span>
-<span class="sd">        Additional keyword arguments passed to matplotlib plotting function.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fig : As input</span>
-<span class="sd">        The matplotlib figure.</span>
-<span class="sd">    ax : As input</span>
-<span class="sd">        The matplotlib axes.</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input.  Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input.  Otherwise the created Axes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)})</span>
 

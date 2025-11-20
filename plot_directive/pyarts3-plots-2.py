@@ -1,7 +1,9 @@
+import matplotlib.pyplot as plt
 import pyarts3 as pyarts
-import numpy as np
 
-ws = pyarts.Workspace()
-ws.measurement_sensorSimpleGaussian(std = 10e6, pos = [100e3, 0, 0], los = [180.0, 0.0],
-                                    freq_grid = np.linspace(-50e6, 50e6, 101))
-pyarts.plots.ArrayOfSensorObsel.plot(ws.measurement_sensor)
+cia = pyarts.arts.ArrayOfCIARecord([pyarts.arts.CIARecord.fromxml("cia/O2-CIA-O2.xml")])
+f, a = pyarts.plots.ArrayOfCIARecord.plot(cia, fig=plt.figure(figsize=(12, 6)))
+a.set_yscale("log")
+a.set_xlabel("Frequency [Hz]")
+a.set_ylabel("Absorption [1/m]")
+a.set_title("O$_2$-O$_2$ Collision-induced absorption")

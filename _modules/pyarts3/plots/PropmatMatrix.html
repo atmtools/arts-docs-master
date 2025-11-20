@@ -89,6 +89,8 @@
   <h1>Source code for pyarts3.plots.PropmatMatrix</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Plotting routine for PropmatMatrix &quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix</span>
@@ -100,42 +102,56 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.PropmatMatrix.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">PropmatMatrix</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">xgrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">component</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Propmat</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Propmat</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-    <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">PropmatMatrix</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">xgrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ygrid</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Vector</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">component</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Propmat</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Propmat</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a propagation matrix as a 2D heatmap</span>
+
+<span class="sd">    .. rubric:: Example</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :include-source:</span>
+
+<span class="sd">        import pyarts3 as pyarts</span>
+<span class="sd">        import numpy as np</span>
+
+<span class="sd">        x = np.linspace(-5, 5, 50)</span>
+<span class="sd">        y = np.linspace(-3, 3, 40)</span>
+<span class="sd">        X, Y = np.meshgrid(x, y)</span>
+<span class="sd">        Z = np.exp(-(X**2 + Y**2)/5)</span>
+
+<span class="sd">        propmat_matrix = pyarts.arts.PropmatMatrix(np.outer(Z.flatten(), [1, 0, 0, 0, 0, 0, 0]).reshape(40, 50, 7))</span>
+<span class="sd">        fig, ax = pyarts.plots.PropmatMatrix.plot(propmat_matrix)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ~pyarts3.arts.PropmatMatrix</span>
 <span class="sd">        A matrix of propagation matrices (7-vector or 4x4 each)</span>
-<span class="sd">    fig : Figure, optional</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
-<span class="sd">    ax : Axes or list, optional</span>
-<span class="sd">        Axes to plot on. If None, new axes are created.</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
+<span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
 <span class="sd">    xgrid : ~pyarts3.arts.Vector | None = None,</span>
 <span class="sd">        X-axis values. If None, uses column indices. Defaults to None.</span>
 <span class="sd">    ygrid : ~pyarts3.arts.Vector | None = None,</span>
 <span class="sd">        Y-axis values. If None, uses row indices. Defaults to None.</span>
 <span class="sd">    component : ~pyarts3.arts.Propmat, optional</span>
 <span class="sd">        Choice of polarization for the heatmap.</span>
-<span class="sd">    **kwargs</span>
-<span class="sd">        Additional keyword arguments passed to matplotlib plotting function.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fig : Figure</span>
-<span class="sd">        The matplotlib figure.</span>
-<span class="sd">    ax : list or Axes</span>
-<span class="sd">        List of axes (grid mode) or single axes (dot product/element/component mode).</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input.  Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input.  Otherwise the created Axes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ijk,k-&gt;ij&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">component</span><span class="p">),</span>

@@ -1,12 +1,17 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create a simplified sun object
-sun = pyarts.arts.Sun()
-sun.spectrum = pyarts.arts.Vector(np.ones(100) * 1e-3)  # Accepts Vector
-sun.radius = 6.96e8  # meters
-sun.distance = 1.496e11  # meters (1 AU)
-sun.latitude = 0.0
-sun.longitude = 0.0
+# Create a geographic field
+lats = pyarts.arts.Vector(np.linspace(-90, 90, 20))
+lons = pyarts.arts.Vector(np.linspace(-180, 175, 36))
+lon_mesh, lat_mesh = np.meshgrid(lons, lats)
 
-pyarts.plots.Sun.plot(sun)
+# Example: distance from equator
+data = pyarts.arts.Matrix(np.abs(lon_mesh))
+
+field = pyarts.arts.GriddedField2()
+field.grids = (lats, lons)
+field.data = data
+field.dataname = "Distance from Equator"
+
+pyarts.plots.GriddedField2.plot(field)

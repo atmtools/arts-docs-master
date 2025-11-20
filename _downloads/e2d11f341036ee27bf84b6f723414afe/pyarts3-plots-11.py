@@ -1,13 +1,17 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create a 2D radiance field
-nx, ny = 40, 30
-x = np.linspace(0, 2*np.pi, nx)
-y = np.linspace(0, 2*np.pi, ny)
-X, Y = np.meshgrid(x, y, indexing='ij')
+# Create a geographic field
+lats = pyarts.arts.LatGrid(np.linspace(-90, 90, 20))
+lons = pyarts.arts.LonGrid(np.linspace(-180, 175, 36))
+lon_mesh, lat_mesh = np.meshgrid(lons, lats)
 
-stokes_mat = pyarts.arts.StokvecMatrix(np.zeros((nx, ny, 4)))
-stokes_mat[:, :, 0] = np.sin(X) * np.cos(Y)  # I component
+# Example: distance from equator
+data = pyarts.arts.Matrix(np.abs(lat_mesh))
 
-pyarts.plots.StokvecMatrix.plot(stokes_mat)
+field = pyarts.arts.GeodeticField2()
+field.grids = (lats, lons)
+field.data = data
+field.dataname = "Distance from Equator"
+
+pyarts.plots.GeodeticField2.plot(field)
