@@ -2,17 +2,6 @@ import pyarts3 as pyarts
 import numpy as np
 
 ws = pyarts.Workspace()
-
-ws.atm_fieldRead(toa=100e3, basename="planets/Earth/afgl/tropical/")
-ws.surf_fieldEarth()
-ws.ray_path_observer_agendaSetGeometric(
-    add_crossings=True, remove_non_crossings=True
-)
-ws.ray_path_observersFieldProfilePseudo2D(nup=3, nlimb=3, ndown=3)
-ws.ray_path_fieldFromObserverAgenda()
-
-f, a = None, None
-for x in ws.ray_path_field:
-    f, a = pyarts.plots.ArrayOfPropagationPathPoint.plot(
-        x, draw_za_aa=True, draw_map=False, fig=f, ax=a
-    )
+ws.measurement_sensorSimpleGaussian(std = 10e6, pos = [100e3, 0, 0], los = [180.0, 0.0],
+                                    freq_grid = np.linspace(-50e6, 50e6, 101))
+pyarts.plots.ArrayOfSensorObsel.plot(ws.measurement_sensor)

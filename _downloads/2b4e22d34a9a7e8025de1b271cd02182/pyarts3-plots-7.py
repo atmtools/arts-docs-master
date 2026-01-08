@@ -1,15 +1,9 @@
+import matplotlib.pyplot as plt
 import pyarts3 as pyarts
-import numpy as np
 
-# Create azimuth angles (compass directions)
-azimuth = pyarts.arts.AziGrid(np.linspace(0, 360, 13)[:-1])
-
-fig, ax = pyarts.plots.AziGrid.plot(azimuth, polar=True)
-ax.set_xlabel("Index")
-ax.set_ylabel("Azimuth Angle [°]")
-ax.set_title("Azimuth Grid")
-ax.set_ylim(0, 360)
-ax.grid(True, alpha=0.3)
-ax.set_ylim(0, 1.2)
-ax.set_theta_zero_location("N")  # 0° at North (top)
-ax.set_theta_direction(-1)  # Clockwise (East = 90° clockwise from North)
+cia = pyarts.arts.CIARecord.fromxml("cia/O2-CIA-N2.xml")
+f, a = pyarts.plots.CIARecord.plot(cia, fig=plt.figure(figsize=(12, 6)), spec1="O2", spec2="N2")
+a.set_yscale("log")
+a.set_xlabel("Frequency [Hz]")
+a.set_ylabel("Absorption [1/m]")
+a.set_title("O$_2$-N$_2$ Collision-induced absorption")

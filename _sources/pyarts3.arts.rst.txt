@@ -58,7 +58,6 @@ pyarts3.arts
   pyarts3.arts.ArrayOfAtmPoint
   pyarts3.arts.ArrayOfAtmTargets
   pyarts3.arts.ArrayOfBlock
-  pyarts3.arts.ArrayOfCIARecord
   pyarts3.arts.ArrayOfErrorTarget
   pyarts3.arts.ArrayOfGriddedField1
   pyarts3.arts.ArrayOfGriddedField1Named
@@ -111,7 +110,6 @@ pyarts3.arts
   pyarts3.arts.ArrayOfVector
   pyarts3.arts.ArrayOfVector2
   pyarts3.arts.ArrayOfVector3
-  pyarts3.arts.ArrayOfXsecRecord
   pyarts3.arts.AscendingGrid
   pyarts3.arts.AtmData
   pyarts3.arts.AtmField
@@ -124,6 +122,7 @@ pyarts3.arts
   pyarts3.arts.BulkScatteringPropertiesTROGridded4
   pyarts3.arts.BulkScatteringPropertiesTROSpectral4
   pyarts3.arts.CIARecord
+  pyarts3.arts.CIARecords
   pyarts3.arts.CallbackOperator
   pyarts3.arts.ComplexGriddedField2
   pyarts3.arts.ComplexMatrix
@@ -249,7 +248,6 @@ pyarts3.arts
   pyarts3.arts.ScatteringMetaData
   pyarts3.arts.ScatteringSpeciesProperty
   pyarts3.arts.ScatteringTroSpectralVector
-  pyarts3.arts.SensorJacobianModelType
   pyarts3.arts.SensorKeyType
   pyarts3.arts.SensorObsel
   pyarts3.arts.SensorPosLos
@@ -269,6 +267,7 @@ pyarts3.arts
   pyarts3.arts.Sparse
   pyarts3.arts.SparseStokvecMatrix
   pyarts3.arts.SpeciesEnum
+  pyarts3.arts.SpeciesEnumPair
   pyarts3.arts.SpeciesEnumVectors
   pyarts3.arts.SpeciesIsotope
   pyarts3.arts.SpeciesIsotopologueRatios
@@ -323,7 +322,9 @@ pyarts3.arts
   pyarts3.arts.Wsv
   pyarts3.arts.WsvMap
   pyarts3.arts.XsecRecord
+  pyarts3.arts.XsecRecords
   pyarts3.arts.ZeemanLineModel
+  pyarts3.arts.ZeemanPolarization
   pyarts3.arts.ZenGrid
   pyarts3.arts.ZenGriddedField1
   pyarts3.arts.cppdisort
@@ -390,7 +391,7 @@ pyarts3.arts
   * - :py:mod:`~pyarts3.arts.predef`
     - Contains predefined absorption models
   * - :py:mod:`~pyarts3.arts.rtepack`
-    - Interface to some of the core RTE functionality
+    - Module for RTEPACK functionality
   * - :py:mod:`~pyarts3.arts.zeeman`
     - Zeeman effect calculations
 
@@ -475,8 +476,6 @@ pyarts3.arts
     - List of atmospheric targets
   * - :class:`~pyarts3.arts.ArrayOfBlock`
     - A list of blocks
-  * - :class:`~pyarts3.arts.ArrayOfCIARecord`
-    - A list of :class:`~pyarts3.arts.CIARecord`
   * - :class:`~pyarts3.arts.ArrayOfErrorTarget`
     - List of error targets
   * - :class:`~pyarts3.arts.ArrayOfGriddedField1`
@@ -581,8 +580,6 @@ pyarts3.arts
     - A list of :class:`~pyarts3.arts.Vector2`
   * - :class:`~pyarts3.arts.ArrayOfVector3`
     - A list of :class:`~pyarts3.arts.Vector3`
-  * - :class:`~pyarts3.arts.ArrayOfXsecRecord`
-    - A list of :class:`~pyarts3.arts.XsecRecord`
   * - :class:`~pyarts3.arts.AscendingGrid`
     - A sorted :class:`~pyarts3.arts.Vector` of always ascending values.
   * - :class:`~pyarts3.arts.AtmData`
@@ -607,6 +604,8 @@ pyarts3.arts
     - Bulk scattering properties
   * - :class:`~pyarts3.arts.CIARecord`
     - Contains information to compute collision induced absorption (CIA) for a pair of species.
+  * - :class:`~pyarts3.arts.CIARecords`
+    - A map from :class:`~pyarts3.arts.SpeciesEnumPair` to :class:`~pyarts3.arts.CIARecord`
   * - :class:`~pyarts3.arts.CallbackOperator`
     - Used to inject custom code into :class:`~pyarts3.arts.Agenda`.
   * - :class:`~pyarts3.arts.ComplexGriddedField2`
@@ -854,11 +853,9 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.ScatteringMetaData`
     - Holds meta data about the scattering
   * - :class:`~pyarts3.arts.ScatteringSpeciesProperty`
-    - Meta data for scattering spefcies.
+    - Meta data for scattering species.
   * - :class:`~pyarts3.arts.ScatteringTroSpectralVector`
     - Scattering TRO spectral vector
-  * - :class:`~pyarts3.arts.SensorJacobianModelType`
-    - How to model the sensor Jacobian model target.
   * - :class:`~pyarts3.arts.SensorKeyType`
     - A key for identifying a sensor property
   * - :class:`~pyarts3.arts.SensorObsel`
@@ -897,6 +894,8 @@ pyarts3.arts
     - A sparse matrix of Stokvec
   * - :class:`~pyarts3.arts.SpeciesEnum`
     - The valid species for the ARTS system.
+  * - :class:`~pyarts3.arts.SpeciesEnumPair`
+    - Contains a pair of :class:`~pyarts3.arts.SpeciesEnum`
   * - :class:`~pyarts3.arts.SpeciesEnumVectors`
     - A map of :class:`~pyarts3.arts.SpeciesEnum` to :class:`~pyarts3.arts.Vector`
   * - :class:`~pyarts3.arts.SpeciesIsotope`
@@ -1005,8 +1004,12 @@ pyarts3.arts
     - A map from :class:`~pyarts3.arts.String` to :class:`~pyarts3.arts.Wsv`
   * - :class:`~pyarts3.arts.XsecRecord`
     - A single cross-section record.
+  * - :class:`~pyarts3.arts.XsecRecords`
+    - A map from :class:`~pyarts3.arts.SpeciesEnum` to :class:`~pyarts3.arts.XsecRecord`
   * - :class:`~pyarts3.arts.ZeemanLineModel`
     - Zeeman model
+  * - :class:`~pyarts3.arts.ZeemanPolarization`
+    - A flag for the Zeeman polarization state.
   * - :class:`~pyarts3.arts.ZenGrid`
     - A 1-dimensional vector of :class:`~pyarts3.arts.Numeric` that are guaranteed to be within the range [0, 180].
   * - :class:`~pyarts3.arts.ZenGriddedField1`

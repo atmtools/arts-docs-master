@@ -70,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#a-single-step">A single step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#multiple-steps">Multiple steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#partial-derivatives">Partial derivatives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#potential-improvements">Potential improvements</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
@@ -138,34 +139,51 @@ What is important is that they are computed based on the state of the model
 in the surrounding levels of the model.  Noting that the radiation coming into the layer
 may also have been reflected and can thus depend on all model states, we can write this as</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}J_{0} &amp;=&amp; J(x_0, x_1) \\
-T_{0} &amp;=&amp; T(x_0, x_1) \\
-I_{0} &amp;=&amp; I_0(\vec{x}),\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(x_0\)</span>, <span class="math notranslate nohighlight">\(x_1\)</span> the levels above and below the layer, and <span class="math notranslate nohighlight">\(\vec{x}\)</span> is the state of the model everywhere.
-Note that both <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span> are covered by <span class="math notranslate nohighlight">\(\vec{x}\)</span>.  This will matter when we compute the Jacobian.</p>
+\[\begin{split}J_{0} &amp;=&amp; J(\vec{x}_0, \vec{x}_1) \\
+T_{0} &amp;=&amp; T(\vec{x}_0, \vec{x}_1) \\
+I_{0} &amp;=&amp; I_0(\mathbf{x}),\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{x}_0\)</span>, <span class="math notranslate nohighlight">\(\vec{x}_1\)</span> is the state of the levels above and below the layer, and <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is the state of the model everywhere.
+Both <span class="math notranslate nohighlight">\(\vec{x}_0\)</span> and <span class="math notranslate nohighlight">\(\vec{x}_1\)</span> are covered by <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, though they are not necessarily in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>,
+but can be derived from it, e.g., via interpolation.  This will matter when we compute the Jacobian - the Jacobian is on <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> but radiative transfer quantities
+are on <span class="math notranslate nohighlight">\(\vec{x}_0\)</span> and <span class="math notranslate nohighlight">\(\vec{x}_1\)</span>, etc, so there must always be a map back from <span class="math notranslate nohighlight">\(\vec{x}_0\)</span> and <span class="math notranslate nohighlight">\(\vec{x}_1\)</span>, etc, to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The notation of ARTS often calls the content of <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> as targets of the Jacobian and
+a partially flattened version of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> as the state vector.</p>
+<p>The unflattened dimension being the measurement dimension, e.g., frequency or channels.</p>
+<p>The concept of targets comes from the fact that the Jacobian is only computed for
+user-selected variables in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.  These selected variables are thus the
+users’ “target”.</p>
+</div>
 </section>
 <section id="multiple-steps">
 <h2>Multiple steps<a class="headerlink" href="#multiple-steps" title="Link to this heading"></a></h2>
 <p>We are not always interested in the radiation at level 1, but quite often in the radiation
 at the end of the atmospheric path.  This, and the radiation at intermittent levels, can be computed
-as</p>
+by simply taking multiple steps of the above equation.  Thus, going from level 0 to level N, we get</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}I_{2}   &amp;=&amp; J_{1} + T_{1} \left(I_{1} - J_{1}\right) \\
+\[\begin{split}I_{1}   &amp;=&amp; J_{0} + T_{0} \left(I_{0} - J_{0}\right) \\
+I_{2}   &amp;=&amp; J_{1} + T_{1} \left(I_{1} - J_{1}\right) \\
 I_{3}   &amp;=&amp; J_{2} + T_{2} \left(I_{2} - J_{2}\right) \\
 I_{4}   &amp;=&amp; J_{3} + T_{3} \left(I_{3} - J_{3}\right) \\
 I_{5}   &amp;=&amp; J_{4} + T_{4} \left(I_{4} - J_{4}\right) \\
 &amp;\cdots&amp; \\
 I_{N} &amp;=&amp; J_{N-1} + T_{N-1} \left(I_{N-1} - J_{N-1}\right)\end{split}\]</div>
-<p>Note that <span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depends on values at levels <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>,
+<p>Both <span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depend on values at levels <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> and <span class="math notranslate nohighlight">\(\vec{x}_{i+1}\)</span>,
 even though these have been omitted for brevity.
 There are here <span class="math notranslate nohighlight">\(N-1\)</span> steps or layers, and <span class="math notranslate nohighlight">\(N\)</span> levels.  Note that these steps are
 non-commutative, since the step through a layer polarizes the radiation.</p>
-<p>If we expand these expressions and collect them by transmittance, we get</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="math notranslate nohighlight">\(I_0\)</span> is often called the background radiation, as it is the radiation
+entering the atmosphere from space, from the ground, or elsewhere.
+The background, it other words.</p>
+</div>
+<p>If we expand the above expressions and collect them by transmittance, we get</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}I_1 &amp;=&amp; J_{0}   &amp;+&amp;                   T_{0} \left(I_{0} - J_{0}\right)  \\
 I_2 &amp;=&amp; J_{1}   &amp;+&amp;             T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp;             T_{1} \left(J_{0} - J_{1}\right)  \\
 I_3 &amp;=&amp; J_{2}   &amp;+&amp;       T_{2} T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp;       T_{2} T_{1} \left(J_{0} - J_{1}\right) &amp;+&amp;       T_{2} \left(J_{1} - J_{2}\right)  \\
-I_4 &amp;=&amp; J_{3}   &amp;+&amp; T_{3} T_{2} T_{1} T_{0} \left(I_{0} - J_{0}\right)      &amp;+&amp; T_{3} T_{2} T_{1} \left(J_{0} - J_{1}\right) &amp;+&amp; T_{3} T_{2} \left(J_{1} - J_{2}\right) &amp;+&amp; T_{3} \left(J_{2} - J_{3}\right) \\
 &amp;\cdots&amp; \\
 I_N &amp;=&amp; J_{N-1} &amp;+&amp; T_{N-1}T_{N-2} \cdots T_1T_0 \left(I_{0} - J_{0}\right) &amp;+&amp; \cdots                                       &amp;+&amp; \cdots                                 &amp;+&amp; T_{N-1} \left(J_{N-2} - J_{N-1}\right)\end{split}\]</div>
 <p>which we can rewrite as a simple sum of terms:</p>
@@ -187,33 +205,40 @@ I_N &amp;=&amp; J_{N-1} &amp;+&amp; T_{N-1}T_{N-2} \cdots T_1T_0 \left(I_{0} - J
   J_{N-2} &amp;-&amp; J_{N-1}
 \end{array} \right],\end{split}\]</div>
 <p>and so on.  Here, <span class="math notranslate nohighlight">\(\vec{J}'\)</span> is the source vector, but we use a prime-tick because it is
-0-indexed whereas <span class="math notranslate nohighlight">\(\vec{I}\)</span> is 1-indexed.</p>
+0-indexed whereas the resulting <span class="math notranslate nohighlight">\(\vec{I}\)</span> is 1-indexed.</p>
 <p>In practice, it is often more convenient to just use
-the step-by-step equations, but the matrix above
-may help offer important insights about potential optimizations in the future.</p>
+the step-by-step equations for forward calculations, but the matrix above
+gives insight on optimizations for the Jacobian of the “measured” <span class="math notranslate nohighlight">\(I_N\)</span>.</p>
 </section>
 <section id="partial-derivatives">
 <h2>Partial derivatives<a class="headerlink" href="#partial-derivatives" title="Link to this heading"></a></h2>
 <p>The Jacobian after the last step is important for the retrieval of the state of the atmosphere.
-This can be computed following</p>
+It is in this formalism defined as</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial I_{N}}{\partial\vec{x}} =
-\frac{\partial J_{N-1}}{\partial\vec{x}} +
-\frac{\partial T_{N-1}}{\partial\vec{x}} \left(I_{N-1} - J_{N-1} \right) +
-T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\vec{x}} - \frac{\partial J_{N-1}}{\partial\vec{x}}\right)\]</div>
-<p>As we know that the solution can be written as a sum of terms, we can expand the last term as</p>
+\[\frac{\partial I_{N}}{\partial\mathbf{x}} =
+\frac{\partial J_{N-1}}{\partial\mathbf{x}} +
+\frac{\partial T_{N-1}}{\partial\mathbf{x}} \left(I_{N-1} - J_{N-1} \right) +
+T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\mathbf{x}} - \frac{\partial J_{N-1}}{\partial\mathbf{x}}\right)\]</div>
+<p>We now introduce an alternative notation to make the expressions below
+more compact,</p>
+<div class="math notranslate nohighlight">
+\[\Pi_{n}^{m} =
+  \prod_{i=n}^m T_i = T_n T_{n-1} \cdots T_{m+1} T_m,\]</div>
+<p>where for sake of keeping the expressions less cluttered, we add <span class="math notranslate nohighlight">\(T_N=1\)</span>.</p>
+<p>We can summarize the full Jacobian after N steps as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{array}{llrl}
-  \frac{\partial I_N}{\partial \vec{x}} &amp;= T_{N-1}T_{N-2} \cdots T_1T_0\frac{\partial I_0}{\partial \vec{x}} + \frac{\partial J_{N-1}}{\partial \vec{x}}&amp; \\
-          &amp;+&amp; \left[
+  \frac{\partial I_N}{\partial \mathbf{x}} &amp;=&amp;
+  \Pi_{N}^{0}\frac{\partial I_0}{\partial \mathbf{x}} + \frac{\partial J_{N-1}}{\partial \mathbf{x}} &amp; \\
+  &amp;+&amp; \left[
   \begin{array}{rrcrr}
-    \frac{\partial T_{N-1}T_{N-2} \cdots T_1T_0}{\partial \vec{x}} &amp;
-    \frac{\partial T_{N-1}T_{N-2} \cdots T_2T_1}{\partial \vec{x}} &amp;
+    \frac{\partial \Pi_{N}^{0}}{\partial \mathbf{x}} &amp;
+    \frac{\partial \Pi_{N}^{1}}{\partial \mathbf{x}} &amp;
     \cdots &amp;
-    \frac{\partial T_{N-1}T_{N-2}}{\partial \vec{x}} &amp;
-    \frac{\partial T_{N-1}}{\partial \vec{x}}
+    \frac{\partial \Pi_{N}^{N-2}}{\partial \mathbf{x}} &amp;
+    \frac{\partial \Pi_{N}^{N-1}}{\partial \mathbf{x}}
   \end{array}
-   \right] &amp;\left[
+   \right] &amp; \left[
   \begin{array}{lcl}
     I_0 &amp;-&amp; J_0         \\
     J_0 &amp;-&amp; J_1         \\
@@ -223,85 +248,73 @@ T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\vec{x}} - \frac{\partial J_{N-1}
   \end{array} \right] \\
   &amp;+&amp;  \left[
   \begin{array}{rrcrr}
-    T_{N-1}T_{N-2} \cdots T_1T_0 &amp; T_{N-1}T_{N-2} \cdots T_2T_1 &amp; \cdots &amp; T_{N-1}T_{N-2} &amp; T_{N-1}
+    \Pi_{N}^{0} &amp; \Pi_{N}^{1} &amp; \cdots &amp; \Pi_{N}^{N-2} &amp; \Pi_{N}^{N-1}
   \end{array}
-  \right] &amp;\left[
+  \right] &amp; \left[
   \begin{array}{lcl}
-    &amp;-&amp; \frac{\partial J_0 }{\partial \vec{x}}        \\
-    \frac{\partial J_0}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_1}{\partial \vec{x}}         \\
+    &amp;-&amp; \frac{\partial J_0 }{\partial \mathbf{x}}        \\
+    \frac{\partial J_0}{\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_1}{\partial \mathbf{x}}         \\
     &amp;\cdots&amp;            \\
-    \frac{\partial J_{N-3}}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_{N-2}}{\partial \vec{x}} \\
-    \frac{\partial J_{N-2}}{\partial \vec{x}} &amp;-&amp; \frac{\partial J_{N-1}}{\partial \vec{x}}
+    \frac{\partial J_{N-3}}{\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_{N-2}}{\partial \mathbf{x}} \\
+    \frac{\partial J_{N-2}}{\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_{N-1}}{\partial \mathbf{x}}
   \end{array} \right]
 \end{array}\end{split}\]</div>
-<p>Remember we already defined that
-<span class="math notranslate nohighlight">\(J_i\)</span> and <span class="math notranslate nohighlight">\(T_i\)</span> depends on values at levels <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
-These are part of <span class="math notranslate nohighlight">\(\vec{x}\)</span> only via mapping, <span class="math notranslate nohighlight">\(\vec{x}\)</span> covers both <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.
-Thus, the <span class="math notranslate nohighlight">\(\frac{\partial I_{0}}{\partial\vec{x}}\)</span>-term has been lifted from the above expression,
-as the other terms may be computed on a separate grid before being mapped back to <span class="math notranslate nohighlight">\(\vec{x}\)</span>.
-This mapping is not discussed here in details.  Introducing an alternative notation to make the expressions below
-more compact,</p>
+<p>The first term is the background radiation contribution, which is lifted from the
+rest of the expression because we can then simplify the rest of the expression.
+Since we know that we can map from <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, we can
+write the partial derivatives in terms of <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> instead of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.
+The source term then becomes</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\Pi_{n}^{m} = \left\{
-\begin{array}{ll}
-  \prod_{i=n}^m T_i = T_n T_{n-1} \cdots T_{m+1} T_m &amp; n \geq m \\
-  1 &amp; n &lt; m
-\end{array}\right.,\end{split}\]</div>
-<p>where it is important to note that all <span class="math notranslate nohighlight">\(T_i\)</span> are only functions of <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_{i+1}\)</span>.</p>
-<p>For sake of keeping the expressions short, we add <span class="math notranslate nohighlight">\(T_N=1\)</span> and assume <span class="math notranslate nohighlight">\(N&gt;&gt;0\)</span> below.
-We can extract the two dot products and expand them to see what the Jacobian looks like.
-For the source partial derivatives:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{array}{llll}
-  \frac{\partial I_N^{(1)}}{\partial x_0} &amp;=&amp; &amp;&amp;
-  \left(\Pi_N^1 - \Pi_N^0\right) &amp;\frac{\partial J_0}{\partial x_0}
+\[\begin{split}\begin{array}{llllllll}
+  \frac{\partial I_N^{(1)}}{\partial \vec{x}_0} &amp;=&amp; &amp;&amp;&amp;&amp;
+  \Pi_N^1 &amp; \left(1 - T_0\right)&amp; \frac{\partial J_0}{\partial \vec{x}_0}
   \\
-  \frac{\partial I_N^{(1)}}{\partial x_1} &amp;=&amp;
-  \left(\Pi_N^1 - \Pi_N^0\right) &amp;\frac{\partial J_0}{\partial x_1} &amp;+&amp;
-  \left(\Pi_N^2 - \Pi_N^1\right) &amp;\frac{\partial J_1}{\partial x_1}
+  \frac{\partial I_N^{(1)}}{\partial \vec{x}_1} &amp;=&amp;
+  \Pi_N^1 &amp; \left(1 - T_0\right)&amp; \frac{\partial J_0}{\partial \vec{x}_1} &amp;+&amp;
+  \Pi_N^2 &amp; \left(1 - T_1\right)&amp; \frac{\partial J_1}{\partial \vec{x}_1}
   \\
-  \frac{\partial I_N^{(1)}}{\partial x_2} &amp;=&amp;
-  \left(\Pi_N^2 - \Pi_N^1\right) &amp;\frac{\partial J_1}{\partial x_2} &amp;+&amp;
-  \left(\Pi_N^3 - \Pi_N^2\right) &amp;\frac{\partial J_2}{\partial x_2}
+  \frac{\partial I_N^{(1)}}{\partial \vec{x}_2} &amp;=&amp;
+  \Pi_N^2 &amp; \left(1 - T_1\right)&amp; \frac{\partial J_1}{\partial \vec{x}_2} &amp;+&amp;
+  \Pi_N^3 &amp; \left(1 - T_2\right)&amp; \frac{\partial J_2}{\partial \vec{x}_2}
   \\
-  \cdots
+  &amp;\cdots&amp;
   \\
-  \frac{\partial I_N^{(1)}}{\partial x_{N-2}} &amp;=&amp;
-  \left(\Pi_N^{N-2} - \Pi_N^{N-3}\right) &amp;\frac{\partial J_{N-3}}{\partial x_{N-2}} &amp;+&amp;
-  \left(\Pi_N^{N-1} - \Pi_N^{N-2}\right) &amp;\frac{\partial J_{N-2}}{\partial x_{N-2}}
+  \frac{\partial I_N^{(1)}}{\partial \vec{x}_{N-1}} &amp;=&amp;
+  \Pi_N^{N-1} &amp; \left(1 - T_{N-2}\right)&amp; \frac{\partial J_{N-2}}{\partial \vec{x}_{N-1}} &amp;+&amp;
+  \Pi_N^{N} &amp; \left(1 - T_{N-1}\right)&amp; \frac{\partial J_{N-1}}{\partial \vec{x}_{N-1}}
   \\
-  \frac{\partial I_N^{(1)}}{\partial x_{N-1}} &amp;=&amp;
-  \left(\Pi_N^{N-1} - \Pi_N^{N-2}\right) &amp;\frac{\partial J_{N-2}}{\partial x_{N-1}} &amp;-&amp;
-  \Pi_N^{N-1}&amp;\frac{\partial J_{N-1}}{\partial x_{N-1}}
+  \frac{\partial I_N^{(1)}}{\partial \vec{x}_{N}} &amp;=&amp;
+  \Pi_N^{N} &amp; \left(1 - T_{N-1}\right)&amp; \frac{\partial J_{N-1}}{\partial \vec{x}_{N}}
 \end{array}\end{split}\]</div>
-<p>and for the transmittance partial derivatives:</p>
+<p>and for the transmittance, the term becomes</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{array}{rrrrrrrrrrrrrrrrrr}
-  \frac{\partial I_N^{(2)}}{\partial x_0} &amp;=&amp;
-  \Pi_{N}^{1} &amp;\Bigl[&amp; \frac{\partial T_{0}}{\partial x_{0}} \left(I_0 - J_0\right) &amp;\Bigr]
+\[\begin{split}\begin{array}{llllllllll}
+  \frac{\partial I_N^{(2)}}{\partial \vec{x}_0} &amp;=&amp;
+  &amp;&amp;&amp;&amp;
+  \Pi_{N}^{1} &amp; \frac{\partial T_{0}}{\partial \vec{x}_{0}}&amp; \left(I_0 - J_0\right)
   \\
-  \frac{\partial I_N^{(2)}}{\partial x_1} &amp;=&amp;
-  \Pi_{N}^{2}
-  &amp;\Bigl[&amp;
-  \left(\frac{\partial T_1}{\partial x_1}T_{0} + T_{1}\frac{\partial T_{0}}{\partial x_{1}}\right) \left(I_0 - J_0\right) &amp;+&amp;
-  \frac{\partial T_{1}}{\partial x_{1}} \left(J_0 - J_1\right)&amp;\Bigr]
+  \frac{\partial I_N^{(2)}}{\partial \vec{x}_1} &amp;=&amp;
+  \Pi_{N}^{1} &amp; \frac{\partial T_0}{\partial\vec{x}_1} &amp; \left(I_0 - J_0\right) &amp;+&amp;
+  \Pi_{N}^{2} &amp; \frac{\partial T_1}{\partial\vec{x}_1} &amp; \left(I_1 - J_1\right)
   \\
-  \cdots
+  \frac{\partial I_N^{(2)}}{\partial \vec{x}_2} &amp;=&amp;
+  \Pi_{N}^{2} &amp; \frac{\partial T_1}{\partial\vec{x}_2} &amp; \left(I_1 - J_1\right) &amp;+&amp;
+  \Pi_{N}^{3} &amp; \frac{\partial T_2}{\partial\vec{x}_2} &amp; \left(I_2 - J_2\right)
   \\
-  \frac{\partial I_N^{(2)}}{\partial x_{N-1}} &amp;=&amp;
-  T_{N}
-  &amp;\Bigl[&amp;
-  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{0} \left(I_0 - J_0\right) &amp;+&amp;
-  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{1} \left(J_0 - J_1\right) &amp;+&amp;
-  \cdots &amp;+&amp;
-  \left(\frac{\partial T_{N-1}}{\partial x_{N-1}}T_{N-2} + T_{N-1}\frac{\partial T_{N-2}}{\partial x_{N-1}}\right) \Pi_{N-3}^{N-2} \left(J_{N-3} - J_{N-2}\right) &amp;+&amp;
-  \frac{\partial T_{N-1}}{\partial x_{N-1}} \left(J_{N-2} - J_{N-1}\right)&amp;\Bigr]
+  &amp;\cdots&amp;
+  \\
+  \frac{\partial I_N^{(2)}}{\partial \vec{x}_{N-1}} &amp;=&amp;
+  \Pi_{N}^{N-1} &amp; \frac{\partial T_{N-2}}{\partial\vec{x}_{N-1}} &amp; \left(I_{N-2} - J_{N-2}\right) &amp;+&amp;
+  \Pi_{N}^{N} &amp; \frac{\partial T_{N-1}}{\partial\vec{x}_{N-1}} &amp; \left(I_{N-1} - J_{N-1}\right)
+  \\
+  \frac{\partial I_N^{(2)}}{\partial \vec{x}_{N}} &amp;=&amp;
+  \Pi_{N}^{N} &amp; \frac{\partial T_{N-1}}{\partial\vec{x}_{N}} &amp; \left(I_{N-1} - J_{N-1}\right) &amp;&amp;&amp;
 \end{array}\end{split}\]</div>
-<p>The expression in the grid of <span class="math notranslate nohighlight">\(\vec{x}\)</span> is then the following:</p>
+<p>The expression is then mapped back to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> in the following:</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial I_{N}}{\partial \vec{x}} =
-\Pi_N^0\frac{\partial I_0}{\partial \vec{x}} +
-f
+\[\frac{\partial I_{N}}{\partial \mathbf{x}} =
+\Pi_N^0\frac{\partial I_0}{\partial \mathbf{x}} +
+\sum_i^N f
 \left(
 \frac{\partial I_N^{(1)}}{\partial \vec{x}_i} +
 \frac{\partial I_N^{(2)}}{\partial \vec{x}_i} +
@@ -309,7 +322,225 @@ f
 \right),\]</div>
 <p>where the last term is 0 for all but <span class="math notranslate nohighlight">\(i=N\)</span> and <span class="math notranslate nohighlight">\(i=N-1\)</span>
 and where the function <span class="math notranslate nohighlight">\(f\)</span> is defined as
-the map from <span class="math notranslate nohighlight">\(\vec{x}_i\rightarrow\vec{x}\)</span>.</p>
+the map from <span class="math notranslate nohighlight">\(\vec{x}_i\rightarrow\mathbf{x}\)</span>.
+Often in ARTS, <span class="math notranslate nohighlight">\(f\)</span> is just an inverse interpolation operator.</p>
+</section>
+<section id="potential-improvements">
+<h2>Potential improvements<a class="headerlink" href="#potential-improvements" title="Link to this heading"></a></h2>
+<p>Note that here, the indexing is not the same as above as
+it is experimental notation.  This section exists mostly
+as a reminder that we are using constant source and constant
+propagation matrix above.  If these are allowed to change
+within a layer, the equations below offers some approach to
+achieving it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These are untested and not how ARTS compute things,
+they are left as a future exercise so that we can
+implement them later.  Just the concept, for instance,
+of a Dawson function of a matrix is questionable.</p>
+</div>
+<section id="linear-source-function">
+<h3>Linear source function<a class="headerlink" href="#linear-source-function" title="Link to this heading"></a></h3>
+<p>This is based on the assumption of a linearly changing source function
+and constant propagation matrix through a layer.  The indexing is the same for the
+transmittance and incoming background radiation as above - in layers.  However, the source
+function indexing below is now shifted to represent levels - the same indexing
+as we use for the spectral radiance term.</p>
+<p>Linear in source means that we assume <span class="math notranslate nohighlight">\(J = J_0 + (J_1 - J_0) \frac{r}{r_x}\)</span>,
+where <span class="math notranslate nohighlight">\(r\)</span> is the distance through the layer and <span class="math notranslate nohighlight">\(r_x\)</span> is the total
+thickness of the layer.  With constant propagation matrix <span class="math notranslate nohighlight">\(K\)</span>, we define
+<span class="math notranslate nohighlight">\(T_0 = \exp(-K_0 r_x)\)</span> and get</p>
+<div class="math notranslate nohighlight">
+\[I_1 = T_0 I_0 -
+\left[\left(\log T_0\right)^{-1}\left(1 - T_0\right) + T_0\right]J_0 +
+\left[1 + \left(\log T_0\right)^{-1}\left(1 - T_0\right)\right]J_1.\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[I_1 = J_1 + T_0        \left(I_0 - J_0\right) +
+\frac{1}{r_x} K_0^{-1} \left(1   - T_0\right) \left(J_0 - J_1\right).\]</div>
+<p>This is a classical solution to the radiative transfer equation to improve
+numerical stability when the propagation matrix <span class="math notranslate nohighlight">\(K\)</span> is
+large.  Going through the motion of extending this to multiple steps as for the
+constant source case is then just a matter of adding 1 extra term
+per layer in the dot products above.  If we define</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_i = \frac{1}{r_i} K_i^{-1} \left(1 - T_i\right),\]</div>
+<p>we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}I_{1}   &amp;=&amp; J_{1} &amp;+&amp; T_{0} \left(I_{0} - J_{0}\right)       &amp;+&amp; \Lambda_0 \left(J_0 - J_1\right) \\
+I_{2}   &amp;=&amp; J_{2} &amp;+&amp; T_{1} \left(I_{1} - J_{1}\right)       &amp;+&amp; \Lambda_1 \left(J_1 - J_2\right) \\
+I_{3}   &amp;=&amp; J_{3} &amp;+&amp; T_{2} \left(I_{2} - J_{2}\right)       &amp;+&amp; \Lambda_2 \left(J_2 - J_3\right) \\
+I_{4}   &amp;=&amp; J_{4} &amp;+&amp; T_{3} \left(I_{3} - J_{3}\right)       &amp;+&amp; \Lambda_3 \left(J_3 - J_4\right) \\
+I_{5}   &amp;=&amp; J_{5} &amp;+&amp; T_{4} \left(I_{4} - J_{4}\right)       &amp;+&amp; \Lambda_4 \left(J_4 - J_5\right) \\
+&amp;\cdots&amp; \\
+I_{N}   &amp;=&amp; J_{N} &amp;+&amp; T_{N-1} \left(I_{N-1} - J_{N-1}\right) &amp;+&amp; \Lambda_{N-1} \left(J_{N-1} - J_{N}\right)\end{split}\]</div>
+<p>and again, we can expand these expressions and collect them by transmittance,
+but this time with an additional term per layer</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rrrrrrrrrrrrr}
+I_1 &amp;=&amp; J_1 &amp;+&amp;                       T_0(I_0 - J_0) &amp;+&amp;         \Lambda_0(J_0 - J_1) \\
+I_2 &amp;=&amp; J_2 &amp;+&amp;                   T_1 T_0(I_0 - J_0) &amp;+&amp;     T_1 \Lambda_0(J_0 - J_1) &amp;+&amp;     \Lambda_1(J_1 - J_2) \\
+I_3 &amp;=&amp; J_3 &amp;+&amp;               T_2 T_1 T_0(I_0 - J_0) &amp;+&amp; T_2 T_1 \Lambda_0(J_0 - J_1) &amp;+&amp; T_2 \Lambda_1(J_1 - J_2) &amp;+&amp; \Lambda_2(J_2 - J_3) \\
+&amp;\cdots&amp; \\
+I_N &amp;=&amp; J_N &amp;+&amp; T_{N-1}\cdots T_2 T_1 T_0(I_0 - J_0) &amp;+&amp; \cdots                       &amp;+&amp; \cdots                   &amp;+&amp; \cdots &amp;+&amp; \Lambda_{N-1}(J_{N-1} - J_N) \\
+\end{array}\end{split}\]</div>
+<p>Which in shortened matrix form is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\vec{I} = \vec{J} &amp;+&amp; \left[
+\begin{array}{lrrcrr}
+  \Pi_0^0     &amp;             \Lambda_0 &amp; 0                     &amp; \cdots &amp; 0                             &amp; 0 \\
+  \Pi_1^0     &amp; \Pi_1^1     \Lambda_0 &amp;             \Lambda_1 &amp; \cdots &amp; 0                             &amp; 0 \\
+  \cdots      &amp; \cdots                &amp; \cdots                &amp; \cdots &amp; 0                             &amp; 0 \\
+  \Pi_{N-2}^0 &amp; \Pi_{N-2}^1 \Lambda_0 &amp; \Pi_{N-2}^2 \Lambda_1 &amp; \cdots &amp;                 \Lambda_{N-2} &amp; 0 \\
+  \Pi_{N-1}^0 &amp; \Pi_{N-1}^1 \Lambda_0 &amp; \Pi_{N-1}^2 \Lambda_1 &amp; \cdots &amp; \Pi_{N-1}^{N-1} \Lambda_{N-2} &amp; \Lambda_{N-1}
+\end{array}
+\right] \left[
+\begin{array}{lcll}
+  I_0 &amp;-&amp; J_0         \\
+  J_0 &amp;-&amp; J_1         \\
+  J_1 &amp;-&amp; J_2         \\
+  &amp;\cdots&amp;            \\
+  J_{N-2} &amp;-&amp; J_{N-1} \\
+  J_{N-1} &amp;-&amp; J_{N}
+\end{array} \right]\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(\vec{J}\)</span> term is now without a prime-tick as
+it is 1-indexed like <span class="math notranslate nohighlight">\(\vec{I}\)</span>,
+though <span class="math notranslate nohighlight">\(J_0\)</span> is still used in the RHS vector.</p>
+<p>The partial derivative propagation is then derivable in the same way as above,</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial I_{N}}{\partial\mathbf{x}} =
+\frac{\partial J_{N}}{\partial\mathbf{x}} +
+\frac{\partial T_{N-1}}{\partial\mathbf{x}} \left(I_{N-1} - J_{N-1} \right) +
+T_{N-1} \left( \frac{\partial I_{N-1}}{\partial\mathbf{x}} - \frac{\partial J_{N-1}}{\partial\mathbf{x}}\right) +
+\frac{\partial \Lambda_{N-1}}{\partial\mathbf{x}} \left(J_{N-1} - J_{N}\right) +
+\Lambda_{N-1} \left(\frac{\partial J_{N-1}}{\partial\mathbf{x}} - \frac{\partial J_{N}}{\partial\mathbf{x}}\right)\]</div>
+<p>And again doing the expansion of the dot products and using <span class="math notranslate nohighlight">\(T_N=1\)</span> for brevity, we get for the source partial derivatives at the end of the path:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial I_N}{\partial \mathbf{x}} &amp;=&amp; \Pi_{N}^0 \frac{\partial I_0}{\partial \mathbf{x}} + \frac{\partial J_{N}}{\partial \mathbf{x}}
+\\
+&amp;+&amp; \left[
+\begin{array}{rrrcrr}
+  \frac{\partial \Pi_{N}^0}{\partial \mathbf{x}} &amp;
+  \frac{\partial \Pi_{N}^1 \Lambda_0}{\partial \mathbf{x}} &amp;
+  \frac{\partial}{\partial \mathbf{x}}\Pi_{N}^2 \Lambda_1 &amp;
+  \cdots &amp;
+  \frac{\partial \Pi_{N}^{N-1} \Lambda_{N-2}}{\partial \mathbf{x}} &amp;
+  \frac{\partial \Lambda_{N-1}}{\partial \mathbf{x}}
+\end{array} \right] &amp; \left[
+\begin{array}{lcll}
+  I_0 &amp;-&amp; J_0         \\
+  J_0 &amp;-&amp; J_1         \\
+  J_1 &amp;-&amp; J_2         \\
+  &amp;\cdots&amp;            \\
+  J_{N-2} &amp;-&amp; J_{N-1} \\
+  J_{N-1} &amp;-&amp; J_{N}
+\end{array} \right]
+\\
+&amp;+&amp; \left[
+\begin{array}{rrrcrr}
+  \Pi_{N}^0 &amp; \Pi_{N}^1 \Lambda_0 &amp; \Pi_{N}^2 \Lambda_1 &amp; \cdots &amp; \Pi_{N}^{N-1} \Lambda_{N-2} &amp; \Pi_{N}^{N} \Lambda_{N-1}
+\end{array} \right] &amp; \left[
+\begin{array}{lcll}
+                                               &amp;-&amp; \frac{\partial J_0}    {\partial \mathbf{x}} \\
+  \frac{\partial J_0}    {\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_1}    {\partial \mathbf{x}} \\
+  \frac{\partial J_1}    {\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_2}    {\partial \mathbf{x}} \\
+  &amp;\cdots&amp;                                                                                      \\
+  \frac{\partial J_{N-2}}{\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_{N-1}}{\partial \mathbf{x}} \\
+  \frac{\partial J_{N-1}}{\partial \mathbf{x}} &amp;-&amp; \frac{\partial J_{N}}{\partial \mathbf{x}}
+\end{array} \right]\end{split}\]</div>
+<p>Following the same procedure as above, we can rewrite this in terms of <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> instead of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.
+Here, a key difference from before is that the source term now only depends on <span class="math notranslate nohighlight">\(\vec{x}_i\)</span> and not on <span class="math notranslate nohighlight">\(\vec{x}_{i+1}\)</span>.</p>
+<p>The derivative contribution is then given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial I_N} {\partial \vec{x}_0} &amp;=&amp; \Pi_N^1 &amp;\Bigl[&amp;
+  \frac{\partial T_0} {\partial \vec{x}_0} \left(I_0 - J_0\right) &amp;+&amp;
+  \frac{\partial \Lambda_0} {\partial \vec{x}_0} \left(J_0 - J_1\right) &amp;+&amp;
+  \left(\Lambda_0 - T_0\right) \frac{\partial J_0} {\partial \vec{x}_0}
+  &amp;\Bigr]
+\\
+\frac{\partial I_N} {\partial \vec{x}_1} &amp;=&amp; \Pi_N^2 &amp;\Bigl[&amp;
+  \frac{\partial T_1} {\partial \vec{x}_1} \left(I_1 - J_1\right) &amp;+&amp;
+  \frac{\partial \Lambda_1} {\partial \vec{x}_1} \left(J_1 - J_2\right) &amp;+&amp;
+  \left(\Lambda_1 - T_1\right) \frac{\partial J_1} {\partial \vec{x}_1}
+  &amp;\Bigr] &amp;+&amp;
+  \Pi_N^1 &amp;\Bigl[&amp;
+    \left(1 - \Lambda_0\right) \frac{\partial J_1} {\partial \vec{x}_1}
+    &amp;+&amp; \frac{\partial T_0} {\partial \vec{x}_1} \left(I_0 - J_0\right)
+    &amp;+&amp; \frac{\partial \Lambda_0} {\partial \vec{x}_1} \left(J_0 - J_1\right)
+  &amp;\Bigr]
+\\
+\frac{\partial I_N} {\partial \vec{x}_2} &amp;=&amp; \Pi_N^3 &amp;\Bigl[&amp;
+  \frac{\partial T_2} {\partial \vec{x}_2} \left(I_2 - J_2\right) &amp;+&amp;
+  \frac{\partial \Lambda_2} {\partial \vec{x}_2} \left(J_2 - J_3\right) &amp;+&amp;
+  \left(\Lambda_2 - T_2\right) \frac{\partial J_2} {\partial \vec{x}_2}
+  &amp;\Bigr] &amp;+&amp;
+  \Pi_N^2 &amp;\Bigl[&amp;
+    \left(1 - \Lambda_1\right) \frac{\partial J_2} {\partial \vec{x}_2}
+    &amp;+&amp; \frac{\partial T_1} {\partial \vec{x}_2} \left(I_1 - J_1\right)
+    &amp;+&amp; \frac{\partial \Lambda_1} {\partial \vec{x}_2} \left(J_1 - J_2\right)
+  &amp;\Bigr]
+\\
+&amp;\cdots&amp;
+\\
+\frac{\partial I_N} {\partial \vec{x}_{N-1}} &amp;=&amp; \Pi_N^{N} &amp;\Bigl[&amp;
+  \frac{\partial T_{N-1}} {\partial \vec{x}_{N-1}} \left(I_{N-1} - J_{N-1}\right) &amp;+&amp;
+  \frac{\partial \Lambda_{N-1}} {\partial \vec{x}_{N-1}} \left(J_{N-1} - J_N\right) &amp;+&amp;
+  \left(\Lambda_{N-1}-T_{N-1}\right) \frac{\partial J_{N-1}} {\partial \vec{x}_{N-1}}
+  &amp;\Bigr] &amp;+&amp;
+  \Pi_N^{N-1} &amp;\Bigl[&amp;
+    \left(1 - \Lambda_{N-2}\right) \frac{\partial J_{N-1}} {\partial \vec{x}_{N-1}}
+    &amp;+&amp; \frac{\partial T_{N-2}} {\partial \vec{x}_{N-1}} \left(I_{N-2} - J_{N-2}\right)
+    &amp;+&amp; \frac{\partial \Lambda_{N-2}} {\partial \vec{x}_{N-1}} \left(J_{N-2} - J_{N-1}\right)
+  &amp;\Bigr]
+\\
+\frac{\partial I_N} {\partial \vec{x}_{N}} &amp;=&amp;
+  &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+  \Pi_N^{N} &amp;\Bigl[&amp;
+    \left(1 - \Lambda_{N-1}\right) \frac{\partial J_{N}} {\partial \vec{x}_{N}}
+    &amp;+&amp; \frac{\partial T_{N-1}} {\partial \vec{x}_{N}} \left(I_{N-1} - J_{N-1}\right)
+    &amp;+&amp; \frac{\partial \Lambda_{N-1}} {\partial \vec{x}_{N}} \left(J_{N-1} - J_{N}\right)
+  &amp;\Bigr]\end{split}\]</div>
+</section>
+<section id="linear-propagation-matrix-and-source-function">
+<h3>Linear propagation matrix and source function<a class="headerlink" href="#linear-propagation-matrix-and-source-function" title="Link to this heading"></a></h3>
+<p>This relaxes the assumption of constant propagation matrix within
+the layer but is otherwise similar to linear in source.
+The indexing is the same for the
+transmittance and incoming background radiation as above - in layers.  However, the source
+function and propagation matrix indexing below is now shifted to represent levels - the same indexing
+as we use for the spectral radiance term.</p>
+<p>Linear in source means that we assume <span class="math notranslate nohighlight">\(J = J_0 + (J_1 - J_0) \frac{r}{r_x}\)</span>,
+where <span class="math notranslate nohighlight">\(r\)</span> is the distance through the layer and <span class="math notranslate nohighlight">\(r_x\)</span> is the total
+thickness of the layer.  With a linearly varying propagation matrix <span class="math notranslate nohighlight">\(K = K_0 + (K_1 - K_0) \frac{r}{r_x}\)</span>, we define
+<span class="math notranslate nohighlight">\(T_0 = \exp\left(- \overline{K_{0, 1}} r_x\right)\)</span>, with the overline indicate
+the arithmetic mean, and get</p>
+<div class="math notranslate nohighlight">
+\[I_1 = J_1 + T_0 \left(I_0 - J_0\right) + \left(\Lambda_0^{(0)} + \Lambda_0^{(1)}\right) \left(J_0 - J_1\right).\]</div>
+<p>This is a classical solution to the radiative transfer equation to improve
+numerical stability when the propagation matrix <span class="math notranslate nohighlight">\(K\)</span> is
+large.  Going through the motion of extending this to multiple steps as for the
+constant source case is then just a matter of adding 1 extra term
+per layer in the dot products above.  If we define</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_i = \Lambda_i^{(0)} + \Lambda_i^{(1)},\]</div>
+<p>where the first term is identical to the linear source function case,
+and the second term is a second order correction for the linear
+variation of the propagation matrix, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Lambda_i^{(0)} &amp;=&amp; \frac{1}{r_i} \overline{K_{i, i+1}}^{-1} &amp;\left(1 - T_i\right), \\
+\Lambda_i^{(1)} &amp;=&amp; \frac{1}{r_i^2} \overline{K_{i, i+1}}^{-1} &amp;D\left(\left[K_{i+1} - K_{i}\right] r_i \middle/ 2\right),\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the Dawson function of a matrix.</p>
+<p>The rest of the steps that follows are the same as for the linear source function
+case above, just replacing <span class="math notranslate nohighlight">\(\Lambda_i\)</span> with the new definition.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The Dawson function of a matrix is not implemented in ARTS yet.  Instead,
+the element-wise Dawson function is used as an approximation.  This means
+that it might be better to use the linear source function method.</p>
+<p>Indeed, we do not know how well this approximation performs in practice.</p>
+</div>
+</section>
 </section>
 </section>
 

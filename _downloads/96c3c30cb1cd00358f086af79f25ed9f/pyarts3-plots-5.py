@@ -1,7 +1,8 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create a frequency grid
-freqs = pyarts.arts.AscendingGrid(np.logspace(9, 12, 20))
+ws = pyarts.Workspace()
 
-pyarts.plots.AscendingGrid.plot(freqs)
+ws.atm_fieldRead(toa=100e3, basename="planets/Earth/afgl/tropical/")
+
+pyarts.plots.AtmField.plot(ws.atm_field, keys=["p", "t"])

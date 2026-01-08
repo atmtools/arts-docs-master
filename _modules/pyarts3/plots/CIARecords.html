@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyarts3.plots.ArrayOfCIARecord &mdash; ARTS 3.0.0dev9 documentation</title>
+  <title>pyarts3.plots.CIARecords &mdash; ARTS 3.0.0dev9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -77,7 +77,7 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
-      <li class="breadcrumb-item active">pyarts3.plots.ArrayOfCIARecord</li>
+      <li class="breadcrumb-item active">pyarts3.plots.CIARecords</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,8 +86,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for pyarts3.plots.ArrayOfCIARecord</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayOfCIARecord</span><span class="p">,</span> <span class="n">AscendingGrid</span><span class="p">,</span> <span class="n">AtmPoint</span><span class="p">,</span> <span class="n">AtmField</span><span class="p">,</span> <span class="n">PropagationPathPoint</span>
+  <h1>Source code for pyarts3.plots.CIARecords</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyarts3.arts</span><span class="w"> </span><span class="kn">import</span> <span class="n">CIARecords</span><span class="p">,</span> <span class="n">AscendingGrid</span><span class="p">,</span> <span class="n">AtmPoint</span><span class="p">,</span> <span class="n">AtmField</span><span class="p">,</span> <span class="n">PropagationPathPoint</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">CIARecord</span>
@@ -100,8 +100,8 @@
 
 
 <div class="viewcode-block" id="plot">
-<a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.ArrayOfCIARecord.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ArrayOfCIARecord</span><span class="p">,</span>
+<a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.CIARecords.plot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">CIARecords</span><span class="p">,</span>
          <span class="o">*</span><span class="p">,</span>
          <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
          <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -111,7 +111,7 @@
          <span class="n">path_point</span><span class="p">:</span> <span class="n">PropagationPathPoint</span> <span class="o">=</span> <span class="n">PropagationPathPoint</span><span class="p">(),</span>
          <span class="n">T_extrapolfac</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e99</span><span class="p">,</span>
          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a plot of the absorption by the records in the ArrayOfCIARecord object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a plot of the absorption by the records in the CIARecords object.</span>
 
 <span class="sd">    The plot passes all relevant arguments to the CIARecord plotting routine.</span>
 
@@ -122,7 +122,7 @@
 <span class="sd">    from the ARTS database and extracting the AtmPoint at position by the path_point.  If atm is</span>
 <span class="sd">    an AtmField, the AtmPoint at position by the path_point is extracted.</span>
 
-<span class="sd">    The path_point is passed directly to the ArrayOfCIARecord.spectral_propmat() method and defaults</span>
+<span class="sd">    The path_point is passed directly to the CIARecords.spectral_propmat() method and defaults</span>
 <span class="sd">    to pos: [0, 0, 0], los: [0, 0].</span>
 
 <span class="sd">    same determines if each entry in the array is plotted onto the same plot or not.</span>
@@ -135,8 +135,8 @@
 <span class="sd">        import matplotlib.pyplot as plt</span>
 <span class="sd">        import pyarts3 as pyarts</span>
 
-<span class="sd">        cia = pyarts.arts.ArrayOfCIARecord([pyarts.arts.CIARecord.fromxml(&quot;cia/O2-CIA-O2.xml&quot;)])</span>
-<span class="sd">        f, a = pyarts.plots.ArrayOfCIARecord.plot(cia, fig=plt.figure(figsize=(12, 6)))</span>
+<span class="sd">        cia = pyarts.arts.CIARecords({&quot;O2-O2&quot;: pyarts.arts.CIARecord.fromxml(&quot;cia/O2-CIA-O2.xml&quot;)})</span>
+<span class="sd">        f, a = pyarts.plots.CIARecords.plot(cia, fig=plt.figure(figsize=(12, 6)))</span>
 <span class="sd">        a.set_yscale(&quot;log&quot;)</span>
 <span class="sd">        a.set_xlabel(&quot;Frequency [Hz]&quot;)</span>
 <span class="sd">        a.set_ylabel(&quot;Absorption [1/m]&quot;)</span>
@@ -144,8 +144,8 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : ~pyarts3.arts.ArrayOfCIARecord</span>
-<span class="sd">        The ArrayOfCIARecord object containing the data to plot.</span>
+<span class="sd">    data : ~pyarts3.arts.CIARecords</span>
+<span class="sd">        The CIARecords object containing the data to plot.</span>
 <span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
 <span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
 <span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
@@ -173,8 +173,8 @@
 
     <span class="k">if</span> <span class="n">atm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
-        <span class="n">spec</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">spec1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">spec2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span>
         <span class="n">toa</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">path_point</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -190,9 +190,9 @@
         <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-        <span class="n">CIARecord</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">same</span> <span class="k">else</span> <span class="n">i</span><span class="p">),</span>
+        <span class="n">CIARecord</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">same</span> <span class="k">else</span> <span class="n">i</span><span class="p">),</span>
                        <span class="n">freqs</span><span class="o">=</span><span class="n">freqs</span><span class="p">,</span> <span class="n">atm</span><span class="o">=</span><span class="n">atm</span><span class="p">,</span> <span class="n">path_point</span><span class="o">=</span><span class="n">path_point</span><span class="p">,</span>
-                       <span class="n">T_extrapolfac</span><span class="o">=</span><span class="n">T_extrapolfac</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-CIA-</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                       <span class="n">T_extrapolfac</span><span class="o">=</span><span class="n">T_extrapolfac</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">spec1</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">spec2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">spec1</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">spec1</span><span class="p">,</span> <span class="n">spec2</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">spec2</span><span class="p">,</span>
                        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
