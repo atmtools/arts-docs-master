@@ -504,41 +504,62 @@ Here, a key difference from before is that the source term now only depends on <
 </section>
 <section id="linear-propagation-matrix-and-source-function">
 <h3>Linear propagation matrix and source function<a class="headerlink" href="#linear-propagation-matrix-and-source-function" title="Link to this heading"></a></h3>
-<p>This relaxes the assumption of constant propagation matrix within
+<p>This partly relaxes the assumption of constant propagation matrix within
 the layer but is otherwise similar to linear in source.
 The indexing is the same for the
-transmittance and incoming background radiation as above - in layers.  However, the source
-function and propagation matrix indexing below is now shifted to represent levels - the same indexing
+transmittance and incoming background radiation as above - in layers.
+However, the source
+function and propagation matrix indexing below is now shifted
+to represent levels - the same indexing
 as we use for the spectral radiance term.</p>
-<p>Linear in source means that we assume <span class="math notranslate nohighlight">\(J = J_0 + (J_1 - J_0) \frac{r}{r_x}\)</span>,
+<p>Linear in source means that we assume
+<span class="math notranslate nohighlight">\(J = J_0 + (J_1 - J_0) \frac{r}{r_x}\)</span>,
 where <span class="math notranslate nohighlight">\(r\)</span> is the distance through the layer and <span class="math notranslate nohighlight">\(r_x\)</span> is the total
-thickness of the layer.  With a linearly varying propagation matrix <span class="math notranslate nohighlight">\(K = K_0 + (K_1 - K_0) \frac{r}{r_x}\)</span>, we define
-<span class="math notranslate nohighlight">\(T_0 = \exp\left(- \overline{K_{0, 1}} r_x\right)\)</span>, with the overline indicate
-the arithmetic mean, and get</p>
+thickness of the layer.
+With a linearly changing propagation matrix
+<span class="math notranslate nohighlight">\(K = K_0 + (K_1 - K_0) \frac{r}{r_x}\)</span>, we define
+<span class="math notranslate nohighlight">\(T_0 = \exp\left(- \overline{K_{0, 1}} r_x\right)\)</span>, and again get</p>
 <div class="math notranslate nohighlight">
-\[I_1 = J_1 + T_0 \left(I_0 - J_0\right) + \left(\Lambda_0^{(0)} + \Lambda_0^{(1)}\right) \left(J_0 - J_1\right).\]</div>
-<p>This is a classical solution to the radiative transfer equation to improve
-numerical stability when the propagation matrix <span class="math notranslate nohighlight">\(K\)</span> is
-large.  Going through the motion of extending this to multiple steps as for the
-constant source case is then just a matter of adding 1 extra term
-per layer in the dot products above.  If we define</p>
+\[I_1 = J_1 + T_0 \left(I_0 - J_0\right) + \Lambda_0 \left(J_0 - J_1\right),\]</div>
+<p>where</p>
 <div class="math notranslate nohighlight">
-\[\Lambda_i = \Lambda_i^{(0)} + \Lambda_i^{(1)},\]</div>
-<p>where the first term is identical to the linear source function case,
-and the second term is a second order correction for the linear
-variation of the propagation matrix, we get</p>
+\[\Lambda_i = \frac{1}{r_i} T_i \int_0^{r_i} \exp\left(K_i s + \frac{K_{i+1} - K_i}{2 r_i} s^2\right) ds.\]</div>
+<p>The solution to this may be approximated with the
+Matrix Dawson function <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\Lambda_i^{(0)} &amp;=&amp; \frac{1}{r_i} \overline{K_{i, i+1}}^{-1} &amp;\left(1 - T_i\right), \\
-\Lambda_i^{(1)} &amp;=&amp; \frac{1}{r_i^2} \overline{K_{i, i+1}}^{-1} &amp;D\left(\left[K_{i+1} - K_{i}\right] r_i \middle/ 2\right),\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(D\)</span> is the Dawson function of a matrix.</p>
-<p>The rest of the steps that follows are the same as for the linear source function
-case above, just replacing <span class="math notranslate nohighlight">\(\Lambda_i\)</span> with the new definition.</p>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>The Dawson function of a matrix is not implemented in ARTS yet.  Instead,
-the element-wise Dawson function is used as an approximation.  This means
-that it might be better to use the linear source function method.</p>
-<p>Indeed, we do not know how well this approximation performs in practice.</p>
+\[\begin{split}\mathbf{\Lambda}_i =
+\left\{
+\begin{array}{ll}
+\frac{1}{r_i} \mathbf{\alpha}^{-1} \left( \mathcal{D}(\mathbf{u}_1) - T_i \mathcal{D}(\mathbf{u}_0) \right) &amp; \text{if } K_{i+1} \gg K_i \\
+\\
+\frac{1}{r_i} K_i^{-1} (1 - T_i) &amp; \text{otherwise}
+\end{array},
+\right.\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{\alpha} = \sqrt{(K_{i+1} - K_i)/(2 r_i)}\)</span>
+(principal square root),
+<span class="math notranslate nohighlight">\(\mathbf{u}_0 = \frac{1}{2} \mathbf{\alpha}^{-1} K_i\)</span>,
+and <span class="math notranslate nohighlight">\(\mathbf{u}_1 = \frac{1}{2} \mathbf{\alpha}^{-1} K_{i+1}\)</span>.
+The expression should be valid for imaginary input, as well as real,
+however we find this very unstable numerically.  Thus, we only use this
+approach when the propagation matrix increases significantly
+along the path, i.e., <span class="math notranslate nohighlight">\(K_{i+1} \gg K_i\)</span>.</p>
+<p>The rest of the steps that follow are the same as for the
+linear source function
+case above, just replacing <span class="math notranslate nohighlight">\(\Lambda_i\)</span> with this new definition.</p>
+<div class="warning admonition">
+<p class="admonition-title">Caveats</p>
+<p>The approach here uses a matrix Dawson function, which is not
+what is currently implemented in ARTS.  Instead, an element-wise
+Dawson function is used, which is only correct if the propagation
+matrix is diagonal in the same basis at both ends of the layer, or
+potentially if the non-commutative part is very small.</p>
+<p>The switch from using linear propagation matrix to constant propagation
+matrix when the propagation matrix decreases along the path is also
+a crude approximation that should be improved in the future.  Currently,
+the argument to the square root must be greater that <span class="math notranslate nohighlight">\(10^{-6}\)</span> for
+the algorithms to not revert to the constant propagation matrix case.</p>
+<p>Also be aware that the square root of a matrix is not unique, leading to
+further potential numerical issues.</p>
 </div>
 </section>
 </section>

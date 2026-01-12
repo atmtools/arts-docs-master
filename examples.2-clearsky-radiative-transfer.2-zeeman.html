@@ -62,7 +62,6 @@
 <li class="toctree-l3"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.1-simple-outgoing-radiance.html">Simple outgoing radiance</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Zeeman</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-geometry">Zeeman geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#zeeman-linear-prop">Zeeman linear prop</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id1">Zeeman</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-sensor">Zeeman sensor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-transmission">Zeeman transmission</a></li>
@@ -71,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-refractive">Zeeman refractive</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-adaptive-path">Zeeman adaptive path</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-linear-src">Zeeman linear src</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-linear-prop">Zeeman linear prop</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.3-disort.html">Disort</a></li>
@@ -123,15 +123,15 @@
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#zeeman-geometry" id="id4">Zeeman geometry</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-linear-prop" id="id5">Zeeman linear prop</a></p></li>
-<li><p><a class="reference internal" href="#id1" id="id6">Zeeman</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sensor" id="id7">Zeeman sensor</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-transmission" id="id8">Zeeman transmission</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sun" id="id9">Zeeman sun</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-sun-scattering" id="id10">Zeeman sun scattering</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-refractive" id="id11">Zeeman refractive</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-adaptive-path" id="id12">Zeeman adaptive path</a></p></li>
-<li><p><a class="reference internal" href="#zeeman-linear-src" id="id13">Zeeman linear src</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id5">Zeeman</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sensor" id="id6">Zeeman sensor</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-transmission" id="id7">Zeeman transmission</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sun" id="id8">Zeeman sun</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-sun-scattering" id="id9">Zeeman sun scattering</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-refractive" id="id10">Zeeman refractive</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-adaptive-path" id="id11">Zeeman adaptive path</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-linear-src" id="id12">Zeeman linear src</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-linear-prop" id="id13">Zeeman linear prop</a></p></li>
 </ul>
 </nav>
 <section id="zeeman-geometry">
@@ -193,86 +193,6 @@
 <p>(<a class="reference download internal" download="" href="_downloads/2456c5699738297522d40cd8cbbb300a/1-zeeman-geometry.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/58af9517983cca0e21fd930feec4b2d3/1-zeeman-geometry.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/9feefce6c2e716a60beb42182c9d9081/1-zeeman-geometry.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
 <img alt="_images/1-zeeman-geometry.svg" class="plot-directive" src="_images/1-zeeman-geometry.svg" />
-</figure>
-</section>
-<section id="zeeman-linear-prop">
-<h2>Zeeman linear prop<a class="headerlink" href="#zeeman-linear-prop" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-
-<span class="c1"># Download catalogs</span>
-<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-
-<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-
-<span class="c1"># %% Sampled frequency range</span>
-<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
-
-<span class="c1"># %% Species and line absorption</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
-
-<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
-
-<span class="c1"># %% Grids and planet</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
-    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldSchmidthFieldFromIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
-
-<span class="c1"># %% Checks and settings</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
-
-<span class="c1"># %% Core calculations</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyLinearInTauAndPropEmission</span><span class="p">()</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radApplyUnitFromSpectralRadiance</span><span class="p">()</span>
-
-<span class="c1"># %% Show results</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
-<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
-<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># %% Test</span>
-
-<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[[</span> <span class="mf">2.27830141e+02</span><span class="p">,</span>  <span class="mf">4.25489128e-04</span><span class="p">,</span>  <span class="mf">1.02599187e-04</span><span class="p">,</span>  <span class="mf">5.68881918e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30907190e+02</span><span class="p">,</span>  <span class="mf">6.59070807e-04</span><span class="p">,</span>  <span class="mf">1.59097448e-04</span><span class="p">,</span>  <span class="mf">7.03735321e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34847968e+02</span><span class="p">,</span>  <span class="mf">1.16702319e-03</span><span class="p">,</span>  <span class="mf">2.82212718e-04</span><span class="p">,</span>  <span class="mf">9.33486760e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40400744e+02</span><span class="p">,</span>  <span class="mf">2.61388422e-03</span><span class="p">,</span>  <span class="mf">6.34254900e-04</span><span class="p">,</span>  <span class="mf">1.40005198e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49821088e+02</span><span class="p">,</span>  <span class="mf">9.73795166e-03</span><span class="p">,</span>  <span class="mf">2.38733210e-03</span><span class="p">,</span>  <span class="mf">2.69700244e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.08949873e+02</span><span class="p">,</span>  <span class="mf">2.37747404e+01</span><span class="p">,</span>  <span class="mf">1.64966784e+00</span><span class="p">,</span>  <span class="mf">5.47066239e-06</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49820521e+02</span><span class="p">,</span>  <span class="mf">9.74149272e-03</span><span class="p">,</span>  <span class="mf">2.38822964e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.69777785e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40399650e+02</span><span class="p">,</span>  <span class="mf">2.61568960e-03</span><span class="p">,</span>  <span class="mf">6.34700330e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40081856e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34846390e+02</span><span class="p">,</span>  <span class="mf">1.16822346e-03</span><span class="p">,</span>  <span class="mf">2.82506203e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34247505e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30905136e+02</span><span class="p">,</span>  <span class="mf">6.59975316e-04</span><span class="p">,</span>  <span class="mf">1.59317615e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04496271e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.27827622e+02</span><span class="p">,</span>  <span class="mf">4.26220137e-04</span><span class="p">,</span>  <span class="mf">1.02776641e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69642694e-02</span><span class="p">]]</span>
-    <span class="p">),</span>
-<span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
-</pre></div>
-</div>
-<p>(<a class="reference download internal" download="" href="_downloads/588d8bd3ed4cf1be641f34bec1bb064a/10-zeeman-linear-prop.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/6ec72f4368fc35b33afbffc07b1b1a4a/10-zeeman-linear-prop.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/3b4609285b7bff393c2450eeab624c34/10-zeeman-linear-prop.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
-<figure class="align-default">
-<img alt="_images/10-zeeman-linear-prop.svg" class="plot-directive" src="_images/10-zeeman-linear-prop.svg" />
 </figure>
 </section>
 <section id="id1">
@@ -966,6 +886,86 @@
 <p>(<a class="reference download internal" download="" href="_downloads/1d7145023e3904715e7401fbc1225340/9-zeeman-linear-src.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/5f52f145dded79371d8f6362b48d35fa/9-zeeman-linear-src.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/b0497dfaea730ef2be21bcae8f0d33c9/9-zeeman-linear-src.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
 <img alt="_images/9-zeeman-linear-src.svg" class="plot-directive" src="_images/9-zeeman-linear-src.svg" />
+</figure>
+</section>
+<section id="zeeman-linear-prop">
+<h2>Zeeman linear prop<a class="headerlink" href="#zeeman-linear-prop" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+
+<span class="c1"># %% Sampled frequency range</span>
+<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+
+<span class="c1"># %% Species and line absorption</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+
+<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+
+<span class="c1"># %% Grids and planet</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldSchmidthFieldFromIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Checks and settings</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Core calculations</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyLinearInTauAndPropEmission</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radApplyUnitFromSpectralRadiance</span><span class="p">()</span>
+
+<span class="c1"># %% Show results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># %% Test</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[[</span> <span class="mf">2.27853390e+02</span><span class="p">,</span>  <span class="mf">1.95866772e-04</span><span class="p">,</span>  <span class="mf">4.87491875e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.36891746e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30930420e+02</span><span class="p">,</span>  <span class="mf">2.15802069e-04</span><span class="p">,</span>  <span class="mf">5.51979964e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.03735689e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34870126e+02</span><span class="p">,</span>  <span class="mf">3.57229927e-04</span><span class="p">,</span>  <span class="mf">9.38280226e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.71986959e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40419693e+02</span><span class="p">,</span>  <span class="mf">1.23779286e-03</span><span class="p">,</span>  <span class="mf">3.24557816e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.19281573e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49835910e+02</span><span class="p">,</span>  <span class="mf">7.74687462e-03</span><span class="p">,</span>  <span class="mf">2.06857896e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.54923823e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.08948687e+02</span><span class="p">,</span>  <span class="mf">2.37725593e+01</span><span class="p">,</span>  <span class="mf">1.64969081e+00</span><span class="p">,</span>  <span class="mf">5.47121991e-06</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49835348e+02</span><span class="p">,</span>  <span class="mf">7.74673368e-03</span><span class="p">,</span>  <span class="mf">2.06869604e-03</span><span class="p">,</span>  <span class="mf">1.55956400e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40418603e+02</span><span class="p">,</span>  <span class="mf">1.23699914e-03</span><span class="p">,</span>  <span class="mf">3.24403123e-04</span><span class="p">,</span>  <span class="mf">6.20719731e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34868550e+02</span><span class="p">,</span>  <span class="mf">3.56493629e-04</span><span class="p">,</span>  <span class="mf">9.36665224e-05</span><span class="p">,</span>  <span class="mf">5.73508261e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30928369e+02</span><span class="p">,</span>  <span class="mf">2.15285660e-04</span><span class="p">,</span>  <span class="mf">5.50826107e-05</span><span class="p">,</span>  <span class="mf">4.05218302e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.27850874e+02</span><span class="p">,</span>  <span class="mf">1.95567214e-04</span><span class="p">,</span>  <span class="mf">4.86829073e-05</span><span class="p">,</span>  <span class="mf">2.38269831e-02</span><span class="p">]]</span>
+    <span class="p">),</span>
+<span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="_downloads/588d8bd3ed4cf1be641f34bec1bb064a/10-zeeman-linear-prop.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/6ec72f4368fc35b33afbffc07b1b1a4a/10-zeeman-linear-prop.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/3b4609285b7bff393c2450eeab624c34/10-zeeman-linear-prop.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/10-zeeman-linear-prop.svg" class="plot-directive" src="_images/10-zeeman-linear-prop.svg" />
 </figure>
 </section>
 </section>

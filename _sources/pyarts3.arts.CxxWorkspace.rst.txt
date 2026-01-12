@@ -961,10 +961,7 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radIntegrateDisort`
       - Integrate Disort spectral radiance.
     * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.spectral_radLinearInTauAndPropStepByStepEmission`
-      - [WIP] Gets the spectral radiance from the path.
-    * - Method
-      - :func:`~pyarts3.arts.CxxWorkspace.spectral_radLinearInTauStepByStepEmission`
+      - :func:`~pyarts3.arts.CxxWorkspace.spectral_radLinearEvolutionStepByStepEmission`
       - [WIP] Gets the spectral radiance from the path.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_radSetToBackground`
@@ -1420,17 +1417,11 @@ CxxWorkspace
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_flux_profile`
       - An altitude profile of spectral flux.
     * - :class:`~pyarts3.arts.ArrayOfMuelmatTensor3`
-      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_linprop_jac_path`
-      - The partial derivatives of the linear in propagation operator derivatives along the propagation path.
+      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_linevo_jac_path`
+      - The partial derivatives of the linear evolution operator along the propagation path.
     * - :class:`~pyarts3.arts.ArrayOfMuelmatVector`
-      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_linprop_path`
-      - The operator that holds the linear in propagation approximation along the propagation path.
-    * - :class:`~pyarts3.arts.ArrayOfMuelmatTensor3`
-      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_lintau_jac_path`
-      - The partial derivatives of the linear in tau operator derivatives along the propagation path.
-    * - :class:`~pyarts3.arts.ArrayOfMuelmatVector`
-      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_lintau_path`
-      - The operator that holds the linear in tau approximation along the propagation path.
+      - :attr:`~pyarts3.arts.CxxWorkspace.spectral_linevo_path`
+      - The linear evolution operator along the propagation path.
     * - :class:`~pyarts3.arts.StokvecVector`
       - :attr:`~pyarts3.arts.CxxWorkspace.spectral_nlte_srcvec`
       - The part of the source vector that is due to non-LTE.
@@ -1930,8 +1921,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.spectral_radDefaultTransmission
   .. automethod:: CxxWorkspace.spectral_radFromDisort
   .. automethod:: CxxWorkspace.spectral_radIntegrateDisort
-  .. automethod:: CxxWorkspace.spectral_radLinearInTauAndPropStepByStepEmission
-  .. automethod:: CxxWorkspace.spectral_radLinearInTauStepByStepEmission
+  .. automethod:: CxxWorkspace.spectral_radLinearEvolutionStepByStepEmission
   .. automethod:: CxxWorkspace.spectral_radSetToBackground
   .. automethod:: CxxWorkspace.spectral_radSinglePathEmissionFrequencyLoop
   .. automethod:: CxxWorkspace.spectral_radStepByStepEmission
@@ -2814,10 +2804,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -3594,10 +3582,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -3703,10 +3689,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -3808,8 +3792,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -4110,10 +4093,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -4205,8 +4186,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -4283,10 +4263,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
@@ -4680,8 +4658,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -5208,8 +5185,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -5266,8 +5242,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -6132,10 +6107,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -6204,10 +6177,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -6315,10 +6286,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -6387,10 +6356,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -6457,10 +6424,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -6939,8 +6904,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -6995,10 +6959,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
@@ -7149,8 +7111,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -7220,10 +7181,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -7295,10 +7254,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -7594,8 +7551,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral`
@@ -7670,10 +7626,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
@@ -7747,10 +7701,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral`
@@ -7904,8 +7856,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_rad`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
          * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
@@ -8216,10 +8167,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -8323,10 +8272,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -8407,10 +8354,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.nlte_line_flux_profile`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -8453,10 +8398,10 @@ CxxWorkspace
      .. :class:`~pyarts3.arts.Matrix`
 
 
-  .. attribute:: CxxWorkspace.spectral_linprop_jac_path
+  .. attribute:: CxxWorkspace.spectral_linevo_jac_path
      :type: ~pyarts3.arts.ArrayOfMuelmatTensor3
 
-     The partial derivatives of the linear in propagation operator derivatives along the propagation path.
+     The partial derivatives of the linear evolution operator along the propagation path.
 
 
 
@@ -8466,201 +8411,7 @@ CxxWorkspace
      .. hlist::
          :columns: 1
 
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-
-
-     .. rubric:: Output from workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauAndPropFromPath`
-
-
-     .. rubric:: Related workspace variables
-
-     .. hlist::
-         :columns: 2
-
-         * :attr:`~pyarts3.workspace.Workspace.atm_path`
-         * :attr:`~pyarts3.workspace.Workspace.disort_spectral_flux_field`
-         * :attr:`~pyarts3.workspace.Workspace.disort_spectral_rad_field`
-         * :attr:`~pyarts3.workspace.Workspace.do_jac`
-         * :attr:`~pyarts3.workspace.Workspace.freq_grid_path`
-         * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac`
-         * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.jac_targets`
-         * :attr:`~pyarts3.workspace.Workspace.measurement_jac`
-         * :attr:`~pyarts3.workspace.Workspace.measurement_jac_error`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_field`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_observers`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_suns_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_dispersion_jac`
-         * :attr:`~pyarts3.workspace.Workspace.single_freq_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac`
-         * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
-         * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_bkg`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_bkg_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_field`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_operator`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_transform_operator`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
-         * :attr:`~pyarts3.workspace.Workspace.sun_path`
-
-     .. :class:`~pyarts3.arts.ArrayOfMuelmatTensor3`
-
-
-  .. attribute:: CxxWorkspace.spectral_linprop_path
-     :type: ~pyarts3.arts.ArrayOfMuelmatVector
-
-     The operator that holds the linear in propagation approximation along the propagation path.
-
-
-
-
-     .. rubric:: Input to workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-
-
-     .. rubric:: Output from workspace method
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauAndPropFromPath`
-
-
-     .. rubric:: Related workspace variables
-
-     .. hlist::
-         :columns: 2
-
-         * :attr:`~pyarts3.workspace.Workspace.atm_path`
-         * :attr:`~pyarts3.workspace.Workspace.disort_spectral_flux_field`
-         * :attr:`~pyarts3.workspace.Workspace.disort_spectral_rad_field`
-         * :attr:`~pyarts3.workspace.Workspace.freq_grid_path`
-         * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_field`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_observers`
-         * :attr:`~pyarts3.workspace.Workspace.ray_path_suns_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_freq_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_bkg`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_bkg_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_closed_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_field`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_operator`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_surface_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_rad_transform_operator`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_jac`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
-         * :attr:`~pyarts3.workspace.Workspace.sun_path`
-
-     .. :class:`~pyarts3.arts.ArrayOfMuelmatVector`
-
-
-  .. attribute:: CxxWorkspace.spectral_lintau_jac_path
-     :type: ~pyarts3.arts.ArrayOfMuelmatTensor3
-
-     The partial derivatives of the linear in tau operator derivatives along the propagation path.
-
-
-
-
-     .. rubric:: Input to workspace methods
-
-     .. hlist::
-         :columns: 1
-
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
 
 
      .. rubric:: Output from workspace methods
@@ -8704,9 +8455,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -8749,21 +8498,20 @@ CxxWorkspace
      .. :class:`~pyarts3.arts.ArrayOfMuelmatTensor3`
 
 
-  .. attribute:: CxxWorkspace.spectral_lintau_path
+  .. attribute:: CxxWorkspace.spectral_linevo_path
      :type: ~pyarts3.arts.ArrayOfMuelmatVector
 
-     The operator that holds the linear in tau approximation along the propagation path.
+     The linear evolution operator along the propagation path.
 
 
 
 
-     .. rubric:: Input to workspace methods
+     .. rubric:: Input to workspace method
 
      .. hlist::
          :columns: 1
 
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
 
 
      .. rubric:: Output from workspace methods
@@ -8798,9 +8546,7 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -8911,10 +8657,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
@@ -9023,10 +8767,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
@@ -9133,10 +8875,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
@@ -9237,10 +8977,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9335,10 +9073,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9433,10 +9169,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9548,10 +9282,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9701,10 +9433,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9817,10 +9547,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -9928,10 +9656,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10044,10 +9770,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10155,10 +9879,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10284,10 +10006,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10386,10 +10106,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10521,10 +10239,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10622,8 +10338,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_radDefaultTransmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radFromDisort`
          * :func:`~pyarts3.workspace.Workspace.spectral_radIntegrateDisort`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radSetToBackground`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radSubsurfaceDisortEmission`
@@ -10665,10 +10380,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10726,8 +10439,7 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyBackgroundTransmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radSetToBackground`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
 
@@ -10754,10 +10466,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10851,10 +10561,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -10964,10 +10672,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11057,10 +10763,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11197,10 +10901,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11263,8 +10965,7 @@ CxxWorkspace
          :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
 
 
@@ -11303,10 +11004,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11456,10 +11155,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11546,10 +11243,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11642,10 +11337,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11781,10 +11474,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11838,8 +11529,7 @@ CxxWorkspace
      .. hlist::
          :columns: 1
 
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
 
 
@@ -11893,10 +11583,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -11951,8 +11639,7 @@ CxxWorkspace
      .. hlist::
          :columns: 1
 
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
 
 
@@ -12007,10 +11694,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12151,10 +11836,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12248,10 +11931,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12332,10 +12013,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12451,10 +12130,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12550,10 +12227,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12641,10 +12316,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12699,8 +12372,7 @@ CxxWorkspace
          :columns: 2
 
          * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationBack`
          * :func:`~pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationFront`
@@ -12746,10 +12418,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12799,7 +12469,7 @@ CxxWorkspace
      The outer dimension is the number of layers.
 
      The inner dimensions are the number of level derivatives,
-     the number of jacbian targets, and the number of frequency points.
+     the number of Jacobian targets, and the number of frequency points.
      The required number of level derivatives is determined by the appropriate
      method (a common value is 2, for the 2 levels surrounding a layer).
 
@@ -12814,8 +12484,7 @@ CxxWorkspace
          :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
 
 
@@ -12867,10 +12536,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -12929,11 +12596,10 @@ CxxWorkspace
      .. rubric:: Input to workspace methods
 
      .. hlist::
-         :columns: 2
+         :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauAndPropStepByStepEmission`
-         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearInTauStepByStepEmission`
+         * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
          * :func:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_pathFromPath`
 
@@ -12978,10 +12644,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_flux_profile`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
@@ -13274,10 +12938,8 @@ CxxWorkspace
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_linprop_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_jac_path`
-         * :attr:`~pyarts3.workspace.Workspace.spectral_lintau_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
+         * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
          * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
