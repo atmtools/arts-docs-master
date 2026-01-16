@@ -4,15 +4,18 @@ spectral_tramat_path
 .. currentmodule:: pyarts3.workspace
 
 .. attribute:: Workspace.spectral_tramat_path
-   :type: ~pyarts3.arts.ArrayOfMuelmatVector
+   :type: ~pyarts3.arts.TransmittanceMatrix
 
-   Transmission matrices along the propagation path.
+   Transmission matrices and derivatives along the propagation path.
 
-   The outer dimension is the number of layers.
+   The inner dimensions depends on :attr:`~pyarts3.workspace.Workspace.rte_option` and :attr:`~pyarts3.workspace.Workspace.jac_targets`.
 
-   The inner dimension is the number of frequency points.
-
-   The order of the elements is such that index zero is closest to the obeserver.
+   The object should have these sizes internally:
+   - Transmission matrices: :attr:`~pyarts3.workspace.Workspace.freq_grid` x :attr:`~pyarts3.workspace.Workspace.ray_path`
+   - Jacobian matrices: :attr:`~pyarts3.workspace.Workspace.freq_grid` x :attr:`~pyarts3.workspace.Workspace.ray_path` x :attr:`~pyarts3.workspace.Workspace.jac_targets` (target count)
+   - Linear evolution operators: :attr:`~pyarts3.workspace.Workspace.freq_grid` x :attr:`~pyarts3.workspace.Workspace.ray_path` (if :attr:`~pyarts3.workspace.Workspace.rte_option` requires it)
+   - Linear evolution operator Jacobians: :attr:`~pyarts3.workspace.Workspace.freq_grid` x :attr:`~pyarts3.workspace.Workspace.ray_path` x :attr:`~pyarts3.workspace.Workspace.jac_targets` (target count - if :attr:`~pyarts3.workspace.Workspace.rte_option` requires it)
+   - Cumulated transmission matrices: :attr:`~pyarts3.workspace.Workspace.freq_grid` x :attr:`~pyarts3.workspace.Workspace.ray_path` (if :attr:`~pyarts3.workspace.Workspace.jac_targets` has any elements)
 
 
 
@@ -23,19 +26,16 @@ spectral_tramat_path
        :columns: 1
 
        * :func:`~pyarts3.workspace.Workspace.spectral_radCumulativeTransmission`
-       * :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
        * :func:`~pyarts3.workspace.Workspace.spectral_radStepByStepEmission`
-       * :func:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_pathFromPath`
+       * :func:`~pyarts3.workspace.Workspace.spectral_rad_jacFromBackground`
 
 
-   .. rubric:: Output from workspace methods
+   .. rubric:: Output from workspace method
 
    .. hlist::
        :columns: 1
 
        * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathFromPath`
-       * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauAndPropFromPath`
-       * :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauFromPath`
 
 
    .. rubric:: Related workspace variables
@@ -96,17 +96,13 @@ spectral_tramat_path
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_operator`
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_scat_path`
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path`
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_path`
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_surface_agenda`
        * :attr:`~pyarts3.workspace.Workspace.spectral_rad_transform_operator`
        * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl`
        * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda`
        * :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_jac`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_jac_path`
        * :attr:`~pyarts3.workspace.Workspace.sun_path`
 
-   .. :class:`~pyarts3.arts.ArrayOfMuelmatVector`
+   .. :class:`~pyarts3.arts.TransmittanceMatrix`
 

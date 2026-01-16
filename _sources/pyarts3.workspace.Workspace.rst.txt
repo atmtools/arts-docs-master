@@ -937,12 +937,6 @@ Workspace
       - :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmissionParFreq`
       - Computes clearsky emission of spectral radiances
     * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_radClearskyLinearInTauAndPropEmission`
-      - [WIP] Computes clearsky emission of spectral radiances using linear-in-tau and linear-in-propmat approximation
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_radClearskyLinearInTauEmission`
-      - [WIP] Computes clearsky emission of spectral radiances using linear-in-tau approximation
-    * - Method
       - :func:`~pyarts3.workspace.Workspace.spectral_radClearskyRayleighScattering`
       - Computes clearsky emission of spectral radiances with solar Rayleigh scattering
     * - Method
@@ -960,9 +954,6 @@ Workspace
     * - Method
       - :func:`~pyarts3.workspace.Workspace.spectral_radIntegrateDisort`
       - Integrate Disort spectral radiance.
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission`
-      - [WIP] Gets the spectral radiance from the path.
     * - Method
       - :func:`~pyarts3.workspace.Workspace.spectral_radSetToBackground`
       - Set the spectral radiance to the background values.
@@ -1087,23 +1078,8 @@ Workspace
       - :func:`~pyarts3.workspace.Workspace.spectral_surf_refl_agendaSetOperator`
       - Set :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda` to exclusively use provided external operator.  See :class:`~pyarts3.arts.spectral_surf_refl_agendaOperator` for more details.
     * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationBack`
-      - Sets :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg` to back of :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`.
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationFront`
-      - Sets :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg` to front of :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`.
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_pathFromPath`
-      - Sets :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path` by forward iteration of :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
-    * - Method
       - :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathFromPath`
       - Gets the transmission matrix in layers along the path.
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauAndPropFromPath`
-      - [WIP] Gets the transmission matrix in layers along the path.
-    * - Method
-      - :func:`~pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauFromPath`
-      - [WIP] Gets the transmission matrix in layers along the path.
     * - Method
       - :func:`~pyarts3.workspace.Workspace.subsurf_fieldFromModelState`
       - Sets :attr:`~pyarts3.workspace.Workspace.subsurf_field` to the state of the model.
@@ -1347,6 +1323,9 @@ Workspace
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agenda`
       - Gets the next past point along a propagation path.
+    * - :class:`~pyarts3.arts.TransmittanceOption`
+      - :attr:`~pyarts3.workspace.Workspace.rte_option`
+      - The radiative transfer equation (RTE) option.
     * - :class:`~pyarts3.arts.ArrayOfScatteringSpecies`
       - :attr:`~pyarts3.workspace.Workspace.scat_species`
       - The scattering species
@@ -1482,7 +1461,7 @@ Workspace
     * - :class:`~pyarts3.arts.StokvecMatrix`
       - :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
       - Jacobian of :attr:`~pyarts3.workspace.Workspace.spectral_rad` with respect to :attr:`~pyarts3.workspace.Workspace.jac_targets`.
-    * - :class:`~pyarts3.arts.ArrayOfStokvecMatrix`
+    * - :class:`~pyarts3.arts.StokvecTensor3`
       - :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac_path`
       - Spectral radiance derivative along the propagation path
     * - :class:`~pyarts3.arts.Agenda`
@@ -1497,10 +1476,7 @@ Workspace
     * - :class:`~pyarts3.arts.Agenda`
       - :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`
       - Gets spectral radiance as seen of space.
-    * - :class:`~pyarts3.arts.ArrayOfStokvecMatrix`
-      - :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path`
-      - Source derivative vectors along the propagation path
-    * - :class:`~pyarts3.arts.ArrayOfStokvecVector`
+    * - :class:`~pyarts3.arts.SourceVector`
       - :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_path`
       - Source vectors along the propagation path
     * - :class:`~pyarts3.arts.Agenda`
@@ -1518,18 +1494,9 @@ Workspace
     * - :class:`~pyarts3.arts.MuelmatMatrix`
       - :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_jac`
       - Spectral surface reflectance jacobian.
-    * - :class:`~pyarts3.arts.MuelmatVector`
-      - :attr:`~pyarts3.workspace.Workspace.spectral_tramat_bkg`
-      - Transmittance from the background
-    * - :class:`~pyarts3.arts.ArrayOfMuelmatVector`
-      - :attr:`~pyarts3.workspace.Workspace.spectral_tramat_cumulative_path`
-      - Cumulative transmission matrices along the propagation path
-    * - :class:`~pyarts3.arts.ArrayOfMuelmatTensor3`
-      - :attr:`~pyarts3.workspace.Workspace.spectral_tramat_jac_path`
-      - Transmission derivative matrices along the propagation path.
-    * - :class:`~pyarts3.arts.ArrayOfMuelmatVector`
+    * - :class:`~pyarts3.arts.TransmittanceMatrix`
       - :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
-      - Transmission matrices along the propagation path.
+      - Transmission matrices and derivatives along the propagation path.
     * - :class:`~pyarts3.arts.SubsurfaceField`
       - :attr:`~pyarts3.workspace.Workspace.subsurf_field`
       - The sub-surface field.
@@ -1559,7 +1526,7 @@ Workspace
       - A single zenith angle grid.
     * - Static Data
       - ``pyarts3.workspace.Workspace.fromxml``
-      - <function Workspace.fromxml at 0x7fc689fa2c00> (:class:`~function`)
+      - <function Workspace.fromxml at 0x7fdaf42cac00> (:class:`~function`)
     * - Operator
       - :func:`~pyarts3.workspace.Workspace.__eq__`
       - Return self==value.
@@ -1914,15 +1881,12 @@ Workspace
   pyarts3.workspace.Workspace.spectral_radClearskyEmission
   pyarts3.workspace.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation
   pyarts3.workspace.Workspace.spectral_radClearskyEmissionParFreq
-  pyarts3.workspace.Workspace.spectral_radClearskyLinearInTauAndPropEmission
-  pyarts3.workspace.Workspace.spectral_radClearskyLinearInTauEmission
   pyarts3.workspace.Workspace.spectral_radClearskyRayleighScattering
   pyarts3.workspace.Workspace.spectral_radClearskyTransmission
   pyarts3.workspace.Workspace.spectral_radCumulativeTransmission
   pyarts3.workspace.Workspace.spectral_radDefaultTransmission
   pyarts3.workspace.Workspace.spectral_radFromDisort
   pyarts3.workspace.Workspace.spectral_radIntegrateDisort
-  pyarts3.workspace.Workspace.spectral_radLinearEvolutionStepByStepEmission
   pyarts3.workspace.Workspace.spectral_radSetToBackground
   pyarts3.workspace.Workspace.spectral_radSinglePathEmissionFrequencyLoop
   pyarts3.workspace.Workspace.spectral_radStepByStepEmission
@@ -1964,12 +1928,7 @@ Workspace
   pyarts3.workspace.Workspace.spectral_surf_refl_agendaExecuteOperator
   pyarts3.workspace.Workspace.spectral_surf_refl_agendaSet
   pyarts3.workspace.Workspace.spectral_surf_refl_agendaSetOperator
-  pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationBack
-  pyarts3.workspace.Workspace.spectral_tramat_bkgFromPathPropagationFront
-  pyarts3.workspace.Workspace.spectral_tramat_cumulative_pathFromPath
   pyarts3.workspace.Workspace.spectral_tramat_pathFromPath
-  pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauAndPropFromPath
-  pyarts3.workspace.Workspace.spectral_tramat_pathLinearInTauFromPath
   pyarts3.workspace.Workspace.subsurf_fieldFromModelState
   pyarts3.workspace.Workspace.subsurf_profileFromPath
   pyarts3.workspace.Workspace.sunBlackbody
@@ -2051,6 +2010,7 @@ Workspace
   pyarts3.workspace.Workspace.ray_path_suns_path
   pyarts3.workspace.Workspace.ray_point
   pyarts3.workspace.Workspace.ray_point_back_propagation_agenda
+  pyarts3.workspace.Workspace.rte_option
   pyarts3.workspace.Workspace.scat_species
   pyarts3.workspace.Workspace.select_species
   pyarts3.workspace.Workspace.select_species_list
@@ -2101,16 +2061,12 @@ Workspace
   pyarts3.workspace.Workspace.spectral_rad_operator
   pyarts3.workspace.Workspace.spectral_rad_scat_path
   pyarts3.workspace.Workspace.spectral_rad_space_agenda
-  pyarts3.workspace.Workspace.spectral_rad_srcvec_jac_path
   pyarts3.workspace.Workspace.spectral_rad_srcvec_path
   pyarts3.workspace.Workspace.spectral_rad_surface_agenda
   pyarts3.workspace.Workspace.spectral_rad_transform_operator
   pyarts3.workspace.Workspace.spectral_surf_refl
   pyarts3.workspace.Workspace.spectral_surf_refl_agenda
   pyarts3.workspace.Workspace.spectral_surf_refl_jac
-  pyarts3.workspace.Workspace.spectral_tramat_bkg
-  pyarts3.workspace.Workspace.spectral_tramat_cumulative_path
-  pyarts3.workspace.Workspace.spectral_tramat_jac_path
   pyarts3.workspace.Workspace.spectral_tramat_path
   pyarts3.workspace.Workspace.subsurf_field
   pyarts3.workspace.Workspace.subsurf_profile
