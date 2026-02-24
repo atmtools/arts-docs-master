@@ -115,230 +115,222 @@
 <h1>Disort<a class="headerlink" href="#disort" title="Link to this heading"></a></h1>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#clearsky-radiance" id="id3">Clearsky radiance</a></p></li>
-<li><p><a class="reference internal" href="#clearsky-flux" id="id4">Clearsky flux</a></p></li>
-<li><p><a class="reference internal" href="#clearsky-flux-from-dataset" id="id5">Clearsky flux from dataset</a></p></li>
+<li><p><a class="reference internal" href="#clearsky-radiance" id="id1">Clearsky radiance</a></p></li>
+<li><p><a class="reference internal" href="#clearsky-flux" id="id2">Clearsky flux</a></p></li>
+<li><p><a class="reference internal" href="#clearsky-flux-from-dataset" id="id3">Clearsky flux from dataset</a></p></li>
 </ul>
 </nav>
 <section id="clearsky-radiance">
 <h2>Clearsky radiance<a class="headerlink" href="#clearsky-radiance" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-
-<span class="c1"># Download catalogs</span>
-<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-
-<span class="n">toa</span> <span class="o">=</span> <span class="mf">120e3</span>
-<span class="n">lat</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">lon</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">NQuad</span> <span class="o">=</span> <span class="mi">40</span>
-
-<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-
-<span class="c1"># %% Sampled frequency range</span>
-<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">20e9</span><span class="p">,</span> <span class="mf">2e6</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
-
-<span class="c1"># %% Species and line absorption</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
-
-<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
-
-<span class="c1"># %% Grids and planet</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
-    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
-
-<span class="c1"># %% Checks and settings</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
-
-<span class="c1"># %% Core Disort calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_fieldProfile</span><span class="p">(</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
-    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># %% Equivalent ARTS calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-    <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
-
-<span class="c1"># %% Plot results</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">freq_grid</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="p">,</span>
-                      <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-    <span class="n">f</span><span class="p">,</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;g:&quot;</span><span class="p">,</span>
-    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
-    <span class="n">f</span><span class="p">,</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;m:&quot;</span><span class="p">,</span>
-    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">f</span><span class="p">[::</span><span class="mi">20</span><span class="p">],</span> <span class="p">(</span><span class="n">f</span><span class="p">[::</span><span class="mi">20</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [W sr$^{-1}$ m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [GHz]&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># %% The last test should be that we are close to the correct values</span>
-<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="mi">1</span><span class="p">,</span>
-    <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
-<span class="p">),</span> <span class="s2">&quot;Bad results, clearsky calculations are not close between DISORT and ARTS&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos"> 4</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="c1"># Download catalogs</span>
+<span class="linenos"> 8</span><span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">toa</span> <span class="o">=</span> <span class="mf">120e3</span>
+<span class="linenos">11</span><span class="n">lat</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">12</span><span class="n">lon</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">13</span><span class="n">NQuad</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># %% Sampled frequency range</span>
+<span class="linenos">18</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="linenos">19</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">20e9</span><span class="p">,</span> <span class="mf">2e6</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="c1"># %% Species and line absorption</span>
+<span class="linenos">22</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="linenos">23</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="linenos">26</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="c1"># %% Grids and planet</span>
+<span class="linenos">29</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">30</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos">31</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+<span class="linenos">32</span>    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos">33</span><span class="p">)</span>
+<span class="linenos">34</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="c1"># %% Checks and settings</span>
+<span class="linenos">37</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
+<span class="linenos">38</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
+<span class="linenos">39</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="c1"># %% Core Disort calculations</span>
+<span class="linenos">42</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_fieldProfile</span><span class="p">(</span>
+<span class="linenos">45</span>    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
+<span class="linenos">46</span>    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
+<span class="linenos">47</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
+<span class="linenos">48</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">49</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">50</span><span class="p">)</span>
+<span class="linenos">51</span>
+<span class="linenos">52</span><span class="c1"># %% Equivalent ARTS calculations</span>
+<span class="linenos">53</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
+<span class="linenos">54</span>    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
+<span class="linenos">55</span>    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
+<span class="linenos">56</span>    <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+<span class="linenos">57</span><span class="p">)</span>
+<span class="linenos">58</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
+<span class="linenos">59</span>
+<span class="linenos">60</span><span class="c1"># %% Plot results</span>
+<span class="linenos">61</span><span class="n">f</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">freq_grid</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="p">,</span>
+<span class="linenos">64</span>                      <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="linenos">65</span><span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="linenos">66</span><span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
+<span class="linenos">67</span>    <span class="n">f</span><span class="p">,</span>
+<span class="linenos">68</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">NQuad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+<span class="linenos">69</span>    <span class="s2">&quot;g:&quot;</span><span class="p">,</span>
+<span class="linenos">70</span>    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="linenos">71</span><span class="p">)</span>
+<span class="linenos">72</span><span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span>
+<span class="linenos">73</span>    <span class="n">f</span><span class="p">,</span>
+<span class="linenos">74</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="linenos">75</span>    <span class="s2">&quot;m:&quot;</span><span class="p">,</span>
+<span class="linenos">76</span>    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="linenos">77</span><span class="p">)</span>
+<span class="linenos">78</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">f</span><span class="p">[::</span><span class="mi">20</span><span class="p">],</span> <span class="p">(</span><span class="n">f</span><span class="p">[::</span><span class="mi">20</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="linenos">79</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [W sr$^{-1}$ m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="linenos">80</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Dirac frequency [GHz]&quot;</span><span class="p">)</span>
+<span class="linenos">81</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downlooking&quot;</span><span class="p">)</span>
+<span class="linenos">82</span>
+<span class="linenos">83</span><span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+<span class="linenos">84</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="linenos">85</span>
+<span class="linenos">86</span><span class="c1"># %% The last test should be that we are close to the correct values</span>
+<span class="linenos">87</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos">88</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_rad_field</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="linenos">89</span>    <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">90</span>    <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+<span class="linenos">91</span><span class="p">),</span> <span class="s2">&quot;Bad results, clearsky calculations are not close between DISORT and ARTS&quot;</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/cea0ecc0f07d7a276af70e88084068e1/1-clearsky-radiance.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/c7b88d3952fed664bcbbe2d3f19cae43/1-clearsky-radiance.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/5d3cdac8d87aad96580459a723337225/1-clearsky-radiance.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
-<figure class="align-default">
-<img alt="_images/1-clearsky-radiance.svg" class="plot-directive" src="_images/1-clearsky-radiance.svg" />
-</figure>
 </section>
 <section id="clearsky-flux">
 <h2>Clearsky flux<a class="headerlink" href="#clearsky-flux" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="c1"># Download catalogs</span>
-<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-
-<span class="n">toa</span> <span class="o">=</span> <span class="mf">100e3</span>
-<span class="n">lat</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">lon</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">NQuad</span> <span class="o">=</span> <span class="mi">40</span>
-
-<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-
-<span class="c1"># %% Sampled frequency range</span>
-<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">line_f0</span><span class="p">]</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">20e9</span><span class="p">,</span> <span class="mf">2e6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
-
-<span class="c1"># %% Species and line absorption</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
-
-<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
-
-<span class="c1"># %% Grids and planet</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
-    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
-<span class="c1"># ws.atm_field[pyarts.arts.AtmKey.t] = 300.0</span>
-
-<span class="c1"># %% Checks and settings</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
-
-<span class="c1"># %% Core Disort calculations</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mi">40_000</span><span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">(</span>
-    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
-    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">up</span><span class="p">,</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">down_diffuse</span><span class="p">,</span>
-        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="mf">2.65924430e-15</span><span class="p">,</span>
-            <span class="mf">2.66162733e-15</span><span class="p">,</span>
-            <span class="mf">2.75440515e-15</span><span class="p">,</span>
-            <span class="mf">9.57958182e-18</span><span class="p">,</span>
-            <span class="mf">2.08076327e-17</span><span class="p">,</span>
-            <span class="mf">5.39749082e-16</span><span class="p">,</span>
-            <span class="mf">2.93074072e-15</span><span class="p">,</span>
-            <span class="mf">2.93357370e-15</span><span class="p">,</span>
-            <span class="mf">3.03918211e-15</span><span class="p">,</span>
-            <span class="mf">9.99616600e-18</span><span class="p">,</span>
-            <span class="mf">2.34511632e-17</span><span class="p">,</span>
-            <span class="mf">6.12773186e-16</span><span class="p">,</span>
-            <span class="mf">3.19264874e-15</span><span class="p">,</span>
-            <span class="mf">3.19665668e-15</span><span class="p">,</span>
-            <span class="mf">3.33784028e-15</span><span class="p">,</span>
-            <span class="mf">1.03768102e-17</span><span class="p">,</span>
-            <span class="mf">3.05943372e-17</span><span class="p">,</span>
-            <span class="mf">8.07853130e-16</span><span class="p">,</span>
-            <span class="mf">3.35251230e-15</span><span class="p">,</span>
-            <span class="mf">3.36075470e-15</span><span class="p">,</span>
-            <span class="mf">3.65036247e-15</span><span class="p">,</span>
-            <span class="mf">1.07209025e-17</span><span class="p">,</span>
-            <span class="mf">6.78926741e-17</span><span class="p">,</span>
-            <span class="mf">1.56163327e-15</span><span class="p">,</span>
-            <span class="mf">3.37235023e-15</span><span class="p">,</span>
-            <span class="mf">2.86992821e-15</span><span class="p">,</span>
-            <span class="mf">3.97673151e-15</span><span class="p">,</span>
-            <span class="mf">1.52446216e-15</span><span class="p">,</span>
-            <span class="mf">2.80896759e-15</span><span class="p">,</span>
-            <span class="mf">3.94566396e-15</span><span class="p">,</span>
-        <span class="p">]</span>
-    <span class="p">),</span>
-    <span class="mi">1</span><span class="p">,</span>
-<span class="p">),</span> <span class="s2">&quot;Mismatch from historical Disort spectral fluxes&quot;</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
-                      <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">alt_grid</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
-                      <span class="n">freqs</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Disort clearsky spectral fluxes&quot;</span><span class="p">)</span>
-<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
-<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
-<span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">a</span><span class="p">,</span>
-              <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Spectral flux [W m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upwelling spectral flux&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling diffuse spectral flux&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling direct spectral flux&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos">  2</span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="linenos">  3</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos">  4</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos">  5</span>
+<span class="linenos">  6</span><span class="c1"># Download catalogs</span>
+<span class="linenos">  7</span><span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="n">toa</span> <span class="o">=</span> <span class="mf">100e3</span>
+<span class="linenos"> 10</span><span class="n">lat</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 11</span><span class="n">lon</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 12</span><span class="n">NQuad</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="c1"># %% Sampled frequency range</span>
+<span class="linenos"> 17</span><span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="linenos"> 18</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">line_f0</span><span class="p">]</span>
+<span class="linenos"> 19</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">20e9</span><span class="p">,</span> <span class="mf">2e6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="c1"># %% Species and line absorption</span>
+<span class="linenos"> 22</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="linenos"> 23</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="linenos"> 26</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="c1"># %% Grids and planet</span>
+<span class="linenos"> 29</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos"> 30</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos"> 31</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+<span class="linenos"> 32</span>    <span class="n">toa</span><span class="o">=</span><span class="n">toa</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos"> 33</span><span class="p">)</span>
+<span class="linenos"> 34</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos"> 35</span><span class="c1"># ws.atm_field[pyarts.arts.AtmKey.t] = 300.0</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="c1"># %% Checks and settings</span>
+<span class="linenos"> 38</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
+<span class="linenos"> 39</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_space_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;UniformCosmicBackground&quot;</span><span class="p">)</span>
+<span class="linenos"> 40</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_surface_agendaSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Blackbody&quot;</span><span class="p">)</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="c1"># %% Core Disort calculations</span>
+<span class="linenos"> 43</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">()</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mi">40_000</span><span class="p">)</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">(</span>
+<span class="linenos"> 48</span>    <span class="n">disort_quadrature_dimension</span><span class="o">=</span><span class="n">NQuad</span><span class="p">,</span>
+<span class="linenos"> 49</span>    <span class="n">disort_legendre_polynomial_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos"> 50</span>    <span class="n">disort_fourier_mode_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos"> 51</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+<span class="linenos"> 54</span>    <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="linenos"> 55</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">up</span><span class="p">,</span>
+<span class="linenos"> 56</span>        <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">down_diffuse</span><span class="p">,</span>
+<span class="linenos"> 57</span>        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos"> 58</span>    <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="linenos"> 59</span>    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="linenos"> 60</span>        <span class="p">[</span>
+<span class="linenos"> 61</span>            <span class="mf">2.65924817e-15</span><span class="p">,</span>
+<span class="linenos"> 62</span>            <span class="mf">2.66163119e-15</span><span class="p">,</span>
+<span class="linenos"> 63</span>            <span class="mf">2.75440515e-15</span><span class="p">,</span>
+<span class="linenos"> 64</span>            <span class="mf">9.57958159e-18</span><span class="p">,</span>
+<span class="linenos"> 65</span>            <span class="mf">2.08074133e-17</span><span class="p">,</span>
+<span class="linenos"> 66</span>            <span class="mf">5.39728390e-16</span><span class="p">,</span>
+<span class="linenos"> 67</span>            <span class="mf">2.93074462e-15</span><span class="p">,</span>
+<span class="linenos"> 68</span>            <span class="mf">2.93357757e-15</span><span class="p">,</span>
+<span class="linenos"> 69</span>            <span class="mf">3.03918211e-15</span><span class="p">,</span>
+<span class="linenos"> 70</span>            <span class="mf">9.99616581e-18</span><span class="p">,</span>
+<span class="linenos"> 71</span>            <span class="mf">2.34509262e-17</span><span class="p">,</span>
+<span class="linenos"> 72</span>            <span class="mf">6.12752485e-16</span><span class="p">,</span>
+<span class="linenos"> 73</span>            <span class="mf">3.19265273e-15</span><span class="p">,</span>
+<span class="linenos"> 74</span>            <span class="mf">3.19666066e-15</span><span class="p">,</span>
+<span class="linenos"> 75</span>            <span class="mf">3.33784028e-15</span><span class="p">,</span>
+<span class="linenos"> 76</span>            <span class="mf">1.03768097e-17</span><span class="p">,</span>
+<span class="linenos"> 77</span>            <span class="mf">3.05940685e-17</span><span class="p">,</span>
+<span class="linenos"> 78</span>            <span class="mf">8.07832320e-16</span><span class="p">,</span>
+<span class="linenos"> 79</span>            <span class="mf">3.35251628e-15</span><span class="p">,</span>
+<span class="linenos"> 80</span>            <span class="mf">3.36075873e-15</span><span class="p">,</span>
+<span class="linenos"> 81</span>            <span class="mf">3.65036247e-15</span><span class="p">,</span>
+<span class="linenos"> 82</span>            <span class="mf">1.07209024e-17</span><span class="p">,</span>
+<span class="linenos"> 83</span>            <span class="mf">6.78924115e-17</span><span class="p">,</span>
+<span class="linenos"> 84</span>            <span class="mf">1.56161464e-15</span><span class="p">,</span>
+<span class="linenos"> 85</span>            <span class="mf">3.37235046e-15</span><span class="p">,</span>
+<span class="linenos"> 86</span>            <span class="mf">2.86992793e-15</span><span class="p">,</span>
+<span class="linenos"> 87</span>            <span class="mf">3.97673151e-15</span><span class="p">,</span>
+<span class="linenos"> 88</span>            <span class="mf">1.52446492e-15</span><span class="p">,</span>
+<span class="linenos"> 89</span>            <span class="mf">2.80896736e-15</span><span class="p">,</span>
+<span class="linenos"> 90</span>            <span class="mf">3.94566425e-15</span><span class="p">,</span>
+<span class="linenos"> 91</span>        <span class="p">]</span>
+<span class="linenos"> 92</span>    <span class="p">),</span>
+<span class="linenos"> 93</span>    <span class="mi">1</span><span class="p">,</span>
+<span class="linenos"> 94</span><span class="p">),</span> <span class="s2">&quot;Mismatch from historical Disort spectral fluxes&quot;</span>
+<span class="linenos"> 95</span>
+<span class="linenos"> 96</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="linenos"> 97</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+<span class="linenos"> 98</span>                      <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">alt_grid</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+<span class="linenos"> 99</span>                      <span class="n">freqs</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="linenos">100</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Disort clearsky spectral fluxes&quot;</span><span class="p">)</span>
+<span class="linenos">101</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="linenos">102</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [GHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="linenos">103</span><span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">a</span><span class="p">,</span>
+<span class="linenos">104</span>              <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Spectral flux [W m$^{-2}$ Hz$^{-1}$]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">]</span>
+<span class="linenos">105</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upwelling spectral flux&quot;</span><span class="p">)</span>
+<span class="linenos">106</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling diffuse spectral flux&quot;</span><span class="p">)</span>
+<span class="linenos">107</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downwelling direct spectral flux&quot;</span><span class="p">)</span>
+<span class="linenos">108</span>
+<span class="linenos">109</span><span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+<span class="linenos">110</span>    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="linenos">111</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/212e34aadd9d2dcf460027f9a7cbdbb5/2-clearsky-flux.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/c5fb8c9ec92dd1a2c6f6772efdd3216e/2-clearsky-flux.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/d7731117a861c0ca2d675d2160435929/2-clearsky-flux.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
-<figure class="align-default">
-<img alt="_images/2-clearsky-flux.svg" class="plot-directive" src="_images/2-clearsky-flux.svg" />
-</figure>
 </section>
 <section id="clearsky-flux-from-dataset">
 <h2>Clearsky flux from dataset<a class="headerlink" href="#clearsky-flux-from-dataset" title="Link to this heading"></a></h2>
@@ -346,130 +338,117 @@
 <ul class="simple">
 <li><p><a class="reference download internal" download="" href="_downloads/12e7f11470f737ae3be6564f6a25b859/3-atmosphere.nc"><code class="xref download docutils literal notranslate"><span class="pre">3-atmosphere.nc</span></code></a></p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-
-<span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_lgpl</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;CKDMT models are not available in LGPL mode, compile with -DENABLE_ARTS_LGPL=0&quot;</span>
-    <span class="p">)</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Download catalogs</span>
-<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-
-<span class="n">NQuad</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">max_level_step</span> <span class="o">=</span> <span class="mf">1e3</span>
-<span class="n">atm_latitude</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">atm_longitude</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">solar_latitude</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">solar_longitude</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">surf_temperature</span> <span class="o">=</span> <span class="mf">293.0</span>
-<span class="n">surf_reflectivity</span> <span class="o">=</span> <span class="mf">0.05</span>
-<span class="n">cutoff</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ByLine&quot;</span><span class="p">,</span> <span class="mf">750e9</span><span class="p">]</span>
-<span class="n">remove_lines_percentile</span> <span class="o">=</span> <span class="mi">70</span>
-<span class="n">sunfile</span> <span class="o">=</span> <span class="s2">&quot;star/Sun/solar_spectrum_QUIET.xml&quot;</span>
-<span class="n">planet</span> <span class="o">=</span> <span class="s2">&quot;Earth&quot;</span>
-
-<span class="c1"># Input file names are prefixed with the example number</span>
-<span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;3-&quot;</span>
-
-<span class="n">xarr</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xarray_open_dataset</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;atmosphere.nc&quot;</span><span class="p">)</span>
-
-<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">1001</span><span class="p">))</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_atm_field</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
-
-<span class="n">v</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_abs_species</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_species</span> <span class="o">=</span> <span class="n">v</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">(</span><span class="n">ignore_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">(</span><span class="n">T_extrapolfac</span><span class="o">=</span><span class="mf">1e9</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">remove_lines_percentile</span><span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">planet</span><span class="p">)</span>
-
-<span class="n">sun</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField2</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span><span class="n">sunfile</span><span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surf_temperature</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">sunFromGrid</span><span class="p">(</span>
-    <span class="n">sun_spectrum_raw</span><span class="o">=</span><span class="n">sun</span><span class="p">,</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">solar_latitude</span><span class="p">,</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">solar_longitude</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_quadrature_dimension</span> <span class="o">=</span> <span class="n">NQuad</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_fourier_mode_dimension</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_legendre_polynomial_dimension</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
-    <span class="n">max_stepsize</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
-    <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
-    <span class="n">surf_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
-    <span class="n">surf_lambertian_value</span><span class="o">=</span><span class="n">surf_reflectivity</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">),</span>
-<span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
-
-<span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span>
-    <span class="n">freqs</span><span class="o">=</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">),</span>
-    <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">alt_grid</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
-    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down_diffuse&#39;</span><span class="p">,</span>
-    <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downward diffuse spectral flux from DISORT&quot;</span><span class="p">)</span>
-
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
-
-<span class="n">alts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">)</span>
-<span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">,</span>
-    <span class="n">alts</span><span class="o">=</span><span class="n">alts</span><span class="p">,</span>
-    <span class="n">ygrid</span><span class="o">=</span><span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
-    <span class="n">apply_natural_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_lines</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_label</span><span class="p">())</span>
-<span class="n">f</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Atmospheric field&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos">  4</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos">  5</span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="k">if</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_lgpl</span><span class="p">:</span>
+<span class="linenos">  8</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">  9</span>        <span class="s2">&quot;CKDMT models are not available in LGPL mode, compile with -DENABLE_ARTS_LGPL=0&quot;</span>
+<span class="linenos"> 10</span>    <span class="p">)</span>
+<span class="linenos"> 11</span>    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="c1"># Download catalogs</span>
+<span class="linenos"> 14</span><span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="n">NQuad</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="linenos"> 17</span><span class="n">max_level_step</span> <span class="o">=</span> <span class="mf">1e3</span>
+<span class="linenos"> 18</span><span class="n">atm_latitude</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="linenos"> 19</span><span class="n">atm_longitude</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="linenos"> 20</span><span class="n">solar_latitude</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="linenos"> 21</span><span class="n">solar_longitude</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="linenos"> 22</span><span class="n">surf_temperature</span> <span class="o">=</span> <span class="mf">293.0</span>
+<span class="linenos"> 23</span><span class="n">surf_reflectivity</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="linenos"> 24</span><span class="n">cutoff</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ByLine&quot;</span><span class="p">,</span> <span class="mf">750e9</span><span class="p">]</span>
+<span class="linenos"> 25</span><span class="n">remove_lines_percentile</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="linenos"> 26</span><span class="n">sunfile</span> <span class="o">=</span> <span class="s2">&quot;star/Sun/solar_spectrum_QUIET.xml&quot;</span>
+<span class="linenos"> 27</span><span class="n">planet</span> <span class="o">=</span> <span class="s2">&quot;Earth&quot;</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1"># Input file names are prefixed with the example number</span>
+<span class="linenos"> 30</span><span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;3-&quot;</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="n">xarr</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xarray_open_dataset</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;atmosphere.nc&quot;</span><span class="p">)</span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">1001</span><span class="p">))</span>
+<span class="linenos"> 37</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_atm_field</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="n">v</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_abs_species</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">)</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_species</span> <span class="o">=</span> <span class="n">v</span>
+<span class="linenos"> 42</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">(</span><span class="n">ignore_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 43</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">(</span><span class="n">T_extrapolfac</span><span class="o">=</span><span class="mf">1e9</span><span class="p">)</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
+<span class="linenos"> 46</span>    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 47</span>    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">remove_lines_percentile</span><span class="p">)</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">planet</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="n">sun</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">GriddedField2</span><span class="o">.</span><span class="n">fromxml</span><span class="p">(</span><span class="n">sunfile</span><span class="p">)</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surf_temperature</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="n">ws</span><span class="o">.</span><span class="n">sunFromGrid</span><span class="p">(</span>
+<span class="linenos"> 58</span>    <span class="n">sun_spectrum_raw</span><span class="o">=</span><span class="n">sun</span><span class="p">,</span>
+<span class="linenos"> 59</span>    <span class="n">lat</span><span class="o">=</span><span class="n">solar_latitude</span><span class="p">,</span>
+<span class="linenos"> 60</span>    <span class="n">lon</span><span class="o">=</span><span class="n">solar_longitude</span><span class="p">,</span>
+<span class="linenos"> 61</span><span class="p">)</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_quadrature_dimension</span> <span class="o">=</span> <span class="n">NQuad</span>
+<span class="linenos"> 64</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_fourier_mode_dimension</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 65</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_legendre_polynomial_dimension</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometricDownlooking</span><span class="p">(</span>
+<span class="linenos"> 68</span>    <span class="n">lat</span><span class="o">=</span><span class="n">atm_latitude</span><span class="p">,</span>
+<span class="linenos"> 69</span>    <span class="n">lon</span><span class="o">=</span><span class="n">atm_longitude</span><span class="p">,</span>
+<span class="linenos"> 70</span>    <span class="n">max_stepsize</span><span class="o">=</span><span class="n">max_level_step</span><span class="p">,</span>
+<span class="linenos"> 71</span><span class="p">)</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_settings_agendaSetup</span><span class="p">(</span>
+<span class="linenos"> 74</span>    <span class="n">sun_setting</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
+<span class="linenos"> 75</span>    <span class="n">surf_setting</span><span class="o">=</span><span class="s2">&quot;ThermalLambertian&quot;</span><span class="p">,</span>
+<span class="linenos"> 76</span>    <span class="n">surf_lambertian_value</span><span class="o">=</span><span class="n">surf_reflectivity</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">),</span>
+<span class="linenos"> 77</span><span class="p">)</span>
+<span class="linenos"> 78</span>
+<span class="linenos"> 79</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_fieldFromAgenda</span><span class="p">()</span>
+<span class="linenos"> 80</span>
+<span class="linenos"> 81</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos"> 82</span>    <span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="p">,</span>
+<span class="linenos"> 83</span>    <span class="n">freqs</span><span class="o">=</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">freq2kaycm</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">),</span>
+<span class="linenos"> 84</span>    <span class="n">alts</span><span class="o">=</span><span class="n">ws</span><span class="o">.</span><span class="n">disort_spectral_flux_field</span><span class="o">.</span><span class="n">alt_grid</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
+<span class="linenos"> 85</span>    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;down_diffuse&#39;</span><span class="p">,</span>
+<span class="linenos"> 86</span>    <span class="n">plotstyle</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span>
+<span class="linenos"> 87</span><span class="p">)</span>
+<span class="linenos"> 88</span><span class="n">s</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="linenos"> 89</span><span class="n">s</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+<span class="linenos"> 90</span><span class="n">s</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downward diffuse spectral flux from DISORT&quot;</span><span class="p">)</span>
+<span class="linenos"> 91</span>
+<span class="linenos"> 92</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="n">alts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="o">.</span><span class="n">top_of_atmosphere</span><span class="p">)</span>
+<span class="linenos"> 95</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos"> 96</span>    <span class="n">ws</span><span class="o">.</span><span class="n">atm_field</span><span class="p">,</span>
+<span class="linenos"> 97</span>    <span class="n">alts</span><span class="o">=</span><span class="n">alts</span><span class="p">,</span>
+<span class="linenos"> 98</span>    <span class="n">ygrid</span><span class="o">=</span><span class="n">alts</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span>
+<span class="linenos"> 99</span>    <span class="n">apply_natural_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">100</span><span class="p">)</span>
+<span class="linenos">101</span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+<span class="linenos">102</span>    <span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+<span class="linenos">103</span>    <span class="n">lines</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_lines</span><span class="p">()</span>
+<span class="linenos">104</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="linenos">105</span>        <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_label</span><span class="p">())</span>
+<span class="linenos">106</span><span class="n">f</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Atmospheric field&quot;</span><span class="p">)</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+<span class="linenos">109</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/eb0eb6b4ddef1e1152dc876c9caff33a/3-clearsky-flux-from-dataset.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
-<figure class="align-default" id="id1">
-<img alt="_images/3-clearsky-flux-from-dataset_00.svg" class="plot-directive" src="_images/3-clearsky-flux-from-dataset_00.svg" />
-<figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">(<a class="reference download internal" download="" href="_downloads/deab862fb8a0338b9eede0c3ff37893d/3-clearsky-flux-from-dataset_00.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/67bd77070482c2278780094d2b6a917d/3-clearsky-flux-from-dataset_00.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="id2">
-<img alt="_images/3-clearsky-flux-from-dataset_01.svg" class="plot-directive" src="_images/3-clearsky-flux-from-dataset_01.svg" />
-<figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">(<a class="reference download internal" download="" href="_downloads/15fb0af70f8a75606fa9d2161e4ca6bf/3-clearsky-flux-from-dataset_01.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/aa1077c4a7f6d6c3d7b88cb19e036d4c/3-clearsky-flux-from-dataset_01.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
-</figcaption>
-</figure>
 </section>
 </section>
 

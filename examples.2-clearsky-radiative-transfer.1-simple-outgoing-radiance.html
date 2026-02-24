@@ -108,84 +108,80 @@
              
   <section id="simple-outgoing-radiance">
 <h1>Simple outgoing radiance<a class="headerlink" href="#simple-outgoing-radiance" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Calculate the clear sky upwelling longwave radiance at the top of the atmosphere. The atmosphere</span>
-<span class="sd">is a standard tropical atmosphere, containing only water vapor, carbon dioxide and ozone</span>
-<span class="sd">as trace gases. The water vapor absorption continuum is included.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
-
-<span class="c1"># Download ARTS catalogs if they are not already present</span>
-<span class="n">pa</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-
-<span class="c1"># ARTS workspace</span>
-<span class="n">ws</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
-
-<span class="c1"># Set up frequency grid</span>
-<span class="n">kayser_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>  <span class="c1"># in Kayser (cm^-1)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">kayser_grid</span><span class="p">)</span>  <span class="c1"># in Hz</span>
-
-<span class="c1"># Select absorption species and continuum model</span>
-<span class="c1"># This example uses a reduced set of species to speed up the calculation.</span>
-<span class="c1"># Use the second line for a more realistic setup.</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span>
-    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-161&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O-ForeignContCKDMT400&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O-SelfContCKDMT400&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2-626&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="c1"># ws.abs_speciesSet(</span>
-<span class="c1">#     species=[&quot;H2O&quot;, &quot;H2O-ForeignContCKDMT400&quot;, &quot;H2O-SelfContCKDMT400&quot;, &quot;CO2&quot;, &quot;O3&quot;]</span>
-<span class="c1"># )</span>
-
-<span class="c1"># Read spectral line data from ARTS catalog</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
-
-<span class="c1"># Apply a frequency cutoff. To be consistent with the CKD water vapor continuum,</span>
-<span class="c1"># a cutoff of 25 Kayser is necessary. We set it here for all species, because it</span>
-<span class="c1"># also speeds up the calculation.</span>
-<span class="n">cutoff</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
-    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span>
-
-<span class="c1"># Remove 90% of the lines to speed up the calculation</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">approximate_percentile</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-
-<span class="c1"># Automatically set up the methods to compute absorption coefficients</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
-
-<span class="c1"># Set up a simple atmosphere</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
-    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
-
-<span class="c1"># Set up geometry of observation</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
-<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
-
-<span class="c1"># %% Show results</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="n">kayser_grid</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">&quot;I&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency / Kayser (cm$^{-1}$)&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance /&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Clear sky outgoing radiance&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># %%</span>
+<span class="linenos"> 2</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">Calculate the clear sky upwelling longwave radiance at the top of the atmosphere. The atmosphere</span>
+<span class="linenos"> 4</span><span class="sd">is a standard tropical atmosphere, containing only water vapor, carbon dioxide and ozone</span>
+<span class="linenos"> 5</span><span class="sd">as trace gases. The water vapor absorption continuum is included.</span>
+<span class="linenos"> 6</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos">11</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos">12</span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Download ARTS catalogs if they are not already present</span>
+<span class="linenos">15</span><span class="n">pa</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># ARTS workspace</span>
+<span class="linenos">18</span><span class="n">ws</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># Set up frequency grid</span>
+<span class="linenos">21</span><span class="n">kayser_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>  <span class="c1"># in Kayser (cm^-1)</span>
+<span class="linenos">22</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">kayser_grid</span><span class="p">)</span>  <span class="c1"># in Hz</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="c1"># Select absorption species and continuum model</span>
+<span class="linenos">25</span><span class="c1"># This example uses a reduced set of species to speed up the calculation.</span>
+<span class="linenos">26</span><span class="c1"># Use the second line for a more realistic setup.</span>
+<span class="linenos">27</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span>
+<span class="linenos">28</span>    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-161&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O-ForeignContCKDMT400&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O-SelfContCKDMT400&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2-626&quot;</span><span class="p">]</span>
+<span class="linenos">29</span><span class="p">)</span>
+<span class="linenos">30</span><span class="c1"># ws.abs_speciesSet(</span>
+<span class="linenos">31</span><span class="c1">#     species=[&quot;H2O&quot;, &quot;H2O-ForeignContCKDMT400&quot;, &quot;H2O-SelfContCKDMT400&quot;, &quot;CO2&quot;, &quot;O3&quot;]</span>
+<span class="linenos">32</span><span class="c1"># )</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="c1"># Read spectral line data from ARTS catalog</span>
+<span class="linenos">35</span><span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span><span class="c1"># Apply a frequency cutoff. To be consistent with the CKD water vapor continuum,</span>
+<span class="linenos">38</span><span class="c1"># a cutoff of 25 Kayser is necessary. We set it here for all species, because it</span>
+<span class="linenos">39</span><span class="c1"># also speeds up the calculation.</span>
+<span class="linenos">40</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+<span class="linenos">41</span><span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">:</span>
+<span class="linenos">42</span>    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="s2">&quot;ByLine&quot;</span>
+<span class="linenos">43</span>    <span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">cutoff_value</span> <span class="o">=</span> <span class="n">cutoff</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="c1"># Remove 90% of the lines to speed up the calculation</span>
+<span class="linenos">46</span><span class="n">ws</span><span class="o">.</span><span class="n">abs_bands</span><span class="o">.</span><span class="n">keep_hitran_s</span><span class="p">(</span><span class="n">approximate_percentile</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="c1"># Automatically set up the methods to compute absorption coefficients</span>
+<span class="linenos">49</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="c1"># Set up a simple atmosphere</span>
+<span class="linenos">52</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="linenos">53</span><span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pa</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="linenos">54</span><span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+<span class="linenos">55</span>    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="linenos">56</span><span class="p">)</span>
+<span class="linenos">57</span>
+<span class="linenos">58</span><span class="c1"># Set up geometry of observation</span>
+<span class="linenos">59</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="linenos">60</span><span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="linenos">61</span><span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="linenos">62</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
+<span class="linenos">63</span>
+<span class="linenos">64</span><span class="c1"># %% Show results</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="n">kayser_grid</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">&quot;I&quot;</span><span class="p">)</span>
+<span class="linenos">67</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency / Kayser (cm$^{-1}$)&quot;</span><span class="p">)</span>
+<span class="linenos">68</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance /&quot;</span><span class="p">)</span>
+<span class="linenos">69</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Clear sky outgoing radiance&quot;</span><span class="p">)</span>
+<span class="linenos">70</span>
+<span class="linenos">71</span><span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+<span class="linenos">72</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="_downloads/2a622310bc82d0441f43fdc322141eea/1-clearsky_upwelling_lw_radiance_at_toa-nolgpl.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/71eaae1359421f839cd5153c8ab8207e/1-clearsky_upwelling_lw_radiance_at_toa-nolgpl.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/6d2ff507e7f920c0de44f2e8cf0ca250/1-clearsky_upwelling_lw_radiance_at_toa-nolgpl.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
-<figure class="align-default">
-<img alt="_images/1-clearsky_upwelling_lw_radiance_at_toa-nolgpl.svg" class="plot-directive" src="_images/1-clearsky_upwelling_lw_radiance_at_toa-nolgpl.svg" />
-</figure>
 </section>
 
 

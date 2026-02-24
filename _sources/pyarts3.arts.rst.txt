@@ -18,6 +18,7 @@ pyarts3.arts
   pyarts3.arts.physics
   pyarts3.arts.planets
   pyarts3.arts.predef
+  pyarts3.arts.random
   pyarts3.arts.rtepack
   pyarts3.arts.zeeman
   pyarts3.arts.AbsorptionBand
@@ -31,6 +32,7 @@ pyarts3.arts
   pyarts3.arts.AbsorptionVectorDataSpectralARO4
   pyarts3.arts.AbsorptionVectorDataSpectralTRO4
   pyarts3.arts.Agenda
+  pyarts3.arts.AntennaType
   pyarts3.arts.Any
   pyarts3.arts.ArrayOfAbsorptionLine
   pyarts3.arts.ArrayOfArrayOfArrayOfPropagationPathPoint
@@ -126,6 +128,7 @@ pyarts3.arts
   pyarts3.arts.CallbackOperator
   pyarts3.arts.ComplexGriddedField2
   pyarts3.arts.ComplexMatrix
+  pyarts3.arts.ComplexMatrix44
   pyarts3.arts.ComplexTensor3
   pyarts3.arts.ComplexTensor4
   pyarts3.arts.ComplexVector
@@ -164,6 +167,7 @@ pyarts3.arts
   pyarts3.arts.GriddedField6
   pyarts3.arts.GriddedSpectralField6
   pyarts3.arts.HenyeyGreensteinScatterer
+  pyarts3.arts.HitranFileFormatType
   pyarts3.arts.HitranLineStrengthOption
   pyarts3.arts.HydrostaticPressureOption
   pyarts3.arts.Index
@@ -196,9 +200,12 @@ pyarts3.arts
   pyarts3.arts.LinemixingSpeciesEcsData
   pyarts3.arts.LobattoGrid
   pyarts3.arts.LonGrid
+  pyarts3.arts.MCAntenna
   pyarts3.arts.MGDSingleMoment
   pyarts3.arts.MarsEllipsoid
   pyarts3.arts.Matrix
+  pyarts3.arts.Matrix33
+  pyarts3.arts.Matrix44
   pyarts3.arts.MatrixOfDisortBDRF
   pyarts3.arts.Method
   pyarts3.arts.MissingFieldComponentError
@@ -240,6 +247,7 @@ pyarts3.arts
   pyarts3.arts.QuantumState
   pyarts3.arts.QuantumUpperLower
   pyarts3.arts.QuantumValue
+  pyarts3.arts.RandomNumberGenerator
   pyarts3.arts.Range
   pyarts3.arts.Rational
   pyarts3.arts.ScatteringGeneralSpectralTRO
@@ -320,6 +328,8 @@ pyarts3.arts
   pyarts3.arts.Vector
   pyarts3.arts.Vector2
   pyarts3.arts.Vector3
+  pyarts3.arts.Vector4
+  pyarts3.arts.Vector7
   pyarts3.arts.VenusEllipsoid
   pyarts3.arts.WorkspaceInitialization
   pyarts3.arts.Wsv
@@ -393,6 +403,8 @@ pyarts3.arts
     - Planetary constants
   * - :py:mod:`~pyarts3.arts.predef`
     - Contains predefined absorption models
+  * - :py:mod:`~pyarts3.arts.random`
+    - Random Number Interface
   * - :py:mod:`~pyarts3.arts.rtepack`
     - Module for RTEPACK functionality
   * - :py:mod:`~pyarts3.arts.zeeman`
@@ -425,6 +437,8 @@ pyarts3.arts
     - Absorption vector data
   * - :class:`~pyarts3.arts.Agenda`
     - Describes a set of function calls and variable definitions
+  * - :class:`~pyarts3.arts.AntennaType`
+    - A switch controlling how monte carlo antenna patterns are handled.
   * - :class:`~pyarts3.arts.Any`
     - Meta type for any workspace group (see :doc:`workspace.groups`)
   * - :class:`~pyarts3.arts.ArrayOfAbsorptionLine`
@@ -615,6 +629,8 @@ pyarts3.arts
     - A 2 dimensional gridded set of complex data
   * - :class:`~pyarts3.arts.ComplexMatrix`
     - A complex matrix
+  * - :class:`~pyarts3.arts.ComplexMatrix44`
+    - Fixed size matrix of shape [4, 4]
   * - :class:`~pyarts3.arts.ComplexTensor3`
     - A complex tensor3
   * - :class:`~pyarts3.arts.ComplexTensor4`
@@ -691,6 +707,8 @@ pyarts3.arts
     - A 6-dimensional grid of :class:`~pyarts3.arts.Stokvec`.
   * - :class:`~pyarts3.arts.HenyeyGreensteinScatterer`
     - Henyey-Greenstein scatterer
+  * - :class:`~pyarts3.arts.HitranFileFormatType`
+    - A file format used to generate an entry in a Hitran-format file.
   * - :class:`~pyarts3.arts.HitranLineStrengthOption`
     - The way line strength is computed in ARTS when reading Hitran data.
   * - :class:`~pyarts3.arts.HydrostaticPressureOption`
@@ -755,12 +773,18 @@ pyarts3.arts
     - Lobatto grid
   * - :class:`~pyarts3.arts.LonGrid`
     - A 1-dimensional vector of :class:`~pyarts3.arts.Numeric` that are guaranteed to be within the range [-180, 180).
+  * - :class:`~pyarts3.arts.MCAntenna`
+    - Monte Carlo Antenna pattern class
   * - :class:`~pyarts3.arts.MGDSingleMoment`
     - Modified gamma PSD single moment
   * - :class:`~pyarts3.arts.MarsEllipsoid`
     - Choice of ellipsoid.
   * - :class:`~pyarts3.arts.Matrix`
     - A 2 dimensional array of :class:`~pyarts3.arts.Numeric`.
+  * - :class:`~pyarts3.arts.Matrix33`
+    - Fixed size matrix of shape [3, 3]
+  * - :class:`~pyarts3.arts.Matrix44`
+    - Fixed size matrix of shape [4, 4]
   * - :class:`~pyarts3.arts.MatrixOfDisortBDRF`
     - A 2 dimensional array of :class:`~pyarts3.arts.DisortBDRF`
   * - :class:`~pyarts3.arts.Method`
@@ -843,6 +867,8 @@ pyarts3.arts
     - Upper and lower quantum number values
   * - :class:`~pyarts3.arts.QuantumValue`
     - A single quantum number value
+  * - :class:`~pyarts3.arts.RandomNumberGenerator`
+    - Random number generator interface. Create an instance of this class and call the distribution methods to get a function that generates random numbers following the specified distribution.
   * - :class:`~pyarts3.arts.Range`
     - A range, used to select parts of a matpack type
   * - :class:`~pyarts3.arts.Rational`
@@ -1003,6 +1029,10 @@ pyarts3.arts
     - A fixed-size 2D version of :class:`~pyarts3.arts.Vector`.
   * - :class:`~pyarts3.arts.Vector3`
     - A fixed-size 3D version of :class:`~pyarts3.arts.Vector`.
+  * - :class:`~pyarts3.arts.Vector4`
+    - Fixed size vector of shape [4]
+  * - :class:`~pyarts3.arts.Vector7`
+    - Fixed size vector of shape [7]
   * - :class:`~pyarts3.arts.VenusEllipsoid`
     - Choice of ellipsoid.
   * - :class:`~pyarts3.arts.WorkspaceInitialization`

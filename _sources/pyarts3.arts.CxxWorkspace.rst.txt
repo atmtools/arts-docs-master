@@ -175,6 +175,9 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.abs_predef_dataAddWaterMTCKD400`
       - Sets the data for MT CKD 4.0 Water model
     * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.abs_predef_dataAddWaterMTCKD430`
+      - Sets the data for MT CKD 4.3 Water model
+    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_predef_dataInit`
       - Initialize the predefined model data
     * - Method
@@ -843,6 +846,9 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmatInit`
       - Initialize :attr:`~pyarts3.workspace.Workspace.spectral_propmat`, :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec`, and their derivatives to zeroes.
+    * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
+      - Add line-by-line absorption to the propagation matrix.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_propmat_agendaAuto`
       - Sets the :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda` automatically from absorption data and species tag meta information.
@@ -1626,6 +1632,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.abs_lookup_dataPrecomputeAll
   .. automethod:: CxxWorkspace.abs_lookup_dataSimpleWide
   .. automethod:: CxxWorkspace.abs_predef_dataAddWaterMTCKD400
+  .. automethod:: CxxWorkspace.abs_predef_dataAddWaterMTCKD430
   .. automethod:: CxxWorkspace.abs_predef_dataInit
   .. automethod:: CxxWorkspace.abs_predef_dataReadSpeciesSplitCatalog
   .. automethod:: CxxWorkspace.abs_speciesDefineAll
@@ -1849,6 +1856,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.spectral_propmatAddVoigtLTE
   .. automethod:: CxxWorkspace.spectral_propmatAddXsecFit
   .. automethod:: CxxWorkspace.spectral_propmatInit
+  .. automethod:: CxxWorkspace.spectral_propmatMemoryIntensiveAddVoigtLTE
   .. automethod:: CxxWorkspace.spectral_propmat_agendaAuto
   .. automethod:: CxxWorkspace.spectral_propmat_agendaExecute
   .. automethod:: CxxWorkspace.spectral_propmat_agendaExecuteOperator
@@ -1995,6 +2003,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.single_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddLines`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaAuto`
 
 
@@ -2259,12 +2268,13 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddPredefined`
 
 
-     .. rubric:: Modified by workspace method
+     .. rubric:: Modified by workspace methods
 
      .. hlist::
          :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.abs_predef_dataAddWaterMTCKD400`
+         * :func:`~pyarts3.workspace.Workspace.abs_predef_dataAddWaterMTCKD430`
 
 
      .. rubric:: Output from workspace methods
@@ -2810,6 +2820,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddPredefined`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_scatAddSpectralScatteringSpeciesTRO`
@@ -3867,6 +3878,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatInit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_jacWindFix`
@@ -4456,6 +4468,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatInit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_jacWindFix`
@@ -6369,6 +6382,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddFaraday`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddLines`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
          * :func:`~pyarts3.workspace.Workspace.spectral_radApplyForwardUnit`
@@ -6638,6 +6652,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddPredefined`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_agendaExecuteOperator`
 
@@ -9039,6 +9054,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddPredefined`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
 
 
      .. rubric:: Output from workspace methods
@@ -9283,6 +9299,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddPredefined`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmatAddXsecFit`
+         * :func:`~pyarts3.workspace.Workspace.spectral_propmatMemoryIntensiveAddVoigtLTE`
          * :func:`~pyarts3.workspace.Workspace.spectral_propmat_jacWindFix`
 
 
