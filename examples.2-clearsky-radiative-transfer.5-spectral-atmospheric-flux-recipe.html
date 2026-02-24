@@ -108,64 +108,77 @@
              
   <section id="spectral-atmospheric-flux-recipe">
 <h1>Spectral atmospheric flux recipe<a class="headerlink" href="#spectral-atmospheric-flux-recipe" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;Spectral atmospheric flux operator&quot;&quot;&quot;</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="linenos"> 6</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="linenos"> 7</span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
-<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">ticker</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Download catalogs</span>
-<span class="linenos">11</span><span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="c1"># %% Initialize the operator</span>
-<span class="linenos">14</span><span class="c1">#</span>
-<span class="linenos">15</span><span class="n">fop</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">recipe</span><span class="o">.</span><span class="n">SpectralAtmosphericFlux</span><span class="p">(</span>
-<span class="linenos">16</span>    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-161&quot;</span><span class="p">,</span> <span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="s2">&quot;N2-44&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2-626&quot;</span><span class="p">,</span> <span class="s2">&quot;O3-XFIT&quot;</span><span class="p">],</span>
-<span class="linenos">17</span>    <span class="n">remove_lines_percentile</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;H2O&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">},</span>
-<span class="linenos">18</span><span class="p">)</span>
-<span class="linenos">19</span>
-<span class="linenos">20</span><span class="c1"># %% Get the atmosphere (optional)</span>
-<span class="linenos">21</span><span class="c1"># The atmosphere is the full atmospheric field of ARTS as a dictionary,</span>
-<span class="linenos">22</span><span class="c1"># which is likely more than you wish to change.  You may change only part</span>
-<span class="linenos">23</span><span class="c1"># of the atmosphere by simply creating a dictionary that only contains the</span>
-<span class="linenos">24</span><span class="c1"># fields that you want to change.</span>
-<span class="linenos">25</span><span class="n">atm</span> <span class="o">=</span> <span class="n">fop</span><span class="o">.</span><span class="n">get_atmosphere</span><span class="p">()</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span><span class="c1"># %% Get the profile flux for the given `atm`</span>
-<span class="linenos">28</span><span class="c1"># Passing `atm` is optional, if not passed the operator will use the current atmosphere,</span>
-<span class="linenos">29</span><span class="c1"># which is the atmosphere that was set with the last call to `__call__`, or the constructor</span>
-<span class="linenos">30</span><span class="c1"># default if no call to `__call__` has been made.</span>
-<span class="linenos">31</span><span class="n">kays</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">10001</span><span class="p">)</span>
-<span class="linenos">32</span><span class="n">flux</span><span class="p">,</span> <span class="n">alts</span> <span class="o">=</span> <span class="n">fop</span><span class="p">(</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">kays</span><span class="p">),</span> <span class="n">atm</span><span class="p">)</span>
-<span class="linenos">33</span>
-<span class="linenos">34</span><span class="c1"># %% Plots</span>
-<span class="linenos">35</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="linenos">36</span><span class="n">ax</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="linenos">37</span><span class="n">cx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-<span class="linenos">38</span>    <span class="n">kays</span><span class="p">,</span> <span class="n">alts</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span>
-<span class="linenos">39</span><span class="p">)</span>
-<span class="linenos">40</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="linenos">41</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
-<span class="linenos">42</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upgoing spectral irradiance&quot;</span><span class="p">)</span>
-<span class="linenos">43</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Flux [W / m$^2$ Hz]&quot;</span><span class="p">)</span>
-<span class="linenos">44</span>
-<span class="linenos">45</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="linenos">46</span><span class="n">ax</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="linenos">47</span><span class="n">cx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-<span class="linenos">48</span>    <span class="n">kays</span><span class="p">,</span> <span class="n">alts</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span>
-<span class="linenos">49</span><span class="p">)</span>
-<span class="linenos">50</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
-<span class="linenos">51</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
-<span class="linenos">52</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downgoing spectral irradiance&quot;</span><span class="p">)</span>
-<span class="linenos">53</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Flux [W / m$^2$ Hz]&quot;</span><span class="p">)</span>
-<span class="linenos">54</span>
-<span class="linenos">55</span><span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-<span class="linenos">56</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Spectral atmospheric flux operator&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">ticker</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+<span class="c1"># %% Initialize the operator</span>
+<span class="c1">#</span>
+<span class="n">fop</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">recipe</span><span class="o">.</span><span class="n">SpectralAtmosphericFlux</span><span class="p">(</span>
+    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H2O-161&quot;</span><span class="p">,</span> <span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="s2">&quot;N2-44&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2-626&quot;</span><span class="p">,</span> <span class="s2">&quot;O3-XFIT&quot;</span><span class="p">],</span>
+    <span class="n">remove_lines_percentile</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;H2O&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># %% Get the atmosphere (optional)</span>
+<span class="c1"># The atmosphere is the full atmospheric field of ARTS as a dictionary,</span>
+<span class="c1"># which is likely more than you wish to change.  You may change only part</span>
+<span class="c1"># of the atmosphere by simply creating a dictionary that only contains the</span>
+<span class="c1"># fields that you want to change.</span>
+<span class="n">atm</span> <span class="o">=</span> <span class="n">fop</span><span class="o">.</span><span class="n">get_atmosphere</span><span class="p">()</span>
+
+<span class="c1"># %% Get the profile flux for the given `atm`</span>
+<span class="c1"># Passing `atm` is optional, if not passed the operator will use the current atmosphere,</span>
+<span class="c1"># which is the atmosphere that was set with the last call to `__call__`, or the constructor</span>
+<span class="c1"># default if no call to `__call__` has been made.</span>
+<span class="n">kays</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">10001</span><span class="p">)</span>
+<span class="n">flux</span><span class="p">,</span> <span class="n">alts</span> <span class="o">=</span> <span class="n">fop</span><span class="p">(</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">convert</span><span class="o">.</span><span class="n">kaycm2freq</span><span class="p">(</span><span class="n">kays</span><span class="p">),</span> <span class="n">atm</span><span class="p">)</span>
+
+<span class="c1"># %% Plots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">kays</span><span class="p">,</span> <span class="n">alts</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upgoing spectral irradiance&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Flux [W / m$^2$ Hz]&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_rasterization_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">kays</span><span class="p">,</span> <span class="n">alts</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Kaysers [cm$^{-1}$]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude [km]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Downgoing spectral irradiance&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Flux [W / m$^2$ Hz]&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>(<a class="reference download internal" download="" href="_downloads/9b5d1181ed32b02a0b70efa9dfaa0144/1-spectral_atmospheric_flux.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id1">
+<img alt="_images/1-spectral_atmospheric_flux_00.svg" class="plot-directive" src="_images/1-spectral_atmospheric_flux_00.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">(<a class="reference download internal" download="" href="_downloads/e0af2b6c8b96075e973cff79b9e06759/1-spectral_atmospheric_flux_00.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/6682f1a3a7b5ae66d98046257d98a418/1-spectral_atmospheric_flux_00.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="_images/1-spectral_atmospheric_flux_01.svg" class="plot-directive" src="_images/1-spectral_atmospheric_flux_01.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">(<a class="reference download internal" download="" href="_downloads/d1e29cb34da54b23694f4deba3051a02/1-spectral_atmospheric_flux_01.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/73157f76ab4870c4f3dac317cd137f0e/1-spectral_atmospheric_flux_01.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 
 
