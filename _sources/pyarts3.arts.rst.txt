@@ -83,6 +83,7 @@ pyarts3.arts
   pyarts3.arts.ArrayOfQuantumLevelIdentifier
   pyarts3.arts.ArrayOfScatteringMetaData
   pyarts3.arts.ArrayOfScatteringSpecies
+  pyarts3.arts.ArrayOfSensorMetaInfo
   pyarts3.arts.ArrayOfSensorObsel
   pyarts3.arts.ArrayOfSensorPosLosVector
   pyarts3.arts.ArrayOfSensorTarget
@@ -126,6 +127,7 @@ pyarts3.arts
   pyarts3.arts.CIARecord
   pyarts3.arts.CIARecords
   pyarts3.arts.CallbackOperator
+  pyarts3.arts.CameraGriddedField
   pyarts3.arts.ComplexGriddedField2
   pyarts3.arts.ComplexMatrix
   pyarts3.arts.ComplexMatrix44
@@ -169,6 +171,7 @@ pyarts3.arts
   pyarts3.arts.HenyeyGreensteinScatterer
   pyarts3.arts.HitranFileFormatType
   pyarts3.arts.HitranLineStrengthOption
+  pyarts3.arts.HitranSpeciesInfo
   pyarts3.arts.HydrostaticPressureOption
   pyarts3.arts.Index
   pyarts3.arts.IndexVector
@@ -184,6 +187,7 @@ pyarts3.arts
   pyarts3.arts.JacobianTargetType
   pyarts3.arts.JacobianTargets
   pyarts3.arts.JacobianTargetsDiagonalCovarianceMatrixMap
+  pyarts3.arts.JplSpeciesInfo
   pyarts3.arts.JupiterEllipsoid
   pyarts3.arts.LatGrid
   pyarts3.arts.LineByLineCutoffType
@@ -207,6 +211,7 @@ pyarts3.arts
   pyarts3.arts.Matrix33
   pyarts3.arts.Matrix44
   pyarts3.arts.MatrixOfDisortBDRF
+  pyarts3.arts.MeasurementVectorSumupKernel
   pyarts3.arts.Method
   pyarts3.arts.MissingFieldComponentError
   pyarts3.arts.MoonEllipsoid
@@ -257,6 +262,7 @@ pyarts3.arts
   pyarts3.arts.ScatteringSpeciesProperty
   pyarts3.arts.ScatteringTroSpectralVector
   pyarts3.arts.SensorKeyType
+  pyarts3.arts.SensorMetaInfo
   pyarts3.arts.SensorObsel
   pyarts3.arts.SensorPosLos
   pyarts3.arts.SensorPosLosVector
@@ -276,9 +282,11 @@ pyarts3.arts
   pyarts3.arts.Sparse
   pyarts3.arts.SparseStokvecMatrix
   pyarts3.arts.SpeciesEnum
+  pyarts3.arts.SpeciesEnumInfo
   pyarts3.arts.SpeciesEnumPair
   pyarts3.arts.SpeciesEnumVectors
   pyarts3.arts.SpeciesIsotope
+  pyarts3.arts.SpeciesIsotopologueInfo
   pyarts3.arts.SpeciesIsotopologueRatios
   pyarts3.arts.SpeciesTag
   pyarts3.arts.SpeciesTagType
@@ -539,6 +547,8 @@ pyarts3.arts
     - A list of :class:`~pyarts3.arts.ScatteringMetaData`
   * - :class:`~pyarts3.arts.ArrayOfScatteringSpecies`
     - Represents species of scattering particles in the atmosphere.
+  * - :class:`~pyarts3.arts.ArrayOfSensorMetaInfo`
+    - A list of :class:`~pyarts3.arts.SensorMetaInfo`
   * - :class:`~pyarts3.arts.ArrayOfSensorObsel`
     - A list of :class:`~pyarts3.arts.SensorObsel`
   * - :class:`~pyarts3.arts.ArrayOfSensorPosLosVector`
@@ -625,6 +635,8 @@ pyarts3.arts
     - A map from :class:`~pyarts3.arts.SpeciesEnumPair` to :class:`~pyarts3.arts.CIARecord`
   * - :class:`~pyarts3.arts.CallbackOperator`
     - Used to inject custom code into :class:`~pyarts3.arts.Agenda`.
+  * - :class:`~pyarts3.arts.CameraGriddedField`
+    - A gridded field for camera sensors
   * - :class:`~pyarts3.arts.ComplexGriddedField2`
     - A 2 dimensional gridded set of complex data
   * - :class:`~pyarts3.arts.ComplexMatrix`
@@ -711,6 +723,8 @@ pyarts3.arts
     - A file format used to generate an entry in a Hitran-format file.
   * - :class:`~pyarts3.arts.HitranLineStrengthOption`
     - The way line strength is computed in ARTS when reading Hitran data.
+  * - :class:`~pyarts3.arts.HitranSpeciesInfo`
+    - Information about a HITRAN species
   * - :class:`~pyarts3.arts.HydrostaticPressureOption`
     - These options control how the hydrostatic pressure is computed in ARTS.
   * - :class:`~pyarts3.arts.Index`
@@ -741,6 +755,8 @@ pyarts3.arts
     - A list of targets for use in Jacobian Matrix calculations
   * - :class:`~pyarts3.arts.JacobianTargetsDiagonalCovarianceMatrixMap`
     - A map target types to matrix and inverse matrix pairs of :class:`~pyarts3.arts.BlockMatrix`
+  * - :class:`~pyarts3.arts.JplSpeciesInfo`
+    - Information about a JPL species
   * - :class:`~pyarts3.arts.JupiterEllipsoid`
     - Choice of ellipsoid.
   * - :class:`~pyarts3.arts.LatGrid`
@@ -787,6 +803,8 @@ pyarts3.arts
     - Fixed size matrix of shape [4, 4]
   * - :class:`~pyarts3.arts.MatrixOfDisortBDRF`
     - A 2 dimensional array of :class:`~pyarts3.arts.DisortBDRF`
+  * - :class:`~pyarts3.arts.MeasurementVectorSumupKernel`
+    - The kernel to use for summing up the measurement vectors.
   * - :class:`~pyarts3.arts.Method`
     - The method class of ARTS
   * - :class:`~pyarts3.arts.MissingFieldComponentError`
@@ -887,6 +905,8 @@ pyarts3.arts
     - Scattering TRO spectral vector
   * - :class:`~pyarts3.arts.SensorKeyType`
     - A key for identifying a sensor property
+  * - :class:`~pyarts3.arts.SensorMetaInfo`
+    - Metadata describing a sensor's mapping from measurement_vec to a gridded field.
   * - :class:`~pyarts3.arts.SensorObsel`
     - A single observation element.
   * - :class:`~pyarts3.arts.SensorPosLos`
@@ -925,12 +945,16 @@ pyarts3.arts
     - A sparse matrix of Stokvec
   * - :class:`~pyarts3.arts.SpeciesEnum`
     - The valid species for the ARTS system.
+  * - :class:`~pyarts3.arts.SpeciesEnumInfo`
+    - Information about a species enum
   * - :class:`~pyarts3.arts.SpeciesEnumPair`
     - Contains a pair of :class:`~pyarts3.arts.SpeciesEnum`
   * - :class:`~pyarts3.arts.SpeciesEnumVectors`
     - A map of :class:`~pyarts3.arts.SpeciesEnum` to :class:`~pyarts3.arts.Vector`
   * - :class:`~pyarts3.arts.SpeciesIsotope`
     - Contains name and data about an isotope.
+  * - :class:`~pyarts3.arts.SpeciesIsotopologueInfo`
+    - Information about an isotopologue
   * - :class:`~pyarts3.arts.SpeciesIsotopologueRatios`
     - Isotopologue ratios for a species
   * - :class:`~pyarts3.arts.SpeciesTag`

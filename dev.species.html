@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adding new species to ARTS &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices" href="indices.html" />
+    <link rel="prev" title="XML IO" href="dev.xml.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.edit.html">Editor modules for GUI integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Adding new species to ARTS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#to-add-a-species">To add a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to-add-an-isotopologue">To add an isotopologue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#to-add-a-partition-function">To add a partition function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-add-support-for-hitran">To add support for HITRAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-add-support-for-jpl">To add support for JPL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#to-add-a-predefined-model">To add a predefined model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">Adding new species to ARTS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.species.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adding-new-species-to-arts">
+<h1>Adding new species to ARTS<a class="headerlink" href="#adding-new-species-to-arts" title="Link to this heading"></a></h1>
+<p>The species, isotopologues, and predefined models that ARTS support are
+defined at compile time.  This document describes the layout and the
+process of expanding the list of supported species.  The process is
+different for isotopologues and predefined models.  Both requires that
+the species already exist.</p>
+<p>To define words here:</p>
+<ol class="arabic simple">
+<li><p>A species is the molecule or atom of interest, e.g., H2O, O3, CO2, etc.</p></li>
+<li><p>An isotopologue is a specific isotopic variant of a species, e.g.,
+H2O-161, H2O-181, O3-666, etc.</p></li>
+<li><p>A predefined model is a set of parameters and equations that describe
+the behavior of a species under certain conditions, e.g., H2O-PWR98,
+CO2-CKDMT252, etc.</p></li>
+</ol>
+<p>All three of these are defined in individual XML files that can be read
+by a compiled version of ARTS.
+The process of adding new information generally involves adding new
+XML files to the appropriate
+directories and recompiling ARTS to make use of the new information.
+The details of the XML file format and the compilation process are
+described in the following sections.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The easist way add new data of these is to
+copy an existing files and modify the
+relevant information.  There are a lot of
+tests run during the CI process to ensure that
+the basic structure of the files is correct.</p>
+</div>
+<section id="to-add-a-species">
+<h2>To add a species<a class="headerlink" href="#to-add-a-species" title="Link to this heading"></a></h2>
+<p>Species are defined in <code class="docutils literal notranslate"><span class="pre">arts-cat-data/species/</span></code>.
+They must be named in an index-ordered manner, e.g., <code class="docutils literal notranslate"><span class="pre">0001.H2O.xml</span></code>,
+<code class="docutils literal notranslate"><span class="pre">0002.CO2.xml</span></code>, etc.
+Missing numbers are allowed but not recommended -
+it is used during the CI process.</p>
+<p>The file format is a <a class="reference internal" href="pyarts3.arts.SpeciesEnumInfo.html#pyarts3.arts.SpeciesEnumInfo" title="pyarts3.arts.SpeciesEnumInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnumInfo</span></code></a> XML file.
+The information inside the file is the identifying index of the species,
+the short name that humans are expected to use, and a long name that is used
+primarily to define the value of the species in
+the <a class="reference internal" href="pyarts3.arts.SpeciesEnum.html#pyarts3.arts.SpeciesEnum" title="pyarts3.arts.SpeciesEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesEnum</span></code></a> class.
+The short name is used in the ARTS XML files to refer to the species.</p>
+<p>The reason these are different is that some species such
+as <code class="docutils literal notranslate"><span class="pre">NO+</span></code> cannot be used
+as C++/Python identifiers, making it cumbersome to write
+automatic code generation from an enumeration.</p>
+</section>
+<section id="to-add-an-isotopologue">
+<h2>To add an isotopologue<a class="headerlink" href="#to-add-an-isotopologue" title="Link to this heading"></a></h2>
+<p>Isotopologues are defined in <code class="docutils literal notranslate"><span class="pre">arts-cat-data/isotopologues/</span></code>.
+They must be named by the species they contain and the isotopologue
+number that identifies the specific isotopologue,
+e.g., <code class="docutils literal notranslate"><span class="pre">H2O-161.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">H2O-181.xml</span></code>, etc.</p>
+<p>The file format is a <a class="reference internal" href="pyarts3.arts.SpeciesIsotopologueInfo.html#pyarts3.arts.SpeciesIsotopologueInfo" title="pyarts3.arts.SpeciesIsotopologueInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotopologueInfo</span></code></a> XML file.
+The content of these files is the short name of the species,
+the isotopologue index,
+the mass in atomic mass units of the isotoplogue,
+the default isotopologue ratio in
+Earth’s atmosphere, and the degeneracy of the molecular lines.</p>
+<p>You are not done yet, however, as you also need to add the isotopologue to
+the partition function files, and possibly to
+the HITRAN and/or JPL compatibility files.</p>
+<section id="to-add-a-partition-function">
+<h3>To add a partition function<a class="headerlink" href="#to-add-a-partition-function" title="Link to this heading"></a></h3>
+<p>The partition function files are defined
+in <code class="docutils literal notranslate"><span class="pre">arts-cat-data/partition-functions/</span></code>.
+They must also be named by the species they contain and the isotopologue
+number that identifies the specific isotopologue,
+e.g., <code class="docutils literal notranslate"><span class="pre">H2O-161.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">H2O-181.xml</span></code>, etc.</p>
+<p>The partition function files are
+a <a class="reference internal" href="pyarts3.arts.PartitionFunctionsData.html#pyarts3.arts.PartitionFunctionsData" title="pyarts3.arts.PartitionFunctionsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionFunctionsData</span></code></a> XML file.
+This is a pure data file that contains a tag for the format of the
+partition function data, and a simple <a class="reference internal" href="pyarts3.arts.Matrix.html#pyarts3.arts.Matrix" title="pyarts3.arts.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>
+to hold the data.  The supported formats are defined by
+the <a class="reference internal" href="pyarts3.arts.PartitionFunctionsType.html#pyarts3.arts.PartitionFunctionsType" title="pyarts3.arts.PartitionFunctionsType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionFunctionsType</span></code></a> enumeration.
+See either type for more information on the supported
+formats and the expected data layout.</p>
+</section>
+<section id="to-add-support-for-hitran">
+<h3>To add support for HITRAN<a class="headerlink" href="#to-add-support-for-hitran" title="Link to this heading"></a></h3>
+<p>This is required if you want to read a HITRAN line list containing the
+isotopologue you want to add.</p>
+<p>Supported HITRAN isotopologues are defined in <code class="docutils literal notranslate"><span class="pre">arts-cat-data/hitran/</span></code>.
+They must be named by the isotopologue the add
+support for, e.g., <code class="docutils literal notranslate"><span class="pre">H2O-161.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">H2O-181.xml</span></code>, etc.</p>
+<p>The file format is a <a class="reference internal" href="pyarts3.arts.HitranSpeciesInfo.html#pyarts3.arts.HitranSpeciesInfo" title="pyarts3.arts.HitranSpeciesInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">HitranSpeciesInfo</span></code></a> XML file.
+The content of these files is the full name of the isotopologue,
+the index of the species in the HITRAN database, and the tag character
+of the isotopologue in the HITRAN database, and the HITRAN-defined
+isotopologue ratio.
+The latter is required to compute the Einstein A coefficients
+from the HITRAN line strengths.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you need quantum numbers, use the HITRAN online database
+to append <code class="docutils literal notranslate"><span class="pre">qns'</span></code> and <code class="docutils literal notranslate"><span class="pre">qns''</span></code> at the end of the <code class="docutils literal notranslate"><span class="pre">par-line</span></code>
+format.</p>
+</div>
+</section>
+<section id="to-add-support-for-jpl">
+<h3>To add support for JPL<a class="headerlink" href="#to-add-support-for-jpl" title="Link to this heading"></a></h3>
+<p>This is required if you want to read a JPL line list containing the
+isotopologue you want to add.</p>
+<p>Supported JPL isotopologues are defined in <code class="docutils literal notranslate"><span class="pre">arts-cat-data/jpl/</span></code>.
+They must be named by the isotopologue the add support
+for, e.g., <code class="docutils literal notranslate"><span class="pre">H2O-161.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">H2O-181.xml</span></code>, etc.</p>
+<p>The file format is a <a class="reference internal" href="pyarts3.arts.JplSpeciesInfo.html#pyarts3.arts.JplSpeciesInfo" title="pyarts3.arts.JplSpeciesInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">JplSpeciesInfo</span></code></a> XML file.
+The content of these files is the index identifier of the
+isotopologue in the JPL database,
+the full name of the isotopologue, the reference temperature of
+the line strengths in the JPL database, the JPL-defined isotopologue ratio,
+and a currently unused tag for whether the quantum number format is supported.</p>
+<div class="danger admonition">
+<p class="admonition-title">FIXME</p>
+<p>The quantum numbers are currently completely ignored.  We would
+be happy to add support for them but will likely require external
+help to do so.</p>
+</div>
+</section>
+</section>
+<section id="to-add-a-predefined-model">
+<h2>To add a predefined model<a class="headerlink" href="#to-add-a-predefined-model" title="Link to this heading"></a></h2>
+<p>The predefined models are not defined in the
+<code class="docutils literal notranslate"><span class="pre">arts-cat-data/</span></code> directory, but is part of the
+ARTS source code tree.  They are
+defined in <code class="docutils literal notranslate"><span class="pre">arts/src/core/spec/predef-models/</span></code>.
+The must be named by the species they contain and the model name, e.g.,
+<code class="docutils literal notranslate"><span class="pre">H2O-PWR98.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2-CKDMT252.xml</span></code>, etc.</p>
+<p>The file format is also
+a <a class="reference internal" href="pyarts3.arts.SpeciesIsotopologueInfo.html#pyarts3.arts.SpeciesIsotopologueInfo" title="pyarts3.arts.SpeciesIsotopologueInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpeciesIsotopologueInfo</span></code></a> XML file,
+but only the short name of the species and the isotopologue names are used.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.xml.html" class="btn btn-neutral float-left" title="XML IO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="indices.html" class="btn btn-neutral float-right" title="Indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

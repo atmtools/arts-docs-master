@@ -106,6 +106,9 @@ Workspace
       - :func:`~pyarts3.workspace.Workspace.abs_bandsReadHITRAN`
       - Reads HITRAN data from a file.
     * - Method
+      - :func:`~pyarts3.workspace.Workspace.abs_bandsReadJPL`
+      - Reads JPL data from a file.
+    * - Method
       - :func:`~pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitARTSCAT`
       - Same as :func:`~pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitCatalog` but for reading the old ARTSCAT format.
     * - Method
@@ -571,6 +574,9 @@ Workspace
       - :func:`~pyarts3.workspace.Workspace.measurement_jacTransformations`
       - Apply all transformations to the Jacobian related to states in :func:`~pyarts3.workspace.Workspace.model_state_vecFromData`
     * - Method
+      - :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
+      - Adds a simple thin-lens camera model to the measurement sensor.
+    * - Method
       - :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
       - Add a sensor to :attr:`~pyarts3.workspace.Workspace.measurement_sensor` that has a Gaussian zenith response.
     * - Method
@@ -590,7 +596,7 @@ Workspace
       - Update :attr:`~pyarts3.workspace.Workspace.measurement_sensor` from :attr:`~pyarts3.workspace.Workspace.model_state_vec`.
     * - Method
       - :func:`~pyarts3.workspace.Workspace.measurement_sensorInit`
-      - Initialize :attr:`~pyarts3.workspace.Workspace.measurement_sensor` to empty.
+      - Initialize :attr:`~pyarts3.workspace.Workspace.measurement_sensor` and :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta` to empty.
     * - Method
       - :func:`~pyarts3.workspace.Workspace.measurement_sensorSimple`
       - Creates a single simple Dirac-opening sensor
@@ -600,6 +606,9 @@ Workspace
     * - Method
       - :func:`~pyarts3.workspace.Workspace.measurement_sensorVectorGaussian`
       - Creates a single simple Gaussian-opening sensor.
+    * - Method
+      - :func:`~pyarts3.workspace.Workspace.measurement_sensor_metaFromMeasurementVec`
+      - Fill :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta` gridded field data from :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
     * - Method
       - :func:`~pyarts3.workspace.Workspace.measurement_vecConditionalAddError`
       - Add the measurement error to the measurement.  Conditionally, also to the Jacobian.
@@ -1287,6 +1296,9 @@ Workspace
     * - :class:`~pyarts3.arts.ArrayOfSensorObsel`
       - :attr:`~pyarts3.workspace.Workspace.measurement_sensor`
       - A list of sensor elements.
+    * - :class:`~pyarts3.arts.ArrayOfSensorMetaInfo`
+      - :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta`
+      - Metadata describing each sensor's block in :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
     * - :class:`~pyarts3.arts.Vector`
       - :attr:`~pyarts3.workspace.Workspace.measurement_vec`
       - The measurment vector for, e.g., a sensor.
@@ -1541,7 +1553,7 @@ Workspace
       - A single zenith angle grid.
     * - Static Data
       - ``pyarts3.workspace.Workspace.fromxml``
-      - <function Workspace.fromxml at 0x7f12f9d0aca0> (:class:`~function`)
+      - <function Workspace.fromxml at 0x7fb7a7a16d40> (:class:`~function`)
     * - Operator
       - :func:`~pyarts3.workspace.Workspace.__eq__`
       - Return self==value.
@@ -1619,6 +1631,7 @@ Workspace
   pyarts3.workspace.Workspace.abs_bandsKeepID
   pyarts3.workspace.Workspace.abs_bandsLineMixingAdaptation
   pyarts3.workspace.Workspace.abs_bandsReadHITRAN
+  pyarts3.workspace.Workspace.abs_bandsReadJPL
   pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitARTSCAT
   pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitCatalog
   pyarts3.workspace.Workspace.abs_bandsReadSplit
@@ -1774,6 +1787,7 @@ Workspace
   pyarts3.workspace.Workspace.measurement_jacSubsurfaceTransformation
   pyarts3.workspace.Workspace.measurement_jacSurfaceTransformation
   pyarts3.workspace.Workspace.measurement_jacTransformations
+  pyarts3.workspace.Workspace.measurement_sensorAddCamera
   pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith
   pyarts3.workspace.Workspace.measurement_sensorAddRawSensor
   pyarts3.workspace.Workspace.measurement_sensorAddSimple
@@ -1784,6 +1798,7 @@ Workspace
   pyarts3.workspace.Workspace.measurement_sensorSimple
   pyarts3.workspace.Workspace.measurement_sensorSimpleGaussian
   pyarts3.workspace.Workspace.measurement_sensorVectorGaussian
+  pyarts3.workspace.Workspace.measurement_sensor_metaFromMeasurementVec
   pyarts3.workspace.Workspace.measurement_vecConditionalAddError
   pyarts3.workspace.Workspace.measurement_vecFromOperatorPath
   pyarts3.workspace.Workspace.measurement_vecFromSensor
@@ -2013,6 +2028,7 @@ Workspace
   pyarts3.workspace.Workspace.measurement_jac
   pyarts3.workspace.Workspace.measurement_jac_error
   pyarts3.workspace.Workspace.measurement_sensor
+  pyarts3.workspace.Workspace.measurement_sensor_meta
   pyarts3.workspace.Workspace.measurement_vec
   pyarts3.workspace.Workspace.measurement_vec_error
   pyarts3.workspace.Workspace.measurement_vec_error_covmat

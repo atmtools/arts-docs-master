@@ -97,6 +97,22 @@
 <span class="p">}</span>
 
 
+<div class="viewcode-block" id="pos2char">
+<a class="viewcode-back" href="../../pyarts3.hitran.html#pyarts3.hitran.pos2char">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pos2char</span><span class="p">(</span><span class="n">ind</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Convert an isotoplogue index to a HITRAN char for that index &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ind</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&#39;0&#39;&quot;</span>
+    <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&#39;A&#39;&quot;</span>
+    <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&#39;B&#39;&quot;</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid isotopologue index: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">))</span></div>
+
+
+
 <div class="viewcode-block" id="get_latest_molparam_map">
 <a class="viewcode-back" href="../../pyarts3.hitran.html#pyarts3.hitran.get_latest_molparam_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_latest_molparam_map</span><span class="p">(</span><span class="n">molparam_txt_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -110,16 +126,6 @@
 <span class="sd">    3. isotopologue string: isotopologue identifier in HITRAN notation</span>
 <span class="sd">    4. abundance: natural abundance of the isotopologue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pos2char</span><span class="p">(</span><span class="n">ind</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Convert an isotoplogue index to a HITRAN char for that index &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">ind</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&#39;0&#39;&quot;</span>
-        <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&#39;A&#39;&quot;</span>
-        <span class="k">elif</span> <span class="n">ind</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&#39;B&#39;&quot;</span>
 
     <span class="k">if</span> <span class="n">molparam_txt_file</span><span class="p">:</span>
         <span class="n">molparam_txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">molparam_txt_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -142,6 +148,31 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">out</span><span class="p">[</span><span class="n">spec</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">specnum</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
             <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="to_cat_data">
+<a class="viewcode-back" href="../../pyarts3.hitran.html#pyarts3.hitran.to_cat_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_cat_data</span><span class="p">(</span><span class="n">molparam_txt_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Converts the molparam.txt file to a format suitable for catdatabase input.</span>
+
+<span class="sd">    The output is printed to stream with print() as the intent is to use this</span>
+<span class="sd">    output in ARTS directly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_latest_molparam_map</span><span class="p">(</span><span class="n">molparam_txt_file</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">spec</span><span class="p">]:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">HitranSpeciesInfo</span><span class="p">()</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SpeciesIsotope</span><span class="p">(</span><span class="n">spec</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">entry</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">hitind</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">hitchar</span> <span class="o">=</span> <span class="n">pos2char</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 

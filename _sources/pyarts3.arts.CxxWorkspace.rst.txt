@@ -106,6 +106,9 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.abs_bandsReadHITRAN`
       - Reads HITRAN data from a file.
     * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.abs_bandsReadJPL`
+      - Reads JPL data from a file.
+    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_bandsReadSpeciesSplitARTSCAT`
       - Same as :func:`~pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitCatalog` but for reading the old ARTSCAT format.
     * - Method
@@ -571,6 +574,9 @@ CxxWorkspace
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_jacTransformations`
       - Apply all transformations to the Jacobian related to states in :func:`~pyarts3.workspace.Workspace.model_state_vecFromData`
     * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorAddCamera`
+      - Adds a simple thin-lens camera model to the measurement sensor.
+    * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorAddGaussianZenith`
       - Add a sensor to :attr:`~pyarts3.workspace.Workspace.measurement_sensor` that has a Gaussian zenith response.
     * - Method
@@ -590,7 +596,7 @@ CxxWorkspace
       - Update :attr:`~pyarts3.workspace.Workspace.measurement_sensor` from :attr:`~pyarts3.workspace.Workspace.model_state_vec`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorInit`
-      - Initialize :attr:`~pyarts3.workspace.Workspace.measurement_sensor` to empty.
+      - Initialize :attr:`~pyarts3.workspace.Workspace.measurement_sensor` and :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta` to empty.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorSimple`
       - Creates a single simple Dirac-opening sensor
@@ -600,6 +606,9 @@ CxxWorkspace
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensorVectorGaussian`
       - Creates a single simple Gaussian-opening sensor.
+    * - Method
+      - :func:`~pyarts3.arts.CxxWorkspace.measurement_sensor_metaFromMeasurementVec`
+      - Fill :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta` gridded field data from :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.measurement_vecConditionalAddError`
       - Add the measurement error to the measurement.  Conditionally, also to the Jacobian.
@@ -1290,6 +1299,9 @@ CxxWorkspace
     * - :class:`~pyarts3.arts.ArrayOfSensorObsel`
       - :attr:`~pyarts3.arts.CxxWorkspace.measurement_sensor`
       - A list of sensor elements.
+    * - :class:`~pyarts3.arts.ArrayOfSensorMetaInfo`
+      - :attr:`~pyarts3.arts.CxxWorkspace.measurement_sensor_meta`
+      - Metadata describing each sensor's block in :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
     * - :class:`~pyarts3.arts.Vector`
       - :attr:`~pyarts3.arts.CxxWorkspace.measurement_vec`
       - The measurment vector for, e.g., a sensor.
@@ -1618,6 +1630,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.abs_bandsKeepID
   .. automethod:: CxxWorkspace.abs_bandsLineMixingAdaptation
   .. automethod:: CxxWorkspace.abs_bandsReadHITRAN
+  .. automethod:: CxxWorkspace.abs_bandsReadJPL
   .. automethod:: CxxWorkspace.abs_bandsReadSpeciesSplitARTSCAT
   .. automethod:: CxxWorkspace.abs_bandsReadSpeciesSplitCatalog
   .. automethod:: CxxWorkspace.abs_bandsReadSplit
@@ -1773,6 +1786,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.measurement_jacSubsurfaceTransformation
   .. automethod:: CxxWorkspace.measurement_jacSurfaceTransformation
   .. automethod:: CxxWorkspace.measurement_jacTransformations
+  .. automethod:: CxxWorkspace.measurement_sensorAddCamera
   .. automethod:: CxxWorkspace.measurement_sensorAddGaussianZenith
   .. automethod:: CxxWorkspace.measurement_sensorAddRawSensor
   .. automethod:: CxxWorkspace.measurement_sensorAddSimple
@@ -1783,6 +1797,7 @@ CxxWorkspace
   .. automethod:: CxxWorkspace.measurement_sensorSimple
   .. automethod:: CxxWorkspace.measurement_sensorSimpleGaussian
   .. automethod:: CxxWorkspace.measurement_sensorVectorGaussian
+  .. automethod:: CxxWorkspace.measurement_sensor_metaFromMeasurementVec
   .. automethod:: CxxWorkspace.measurement_vecConditionalAddError
   .. automethod:: CxxWorkspace.measurement_vecFromOperatorPath
   .. automethod:: CxxWorkspace.measurement_vecFromSensor
@@ -2044,6 +2059,7 @@ CxxWorkspace
 
          * :func:`~pyarts3.workspace.Workspace.ReadCatalogData`
          * :func:`~pyarts3.workspace.Workspace.abs_bandsReadHITRAN`
+         * :func:`~pyarts3.workspace.Workspace.abs_bandsReadJPL`
          * :func:`~pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitARTSCAT`
          * :func:`~pyarts3.workspace.Workspace.abs_bandsReadSpeciesSplitCatalog`
          * :func:`~pyarts3.workspace.Workspace.abs_bandsReadSplit`
@@ -3874,6 +3890,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.disort_spectral_rad_fieldProfileCdisort`
          * :func:`~pyarts3.workspace.Workspace.flux_profileIntegrate`
          * :func:`~pyarts3.workspace.Workspace.freq_grid_pathFromPath`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
@@ -5027,6 +5044,7 @@ CxxWorkspace
      #. Copies the global :attr:`~pyarts3.workspace.Workspace.jac_targets`
      #. :func:`~pyarts3.workspace.Workspace.measurement_vec_errorFromModelState`
      #. :func:`~pyarts3.workspace.Workspace.jac_targetsConditionalClear`
+     #. kernel = "Low Memory"
      #. :func:`~pyarts3.workspace.Workspace.measurement_vecFromSensor`
      #. :func:`~pyarts3.workspace.Workspace.measurement_jacTransformations`
      #. :func:`~pyarts3.workspace.Workspace.measurement_vecConditionalAddError`
@@ -5241,6 +5259,7 @@ CxxWorkspace
          * :func:`~pyarts3.workspace.Workspace.UpdateModelStates`
          * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`
          * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecuteOperator`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
          * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
@@ -5267,7 +5286,57 @@ CxxWorkspace
 
          * :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`
 
+
+     .. rubric:: Related workspace variable
+
+     .. hlist::
+         :columns: 1
+
+         * :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta`
+
      .. :class:`~pyarts3.arts.ArrayOfSensorObsel`
+
+
+  .. attribute:: CxxWorkspace.measurement_sensor_meta
+     :type: ~pyarts3.arts.ArrayOfSensorMetaInfo
+
+     Metadata describing each sensor's block in :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
+
+     Each element corresponds to one ``measurement_sensorAdd*`` call and
+     describes how its contiguous block of :attr:`~pyarts3.workspace.Workspace.measurement_sensor` /
+     :attr:`~pyarts3.workspace.Workspace.measurement_vec` entries maps to a structured gridded field.
+
+     The start index of each block is not stored explicitly; it is the
+     cumulative sum of ``count()`` from preceding elements.
+
+
+
+
+     .. rubric:: Modified by workspace methods
+
+     .. hlist::
+         :columns: 2
+
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimpleGaussian`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddVectorGaussian`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensor_metaFromMeasurementVec`
+
+
+     .. rubric:: Output from workspace methods
+
+     .. hlist::
+         :columns: 1
+
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorInit`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimple`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimpleGaussian`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensorVectorGaussian`
+
+     .. :class:`~pyarts3.arts.ArrayOfSensorMetaInfo`
 
 
   .. attribute:: CxxWorkspace.measurement_vec
@@ -5304,6 +5373,7 @@ CxxWorkspace
          :columns: 1
 
          * :func:`~pyarts3.workspace.Workspace.OEM`
+         * :func:`~pyarts3.workspace.Workspace.measurement_sensor_metaFromMeasurementVec`
          * :func:`~pyarts3.workspace.Workspace.measurement_vec_fitFromMeasurement`
 
 
