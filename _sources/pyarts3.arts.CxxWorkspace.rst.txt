@@ -149,7 +149,7 @@ CxxWorkspace
       - Sets the O2-66 microwave band data for ECS.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_ecs_dataAddMeanAir`
-      - Sets ECS data for air from other data if available.
+      - Combines ECS data from specified species using VMR weights to create air (bath gas) broadening parameters.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_ecs_dataAddNH3`
       - Sets preliminary NH3-4111 band data for ECS.
@@ -158,10 +158,10 @@ CxxWorkspace
       - Sets preliminary PH3-1111 band data for ECS.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_ecs_dataAddRodrigues1997`
-      - Sets the CO2-626, CO2-628, and CO2-636 band data for ECS.
+      - Sets ECS broadening parameters for N2 and O2 collision partners for CO2 isotopologues CO2-626, CO2-628, and CO2-636.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_ecs_dataAddTran2011`
-      - Sets the CO2-626, CO2-628, and CO2-636 band data for ECS.
+      - Sets ECS broadening parameters for CO2 collision partner for CO2 isotopologues CO2-626, CO2-628, and CO2-636.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.abs_ecs_dataInit`
       - Resets/initializes the ECS data.
@@ -1064,7 +1064,7 @@ CxxWorkspace
       - Set :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda` to exclusively use provided external operator.  See :class:`~pyarts3.arts.spectral_rad_space_agendaOperator` for more details.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_rad_srcvec_pathAddScattering`
-      - Adds the scattering part of the propagation matrix to the rest along the path.
+      - Adds the scattering part of the source vector to the rest along the path.
     * - Method
       - :func:`~pyarts3.arts.CxxWorkspace.spectral_rad_srcvec_pathFromPropmat`
       - Gets the source term along the path.
@@ -1172,7 +1172,7 @@ CxxWorkspace
       - HITRAN Collision-Induced Absorption (CIA) Data.
     * - :class:`~pyarts3.arts.LinemixingEcsData`
       - :attr:`~pyarts3.arts.CxxWorkspace.abs_ecs_data`
-      - Error corrected sudden data
+      - Error-corrected sudden data
     * - :class:`~pyarts3.arts.AbsorptionLookupTables`
       - :attr:`~pyarts3.arts.CxxWorkspace.abs_lookup_data`
       - Absorption lookup table for scalar gas absorption coefficients.
@@ -2152,7 +2152,7 @@ CxxWorkspace
   .. attribute:: CxxWorkspace.abs_ecs_data
      :type: ~pyarts3.arts.LinemixingEcsData
 
-     Error corrected sudden data
+     Error-corrected sudden data
 
      Dimensions: [num Isotopologues] [num Species]
 
@@ -8516,7 +8516,7 @@ CxxWorkspace
 
      This is closely related to :attr:`~pyarts3.workspace.Workspace.spectral_propmat`.
 
-     Gven the level source term:
+     Given the level source term:
 
      .. math:: \vec{J} = \mathbf{K}^{-1} \left(\vec{\alpha}B + \vec{J}_n + \cdots\right),
 
