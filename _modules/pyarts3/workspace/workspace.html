@@ -616,6 +616,24 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_arts_agenda</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">fix</span><span class="p">)</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">in_parallel</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses the decorated function into an Agenda and executes it immediately</span>
+<span class="sd">    using the provided workspace.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ws</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Workspace &#39;ws&#39; must be provided to in_parallel&quot;</span><span class="p">)</span>
+        <span class="n">agenda</span> <span class="o">=</span> <span class="n">_arts_agenda</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">agenda</span><span class="o">.</span><span class="n">_set_name</span><span class="p">(</span><span class="n">getsource</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
+        <span class="n">agenda</span><span class="o">.</span><span class="n">par_execute</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">agenda</span>
+
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">execute</span>
+    <span class="k">return</span> <span class="n">execute</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 </pre></div>
 
            </div>
