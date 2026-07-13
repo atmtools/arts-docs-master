@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts3.plots.SensorObsel &mdash; ARTS 3.0.0dev9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/_modules/pyarts3/plots/SensorObsel.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9e8414ea"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">pyarts3.plots</a></li>
+      <li class="breadcrumb-item active">pyarts3.plots.SensorObsel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts3.plots.SensorObsel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Plotting routine for SensorObsel &quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.tri</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mtri</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_fig_ax</span><span class="p">,</span> <span class="n">select_flat_ax</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_line_plot_axes</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">nkeys</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nkeys</span><span class="p">,</span> <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">nkeys</span><span class="p">,</span> <span class="mi">10</span><span class="p">)})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_geometry_plot_axes</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">polar</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">default_fig_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span>
+                          <span class="n">ax</span><span class="p">,</span>
+                          <span class="n">ax_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;subplot_kw&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;polar&#39;</span><span class="p">:</span> <span class="n">polar</span><span class="p">}},</span>
+                          <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">if</span> <span class="n">polar</span> <span class="k">else</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_azimuth_for_plot</span><span class="p">(</span><span class="n">azi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">wrap_azimuth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">wrap_azimuth</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">azi</span> <span class="o">+</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">180.0</span>
+
+    <span class="k">return</span> <span class="n">azi</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_los_to_enu</span><span class="p">(</span><span class="n">los</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">los</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">los</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">sin_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">zen</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">sin_zen</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">azi</span><span class="p">),</span>
+                     <span class="n">sin_zen</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">azi</span><span class="p">),</span>
+                     <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">zen</span><span class="p">)),</span>
+                    <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_antenna_basis</span><span class="p">(</span><span class="n">bore_los</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">bore_los</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">bore_los</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">cza</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">zen</span><span class="p">)</span>
+    <span class="n">sza</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">zen</span><span class="p">)</span>
+    <span class="n">caa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">azi</span><span class="p">)</span>
+    <span class="n">saa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">azi</span><span class="p">)</span>
+
+    <span class="n">vertical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">cza</span> <span class="o">*</span> <span class="n">saa</span><span class="p">,</span> <span class="o">-</span><span class="n">cza</span> <span class="o">*</span> <span class="n">caa</span><span class="p">,</span> <span class="n">sza</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">caa</span><span class="p">,</span> <span class="o">-</span><span class="n">saa</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">bore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sza</span> <span class="o">*</span> <span class="n">saa</span><span class="p">,</span> <span class="n">sza</span> <span class="o">*</span> <span class="n">caa</span><span class="p">,</span> <span class="n">cza</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vertical</span><span class="p">,</span> <span class="n">horizontal</span><span class="p">,</span> <span class="n">bore</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_local_los_from_enu</span><span class="p">(</span><span class="n">enu</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">bore_los</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">vertical</span><span class="p">,</span> <span class="n">horizontal</span><span class="p">,</span> <span class="n">bore</span> <span class="o">=</span> <span class="n">_antenna_basis</span><span class="p">(</span><span class="n">bore_los</span><span class="p">)</span>
+
+    <span class="n">local_vertical</span> <span class="o">=</span> <span class="n">enu</span> <span class="o">@</span> <span class="n">vertical</span>
+    <span class="n">local_horizontal</span> <span class="o">=</span> <span class="n">enu</span> <span class="o">@</span> <span class="n">horizontal</span>
+    <span class="n">local_bore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">enu</span> <span class="o">@</span> <span class="n">bore</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">local_bore</span><span class="p">))</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">local_horizontal</span><span class="p">,</span> <span class="o">-</span><span class="n">local_vertical</span><span class="p">))</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">zen</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">azi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">zen</span><span class="p">,</span> <span class="n">azi</span><span class="p">,</span> <span class="n">local_horizontal</span><span class="p">,</span> <span class="o">-</span><span class="n">local_vertical</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reference_los</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorObsel</span><span class="p">,</span> <span class="n">ifreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">weight_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">iweights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">ifreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ref_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">iweights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nfreq</span> <span class="o">=</span> <span class="n">iweights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ifreq</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ifreq</span> <span class="o">+=</span> <span class="n">nfreq</span>
+        <span class="n">ref_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">iweights</span><span class="p">[:,</span> <span class="n">ifreq</span><span class="p">])</span>
+
+    <span class="n">los</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">poslos</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">enu</span> <span class="o">=</span> <span class="n">_los_to_enu</span><span class="p">(</span><span class="n">los</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">ref_weights</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">):</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">ref_weights</span> <span class="o">@</span> <span class="n">enu</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">enu</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">ref_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">los</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">ref</span> <span class="o">/=</span> <span class="n">ref_norm</span>
+    <span class="n">ref_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+    <span class="n">ref_azi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ref_zen</span><span class="p">,</span> <span class="n">ref_azi</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_geometry_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorObsel</span><span class="p">,</span>
+                          <span class="n">frame</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                          <span class="n">ifreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">wrap_azimuth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="n">poslos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">poslos</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">zen</span> <span class="o">=</span> <span class="n">poslos</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">poslos</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;global&quot;</span><span class="p">:</span>
+        <span class="n">plot_azi</span> <span class="o">=</span> <span class="n">_azimuth_for_plot</span><span class="p">(</span><span class="n">azi</span><span class="p">,</span> <span class="n">wrap_azimuth</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">zen</span><span class="p">,</span> <span class="n">plot_azi</span><span class="p">,</span> <span class="s2">&quot;Azimuth angle [deg]&quot;</span><span class="p">,</span> <span class="s2">&quot;Zenith angle [deg]&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">frame</span> <span class="o">!=</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;frame must be &#39;local&#39; or &#39;global&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">bore_los</span> <span class="o">=</span> <span class="n">_reference_los</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ifreq</span><span class="p">)</span>
+    <span class="n">enu</span> <span class="o">=</span> <span class="n">_los_to_enu</span><span class="p">(</span><span class="n">poslos</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">local_zen</span><span class="p">,</span> <span class="n">local_azi</span><span class="p">,</span> <span class="n">xoff</span><span class="p">,</span> <span class="n">yoff</span> <span class="o">=</span> <span class="n">_local_los_from_enu</span><span class="p">(</span><span class="n">enu</span><span class="p">,</span> <span class="n">bore_los</span><span class="p">)</span>
+
+    <span class="n">radial</span> <span class="o">=</span> <span class="n">local_zen</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">_azimuth_for_plot</span><span class="p">(</span><span class="n">local_azi</span><span class="p">,</span> <span class="n">wrap_azimuth</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bore</span> <span class="o">=</span> <span class="n">_antenna_basis</span><span class="p">(</span><span class="n">bore_los</span><span class="p">)</span>
+    <span class="n">projected_bore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">enu</span> <span class="o">@</span> <span class="n">bore</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">xdeg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xoff</span><span class="p">,</span> <span class="n">projected_bore</span><span class="p">))</span>
+    <span class="n">ydeg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">yoff</span><span class="p">,</span> <span class="n">projected_bore</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">radial</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="s2">&quot;Cross-track offset [deg]&quot;</span><span class="p">,</span> <span class="s2">&quot;Along-track offset [deg]&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">xdeg</span><span class="p">,</span> <span class="n">ydeg</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_geometry_values</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorObsel</span><span class="p">,</span>
+                     <span class="n">pol</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span><span class="p">,</span>
+                     <span class="n">ifreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">ifreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span>
+                                                      <span class="n">along_poslos</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                      <span class="n">along_freq</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="s2">&quot;Integrated weight&quot;</span>
+
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">weight_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">nfreq</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ifreq</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">nfreq</span> <span class="ow">or</span> <span class="n">ifreq</span> <span class="o">&gt;=</span> <span class="n">nfreq</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ifreq </span><span class="si">{</span><span class="n">ifreq</span><span class="si">}</span><span class="s2"> out of range for </span><span class="si">{</span><span class="n">nfreq</span><span class="si">}</span><span class="s2"> frequencies&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ifreq</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ifreq</span> <span class="o">+=</span> <span class="n">nfreq</span>
+
+    <span class="n">pol_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="n">ifreq</span><span class="p">,</span> <span class="p">:]</span> <span class="o">@</span> <span class="n">pol_vec</span>
+    <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Weight at f[</span><span class="si">{</span><span class="n">ifreq</span><span class="si">}</span><span class="s2">] = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">f_grid</span><span class="p">[</span><span class="n">ifreq</span><span class="p">])</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_geometry_plot_type</span><span class="p">(</span><span class="n">point_spread</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;points&quot;</span>
+
+    <span class="n">plot_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;scatter&quot;</span><span class="p">:</span>
+        <span class="n">plot_type</span> <span class="o">=</span> <span class="s2">&quot;points&quot;</span>
+
+    <span class="n">valid_types</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="s2">&quot;cloud&quot;</span><span class="p">,</span> <span class="s2">&quot;contour&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_types</span><span class="p">:</span>
+        <span class="n">choices</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">choice</span><span class="p">)</span> <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">valid_types</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;type must be one of </span><span class="si">{</span><span class="n">choices</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">!=</span> <span class="s2">&quot;points&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">point_spread</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;type=</span><span class="si">{</span><span class="nb">type</span><span class="si">!r}</span><span class="s2"> requires point_spread=True&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">plot_type</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_triangulated_point_spread</span><span class="p">(</span><span class="n">local_xy</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                               <span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">mtri</span><span class="o">.</span><span class="n">Triangulation</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="n">finite</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">finite</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">finite</span><span class="p">]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">finite</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interpolated point-spread plots require at least 3 geometry samples&quot;</span><span class="p">)</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">unique_coords</span><span class="p">,</span> <span class="n">inverse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">unique_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">unique_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">unique_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">unique_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">unique_values</span><span class="p">,</span> <span class="n">inverse</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">inverse</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">unique_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">unique_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">unique_values</span> <span class="o">/</span> <span class="n">counts</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interpolated point-spread plots require at least 3 unique geometry samples&quot;</span><span class="p">)</span>
+
+    <span class="n">triangulation</span> <span class="o">=</span> <span class="n">mtri</span><span class="o">.</span><span class="n">Triangulation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">triangulation</span><span class="o">.</span><span class="n">triangles</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interpolated point-spread plots require non-collinear geometry samples&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">triangulation</span><span class="p">,</span> <span class="n">values</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_contour_levels</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">levels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">levels</span>
+
+    <span class="n">nlevels</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">levels</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">vmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">vmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">):</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-6</span> <span class="k">if</span> <span class="n">vmin</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="nb">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-6</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">vmin</span> <span class="o">-</span> <span class="n">delta</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">+</span> <span class="n">delta</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">nlevels</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_geometry</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorObsel</span><span class="p">,</span>
+                   <span class="o">*</span><span class="p">,</span>
+                   <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">pol</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span><span class="p">,</span>
+                   <span class="n">polar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                   <span class="n">point_spread</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                   <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">ifreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">colorbar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                   <span class="n">frame</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                   <span class="n">wrap_azimuth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">_geometry_plot_axes</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">polar</span><span class="p">)</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">radial</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">local_xy</span> <span class="o">=</span> <span class="n">_geometry_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                                                                    <span class="n">frame</span><span class="p">,</span>
+                                                                    <span class="n">ifreq</span><span class="p">,</span>
+                                                                    <span class="n">wrap_azimuth</span><span class="p">)</span>
+    <span class="n">plot_type</span> <span class="o">=</span> <span class="n">_geometry_plot_type</span><span class="p">(</span><span class="n">point_spread</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;points&quot;</span><span class="p">:</span>
+        <span class="n">default_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">default_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="n">artist</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">point_spread</span><span class="p">:</span>
+        <span class="n">values</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">_geometry_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">ifreq</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;cmap&#39;</span><span class="p">,</span> <span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;cloud&quot;</span> <span class="ow">or</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;contour&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">polar</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interpolated point-spread types require polar=False&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">frame</span> <span class="o">!=</span> <span class="s2">&quot;local&quot;</span> <span class="ow">or</span> <span class="n">local_xy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interpolated point-spread types require frame=&#39;local&#39;&quot;</span><span class="p">)</span>
+
+            <span class="n">triangulation</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">_triangulated_point_spread</span><span class="p">(</span><span class="n">local_xy</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;cloud&quot;</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;shading&#39;</span><span class="p">,</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">)</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">tripcolor</span><span class="p">(</span><span class="n">triangulation</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">levels</span> <span class="o">=</span> <span class="n">_contour_levels</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">))</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">triangulation</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">polar</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">radial</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">radial</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">colorbar</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">polar</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">radial</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">local_xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">radial</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">polar</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_theta_zero_location</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_theta_direction</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_rlabel_position</span><span class="p">(</span><span class="mi">225</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">radial</span><span class="p">)</span> <span class="k">if</span> <span class="n">radial</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+
+
+<div class="viewcode-block" id="plot">
+<a class="viewcode-back" href="../../../pyarts3.plots.html#pyarts3.plots.SensorObsel.plot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorObsel</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span>
+         <span class="n">fig</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">keys</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+         <span class="n">pol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+         <span class="n">polar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+         <span class="n">point_spread</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+         <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">ifreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">colorbar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+         <span class="n">frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;global&quot;</span><span class="p">,</span>
+         <span class="n">wrap_azimuth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a sensor observational element.</span>
+
+<span class="sd">    By default, this follows the same line-plot convention as</span>
+<span class="sd">    :mod:`pyarts3.plots.ArrayOfSensorObsel`: the selected quantity is reduced</span>
+<span class="sd">    over the non-plotted axis and drawn against either frequency or one sensor</span>
+<span class="sd">    geometry component.</span>
+
+<span class="sd">    Setting ``polar=True`` switches to a geometry view.  By default, geometry</span>
+<span class="sd">    plots use the stored ``SensorObsel.poslos`` zenith and azimuth values so</span>
+<span class="sd">    the plotted coordinates match the observation element directly.</span>
+<span class="sd">    Setting ``point_spread=True`` colors the geometry samples by their reduced</span>
+<span class="sd">    weights, integrated over all frequencies unless ``ifreq`` selects one</span>
+<span class="sd">    frequency column.  The geometry ``type`` selects whether those weighted</span>
+<span class="sd">    samples appear as discrete points, a smooth triangulated cloud, or filled</span>
+<span class="sd">    triangulated contours.</span>
+
+<span class="sd">    .. rubric:: Example</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :include-source:</span>
+
+<span class="sd">        import pyarts3 as pyarts</span>
+<span class="sd">        import numpy as np</span>
+
+<span class="sd">        ant = pyarts.arts.sensor.GaussianAiryAntenna(np.linspace(0, 1, 11), 0.3, azi_grid_size=12)</span>
+<span class="sd">        ch = pyarts.arts.sensor.DiracChannel(100e9)</span>
+<span class="sd">        obsel = ant(ch, [1, 0, 0], [90, 0], pyarts.arts.planets.Earth.ellipsoid)</span>
+
+<span class="sd">        pyarts.plots.SensorObsel.plot(obsel, polar=True, point_spread=True)</span>
+<span class="sd">        pyarts.plots.SensorObsel.plot(obsel, point_spread=True, wrap_azimuth=True)</span>
+<span class="sd">        pyarts.plots.SensorObsel.plot(obsel, point_spread=True, frame=&quot;local&quot;)</span>
+<span class="sd">        pyarts.plots.SensorObsel.plot(obsel, point_spread=True, frame=&quot;local&quot;, type=&quot;cloud&quot;)</span>
+<span class="sd">        pyarts.plots.SensorObsel.plot(obsel, point_spread=True, frame=&quot;local&quot;, type=&quot;contour&quot;)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ~pyarts3.arts.SensorObsel</span>
+<span class="sd">        A single sensor observation element.</span>
+<span class="sd">    fig : ~matplotlib.figure.Figure, optional</span>
+<span class="sd">        The matplotlib figure to draw on. Defaults to None for new figure.</span>
+<span class="sd">    ax : ~matplotlib.axes.Axes | list[~matplotlib.axes.Axes] | ~numpy.ndarray[~matplotlib.axes.Axes] | None, optional</span>
+<span class="sd">        The matplotlib axes to draw on. Defaults to None for new axes.</span>
+<span class="sd">    keys : str | list</span>
+<span class="sd">        The keys to use for line plotting. Options are in :class:`~pyarts3.arts.SensorKeyType`.</span>
+<span class="sd">        Ignored when ``polar`` or ``point_spread`` is enabled.</span>
+<span class="sd">    pol : str | ~pyarts3.arts.Stokvec</span>
+<span class="sd">        The polarization to use for plotting. Defaults to ``&quot;I&quot;``.</span>
+<span class="sd">    polar : bool, optional</span>
+<span class="sd">        If True, plot the observation geometry in polar coordinates. Defaults to False.</span>
+<span class="sd">    point_spread : bool, optional</span>
+<span class="sd">        If True, color the observation geometry by weight values. Defaults to False.</span>
+<span class="sd">    type : str | None, optional</span>
+<span class="sd">        Geometry rendering type. ``&quot;points&quot;`` shows discrete samples,</span>
+<span class="sd">        ``&quot;cloud&quot;`` draws a smooth triangulated color cloud, and</span>
+<span class="sd">        ``&quot;contour&quot;`` draws filled triangulated contours. Interpolated types</span>
+<span class="sd">        require ``point_spread=True``, ``frame=&quot;local&quot;``, and ``polar=False``.</span>
+<span class="sd">        Defaults to ``None``, which behaves like ``&quot;points&quot;``.</span>
+<span class="sd">    ifreq : int | None, optional</span>
+<span class="sd">        Frequency index to use for point-spread values. If None, integrates over frequency.</span>
+<span class="sd">    colorbar : bool, optional</span>
+<span class="sd">        If True, add a colorbar to point-spread plots. Defaults to True.</span>
+<span class="sd">    frame : str, optional</span>
+<span class="sd">        Geometry frame for ``polar`` and ``point_spread`` plots. ``&quot;global&quot;``</span>
+<span class="sd">        uses the stored zenith/azimuth coordinates from ``SensorObsel.poslos``,</span>
+<span class="sd">        while ``&quot;local&quot;`` uses a bore-centered frame inferred from the weighted</span>
+<span class="sd">        LOS samples. Defaults to ``&quot;global&quot;``.</span>
+<span class="sd">    wrap_azimuth : bool, optional</span>
+<span class="sd">        If True, wrap azimuths to ``[-180, 180)`` before geometry plotting.</span>
+<span class="sd">        Defaults to False.</span>
+<span class="sd">    **kwargs : keyword arguments</span>
+<span class="sd">        Additional keyword arguments to pass to the plotting functions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig :</span>
+<span class="sd">        As input if input. Otherwise the created Figure.</span>
+<span class="sd">    ax :</span>
+<span class="sd">        As input if input. Otherwise the created Axes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">Stokvec</span><span class="p">(</span><span class="n">pol</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">polar</span> <span class="ow">or</span> <span class="n">point_spread</span><span class="p">):</span>
+        <span class="n">_geometry_plot_type</span><span class="p">(</span><span class="n">point_spread</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">polar</span> <span class="ow">or</span> <span class="n">point_spread</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_plot_geometry</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                              <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+                              <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                              <span class="n">pol</span><span class="o">=</span><span class="n">pol</span><span class="p">,</span>
+                              <span class="n">polar</span><span class="o">=</span><span class="n">polar</span><span class="p">,</span>
+                              <span class="n">point_spread</span><span class="o">=</span><span class="n">point_spread</span><span class="p">,</span>
+                              <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span>
+                              <span class="n">ifreq</span><span class="o">=</span><span class="n">ifreq</span><span class="p">,</span>
+                              <span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">,</span>
+                              <span class="n">frame</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span>
+                              <span class="n">wrap_azimuth</span><span class="o">=</span><span class="n">wrap_azimuth</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">keys</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">keys</span>
+    <span class="n">nkeys</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nkeys</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">_line_plot_axes</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">nkeys</span><span class="p">)</span>
+
+    <span class="n">key_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">f</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">alt</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">lat</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">lon</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">zen</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="o">.</span><span class="n">azi</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">isub</span><span class="p">,</span> <span class="n">raw_key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SensorKeyType</span><span class="p">(</span><span class="n">raw_key</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">key_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span>
+                                           <span class="n">along_poslos</span><span class="o">=</span><span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">along_freq</span><span class="o">=</span><span class="n">idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">f_grid</span> <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">data</span><span class="o">.</span><span class="n">poslos</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="n">select_flat_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">isub</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

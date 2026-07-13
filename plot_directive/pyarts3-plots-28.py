@@ -1,7 +1,8 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create zenith angles from 0° (up) to 180° (down)
-zenith = pyarts.arts.ZenGrid(np.linspace(0, 180, 19))
+# Create a simple vector
+x = np.linspace(0, 2*np.pi, 50)
+vec = pyarts.arts.Vector(np.sin(x))
 
-pyarts.plots.ZenGrid.plot(zenith, polar=True)
+pyarts.plots.Vector.plot(vec, xgrid=pyarts.arts.convert.rad2deg(x))

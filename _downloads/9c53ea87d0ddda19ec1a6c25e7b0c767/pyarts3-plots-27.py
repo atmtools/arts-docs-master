@@ -1,8 +1,7 @@
 import pyarts3 as pyarts
 import numpy as np
 
-# Create a simple vector
-x = np.linspace(0, 2*np.pi, 50)
-vec = pyarts.arts.Vector(np.sin(x))
-
-pyarts.plots.Vector.plot(vec, xgrid=pyarts.arts.convert.rad2deg(x))
+f = pyarts.arts.SurfaceField()
+f.ellipsoid = [1.0, 1]
+f['t'] = lambda lat, lon: 280 + 0.5 * lat**2 - 10 * lon
+pyarts.plots.SurfaceField.plot(f)

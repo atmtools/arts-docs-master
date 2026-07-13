@@ -20,6 +20,7 @@ pyarts3.arts
   pyarts3.arts.predef
   pyarts3.arts.random
   pyarts3.arts.rtepack
+  pyarts3.arts.sensor
   pyarts3.arts.zeeman
   pyarts3.arts.AbsorptionBand
   pyarts3.arts.AbsorptionBandSortingOption
@@ -89,6 +90,7 @@ pyarts3.arts
   pyarts3.arts.ArrayOfSensorPosLosVector
   pyarts3.arts.ArrayOfSensorTarget
   pyarts3.arts.ArrayOfSingleScatteringData
+  pyarts3.arts.ArrayOfSortedGriddedField1
   pyarts3.arts.ArrayOfSparse
   pyarts3.arts.ArrayOfSpeciesEnum
   pyarts3.arts.ArrayOfSpeciesIsotope
@@ -143,6 +145,7 @@ pyarts3.arts
   pyarts3.arts.DisortFlux
   pyarts3.arts.DisortRadiance
   pyarts3.arts.DisortSettings
+  pyarts3.arts.DisortSettingsAgendaOperator
   pyarts3.arts.DoubleGaussGrid
   pyarts3.arts.EarthEllipsoid
   pyarts3.arts.EllipsoidGravity
@@ -296,6 +299,7 @@ pyarts3.arts
   pyarts3.arts.SpecmatTensor3
   pyarts3.arts.SpecmatVector
   pyarts3.arts.SpectralRadianceOperator
+  pyarts3.arts.SpectralRadianceSurfaceAgendaOperator
   pyarts3.arts.SpectralRadianceTransformOperator
   pyarts3.arts.SpectralRadianceUnitType
   pyarts3.arts.Stokvec
@@ -350,7 +354,6 @@ pyarts3.arts
   pyarts3.arts.ZenGrid
   pyarts3.arts.ZenGriddedField1
   pyarts3.arts.cppdisort
-  pyarts3.arts.disort_settings_agendaOperator
   pyarts3.arts.disort_settings_agenda_setup_layer_emission_type
   pyarts3.arts.disort_settings_agenda_setup_scattering_type
   pyarts3.arts.disort_settings_agenda_setup_space_type
@@ -366,11 +369,11 @@ pyarts3.arts
   pyarts3.arts.single_rad_space_agendaOperator
   pyarts3.arts.single_rad_surface_agendaOperator
   pyarts3.arts.spectral_propmat_agendaOperator
+  pyarts3.arts.spectral_propmat_and_atm_path_agendaOperator
   pyarts3.arts.spectral_propmat_scat_agendaOperator
   pyarts3.arts.spectral_propmat_scat_spectral_agendaOperator
   pyarts3.arts.spectral_rad_observer_agendaOperator
   pyarts3.arts.spectral_rad_space_agendaOperator
-  pyarts3.arts.spectral_rad_surface_agendaOperator
   pyarts3.arts.spectral_surf_refl_agendaOperator
   pyarts3.arts.frequency_shift
   pyarts3.arts.igrf
@@ -416,6 +419,8 @@ pyarts3.arts
     - Random Number Interface
   * - :py:mod:`~pyarts3.arts.rtepack`
     - Module for RTEPACK functionality
+  * - :py:mod:`~pyarts3.arts.sensor`
+    - Classes and functions to help create a sensor
   * - :py:mod:`~pyarts3.arts.zeeman`
     - Zeeman effect calculations
 
@@ -560,6 +565,8 @@ pyarts3.arts
     - List of sensor targets
   * - :class:`~pyarts3.arts.ArrayOfSingleScatteringData`
     - A list of :class:`~pyarts3.arts.SingleScatteringData`
+  * - :class:`~pyarts3.arts.ArrayOfSortedGriddedField1`
+    - A list of :class:`~pyarts3.arts.SortedGriddedField1`
   * - :class:`~pyarts3.arts.ArrayOfSparse`
     - A list of :class:`~pyarts3.arts.Sparse`
   * - :class:`~pyarts3.arts.ArrayOfSpeciesEnum`
@@ -668,6 +675,8 @@ pyarts3.arts
     - The radiance result variable for Disort.
   * - :class:`~pyarts3.arts.DisortSettings`
     - The settings required to run Disort.
+  * - :class:`~pyarts3.arts.DisortSettingsAgendaOperator`
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.DisortSettingsAgendaOperator` for more information.
   * - :class:`~pyarts3.arts.DoubleGaussGrid`
     - Double Gaussian grid
   * - :class:`~pyarts3.arts.EarthEllipsoid`
@@ -974,6 +983,8 @@ pyarts3.arts
     - A vector of :class:`~pyarts3.arts.Specmat`
   * - :class:`~pyarts3.arts.SpectralRadianceOperator`
     - An operator for getting the :attr:`~pyarts3.workspace.Workspace.spectral_rad`
+  * - :class:`~pyarts3.arts.SpectralRadianceSurfaceAgendaOperator`
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.SpectralRadianceSurfaceAgendaOperator` for more information.
   * - :class:`~pyarts3.arts.SpectralRadianceTransformOperator`
     - Transformation of :attr:`~pyarts3.workspace.Workspace.spectral_rad` and :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac`
   * - :class:`~pyarts3.arts.SpectralRadianceUnitType`
@@ -1082,8 +1093,6 @@ pyarts3.arts
     - A 1-dimensional grid of :class:`~pyarts3.arts.Numeric`.
   * - :class:`~pyarts3.arts.cppdisort`
     - A DISORT object.
-  * - :class:`~pyarts3.arts.disort_settings_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.disort_settings_agenda`.
   * - :class:`~pyarts3.arts.disort_settings_agenda_setup_layer_emission_type`
     - For atmospheric emission settings with :func:`~pyarts3.workspace.Workspace.disort_settings_agendaSetup`.
   * - :class:`~pyarts3.arts.disort_settings_agenda_setup_scattering_type`
@@ -1095,37 +1104,37 @@ pyarts3.arts
   * - :class:`~pyarts3.arts.disort_settings_agenda_setup_surface_type`
     - For surface boundary settings with :func:`~pyarts3.workspace.Workspace.disort_settings_agendaSetup`.
   * - :class:`~pyarts3.arts.disort_settings_downwelling_wrapper_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.disort_settings_downwelling_wrapper_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.disort_settings_downwelling_wrapper_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.inversion_iterate_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.inversion_iterate_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.measurement_inversion_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.measurement_inversion_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.measurement_inversion_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.ray_path_observer_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.ray_path_observer_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.ray_path_observer_agendaSetGeometricMaxStep`
     - For use with :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetGeometric`.  Determines how to densify the geometric path.
   * - :class:`~pyarts3.arts.ray_point_back_propagation_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.ray_point_back_propagation_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.single_propmat_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_propmat_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.single_propmat_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.single_rad_space_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.single_rad_space_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.single_rad_surface_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.single_rad_surface_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_propmat_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_propmat_agendaOperator` for more information.
+  * - :class:`~pyarts3.arts.spectral_propmat_and_atm_path_agendaOperator`
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_propmat_and_atm_path_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_propmat_scat_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_propmat_scat_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_propmat_scat_spectral_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_propmat_scat_spectral_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_rad_observer_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_rad_observer_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_rad_space_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_space_agenda`.
-  * - :class:`~pyarts3.arts.spectral_rad_surface_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_rad_surface_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_rad_space_agendaOperator` for more information.
   * - :class:`~pyarts3.arts.spectral_surf_refl_agendaOperator`
-    - This is the operator for free customization of the agenda: :attr:`~pyarts3.workspace.Workspace.spectral_surf_refl_agenda`.
+    - This is the operator for free customization of the agenda.  See :attr:`~pyarts3.arts.spectral_surf_refl_agendaOperator` for more information.
 
 .. rubric:: Functions
 
