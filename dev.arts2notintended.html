@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTS 2 Features Not Intended for ARTS 3 &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/dev.arts2notintended.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="T-matrix implementation and validation" href="dev.tmatrix.html" />
+    <link rel="prev" title="ARTS 2 Feature-Port Status" href="dev.arts2missing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.edit.html">Editor modules for GUI integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.species.html">Adding new species to ARTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html">ARTS 2 Feature-Port Status</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ARTS 2 Features Not Intended for ARTS 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arts-2-scripting-language-and-executable">ARTS 2 scripting language and executable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#always-3d-geometry-not-atmosphere-modes">Always-3D geometry, not atmosphere modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#no-global-stokes-or-jacobian-switches">No global Stokes or Jacobian switches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#no-formal-cloudbox">No formal cloudbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite-fields-and-fewer-workspace-variables">Composite fields and fewer workspace variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sensor-representation">Sensor representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scattering-data-representation">Scattering data representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#failure-and-validation-behavior">Failure and validation behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arts-2-checks-retired-by-these-decisions">ARTS 2 checks retired by these decisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#legacy-choices-that-remain">Legacy choices that remain</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#xml-file-format">XML file format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#f-grid"><code class="docutils literal notranslate"><span class="pre">f_grid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-methods-variables-agendas-and-arrays">Workspace methods, variables, agendas, and arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loader-level-missing-data-options">Loader-level missing-data options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oem-model-state-update-cost">OEM model-state update cost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#residual-control-language-tooling">Residual control-language tooling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stale-optional-feature-hooks">Stale optional-feature hooks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#open-questions-not-design-decisions">Open questions, not design decisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#port-review-checklist">Port-review checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html">DISORT implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#implementation-array-layouts">Implementation array layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">ARTS 2 Features Not Intended for ARTS 3</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.arts2notintended.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arts-2-features-not-intended-for-arts-3">
+<span id="dev-arts2notintended"></span><h1>ARTS 2 Features Not Intended for ARTS 3<a class="headerlink" href="#arts-2-features-not-intended-for-arts-3" title="Link to this heading"></a></h1>
+<p>This page records ARTS 2 interfaces and implementation patterns that should
+not be restored merely to make a test or method list look complete.  The
+scientific behavior behind an item can still be required; unresolved
+capabilities belong in <a class="reference internal" href="dev.arts2missing.html"><span class="doc">ARTS 2 Feature-Port Status</span></a> and must be implemented using
+the ARTS 3 design.</p>
+<section id="arts-2-scripting-language-and-executable">
+<h2>ARTS 2 scripting language and executable<a class="headerlink" href="#arts-2-scripting-language-and-executable" title="Link to this heading"></a></h2>
+<p>The ARTS 2 controlfile language is not an ARTS 3 compatibility target.  This
+includes its parser, the <code class="docutils literal notranslate"><span class="pre">arts</span></code> controlfile executable, syntax-only checks,
+controlfile-to-Python conversion, and command-line introspection tied to that
+runtime.  The ARTS 2 CTests named <code class="docutils literal notranslate"><span class="pre">cmdline.*</span></code>, <code class="docutils literal notranslate"><span class="pre">converted.*</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TestWSMCalls</span></code>, and the controlfile-conversion example therefore do not
+identify missing scientific functionality.</p>
+<p>Use the Python interface for orchestration:</p>
+<ul class="simple">
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">for</span></code> statements replace controlfile <code class="docutils literal notranslate"><span class="pre">ForLoop</span></code> helpers.</p></li>
+<li><p>Python assignment, copying, lists, and callables replace generic <code class="docutils literal notranslate"><span class="pre">Copy</span></code>,
+<code class="docutils literal notranslate"><span class="pre">AgendaCopy</span></code>, and <code class="docutils literal notranslate"><span class="pre">ArrayOfAgenda</span></code> convenience patterns where no native
+ARTS object semantics are required.</p></li>
+<li><p>Python loops and array assembly replace <code class="docutils literal notranslate"><span class="pre">ybatch</span></code>, <code class="docutils literal notranslate"><span class="pre">DOBatch</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">YCalcAppend</span></code> control-language workflows.  If a large workload needs a
+parallel C++ kernel, track that kernel as a performance capability rather
+than restoring the language construct.</p></li>
+<li><p>Reusable high-level setups belong in documented <code class="docutils literal notranslate"><span class="pre">pyarts3.recipe</span></code> callables.</p></li>
+</ul>
+<p>Python itself is fully supported and encouraged.  The restriction in the ARTS
+3 design is narrower: do not dynamically add Python implementations that
+pretend to be native workspace methods.  Prototype or extend native execution
+through callback operators, agendas, and ordinary Python callables with clear
+ownership and performance expectations.</p>
+</section>
+<section id="always-3d-geometry-not-atmosphere-modes">
+<h2>Always-3D geometry, not atmosphere modes<a class="headerlink" href="#always-3d-geometry-not-atmosphere-modes" title="Link to this heading"></a></h2>
+<p>ARTS 3 has a spheroidal reference ellipsoid and an always-three-dimensional
+geometric view.  Positions use altitude above the ellipsoid, geodetic latitude,
+and longitude; directions use local zenith and azimuth angles.</p>
+<p>Do not port the following ARTS 2 mechanisms literally:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AtmosphereSet1D</span></code> and <code class="docutils literal notranslate"><span class="pre">AtmosphereSet2D</span></code> as global model modes;</p></li>
+<li><p>general/master <code class="docutils literal notranslate"><span class="pre">z_grid</span></code>, <code class="docutils literal notranslate"><span class="pre">lat_grid</span></code>, and <code class="docutils literal notranslate"><span class="pre">lon_grid</span></code> workspace
+variables that determine every field’s shape; or</p></li>
+<li><p>separate 1-D, 2-D, and 3-D propagation-path implementations and tests.</p></li>
+</ul>
+<p>Local grids can still be method inputs, and individual atmospheric quantities
+can be constant or low-dimensional.  Tests should exercise those quantities
+through the common three-dimensional coordinate and path representation.</p>
+</section>
+<section id="no-global-stokes-or-jacobian-switches">
+<h2>No global Stokes or Jacobian switches<a class="headerlink" href="#no-global-stokes-or-jacobian-switches" title="Link to this heading"></a></h2>
+<p>The ARTS 2 <code class="docutils literal notranslate"><span class="pre">stokes_dim</span></code> workspace variable is not intended to return.  ARTS
+3 data types represent full Stokes quantities.  Sensors select polarization
+through sparse Stokes-projection weights, and a solver may expose a local
+computational option when that is useful; neither case requires a global
+dimension switch.</p>
+<p>Likewise, do not restore a global <code class="docutils literal notranslate"><span class="pre">jacobian_do</span></code> flag.  ARTS 3 represents
+requested derivatives with <code class="docutils literal notranslate"><span class="pre">jac_targets</span></code> and their setup/finalization.  The
+early design notes used the tentative name <code class="docutils literal notranslate"><span class="pre">jacobian_setup</span></code>; the current API
+name is authoritative.  An empty target set or a method’s explicit inputs
+should determine whether derivative work is needed.  A limited <code class="docutils literal notranslate"><span class="pre">do_jac</span></code>
+switch survives in the OEM/inversion wrapper and can clear <code class="docutils literal notranslate"><span class="pre">jac_targets</span></code>;
+it is not a deep, global switch for arbitrary forward-model methods and should
+not grow into one.</p>
+</section>
+<section id="no-formal-cloudbox">
+<h2>No formal cloudbox<a class="headerlink" href="#no-formal-cloudbox" title="Link to this heading"></a></h2>
+<p>The ARTS 2 <code class="docutils literal notranslate"><span class="pre">cloudbox_on</span></code>, <code class="docutils literal notranslate"><span class="pre">cloudbox_limits</span></code>, checked flags, cloudbox field,
+and cloudbox interpolation/setup machinery are not part of the ARTS 3 model.
+Scattering solvers should consume explicit atmospheric fields, scattering
+species, paths/domains, and solver settings.</p>
+<p>This decision does not remove the need for scattering solvers.  In particular,
+DOIT remains a missing numerical capability even though its old cloudbox API
+must not be ported.  <code class="docutils literal notranslate"><span class="pre">TestCloudboxAuto</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Testcloudbox_fieldInterp2Azimuth</span></code> are therefore retired interface tests;
+their useful interpolation or boundary behavior must be tested through the new
+solver’s actual inputs.</p>
+</section>
+<section id="composite-fields-and-fewer-workspace-variables">
+<h2>Composite fields and fewer workspace variables<a class="headerlink" href="#composite-fields-and-fewer-workspace-variables" title="Link to this heading"></a></h2>
+<p>ARTS 3 intentionally favors fewer workspace variables, more explicit generic
+inputs/outputs, and stronger high-level types.  Dimensions and invariants
+should be fixed by the type when practical.  Do not split <code class="docutils literal notranslate"><span class="pre">AtmField</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SurfaceField</span></code>, <code class="docutils literal notranslate"><span class="pre">SubsurfaceField</span></code>, model state, or scattering state back
+into the old global grid plus tensor collection merely to reproduce an ARTS 2
+method signature.</p>
+<p>Small named methods are still encouraged when they clarify the data flow.
+Prefer strict, composable methods and static meta-methods over optional branches
+that silently change user-facing behavior.</p>
+</section>
+<section id="sensor-representation">
+<h2>Sensor representation<a class="headerlink" href="#sensor-representation" title="Link to this heading"></a></h2>
+<p>The ARTS 2 collection of global sensor position, line-of-sight, frequency-grid,
+response, polarization, and normalization workspace variables has been
+replaced by <code class="docutils literal notranslate"><span class="pre">measurement_sensor</span></code>.  It is a list of observation elements;
+each element references frequency and position/line-of-sight grids (which can
+be shared) and stores sparse Stokes-vector projection weights needed to produce
+a measurement value.  Metadata is associated with observation ranges rather
+than a parallel set of loosely coupled workspace variables.</p>
+<p>Port channel definitions and verified measurement behavior, not the old sensor
+workspace-variable plumbing.  Prefer <code class="docutils literal notranslate"><span class="pre">measurement_sensorFromPredefined</span></code> or
+<code class="docutils literal notranslate"><span class="pre">pyarts3.arts.sensor.Builder</span></code> to instrument-specific controlfile frameworks
+such as MetMM.</p>
+</section>
+<section id="scattering-data-representation">
+<h2>Scattering data representation<a class="headerlink" href="#scattering-data-representation" title="Link to this heading"></a></h2>
+<p>The ARTS 2 scattering species, particle-number-density fields, scattering data
+arrays, and agenda setup were marked for a complete redesign.  ARTS 3 uses
+typed scattering-species properties, particle habits and PSDs, gas or
+parametric scatterers, and an array of scattering species that evaluates bulk
+properties at an atmospheric point.</p>
+<p>Port a PSD, habit, optical-property model, or solver result against this API.
+Do not restore the old <code class="docutils literal notranslate"><span class="pre">ScatSpeciesInit</span></code>/<code class="docutils literal notranslate"><span class="pre">pnd_field</span></code>/<code class="docutils literal notranslate"><span class="pre">scat_data</span></code> object
+layout or assume that a passing ARTS 2 setup sequence defines the new
+interface.</p>
+</section>
+<section id="failure-and-validation-behavior">
+<h2>Failure and validation behavior<a class="headerlink" href="#failure-and-validation-behavior" title="Link to this heading"></a></h2>
+<p>ARTS 2 relied heavily on eager <code class="docutils literal notranslate"><span class="pre">*_checkedCalc</span></code> flags and large up-front
+consistency passes.  ARTS 3 methods and agendas should work or fail naturally,
+validate values when they are used, and check dimensions shared by multiple
+inputs.  Only <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code> should escape C++ ARTS code, with the
+binding presenting an appropriate Python exception and preserving the error
+chain.</p>
+<p>Do not port silent atmosphere-class switches, class-ignore flags, or
+solver-side zeroing.  If a calculation needs a quantity set to zero, the caller
+should construct that field explicitly.  A solver must not mutate or zero
+unrelated atmospheric quantities; it may ignore quantities outside its
+contract without treating their mere presence as an error.</p>
+</section>
+<section id="arts-2-checks-retired-by-these-decisions">
+<h2>ARTS 2 checks retired by these decisions<a class="headerlink" href="#arts-2-checks-retired-by-these-decisions" title="Link to this heading"></a></h2>
+<p>The following test families should be mapped to ARTS 3 behavior, not copied:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TestPpath1D</span></code> and <code class="docutils literal notranslate"><span class="pre">TestPpath2D</span></code>: cover their geometry through the common
+3-D path implementation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TestForloop</span></code>, <code class="docutils literal notranslate"><span class="pre">TestAgendaCopy</span></code>, <code class="docutils literal notranslate"><span class="pre">TestArrayOfAgenda</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TestDOBatch</span></code>, and <code class="docutils literal notranslate"><span class="pre">TestYCalcAppend</span></code>: use Python orchestration unless an
+underlying numerical or parallel primitive is absent.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TestCloudboxAuto</span></code> and cloudbox interpolation tests: test explicit solver
+inputs; do not restore cloudbox state.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TestHSE</span></code> and the old pressure-grid regridding family: test
+<code class="docutils literal notranslate"><span class="pre">atm_fieldHydrostaticPressure</span></code> and independent field interpolation rather
+than global pressure/altitude grid mutation.</p></li>
+<li><p>instrument controlfiles: retain accepted response data and forward-model
+references through observation elements/builders, not instrument-specific
+workspace-variable frameworks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jacobianAdjustAndTransform</span></code>: transformations belong to individual typed
+targets and model-state mappings, not one late global adjustment pass.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">atmfields_checkedCalc</span></code>, <code class="docutils literal notranslate"><span class="pre">atmgeom_checkedCalc</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cloudbox_checkedCalc</span></code>, and <code class="docutils literal notranslate"><span class="pre">sensor_checkedCalc</span></code>: replace checked-state
+flags with local contracts and use-time errors.</p></li>
+</ul>
+</section>
+<section id="legacy-choices-that-remain">
+<h2>Legacy choices that remain<a class="headerlink" href="#legacy-choices-that-remain" title="Link to this heading"></a></h2>
+<p>Some older mechanisms remain deliberately or transitionally.  Their presence
+is not permission to expand them indiscriminately.</p>
+<section id="xml-file-format">
+<h3>XML file format<a class="headerlink" href="#xml-file-format" title="Link to this heading"></a></h3>
+<p>The ARTS 3 design explicitly keeps XML “for now” and prefers storing data in
+its natural form.  XML I/O and selected old-format readers therefore remain a
+supported legacy choice.  New data should still use typed structures and a
+documented schema; compatibility parsing should not dictate the in-memory
+design.</p>
+</section>
+<section id="f-grid">
+<h3><code class="docutils literal notranslate"><span class="pre">f_grid</span></code><a class="headerlink" href="#f-grid" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">f_grid</span></code> working variable and its name survived.  It is a local grid for
+the methods that consume it, not a global/master grid system.  Renaming it to
+<code class="docutils literal notranslate"><span class="pre">frequency_grid</span></code> was left as an open question, not a settled migration task.
+Do not perform a partial rename without a project-wide decision.</p>
+</section>
+<section id="workspace-methods-variables-agendas-and-arrays">
+<h3>Workspace methods, variables, agendas, and arrays<a class="headerlink" href="#workspace-methods-variables-agendas-and-arrays" title="Link to this heading"></a></h3>
+<p>These concepts remain, but with narrower roles.  Operators are for focused
+pure work; agendas represent impure or configurable ideas; static meta-methods
+compose smaller methods.  <code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code> storage remains appropriate when each
+element acts independently and should not be forced into a matpack tensor.</p>
+</section>
+<section id="loader-level-missing-data-options">
+<h3>Loader-level missing-data options<a class="headerlink" href="#loader-level-missing-data-options" title="Link to this heading"></a></h3>
+<p>The current ARTS 3 implementation exposes explicit ingestion policies such as
+<code class="docutils literal notranslate"><span class="pre">missing_is_zero</span></code>, <code class="docutils literal notranslate"><span class="pre">ignore_missing</span></code>, and <code class="docutils literal notranslate"><span class="pre">name_missing</span></code>.  They operate at
+the data-loading boundary and do not contradict the rule that a required model
+quantity must be present when used.  Do not use these policies as precedent
+for solver-side silent defaults or broaden them beyond explicit ingestion
+contracts without a design decision.</p>
+</section>
+<section id="oem-model-state-update-cost">
+<h3>OEM model-state update cost<a class="headerlink" href="#oem-model-state-update-cost" title="Link to this heading"></a></h3>
+<p>ARTS 3 OEM can update the full model state on the fly, even though copying or
+updating the composite atmosphere, surface, and line data can be more expensive
+than the narrower ARTS 2 tensor updates.  The design notes explicitly accept
+that trade-off.  Optimize it without changing the model-state semantics unless
+measurements show that a separate mode is necessary.</p>
+</section>
+<section id="residual-control-language-tooling">
+<h3>Residual control-language tooling<a class="headerlink" href="#residual-control-language-tooling" title="Link to this heading"></a></h3>
+<p>Editor grammar assets remain under <code class="docutils literal notranslate"><span class="pre">tools/arts-control-lang</span></code>.  They are
+legacy tooling, not a commitment to ship or test the ARTS 2 parser/runtime.
+Remove or repurpose them separately; do not infer language compatibility from
+their presence.</p>
+</section>
+<section id="stale-optional-feature-hooks">
+<h3>Stale optional-feature hooks<a class="headerlink" href="#stale-optional-feature-hooks" title="Link to this heading"></a></h3>
+<p>The current tree still contains <code class="docutils literal notranslate"><span class="pre">ENABLE_RT4</span></code> and <code class="docutils literal notranslate"><span class="pre">ENABLE_TMATRIX</span></code>
+configure definitions, conditional link clauses for the two libraries, and a
+T-matrix enum value in
+<code class="docutils literal notranslate"><span class="pre">src/core/scattering/optproperties.h</span></code>.  No corresponding ARTS 3
+implementations were found in this audit.  These hooks are stale build/API
+residue, not evidence that the capabilities are already supported.  Remove
+them when safe, or reconnect them only as part of an ARTS 3-native port.</p>
+</section>
+</section>
+<section id="open-questions-not-design-decisions">
+<h2>Open questions, not design decisions<a class="headerlink" href="#open-questions-not-design-decisions" title="Link to this heading"></a></h2>
+<p>The early ARTS 3 notes leave several questions open.  Do not place either side
+of these questions in the missing-feature backlog without a new decision:</p>
+<ul class="simple">
+<li><p>whether <code class="docutils literal notranslate"><span class="pre">f_grid</span></code> should eventually be renamed;</p></li>
+<li><p>how a solver-local Stokes-size optimization should be expressed;</p></li>
+<li><p>whether propagation paths should branch and how crossings are requested;</p></li>
+<li><p>whether every internal radiative-transfer path should always use the full
+Planck function;</p></li>
+<li><p>whether Kokkos should replace OpenMP;</p></li>
+<li><p>how sensor normalization should be explained; and</p></li>
+<li><p>how Jacobian target and covariance information should be unified.</p></li>
+</ul>
+</section>
+<section id="port-review-checklist">
+<h2>Port-review checklist<a class="headerlink" href="#port-review-checklist" title="Link to this heading"></a></h2>
+<p>Before porting an ARTS 2 test or method, ask:</p>
+<ol class="arabic simple">
+<li><p>Is a physical, numerical, data, or performance capability actually absent?</p></li>
+<li><p>Can ordinary Python or a maintained recipe express it clearly?</p></li>
+<li><p>Which ARTS 3 field, sensor, scattering, path, or Jacobian type owns it?</p></li>
+<li><p>Does the proposed port accidentally restore global grids, cloudbox state,
+<code class="docutils literal notranslate"><span class="pre">stokes_dim</span></code>, checked flags, or controlfile-language conveniences?</p></li>
+<li><p>Can a compact active regression compare a meaningful result without a
+runtime dependency on the temporary ARTS 2 source tree?</p></li>
+</ol>
+<p>If only the old spelling or orchestration is missing, do not port it.  If the
+result itself cannot be produced, add it to <a class="reference internal" href="dev.arts2missing.html"><span class="doc">ARTS 2 Feature-Port Status</span></a> with the
+evidence and an ARTS 3-native acceptance test.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.arts2missing.html" class="btn btn-neutral float-left" title="ARTS 2 Feature-Port Status" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.tmatrix.html" class="btn btn-neutral float-right" title="T-matrix implementation and validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

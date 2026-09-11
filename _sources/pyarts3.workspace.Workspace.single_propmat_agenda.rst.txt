@@ -13,17 +13,20 @@ single_propmat_agenda
    in question here only compute a single frequency point at a time.
 
    If you do not need single-frequency-point calculations, consider using
-   :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda` instead as it will likely be more efficient.
+   :attr:`~pyarts3.Workspace.spectral_propmat_agenda` instead as it will likely be more efficient.
+
+   Convenience setters provide :attr:`~pyarts3.Workspace.single_dispersion` for microwave gases in Earth
+   or planetary atmospheres and for visible/near-infrared water or steam.
 
    .. rubric:: Execution and customization
 
 
-   You can execute :attr:`~pyarts3.workspace.Workspace.single_propmat_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.single_propmat_agendaExecute`.
+   You can execute :attr:`~pyarts3.Workspace.single_propmat_agenda` directly from the workspace by calling :func:`~pyarts3.Workspace.single_propmat_agendaExecute`.
 
    As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.single_propmat_agendaOperator`.
-   See it, :func:`~pyarts3.workspace.Workspace.single_propmat_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.single_propmat_agendaExecuteOperator` for more details.
+   See it, :func:`~pyarts3.Workspace.single_propmat_agendaSetOperator`, and :func:`~pyarts3.Workspace.single_propmat_agendaExecuteOperator` for more details.
 
-   Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
+   Also see the :class:`~pyarts3.arts_agenda` property for how to fully define an agenda in python.
 
 
 
@@ -33,24 +36,24 @@ single_propmat_agenda
    .. hlist::
        :columns: 2
 
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec`
-       * :attr:`~pyarts3.workspace.Workspace.single_dispersion`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_dispersion_jac`
+       * :attr:`~pyarts3.Workspace.single_propmat`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec`
+       * :attr:`~pyarts3.Workspace.single_dispersion`
+       * :attr:`~pyarts3.Workspace.single_propmat_jac`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_jac`
+       * :attr:`~pyarts3.Workspace.single_dispersion_jac`
 
    .. rubric:: Agenda input
 
    .. hlist::
        :columns: 2
 
-       * :attr:`~pyarts3.workspace.Workspace.freq`
-       * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac`
-       * :attr:`~pyarts3.workspace.Workspace.jac_targets`
-       * :attr:`~pyarts3.workspace.Workspace.select_species`
-       * :attr:`~pyarts3.workspace.Workspace.ray_point`
-       * :attr:`~pyarts3.workspace.Workspace.atm_point`
+       * :attr:`~pyarts3.Workspace.freq`
+       * :attr:`~pyarts3.Workspace.freq_wind_shift_jac`
+       * :attr:`~pyarts3.Workspace.jac_targets`
+       * :attr:`~pyarts3.Workspace.select_species`
+       * :attr:`~pyarts3.Workspace.ray_point`
+       * :attr:`~pyarts3.Workspace.atm_point`
 
 
    .. rubric:: Input to workspace methods
@@ -58,17 +61,20 @@ single_propmat_agenda
    .. hlist::
        :columns: 1
 
-       * :func:`~pyarts3.workspace.Workspace.single_propmat_agendaExecute`
-       * :func:`~pyarts3.workspace.Workspace.single_radClearskyEmissionPropagation`
-       * :func:`~pyarts3.workspace.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation`
+       * :func:`~pyarts3.Workspace.single_propmat_agendaExecute`
+       * :func:`~pyarts3.Workspace.single_radClearskyEmissionPropagation`
+       * :func:`~pyarts3.Workspace.spectral_radClearskyEmissionFrequencyDependentPropagation`
 
 
-   .. rubric:: Output from workspace method
+   .. rubric:: Output from workspace methods
 
    .. hlist::
        :columns: 1
 
-       * :func:`~pyarts3.workspace.Workspace.single_propmat_agendaSetOperator`
+       * :func:`~pyarts3.Workspace.single_propmat_agendaSetGasMicrowavesEarth`
+       * :func:`~pyarts3.Workspace.single_propmat_agendaSetGasMicrowavesGeneral`
+       * :func:`~pyarts3.Workspace.single_propmat_agendaSetOperator`
+       * :func:`~pyarts3.Workspace.single_propmat_agendaSetWaterVisibleNIRHarvey98`
 
 
    .. rubric:: Related workspace variables
@@ -76,40 +82,40 @@ single_propmat_agenda
    .. hlist::
        :columns: 2
 
-       * :attr:`~pyarts3.workspace.Workspace.covmat_diagonal_blocks`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_gain_mat`
-       * :attr:`~pyarts3.workspace.Workspace.measurement_vec_error_covmat`
-       * :attr:`~pyarts3.workspace.Workspace.model_state_covmat`
-       * :attr:`~pyarts3.workspace.Workspace.single_dispersion`
-       * :attr:`~pyarts3.workspace.Workspace.single_dispersion_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_freq_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_rad`
-       * :attr:`~pyarts3.workspace.Workspace.single_rad_jac`
-       * :attr:`~pyarts3.workspace.Workspace.single_rad_space_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.single_rad_surface_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_and_atm_path_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_profile`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_profile`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_spectral_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
+       * :attr:`~pyarts3.Workspace.covmat_diagonal_blocks`
+       * :attr:`~pyarts3.Workspace.measurement_gain_mat`
+       * :attr:`~pyarts3.Workspace.measurement_vec_error_covmat`
+       * :attr:`~pyarts3.Workspace.model_state_covmat`
+       * :attr:`~pyarts3.Workspace.single_dispersion`
+       * :attr:`~pyarts3.Workspace.single_dispersion_jac`
+       * :attr:`~pyarts3.Workspace.single_freq_path`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_jac`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_jac_path`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_path`
+       * :attr:`~pyarts3.Workspace.single_propmat`
+       * :attr:`~pyarts3.Workspace.single_propmat_jac`
+       * :attr:`~pyarts3.Workspace.single_propmat_jac_path`
+       * :attr:`~pyarts3.Workspace.single_propmat_path`
+       * :attr:`~pyarts3.Workspace.single_rad`
+       * :attr:`~pyarts3.Workspace.single_rad_jac`
+       * :attr:`~pyarts3.Workspace.single_rad_space_agenda`
+       * :attr:`~pyarts3.Workspace.single_rad_surface_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_phamat_spectral`
+       * :attr:`~pyarts3.Workspace.spectral_phamat_spectral_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_and_atm_path_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_jac`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_jac_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_jac_profile`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_profile`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_scat`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_scat_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_scat_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_scat_spectral_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_tramat_path`
 
    .. :class:`~pyarts3.arts.Agenda`
 

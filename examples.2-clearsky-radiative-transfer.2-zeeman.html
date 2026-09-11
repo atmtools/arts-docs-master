@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zeeman &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -61,7 +61,8 @@
 <li class="toctree-l2"><a class="reference internal" href="examples.1-basics.html">Basics</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.html">Clearsky radiative transfer</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.1-simple-outgoing-radiance.html">Simple outgoing radiance</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Zeeman</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Zeeman</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zeeman-radiative-transfer-examples">Zeeman radiative-transfer examples</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-geometry">Zeeman geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id1">Zeeman</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-sensor">Zeeman sensor</a></li>
@@ -72,6 +73,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-adaptive-path">Zeeman adaptive path</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-linear-src">Zeeman linear src</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zeeman-linear-prop">Zeeman linear prop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-magnus">Zeeman magnus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeeman-magnus-linear-src">Zeeman magnus linear src</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="examples.2-clearsky-radiative-transfer.3-disort.html">Disort</a></li>
@@ -122,6 +125,32 @@
              
   <section id="zeeman">
 <h1>Zeeman<a class="headerlink" href="#zeeman" title="Link to this heading"></a></h1>
+</section>
+<section id="zeeman-radiative-transfer-examples">
+<h1>Zeeman radiative-transfer examples<a class="headerlink" href="#zeeman-radiative-transfer-examples" title="Link to this heading"></a></h1>
+<p>These examples exercise polarized clear-sky radiative transfer around the
+118.75 GHz oxygen line.  In addition to geometry, sensors, refraction, solar
+backgrounds, and adaptive paths, the directory compares the available
+within-layer propagation and source approximations selected by
+<code class="docutils literal notranslate"><span class="pre">ws.rte_option</span></code>.</p>
+<p>The relevant examples are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">2-zeeman.py</span></code> uses <code class="docutils literal notranslate"><span class="pre">constant</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">9-zeeman-linear-src.py</span></code> uses <code class="docutils literal notranslate"><span class="pre">lintau</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">10-zeeman-linear-prop.py</span></code> uses <code class="docutils literal notranslate"><span class="pre">linprop</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">11-zeeman-magnus.py</span></code> uses <code class="docutils literal notranslate"><span class="pre">magop</span></code>; and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">12-zeeman-magnus-linear-src.py</span></code> uses <code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code>.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">magop</span></code> represents the propagation matrix as linear across each layer and
+includes the first commutator correction of the Magnus expansion, while using
+the endpoint-average source.  <code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> additionally represents the
+source as linear across the layer using the augmented Magnus source operator.
+Both options support polarized analytical Jacobians.</p>
+<p>The regression arrays sampled in these examples are intentional: the Magnus
+results need not equal <code class="docutils literal notranslate"><span class="pre">constant</span></code>, <code class="docutils literal notranslate"><span class="pre">lintau</span></code>, or <code class="docutils literal notranslate"><span class="pre">linprop</span></code> when adjacent
+polarized propagation matrices do not commute.  For a constant or commuting
+propagation matrix, <code class="docutils literal notranslate"><span class="pre">magop</span></code> reduces to the ordinary endpoint-average matrix
+exponential.</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#zeeman-geometry" id="id4">Zeeman geometry</a></p></li>
@@ -134,6 +163,8 @@
 <li><p><a class="reference internal" href="#zeeman-adaptive-path" id="id11">Zeeman adaptive path</a></p></li>
 <li><p><a class="reference internal" href="#zeeman-linear-src" id="id12">Zeeman linear src</a></p></li>
 <li><p><a class="reference internal" href="#zeeman-linear-prop" id="id13">Zeeman linear prop</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-magnus" id="id14">Zeeman magnus</a></p></li>
+<li><p><a class="reference internal" href="#zeeman-magnus-linear-src" id="id15">Zeeman magnus linear src</a></p></li>
 </ul>
 </nav>
 <section id="zeeman-geometry">
@@ -258,17 +289,17 @@
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[[</span> <span class="mf">2.27651281e+02</span><span class="p">,</span>  <span class="mf">4.26102083e-04</span><span class="p">,</span>  <span class="mf">1.02747359e-04</span><span class="p">,</span>  <span class="mf">5.68792774e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30728865e+02</span><span class="p">,</span>  <span class="mf">6.60200934e-04</span><span class="p">,</span>  <span class="mf">1.59372202e-04</span><span class="p">,</span>  <span class="mf">7.04074781e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34671710e+02</span><span class="p">,</span>  <span class="mf">1.16870319e-03</span><span class="p">,</span>  <span class="mf">2.82624430e-04</span><span class="p">,</span>  <span class="mf">9.34017504e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40226519e+02</span><span class="p">,</span>  <span class="mf">2.61619541e-03</span><span class="p">,</span>  <span class="mf">6.34833393e-04</span><span class="p">,</span>  <span class="mf">1.40041579e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49649966e+02</span><span class="p">,</span>  <span class="mf">9.75456580e-03</span><span class="p">,</span>  <span class="mf">2.39140821e-03</span><span class="p">,</span>  <span class="mf">2.69997496e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.09913635e+02</span><span class="p">,</span>  <span class="mf">2.41699652e+01</span><span class="p">,</span>  <span class="mf">1.73644537e+00</span><span class="p">,</span>  <span class="mf">5.52423749e-06</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49649399e+02</span><span class="p">,</span>  <span class="mf">9.75810766e-03</span><span class="p">,</span>  <span class="mf">2.39230583e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70074955e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40225428e+02</span><span class="p">,</span>  <span class="mf">2.61800091e-03</span><span class="p">,</span>  <span class="mf">6.35278864e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40118138e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34670135e+02</span><span class="p">,</span>  <span class="mf">1.16990396e-03</span><span class="p">,</span>  <span class="mf">2.82918050e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34777298e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30726817e+02</span><span class="p">,</span>  <span class="mf">6.61105654e-04</span><span class="p">,</span>  <span class="mf">1.59592427e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04834283e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.27648771e+02</span><span class="p">,</span>  <span class="mf">4.26832634e-04</span><span class="p">,</span>  <span class="mf">1.02924704e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69551120e-02</span><span class="p">]]</span>
+        <span class="p">[[</span> <span class="mf">2.27651282e+02</span><span class="p">,</span>  <span class="mf">4.26102060e-04</span><span class="p">,</span>  <span class="mf">1.02747352e-04</span><span class="p">,</span>  <span class="mf">5.68792738e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30728866e+02</span><span class="p">,</span>  <span class="mf">6.60200882e-04</span><span class="p">,</span>  <span class="mf">1.59372185e-04</span><span class="p">,</span>  <span class="mf">7.04074714e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34671712e+02</span><span class="p">,</span>  <span class="mf">1.16870303e-03</span><span class="p">,</span>  <span class="mf">2.82624380e-04</span><span class="p">,</span>  <span class="mf">9.34017354e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40226524e+02</span><span class="p">,</span>  <span class="mf">2.61619467e-03</span><span class="p">,</span>  <span class="mf">6.34833158e-04</span><span class="p">,</span>  <span class="mf">1.40041532e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49649981e+02</span><span class="p">,</span>  <span class="mf">9.75455461e-03</span><span class="p">,</span>  <span class="mf">2.39140470e-03</span><span class="p">,</span>  <span class="mf">2.69997141e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.09901775e+02</span><span class="p">,</span>  <span class="mf">2.41594007e+01</span><span class="p">,</span>  <span class="mf">1.73753634e+00</span><span class="p">,</span>  <span class="mf">5.52462292e-06</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49649415e+02</span><span class="p">,</span>  <span class="mf">9.75809646e-03</span><span class="p">,</span>  <span class="mf">2.39230231e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70074598e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40225433e+02</span><span class="p">,</span>  <span class="mf">2.61800016e-03</span><span class="p">,</span>  <span class="mf">6.35278628e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40118090e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34670137e+02</span><span class="p">,</span>  <span class="mf">1.16990381e-03</span><span class="p">,</span>  <span class="mf">2.82918000e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34777147e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30726819e+02</span><span class="p">,</span>  <span class="mf">6.61105602e-04</span><span class="p">,</span>  <span class="mf">1.59592410e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04834216e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.27648772e+02</span><span class="p">,</span>  <span class="mf">4.26832612e-04</span><span class="p">,</span>  <span class="mf">1.02924697e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69551084e-02</span><span class="p">]]</span>
     <span class="p">),</span>
 <span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
 </pre></div>
@@ -342,9 +373,9 @@
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">measurement_vec</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[</span><span class="mf">227.72265043</span><span class="p">,</span> <span class="mf">230.79931459</span><span class="p">,</span> <span class="mf">234.76518855</span><span class="p">,</span> <span class="mf">240.36673613</span><span class="p">,</span>
-         <span class="mf">249.92055137</span><span class="p">,</span> <span class="mf">211.84612808</span><span class="p">,</span> <span class="mf">249.3798804</span> <span class="p">,</span> <span class="mf">240.08547841</span><span class="p">,</span>
-         <span class="mf">234.5767321</span> <span class="p">,</span> <span class="mf">230.65637527</span><span class="p">,</span> <span class="mf">227.60619589</span><span class="p">]</span>
+        <span class="p">[</span><span class="mf">227.72265120</span><span class="p">,</span> <span class="mf">230.79931575</span><span class="p">,</span> <span class="mf">234.76519053</span><span class="p">,</span> <span class="mf">240.36674038</span><span class="p">,</span>
+         <span class="mf">249.92056686</span><span class="p">,</span> <span class="mf">211.81135165</span><span class="p">,</span> <span class="mf">249.37989662</span><span class="p">,</span> <span class="mf">240.08548277</span><span class="p">,</span>
+         <span class="mf">234.57673412</span><span class="p">,</span> <span class="mf">230.65637644</span><span class="p">,</span> <span class="mf">227.60619667</span><span class="p">]</span>
     <span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
@@ -872,17 +903,17 @@
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[[</span> <span class="mf">2.27693775e+02</span><span class="p">,</span>  <span class="mf">4.25360933e-04</span><span class="p">,</span>  <span class="mf">1.02565822e-04</span><span class="p">,</span>  <span class="mf">5.68301097e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30768818e+02</span><span class="p">,</span>  <span class="mf">6.59206212e-04</span><span class="p">,</span>  <span class="mf">1.59126898e-04</span><span class="p">,</span>  <span class="mf">7.03542474e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34709071e+02</span><span class="p">,</span>  <span class="mf">1.16721699e-03</span><span class="p">,</span>  <span class="mf">2.82253340e-04</span><span class="p">,</span>  <span class="mf">9.33505189e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40261444e+02</span><span class="p">,</span>  <span class="mf">2.61334904e-03</span><span class="p">,</span>  <span class="mf">6.34105246e-04</span><span class="p">,</span>  <span class="mf">1.39994110e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49682208e+02</span><span class="p">,</span>  <span class="mf">9.74388124e-03</span><span class="p">,</span>  <span class="mf">2.38851950e-03</span><span class="p">,</span>  <span class="mf">2.69924367e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.09884932e+02</span><span class="p">,</span>  <span class="mf">2.41682141e+01</span><span class="p">,</span>  <span class="mf">1.73723873e+00</span><span class="p">,</span>  <span class="mf">5.54512081e-06</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49681641e+02</span><span class="p">,</span>  <span class="mf">9.74742248e-03</span><span class="p">,</span>  <span class="mf">2.38941674e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70001907e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40260352e+02</span><span class="p">,</span>  <span class="mf">2.61515400e-03</span><span class="p">,</span>  <span class="mf">6.34550524e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40070740e-01</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34707495e+02</span><span class="p">,</span>  <span class="mf">1.16841714e-03</span><span class="p">,</span>  <span class="mf">2.82546778e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34265633e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30766769e+02</span><span class="p">,</span>  <span class="mf">6.60110278e-04</span><span class="p">,</span>  <span class="mf">1.59346947e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04302732e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.27691263e+02</span><span class="p">,</span>  <span class="mf">4.26090913e-04</span><span class="p">,</span>  <span class="mf">1.02743016e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69060525e-02</span><span class="p">]]</span>
+        <span class="p">[[</span> <span class="mf">2.27693776e+02</span><span class="p">,</span>  <span class="mf">4.25360914e-04</span><span class="p">,</span>  <span class="mf">1.02565807e-04</span><span class="p">,</span>  <span class="mf">5.68301063e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30768819e+02</span><span class="p">,</span>  <span class="mf">6.59206165e-04</span><span class="p">,</span>  <span class="mf">1.59126872e-04</span><span class="p">,</span>  <span class="mf">7.03542409e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34709073e+02</span><span class="p">,</span>  <span class="mf">1.16721685e-03</span><span class="p">,</span>  <span class="mf">2.82253283e-04</span><span class="p">,</span>  <span class="mf">9.33505045e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40261448e+02</span><span class="p">,</span>  <span class="mf">2.61334833e-03</span><span class="p">,</span>  <span class="mf">6.34105014e-04</span><span class="p">,</span>  <span class="mf">1.39994065e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49682223e+02</span><span class="p">,</span>  <span class="mf">9.74387048e-03</span><span class="p">,</span>  <span class="mf">2.38851618e-03</span><span class="p">,</span>  <span class="mf">2.69924023e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.09873451e+02</span><span class="p">,</span>  <span class="mf">2.41579480e+01</span><span class="p">,</span>  <span class="mf">1.73827372e+00</span><span class="p">,</span>  <span class="mf">5.54548559e-06</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49681656e+02</span><span class="p">,</span>  <span class="mf">9.74741170e-03</span><span class="p">,</span>  <span class="mf">2.38941342e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70001562e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40260356e+02</span><span class="p">,</span>  <span class="mf">2.61515328e-03</span><span class="p">,</span>  <span class="mf">6.34550292e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40070694e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34707497e+02</span><span class="p">,</span>  <span class="mf">1.16841699e-03</span><span class="p">,</span>  <span class="mf">2.82546721e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34265488e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30766770e+02</span><span class="p">,</span>  <span class="mf">6.60110231e-04</span><span class="p">,</span>  <span class="mf">1.59346921e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04302667e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.27691263e+02</span><span class="p">,</span>  <span class="mf">4.26090893e-04</span><span class="p">,</span>  <span class="mf">1.02743001e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69060490e-02</span><span class="p">]]</span>
     <span class="p">),</span>
 <span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
 </pre></div>
@@ -953,17 +984,17 @@
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
     <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[[</span> <span class="mf">2.27720431e+02</span><span class="p">,</span>  <span class="mf">1.92860863e-04</span><span class="p">,</span>  <span class="mf">4.80226318e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.39944534e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30795788e+02</span><span class="p">,</span>  <span class="mf">2.05916096e-04</span><span class="p">,</span>  <span class="mf">5.28115272e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.11877682e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34732775e+02</span><span class="p">,</span>  <span class="mf">6.07407437e-04</span><span class="p">,</span>  <span class="mf">1.53649762e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.35111787e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40285632e+02</span><span class="p">,</span>  <span class="mf">1.20481776e-03</span><span class="p">,</span>  <span class="mf">3.16497792e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.37947118e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49706649e+02</span><span class="p">,</span>  <span class="mf">5.90915798e-03</span><span class="p">,</span>  <span class="mf">1.64151310e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.03484330e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.09884932e+02</span><span class="p">,</span>  <span class="mf">2.41682141e+01</span><span class="p">,</span>  <span class="mf">1.73723873e+00</span><span class="p">,</span>  <span class="mf">5.54512226e-06</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.49706087e+02</span><span class="p">,</span>  <span class="mf">5.90803897e-03</span><span class="p">,</span>  <span class="mf">1.64139792e-03</span><span class="p">,</span>  <span class="mf">9.04789486e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.40284543e+02</span><span class="p">,</span>  <span class="mf">1.20399960e-03</span><span class="p">,</span>  <span class="mf">3.16336925e-04</span><span class="p">,</span>  <span class="mf">6.39391756e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.34731202e+02</span><span class="p">,</span>  <span class="mf">6.06980643e-04</span><span class="p">,</span>  <span class="mf">1.53562668e-04</span><span class="p">,</span>  <span class="mf">3.36445494e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.30793741e+02</span><span class="p">,</span>  <span class="mf">2.05389194e-04</span><span class="p">,</span>  <span class="mf">5.26935796e-05</span><span class="p">,</span>  <span class="mf">4.13367589e-02</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.27717921e+02</span><span class="p">,</span>  <span class="mf">1.92557235e-04</span><span class="p">,</span>  <span class="mf">4.79553616e-05</span><span class="p">,</span>  <span class="mf">2.41329191e-02</span><span class="p">]]</span>
+        <span class="p">[[</span> <span class="mf">2.27655097e+02</span><span class="p">,</span>  <span class="mf">4.25941643e-04</span><span class="p">,</span>  <span class="mf">1.02708595e-04</span><span class="p">,</span>  <span class="mf">5.68661397e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30731823e+02</span><span class="p">,</span>  <span class="mf">6.60022963e-04</span><span class="p">,</span>  <span class="mf">1.59329204e-04</span><span class="p">,</span>  <span class="mf">7.03869074e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34673691e+02</span><span class="p">,</span>  <span class="mf">1.16858889e-03</span><span class="p">,</span>  <span class="mf">2.82596751e-04</span><span class="p">,</span>  <span class="mf">9.33841959e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40228067e+02</span><span class="p">,</span>  <span class="mf">2.61655084e-03</span><span class="p">,</span>  <span class="mf">6.34919268e-04</span><span class="p">,</span>  <span class="mf">1.40046082e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49653926e+02</span><span class="p">,</span>  <span class="mf">9.76155919e-03</span><span class="p">,</span>  <span class="mf">2.39312012e-03</span><span class="p">,</span>  <span class="mf">2.70138698e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.09894520e+02</span><span class="p">,</span>  <span class="mf">2.41722890e+01</span><span class="p">,</span>  <span class="mf">1.73860327e+00</span><span class="p">,</span>  <span class="mf">5.52740752e-06</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.49653359e+02</span><span class="p">,</span>  <span class="mf">9.76510257e-03</span><span class="p">,</span>  <span class="mf">2.39401813e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70216174e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.40226976e+02</span><span class="p">,</span>  <span class="mf">2.61835630e-03</span><span class="p">,</span>  <span class="mf">6.35364732e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40122633e-01</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.34672116e+02</span><span class="p">,</span>  <span class="mf">1.16978940e-03</span><span class="p">,</span>  <span class="mf">2.82890308e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.34601655e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.30729776e+02</span><span class="p">,</span>  <span class="mf">6.60927425e-04</span><span class="p">,</span>  <span class="mf">1.59549365e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04628681e-02</span><span class="p">],</span>
+         <span class="p">[</span> <span class="mf">2.27652586e+02</span><span class="p">,</span>  <span class="mf">4.26672085e-04</span><span class="p">,</span>  <span class="mf">1.02885912e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.69420287e-02</span><span class="p">]]</span>
     <span class="p">),</span>
 <span class="p">),</span> <span class="s2">&quot;Values have drifted from expected results in spectral radiance&quot;</span>
 </pre></div>
@@ -971,6 +1002,170 @@
 <p>(<a class="reference download internal" download="" href="_downloads/588d8bd3ed4cf1be641f34bec1bb064a/10-zeeman-linear-prop.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/6ec72f4368fc35b33afbffc07b1b1a4a/10-zeeman-linear-prop.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/3b4609285b7bff393c2450eeab624c34/10-zeeman-linear-prop.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
 <figure class="align-default">
 <img alt="_images/10-zeeman-linear-prop.svg" class="plot-directive" src="_images/10-zeeman-linear-prop.svg" />
+</figure>
+</section>
+<section id="zeeman-magnus">
+<h2>Zeeman magnus<a class="headerlink" href="#zeeman-magnus" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+
+<span class="c1"># %% Sampled frequency range</span>
+<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+
+<span class="c1"># %% Species and line absorption</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+
+<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+
+<span class="c1"># %% Grids and planet</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldSchmidthFieldFromIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Checks and settings</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Core calculations</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">rte_option</span> <span class="o">=</span> <span class="s2">&quot;magop&quot;</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radApplyUnitFromSpectralRadiance</span><span class="p">()</span>
+
+<span class="c1"># %% Show results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># %% Test</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">2.276512821092e02</span><span class="p">,</span> <span class="mf">4.261021957888e-04</span><span class="p">,</span> <span class="mf">1.027468021420e-04</span><span class="p">,</span> <span class="mf">5.687927378416e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.307288660365e02</span><span class="p">,</span> <span class="mf">6.602011364976e-04</span><span class="p">,</span> <span class="mf">1.593711565846e-04</span><span class="p">,</span> <span class="mf">7.040747139975e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.346717117551e02</span><span class="p">,</span> <span class="mf">1.168703614880e-03</span><span class="p">,</span> <span class="mf">2.826220439971e-04</span><span class="p">,</span> <span class="mf">9.340173537775e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.402265237320e02</span><span class="p">,</span> <span class="mf">2.616196566095e-03</span><span class="p">,</span> <span class="mf">6.348256699340e-04</span><span class="p">,</span> <span class="mf">1.400415316211e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.496499814427e02</span><span class="p">,</span> <span class="mf">9.754569416941e-03</span><span class="p">,</span> <span class="mf">2.391349108080e-03</span><span class="p">,</span> <span class="mf">2.699971405358e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.099028163397e02</span><span class="p">,</span> <span class="mf">2.416037218539e01</span><span class="p">,</span> <span class="mf">1.740559369663e00</span><span class="p">,</span> <span class="mf">5.523843341848e-06</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.496494147479e02</span><span class="p">,</span> <span class="mf">9.758111279439e-03</span><span class="p">,</span> <span class="mf">2.392246667185e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.700745982318e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.402254325160e02</span><span class="p">,</span> <span class="mf">2.618002063414e-03</span><span class="p">,</span> <span class="mf">6.352711243096e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.401180900068e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.346701369088e02</span><span class="p">,</span> <span class="mf">1.169904391432e-03</span><span class="p">,</span> <span class="mf">2.829156569959e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.347771470715e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.307268185042e02</span><span class="p">,</span> <span class="mf">6.611058571622e-04</span><span class="p">,</span> <span class="mf">1.595913768142e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.048342160883e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.276487716773e02</span><span class="p">,</span> <span class="mf">4.268327476638e-04</span><span class="p">,</span> <span class="mf">1.029241438602e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.695510840674e-02</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">),</span> <span class="s2">&quot;Magnus Zeeman spectral radiance has drifted from the expected values&quot;</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="_downloads/91c826b2b308b07917649a3b1e276463/11-zeeman-magnus.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/2867745cda9dd6d3bbebae0bba3c936c/11-zeeman-magnus.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/35fc9b41371d6d8288a0fb18ec01d9db/11-zeeman-magnus.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/11-zeeman-magnus.svg" class="plot-directive" src="_images/11-zeeman-magnus.svg" />
+</figure>
+</section>
+<section id="zeeman-magnus-linear-src">
+<h2>Zeeman magnus linear src<a class="headerlink" href="#zeeman-magnus-linear-src" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyarts</span>
+
+<span class="c1"># Download catalogs</span>
+<span class="n">pyarts</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+
+<span class="c1"># %% Sampled frequency range</span>
+<span class="n">line_f0</span> <span class="o">=</span> <span class="mf">118750348044.712</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">+</span> <span class="n">line_f0</span>
+
+<span class="c1"># %% Species and line absorption</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_speciesSet</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O2-66&quot;</span><span class="p">])</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ReadCatalogData</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSelectFrequencyByLine</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mf">40e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">120e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">abs_bandsSetZeeman</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="s2">&quot;O2-66&quot;</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">118e9</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">119e9</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">WignerInit</span><span class="p">()</span>
+
+<span class="c1"># %% Use the automatic agenda setter for propagation matrix calculations</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_propmat_agendaAuto</span><span class="p">()</span>
+
+<span class="c1"># %% Grids and planet</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_fieldPlanet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">surf_field</span><span class="p">[</span><span class="n">pyarts</span><span class="o">.</span><span class="n">arts</span><span class="o">.</span><span class="n">SurfaceKey</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">295.0</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldRead</span><span class="p">(</span>
+    <span class="n">toa</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;planets/Earth/afgl/tropical/&quot;</span><span class="p">,</span> <span class="n">missing_is_zero</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">atm_fieldSchmidthFieldFromIGRF</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2000-03-11 14:39:37&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Checks and settings</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad_transform_operatorSet</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;Tb&quot;</span><span class="p">)</span>
+
+<span class="c1"># %% Core calculations</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">los</span> <span class="o">=</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">ray_pathGeometric</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="n">los</span><span class="p">,</span> <span class="n">max_stepsize</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">rte_option</span> <span class="o">=</span> <span class="s2">&quot;magop_linsrc&quot;</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radClearskyEmission</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">spectral_radApplyUnitFromSpectralRadiance</span><span class="p">()</span>
+
+<span class="c1"># %% Show results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyarts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">freq_grid</span> <span class="o">-</span> <span class="n">line_f0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency offset [MHz]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spectral radiance [K]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zeeman effect of </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">line_f0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> MHz O$_2$ line&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;ARTS_HEADLESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># %% Test</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">spectral_rad</span><span class="p">[::</span><span class="mi">100</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">2.276551235399e02</span><span class="p">,</span> <span class="mf">4.259411802252e-04</span><span class="p">,</span> <span class="mf">1.027078921965e-04</span><span class="p">,</span> <span class="mf">5.686609432459e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.307318484287e02</span><span class="p">,</span> <span class="mf">6.600222918109e-04</span><span class="p">,</span> <span class="mf">1.593279395564e-04</span><span class="p">,</span> <span class="mf">7.038684472572e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.346737153328e02</span><span class="p">,</span> <span class="mf">1.168587845157e-03</span><span class="p">,</span> <span class="mf">2.825940092634e-04</span><span class="p">,</span> <span class="mf">9.338410284805e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.402280899194e02</span><span class="p">,</span> <span class="mf">2.616549259585e-03</span><span class="p">,</span> <span class="mf">6.349109213630e-04</span><span class="p">,</span> <span class="mf">1.400459368601e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.496539453642e02</span><span class="p">,</span> <span class="mf">9.761561980270e-03</span><span class="p">,</span> <span class="mf">2.393061571382e-03</span><span class="p">,</span> <span class="mf">2.701384329393e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.098955622505e02</span><span class="p">,</span> <span class="mf">2.417326246041e01</span><span class="p">,</span> <span class="mf">1.741633379836e00</span><span class="p">,</span> <span class="mf">5.526631596808e-06</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.496533784517e02</span><span class="p">,</span> <span class="mf">9.765105367691e-03</span><span class="p">,</span> <span class="mf">2.393959518344e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.702159091422e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.402269987255e02</span><span class="p">,</span> <span class="mf">2.618354729037e-03</span><span class="p">,</span> <span class="mf">6.353563693580e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.401224878107e-01</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.346721406968e02</span><span class="p">,</span> <span class="mf">1.169788358766e-03</span><span class="p">,</span> <span class="mf">2.828875578587e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.346007246592e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.307298009667e02</span><span class="p">,</span> <span class="mf">6.609267549322e-04</span><span class="p">,</span> <span class="mf">1.595480962493e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.046280541539e-02</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">2.276526123549e02</span><span class="p">,</span> <span class="mf">4.266716225771e-04</span><span class="p">,</span> <span class="mf">1.028852062035e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.694198344678e-02</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">),</span> <span class="s2">&quot;Linear-source Magnus Zeeman spectral radiance has drifted from the expected values&quot;</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="_downloads/9ba020b04564cddbe1df709656ae891c/12-zeeman-magnus-linear-src.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/5c55bc380dd89223ef85278ee2810f18/12-zeeman-magnus-linear-src.svg"><code class="xref download docutils literal notranslate"><span class="pre">svg</span></code></a>, <a class="reference download internal" download="" href="_downloads/332b5ecd26b073035ebf893abd231182/12-zeeman-magnus-linear-src.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/12-zeeman-magnus-linear-src.svg" class="plot-directive" src="_images/12-zeeman-magnus-linear-src.svg" />
 </figure>
 </section>
 </section>

@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pyarts3.recipe &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -83,6 +83,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.SpectralAtmosphericFlux.__call__"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.__call__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.SpectralAtmosphericFlux.__init__"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.SpectralAtmosphericFlux.get_atmosphere"><code class="docutils literal notranslate"><span class="pre">SpectralAtmosphericFlux.get_atmosphere()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heating-rate-diagnostics">Heating-rate diagnostics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.flux_from_radiance"><code class="docutils literal notranslate"><span class="pre">flux_from_radiance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.from_disort"><code class="docutils literal notranslate"><span class="pre">from_disort()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.from_flux"><code class="docutils literal notranslate"><span class="pre">from_flux()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.from_flux_divergence"><code class="docutils literal notranslate"><span class="pre">from_flux_divergence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.from_optical_depth_derivative"><code class="docutils literal notranslate"><span class="pre">from_optical_depth_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyarts3.recipe.heating_rates.integrate_spectral"><code class="docutils literal notranslate"><span class="pre">integrate_spectral()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -319,6 +328,86 @@ first of which is unpolarized absorption.</p>
 
 </dd></dl>
 
+<section id="heating-rate-diagnostics">
+<h2>Heating-rate diagnostics<a class="headerlink" href="#heating-rate-diagnostics" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="user.heating.html"><span class="doc">Radiative heating rates</span></a> for units, sampling locations and examples.</p>
+<p id="module-pyarts3.recipe.heating_rates">Radiance, flux and heating-rate diagnostics in SI units.</p>
+<p>Positive heating warms the gas. Flux is positive upward. These functions
+accept NumPy-compatible arrays, including ARTS arrays. They do not infer
+brightness-temperature units, density, gravity or heat capacity.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.flux_from_radiance">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">flux_from_radiance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radiance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith_weights</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#flux_from_radiance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.flux_from_radiance" title="Link to this definition"></a></dt>
+<dd><p>Return positive upward and downward hemispheric irradiance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">radiance</span></code> is Stokes I in W/(m² sr), or W/(m² sr Hz) for spectral
+data. It must be azimuth independent or already averaged over azimuth.
+<code class="docutils literal notranslate"><span class="pre">zenith</span></code> [degrees] uses the ARTS viewing direction: 0 looks upward
+(downward travelling radiation), 180 looks downward. <code class="docutils literal notranslate"><span class="pre">zenith_weights</span></code>
+integrate d(cos(zenith)), e.g. double-Gauss weights summing to two.
+This is a projected flux integral, with a cosine factor, not actinic flux.
+The angular axis is removed. Select Stokes I before calling this function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.from_disort">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">from_disort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extinction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heat_capacity</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#from_disort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.from_disort" title="Link to this definition"></a></dt>
+<dd><p>Return lower-layer-boundary heating [K/s] from an ARTS <code class="docutils literal notranslate"><span class="pre">DisortFlux</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">extinction</span></code> [1/m] broadcasts to <code class="docutils literal notranslate"><span class="pre">flux.dfdt</span></code> (frequency, layer),
+while density and heat capacity normally have shape (layer,).
+Use physical, unscaled extinction for delta-M calculations. Evaluate
+thermodynamic quantities at <code class="docutils literal notranslate"><span class="pre">flux.alt_grid[1:]</span></code>. Extinction is the
+value within the layer immediately above each output boundary.
+Frequency-dependent extinction is applied <em>before</em> spectral integration.
+Optional quadrature <code class="docutils literal notranslate"><span class="pre">weights</span></code> are in Hz.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.from_flux">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">from_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net_upward_flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heat_capacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravity</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#from_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.from_flux" title="Link to this definition"></a></dt>
+<dd><p>Derive heating [K/s] from upward net flux [W/m²] at pressure levels.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pressure</span></code> [Pa] is a strictly monotonic vector of at least three levels,
+in either order. Differentiate with the nonuniform three-point formula,
+including second-order one-sided boundaries. Heat capacity [J/(kg K)]
+and gravity [m/s²] broadcast against the result, whose shape is unchanged.
+For spectral flux, integrate over frequency first, or integrate the
+resulting spectral heating rates afterwards if g/cp is frequency independent.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.from_flux_divergence">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">from_flux_divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure_derivative</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heat_capacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#from_flux_divergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.from_flux_divergence" title="Link to this definition"></a></dt>
+<dd><p>Convert d(F_up-F_down)/dp [W m⁻² Pa⁻¹] to heating [K/s].</p>
+<p>Hydrostatic balance gives H = g/cp * dF/dp. <code class="docutils literal notranslate"><span class="pre">heat_capacity</span></code> is mass
+specific [J/(kg K)] and <code class="docutils literal notranslate"><span class="pre">gravity</span></code> is positive [m/s²]. Scalar or array
+inputs follow NumPy broadcasting. No boundary values are suppressed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.from_optical_depth_derivative">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">from_optical_depth_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfdt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extinction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heat_capacity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#from_optical_depth_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.from_optical_depth_derivative" title="Link to this definition"></a></dt>
+<dd><p>Convert DISORT/VDISORT DFDT to heating, preserving spectral axes.</p>
+<p>DFDT is d(F_up-F_down)/d(tau), with optical depth increasing downward.
+Multiply by physical extinction [1/m], then divide by density [kg/m³]
+and mass specific heat capacity [J/(kg K)]. The result is K/s for
+broadband inputs or K/(s Hz) for spectral inputs. All quantities must
+refer to the same locations; array inputs follow NumPy broadcasting.
+Extinction must be total extinction, not absorption (DFDT already
+contains the single-scattering-albedo factor). If a low-level VDISORT
+calculation uses externally rescaled optical depths, extinction must
+correspond to that rescaled coordinate. Scalar DISORT’s internal delta-M
+treatment returns physical DFDT and requires physical extinction.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyarts3.recipe.heating_rates.integrate_spectral">
+<span class="sig-prename descclassname"><span class="pre">pyarts3.recipe.heating_rates.</span></span><span class="sig-name descname"><span class="pre">integrate_spectral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarts3/recipe/heating_rates.html#integrate_spectral"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyarts3.recipe.heating_rates.integrate_spectral" title="Link to this definition"></a></dt>
+<dd><p>Integrate per-Hz values over frequency [Hz].</p>
+<p>Use trapezoidal integration on an increasing frequency grid, or explicit
+quadrature weights [Hz]. A single frequency requires an explicit weight.
+The selected axis is removed; all other axes retain their order.</p>
+</dd></dl>
+
+</section>
 </section>
 
 

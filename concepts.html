@@ -8,11 +8,11 @@
     <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Underpinning concepts and background &mdash; ARTS 3.0.0dev11 documentation</title>
+  <title>Mathematics and physical concepts &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -31,7 +31,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Absorption" href="concept.absorption.html" />
-    <link rel="prev" title="Sensor description" href="user.sensors.html" /> 
+    <link rel="prev" title="Radiative-transfer layer options" href="user.radiative_transfer.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -63,11 +63,20 @@
 <li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Underpinning concepts and background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mathematics and physical concepts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
 <li class="toctree-l3"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.tmatrix.html">T-matrix particle scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.disort.html">DISORT and VDISORT core solvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="concept.physical_grids.html">Physical grids</a></li>
 </ul>
 </li>
 </ul>
@@ -95,7 +104,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
-      <li class="breadcrumb-item active">Underpinning concepts and background</li>
+      <li class="breadcrumb-item active">Mathematics and physical concepts</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/concepts.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -105,13 +114,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="underpinning-concepts-and-background">
-<h1>Underpinning concepts and background<a class="headerlink" href="#underpinning-concepts-and-background" title="Link to this heading"></a></h1>
-<p>This section explains some concepts that are used implicitly in ARTS.
-It is useful to understand how different components of ARTS are intended to work together.
-It is a non-exhaustive overview of these concepts, and it is not intended to cover
-implementation details.</p>
-<p>The subsections below are given in no particular order.</p>
+  <section id="mathematics-and-physical-concepts">
+<h1>Mathematics and physical concepts<a class="headerlink" href="#mathematics-and-physical-concepts" title="Link to this heading"></a></h1>
+<p>These pages explain the equations, physical definitions, and approximations
+behind ARTS calculations.  See <a class="reference internal" href="users.html"><span class="doc">Guide</span></a> for interface terminology and
+usage, and <a class="reference internal" href="devs.html"><span class="doc">For Developers</span></a> for build and implementation details.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="concept.absorption.html">Absorption</a><ul>
@@ -123,9 +130,32 @@ implementation details.</p>
 <li class="toctree-l1"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#a-single-step">A single step</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#multiple-steps">Multiple steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#propagation-matrix-exponential">Propagation-matrix exponential</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#partial-derivatives">Partial derivatives</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#potential-improvements">Potential improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#layer-interpolation-options">Layer interpolation options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html#deriving-the-expressions">Deriving the expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concept.tmatrix.html">T-matrix particle scattering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concept.tmatrix.html#particle-size-and-orientation">Particle size and orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.tmatrix.html#amplitude-and-phase-matrices">Amplitude and phase matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concept.disort.html">DISORT and VDISORT core solvers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#geometry-and-sign-conventions">Geometry and sign conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#scalar-radiative-transfer">Scalar radiative transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#polarized-radiative-transfer">Polarized radiative transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#sources-and-boundary-conditions">Sources and boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#surface-reflection">Surface reflection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#global-boundary-value-matrix">Global boundary-value matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#delta-m-scaling">Delta-M scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#arbitrary-angle-radiances">Arbitrary-angle radiances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#fluxes-and-heating-rate-integrand">Fluxes and heating-rate integrand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html#mathematical-limitations">Mathematical limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concept.heating.html#optical-depth-derivatives">Optical-depth derivatives</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="concept.oem.html">Optimal estimation</a><ul>
@@ -133,7 +163,6 @@ implementation details.</p>
 <li class="toctree-l2"><a class="reference internal" href="concept.oem.html#transforming-the-jacobian-matrix">Transforming the Jacobian matrix</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="concept.physical_grids.html">Physical grids</a></li>
 </ul>
 </div>
 </section>
@@ -142,7 +171,7 @@ implementation details.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="user.sensors.html" class="btn btn-neutral float-left" title="Sensor description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user.radiative_transfer.html" class="btn btn-neutral float-left" title="Radiative-transfer layer options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="concept.absorption.html" class="btn btn-neutral float-right" title="Absorption" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

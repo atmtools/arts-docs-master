@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DISORT implementation and validation &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/dev.disort.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"loader": {"load": ["[tex]/boldsymbol"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "packages": {"[+]": ["boldsymbol"]}}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Surface emissivity integration" href="dev.surface_emissivity.html" />
+    <link rel="prev" title="Heating-rate reference tests" href="dev.heating.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.edit.html">Editor modules for GUI integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.species.html">Adding new species to ARTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html">ARTS 2 Feature-Port Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html">ARTS 2 Features Not Intended for ARTS 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DISORT implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-array-layouts">Implementation array layouts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#numerical-behavior-and-limitations">Numerical behavior and limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-scope">Validation scope</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">DISORT implementation and validation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.disort.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="disort-implementation-and-validation">
+<h1>DISORT implementation and validation<a class="headerlink" href="#disort-implementation-and-validation" title="Link to this heading"></a></h1>
+<p>The scalar and vector solvers are implemented in <code class="docutils literal notranslate"><span class="pre">src/core/disort-cpp</span></code>.
+See <a class="reference internal" href="concept.disort.html"><span class="doc">DISORT and VDISORT core solvers</span></a> for the equations and notation used below.</p>
+</section>
+<section id="implementation-array-layouts">
+<h1>Implementation array layouts<a class="headerlink" href="#implementation-array-layouts" title="Link to this heading"></a></h1>
+<p>The similarly named arrays in the two cores do not always store the same
+factorization:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 35.0%" />
+<col style="width: 41.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mathematical object</p></th>
+<th class="head"><p>CPP-DISORT</p></th>
+<th class="head"><p>VDISORT</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Layer transport matrix <span class="math notranslate nohighlight">\(\boldsymbol A\)</span></p></td>
+<td><p>Implicit in <code class="docutils literal notranslate"><span class="pre">D_pos</span></code>, <code class="docutils literal notranslate"><span class="pre">D_neg</span></code>, <code class="docutils literal notranslate"><span class="pre">apb</span></code>, and <code class="docutils literal notranslate"><span class="pre">amb</span></code>; only the
+<span class="math notranslate nohighlight">\(N\times N\)</span> reduced product <code class="docutils literal notranslate"><span class="pre">sqr</span></code> is diagonalized</p></td>
+<td><p>Local <span class="math notranslate nohighlight">\(4N_q\times4N_q\)</span> real <code class="docutils literal notranslate"><span class="pre">A_real</span></code> is copied to a complex
+matrix and diagonalized</p></td>
+</tr>
+<tr class="row-odd"><td><p>Propagation constants <span class="math notranslate nohighlight">\(\boldsymbol K\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">K_collect[m,</span> <span class="pre">layer,</span> <span class="pre">eigen]</span></code> with negative half followed by its
+positive partners</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">K_collect[alpha,</span> <span class="pre">m,</span> <span class="pre">layer,</span> <span class="pre">eigen]</span></code> after complex lexicographic sort</p></td>
+</tr>
+<tr class="row-even"><td><p>Eigenvectors <span class="math notranslate nohighlight">\(\boldsymbol G\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">G_collect[m,</span> <span class="pre">layer,</span> <span class="pre">state,</span> <span class="pre">eigen]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">G_collect[alpha,</span> <span class="pre">m,</span> <span class="pre">layer,</span> <span class="pre">state,</span> <span class="pre">eigen]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Modal constants <span class="math notranslate nohighlight">\(\boldsymbol c_\ell\)</span></p></td>
+<td><p>The band-solve <code class="docutils literal notranslate"><span class="pre">RHS</span></code> is overwritten by the constants and copied to
+<code class="docutils literal notranslate"><span class="pre">C_collect[m,</span> <span class="pre">layer,</span> <span class="pre">eigen]</span></code></p></td>
+<td><p>The complex band-solve <code class="docutils literal notranslate"><span class="pre">rhs</span></code> is copied into <code class="docutils literal notranslate"><span class="pre">GC_collect</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GC_collect</span></code></p></td>
+<td><p>Caches <span class="math notranslate nohighlight">\(G_{qe}c_e\)</span> for ordinary exponential evaluation; the
+conservative pair is evaluated from <code class="docutils literal notranslate"><span class="pre">C_collect</span></code> and its coupled
+two-column basis</p></td>
+<td><p>Despite the name, stores only <span class="math notranslate nohighlight">\(c_e\)</span>; multiplication by
+<span class="math notranslate nohighlight">\(G_{qe}\)</span> occurs during field reconstruction</p></td>
+</tr>
+<tr class="row-odd"><td><p>Beam particular solution <span class="math notranslate nohighlight">\(\boldsymbol B\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B_collect[m,</span> <span class="pre">layer,</span> <span class="pre">stream]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B_collect[alpha,</span> <span class="pre">m,</span> <span class="pre">layer,</span> <span class="pre">stream]</span></code> of Stokes vectors</p></td>
+</tr>
+<tr class="row-even"><td><p>Polynomial particular solution</p></td>
+<td><p>Coefficients are cached in
+<code class="docutils literal notranslate"><span class="pre">source_collect[layer,</span> <span class="pre">stream,</span> <span class="pre">power]</span></code>; <code class="docutils literal notranslate"><span class="pre">SRC0</span></code>, <code class="docutils literal notranslate"><span class="pre">SRC1</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">SRCB</span></code> retain boundary values used by the ordinary fast assembly</p></td>
+<td><p>Coefficients are Stokes vectors in
+<code class="docutils literal notranslate"><span class="pre">source_collect[alpha,</span> <span class="pre">m,</span> <span class="pre">layer,</span> <span class="pre">stream,</span> <span class="pre">power]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Layer-bottom total field</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">um[layer,</span> <span class="pre">m,</span> <span class="pre">stream]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">um[layer,</span> <span class="pre">alpha,</span> <span class="pre">m,</span> <span class="pre">stream]</span></code> of Stokes vectors</p></td>
+</tr>
+</tbody>
+</table>
+<p>In particular, <code class="docutils literal notranslate"><span class="pre">um</span></code> is a cached total quadrature field, not an eigenvector or
+a modal-coefficient array.</p>
+<section id="numerical-behavior-and-limitations">
+<h2>Numerical behavior and limitations<a class="headerlink" href="#numerical-behavior-and-limitations" title="Link to this heading"></a></h2>
+<p>The following details are intentional and should be considered when changing
+or comparing the cores:</p>
+<ul class="simple">
+<li><p><strong>Conservative scattering.</strong>  Exact <span class="math notranslate nohighlight">\(\omega=1\)</span> gives a defective zero
+pair in the zeroth cosine mode.  Both cores keep the input albedo unchanged
+and represent the physical energy pair by the constant/linear centered basis
+above.  The same basis is selected through the near-conservative interval
+<span class="math notranslate nohighlight">\([1-10^{-8},1]\)</span>; ordinary modes retain the fast anchored-exponential
+path.  VDISORT stabilizes the one physically required energy-conservation
+pair.  A contrived Mueller operator with additional independently conserved
+polarization quantities can contain more zero pairs and is not covered by
+this single-pair representation.  Generalizing this is intentionally deferred
+until a physically occurring scattering model requiring it is identified.</p></li>
+<li><p><strong>Complex VDISORT modes.</strong>  A real physical solution can use complex
+eigenpairs.  The reconstructed imaginary part is required to cancel to a
+relative tolerance of about <span class="math notranslate nohighlight">\(2\,10^{-8}\)</span> before the real part is
+returned.  Failure indicates an ill-conditioned or incorrectly assembled
+system, not a physical complex radiance.</p></li>
+<li><p><strong>VDISORT spectral split.</strong>  Anchoring requires half the non-neutral modes to
+propagate toward each boundary.  After sorting, the implementation checks
+this sign split.  A relative neutral band of <span class="math notranslate nohighlight">\(10^{-10}\)</span> times the
+eigenspectrum scale permits mathematically zero or nearly imaginary modes to
+occupy either half; a non-neutral sign imbalance or a mode on the wrong side
+is rejected before boundary assembly.</p></li>
+<li><p><strong>No absorption cutoff.</strong>  An absorption-optical-depth shortcut is not
+implemented.  The complete physical solution is evaluated instead.</p></li>
+<li><p><strong>No special-boundary shortcut.</strong>  <code class="docutils literal notranslate"><span class="pre">IBCND=1</span></code> albedo/transmission is not a
+separate algorithm here.  The same quantities are obtained from the regular
+boundary-value solution.</p></li>
+<li><p><strong>Update cost.</strong>  Constructing or updating either solver performs the
+eigendecompositions and global boundary solves.  Evaluation at cached
+quadrature points is much cheaper.  VDISORT intentionally contains no
+OpenMP parallel region in these core algorithms; ARTS normally parallelizes
+independent frequencies outside the solver.</p></li>
+<li><p><strong>Thread use.</strong>  A fully constructed solver may be shared for read-only
+evaluation when each caller owns its scratch objects.  Updating the solver
+or sharing scratch storage concurrently is unsafe.</p></li>
+</ul>
+</section>
+<section id="validation-scope">
+<h2>Validation scope<a class="headerlink" href="#validation-scope" title="Link to this heading"></a></h2>
+<p>The scalar core is checked against published numerical reference values for
+the supported plane-parallel test problems, including arbitrary angles, fluxes,
+DFDT, delta-M corrections, physical BRDFs, conservative scattering, multilayer
+continuity, and delta-M-plus.  The pseudo-spherical test case is intentionally
+unsupported.</p>
+<p>The strict scalar embedding of VDISORT is checked against the same supported
+reference problems, with <span class="math notranslate nohighlight">\(Q=U=V=0\)</span> asserted.  These tests establish the
+normalization and scalar limit of the vector equations.  Analytic polarized
+two-stream tests additionally cover <span class="math notranslate nohighlight">\(I/Q\)</span> coupling, complex <span class="math notranslate nohighlight">\(U/V\)</span>
+eigenpairs, a polarized direct beam, polarized absorption, vector internal
+sources, and a polarized reflecting boundary.  These focused tests do not
+replace comparison with an independent general-purpose polarized reference,
+particularly for reference-plane rotations, many-stream Mueller problems, and
+genuinely polarized IMS/TMS corrections.</p>
+<p>Caller conventions are described in <a class="reference internal" href="user.disort.html"><span class="doc">DISORT input and output conventions</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.heating.html" class="btn btn-neutral float-left" title="Heating-rate reference tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.surface_emissivity.html" class="btn btn-neutral float-right" title="Surface emissivity integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

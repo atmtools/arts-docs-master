@@ -1,0 +1,204 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T-matrix particle scattering &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/concept.tmatrix.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"loader": {"load": ["[tex]/boldsymbol"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "packages": {"[+]": ["boldsymbol"]}}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DISORT and VDISORT core solvers" href="concept.disort.html" />
+    <link rel="prev" title="Radiative Transfer" href="concept.radiative_transfer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="users.html">Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.atm_field.html">The atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">T-matrix particle scattering</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#particle-size-and-orientation">Particle size and orientation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amplitude-and-phase-matrices">Amplitude and phase matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="concept.disort.html">DISORT and VDISORT core solvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
+          <li class="breadcrumb-item"><a href="concepts.html">Mathematics and physical concepts</a></li>
+      <li class="breadcrumb-item active">T-matrix particle scattering</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concept.tmatrix.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="t-matrix-particle-scattering">
+<h1>T-matrix particle scattering<a class="headerlink" href="#t-matrix-particle-scattering" title="Link to this heading"></a></h1>
+<p>The T-matrix method relates an incident electromagnetic field to the field
+scattered by a particle.  Both fields are expanded in vector spherical waves;
+for expansion-coefficient vectors <span class="math notranslate nohighlight">\(\boldsymbol a\)</span> and
+<span class="math notranslate nohighlight">\(\boldsymbol b\)</span>, the linear relation is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol b = \boldsymbol T\boldsymbol a.\]</div>
+<p>For a given particle and wavelength, the same T-matrix can be used for different
+illumination and observation directions.  The particle model considered here
+is a homogeneous spheroid or finite circular cylinder.</p>
+<section id="particle-size-and-orientation">
+<h2>Particle size and orientation<a class="headerlink" href="#particle-size-and-orientation" title="Link to this heading"></a></h2>
+<p>Volume-equivalent radius is the radius of a sphere with the same volume as the
+particle.  Surface-area-equivalent radius is the radius of a sphere with the
+same surface area.  These definitions agree for a sphere, but generally differ
+for nonspherical particles.</p>
+<p>A fixed-orientation calculation specifies the particle orientation as well as
+the incident and scattered directions.  A random-orientation calculation
+averages over particle orientations.  Averaging over a particle size
+distribution is an additional operation.</p>
+</section>
+<section id="amplitude-and-phase-matrices">
+<h2>Amplitude and phase matrices<a class="headerlink" href="#amplitude-and-phase-matrices" title="Link to this heading"></a></h2>
+<p>The complex 2 by 2 Jones amplitude matrix acts on electric-field polarization
+components.  The corresponding real 4 by 4 Mueller phase matrix acts on the
+Stokes vector.  Its elements are quadratic combinations of the complex
+amplitudes.  With an amplitude measured in length units, the phase matrix has
+units of length squared.</p>
+<p>For randomly oriented particles of the shapes considered here, the normalized
+phase matrix in the scattering-plane basis has the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol F(\Theta) =
+\begin{pmatrix}
+F_{11} &amp; F_{12} &amp; 0 &amp; 0 \\
+F_{12} &amp; F_{22} &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; F_{33} &amp; F_{34} \\
+0 &amp; 0 &amp; -F_{34} &amp; F_{44}
+\end{pmatrix},\qquad
+\int_{4\pi} F_{11}\,d\Omega = 4\pi.\end{split}\]</div>
+<p>These matrix elements are dimensionless.  Multiplication by
+<span class="math notranslate nohighlight">\(C_{\mathrm{sca}}/(4\pi)\)</span> gives the differential scattering cross-section
+matrix, where <span class="math notranslate nohighlight">\(C_{\mathrm{sca}}\)</span> is the scattering cross section.
+For a size distribution, the cross sections and normalized phase matrix must
+refer to the same distribution average.</p>
+<p>See <a class="reference internal" href="user.tmatrix.html"><span class="doc">T-matrix interface</span></a> for ARTS parameter names, units, and result types.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="concept.radiative_transfer.html" class="btn btn-neutral float-left" title="Radiative Transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="concept.disort.html" class="btn btn-neutral float-right" title="DISORT and VDISORT core solvers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

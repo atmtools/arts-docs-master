@@ -12,18 +12,18 @@ ray_path_observer_agenda
    position and line of sight.
 
    .. tip::
-       The perhaps easiest way to set this agenda up is to use the :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetGeometric` method.
+       The perhaps easiest way to set this agenda up is to use the :func:`~pyarts3.Workspace.ray_path_observer_agendaSetGeometric` method.
 
    .. rubric:: Execution and customization
 
-   See :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSet` for builtin options that selects execution options.
+   See :func:`~pyarts3.Workspace.ray_path_observer_agendaSet` for builtin options that selects execution options.
 
-   You can execute :attr:`~pyarts3.workspace.Workspace.ray_path_observer_agenda` directly from the workspace by calling :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaExecute`.
+   You can execute :attr:`~pyarts3.Workspace.ray_path_observer_agenda` directly from the workspace by calling :func:`~pyarts3.Workspace.ray_path_observer_agendaExecute`.
 
    As all agendas in ARTS, it is also customizable via its operator helper class: :class:`~pyarts3.arts.ray_path_observer_agendaOperator`.
-   See it, :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetOperator`, and :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaExecuteOperator` for more details.
+   See it, :func:`~pyarts3.Workspace.ray_path_observer_agendaSetOperator`, and :func:`~pyarts3.Workspace.ray_path_observer_agendaExecuteOperator` for more details.
 
-   Also see the :class:`~pyarts3.workspace.arts_agenda` property for how to fully define an agenda in python.
+   Also see the :class:`~pyarts3.arts_agenda` property for how to fully define an agenda in python.
 
 
 
@@ -33,29 +33,29 @@ ray_path_observer_agenda
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.ray_path`
+       * :attr:`~pyarts3.Workspace.ray_path`
 
    .. rubric:: Agenda input
 
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.obs_pos`
-       * :attr:`~pyarts3.workspace.Workspace.obs_los`
+       * :attr:`~pyarts3.Workspace.obs_pos`
+       * :attr:`~pyarts3.Workspace.obs_los`
 
    .. rubric:: Default value
 
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.atm_field`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.max_stepsize`
-   #. Shares the global :attr:`~pyarts3.workspace.Workspace.surf_field`
+   #. Shares the global :attr:`~pyarts3.Workspace.atm_field`
+   #. Shares the global :attr:`~pyarts3.Workspace.max_stepsize`
+   #. Shares the global :attr:`~pyarts3.Workspace.surf_field`
    #. as_sensor = 1
-   #. :func:`~pyarts3.workspace.Workspace.ray_pathInit`, using: pos = :attr:`~pyarts3.workspace.Workspace.obs_pos`, los = :attr:`~pyarts3.workspace.Workspace.obs_los`
+   #. :func:`~pyarts3.Workspace.ray_pathInit`, using: pos = :attr:`~pyarts3.Workspace.obs_pos`, los = :attr:`~pyarts3.Workspace.obs_los`
    #. surf_search_accuracy = 0.1
    #. surf_safe_search = 1
-   #. :func:`~pyarts3.workspace.Workspace.ray_pathSetGeometricExtremes`
-   #. :func:`~pyarts3.workspace.Workspace.ray_pathFillGeometricStepwise`
-   #. :func:`~pyarts3.workspace.Workspace.ray_pathFixUpdownAzimuth`
-   #. :func:`~pyarts3.workspace.Workspace.ray_pathRemoveNonAtm`
+   #. :func:`~pyarts3.Workspace.ray_pathSetGeometricExtremes`
+   #. :func:`~pyarts3.Workspace.ray_pathFillGeometricStepwise`
+   #. :func:`~pyarts3.Workspace.ray_pathFixUpdownAzimuth`
+   #. :func:`~pyarts3.Workspace.ray_pathRemoveNonAtm`
 
 
 
@@ -65,14 +65,19 @@ ray_path_observer_agenda
    .. hlist::
        :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.measurement_vecFromOperatorPath`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_fieldFluxProfile`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_fieldFromObserverAgenda`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaExecute`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observersFieldProfilePseudo2D`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_suns_pathFromPathObserver`
-       * :func:`~pyarts3.workspace.Workspace.spectral_rad_fieldFromOperatorPath`
-       * :func:`~pyarts3.workspace.Workspace.sun_pathFromObserverAgenda`
+       * :func:`~pyarts3.Workspace.MCGeneral`
+       * :func:`~pyarts3.Workspace.MCRadar`
+       * :func:`~pyarts3.Workspace.measurement_vecFromOperatorPath`
+       * :func:`~pyarts3.Workspace.measurement_vecFromRadarSingleScattering`
+       * :func:`~pyarts3.Workspace.model_state_vecFromRadarOnionPeeling`
+       * :func:`~pyarts3.Workspace.ray_path_fieldFluxProfile`
+       * :func:`~pyarts3.Workspace.ray_path_fieldFromObserverAgenda`
+       * :func:`~pyarts3.Workspace.ray_path_observer_agendaExecute`
+       * :func:`~pyarts3.Workspace.ray_path_observersFieldProfilePseudo2D`
+       * :func:`~pyarts3.Workspace.ray_path_suns_pathFromPathObserver`
+       * :func:`~pyarts3.Workspace.spectral_radMonteCarlo`
+       * :func:`~pyarts3.Workspace.spectral_rad_fieldFromOperatorPath`
+       * :func:`~pyarts3.Workspace.sun_pathFromObserverAgenda`
 
 
    .. rubric:: Output from workspace methods
@@ -80,9 +85,9 @@ ray_path_observer_agenda
    .. hlist::
        :columns: 1
 
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSet`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetGeometric`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observer_agendaSetOperator`
+       * :func:`~pyarts3.Workspace.ray_path_observer_agendaSet`
+       * :func:`~pyarts3.Workspace.ray_path_observer_agendaSetGeometric`
+       * :func:`~pyarts3.Workspace.ray_path_observer_agendaSetOperator`
 
 
    .. rubric:: Related workspace variables
@@ -90,38 +95,38 @@ ray_path_observer_agenda
    .. hlist::
        :columns: 2
 
-       * :attr:`~pyarts3.workspace.Workspace.atm_path`
-       * :attr:`~pyarts3.workspace.Workspace.freq_grid_path`
-       * :attr:`~pyarts3.workspace.Workspace.freq_wind_shift_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.obs_los`
-       * :attr:`~pyarts3.workspace.Workspace.obs_pos`
-       * :attr:`~pyarts3.workspace.Workspace.ray_path`
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_field`
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_observers`
-       * :attr:`~pyarts3.workspace.Workspace.ray_path_suns_path`
-       * :attr:`~pyarts3.workspace.Workspace.ray_point`
-       * :attr:`~pyarts3.workspace.Workspace.ray_point_back_propagation_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.single_freq_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_nlte_srcvec_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.single_propmat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_absvec_scat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_linevo_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_nlte_srcvec_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_phamat_spectral_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_and_atm_path_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_propmat_scat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_jac_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_observer_agenda`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_scat_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_rad_srcvec_path`
-       * :attr:`~pyarts3.workspace.Workspace.spectral_tramat_path`
-       * :attr:`~pyarts3.workspace.Workspace.sun_path`
+       * :attr:`~pyarts3.Workspace.atm_path`
+       * :attr:`~pyarts3.Workspace.freq_grid_path`
+       * :attr:`~pyarts3.Workspace.freq_wind_shift_jac_path`
+       * :attr:`~pyarts3.Workspace.obs_los`
+       * :attr:`~pyarts3.Workspace.obs_pos`
+       * :attr:`~pyarts3.Workspace.ray_path`
+       * :attr:`~pyarts3.Workspace.ray_path_field`
+       * :attr:`~pyarts3.Workspace.ray_path_observers`
+       * :attr:`~pyarts3.Workspace.ray_path_suns_path`
+       * :attr:`~pyarts3.Workspace.ray_point`
+       * :attr:`~pyarts3.Workspace.ray_point_back_propagation_agenda`
+       * :attr:`~pyarts3.Workspace.single_freq_path`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_jac_path`
+       * :attr:`~pyarts3.Workspace.single_nlte_srcvec_path`
+       * :attr:`~pyarts3.Workspace.single_propmat_jac_path`
+       * :attr:`~pyarts3.Workspace.single_propmat_path`
+       * :attr:`~pyarts3.Workspace.spectral_absvec_scat_path`
+       * :attr:`~pyarts3.Workspace.spectral_linevo_jac_path`
+       * :attr:`~pyarts3.Workspace.spectral_linevo_path`
+       * :attr:`~pyarts3.Workspace.spectral_nlte_srcvec_jac_path`
+       * :attr:`~pyarts3.Workspace.spectral_nlte_srcvec_path`
+       * :attr:`~pyarts3.Workspace.spectral_phamat_spectral_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_and_atm_path_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_jac_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_path`
+       * :attr:`~pyarts3.Workspace.spectral_propmat_scat_path`
+       * :attr:`~pyarts3.Workspace.spectral_rad_jac_path`
+       * :attr:`~pyarts3.Workspace.spectral_rad_observer_agenda`
+       * :attr:`~pyarts3.Workspace.spectral_rad_scat_path`
+       * :attr:`~pyarts3.Workspace.spectral_rad_srcvec_path`
+       * :attr:`~pyarts3.Workspace.spectral_tramat_path`
+       * :attr:`~pyarts3.Workspace.sun_path`
 
    .. :class:`~pyarts3.arts.Agenda`
 

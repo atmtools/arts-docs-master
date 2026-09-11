@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Developers &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -72,6 +72,14 @@
 <li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.species.html">Adding new species to ARTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html">ARTS 2 Feature-Port Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html">ARTS 2 Features Not Intended for ARTS 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html">DISORT implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#implementation-array-layouts">Implementation array layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -106,7 +114,9 @@
   <section id="for-developers">
 <h1>For Developers<a class="headerlink" href="#for-developers" title="Link to this heading"></a></h1>
 <p>This section is for ARTS developers.
-It contains design descriptions, development guidelines, and practical tips.</p>
+It covers build configuration, implementation, maintenance, and validation.
+See <a class="reference internal" href="users.html"><span class="doc">Guide</span></a> for interface guidance and <a class="reference internal" href="concepts.html"><span class="doc">Mathematics and physical concepts</span></a> for mathematics
+and physical theory.</p>
 <p>Consider it a collection of notes and documentation for developers.
 Each page explains a specific topic in various detail.
 It is expected that you use these sections to learn about
@@ -168,6 +178,7 @@ and how to use existing features.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dev.doc.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html#choosing-a-documentation-section">Choosing a documentation section</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.doc.html#examples-folder">Examples folder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev.doc.html#the-workspace-documentation">The Workspace documentation</a></li>
 </ul>
@@ -183,6 +194,45 @@ and how to use existing features.</p>
 <li class="toctree-l2"><a class="reference internal" href="dev.species.html#to-add-a-predefined-model">To add a predefined model</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dev.arts2missing.html">ARTS 2 Feature-Port Status</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#status-terms">Status terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#initial-audit-snapshot">Initial audit snapshot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#confirmed-implementation-gaps">Confirmed implementation gaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#active-coverage-gaps">Active coverage gaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#deferred-beyond-this-first-pass">Deferred beyond this first pass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html#updating-this-page">Updating this page</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev.arts2notintended.html">ARTS 2 Features Not Intended for ARTS 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#arts-2-scripting-language-and-executable">ARTS 2 scripting language and executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#always-3d-geometry-not-atmosphere-modes">Always-3D geometry, not atmosphere modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#no-global-stokes-or-jacobian-switches">No global Stokes or Jacobian switches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#no-formal-cloudbox">No formal cloudbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#composite-fields-and-fewer-workspace-variables">Composite fields and fewer workspace variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#sensor-representation">Sensor representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#scattering-data-representation">Scattering data representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#failure-and-validation-behavior">Failure and validation behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#arts-2-checks-retired-by-these-decisions">ARTS 2 checks retired by these decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#legacy-choices-that-remain">Legacy choices that remain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#open-questions-not-design-decisions">Open questions, not design decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html#port-review-checklist">Port-review checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html#port-and-reference-tests">Port and reference tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html#native-particle-habit-integration">Native particle-habit integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html#mc-azimuthally-random-particle-reproduction">MC azimuthally random particle reproduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.disort.html">DISORT implementation and validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.disort.html#implementation-array-layouts">Implementation array layouts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#numerical-behavior-and-limitations">Numerical behavior and limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#validation-scope">Validation scope</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
 </ul>
 </div>
 </section>

@@ -6,9 +6,19 @@ measurement_sensor
 .. attribute:: Workspace.measurement_sensor
    :type: ~pyarts3.arts.ArrayOfSensorObsel
 
-   A list of sensor elements.
+   A list of sensor elements that fully describe one or more observing sensor(s).
 
-   Size is number of elements of the sensor.
+   Size is number of elements of the sensor(s).  These should correspond to what the
+   sensor actually measures, e.g., the number of channels in a spectrometer,
+   separate elements as a function of polarization, time, etc.
+
+   The frequency grid is shared between multiple sensor elements, so that the frequency grid
+   identifies a sensor.  Two sensor elements are considered to be from the same sensor if they
+   share the same frequency grid.  This is important for the inversion process,
+   as it is used to determine how to compute the :attr:`~pyarts3.Workspace.measurement_jac` and :attr:`~pyarts3.Workspace.measurement_vec_error_covmat`.
+   See :attr:`~pyarts3.Workspace.measurement_sensor_meta` for more information about how the sensor elements are structured.
+
+   The size of this variable should be the same as :attr:`~pyarts3.Workspace.measurement_vec`.
 
 
 
@@ -18,23 +28,25 @@ measurement_sensor
    .. hlist::
        :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.RetrievalAddErrorPolyFit`
-       * :func:`~pyarts3.workspace.Workspace.RetrievalAddSensorFrequencyPolyOffset`
-       * :func:`~pyarts3.workspace.Workspace.RetrievalFinalizeDiagonal`
-       * :func:`~pyarts3.workspace.Workspace.jac_targetsAddErrorPolyFit`
-       * :func:`~pyarts3.workspace.Workspace.jac_targetsAddSensorFrequencyPolyOffset`
-       * :func:`~pyarts3.workspace.Workspace.jac_targetsFinalize`
-       * :func:`~pyarts3.workspace.Workspace.measurement_jacSensorTransformation`
-       * :func:`~pyarts3.workspace.Workspace.measurement_jacTransformations`
-       * :func:`~pyarts3.workspace.Workspace.measurement_vecFromOperatorPath`
-       * :func:`~pyarts3.workspace.Workspace.measurement_vecFromSensor`
-       * :func:`~pyarts3.workspace.Workspace.measurement_vec_errorFromModelState`
-       * :func:`~pyarts3.workspace.Workspace.measurement_vec_error_covmatConstant`
-       * :func:`~pyarts3.workspace.Workspace.model_state_vecFromData`
-       * :func:`~pyarts3.workspace.Workspace.model_state_vecFromSensor`
-       * :func:`~pyarts3.workspace.Workspace.model_state_vec_aprioriFromData`
-       * :func:`~pyarts3.workspace.Workspace.ray_path_observersFromSensor`
-       * :func:`~pyarts3.workspace.Workspace.spectral_rad_jacAddSensorJacobianPerturbations`
+       * :func:`~pyarts3.Workspace.RetrievalAddErrorPolyFit`
+       * :func:`~pyarts3.Workspace.RetrievalAddSensorFrequencyPolyOffset`
+       * :func:`~pyarts3.Workspace.RetrievalFinalizeDiagonal`
+       * :func:`~pyarts3.Workspace.jac_targetsAddErrorPolyFit`
+       * :func:`~pyarts3.Workspace.jac_targetsAddSensorFrequencyPolyOffset`
+       * :func:`~pyarts3.Workspace.jac_targetsFinalize`
+       * :func:`~pyarts3.Workspace.measurement_jacSensorTransformation`
+       * :func:`~pyarts3.Workspace.measurement_jacTransformations`
+       * :func:`~pyarts3.Workspace.measurement_vecFromOperatorPath`
+       * :func:`~pyarts3.Workspace.measurement_vecFromRadarSingleScattering`
+       * :func:`~pyarts3.Workspace.measurement_vecFromSensor`
+       * :func:`~pyarts3.Workspace.measurement_vec_errorFromModelState`
+       * :func:`~pyarts3.Workspace.measurement_vec_error_covmatConstant`
+       * :func:`~pyarts3.Workspace.model_state_vecFromData`
+       * :func:`~pyarts3.Workspace.model_state_vecFromRadarOnionPeeling`
+       * :func:`~pyarts3.Workspace.model_state_vecFromSensor`
+       * :func:`~pyarts3.Workspace.model_state_vec_aprioriFromData`
+       * :func:`~pyarts3.Workspace.ray_path_observersFromSensor`
+       * :func:`~pyarts3.Workspace.spectral_rad_jacAddSensorJacobianPerturbations`
 
 
    .. rubric:: Modified by workspace methods
@@ -42,28 +54,30 @@ measurement_sensor
    .. hlist::
        :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.OEM`
-       * :func:`~pyarts3.workspace.Workspace.UpdateModelStates`
-       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecute`
-       * :func:`~pyarts3.workspace.Workspace.inversion_iterate_agendaExecuteOperator`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimpleGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddVectorGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorFromModelState`
+       * :func:`~pyarts3.Workspace.OEM`
+       * :func:`~pyarts3.Workspace.UpdateModelStates`
+       * :func:`~pyarts3.Workspace.inversion_iterate_agendaExecute`
+       * :func:`~pyarts3.Workspace.inversion_iterate_agendaExecuteOperator`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddCamera`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddGaussianZenith`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddRawSensor`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimple`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimpleGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimpleRadar`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddVectorGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorFromModelState`
 
 
    .. rubric:: Output from workspace methods
 
    .. hlist::
-       :columns: 1
+       :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorInit`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimple`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimpleGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorVectorGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorFromPredefined`
+       * :func:`~pyarts3.Workspace.measurement_sensorInit`
+       * :func:`~pyarts3.Workspace.measurement_sensorSimple`
+       * :func:`~pyarts3.Workspace.measurement_sensorSimpleGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorVectorGaussian`
 
 
    .. rubric:: Modified by workspace agenda
@@ -71,7 +85,7 @@ measurement_sensor
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.inversion_iterate_agenda`
+       * :attr:`~pyarts3.Workspace.inversion_iterate_agenda`
 
 
    .. rubric:: Related workspace variable
@@ -79,7 +93,7 @@ measurement_sensor
    .. hlist::
        :columns: 1
 
-       * :attr:`~pyarts3.workspace.Workspace.measurement_sensor_meta`
+       * :attr:`~pyarts3.Workspace.measurement_sensor_meta`
 
    .. :class:`~pyarts3.arts.ArrayOfSensorObsel`
 

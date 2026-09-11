@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XML IO &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -93,6 +93,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev.species.html">Adding new species to ARTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2missing.html">ARTS 2 Feature-Port Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html">ARTS 2 Features Not Intended for ARTS 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html">DISORT implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#implementation-array-layouts">Implementation array layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
@@ -153,9 +161,9 @@ is common to just chain several calls to other XML IO methods.</p>
 <span class="linenos">11</span><span class="w">  </span><span class="c1">// Core IO</span>
 <span class="linenos">12</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="p">,</span>
 <span class="linenos">13</span><span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="p">,</span>
-<span class="linenos">14</span><span class="w">                    </span><span class="n">bofstream</span><span class="o">*</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">,</span>
+<span class="linenos">14</span><span class="w">                    </span><span class="n">bofstream</span><span class="o">*</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span>
 <span class="linenos">15</span><span class="w">                    </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="n">sv</span><span class="p">)</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
-<span class="linenos">16</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">istream</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">bifstream</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">istream</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">bifstream</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
 <span class="linenos">17</span>
 <span class="linenos">18</span><span class="w">  </span><span class="c1">// Binary streaming IO (optional)</span>
 <span class="linenos">19</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">bifstream</span><span class="o">*</span><span class="p">)</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>

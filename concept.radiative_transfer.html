@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Radiative Transfer &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -26,13 +26,13 @@
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=f281be69"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script>window.MathJax = {"loader": {"load": ["[tex]/boldsymbol"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "packages": {"[+]": ["boldsymbol"]}}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Optimal estimation" href="concept.oem.html" />
+    <link rel="next" title="T-matrix particle scattering" href="concept.tmatrix.html" />
     <link rel="prev" title="Polynomial Cross-section Absorption" href="concept.absorption.xsec.html" /> 
 </head>
 
@@ -65,18 +65,28 @@
 <li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="concepts.html">Underpinning concepts and background</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Radiative Transfer</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#a-single-step">A single step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#multiple-steps">Multiple steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#propagation-matrix-exponential">Propagation-matrix exponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#partial-derivatives">Partial derivatives</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#potential-improvements">Potential improvements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layer-interpolation-options">Layer interpolation options</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#deriving-the-expressions">Deriving the expressions</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="concept.tmatrix.html">T-matrix particle scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.disort.html">DISORT and VDISORT core solvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="concept.physical_grids.html">Physical grids</a></li>
 </ul>
 </li>
 </ul>
@@ -104,7 +114,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
-          <li class="breadcrumb-item"><a href="concepts.html">Underpinning concepts and background</a></li>
+          <li class="breadcrumb-item"><a href="concepts.html">Mathematics and physical concepts</a></li>
       <li class="breadcrumb-item active">Radiative Transfer</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/concept.radiative_transfer.rst.txt" rel="nofollow"> View page source</a>
@@ -211,6 +221,34 @@ I_N &amp;=&amp; J_{N-1} &amp;+&amp; T_{N-1}T_{N-2} \cdots T_1T_0 \left(I_{0} - J
 <p>In practice, it is often more convenient to just use
 the step-by-step equations for forward calculations, but the matrix above
 gives insight on optimizations for the Jacobian of the “measured” <span class="math notranslate nohighlight">\(I_N\)</span>.</p>
+</section>
+<section id="propagation-matrix-exponential">
+<h2>Propagation-matrix exponential<a class="headerlink" href="#propagation-matrix-exponential" title="Link to this heading"></a></h2>
+<p>For polarized radiative transfer, <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(T\)</span> are matrices and
+the transmittance is evaluated as a matrix exponential.  Both the ordinary
+and Magnus layer options use the same specialized Cayley–Hamilton evaluator;
+they differ only in the matrix supplied to that evaluator.</p>
+<p>After separating the scalar diagonal part, the characteristic polynomial of
+the polarized part <span class="math notranslate nohighlight">\(P\)</span> has the form</p>
+<div class="math notranslate nohighlight">
+\[0 = \lambda^4 + B\lambda^2 + C.\]</div>
+<p>With <span class="math notranslate nohighlight">\(S=\sqrt{B^2-4C}\)</span>, define</p>
+<div class="math notranslate nohighlight">
+\[x^2 = \frac{S-B}{2},\qquad
+y^2 = \frac{S+B}{2}.\]</div>
+<p>The four eigenvalues of <span class="math notranslate nohighlight">\(P\)</span> are then
+<span class="math notranslate nohighlight">\(+x\)</span>, <span class="math notranslate nohighlight">\(-x\)</span>, <span class="math notranslate nohighlight">\(+iy\)</span>, and <span class="math notranslate nohighlight">\(-iy\)</span>.  In particular,
+the expressions above already give <span class="math notranslate nohighlight">\(x^2\)</span> and <span class="math notranslate nohighlight">\(y^2\)</span>; the square
+roots used to obtain <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are taken only once afterward.
+The exponential can consequently be reduced to</p>
+<div class="math notranslate nohighlight">
+\[\exp(P) = c_0 1 + c_1P + c_2P^2 + c_3P^3,\]</div>
+<p>where the coefficients contain combinations of <span class="math notranslate nohighlight">\(\cosh(x)\)</span>,
+<span class="math notranslate nohighlight">\(\sinh(x)\)</span>, <span class="math notranslate nohighlight">\(\cos(y)\)</span>, and <span class="math notranslate nohighlight">\(\sin(y)\)</span>.  ARTS evaluates the
+zero and repeated-eigenvalue limits separately to avoid divisions by small
+numbers.  The derivatives of the exponential coefficients and their
+degenerate limits are evaluated analytically and are used by all
+<code class="docutils literal notranslate"><span class="pre">rte_option</span></code> choices described below.</p>
 </section>
 <section id="partial-derivatives">
 <h2>Partial derivatives<a class="headerlink" href="#partial-derivatives" title="Link to this heading"></a></h2>
@@ -327,21 +365,14 @@ and where the function <span class="math notranslate nohighlight">\(f\)</span> i
 the map from <span class="math notranslate nohighlight">\(\vec{x}_i\rightarrow\mathbf{x}\)</span>.
 Often in ARTS, <span class="math notranslate nohighlight">\(f\)</span> is just an inverse interpolation operator.</p>
 </section>
-<section id="potential-improvements">
-<h2>Potential improvements<a class="headerlink" href="#potential-improvements" title="Link to this heading"></a></h2>
+<section id="layer-interpolation-options">
+<h2>Layer interpolation options<a class="headerlink" href="#layer-interpolation-options" title="Link to this heading"></a></h2>
 <p>Note that here, the indexing is not the same as above as
-it is experimental notation.  This section exists mostly
-as a reminder that we are using constant source and constant
-propagation matrix above.  If these are allowed to change
-within a layer, the equations below offers some approach to
-achieving it.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>These are untested and not how ARTS compute things,
-they are left as a future exercise so that we can
-implement them later.  Just the concept, for instance,
-of a Dawson function of a matrix is questionable.</p>
-</div>
+it is layer-oriented notation.  ARTS provides several approximations for
+how the source and propagation matrix vary between the two endpoints of a
+layer.  They are selected through <a class="reference internal" href="pyarts3.workspace.Workspace.rte_option.html#pyarts3.workspace.Workspace.rte_option" title="pyarts3.workspace.Workspace.rte_option"><code class="xref py py-attr docutils literal notranslate"><span class="pre">rte_option</span></code></a>.</p>
+<p>The option names and their selection are described in
+<a class="reference internal" href="user.radiative_transfer.html"><span class="doc">Radiative-transfer layer options</span></a>.  Their mathematical definitions follow below.</p>
 <section id="linear-source-function">
 <h3>Linear source function<a class="headerlink" href="#linear-source-function" title="Link to this heading"></a></h3>
 <p>This is based on the assumption of a linearly changing source function
@@ -510,63 +541,115 @@ now only depends on <span class="math notranslate nohighlight">\(\vec{x}_i\)</sp
 </section>
 <section id="linear-propagation-matrix-and-source-function">
 <h3>Linear propagation matrix and source function<a class="headerlink" href="#linear-propagation-matrix-and-source-function" title="Link to this heading"></a></h3>
-<p>This partly relaxes the assumption of constant propagation matrix within
-the layer but is otherwise similar to linear in source.
-The indexing is the same for the
-transmittance and incoming background radiation as above - in layers.
-However, the source
-function and propagation matrix indexing below is now shifted
-to represent levels - the same indexing
-as we use for the spectral radiance term.</p>
-<p>Linear in source means that we assume
-<span class="math notranslate nohighlight">\(J = J_0 + (J_1 - J_0) \frac{r}{r_x}\)</span>,
-where <span class="math notranslate nohighlight">\(r\)</span> is the distance through the layer and <span class="math notranslate nohighlight">\(r_x\)</span> is the total
-thickness of the layer.
-With a linearly changing propagation matrix
-<span class="math notranslate nohighlight">\(K = K_0 + (K_1 - K_0) \frac{r}{r_x}\)</span>, we define
-<span class="math notranslate nohighlight">\(T_0 = \exp\left(- \overline{K_{0, 1}} r_x\right)\)</span>, and again get</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">linprop</span></code> option assumes that both propagation and source vary linearly
+through a layer.  Let endpoint 0 be the incoming/background end, endpoint 1
+the outgoing/observer end, and let <span class="math notranslate nohighlight">\(0\leq s\leq r\)</span> measure distance
+between them:</p>
 <div class="math notranslate nohighlight">
-\[I_1 = J_1 + T_0 \left(I_0 - J_0\right) + \Lambda_0 \left(J_0 - J_1\right),\]</div>
-<p>where</p>
+\[\begin{split}K(s) &amp;= K_0 + \frac{s}{r}(K_1-K_0),\\
+J(s) &amp;= J_0 + \frac{s}{r}(J_1-J_0).\end{split}\]</div>
+<p>The layer step has the same affine form as for <code class="docutils literal notranslate"><span class="pre">lintau</span></code>,</p>
 <div class="math notranslate nohighlight">
-\[\Lambda_i = \frac{1}{r_i} T_i \int_0^{r_i} \exp\left(K_i s + \frac{K_{i+1} - K_i}{2 r_i} s^2\right) ds.\]</div>
-<p>The solution to this may be approximated with the
-Matrix Dawson function <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>:</p>
+\[I_1 = J_1 + T_{\rm av}(I_0-J_0) + \Lambda(J_0-J_1).\]</div>
+<p>For scalar propagation the endpoint-average transmission</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\mathbf{\Lambda}_i =
-\left\{
-\begin{array}{ll}
-\frac{1}{r_i} \mathbf{\alpha}^{-1} \left( \mathcal{D}(\mathbf{u}_1) - T_i \mathcal{D}(\mathbf{u}_0) \right) &amp; \text{if } K_{i+1} \gg K_i \\
-\\
-\frac{1}{r_i} K_i^{-1} (1 - T_i) &amp; \text{otherwise}
-\end{array},
-\right.\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{\alpha} = \sqrt{(K_{i+1} - K_i)/(2 r_i)}\)</span>
-(principal square root),
-<span class="math notranslate nohighlight">\(\mathbf{u}_0 = \frac{1}{2} \mathbf{\alpha}^{-1} K_i\)</span>,
-and <span class="math notranslate nohighlight">\(\mathbf{u}_1 = \frac{1}{2} \mathbf{\alpha}^{-1} K_{i+1}\)</span>.
-The expression should be valid for imaginary input, as well as real,
-however we find this very unstable numerically.  Thus, we only use this
-approach when the propagation matrix increases significantly
-along the path, i.e., <span class="math notranslate nohighlight">\(K_{i+1} \gg K_i\)</span>.</p>
-<p>The rest of the steps that follow are the same as for the
-linear source function
-case above, just replacing <span class="math notranslate nohighlight">\(\Lambda_i\)</span> with this new definition.</p>
-<div class="warning admonition">
-<p class="admonition-title">Caveats</p>
-<p>The approach here uses a matrix Dawson function, which is not
-what is currently implemented in ARTS.  Instead, an element-wise
-Dawson function is used, which is only correct if the propagation
-matrix is diagonal in the same basis at both ends of the layer, or
-potentially if the non-commutative part is very small.</p>
-<p>The switch from using linear propagation matrix to constant propagation
-matrix when the propagation matrix decreases along the path is also
-a crude approximation that should be improved in the future.  Currently,
-the argument to the square root must be greater that <span class="math notranslate nohighlight">\(10^{-6}\)</span> for
-the algorithms to not revert to the constant propagation matrix case.</p>
-<p>Also be aware that the square root of a matrix is not unique, leading to
-further potential numerical issues.</p>
-</div>
+\[T_{\rm av}=\exp\left[-\frac{r}{2}(K_0+K_1)\right]\]</div>
+<p>is exact, and ARTS evaluates the exact source operator</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_{\rm scalar}
+= \frac{1}{r}T_{\rm av}\int_0^r
+  \exp\left(K_0s+\frac{K_1-K_0}{2r}s^2\right)\,ds.\]</div>
+<p>Equivalently, define the dimensionless average optical depth and endpoint
+difference</p>
+<div class="math notranslate nohighlight">
+\[\tau=\frac{r}{2}(K_0+K_1),\qquad
+\delta=\frac{r}{2}(K_1-K_0).\]</div>
+<p>Then the same operator is</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_{\rm scalar}
+= \int_0^1 \exp\left[-\tau q-\delta q(1-q)\right]\,dq.\]</div>
+<p>This form is evaluated without numerical quadrature: ARTS uses a convergent
+endpoint-difference expansion near <span class="math notranslate nohighlight">\(\delta=0\)</span>, stable Dawson or scaled
+complementary-error-function forms for well-separated endpoints, and an
+endpoint asymptotic expansion for sufficiently thick layers.  Both partial
+derivatives of the integral are evaluated analytically.  At
+<span class="math notranslate nohighlight">\(K_0=K_1\)</span>, it reduces continuously to the <code class="docutils literal notranslate"><span class="pre">lintau</span></code> operator
+<span class="math notranslate nohighlight">\(\phi_1(-rK_0)\)</span>.</p>
+<p>The scalar completion-of-the-square identity does not extend element by
+element to a polarized propagation matrix.  For polarized <code class="docutils literal notranslate"><span class="pre">linprop</span></code>, ARTS
+instead defines</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}G_{\rm av} &amp;= -\frac{r}{2}(K_0+K_1),\\
+T_{\rm av} &amp;= \exp(G_{\rm av}),\\
+Q &amp;= \mathbf{I}-\frac{r}{12}(K_1-K_0),\\
+c &amp;= \Lambda_{\rm scalar}
+     -\phi_1(g_{\rm av})
+      \left[1-\frac{r}{12}(\kappa_1-\kappa_0)\right],\\
+\Lambda_{\rm pol} &amp;= \phi_1(G_{\rm av})Q+c\mathbf{I},\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi_1(X)=X^{-1}(\exp(X)-\mathbf{I})\)</span> is evaluated through its
+regular power-series limit at singular arguments, <span class="math notranslate nohighlight">\(\kappa_i\)</span> is the
+scalar (diagonal) component of <span class="math notranslate nohighlight">\(K_i\)</span>, and
+<span class="math notranslate nohighlight">\(g_{\rm av}=-r(\kappa_0+\kappa_1)/2\)</span>.  The scalar correction <span class="math notranslate nohighlight">\(c\)</span>
+makes this construction reduce exactly and continuously to the scalar
+linear-propagation integral above as polarization tends to zero.  The
+remaining term is a commutator-free augmented-source approximation: the
+source-gradient correction <span class="math notranslate nohighlight">\(Q\)</span> is retained, but the transmission is
+still the ordinary endpoint-average exponential.  The polarized derivatives
+of both <span class="math notranslate nohighlight">\(T_{\rm av}\)</span> and <span class="math notranslate nohighlight">\(\Lambda_{\rm pol}\)</span> are analytical.</p>
+</section>
+<section id="magnus-propagation-matrix">
+<h3>Magnus propagation matrix<a class="headerlink" href="#magnus-propagation-matrix" title="Link to this heading"></a></h3>
+<p>The Magnus options treat the propagation matrix as linear across a layer,</p>
+<div class="math notranslate nohighlight">
+\[K(s) = K_0 + \frac{s}{r}(K_1-K_0),\qquad 0\leq s\leq r,\]</div>
+<p>and retain the first commutator correction in the ordered exponential.  With
+<span class="math notranslate nohighlight">\([A,B]=AB-BA\)</span>, the effective optical-depth matrix is</p>
+<div class="math notranslate nohighlight">
+\[\Omega = \frac{r}{2}(K_0+K_1)
+         - \frac{r^2}{12}[K_1,K_0],
+\qquad T=\exp(-\Omega).\]</div>
+<p>When <span class="math notranslate nohighlight">\(K_0=K_1\)</span>, or when the endpoint matrices commute, the commutator
+vanishes and this reduces to the ordinary exponential of the endpoint
+average.  The commutator term is the distinction between <code class="docutils literal notranslate"><span class="pre">magop</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">constant</span></code> transmittance approximation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">magop</span></code> option uses the endpoint-average source</p>
+<div class="math notranslate nohighlight">
+\[\overline{J}=\frac{J_0+J_1}{2},\qquad
+I_1=\overline{J}+T(I_0-\overline{J}).\]</div>
+<p>This option improves the ordered propagation matrix but does not model the
+source gradient explicitly.</p>
+</section>
+<section id="magnus-propagation-matrix-and-linear-source">
+<h3>Magnus propagation matrix and linear source<a class="headerlink" href="#magnus-propagation-matrix-and-linear-source" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> option augments the Magnus system with a source that is
+linear between <span class="math notranslate nohighlight">\(J_0\)</span> and <span class="math notranslate nohighlight">\(J_1\)</span>.  Define the matrix function</p>
+<div class="math notranslate nohighlight">
+\[\phi_1(X)=X^{-1}\left(\exp(X)-\mathbf{I}\right),\]</div>
+<p>where its power-series limit is used when <span class="math notranslate nohighlight">\(X\)</span> is singular.  The
+linear-source operator used by ARTS is</p>
+<div class="math notranslate nohighlight">
+\[L = \phi_1(-\Omega)
+    \left[\mathbf{I}-\frac{r}{12}(K_1-K_0)\right],\]</div>
+<p>and the layer step is</p>
+<div class="math notranslate nohighlight">
+\[I_1 = J_1 + T(I_0-J_0) + L(J_0-J_1).\]</div>
+<p>For a constant propagation matrix this reduces to the <code class="docutils literal notranslate"><span class="pre">lintau</span></code> source
+operator.  The polarized <code class="docutils literal notranslate"><span class="pre">linprop</span></code> and <code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> options use the
+same augmented-source factor
+<span class="math notranslate nohighlight">\(\mathbf{I}-r(K_1-K_0)/12\)</span>, with the scalar completion <span class="math notranslate nohighlight">\(c\)</span> above
+added for <code class="docutils literal notranslate"><span class="pre">linprop</span></code>.  The <code class="docutils literal notranslate"><span class="pre">linprop</span></code> option evaluates <span class="math notranslate nohighlight">\(\phi_1\)</span> at
+the average generator <span class="math notranslate nohighlight">\(G_{\rm av}\)</span> and uses
+<span class="math notranslate nohighlight">\(\exp(G_{\rm av})\)</span> for transmission.  <code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> instead
+evaluates it at <span class="math notranslate nohighlight">\(-\Omega\)</span> and uses <span class="math notranslate nohighlight">\(\exp(-\Omega)\)</span>, thereby
+including the first ordering commutator in both operators.  For varying
+scalar propagation, <code class="docutils literal notranslate"><span class="pre">linprop</span></code> uses the exact integral above, whereas
+<code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> remains the truncated augmented-Magnus approximation.
+The derivatives of both <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(L\)</span> with respect to either
+endpoint and the layer length are evaluated analytically.</p>
+<p>Both Magnus options truncate the Magnus series after the first commutator
+term.  They therefore still require sufficiently short layers when the
+propagation matrix changes rapidly; reducing the ray-path step size is the
+appropriate convergence check in that regime.</p>
 </section>
 </section>
 <section id="deriving-the-expressions">
@@ -575,9 +658,12 @@ further potential numerical issues.</p>
 for completeness to show how the expressions above are derived.
 It may also be useful if you want to implement
 other variations of the radiative transfer equation solution.</p>
-<p>The matrix case is the same, provided you can treat <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(J\)</span> as
-<em>mostly</em> commuting.  This only affect the last case.  The path
-variables are in <span class="math notranslate nohighlight">\(s \in [0,r]\)</span> for the distance through
+<p>The integrating-factor derivations below apply directly to scalar transfer.
+They also apply to the constant-matrix cases because all functions of the
+single matrix <span class="math notranslate nohighlight">\(K\)</span> commute.  For a varying matrix <span class="math notranslate nohighlight">\(K(s)\)</span>, the
+derivation applies only when the matrices commute along the path; the
+polarized approximations used by ARTS are described above.  The path
+variable is <span class="math notranslate nohighlight">\(s \in [0,r]\)</span> for the distance through
 a layer of understood
 physics, with <span class="math notranslate nohighlight">\(I(0)=I_0\)</span> and <span class="math notranslate nohighlight">\(I(r)=I_1\)</span>.</p>
 <p>The differential equation in all cases is</p>
@@ -683,30 +769,14 @@ r -
 <p>which gives the form used above</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}I_1 &amp;= J_1 + T_0 (I_0 - J_0) + \Lambda_0 (J_0 - J_1),\\
-\Lambda_0 &amp;= \frac{1}{r} K_0^{-1} \left( 1-T_0 \right) \\ &amp;=-\log T_0 \left( 1-T_0 \right).\end{split}\]</div>
+\Lambda_0 &amp;= \frac{1}{r} K_0^{-1} \left( 1-T_0 \right)
+\\ &amp;=-\left(\log T_0\right)^{-1} \left( 1-T_0 \right).\end{split}\]</div>
 <p>Again, no assumptions were made about scalar vs. matrix.
 The only <em>scary</em> step of matrix notation non-commutativity is that you have to
 be aware that you can write, e.g., <span class="math notranslate nohighlight">\(A^3=A A^2=A^2 A\)</span>,
 which means with <span class="math notranslate nohighlight">\(\exp(A) = \sum_{n=0}^\infty \frac{A^n}{n!}\)</span>, you can do
 <span class="math notranslate nohighlight">\(\exp(A) A = \left(\sum_{n=0}^\infty \frac{A^{n}}{n!}\right) A = \sum_{n=0}^\infty \frac{A^{n+1}}{n!} = A \sum_{n=0}^\infty \frac{A^{n}}{n!} = A \exp(A)\)</span>.</p>
-<div class="tip admonition">
-<p class="admonition-title">Implementation note</p>
-<p>It is very important to implement the expression for <span class="math notranslate nohighlight">\(\Lambda_0\)</span>
-in a numerically stable way.  The expression above is not
-stable for small <span class="math notranslate nohighlight">\(K_0 r\)</span> (i.e., large <span class="math notranslate nohighlight">\(T_0\)</span>) <em>as written</em>.
-The key instability stems from the subtraction of two nearly equal
-terms in <span class="math notranslate nohighlight">\(1 - T_0\)</span>.  The IEEE floating point standard
-provides a function <code class="code docutils literal notranslate"><span class="pre">expm1(x)</span></code>, which computes <span class="math notranslate nohighlight">\(e^x - 1\)</span>
-in a numerically stable way for small <span class="math notranslate nohighlight">\(x\)</span>.</p>
-<p>Likewise, the matrix expansion of <span class="math notranslate nohighlight">\(1 - T_0\)</span> might be unstable.</p>
-<p>So we use a special solution implementing our own version of the reduced
-Cayley-Hamilton theorem to compute <span class="math notranslate nohighlight">\(\Lambda_0\)</span> in a numerically
-stable way
-for matrices that conform to the propagation matrix notation in ARTS.
-This makes use of the inversion of <span class="math notranslate nohighlight">\(K\)</span> to remove components from
-the expansion of the matrix exponential that would otherwise
-cause numerical instability.</p>
-</div>
+<p>See <a class="reference internal" href="dev.radiative_transfer.html"><span class="doc">Radiative-transfer implementation</span></a> for stable evaluation of this operator.</p>
 </li>
 <li><p>Linear <span class="math notranslate nohighlight">\(K(s)\)</span> and linear <span class="math notranslate nohighlight">\(J(s)\)</span>.</p>
 <p>Now set both <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(J\)</span> to
@@ -839,95 +909,43 @@ the expression for <span class="math notranslate nohighlight">\(\Lambda_0\)</spa
 multiplying <span class="math notranslate nohighlight">\((J_i - J_{i+1})\)</span> that comes from solving the
 ODE with both <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(J\)</span> linear in <span class="math notranslate nohighlight">\(s\)</span>.</p>
 </div></blockquote>
-<p>3.3. Dawson function connection. The starting point is</p>
+<p>3.3. Stable scalar evaluation and polarized approximation.</p>
 <blockquote>
-<div><div class="math notranslate nohighlight">
-\[\Lambda_0 = \frac{1}{r} T_0 \int_0^{r}
-\exp\Bigl(K_0 s + \tfrac{K_1-K_0}{2r} s^2\Bigr)\,ds,\]</div>
-<p>which is valid both for scalar and matrix-valued <span class="math notranslate nohighlight">\(K_0, K_1\)</span>. In the
-remainder of this subsection we first treat the <strong>scalar</strong> case (or,
-equivalently, the case where <span class="math notranslate nohighlight">\(K_0\)</span> and <span class="math notranslate nohighlight">\(K_1\)</span> commute and can be
-simultaneously diagonalized), because only then can we complete the square and
-express the integral in terms of the (scalar) Dawson function.</p>
-<p>Using <span class="math notranslate nohighlight">\(\alpha = (K_1-K_0)/r\)</span> as above, the integral</p>
+<div><p>For scalar <span class="math notranslate nohighlight">\(K_0\)</span> and <span class="math notranslate nohighlight">\(K_1\)</span>, introduce</p>
 <div class="math notranslate nohighlight">
-\[\int_0^{r} \exp\Bigl(K_0 s + \tfrac12 \,\alpha s^2\Bigr)\,ds\]</div>
-<p>is a Gaussian-type integral with a linear term in the exponent.
-Completing the square gives</p>
+\[\begin{split}\tau &amp;= \frac{r}{2}(K_0+K_1),\\
+\delta &amp;= \frac{r}{2}(K_1-K_0),\\
+q &amp;= 1-\frac{s}{r}.\end{split}\]</div>
+<p>Combining <span class="math notranslate nohighlight">\(T_0=\exp(-\tau)\)</span> with the integral above gives</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}K_0 s + \tfrac12 \,\alpha s^2
-&amp;= \tfrac12 \,\alpha\Bigl(s^2 + 2\frac{K_0}{\alpha} s\Bigr) \\
-&amp;= \tfrac12 \,\alpha\Bigl\{\bigl(s + \tfrac{K_0}{\alpha}\bigr)^2
-- \bigl(\tfrac{K_0}{\alpha}\bigr)^2\Bigr\}.\end{split}\]</div>
-<p>Thus</p>
+\[\Lambda_0(\tau,\delta)
+= \int_0^1
+  \exp\left[-\tau q-\delta q(1-q)\right]\,dq.\]</div>
+<p>This representation remains regular when the propagation gradient
+vanishes.  It also gives the two partial derivatives directly:</p>
 <div class="math notranslate nohighlight">
-\[\int_0^{r} \exp\Bigl(K_0 s + \tfrac12 \,\alpha s^2\Bigr)ds
-= e^{-\frac{K_0^2}{2\alpha}}
-\int_0^{r}
-\exp\Bigl(\tfrac12 \,\alpha\bigl(s + \tfrac{K_0}{\alpha}\bigr)^2\Bigr)ds.\]</div>
-<p>With the substitution</p>
-<div class="math notranslate nohighlight">
-\[t = \sqrt{\tfrac{\alpha}{2}}\Bigl(s + \tfrac{K_0}{\alpha}\Bigr)
-\quad\Rightarrow\quad
-ds = \sqrt{\tfrac{2}{\alpha}}\,dt,\]</div>
-<p>the integral becomes</p>
-<div class="math notranslate nohighlight">
-\[\sqrt{\tfrac{2}{\alpha}}\, e^{-\frac{K_0^2}{2\alpha}}
-\int_{t_0}^{t_1} e^{t^2}\,dt,\]</div>
-<p>which can be expressed in terms of the Dawson function</p>
-<div class="math notranslate nohighlight">
-\[D(z) = e^{-z^2}\int_0^z e^{u^2}\,du.\]</div>
-<p>Carrying this through in the scalar case gives the representation</p>
-<div class="math notranslate nohighlight">
-\[\Lambda_0
-= \frac{1}{r}\,\sigma^{-1}\bigl(D(u_1) - T_0\,D(u_0)\bigr),\]</div>
-<p>where</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\sigma &amp;= \sqrt{\frac{K_1-K_0}{2r}}, \\
-u_0 &amp;= \tfrac12 \sigma^{-1} K_0, \\
-u_1 &amp;= \tfrac12 \sigma^{-1} K_1.\end{split}\]</div>
-<p><strong>Extension to matrices.</strong> For <em>matrix</em>-valued <span class="math notranslate nohighlight">\(K_0,K_1\)</span>, the
-exact expression for <span class="math notranslate nohighlight">\(\Lambda_0\)</span> is still</p>
-<div class="math notranslate nohighlight">
-\[\Lambda_0
-= \frac{1}{r}\,T_0 \int_0^{r}
-\exp\Bigl(K_0 s + \tfrac{K_1-K_0}{2r} s^2\Bigr)\,ds,\]</div>
-<p>but the “complete the square” steps above only go through without
-change if all matrices involved commute (for example, when
-<span class="math notranslate nohighlight">\(K_0\)</span> and <span class="math notranslate nohighlight">\(K_1\)</span> are simultaneously diagonalizable).
-Under this <em>commuting</em> assumption we may treat the matrices as if
-they were scalars and define matrix analogues</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\boldsymbol{\sigma} = \sqrt{\frac{K_{i+1} - K_i}{2 r_i}}
-\quad\text{(principal matrix square root)},\\
-\mathbf{u}_0 = \tfrac12 \boldsymbol{\sigma}^{-1} K_i, \qquad
-\mathbf{u}_1 = \tfrac12 \boldsymbol{\sigma}^{-1} K_{i+1},\end{split}\]</div>
-<p>and a matrix Dawson function <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> by functional
-calculus applied to these commuting matrices. This leads to the
-formal matrix expression</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{\Lambda}_i =
-\frac{1}{r_i}\,\boldsymbol{\sigma}^{-1}
-\Bigl(\mathcal{D}(\mathbf{u}_1) - T_i\,\mathcal{D}(\mathbf{u}_0)\Bigr),\]</div>
-<p>where all factors on the right-hand side commute because they are
-analytic functions of <span class="math notranslate nohighlight">\(K_i\)</span> and <span class="math notranslate nohighlight">\(K_{i+1}\)</span>.</p>
-<p>In practice, ARTS does <em>not</em> evaluate a full matrix Dawson
-function. Instead, it applies the scalar Dawson function element-wise
-in a fixed basis, which is only strictly valid if the propagation
-matrix is diagonal (or nearly diagonal) in that basis at both ends of
-the layer. This is why the documentation refers to the Dawson-based
-expression as an approximation in the general polarized case.</p>
+\[\begin{split}\frac{\partial\Lambda_0}{\partial\tau}
+&amp;= -\int_0^1 q
+  \exp\left[-\tau q-\delta q(1-q)\right]\,dq,\\
+\frac{\partial\Lambda_0}{\partial\delta}
+&amp;= -\int_0^1 q(1-q)
+  \exp\left[-\tau q-\delta q(1-q)\right]\,dq.\end{split}\]</div>
+<p>ARTS evaluates these three quantities together.  An expansion in
+<span class="math notranslate nohighlight">\(\delta\)</span> uses stable exponential moments near equal endpoints.
+Away from that regime, the increasing-gradient branch uses a scalar
+Dawson representation and the decreasing-gradient branch uses the
+scaled complementary error function.  A Watson endpoint expansion
+avoids cancellation for sufficiently thick layers.  The derivatives
+with respect to <span class="math notranslate nohighlight">\(K_0\)</span>, <span class="math notranslate nohighlight">\(K_1\)</span>, and <span class="math notranslate nohighlight">\(r\)</span> then follow
+analytically by the chain rule.</p>
+<p>ARTS does not apply this scalar construction component by component to
+a polarized matrix.  Instead, polarized <code class="docutils literal notranslate"><span class="pre">linprop</span></code> uses
+<span class="math notranslate nohighlight">\(\Lambda_{\rm pol}=\phi_1(G_{\rm av})Q+c\mathbf{I}\)</span> with
+ordinary endpoint-average transmission, as defined above.  The
+<code class="docutils literal notranslate"><span class="pre">magop_linsrc</span></code> option uses the same augmented-source factor
+<span class="math notranslate nohighlight">\(Q\)</span> but replaces <span class="math notranslate nohighlight">\(G_{\rm av}\)</span> by the ordered generator
+<span class="math notranslate nohighlight">\(-\Omega\)</span> in both the source operator and transmission.</p>
 </div></blockquote>
-<div class="tip admonition">
-<p class="admonition-title">Implementation note</p>
-<p>This method requires computing the matrix square root of
-<span class="math notranslate nohighlight">\((K_{i+1}-K_i)/(2 r_i)\)</span>.  It also requires using a matrix
-Dawson function.  Neither of these operations are numerically
-stable.  It is therefore not recommended to use this method
-unless you have a good reason to do so.  It is mainly included
-here for completeness, and as an indicator for future improvements
-of the radiative transfer solver in ARTS.</p>
-</div>
 </li>
 </ol>
 </section>
@@ -938,7 +956,7 @@ of the radiative transfer solver in ARTS.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="concept.absorption.xsec.html" class="btn btn-neutral float-left" title="Polynomial Cross-section Absorption" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="concept.oem.html" class="btn btn-neutral float-right" title="Optimal estimation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="concept.tmatrix.html" class="btn btn-neutral float-right" title="T-matrix particle scattering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

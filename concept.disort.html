@@ -1,0 +1,1049 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DISORT and VDISORT core solvers &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/concept.disort.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"loader": {"load": ["[tex]/boldsymbol"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "packages": {"[+]": ["boldsymbol"]}}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Radiative heating rates" href="concept.heating.html" />
+    <link rel="prev" title="T-matrix particle scattering" href="concept.tmatrix.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="users.html">Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.atm_field.html">The atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.tmatrix.html">T-matrix particle scattering</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DISORT and VDISORT core solvers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#geometry-and-sign-conventions">Geometry and sign conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scalar-radiative-transfer">Scalar radiative transfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polarized-radiative-transfer">Polarized radiative transfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sources-and-boundary-conditions">Sources and boundary conditions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#surface-reflection">Surface reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-boundary-value-matrix">Global boundary-value matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#delta-m-scaling">Delta-M scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arbitrary-angle-radiances">Arbitrary-angle radiances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxes-and-heating-rate-integrand">Fluxes and heating-rate integrand</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mathematical-limitations">Mathematical limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
+          <li class="breadcrumb-item"><a href="concepts.html">Mathematics and physical concepts</a></li>
+      <li class="breadcrumb-item active">DISORT and VDISORT core solvers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concept.disort.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="disort-and-vdisort-core-solvers">
+<span id="sec-disort"></span><h1>DISORT and VDISORT core solvers<a class="headerlink" href="#disort-and-vdisort-core-solvers" title="Link to this heading"></a></h1>
+<p>DISORT solves the scalar plane-parallel radiative-transfer equation.
+VDISORT solves its polarized, Stokes-vector form.</p>
+<p>This page documents the mathematics and numerical conventions of those core
+solvers.  The workspace methods which prepare their inputs and expose their
+outputs are documented separately.</p>
+<p>Both implementations follow the traditional DISORT separation into azimuthal
+Fourier modes, a layerwise eigenproblem, and one banded boundary-value solve per
+mode described by <a class="reference external" href="https://doi.org/10.1364/AO.27.002502">Stamnes et al. (1988)</a>.  Their implementation and validation
+draw on the original DISORT 4.0.99 code, cDISORT, and <a class="reference external" href="https://doi.org/10.21105/joss.06442">PythonicDISORT</a>.  The vector mathematics follows the
+VSIDORT full-eigenproblem formulation of <a class="reference external" href="https://doi.org/10.3389/frsen.2022.880768">Lin et al. (2022)</a>.  The remainder of this page
+states the equations and conventions used by the ARTS solvers directly rather
+than describing them through those source packages.</p>
+<section id="geometry-and-sign-conventions">
+<h2>Geometry and sign conventions<a class="headerlink" href="#geometry-and-sign-conventions" title="Link to this heading"></a></h2>
+<p>The atmosphere consists of homogeneous plane-parallel layers.  Optical depth
+<span class="math notranslate nohighlight">\(\tau\)</span> is zero at the top and increases downwards.  Direction cosines are
+defined by</p>
+<div class="math notranslate nohighlight">
+\[\mu = \cos\theta,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mu&gt;0\)</span> directed upwards and <span class="math notranslate nohighlight">\(\mu&lt;0\)</span> directed downwards.  A
+direct beam with positive <span class="math notranslate nohighlight">\(\mu_0\)</span> therefore travels in direction
+<span class="math notranslate nohighlight">\(-\mu_0\)</span>.  Azimuth <span class="math notranslate nohighlight">\(\phi\)</span> is in radians and is reconstructed using
+<span class="math notranslate nohighlight">\(\phi_0-\phi\)</span>, where <span class="math notranslate nohighlight">\(\phi_0\)</span> is the beam azimuth.</p>
+<p>For an even number <span class="math notranslate nohighlight">\(N_q\)</span> of streams, the solver uses <span class="math notranslate nohighlight">\(N=N_q/2\)</span>
+positive Gauss–Legendre nodes and their negatives.  Internally the positive
+streams precede the corresponding negative streams.  The positive-node
+weights <span class="math notranslate nohighlight">\(w_j\)</span> are reused for both hemispheres.</p>
+<p>More explicitly, the direction and weight arrays are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol\mu
+  &amp;= (\mu_1,\ldots,\mu_N,-\mu_1,\ldots,-\mu_N),
+     \qquad \mu_i&gt;0,\\
+\overline{\boldsymbol w}
+  &amp;= (w_1,\ldots,w_N,w_1,\ldots,w_N).\end{split}\]</div>
+<p>Mathematical indices below start at one.  The corresponding C++ stream indices
+are <span class="math notranslate nohighlight">\(i=0,\ldots,N-1\)</span> for <span class="math notranslate nohighlight">\(+\mu_i\)</span> and <span class="math notranslate nohighlight">\(N+i\)</span> for
+<span class="math notranslate nohighlight">\(-\mu_i\)</span>.  With <span class="math notranslate nohighlight">\(L\)</span> layers, define the physical layer edges by</p>
+<div class="math notranslate nohighlight">
+\[0=t_0&lt;t_1&lt;\cdots&lt;t_L,\]</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">tau_arr[l]</span></code> stores <span class="math notranslate nohighlight">\(t_{l+1}\)</span>.  Scalar DISORT uses the
+delta-M-scaled coordinate <span class="math notranslate nohighlight">\(t^*\)</span> inside its transport eigensystem;
+VDISORT uses the optical-depth coordinate supplied to it.</p>
+<p>The geometry is deliberately plane-parallel.  Neither core implements the
+pseudo-spherical direct-beam approximation.  Curved ray
+paths belong in the ARTS geometry layer rather than in a solver tied to a
+single planetary radius.</p>
+</section>
+<section id="scalar-radiative-transfer">
+<h2>Scalar radiative transfer<a class="headerlink" href="#scalar-radiative-transfer" title="Link to this heading"></a></h2>
+<p>For scalar radiance <span class="math notranslate nohighlight">\(I(\tau,\mu,\phi)\)</span>, the equation solved in a layer is</p>
+<div class="math notranslate nohighlight">
+\[\mu\frac{\partial I}{\partial\tau}
+= I
+- \frac{\omega}{4\pi}\int_{4\pi}
+    P(\Omega,\Omega') I(\Omega')\,\mathrm{d}\Omega'
+- S_{\mathrm{dir}} - S_{\mathrm{int}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\omega\)</span> is the single-scattering albedo,
+<span class="math notranslate nohighlight">\(P\)</span> is normalized to an integral of <span class="math notranslate nohighlight">\(4\pi\)</span>, and the last two terms
+are the direct-beam and internal sources.  The phase function is represented by
+Legendre moments</p>
+<div class="math notranslate nohighlight">
+\[P(\cos\Theta)
+= \sum_{n=0}^{N_{\mathrm{leg}}-1}(2n+1)\chi_n P_n(\cos\Theta),
+\qquad \chi_0=1.\]</div>
+<p>The azimuthal dependence is expanded as</p>
+<div class="math notranslate nohighlight">
+\[I(\tau,\mu,\phi)
+= \sum_{m=0}^{M-1} I^m(\tau,\mu)
+    \cos\!\left[m(\phi_0-\phi)\right].\]</div>
+<p>After applying Gauss–Legendre quadrature, each Fourier mode has the form</p>
+<div class="math notranslate nohighlight">
+\[\frac{\mathrm{d}\boldsymbol I^m}{\mathrm{d}\tau}
+= \boldsymbol A^m\boldsymbol I^m
+  + \boldsymbol q^m(\tau).\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\boldsymbol q^m\)</span> is the forcing <em>after</em> division by the signed
+stream cosine.  Its signs therefore depend on the hemisphere.  The physical
+direct-beam and internal sources occur with a minus sign in the transfer
+equation written above; diffuse scattering has already been included in
+<span class="math notranslate nohighlight">\(\boldsymbol A^m\)</span>.</p>
+<section id="scalar-stream-matrix">
+<h3>Scalar stream matrix<a class="headerlink" href="#scalar-stream-matrix" title="Link to this heading"></a></h3>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol I^m=
+\begin{bmatrix}\boldsymbol I^{m,+}\\
+                \boldsymbol I^{m,-}\end{bmatrix},\qquad
+\boldsymbol M=\operatorname{diag}(\mu_1,\ldots,\mu_N),\qquad
+\boldsymbol W=\operatorname{diag}(w_1,\ldots,w_N).\end{split}\]</div>
+<p>For layer <span class="math notranslate nohighlight">\(\ell\)</span>, define the same- and opposite-hemisphere scattering
+blocks</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}D^{m,+}_{ij}
+&amp;= \frac{\omega_\ell^*}{2}
+   \sum_{n=m}^{N_{\mathrm{leg}}-1}
+   (2n+1)\chi^*_{\ell,n}\frac{(n-m)!}{(n+m)!}
+   P_n^m(\mu_i)P_n^m(\mu_j),\\
+D^{m,-}_{ij}
+&amp;= \frac{\omega_\ell^*}{2}
+   \sum_{n=m}^{N_{\mathrm{leg}}-1}
+   (2n+1)\chi^*_{\ell,n}\frac{(n-m)!}{(n+m)!}
+   P_n^m(\mu_i)P_n^m(-\mu_j).\end{split}\]</div>
+<p>Stars denote delta-M-scaled quantities.  These matrices are <code class="docutils literal notranslate"><span class="pre">D_pos</span></code> and
+<code class="docutils literal notranslate"><span class="pre">D_neg</span></code>.  The factorial ratio is explicit because the implementation uses
+ordinary rather than semi-normalized associated Legendre functions.</p>
+<p>The conceptual left and right matrices of the full generalized eigenproblem
+are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underbrace{\left[
+\boldsymbol I_{2N}-
+\begin{pmatrix}
+  \boldsymbol D^{m,+}\boldsymbol W &amp;
+  \boldsymbol D^{m,-}\boldsymbol W\\
+  \boldsymbol D^{m,-}\boldsymbol W &amp;
+  \boldsymbol D^{m,+}\boldsymbol W
+\end{pmatrix}\right]}_{\boldsymbol L_{\mathrm{eig}}^m}
+\boldsymbol g
+= k\,
+\underbrace{\begin{pmatrix}
+  \boldsymbol M&amp;0\\0&amp;-\boldsymbol M
+\end{pmatrix}}_{\boldsymbol R_{\mathrm{eig}}}
+\boldsymbol g.\end{split}\]</div>
+<p>CPP-DISORT does not pass this generalized pair to LAPACK.  It first defines</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol\alpha
+  &amp;=\boldsymbol M^{-1}
+    (\boldsymbol D^{m,+}\boldsymbol W-\boldsymbol I_N),\\
+\boldsymbol\beta
+  &amp;=\boldsymbol M^{-1}\boldsymbol D^{m,-}\boldsymbol W,\end{split}\]</div>
+<p>so that premultiplication by <span class="math notranslate nohighlight">\(\boldsymbol R_{\mathrm{eig}}^{-1}\)</span>
+gives the ordinary <span class="math notranslate nohighlight">\(2N\times2N\)</span> matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol A^m=
+\begin{pmatrix}
+  -\boldsymbol\alpha&amp;-\boldsymbol\beta\\
+   \boldsymbol\beta&amp; \boldsymbol\alpha
+\end{pmatrix},\qquad
+\boldsymbol A^m\boldsymbol g=k\boldsymbol g.\end{split}\]</div>
+</section>
+<section id="scalar-reduced-eigenproblem">
+<h3>Scalar reduced eigenproblem<a class="headerlink" href="#scalar-reduced-eigenproblem" title="Link to this heading"></a></h3>
+<p>The full matrix is also not explicitly diagonalized.  If</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol x=\boldsymbol g^++\boldsymbol g^-,\qquad
+\boldsymbol y=\boldsymbol g^--\boldsymbol g^+,\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(\boldsymbol\alpha+\boldsymbol\beta)\boldsymbol x
+   &amp;=k\boldsymbol y,\\
+(\boldsymbol\alpha-\boldsymbol\beta)\boldsymbol y
+   &amp;=k\boldsymbol x.\end{split}\]</div>
+<p>Consequently the actual eigensystem passed to the real eigensolver is only
+<span class="math notranslate nohighlight">\(N\times N\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol\alpha-\boldsymbol\beta)
+(\boldsymbol\alpha+\boldsymbol\beta)\boldsymbol X
+=\boldsymbol X\operatorname{diag}(\boldsymbol\kappa^2).\]</div>
+<p>Reversing the product and using the complementary sum/difference eigenvector
+is an equivalent reduction and recovers the same full spectrum.  The order
+above is the one used by this implementation.</p>
+<p>CPP-DISORT stores the paired propagation constants as</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol K=
+(-\sqrt{|\kappa_1^2|},\ldots,-\sqrt{|\kappa_N^2|},
+  +\sqrt{|\kappa_1^2|},\ldots,+\sqrt{|\kappa_N^2|}).\]</div>
+<p>The absolute value is the literal implementation.  For a physically valid
+scalar system the squared eigenvalues are expected to be non-negative; taking
+the absolute value prevents a small negative round-off value from producing a
+NaN, but can also conceal a genuinely invalid reduced eigensystem.</p>
+<p>With</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol Z=(\boldsymbol\alpha+\boldsymbol\beta)
+   \boldsymbol X\operatorname{diag}(\boldsymbol\kappa^{-1}),\]</div>
+<p>the full eigenvector matrix, with negative propagation constants first, is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol G=\frac12
+\begin{pmatrix}
+  \boldsymbol X+\boldsymbol Z&amp;\boldsymbol X-\boldsymbol Z\\
+  \boldsymbol X-\boldsymbol Z&amp;\boldsymbol X+\boldsymbol Z
+\end{pmatrix}.\end{split}\]</div>
+<p>The division by <span class="math notranslate nohighlight">\(\boldsymbol\kappa\)</span> is not used for the conservative
+zeroth-mode pair.  Let <span class="math notranslate nohighlight">\(\boldsymbol x\)</span> be the reduced eigenvector of the
+small root and solve</p>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol\alpha-\boldsymbol\beta)\boldsymbol r
+   =\boldsymbol x.\]</div>
+<p>Define <span class="math notranslate nohighlight">\(\boldsymbol X_0=[\boldsymbol x;\boldsymbol x]\)</span>,
+<span class="math notranslate nohighlight">\(\boldsymbol R=[\boldsymbol r;-\boldsymbol r]\)</span>, the scaled layer
+midpoint <span class="math notranslate nohighlight">\(c\)</span>, and <span class="math notranslate nohighlight">\(s=\tau^*-c\)</span>.  The two finite homogeneous
+columns are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol F_0(s)
+   &amp;=\boldsymbol X_0\cosh(\kappa s)
+     -\kappa\boldsymbol R\sinh(\kappa s),\\
+\boldsymbol F_1(s)
+   &amp;=\boldsymbol X_0\frac{\sinh(\kappa s)}{\kappa}
+     -\boldsymbol R\cosh(\kappa s).\end{split}\]</div>
+<p>The quotient is evaluated as a stable <code class="docutils literal notranslate"><span class="pre">sinhc</span></code> function.  At exact
+conservation,</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol F_0=\boldsymbol X_0,
+\qquad
+\boldsymbol F_1=s\boldsymbol X_0-\boldsymbol R.\]</div>
+<p>Thus the zero eigenvalue retains both the constant solution and its linear
+generalized eigenvector.  This is the continuous <span class="math notranslate nohighlight">\(\kappa\to0\)</span> limit of
+the two exponential modes, without nearly equal eigenvectors or coefficients
+that grow as <span class="math notranslate nohighlight">\(1/\kappa\)</span>.  CPP-DISORT uses this centered representation
+for physical albedos in <span class="math notranslate nohighlight">\([1-10^{-8},1]\)</span>, and also when round-off produces
+an even smaller root.</p>
+<p>In the implementation, <code class="docutils literal notranslate"><span class="pre">apb</span></code> and <code class="docutils literal notranslate"><span class="pre">amb</span></code> represent
+<span class="math notranslate nohighlight">\(\boldsymbol\alpha+\boldsymbol\beta\)</span> and
+<span class="math notranslate nohighlight">\(\boldsymbol\alpha-\boldsymbol\beta\)</span>, respectively.</p>
+</section>
+<section id="scalar-layer-solution">
+<h3>Scalar layer solution<a class="headerlink" href="#scalar-layer-solution" title="Link to this heading"></a></h3>
+<p>The homogeneous part in layer <span class="math notranslate nohighlight">\(\ell\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol I^m_{\ell,\mathrm{hom}}(\tau^*)
+&amp;=\sum_{e=1}^{N}C_{\ell,e}\boldsymbol G_{\ell,e}
+    \exp[K_{\ell,e}(\tau^*-t_\ell^*)]\\
+&amp;\quad+
+  \sum_{e=N+1}^{2N}C_{\ell,e}\boldsymbol G_{\ell,e}
+    \exp[K_{\ell,e}(\tau^*-t_{\ell+1}^*)].\end{split}\]</div>
+<p>Thus negative propagation constants are anchored at the layer top and
+positive constants at the layer bottom.  The direct-beam particular solution
+has the form</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol I^m_{\ell,\mathrm b}(\tau^*)
+   =\boldsymbol B_\ell^m\exp(-\tau^*/\mu_0).\]</div>
+<p>If <span class="math notranslate nohighlight">\(\widetilde{\boldsymbol X}^m\)</span> denotes its signed-stream forcing
+amplitude in the standard ODE, then</p>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol A^m+\mu_0^{-1}\boldsymbol I_{2N})
+   \boldsymbol B_\ell^m=-\widetilde{\boldsymbol X}^m.\]</div>
+<p>CPP-DISORT evaluates this solve in the eigenbasis for ordinary layers.  A
+layer using the centered conservative pair solves the beam system directly in
+stream space, so the beam particular solution never depends on the singular
+pair.  The isotropic polynomial particular solution exists only for
+<span class="math notranslate nohighlight">\(m=0\)</span>.  Ordinary layers retain the established eigenbasis recurrence;
+conservative-pair layers use a stream-space polynomial recurrence, with an
+explicit zero particular solution when <span class="math notranslate nohighlight">\((1-\omega')B=0\)</span>.  The complete
+layer field is the sum of homogeneous, beam, and polynomial parts.</p>
+</section>
+</section>
+<section id="polarized-radiative-transfer">
+<h2>Polarized radiative transfer<a class="headerlink" href="#polarized-radiative-transfer" title="Link to this heading"></a></h2>
+<p>VDISORT transports the ARTS Stokes vector</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol I = [I,Q,U,V]^{\mathsf T},\]</div>
+<p>not the alternative <span class="math notranslate nohighlight">\([I_v,I_h,U,V]^{\mathsf T}\)</span> representation.  With
+the linear-polarization convention used here, the two are related by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}I\\Q\end{bmatrix}
+   =\begin{pmatrix}1&amp;1\\1&amp;-1\end{pmatrix}
+    \begin{bmatrix}I_v\\I_h\end{bmatrix},\qquad
+\begin{bmatrix}I_v\\I_h\end{bmatrix}
+   =\frac12\begin{pmatrix}1&amp;1\\1&amp;-1\end{pmatrix}
+    \begin{bmatrix}I\\Q\end{bmatrix}.\end{split}\]</div>
+<p>Mueller matrices from a derivation using <span class="math notranslate nohighlight">\(I_v,I_h\)</span> must be transformed
+on both sides by this change of basis before they are identified with the ARTS
+matrices.  The vector equation in the ARTS basis is</p>
+<div class="math notranslate nohighlight">
+\[\mu\frac{\partial\boldsymbol I}{\partial\tau}
+= \boldsymbol I
+- \frac{\omega}{4\pi}\int_{4\pi}
+    \mathbf P(\Omega,\Omega')\boldsymbol I(\Omega')
+    \,\mathrm{d}\Omega'
+- \boldsymbol S_{\mathrm{dir}}
+- \boldsymbol S_{\mathrm{int}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf P\)</span> is a Mueller matrix expressed in a consistent Stokes
+reference frame.</p>
+<p>The Fourier expansion of a Mueller problem couples ordinary cosine and sine
+coefficients.  VDISORT therefore stores two <em>combined</em> systems, conventionally
+indexed by <span class="math notranslate nohighlight">\(\alpha=0\)</span> and <span class="math notranslate nohighlight">\(\alpha=1\)</span>, for every Fourier order.  At
+<span class="math notranslate nohighlight">\(m=0\)</span>, the first carries the <span class="math notranslate nohighlight">\(I,Q\)</span> block and the second the
+<span class="math notranslate nohighlight">\(U,V\)</span> block.  At <span class="math notranslate nohighlight">\(m&gt;0\)</span>, the combined matrices mix the ordinary
+cosine and sine Mueller coefficients according to the block layout stated
+below.  The physical field is reconstructed schematically as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\begin{pmatrix} I \\ Q \end{pmatrix}
+  &amp;= \sum_m\left(\boldsymbol C^m_{IQ}\cos m\Delta\phi
+                 +\boldsymbol S^m_{IQ}\sin m\Delta\phi\right),\\
+\begin{pmatrix} U \\ V \end{pmatrix}
+  &amp;= \sum_m\left(\boldsymbol S^m_{UV}\cos m\Delta\phi
+                 +\boldsymbol C^m_{UV}\sin m\Delta\phi\right),
+\end{aligned}\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\Delta\phi=\phi_0-\phi\)</span>.  The swapped roles in the second line are
+important; treating every Stokes component like scalar intensity gives the
+wrong signs and azimuthal behavior.</p>
+<p>The exact combined Mueller layout can be seen by partitioning Stokes space
+into <span class="math notranslate nohighlight">\(A=(I,Q)\)</span> and <span class="math notranslate nohighlight">\(B=(U,V)\)</span>.  If
+<span class="math notranslate nohighlight">\(\boldsymbol P_{\cos}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol P_{\sin}\)</span> are written in
+<span class="math notranslate nohighlight">\(2\times2\)</span> Stokes blocks, then for <span class="math notranslate nohighlight">\(m&gt;0\)</span> the two matrices supplied
+to the independent transport systems are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol P^{c,m}
+&amp;=\begin{pmatrix}
+   (P_{\cos})_{AA}&amp;-(P_{\sin})_{AB}\\
+   (P_{\sin})_{BA}&amp; (P_{\cos})_{BB}
+  \end{pmatrix},\\
+\boldsymbol P^{s,m}
+&amp;=\begin{pmatrix}
+   (P_{\cos})_{AA}&amp; (P_{\sin})_{AB}\\
+  -(P_{\sin})_{BA}&amp; (P_{\cos})_{BB}
+  \end{pmatrix}.\end{split}\]</div>
+<p>For <span class="math notranslate nohighlight">\(m=0\)</span>, they reduce to</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol P^{c,0}
+   =\begin{pmatrix}(P_{\cos})_{AA}&amp;0\\0&amp;0\end{pmatrix},\qquad
+\boldsymbol P^{s,0}
+   =\begin{pmatrix}0&amp;0\\0&amp;(P_{\cos})_{BB}\end{pmatrix}.\end{split}\]</div>
+<p>Thus <span class="math notranslate nohighlight">\(c\)</span> and <span class="math notranslate nohighlight">\(s\)</span> label Lin’s <em>combined systems</em>.  They must not be
+interpreted as four independent ordinary cosine and sine Stokes vectors.</p>
+<p>Scattering data produced in a complex spectral representation are split as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf P_{\cos}=\Re\mathbf P_{\mathbb C},\qquad
+\mathbf P_{\sin}=-\Im\mathbf P_{\mathbb C}.\]</div>
+<p>No factor of two is introduced by this split.  Fourier normalization is handled
+when the modes are combined and synthesized.  This interpretation applies to
+the phase-matrix output, rather than changing the scattering-species data
+model.</p>
+<section id="vdisort-stream-and-stokes-matrix">
+<h3>VDISORT stream and Stokes matrix<a class="headerlink" href="#vdisort-stream-and-stokes-matrix" title="Link to this heading"></a></h3>
+<p>Let <span class="math notranslate nohighlight">\(D=4N_q=8N\)</span>.  Stream <span class="math notranslate nohighlight">\(i\)</span> and Stokes component
+<span class="math notranslate nohighlight">\(s\in\{I,Q,U,V\}\)</span> are flattened in stream-major order,</p>
+<div class="math notranslate nohighlight">
+\[\rho(i,s)=4i+s.\]</div>
+<p>For example, all four components at <span class="math notranslate nohighlight">\(+\mu_1\)</span> precede all four at
+<span class="math notranslate nohighlight">\(+\mu_2\)</span>; the downward streams start at flattened index <span class="math notranslate nohighlight">\(4N\)</span>.
+Define</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\widehat{\boldsymbol M}
+   &amp;=\operatorname{diag}(\mu_1,\ldots,\mu_N,
+                         -\mu_1,\ldots,-\mu_N)\otimes\boldsymbol I_4,\\
+\widehat{\boldsymbol W}
+   &amp;=\operatorname{diag}(w_1,\ldots,w_N,
+                          w_1,\ldots,w_N)\otimes\boldsymbol I_4.\end{split}\]</div>
+<p>For a fixed combined system <span class="math notranslate nohighlight">\(a\in\{c,s\}\)</span>, Fourier order <span class="math notranslate nohighlight">\(m\)</span>,
+and layer <span class="math notranslate nohighlight">\(\ell\)</span>, let <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal P}^{am\ell}\)</span> be the
+<span class="math notranslate nohighlight">\(D\times D\)</span> block matrix whose <span class="math notranslate nohighlight">\((i,j)\)</span> block is the Mueller matrix
+<span class="math notranslate nohighlight">\(\boldsymbol P^{am\ell}_{ij}\)</span>.  The conceptual generalized eigenproblem is</p>
+<div class="math notranslate nohighlight">
+\[\underbrace{\left[
+   \boldsymbol I_D-
+   \frac{\omega_\ell}{2}
+   \boldsymbol{\mathcal P}^{am\ell}\widehat{\boldsymbol W}
+\right]}_{\boldsymbol L_{\mathrm{eig}}^{am\ell}}
+\boldsymbol g
+=k\,
+\underbrace{\widehat{\boldsymbol M}}_{\boldsymbol R_{\mathrm{eig}}}
+\boldsymbol g.\]</div>
+<p>As in the scalar core, this pair is not sent to a generalized eigensolver.
+VDISORT explicitly forms</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol A^{am\ell}
+   =\widehat{\boldsymbol M}^{-1}
+    \boldsymbol L_{\mathrm{eig}}^{am\ell},\]</div>
+<p>whose individual entries are</p>
+<div class="math notranslate nohighlight">
+\[A^{am\ell}_{\rho(i,s_o),\rho(j,s_i)}
+=\frac{\delta_{ij}\delta_{s_os_i}}{\mu_i}
+ -\frac{\omega_\ell}{2\mu_i}\,
+    \overline w_j
+    \left[P^{am\ell}_{ij}\right]_{s_os_i}.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\mu_i\)</span> is signed and <span class="math notranslate nohighlight">\(\overline w_j\)</span> is the repeated weight
+defined with the stream array above (<code class="docutils literal notranslate"><span class="pre">W[j</span> <span class="pre">%</span> <span class="pre">N]</span></code> in C++).  A Mueller block
+maps incident to outgoing Stokes components, so <span class="math notranslate nohighlight">\(s_o\)</span> is the matrix row
+and <span class="math notranslate nohighlight">\(s_i\)</span> its column.</p>
+</section>
+<section id="vdisort-full-eigenproblem">
+<h3>VDISORT full eigenproblem<a class="headerlink" href="#vdisort-full-eigenproblem" title="Link to this heading"></a></h3>
+<p>The implementation solves the ordinary, generally non-symmetric problem</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol A^{am\ell}\boldsymbol G^{am\ell}
+   =\boldsymbol G^{am\ell}\operatorname{diag}(\boldsymbol K^{am\ell})\]</div>
+<p>as a full <span class="math notranslate nohighlight">\(D\times D\)</span> complex eigensystem.  There are two such
+eigensystems for each <span class="math notranslate nohighlight">\((m,r)\)</span>, one for each combined system; there is not
+one <span class="math notranslate nohighlight">\(2D\times2D\)</span> system.  The input matrix is real, but general Mueller
+coupling makes it non-symmetric, so complex conjugate eigenpairs are retained.
+This differs from an explicitly real conjugate-pair basis, but reconstructs the
+same real physical field when those pairs cancel.</p>
+<p>Eigenvalues are sorted lexicographically by real part and then imaginary part.
+The first <span class="math notranslate nohighlight">\(D/2\)</span> columns are anchored at the layer top and the remaining
+<span class="math notranslate nohighlight">\(D/2\)</span> at the layer bottom:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}a_{\ell,e}&amp;=\begin{cases}
+   t_\ell,&amp;e\le D/2,\\
+   t_{\ell+1},&amp;e&gt;D/2,
+\end{cases}\\
+H^{am\ell}_{q e}(\tau)
+   &amp;=G^{am\ell}_{q e}\exp[K^{am\ell}_e(\tau-a_{\ell,e})].\end{split}\]</div>
+<p>For the usual paired spectrum this anchors negative-real-part modes at the top
+and positive-real-part modes at the bottom.  The code classifies by sorted
+position rather than explicitly checking the sign.  When comparing with a
+formulation that writes attenuation as <span class="math notranslate nohighlight">\(\exp(-k\tau)\)</span>, remember that the
+C++ propagation constant has the opposite sign.</p>
+<p>The full eigenproblem is intentionally retained instead of using the optional
+reduced polarized problem.  It is simpler to audit against the published
+equations and supports general Mueller coupling, but it makes VDISORT
+substantially more expensive than scalar DISORT.</p>
+<p>The physical energy-conservation pair receives the same centered treatment as
+the scalar solver.  This pair can occur only in the cosine system at
+<span class="math notranslate nohighlight">\(m=0\)</span>.  Before selecting it, the code verifies directly that the supplied
+Mueller quadrature operator leaves the isotropic unpolarized field</p>
+<div class="math notranslate nohighlight">
+\[X_{\rho(i,s)}=\delta_{sI}\]</div>
+<p>unchanged at unit single-scattering albedo.  It also verifies the dual energy
+condition</p>
+<div class="math notranslate nohighlight">
+\[\frac12\sum_i w_i\left[P^{00\ell}_{ij}\right]_{Is}=\delta_{sI}\]</div>
+<p>for every incident stream <span class="math notranslate nohighlight">\(j\)</span> and Stokes component <span class="math notranslate nohighlight">\(s\)</span>.  Thus
+setting <span class="math notranslate nohighlight">\(\omega=1\)</span> does not by itself make a non-normalized phase matrix
+singular.  For
+<span class="math notranslate nohighlight">\(\omega&lt;1\)</span>, let <span class="math notranslate nohighlight">\(v_-\)</span> and <span class="math notranslate nohighlight">\(v_+\)</span> be the two near-zero
+eigenvectors, normalized so that</p>
+<div class="math notranslate nohighlight">
+\[\frac12\sum_i w_i(v_\pm)_{\rho(i,I)}=1.\]</div>
+<p>With propagation constants <span class="math notranslate nohighlight">\(-\kappa\)</span> and <span class="math notranslate nohighlight">\(+\kappa\)</span>, VDISORT stores
+the finite columns</p>
+<div class="math notranslate nohighlight">
+\[X=\frac{v_-+v_+}{2},\qquad
+R=\frac{v_+-v_-}{2\kappa}.\]</div>
+<p>At exact conservation, <span class="math notranslate nohighlight">\(X\)</span> is supplied explicitly and the generalized
+vector is obtained from</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol A R=X,\qquad
+\frac12\sum_iw_iR_{\rho(i,I)}=0.\]</div>
+<p>The second equation fixes the otherwise arbitrary addition of the null vector.
+Replacing one dependent conservation row by this gauge yields a nonsingular
+solve, after which the omitted transport residual is checked.  At distance
+<span class="math notranslate nohighlight">\(s\)</span> from the layer midpoint, the two homogeneous columns are evaluated
+as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}F_0(s)&amp;=X\cosh(\kappa s)+\kappa R\sinh(\kappa s),\\
+F_1(s)&amp;=X\frac{\sinh(\kappa s)}{\kappa}+R\cosh(\kappa s).\end{split}\]</div>
+<p>Consequently <span class="math notranslate nohighlight">\(F_0=X\)</span> and <span class="math notranslate nohighlight">\(F_1=R+sX\)</span> at
+<span class="math notranslate nohighlight">\(\kappa=0\)</span>.  Boundary assembly, gridded radiances, fluxes, and the
+arbitrary-angle formal integral all use these same columns.  The centered path
+is selected for <span class="math notranslate nohighlight">\(\omega\in[1-10^{-8},1]\)</span>, or whenever the measured
+<span class="math notranslate nohighlight">\(\kappa\leq10^{-4}\)</span>, matching scalar DISORT.  If the general complex
+eigensolver perturbs an unresolved real pair into slightly complex roots, only
+that pair is recomputed with the real eigensolver.  This fallback adds no
+eigensolve or allocation to the ordinary-albedo path.</p>
+</section>
+<section id="vdisort-particular-solution-right-hand-sides">
+<h3>VDISORT particular-solution right-hand sides<a class="headerlink" href="#vdisort-particular-solution-right-hand-sides" title="Link to this heading"></a></h3>
+<p>For <span class="math notranslate nohighlight">\(\epsilon_0=1\)</span> and <span class="math notranslate nohighlight">\(\epsilon_m=2\)</span> when <span class="math notranslate nohighlight">\(m&gt;0\)</span>, the
+direct-beam right-hand side is</p>
+<div class="math notranslate nohighlight">
+\[b^{am\ell}_{\rho(i,s_o)}
+   =\frac{\epsilon_m\omega_\ell}{4\pi\mu_i}
+    \left[\boldsymbol P^{am\ell}_{i,\mathrm b}
+          \boldsymbol S_{\mathrm b}\right]_{s_o}.\]</div>
+<p>The direct beam travels in direction <span class="math notranslate nohighlight">\(-\mu_0\)</span>.  Substitution of
+<span class="math notranslate nohighlight">\(\boldsymbol B^{am\ell}\exp(-\tau/\mu_0)\)</span> into the ODE gives the matrix
+solve</p>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol A^{am\ell}+\mu_0^{-1}\boldsymbol I_D)
+   \boldsymbol B^{am\ell}=\boldsymbol b^{am\ell}.\]</div>
+<p>For the internal source, let its layer coordinate and polynomial be</p>
+<div class="math notranslate nohighlight">
+\[x_\ell(\tau)=a_\ell\tau+b_\ell,\qquad
+\boldsymbol q_\ell(x)=\sum_{p=0}^{P-1}\boldsymbol q_{\ell,p}x^p.\]</div>
+<p>Only <span class="math notranslate nohighlight">\(m=0\)</span> receives this source.  The cosine combined system receives its
+<span class="math notranslate nohighlight">\(I,Q\)</span> components and the sine combined system receives its <span class="math notranslate nohighlight">\(U,V\)</span>
+components.  With</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol v_\ell(x)=\sum_{p=0}^{P-1}\boldsymbol V_{\ell,p}x^p,\]</div>
+<p>the coefficient vectors are obtained backwards from
+<span class="math notranslate nohighlight">\(\boldsymbol V_{\ell,P}=0\)</span> using</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol A^{a0\ell}\boldsymbol V_{\ell,p}
+   =\widehat{\boldsymbol M}^{-1}\boldsymbol q^a_{\ell,p}
+    +a_\ell(p+1)\boldsymbol V_{\ell,p+1}.\]</div>
+<p>The factor <span class="math notranslate nohighlight">\(a_\ell\)</span> comes from differentiating the affine source
+coordinate.  The complete particular field is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol p^{am\ell}(\tau)
+   =\boldsymbol B^{am\ell}\exp(-\tau/\mu_0)
+    +\delta_{m0}\sum_p\boldsymbol V_{\ell,p}x_\ell(\tau)^p.\]</div>
+</section>
+<section id="scalar-limit-of-the-vdisort-equations">
+<h3>Scalar limit of the VDISORT equations<a class="headerlink" href="#scalar-limit-of-the-vdisort-equations" title="Link to this heading"></a></h3>
+<p>The VDISORT transfer equations contain the scalar DISORT equation as an
+invariant subproblem when all of the following hold:</p>
+<ul class="simple">
+<li><p>radiation is embedded as <span class="math notranslate nohighlight">\([I,0,0,0]^{\mathsf T}\)</span>;</p></li>
+<li><p>only the <span class="math notranslate nohighlight">\((0,0)\)</span> Mueller element contains the scalar phase function;</p></li>
+<li><p>sources and boundaries contain only an <span class="math notranslate nohighlight">\(I\)</span> component; and</p></li>
+<li><p>surface reflection maps only incident <span class="math notranslate nohighlight">\(I\)</span> to outgoing <span class="math notranslate nohighlight">\(I\)</span>.</p></li>
+</ul>
+<p>Then <span class="math notranslate nohighlight">\(Q\)</span>, <span class="math notranslate nohighlight">\(U\)</span>, and <span class="math notranslate nohighlight">\(V\)</span> remain zero and the <span class="math notranslate nohighlight">\(I\)</span>
+component obeys the scalar equation.  This is only a mathematical and physical
+reduction.  The VDISORT implementation does not detect this case, dispatch to
+<code class="docutils literal notranslate"><span class="pre">disort.cpp</span></code>, or reduce the dimensions of its matrices.  It still assembles
+and diagonalizes the full <span class="math notranslate nohighlight">\(4N_q\times4N_q\)</span> vector system for both combined
+Fourier systems and solves the corresponding polarized boundary problem.
+Consequently the scalar embedding is useful for validation, but retains
+VDISORT’s greater memory and computational cost.</p>
+<p>Validation of the scalar limit is described in <a class="reference internal" href="dev.disort.html"><span class="doc">DISORT implementation and validation</span></a>.</p>
+</section>
+</section>
+<section id="sources-and-boundary-conditions">
+<h2>Sources and boundary conditions<a class="headerlink" href="#sources-and-boundary-conditions" title="Link to this heading"></a></h2>
+<p>Both solvers support prescribed upper and lower diffuse boundary fields, a
+direct beam, an internal source polynomial in every layer, and a reflecting
+lower boundary.  Only the zeroth Fourier mode contains an azimuth-independent
+internal source.</p>
+<p>In both cores the polynomial represents a source radiance.  VDISORT takes the
+Stokes source function <span class="math notranslate nohighlight">\(\boldsymbol B(\tau)\)</span>, and the transport code
+applies <span class="math notranslate nohighlight">\(1-\omega\)</span>.  Thus an unpolarized thermal source is supplied as</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol B(\tau)=[B(\tau),0,0,0]^{\mathsf T},\]</div>
+<p>and VDISORT forms the emission vector
+<span class="math notranslate nohighlight">\(\boldsymbol q=(1-\omega)\boldsymbol B\)</span> internally.  VDISORT can evaluate
+its polynomial in a layer-local affine coordinate, which avoids refitting
+coefficients when the natural source coordinate is not the global optical
+depth.  In both implementations, <code class="docutils literal notranslate"><span class="pre">source_poly_coeffs</span></code> retains the physical
+source-function input while <code class="docutils literal notranslate"><span class="pre">scaled_source_poly_coeffs</span></code> caches the
+transport-equation emission coefficients used by the solver.</p>
+<p>The direct beam is stored separately from the diffuse quadrature field.  In
+VDISORT it is a full Stokes vector and is considered present when its intensity
+component is positive.  Its scattering phase matrices are evaluated at the
+fixed incident direction <span class="math notranslate nohighlight">\(-\mu_0\)</span>.</p>
+</section>
+<section id="surface-reflection">
+<h2>Surface reflection<a class="headerlink" href="#surface-reflection" title="Link to this heading"></a></h2>
+<p>The lower boundary uses Fourier coefficients of a bidirectional reflectance
+distribution function (BRDF).  For a scalar raw BRDF
+<span class="math notranslate nohighlight">\(\rho(\mu,\mu',\Delta\phi)\)</span> in inverse steradians, the helper used by the
+core defines</p>
+<div class="math notranslate nohighlight">
+\[R_m(\mu,\mu') = (2-\delta_{m0})
+   \int_0^\pi \rho(\mu,\mu',\varphi)\cos(m\varphi)\,\mathrm d\varphi.\]</div>
+<p>Consequently a Lambertian BRDF <span class="math notranslate nohighlight">\(A/\pi\)</span> produces <span class="math notranslate nohighlight">\(R_0=A\)</span>.  The
+azimuth integral is evaluated by Gauss–Legendre quadrature.  Hapke, Cox–Munk,
+RPV, and Ross–Li raw scalar models use this same transformation.</p>
+<p>Scalar DISORT applies the corresponding diffuse-reflection quadrature and
+direct-beam reflection in the lower boundary equation.  VDISORT generalizes
+each Fourier coefficient to a <span class="math notranslate nohighlight">\(4\times4\)</span> Mueller operator and retains a
+cosine and sine operator for each mode.  The core applies the angular
+quadrature weights exactly once; callbacks must therefore return the Fourier
+BRDF or Mueller-BRDF coefficient itself, without a quadrature weight folded
+into it.</p>
+<p>For positive outgoing and incident quadrature streams, VDISORT assembles the
+actual bottom reflection matrix as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[\boldsymbol{\mathcal R}^{am}
+\right]_{\rho(i,s_o),\rho(j,s_i)}
+=\pi\gamma_m w_j\mu_j
+  \left[\boldsymbol R^{\mathrm{raw},am}_{ij}\right]_{s_os_i},
+\qquad
+\gamma_m=\begin{cases}1,&amp;m=0,\\[2pt]\tfrac12,&amp;m&gt;0.\end{cases}\end{split}\]</div>
+<p>The separately assembled reflected direct-beam vector is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol d^{am}_{\rho(i,s_o)}
+=\frac{\mu_0}{2}\exp(-t_L/\mu_0)
+  \left[\boldsymbol R^{\mathrm{raw},am}_{i,\mathrm b}
+        \boldsymbol S_{\mathrm b}\right]_{s_o}.\]</div>
+<p>These are the <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal R}_m\)</span> and
+<span class="math notranslate nohighlight">\(\boldsymbol d_m\)</span> objects used in the global bottom row below.</p>
+<p>The scalar core provides Hapke, Cox–Munk, RPV, Ross–Li, and exact Lambertian
+operators.  The vector core provides a polarized Cox–Munk operator, an ideal
+flat-interface Fresnel operator, and an exact fully depolarizing Lambertian
+operator.  For the latter, only the <span class="math notranslate nohighlight">\(I\leftarrow I\)</span> element of combined
+cosine mode zero is nonzero.  In the raw VDISORT normalization its value is
+<span class="math notranslate nohighlight">\(2A/\pi\)</span>; the factors in the boundary quadrature above recover the
+hemispherical Lambertian albedo <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>The remaining scalar empirical models do not define a unique polarized
+surface.  They can be embedded consistently as fully depolarizing operators by
+placing the scalar BRDF in <span class="math notranslate nohighlight">\(M_{00}\)</span> and setting every other Mueller
+element to zero.  VDISORT provides this embedding for Hapke, RPV, and Ross–Li;
+their physical scalar kernels are shared with DISORT, while only the Fourier
+normalization adapter differs.  The embedding preserves scalar DISORT exactly,
+but it is not a physical polarized Hapke, RPV, or Ross–Li model.  A genuinely
+polarized catalogue requires selecting a published Mueller extension and its
+reference-plane conventions for each model; it cannot be inferred from the
+scalar BRDF alone.</p>
+<p>The physical Cox–Munk microfacet calculation is shared.  It computes one
+slope-probability/geometric factor and the two complex Fresnel amplitude
+coefficients.  The refractive index may itself be complex.  Its imaginary
+part describes absorption in the reflecting material and changes the surface
+Mueller matrix; it is not atmospheric extinction and therefore does not alter
+<code class="docutils literal notranslate"><span class="pre">tau_arr</span></code>.  Absorption by a volume above the boundary must be represented in
+that volume’s optical depth separately.  Scalar DISORT multiplies the factor by</p>
+<div class="math notranslate nohighlight">
+\[\frac{|r_v|^2+|r_h|^2}{2},\]</div>
+<p>which is exactly the <span class="math notranslate nohighlight">\(M_{00}\)</span> element used by VDISORT.  VDISORT alone
+constructs and rotates the remaining Mueller elements.  Thus the scalar path
+does not pay for a <span class="math notranslate nohighlight">\(4\times4\)</span> Mueller matrix or its reference-frame
+rotations, while both paths retain identical optics, shadowing, and treatment
+of total internal reflection.</p>
+<p>The two exact Lambertian <em>factories</em> remain deliberately separate thin
+adapters.  The common physical value is <span class="math notranslate nohighlight">\(A/\pi\)</span>, but the solver callback
+normalizations differ: scalar DISORT stores <span class="math notranslate nohighlight">\(R_0=A\)</span>, whereas VDISORT
+stores <span class="math notranslate nohighlight">\(R^{c,0}_{00}=2A/\pi\)</span> before applying its boundary factor
+<span class="math notranslate nohighlight">\(\pi\)</span>.  Sharing one returned callback would therefore either give one
+solver the wrong normalization or add a conversion on every evaluation.  The
+current conversion is performed once while constructing the modes and has no
+runtime cost.  Likewise, scalar Fourier projection evaluates one real cosine
+series using reflection symmetry; polarized projection must retain full-circle
+Mueller-valued cosine and sine series.  Reusing the polarized projector for
+scalar DISORT would do substantially more setup work without changing its
+answer.</p>
+<p>Surface operators can be combined <em>after</em> Fourier projection.  If models
+<span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> have mode operators
+<span class="math notranslate nohighlight">\(\boldsymbol R^{am}_a\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol R^{am}_b\)</span>, their weighted
+combination is simply</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol R^{am}_{\mathrm{mix}}
+   =w_a\boldsymbol R^{am}_a+w_b\boldsymbol R^{am}_b.\]</div>
+<p>The same sum is applied to the direct-beam callbacks.  Missing higher modes
+are zero, so an azimuth-independent Lambertian operator can be mixed directly
+with a multi-mode surface.  Named factories provide Cox–Munk/Lambertian
+mixtures in both cores and ideal-Fresnel/Lambertian mixtures in VDISORT; the
+generic combiner permits other pairs and repeated composition.  The named
+factories use complementary fractions, whereas the generic weights need not
+sum to one.</p>
+<p>An ideal Fresnel surface is a directional delta distribution.  Its diffuse
+operator is exact on matching native quadrature directions, but its reflected
+direct beam generally lies off that grid.  Mixing it with Lambertian reflection
+does not remove this limitation.  A Cox–Munk/Lambertian mixture supplies a
+finite-width polarized specular lobe and is therefore the beam-compatible
+choice.  Surface thermal emission is a separate boundary input: for a physical
+opaque surface it must be derived from the directional hemispherical
+reflectance of the complete mixture, rather than inferred from the mixture
+weights alone.</p>
+</section>
+<section id="global-boundary-value-matrix">
+<h2>Global boundary-value matrix<a class="headerlink" href="#global-boundary-value-matrix" title="Link to this heading"></a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>There are two different matrix problems.  The layer eigenproblem
+<span class="math notranslate nohighlight">\(\boldsymbol L_{\mathrm{eig}}\boldsymbol g
+=k\boldsymbol R_{\mathrm{eig}}\boldsymbol g\)</span> determines
+<span class="math notranslate nohighlight">\(\boldsymbol K\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol G\)</span>.  The <code class="docutils literal notranslate"><span class="pre">LHS</span></code> and <code class="docutils literal notranslate"><span class="pre">RHS</span></code>
+objects in <code class="docutils literal notranslate"><span class="pre">solve_for_coefs()</span></code> belong to a subsequent global boundary
+solve.  They determine the modal constants, not the eigenvalues.</p>
+</div>
+<p>The scalar problem below has state dimension <span class="math notranslate nohighlight">\(d=N_q\)</span>; the vector problem
+has <span class="math notranslate nohighlight">\(d=4N_q\)</span>.  In either case let <span class="math notranslate nohighlight">\(h=d/2\)</span>, let
+<span class="math notranslate nohighlight">\(\boldsymbol S_+\)</span> select the upward half of a state, and let
+<span class="math notranslate nohighlight">\(\boldsymbol S_-\)</span> select the downward half.  For each Fourier system,
+write the field in layer <span class="math notranslate nohighlight">\(\ell\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol u_\ell(\tau)
+   =\boldsymbol H_\ell(\tau)\boldsymbol c_\ell
+    +\boldsymbol p_\ell(\tau),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol H_\ell\)</span> is the anchored eigenvector/exponential matrix,
+<span class="math notranslate nohighlight">\(\boldsymbol c_\ell\)</span> contains <span class="math notranslate nohighlight">\(d\)</span> unknown modal constants, and
+<span class="math notranslate nohighlight">\(\boldsymbol p_\ell\)</span> is the sum of all particular solutions.  If
+<span class="math notranslate nohighlight">\(\boldsymbol{\mathcal R}_m\)</span> is the already quadrature-weighted bottom
+reflection operator, the unknown and equation ordering is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol c
+   =(\boldsymbol c_0,\boldsymbol c_1,\ldots,
+     \boldsymbol c_{L-1})^{\mathsf T},\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underbrace{\begin{pmatrix}
+  \boldsymbol S_-\boldsymbol H_0(t_0)
+    &amp;0&amp;\cdots&amp;0\\
+  \boldsymbol H_0(t_1)
+    &amp;-\boldsymbol H_1(t_1)&amp;\cdots&amp;0\\
+  0&amp;\boldsymbol H_1(t_2)
+    &amp;\ddots&amp;\vdots\\
+  \vdots&amp;\ddots&amp;\ddots
+    &amp;-\boldsymbol H_{L-1}(t_{L-1})\\
+  0&amp;\cdots&amp;0&amp;
+    (\boldsymbol S_+-\boldsymbol{\mathcal R}_m\boldsymbol S_-)
+    \boldsymbol H_{L-1}(t_L)
+\end{pmatrix}}_{\boldsymbol L_{\mathrm{BC}}}
+\boldsymbol c
+=
+\underbrace{\begin{pmatrix}
+  \boldsymbol b^\downarrow_m
+    -\boldsymbol S_-\boldsymbol p_0(t_0)\\
+  \boldsymbol p_1(t_1)-\boldsymbol p_0(t_1)\\
+  \vdots\\
+  \boldsymbol p_{L-1}(t_{L-1})
+    -\boldsymbol p_{L-2}(t_{L-1})\\
+  \boldsymbol b^\uparrow_m+\boldsymbol d_m
+    -\boldsymbol S_+\boldsymbol p_{L-1}(t_L)
+    +\boldsymbol{\mathcal R}_m\boldsymbol S_-
+       \boldsymbol p_{L-1}(t_L)
+\end{pmatrix}}_{\boldsymbol R_{\mathrm{BC}}}.\end{split}\]</div>
+<p>The first <span class="math notranslate nohighlight">\(h\)</span> rows impose the top downward boundary.  Each internal
+interface contributes <span class="math notranslate nohighlight">\(d\)</span> continuity rows, and the last <span class="math notranslate nohighlight">\(h\)</span> rows
+impose the reflecting bottom boundary.  The count is therefore</p>
+<div class="math notranslate nohighlight">
+\[h+(L-1)d+h=Ld,\]</div>
+<p>matching the <span class="math notranslate nohighlight">\(Ld\)</span> unknown modal constants.  Only adjacent layer blocks
+couple, so the matrix is stored as a band matrix.  Both implementations use
+upper and lower half-bandwidth <span class="math notranslate nohighlight">\(3h-1\)</span>.  In VDISORT this entire system is
+complex and is assembled independently for every <span class="math notranslate nohighlight">\((a,m)\)</span>.</p>
+<p>The vector <span class="math notranslate nohighlight">\(\boldsymbol d_m\)</span> is direct-beam reflection.  With no
+reflecting surface, <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal R}_m=0\)</span> and
+<span class="math notranslate nohighlight">\(\boldsymbol d_m=0\)</span>.  The formula also shows why a particular solution
+appears as a difference across an interface even though the total radiance is
+continuous.</p>
+<p>Implementation storage layouts are described in <a class="reference internal" href="dev.disort.html"><span class="doc">DISORT implementation and validation</span></a>.</p>
+</section>
+<section id="delta-m-scaling">
+<h2>Delta-M scaling<a class="headerlink" href="#delta-m-scaling" title="Link to this heading"></a></h2>
+<p>For a forward-peak fraction <span class="math notranslate nohighlight">\(f\)</span>, original single-scattering albedo
+<span class="math notranslate nohighlight">\(\omega\)</span>, and normalized removed-peak moments <span class="math notranslate nohighlight">\(r_l\)</span>, scalar DISORT
+uses</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}s &amp;= 1-\omega f,\\
+\Delta\tau' &amp;= s\,\Delta\tau,\\
+\omega' &amp;= \frac{\omega(1-f)}{1-\omega f},\\
+\chi'_l &amp;= \frac{\chi_l-f r_l}{1-f}.\end{split}\]</div>
+<p>Classical delta-M has <span class="math notranslate nohighlight">\(r_l=1\)</span>.  Physical optical depths remain available
+to callers, while the eigensystem and direct-beam particular solution use the
+scaled coordinate <span class="math notranslate nohighlight">\(\tau'\)</span>.</p>
+<p>Internal-source polynomials retain their physical meaning under this coordinate
+change.  In layer <span class="math notranslate nohighlight">\(l\)</span>, write the cumulative transformation as</p>
+<div class="math notranslate nohighlight">
+\[\tau' = s_l\tau+c_l,
+\qquad c_l=t_l'-s_l t_l,\]</div>
+<p>where <span class="math notranslate nohighlight">\(t_l\)</span> and <span class="math notranslate nohighlight">\(t_l'\)</span> are the physical and scaled optical depths
+at the layer top.  The solver composes each physical polynomial with the
+inverse affine map once,</p>
+<div class="math notranslate nohighlight">
+\[B_l'(\tau')=B_l\!\left(\frac{\tau'-c_l}{s_l}\right),\]</div>
+<p>and includes the absorption factor in the derived coefficients.  Since</p>
+<div class="math notranslate nohighlight">
+\[1-\omega'=\frac{1-\omega}{s_l},\]</div>
+<p>the resulting <code class="docutils literal notranslate"><span class="pre">scaled_source_poly_coeffs</span></code> represent the required transformed
+emission <span class="math notranslate nohighlight">\((1-\omega)B_l(\tau)/s_l\)</span> in the <span class="math notranslate nohighlight">\(\tau'\)</span> equation.  The
+cached coefficients are reused directly by quadrature, flux, gridded, and
+arbitrary-angle evaluations.</p>
+<p>The delta-M-plus option represents the removed peak by Gaussian Legendre
+moments</p>
+<div class="math notranslate nohighlight">
+\[r_l=\exp\!\left(-\frac{l^2}{2\sigma^2}\right).\]</div>
+<p>The width and fraction are inferred from the first two phase moments beyond
+the retained transport expansion.  If any layer fails the consistency checks
+for a useful Gaussian tail, all layers fall back to classical delta-M.</p>
+<p>VDISORT’s transport object receives already transformed Mueller phase
+operators and optical depths; it does not infer a forward-peak removal from an
+arbitrary Mueller expansion.  This division is deliberate.  If the scattering
+setup supplies the removed fraction, the original phase operator, the
+transport phase operator, and the normalized removed Mueller peak, applying
+the transformation and constructing the correction cache is mechanical.  The
+caller that owns the particle model is also the component best placed to know
+whether those quantities form a physically meaningful split.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">delta_m_preprocess</span></code> core helper performs that mechanical step from the
+physical optical depths and albedos, the removed fractions, and matching
+original/removed diffuse and beam Mueller operators.  It returns the scaled
+depth grid, transport albedos and phase operators, and the affine coordinate
+map required to keep source polynomials in physical optical depth.  The
+laboratory-frame callbacks used to build the IMS/TMS correction cache remain
+explicit because a quadrature-sampled combined operator cannot reconstruct a
+general physical phase matrix at arbitrary directions.</p>
+<p>Inferring that split automatically is a different and substantially harder
+operation.  A scalar forward-peak width and fraction cannot in general be
+fitted independently to every Mueller element: the result must preserve energy
+normalization, realizability, reciprocity, and the Stokes reference-plane
+transformations.  The validated delta-M-plus path for VDISORT is consequently
+the scalar <span class="math notranslate nohighlight">\(M_{00}\)</span> reduction.  A general polarized delta-M-plus model
+requires an explicitly chosen and validated removed Mueller peak in a common
+laboratory reference frame; the core does not guess one from the input data.</p>
+<section id="ims-and-tms-intensity-corrections">
+<h3>IMS and TMS intensity corrections<a class="headerlink" href="#ims-and-tms-intensity-corrections" title="Link to this heading"></a></h3>
+<p>Delta-M improves the diffuse solution but removes structure from the direct
+beam aureole.  The Nakajima–Tanaka correction used here is the sum of a
+truncated-multiple-scattering (TMS) term and an improved-multiple-scattering
+(IMS) term.  TMS formally integrates the difference between the original and
+transport phase functions along the direct-beam path.  Stable limiting kernels
+are used where <span class="math notranslate nohighlight">\(\mu\)</span> approaches <span class="math notranslate nohighlight">\(\mu_0\)</span>, avoiding cancellation in
+expressions containing <span class="math notranslate nohighlight">\(1/\mu-1/\mu_0\)</span>.</p>
+<p>By default, IMS is applied only to downward directions within 10 degrees of
+the incident beam and is subtracted from the TMS-corrected field.  Both cores
+also expose the alternative convention which adds IMS in every downward
+direction.</p>
+<p>Scalar IMS/TMS is available at quadrature and arbitrary user angles and has a
+gridded path which reuses angle-dependent work.  It is restricted to classical
+delta-M.  It is intentionally disabled for a non-classical removed peak,
+including delta-M-plus.</p>
+<p>VDISORT provides a fully Mueller-valued correction cache.  Its TMS operator is
+formed from the difference between original and transport Mueller phase
+matrices.  For normalized removed peak <span class="math notranslate nohighlight">\(\mathbf R\)</span>, the IMS angular
+operator contains</p>
+<div class="math notranslate nohighlight">
+\[2\mathbf R(\Omega,\Omega_0)
+- \frac{1}{4\pi}\int_{4\pi}
+    \mathbf R(\Omega,\Omega')\mathbf R(\Omega',\Omega_0)
+    \,\mathrm d\Omega'.\]</div>
+<p>The matrix product preserves polarization and reference-frame rotations.  This
+angular convolution is expensive, so it is computed once for a selected set of
+user directions and azimuths and cached.  A supplied analytic pair-convolution
+can replace the numerical intermediate-angle quadrature.  Evaluation at
+different optical depths then reuses the cached operators.  The vector core
+exposes TMS and IMS separately at one depth or at all layer bottoms, as well as
+<code class="docutils literal notranslate"><span class="pre">u_corr</span></code>, <code class="docutils literal notranslate"><span class="pre">u_user_corr</span></code>, and <code class="docutils literal notranslate"><span class="pre">gridded_u_corr</span></code> combinations analogous to
+the scalar core.  The correction cache remains a separate argument because it
+depends on the original, transport, and removed physical Mueller phase
+functions, whereas the VDISORT transport object contains only the already
+transformed discrete-ordinate operators.</p>
+</section>
+</section>
+<section id="arbitrary-angle-radiances">
+<h2>Arbitrary-angle radiances<a class="headerlink" href="#arbitrary-angle-radiances" title="Link to this heading"></a></h2>
+<p>Quadrature-stream radiances come directly from the discrete-ordinate field.
+Radiances at other nonzero direction cosines are obtained from the formal
+solution along the requested ray; they are not merely interpolated values of
+the final radiance.</p>
+<p>Scalar DISORT reconstructs the angular source from the quadrature solution.
+It uses barycentric interpolation for the required angular terms and analytic,
+cancellation-safe exponential integrals through every crossed layer.</p>
+<p>For polarized radiation, a phase matrix sampled only at the quadrature output
+directions is insufficient to reconstruct a general outgoing direction.
+VDISORT therefore requires the directional diffuse and direct-beam Mueller
+phase matrices at every requested user direction.  The supplied matrices are
+contracted with the stored eigenvectors, integration constants, beam
+particular solution, and polynomial particular solution.  The resulting
+layerwise complex exponentials and exponential–polynomial terms are integrated
+analytically with cancellation-safe limiting functions, following the same
+formal-solution structure as scalar DISORT.  A bulk call forms the
+azimuth-independent combined Fourier modes locally for all requested optical
+depths, then synthesizes every requested azimuth; no persistent user-radiance
+cache is part of the solver state.</p>
+<p>The diffuse top and bottom boundary fields are stored only at quadrature
+directions.  Their values at a new direction are therefore not uniquely
+defined by the core inputs.  The test-facing arbitrary-angle path uses stable
+half-range barycentric interpolation, which is exact for the constant boundary
+fields exercised by the reference suite.  General polarized user-angle use
+would require explicit directional boundary data or a boundary callback.</p>
+<p>The direction <span class="math notranslate nohighlight">\(\mu=0\)</span> is excluded in both formal solutions because the
+ray equation contains <span class="math notranslate nohighlight">\(1/\mu\)</span>.</p>
+</section>
+<section id="fluxes-and-heating-rate-integrand">
+<h2>Fluxes and heating-rate integrand<a class="headerlink" href="#fluxes-and-heating-rate-integrand" title="Link to this heading"></a></h2>
+<p>Only the zeroth Fourier mode contributes to hemispheric flux.  Both cores
+return positive upward, positive diffuse-downward, and positive direct-downward
+fluxes.  With the positive quadrature nodes,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}F^\uparrow &amp;= 2\pi\sum_{i=1}^{N}w_i\mu_i I^+_i,\\
+F^\downarrow_{\mathrm{diff}} &amp;=
+   2\pi\sum_{i=1}^{N}w_i\mu_i I^-_i,\\
+F^\downarrow_{\mathrm{dir}} &amp;=
+   \mu_0 I_{\mathrm b}\exp(-\tau/\mu_0).\end{split}\]</div>
+<p>In VDISORT these quantities use the <span class="math notranslate nohighlight">\(I\)</span> component of each Stokes vector;
+the core does not currently return hemispherically integrated <span class="math notranslate nohighlight">\(Q\)</span>,
+<span class="math notranslate nohighlight">\(U\)</span>, or <span class="math notranslate nohighlight">\(V\)</span> fluxes.</p>
+<p>The combined flux call also returns the local flux-divergence or heating-rate
+integrand called <code class="docutils literal notranslate"><span class="pre">DFDT</span></code> by DISORT.  If</p>
+<div class="math notranslate nohighlight">
+\[J = \frac{1}{4\pi}\int_{4\pi}I\,\mathrm d\Omega\]</div>
+<p>includes the direct beam, scalar DISORT evaluates</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{DFDT}=4\pi(1-\omega)(J-B).\]</div>
+<p>VDISORT uses the same expression because its polynomial stores
+<span class="math notranslate nohighlight">\(\boldsymbol B\)</span>, not the already absorption-weighted emission vector.
+Computing all flux quantities in one call reuses a single zeroth-mode radiance
+evaluation.</p>
+<p>DFDT differentiates net upward flux with respect to downward optical depth;
+it is not a temperature tendency.  Scalar delta-M fluxes redistribute the
+difference between physical and scaled direct-beam flux into the diffuse
+component.  Their total therefore contains the scaled beam, and the direct
+contribution to <span class="math notranslate nohighlight">\(J\)</span> must use <span class="math notranslate nohighlight">\(\exp(-\tau^*/\mu_0)\)</span> as well.
+The factor <span class="math notranslate nohighlight">\(1-\omega\)</span> and source <span class="math notranslate nohighlight">\(B\)</span> retain their physical values,
+so this DFDT is with respect to physical optical depth.</p>
+<p>See <a class="reference internal" href="dev.disort.html"><span class="doc">DISORT implementation and validation</span></a> for implementation limits and validation coverage.</p>
+</section>
+<section id="mathematical-limitations">
+<h2>Mathematical limitations<a class="headerlink" href="#mathematical-limitations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Beam–eigenmode resonance.</strong>  The direct-beam particular solution contains
+<span class="math notranslate nohighlight">\((K_e+1/\mu_0)^{-1}\)</span>.  If a propagation constant is close to
+<span class="math notranslate nohighlight">\(-1/\mu_0\)</span>, the direct-beam solve is poorly conditioned.  This is not a
+small-<span class="math notranslate nohighlight">\(\mu_0\)</span> failure by itself and should not be handled by clipping
+grazing solar angles.  At exact resonance the limiting particular solution
+contains a factor proportional to <span class="math notranslate nohighlight">\(\tau\exp(-\tau/\mu_0)\)</span> rather than
+two separately singular exponential terms.  The cores do not yet select
+this limiting form or issue a proximity warning.</p></li>
+<li><p><strong>Fourier truncation.</strong>  Features narrow in relative azimuth require enough
+atmospheric and surface Fourier modes.  Likewise, sharply peaked phase
+functions require enough Legendre moments or a suitable delta-M treatment.</p></li>
+</ul>
+<p>See <a class="reference internal" href="user.disort.html"><span class="doc">DISORT input and output conventions</span></a> for input and output conventions.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="concept.tmatrix.html" class="btn btn-neutral float-left" title="T-matrix particle scattering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="concept.heating.html" class="btn btn-neutral float-right" title="Radiative heating rates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

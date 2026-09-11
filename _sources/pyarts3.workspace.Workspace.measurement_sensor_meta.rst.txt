@@ -6,14 +6,18 @@ measurement_sensor_meta
 .. attribute:: Workspace.measurement_sensor_meta
    :type: ~pyarts3.arts.ArrayOfSensorMetaInfo
 
-   Metadata describing each sensor's block in :attr:`~pyarts3.workspace.Workspace.measurement_vec`.
+   Metadata describing each sensor's block in :attr:`~pyarts3.Workspace.measurement_vec`.
 
    Each element corresponds to one ``measurement_sensorAdd*`` call and
-   describes how its contiguous block of :attr:`~pyarts3.workspace.Workspace.measurement_sensor` /
-   :attr:`~pyarts3.workspace.Workspace.measurement_vec` entries maps to a structured gridded field.
+   describes how its contiguous block of :attr:`~pyarts3.Workspace.measurement_sensor` /
+   :attr:`~pyarts3.Workspace.measurement_vec` entries maps to a structured gridded field.
 
    The start index of each block is not stored explicitly; it is the
    cumulative sum of ``count()`` from preceding elements.
+
+   An entry can carry the observation time of its block. This is used to retain
+   the acquisition-time grouping independently of the flattened measurement
+   vector ordering.
 
 
 
@@ -23,24 +27,26 @@ measurement_sensor_meta
    .. hlist::
        :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddCamera`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddGaussianZenith`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddRawSensor`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimple`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddSimpleGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorAddVectorGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensor_metaFromMeasurementVec`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddCamera`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddGaussianZenith`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddRawSensor`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimple`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimpleGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddSimpleRadar`
+       * :func:`~pyarts3.Workspace.measurement_sensorAddVectorGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensor_metaFromMeasurementVec`
 
 
    .. rubric:: Output from workspace methods
 
    .. hlist::
-       :columns: 1
+       :columns: 2
 
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorInit`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimple`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorSimpleGaussian`
-       * :func:`~pyarts3.workspace.Workspace.measurement_sensorVectorGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorFromPredefined`
+       * :func:`~pyarts3.Workspace.measurement_sensorInit`
+       * :func:`~pyarts3.Workspace.measurement_sensorSimple`
+       * :func:`~pyarts3.Workspace.measurement_sensorSimpleGaussian`
+       * :func:`~pyarts3.Workspace.measurement_sensorVectorGaussian`
 
    .. :class:`~pyarts3.arts.ArrayOfSensorMetaInfo`
 

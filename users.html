@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guide &mdash; ARTS 3.0.0dev11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
 
@@ -63,7 +63,14 @@
 <li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html">Underpinning concepts and background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
@@ -100,19 +107,10 @@
              
   <section id="guide">
 <h1>Guide<a class="headerlink" href="#guide" title="Link to this heading"></a></h1>
-<p>Here you find an overview of how different components of ARTS are intended to work.</p>
-<p>There are several sections below that explain in some detail how to understand important
-data structures and concepts in ARTS.  These sections focus on important topics of
-atmospheric radiative transfer that a user needs to understand to use ARTS successfully,
-such as how the surface and the atmosphere are defined and represented in ARTS.</p>
-<p>The last subsection below is a collection of concepts that are required to understand
-the background of some of the design decisions in ARTS.  It does not cover
-implementation details, but it is useful to understand how different components
-of ARTS are intended to work together.  These are generic topics that contains
-theoretical constructs that are often implicitly used in ARTS to allow different
-methods to work together on the assumption that they all represent a coherent
-theoretical framework.</p>
-<p>The subsections below are given in no particular order.</p>
+<p>This guide explains the ARTS user interface: terminology, data structures,
+parameter conventions, units, and interpretation of results.
+The linked concepts section develops the underlying mathematics and physics.
+Build configuration and implementation details are in <a class="reference internal" href="devs.html"><span class="doc">For Developers</span></a>.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="user.atm_field.html">The atmosphere</a><ul>
@@ -140,11 +138,34 @@ theoretical framework.</p>
 <li class="toctree-l2"><a class="reference internal" href="user.sensors.html#sensor-observation-elements">Sensor observation elements</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Underpinning concepts and background</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="user.tmatrix.html">T-matrix interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html#units-and-polarization">Units and polarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.tmatrix.html#using-particles-as-scattering-species">Using particles as scattering species</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user.heating.html">Radiative heating rates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html#from-radiance-to-flux">From radiance to flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html#from-flux-to-heating">From flux to heating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html#from-disort-optical-depth-derivatives">From DISORT optical-depth derivatives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html#tessem2">TESSEM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html#telsem2">TELSEM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html#surface-boundary-behavior">Surface-boundary behavior</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="concept.absorption.html">Absorption</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concept.radiative_transfer.html">Radiative Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.tmatrix.html">T-matrix particle scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.disort.html">DISORT and VDISORT core solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concept.heating.html">Radiative heating rates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concept.oem.html">Optimal estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.physical_grids.html">Physical grids</a></li>
 </ul>
 </li>
 </ul>

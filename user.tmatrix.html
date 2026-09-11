@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T-matrix interface &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/user.tmatrix.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"loader": {"load": ["[tex]/boldsymbol"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "packages": {"[+]": ["boldsymbol"]}}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Radiative heating rates" href="user.heating.html" />
+    <link rel="prev" title="Sensor description" href="user.sensors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="users.html">Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.atm_field.html">The atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surf_field.html">The surface and planet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.subsurf_field.html">The subsurface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.sensors.html">Sensor description</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">T-matrix interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#units-and-polarization">Units and polarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-particles-as-scattering-species">Using particles as scattering species</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user.heating.html">Radiative heating rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.physical_grids.html">Physical grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.surface_emissivity.html">Empirical microwave surface emissivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.oem.html">Retrieval transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.disort.html">DISORT input and output conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.radiative_transfer.html">Radiative-transfer layer options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Mathematics and physical concepts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="users.html">Guide</a></li>
+      <li class="breadcrumb-item active">T-matrix interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/user.tmatrix.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="t-matrix-interface">
+<h1>T-matrix interface<a class="headerlink" href="#t-matrix-interface" title="Link to this heading"></a></h1>
+<p>The Python interface is <code class="docutils literal notranslate"><span class="pre">pyarts3.arts.tmatrix</span></code>.  <code class="docutils literal notranslate"><span class="pre">available()</span></code> reports
+whether the backend was built; <code class="docutils literal notranslate"><span class="pre">extended_precision()</span></code> identifies the selected
+variant.  <code class="docutils literal notranslate"><span class="pre">fixed</span></code> computes a particle and evaluates its amplitude and phase
+matrices at one illumination/scattering geometry.  <code class="docutils literal notranslate"><span class="pre">fixed_batch</span></code> computes
+one particle and evaluates a matrix of geometries, returning a list of fixed
+results in row order.  Each row contains incident zenith, scattered zenith,
+incident azimuth, scattered azimuth, alpha and beta, all in degrees.
+<code class="docutils literal notranslate"><span class="pre">random</span></code> computes a
+randomly oriented size distribution, defaulting to an effectively monodisperse
+particle.  These functions calculate individual optical results.  Use
+<code class="docutils literal notranslate"><span class="pre">ParticleHabit.tmatrix</span></code> below to prepare a habit for scattering species.</p>
+<section id="units-and-polarization">
+<h2>Units and polarization<a class="headerlink" href="#units-and-polarization" title="Link to this heading"></a></h2>
+<p>Angles are in degrees.  For fixed particles and the default and power-law
+size distributions, use a common length unit for radius and wavelength.
+Metres give SI outputs.  <code class="docutils literal notranslate"><span class="pre">radius_ratio=1</span></code> selects volume-equivalent radius;
+other positive values select surface-area-equivalent radius for these shapes.
+<code class="docutils literal notranslate"><span class="pre">shape=-1</span></code> means spheroid, with horizontal/rotational axis ratio;
+<code class="docutils literal notranslate"><span class="pre">shape=-2</span></code> means cylinder, with diameter/length ratio.</p>
+<p>The fixed result contains a complex 2 by 2 Jones amplitude matrix (length),
+a <code class="docutils literal notranslate"><span class="pre">Muelmat</span></code> phase matrix (length squared), and orientation-averaged
+extinction and scattering cross sections (length squared).  The Jones matrix
+is not a <code class="docutils literal notranslate"><span class="pre">Specmat</span></code>, which represents a complex 4 by 4 Mueller matrix.
+The amplitude-to-Mueller conversion preserves the ARTS2 Stokes convention.</p>
+<p>Random results contain <code class="docutils literal notranslate"><span class="pre">MuelmatVector</span></code> phase matrices in the scattering-plane
+basis at equally spaced scattering angles from 0 to 180 degrees.  They are
+dimensionless, with the first element integrating to <span class="math notranslate nohighlight">\(4\pi\)</span> over solid
+angle.  Multiply by <code class="docutils literal notranslate"><span class="pre">scattering</span> <span class="pre">/</span> <span class="pre">(4*pi)</span></code> to obtain differential scattering
+cross sections.  The nonzero elements are F11, F22, F33, F44, symmetric F12,
+and antisymmetric F34, following the original solver convention.</p>
+<p>Results remain valid after subsequent calls.</p>
+<p>See <a class="reference internal" href="concept.tmatrix.html"><span class="doc">T-matrix particle scattering</span></a> for the physical definitions and normalization.
+Build configuration and implementation notes are in <a class="reference internal" href="dev.tmatrix.html"><span class="doc">T-matrix implementation and validation</span></a>.</p>
+</section>
+<section id="using-particles-as-scattering-species">
+<h2>Using particles as scattering species<a class="headerlink" href="#using-particles-as-scattering-species" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ParticleHabit.tmatrix</span></code> generates a totally randomly oriented habit in memory.
+Supply temperature and frequency grids, volume-equivalent diameters in metres,
+a complex refractive-index matrix with axes (temperature, frequency), and
+material density in kg/m³.  The refractive index uses a nonnegative imaginary
+part.  Shape and aspect-ratio conventions match the direct T-matrix interface.</p>
+<p>For example, a single-size ice population can be set up as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarts3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">arts</span>
+<span class="n">density</span> <span class="o">=</span> <span class="mf">917.0</span>
+<span class="n">habit</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">ParticleHabit</span><span class="o">.</span><span class="n">tmatrix</span><span class="p">(</span>
+    <span class="n">t_grid</span><span class="o">=</span><span class="p">[</span><span class="mf">250.0</span><span class="p">,</span> <span class="mf">280.0</span><span class="p">],</span>
+    <span class="n">f_grid</span><span class="o">=</span><span class="p">[</span><span class="mf">229e9</span><span class="p">,</span> <span class="mf">231e9</span><span class="p">],</span>
+    <span class="n">diameters</span><span class="o">=</span><span class="p">[</span><span class="mf">200e-6</span><span class="p">],</span>
+    <span class="n">refractive_index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">1.78</span> <span class="o">+</span> <span class="mf">0.01</span><span class="n">j</span><span class="p">),</span>
+    <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">,</span>
+    <span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">angles</span><span class="o">=</span><span class="mi">181</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">number</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">ScatteringSpeciesProperty</span><span class="p">(</span>
+    <span class="s2">&quot;ice&quot;</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">ParticulateProperty</span><span class="o">.</span><span class="n">NumberDensity</span><span class="p">)</span>
+<span class="n">psd</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">MonodispersePSD</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">280.0</span><span class="p">)</span>
+<span class="n">ws</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Workspace</span><span class="p">()</span>
+<span class="n">ws</span><span class="o">.</span><span class="n">scat_species</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="o">.</span><span class="n">ScatteringHabit</span><span class="p">(</span>
+    <span class="n">habit</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">density</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>The constant refractive index above is illustrative; supply the material model
+appropriate to the calculation.  Set the <code class="docutils literal notranslate"><span class="pre">number</span></code> property in the atmosphere
+to the particle number density in m⁻³.  The explicit mass-size relation uses
+volume-equivalent diameter: mass equals <code class="docutils literal notranslate"><span class="pre">density</span> <span class="pre">*</span> <span class="pre">pi</span> <span class="pre">/</span> <span class="pre">6</span> <span class="pre">*</span> <span class="pre">diameter**3</span></code>.
+<code class="docutils literal notranslate"><span class="pre">MonodispersePSD</span></code> requires exactly one diameter; habits containing several
+sizes can be combined with the other ARTS PSDs.</p>
+<p>The factory computes each particle size separately.  <code class="docutils literal notranslate"><span class="pre">ScatteringHabit</span></code> then
+applies the atmospheric PSD and interpolates the stored optical properties;
+it does not rerun T-matrix during bulk-property evaluation.  Choose the
+sampling grids to resolve changes in the optical properties.  <code class="docutils literal notranslate"><span class="pre">angles</span></code> sets
+an equally spaced scattering-angle grid from 0 to 180 degrees.</p>
+<p>The generated data already have physical cross-section units, including
+forward and backscatter matrices.  No additional phase normalization is needed
+before passing the habit to <code class="docutils literal notranslate"><span class="pre">ScatteringHabit</span></code>.  The factory describes totally
+random orientations; it does not generate aligned or azimuthally random
+particle populations.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user.sensors.html" class="btn btn-neutral float-left" title="Sensor description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user.heating.html" class="btn btn-neutral float-right" title="Radiative heating rates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon-16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTS 2 Feature-Port Status &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/dev.arts2missing.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ARTS 2 Features Not Intended for ARTS 3" href="dev.arts2notintended.html" />
+    <link rel="prev" title="Adding new species to ARTS" href="dev.species.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyarts3.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="devs.html">For Developers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev.classes.html">ARTS Classes and Structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.error.html">Errors inside the C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.matpack.html">Matpack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.plots.html">Plot Modules for GUI Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.edit.html">Editor modules for GUI integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.gui.html">Plot GUI architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.doc.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.xml.html">XML IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.species.html">Adding new species to ARTS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ARTS 2 Feature-Port Status</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#status-terms">Status terms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initial-audit-snapshot">Initial audit snapshot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#confirmed-implementation-gaps">Confirmed implementation gaps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#doit-scattering-solver">DOIT scattering solver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fastem-surface-model">FASTEM surface model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecs-line-by-line-derivatives">ECS line-by-line derivatives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#confirmed-gaps-with-unresolved-port-intent">Confirmed gaps with unresolved port intent</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#active-coverage-gaps">Active coverage gaps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cia-derivatives">CIA derivatives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transmission-including-particulate-extinction">Transmission including particulate extinction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#absorption-only-particle-radiative-transfer">Absorption-only particle radiative transfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hydrostatic-equilibrium">Hydrostatic equilibrium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#field-regridding">Field regridding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line-cutoffs-and-line-mixing">Line cutoffs and line mixing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predefined-instruments-and-end-to-end-radiances">Predefined instruments and end-to-end radiances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#raw-calibration-and-time-series-corrections">Raw calibration and time-series corrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-scientific-parity-checks">Additional scientific parity checks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deferred-beyond-this-first-pass">Deferred beyond this first pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-this-page">Updating this page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev.arts2notintended.html">ARTS 2 Features Not Intended for ARTS 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.tmatrix.html">T-matrix implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.heating.html">Heating-rate reference tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html">DISORT implementation and validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.disort.html#implementation-array-layouts">Implementation array layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.surface_emissivity.html">Surface emissivity integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev.radiative_transfer.html">Radiative-transfer implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="devs.html">For Developers</a></li>
+      <li class="breadcrumb-item active">ARTS 2 Feature-Port Status</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dev.arts2missing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arts-2-feature-port-status">
+<span id="dev-arts2missing"></span><h1>ARTS 2 Feature-Port Status<a class="headerlink" href="#arts-2-feature-port-status" title="Link to this heading"></a></h1>
+<p>This is a living audit of scientific and numerical functionality that existed
+in ARTS 2 and is not yet fully accounted for in ARTS 3.  It is not an API
+compatibility promise and it is not a list of ARTS 2 workspace methods to copy.
+The companion <a class="reference internal" href="dev.arts2notintended.html"><span class="doc">ARTS 2 Features Not Intended for ARTS 3</span></a> page records deliberate redesigns
+and features that must not be ported literally.</p>
+<p>The main rule for this audit is to track capabilities, not controlfile syntax.
+An ARTS 2 helper is not missing merely because it has no ARTS 3 workspace
+method.  Plain Python, NumPy, a Python recipe, or a composition of smaller ARTS
+3 methods is an acceptable and often preferred replacement.  A feature remains
+interesting when the underlying physical result, numerical algorithm, data
+model, or practical workflow cannot be produced through those interfaces.</p>
+<section id="status-terms">
+<h2>Status terms<a class="headerlink" href="#status-terms" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>Missing</strong></dt><dd><p>No ARTS 3 implementation or usable replacement was found.  A port or an
+explicit decision not to port is required.</p>
+</dd>
+<dt><strong>Coverage gap</strong></dt><dd><p>The implementation or its building blocks exist, but no active regression
+demonstrates parity with the corresponding ARTS 2 result.</p>
+</dd>
+<dt><strong>Python decision</strong></dt><dd><p>The ARTS 2 operation is suitable for Python.  Decide whether a maintained
+recipe/helper is needed; do not automatically recreate a workspace method.</p>
+</dd>
+<dt><strong>Deferred</strong></dt><dd><p>The configured test inventories did not exercise the feature.  A later
+method-, data-, and optional-build audit must classify it.</p>
+</dd>
+</dl>
+</section>
+<section id="initial-audit-snapshot">
+<h2>Initial audit snapshot<a class="headerlink" href="#initial-audit-snapshot" title="Link to this heading"></a></h2>
+<p>This first snapshot was made on 2026-09-02 from ARTS 3 branch <code class="docutils literal notranslate"><span class="pre">ai-port</span></code> at
+<code class="docutils literal notranslate"><span class="pre">566654276</span></code> and an ARTS 2.6.18 source/build tree.</p>
+<ul class="simple">
+<li><p>The configured ARTS 3 build registers 190 CTests: 30 Python examples, 128
+Python regression tests, and 32 C++ tests.</p></li>
+<li><p>The configured ARTS 2 build registers 201 CTests.  Many are paired
+<code class="docutils literal notranslate"><span class="pre">ctlfile.*</span></code> and <code class="docutils literal notranslate"><span class="pre">converted.*</span></code> executions of the same case and must not be
+counted as two capabilities.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">build</span> <span class="pre">--target</span> <span class="pre">check</span> <span class="pre">-j</span> <span class="pre">12</span></code> selected 110 ARTS 2 checks.
+It excludes converted duplicates and the <code class="docutils literal notranslate"><span class="pre">slow</span></code>, <code class="docutils literal notranslate"><span class="pre">xmldata</span></code>, <code class="docutils literal notranslate"><span class="pre">nocheck</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">planettoolbox</span></code> groups.  108 passed.
+<code class="docutils literal notranslate"><span class="pre">pyarts.fast.artscomponents.lookup.TestLookup_h2o</span></code> and the aggregate
+<code class="docutils literal notranslate"><span class="pre">pytest</span></code> check segfaulted in the old Python extension; those two
+environment-sensitive failures are not evidence of ARTS 3 feature gaps.</p></li>
+<li><p>The runs used the ARTS XML and catalogue data trees identified by CMake.
+Both builds were configured as <code class="docutils literal notranslate"><span class="pre">Release</span></code>; the ARTS 2 build had Fortran and
+NetCDF disabled.  Test counts are configuration-dependent, especially for
+LGPL, SHTNS, FASTEM, RT4, T-matrix, and NetCDF options.</p></li>
+</ul>
+<p>The classification below combines that CTest comparison with a narrow source
+audit where a test name alone could not distinguish a missing feature from an
+ARTS 3 replacement.  It does not yet compare the complete method inventories.</p>
+</section>
+<section id="confirmed-implementation-gaps">
+<h2>Confirmed implementation gaps<a class="headerlink" href="#confirmed-implementation-gaps" title="Link to this heading"></a></h2>
+<section id="doit-scattering-solver">
+<h3>DOIT scattering solver<a class="headerlink" href="#doit-scattering-solver" title="Link to this heading"></a></h3>
+<p><strong>Status: Missing.</strong>  ARTS 2 registers <code class="docutils literal notranslate"><span class="pre">TestDOIT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TestDOITaccelerated</span></code>, <code class="docutils literal notranslate"><span class="pre">TestDOITprecalcInit</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TestDOITsensorInsideCloudbox</span></code>, and the XML-data-dependent
+<code class="docutils literal notranslate"><span class="pre">TestDOITpressureoptimization</span></code>.  The selected fast DOIT checks passed in the
+ARTS 2 audit.  No DOIT implementation, workspace method, example, or test was
+found in ARTS 3.</p>
+<p>ARTS 3 DISORT and Monte Carlo calculations are useful alternatives, but they
+are not a deterministic polarized DOIT implementation.  A DOIT port must use
+the ARTS 3 atmospheric-field and scattering-species models.  It must not
+restore the formal ARTS 2 cloudbox, global spatial grids, or global
+<code class="docutils literal notranslate"><span class="pre">stokes_dim</span></code> workspace variable merely to preserve the old setup sequence.</p>
+</section>
+<section id="fastem-surface-model">
+<h3>FASTEM surface model<a class="headerlink" href="#fastem-surface-model" title="Link to this heading"></a></h3>
+<p><strong>Status: Missing; ARTS 3 surface-boundary design required.</strong>  FASTEM is an
+intended ARTS 3 capability, but the current surface interface cannot represent
+the complete model.  FASTEM can provide separate emissivity and reflectivity
+and includes an atmospheric-transmittance correction, whereas the existing
+closed-surface reflectance path applies Kirchhoff consistency and has no
+explicit atmospheric dependency.</p>
+<p>Design a surface-boundary contract that represents emission, reflection, and
+the required atmospheric coupling explicitly.  The implementation must not
+silently discard FASTEM outputs or weaken the consistency guarantees of the
+existing reflectance agenda.  The surviving <code class="docutils literal notranslate"><span class="pre">ENABLE_FASTEM</span></code> configure and
+link hooks are legacy integration residue; they do not provide this interface
+or an ARTS 3 implementation.</p>
+</section>
+<section id="ecs-line-by-line-derivatives">
+<h3>ECS line-by-line derivatives<a class="headerlink" href="#ecs-line-by-line-derivatives" title="Link to this heading"></a></h3>
+<p><strong>Status: Missing; design deferred.</strong>  LTE Voigt, mirrored LTE Voigt, and
+line-NLTE derivatives now have active finite-difference coverage for their
+supported atmospheric, spectroscopic-line, and line-shape targets.  ECS
+derivatives remain intentionally outside that implementation: an ECS target
+must also account for the ECS parameter set, and its derivative representation
+should be designed before adding a partial interface.  Do not treat the
+non-ECS derivative support as evidence that ECS derivatives are complete.</p>
+</section>
+<section id="confirmed-gaps-with-unresolved-port-intent">
+<h3>Confirmed gaps with unresolved port intent<a class="headerlink" href="#confirmed-gaps-with-unresolved-port-intent" title="Link to this heading"></a></h3>
+<p><strong>Status: Missing; decision required.</strong>  Source inspection found several ARTS
+2 capabilities that were excluded from the configured baseline by optional
+dependencies or were otherwise not registered there.  Their absence from the
+110-test <code class="docutils literal notranslate"><span class="pre">check</span></code> selection is not evidence that they were ported:</p>
+<ul class="simple">
+<li><p>RT4 and its cross-solver/hybrid comparison are absent.  ARTS 3 already has
+polarized VDISORT and Monte Carlo solvers; the remaining question is whether
+the independent RT4 algorithm and its legacy comparisons justify a port.</p></li>
+<li><p>General azimuthal orientation averaging and a native ARO T-matrix habit
+factory remain unconnected.  The vertically aligned, axisymmetric particle
+in <code class="docutils literal notranslate"><span class="pre">tests/core/scat/mc_general_arts2.tmatrix.py</span></code> is already generated with
+<code class="docutils literal notranslate"><span class="pre">tmatrix.fixed_batch</span></code> and consumed through the legacy ARO adapter.  That
+case needs no orientation averaging and is not an outstanding port.  Scope
+any further work to orientation distributions and native integration beyond
+this case (see <a class="reference internal" href="dev.tmatrix.html"><span class="doc">T-matrix implementation and validation</span></a>).</p></li>
+<li><p>The NetCDF/libRadtran <code class="docutils literal notranslate"><span class="pre">WriteMolTau</span></code> exporter has no packaged equivalent;
+this is likely best implemented as a Python/xarray exporter if still needed.</p></li>
+</ul>
+<p>Decide whether each item remains supported science or a maintained workflow.
+Accepted items need ARTS 3-native interfaces and reference tests; rejected
+items should move to <a class="reference internal" href="dev.arts2notintended.html"><span class="doc">ARTS 2 Features Not Intended for ARTS 3</span></a> with the reason and date.</p>
+</section>
+</section>
+<section id="active-coverage-gaps">
+<h2>Active coverage gaps<a class="headerlink" href="#active-coverage-gaps" title="Link to this heading"></a></h2>
+<p>These are not all missing implementations.  They are cases where the first
+audit cannot yet make a defensible parity claim.</p>
+<section id="cia-derivatives">
+<h3>CIA derivatives<a class="headerlink" href="#cia-derivatives" title="Link to this heading"></a></h3>
+<p><strong>Status: Coverage gap.</strong>  ARTS 2 <code class="docutils literal notranslate"><span class="pre">TestCIADerivs</span></code> checks temperature, VMR,
+and wind sensitivities.  ARTS 3 implements CIA Jacobian output and tests CIA
+values and file I/O, but no equivalent finite-difference derivative regression
+was found.  Add a compact test for every CIA target that the implementation
+claims to support.</p>
+</section>
+<section id="transmission-including-particulate-extinction">
+<h3>Transmission including particulate extinction<a class="headerlink" href="#transmission-including-particulate-extinction" title="Link to this heading"></a></h3>
+<p><strong>Status: Building blocks present; coverage gap.</strong>  ARTS 2
+<code class="docutils literal notranslate"><span class="pre">TestTransmissionWithScat</span></code> covers a refracted three-dimensional, full-Stokes
+transmission path through particles.  ARTS 3 can compose
+<code class="docutils literal notranslate"><span class="pre">spectral_propmat_scat_pathFromPath</span></code>,
+<code class="docutils literal notranslate"><span class="pre">spectral_propmat_pathAddScattering</span></code>,
+<code class="docutils literal notranslate"><span class="pre">spectral_tramat_pathFromPath</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">spectral_radCumulativeTransmission</span></code>.  No current test composes those pieces
+into a passive-transmission regression.  Add a geometric-path particle test
+now, without reintroducing cloudbox state.</p>
+</section>
+<section id="absorption-only-particle-radiative-transfer">
+<h3>Absorption-only particle radiative transfer<a class="headerlink" href="#absorption-only-particle-radiative-transfer" title="Link to this heading"></a></h3>
+<p><strong>Status: Building blocks present, coverage gap.</strong>  The slow ARTS 2
+<code class="docutils literal notranslate"><span class="pre">TestAbsParticle</span></code> check validates end-to-end thermal radiative transfer for
+absorption-only particles against a reference.  ARTS 3 has the relevant
+particle extinction/absorption-vector and thermal source-correction machinery,
+but no active equivalent numerical assertion was found.  Add a compact thermal
+reference case; a plotting example or a zero-absorption gas-scattering test is
+not sufficient parity evidence.</p>
+</section>
+<section id="hydrostatic-equilibrium">
+<h3>Hydrostatic equilibrium<a class="headerlink" href="#hydrostatic-equilibrium" title="Link to this heading"></a></h3>
+<p><strong>Status: HSE temperature coupling missing; path-length derivative validation
+missing.</strong>  The pressure-construction replacement is implemented and tested in
+<code class="docutils literal notranslate"><span class="pre">tests/core/atm/hse.py</span></code>.  ARTS 2 <code class="docutils literal notranslate"><span class="pre">z_fieldFromHSE</span></code> adjusts altitude at fixed
+pressure levels; ARTS 3 <code class="docutils literal notranslate"><span class="pre">atm_fieldHydrostaticPressure</span></code> constructs pressure at
+fixed altitudes.  Restoring the old altitude-field representation is not a
+port target.</p>
+<p>The remaining derivative work must distinguish those two constraints:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hse_derivative</span></code> enables an existing endpoint path-length correction in
+transmission and emission calculations when a temperature Jacobian target
+is present.  It is disabled by default and has no active regression.  This
+correction describes layer expansion at fixed pressure levels; it is not
+the temperature derivative of <code class="docutils literal notranslate"><span class="pre">atm_fieldHydrostaticPressure</span></code>.  Define its
+supported perturbation model and check it against finite differences, first
+for an isothermal column and then for nonuniform temperatures.  The
+full-Stokes/Zeeman interaction in ARTS 2
+<code class="docutils literal notranslate"><span class="pre">TestTjacStokes4_transmission</span></code> also remains unvalidated.</p></li>
+<li><p>The altitude-indexed <code class="docutils literal notranslate"><span class="pre">Atm::HydrostaticPressure</span></code> callable stores pressure
+and gradient values computed at construction.  Temperature updates do not
+rebuild it, and no temperature-to-HSE-pressure Jacobian is supplied.
+Supporting that coupling requires an explicit dependency and propagation
+of the induced pressure changes through the radiative-transfer calculation.
+Validate it by perturbing temperature and rebuilding HSE pressure at fixed
+altitudes.  Detecting the callable’s type alone must not automatically
+enable the existing path-length correction.</p></li>
+</ul>
+<p>The pressure-construction test uses a fixed specific gas constant.
+Composition-derived gas constants and nonuniform horizontal fields still lack
+focused coverage; these are validation gaps, not missing HSE solvers.</p>
+</section>
+<section id="field-regridding">
+<h3>Field regridding<a class="headerlink" href="#field-regridding" title="Link to this heading"></a></h3>
+<p><strong>Status: Replacement present, coverage gap.</strong>  The old
+<code class="docutils literal notranslate"><span class="pre">GriddedFieldPRegrid</span></code>, <code class="docutils literal notranslate"><span class="pre">AtmFieldPRegrid</span></code>, and master-grid refinement family
+does not fit the ARTS 3 field model.  ARTS 3 exposes <code class="docutils literal notranslate"><span class="pre">AtmData.regrid</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AtmField.regrid</span></code> to Python and lets atmospheric quantities interpolate
+independently.  Generic interpolation is tested, but no direct atmospheric
+field regrid test was found.  Add binding-level tests rather than restoring the
+pressure-grid workspace-method family.</p>
+</section>
+<section id="line-cutoffs-and-line-mixing">
+<h3>Line cutoffs and line mixing<a class="headerlink" href="#line-cutoffs-and-line-mixing" title="Link to this heading"></a></h3>
+<p><strong>Status: Present, focused coverage incomplete.</strong>  ARTS 3 line-by-line code
+implements per-band cutoffs, and current camera/lookup tests use a fixed cutoff.
+The LTE and NLTE finite-difference derivative tests also exercise pressure
+derivatives with a line cutoff.  What remains unmatched is the ARTS 2 Python
+cutoff sweep against reference radiances.  Add a focused radiance sweep; do
+not classify the already tested pressure-derivative branches as missing.</p>
+<p>ARTS 3 ECS O2 and CO2 tests execute and plot the new line-mixing representation, so the
+old <code class="docutils literal notranslate"><span class="pre">TestMolOxyAdaptation</span></code> API is not a port target.  Strengthen the ECS tests
+with numerical reference or perturbation assertions before declaring complete
+scientific parity.</p>
+</section>
+<section id="predefined-instruments-and-end-to-end-radiances">
+<h3>Predefined instruments and end-to-end radiances<a class="headerlink" href="#predefined-instruments-and-end-to-end-radiances" title="Link to this heading"></a></h3>
+<p><strong>Status: Seven definitions present with incomplete end-to-end coverage; other
+presets missing pending decision.</strong>  ARTS 3 has compiled definitions and setup
+tests for AMSU-A, AMSU-B, ICI, HIRS, AVHRR, MVIRI, and SEVIRI.
+<code class="docutils literal notranslate"><span class="pre">tests/core/sensor/predefined_sensor.py</span></code> checks channel counts, normalization,
+and AMSU-A horizontal/vertical Stokes-projection weights.  A separate custom
+AMSU-A-like Builder example checks simulated channel radiances, but does not
+validate the compiled predefined AMSU-A response end to end.</p>
+<p>The ARTS 2 ICI, HIRS, AVHRR, MVIRI, SEVIRI, and MetMM tests run complete
+forward/batch calculations.  Add compact end-to-end reference cases for the
+remaining accepted definitions.  In particular, record whether AVHRR’s two
+zero-response solar rows are an intentional limitation.  Do not port the
+MetMM controlfile framework or its dedicated grid/response methods; use the
+predefined sensor API or <code class="docutils literal notranslate"><span class="pre">pyarts3.arts.sensor.Builder</span></code>.  The ARTS 2 MetMM
+presets ATMS, DEIMOS, HATPRO, ISMAR up/down, MARSS, MHS, MWHS-2, and SAPHIR are
+not present in the ARTS 3 predefined-sensor enumeration.  Decide which data
+definitions to port individually rather than restoring the framework wholesale.</p>
+</section>
+<section id="raw-calibration-and-time-series-corrections">
+<h3>Raw calibration and time-series corrections<a class="headerlink" href="#raw-calibration-and-time-series-corrections" title="Link to this heading"></a></h3>
+<p><strong>Status: Python decision.</strong>  ARTS 2 registers <code class="docutils literal notranslate"><span class="pre">raw/calib.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">raw/corr.py</span></code> for hot/cold calibration, timestamp sorting, a simple
+tropospheric correction, and time averaging.  No packaged ARTS 3 equivalents
+were found.  These array/time-series operations are natural Python operations.
+Determine whether users need maintained recipes with the exact ARTS 2
+semantics; otherwise document a Python replacement and do not add workspace
+methods.</p>
+</section>
+<section id="additional-scientific-parity-checks">
+<h3>Additional scientific parity checks<a class="headerlink" href="#additional-scientific-parity-checks" title="Link to this heading"></a></h3>
+<p><strong>Status: Coverage gaps or Python decisions.</strong>  The initial test comparison
+also identified the following narrower cases.  They should become compact
+regressions or receive an explicit explanation of why existing coverage is
+sufficient:</p>
+<ul class="simple">
+<li><p>CIA has value and I/O tests but lacks both the derivative check above and an
+end-to-end CIA radiance reference.</p></li>
+<li><p>Faraday rotation is implemented, but no direct ARTS 2-equivalent propagation
+or radiance regression was found.</p></li>
+<li><p>The Mars catalogue test covers end-to-end Earth-versus-Mars isotopologue-ratio
+changes and their effect on clear-sky radiance.  Wider ARTS 2 planetary
+isotopologue cases remain unmatched.</p></li>
+<li><p>Cross-section-fit point evaluation is tested; an end-to-end XFIT radiance
+reference is not.</p></li>
+<li><p>The predefined-sensor test already checks horizontal/vertical Stokes
+projection.  Add scan-angle polarization rotation and an end-to-end polarized
+radiance case.</p></li>
+<li><p>Geographic surface-type dispatch and scaled-species propagation helpers
+appear expressible by composing current field/propmat operations in Python.
+Decide whether stable recipes are needed instead of adding compatibility
+workspace methods.</p></li>
+</ul>
+</section>
+</section>
+<section id="deferred-beyond-this-first-pass">
+<h2>Deferred beyond this first pass<a class="headerlink" href="#deferred-beyond-this-first-pass" title="Link to this heading"></a></h2>
+<p>The ARTS 2 tree contains further features that were not registered in the
+configured CTest inventory or were hidden behind disabled optional builds.
+The confirmed absences found in the narrow source audit are classified above.
+Covariance-only controlfiles and some antenna and single-polarization cases
+still need enough inspection to distinguish missing science from Python
+orchestration, replacement APIs, external-library responsibilities, and
+deliberate removals.</p>
+<p>A later audit should compare:</p>
+<ol class="arabic simple">
+<li><p>the complete ARTS 2 and ARTS 3 public method/group inventories;</p></li>
+<li><p>optional build configurations and their tests;</p></li>
+<li><p>catalogue/XML data formats and model data availability;</p></li>
+<li><p>examples and user workflows that were never registered as tests; and</p></li>
+<li><p>numerical reference outputs, not merely method-name similarity.</p></li>
+</ol>
+</section>
+<section id="updating-this-page">
+<h2>Updating this page<a class="headerlink" href="#updating-this-page" title="Link to this heading"></a></h2>
+<p>This page is only a backlog of work that remains.  Remove an entry as soon as
+its implementation and required coverage are complete; do not retain completed
+features as historical status records.  For each remaining entry, record the
+ARTS 2 capability and evidence, the applicable ARTS 3 design constraint, and
+the remaining action.  A port is complete only when the result is usable
+through a supported C++ or Python interface and an active regression checks
+meaningful physics or numerics.  If Python orchestration is sufficient, add a
+test and documentation or a recipe; do not recreate the ARTS 2 scripting
+language.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev.species.html" class="btn btn-neutral float-left" title="Adding new species to ARTS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev.arts2notintended.html" class="btn btn-neutral float-right" title="ARTS 2 Features Not Intended for ARTS 3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

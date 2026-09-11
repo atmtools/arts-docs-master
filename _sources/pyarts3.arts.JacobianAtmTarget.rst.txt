@@ -21,9 +21,18 @@ JacobianAtmTarget
     * - :class:`Numeric`
       - :attr:`~pyarts3.arts.JacobianAtmTarget.d`
       - Perturbation magnitude
+    * - :class:`~collections.abc.Callable`
+      - :attr:`~pyarts3.arts.JacobianAtmTarget.inverse_jacobian`
+      - Transform a native-unit Jacobian into model-state units.
+    * - :class:`~collections.abc.Callable`
+      - :attr:`~pyarts3.arts.JacobianAtmTarget.inverse_state`
+      - Transform model-state values back into native target values.
     * - :class:`Index`
       - :attr:`~pyarts3.arts.JacobianAtmTarget.target_pos`
       - Target position
+    * - :class:`~collections.abc.Callable`
+      - :attr:`~pyarts3.arts.JacobianAtmTarget.transform_state`
+      - Transform native target values into the model state.
     * - :class:`AtmKeyVal`
       - :attr:`~pyarts3.arts.JacobianAtmTarget.type`
       - Type of target
@@ -91,12 +100,46 @@ JacobianAtmTarget
      .. :class:`Numeric`
 
 
+  .. attribute:: JacobianAtmTarget.inverse_jacobian
+     :type: ~collections.abc.Callable
+
+     Transform a native-unit Jacobian into model-state units.
+
+     The callable signature is ``(jacobian, model_state, context) -> jacobian`` and
+     must apply the derivative of ``inverse_state`` with respect to the model
+     state.
+
+     .. :class:`~collections.abc.Callable`
+
+
+  .. attribute:: JacobianAtmTarget.inverse_state
+     :type: ~collections.abc.Callable
+
+     Transform model-state values back into native target values.
+
+     The callable signature is ``(model_state, context) -> native_state``.  The
+     context is the complete field or data object that owns the target.
+
+     .. :class:`~collections.abc.Callable`
+
+
   .. attribute:: JacobianAtmTarget.target_pos
      :type: Index
 
      Target position
 
      .. :class:`Index`
+
+
+  .. attribute:: JacobianAtmTarget.transform_state
+     :type: ~collections.abc.Callable
+
+     Transform native target values into the model state.
+
+     The callable signature is ``(native_state, context) -> model_state``.  The
+     context is the complete field or data object that owns the target.
+
+     .. :class:`~collections.abc.Callable`
 
 
   .. attribute:: JacobianAtmTarget.type

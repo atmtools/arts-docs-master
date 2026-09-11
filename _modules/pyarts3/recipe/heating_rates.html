@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyarts3.recipe.heating_rates &mdash; ARTS 3.0.0dev11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=73457b95" />
+
+  
+    <link rel="canonical" href="https://atmtools.github.io/arts-docs-master/_modules/pyarts3/recipe/heating_rates.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=0f9bcd94"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/arts-logo-light-bg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../users.html">Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workspace.html">The Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyarts3.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../devs.html">For Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../indices.html">Indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ARTS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyarts3.recipe.heating_rates</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyarts3.recipe.heating_rates</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Radiance, flux and heating-rate diagnostics in SI units.</span>
+
+<span class="sd">Positive heating warms the gas. Flux is positive upward. These functions</span>
+<span class="sd">accept NumPy-compatible arrays, including ARTS arrays. They do not infer</span>
+<span class="sd">brightness-temperature units, density, gravity or heat capacity.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_finite</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be finite&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_positive</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<div class="viewcode-block" id="integrate_spectral">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.integrate_spectral">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">integrate_spectral</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrate per-Hz values over frequency [Hz].</span>
+
+<span class="sd">    Use trapezoidal integration on an increasing frequency grid, or explicit</span>
+<span class="sd">    quadrature weights [Hz]. A single frequency requires an explicit weight.</span>
+<span class="sd">    The selected axis is removed; all other axes retain their order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">)</span>
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">_positive</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="s2">&quot;frequency&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">frequency</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">frequency</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;frequency must be a nonempty increasing vector&quot;</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">frequency</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;frequency does not match the spectral axis&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">frequency</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;one frequency requires an explicit integration weight&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">frequency</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;weights must match frequency&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;f,f...-&gt;...&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="flux_from_radiance">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.flux_from_radiance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">flux_from_radiance</span><span class="p">(</span><span class="n">radiance</span><span class="p">,</span> <span class="n">zenith</span><span class="p">,</span> <span class="n">zenith_weights</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return positive upward and downward hemispheric irradiance.</span>
+
+<span class="sd">    ``radiance`` is Stokes I in W/(m² sr), or W/(m² sr Hz) for spectral</span>
+<span class="sd">    data. It must be azimuth independent or already averaged over azimuth.</span>
+<span class="sd">    ``zenith`` [degrees] uses the ARTS viewing direction: 0 looks upward</span>
+<span class="sd">    (downward travelling radiation), 180 looks downward. ``zenith_weights``</span>
+<span class="sd">    integrate d(cos(zenith)), e.g. double-Gauss weights summing to two.</span>
+<span class="sd">    This is a projected flux integral, with a cosine factor, not actinic flux.</span>
+<span class="sd">    The angular axis is removed. Select Stokes I before calling this function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">radiance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">_finite</span><span class="p">(</span><span class="n">radiance</span><span class="p">,</span> <span class="s2">&quot;radiance&quot;</span><span class="p">),</span> <span class="n">axis</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">zenith</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">zenith</span><span class="p">,</span> <span class="s2">&quot;zenith&quot;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">zenith_weights</span><span class="p">,</span> <span class="s2">&quot;zenith_weights&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">zenith</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">zenith</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">zenith</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;zenith and zenith_weights must be matching vectors&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">((</span><span class="n">zenith</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">zenith</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">))</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">weights</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;zenith must be in [0, 180] and weights nonnegative&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radiance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">zenith</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;zenith does not match the angular axis&quot;</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">zenith</span><span class="p">))</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;...a,a-&gt;...&quot;</span><span class="p">,</span> <span class="n">radiance</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;...a,a-&gt;...&quot;</span><span class="p">,</span> <span class="n">radiance</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span></div>
+
+
+
+<div class="viewcode-block" id="from_flux_divergence">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.from_flux_divergence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_flux_divergence</span><span class="p">(</span><span class="n">pressure_derivative</span><span class="p">,</span> <span class="n">heat_capacity</span><span class="p">,</span> <span class="n">gravity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert d(F_up-F_down)/dp [W m⁻² Pa⁻¹] to heating [K/s].</span>
+
+<span class="sd">    Hydrostatic balance gives H = g/cp * dF/dp. ``heat_capacity`` is mass</span>
+<span class="sd">    specific [J/(kg K)] and ``gravity`` is positive [m/s²]. Scalar or array</span>
+<span class="sd">    inputs follow NumPy broadcasting. No boundary values are suppressed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">_finite</span><span class="p">(</span><span class="n">pressure_derivative</span><span class="p">,</span> <span class="s2">&quot;pressure_derivative&quot;</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">_positive</span><span class="p">(</span><span class="n">gravity</span><span class="p">,</span> <span class="s2">&quot;gravity&quot;</span><span class="p">)</span>
+        <span class="o">/</span> <span class="n">_positive</span><span class="p">(</span><span class="n">heat_capacity</span><span class="p">,</span> <span class="s2">&quot;heat_capacity&quot;</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_flux">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.from_flux">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_flux</span><span class="p">(</span><span class="n">net_upward_flux</span><span class="p">,</span> <span class="n">pressure</span><span class="p">,</span> <span class="n">heat_capacity</span><span class="p">,</span> <span class="n">gravity</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Derive heating [K/s] from upward net flux [W/m²] at pressure levels.</span>
+
+<span class="sd">    ``pressure`` [Pa] is a strictly monotonic vector of at least three levels,</span>
+<span class="sd">    in either order. Differentiate with the nonuniform three-point formula,</span>
+<span class="sd">    including second-order one-sided boundaries. Heat capacity [J/(kg K)]</span>
+<span class="sd">    and gravity [m/s²] broadcast against the result, whose shape is unchanged.</span>
+<span class="sd">    For spectral flux, integrate over frequency first, or integrate the</span>
+<span class="sd">    resulting spectral heating rates afterwards if g/cp is frequency independent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">net_upward_flux</span><span class="p">,</span> <span class="s2">&quot;net_upward_flux&quot;</span><span class="p">)</span>
+    <span class="n">pressure</span> <span class="o">=</span> <span class="n">_positive</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="s2">&quot;pressure&quot;</span><span class="p">)</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span> <span class="k">if</span> <span class="n">pressure</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">pressure</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span>
+        <span class="ow">or</span> <span class="n">pressure</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">3</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;pressure must be a strictly monotonic vector of at least three levels&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">flux</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pressure</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pressure does not match the profile axis&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">from_flux_divergence</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">pressure</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">heat_capacity</span><span class="p">,</span> <span class="n">gravity</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_optical_depth_derivative">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.from_optical_depth_derivative">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_optical_depth_derivative</span><span class="p">(</span><span class="n">dfdt</span><span class="p">,</span> <span class="n">extinction</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">heat_capacity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert DISORT/VDISORT DFDT to heating, preserving spectral axes.</span>
+
+<span class="sd">    DFDT is d(F_up-F_down)/d(tau), with optical depth increasing downward.</span>
+<span class="sd">    Multiply by physical extinction [1/m], then divide by density [kg/m³]</span>
+<span class="sd">    and mass specific heat capacity [J/(kg K)]. The result is K/s for</span>
+<span class="sd">    broadband inputs or K/(s Hz) for spectral inputs. All quantities must</span>
+<span class="sd">    refer to the same locations; array inputs follow NumPy broadcasting.</span>
+<span class="sd">    Extinction must be total extinction, not absorption (DFDT already</span>
+<span class="sd">    contains the single-scattering-albedo factor). If a low-level VDISORT</span>
+<span class="sd">    calculation uses externally rescaled optical depths, extinction must</span>
+<span class="sd">    correspond to that rescaled coordinate. Scalar DISORT&#39;s internal delta-M</span>
+<span class="sd">    treatment returns physical DFDT and requires physical extinction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">extinction</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">extinction</span><span class="p">,</span> <span class="s2">&quot;extinction&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">extinction</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;extinction must be nonnegative&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">_finite</span><span class="p">(</span><span class="n">dfdt</span><span class="p">,</span> <span class="s2">&quot;dfdt&quot;</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">extinction</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">_positive</span><span class="p">(</span><span class="n">density</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">_positive</span><span class="p">(</span><span class="n">heat_capacity</span><span class="p">,</span> <span class="s2">&quot;heat_capacity&quot;</span><span class="p">))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_disort">
+<a class="viewcode-back" href="../../../pyarts3.recipe.html#pyarts3.recipe.heating_rates.from_disort">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_disort</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">extinction</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">heat_capacity</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lower-layer-boundary heating [K/s] from an ARTS ``DisortFlux``.</span>
+
+<span class="sd">    ``extinction`` [1/m] broadcasts to ``flux.dfdt`` (frequency, layer),</span>
+<span class="sd">    while density and heat capacity normally have shape (layer,).</span>
+<span class="sd">    Use physical, unscaled extinction for delta-M calculations. Evaluate</span>
+<span class="sd">    thermodynamic quantities at ``flux.alt_grid[1:]``. Extinction is the</span>
+<span class="sd">    value within the layer immediately above each output boundary.</span>
+<span class="sd">    Frequency-dependent extinction is applied *before* spectral integration.</span>
+<span class="sd">    Optional quadrature ``weights`` are in Hz.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfdt</span> <span class="o">=</span> <span class="n">_finite</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">dfdt</span><span class="p">,</span> <span class="s2">&quot;flux.dfdt&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dfdt</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">alt_grid</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;flux.dfdt must have shape (frequency, altitude levels - 1)&quot;</span><span class="p">)</span>
+    <span class="n">heating</span> <span class="o">=</span> <span class="n">from_optical_depth_derivative</span><span class="p">(</span><span class="n">dfdt</span><span class="p">,</span> <span class="n">extinction</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">heat_capacity</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">heating</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">dfdt</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;thermodynamic inputs must broadcast to flux.dfdt&#39;s shape&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">integrate_spectral</span><span class="p">(</span><span class="n">heating</span><span class="p">,</span> <span class="n">flux</span><span class="o">.</span><span class="n">freq_grid</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The ARTS Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
